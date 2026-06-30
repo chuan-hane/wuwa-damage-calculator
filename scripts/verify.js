@@ -67,7 +67,7 @@ global.document = { getElementById: () => board, onclick: null, documentElement:
 
 const app = fs.readFileSync(path.join(root, "src/app.js"), "utf8").replace(
   /\nrender\(\);\s*$/,
-  "\nglobalThis.__T = { state, pickCharacter, compute, slotBuffs, availableSkills, resourceKey, resourceControlsForSlot, resolvedSkill, buffStatus, setBuffToggle, stateChoiceKey, stateControlsHTML, buffFormulaText, render, syncOffsetFromStateChoice };",
+  "\nglobalThis.__T = { state, pickCharacter, compute, slotBuffs, availableSkills, resourceKey, resourceControlsForSlot, resolvedSkill, buffStatus, setBuffToggle, stateChoiceKey, stateControlsHTML, introEntryRelevantForSlot, buffFormulaText, render, syncOffsetFromStateChoice };",
 );
 eval(app);
 
@@ -301,7 +301,8 @@ function initialRenderCompletes() {
   assert(html.includes("stage-shell"), "initial render did not produce the stage shell");
   assert(html.includes("<h1>wuwa伤害计算器</h1>"), "topbar title should stay wuwa damage calculator");
   assert(html.includes('class="stage-language"') && html.includes('data-act="language"') && html.includes('data-lang="en-US"'), "topbar should render functional language switch controls");
-  assert((html.match(/data-act="echo-detail"/g) || []).length === 3 && html.includes("详细声骇模式"), "team cards should render detailed echo mode switches");
+  assert(html.includes('class="stage-github-link"') && html.includes("https://github.com/chuan-hane/wuwa-damage-calculator"), "topbar should link to the GitHub repository");
+  assert((html.match(/data-act="echo-detail"/g) || []).length === 3 && html.includes("详细声骸模式"), "team cards should render detailed echo mode switches");
   assert(damageIdx >= 0 && formulaIdx > damageIdx && formulaIdx < lowerIdx, "main damage formula should sit below the large damage number and above lower controls");
   assert(skillDetailIdx > lowerIdx, "skill detail formula should stay inside the lower skill controls");
   assert(html.includes('class="skill-control-row"') && html.indexOf('data-act="skill"') > html.indexOf('class="skill-control-row"') && html.indexOf('data-act="skilllevel"') > html.indexOf('class="skill-control-row"'), "skill and skill level controls should share one row");
@@ -335,6 +336,7 @@ function englishRenderCompletes() {
   assert(document.documentElement.lang === "en", "English render should set html lang=en");
   assert(document.title === "Wuthering Waves Damage Calculator", "English render should set the document title");
   assert(html.includes("<h1>Wuthering Waves Damage Calculator</h1>"), "topbar should render the English title");
+  assert(html.includes('aria-label="Open GitHub repository"'), "English topbar should localize the GitHub repository link label");
   assert(html.includes("Resonator Panel"), "panel heading should render in English");
   assert(html.includes("Current Attack Buffs"), "buff heading should render in English");
   assert(html.includes("Final DMG"), "damage stage should use official English DMG wording");
@@ -359,6 +361,24 @@ function englishVisibleTextHasNoChinese() {
   __T.state.lang = "zh-CN";
   __T.render();
   assert(!bad.length, `English visible text should not contain Chinese:\n${bad.join("\n")}`);
+}
+
+function sourceTextHasNoEchoTypo() {
+  const typo = "声" + "骇";
+  const files = [
+    "README.md",
+    "scripts/verify.js",
+    ...jsFilesUnder(path.join(root, "src")),
+    ...jsFilesUnder(path.join(root, "data/languages")),
+  ];
+  const bad = files.filter((file) => fs.readFileSync(path.join(root, file), "utf8").includes(typo));
+  assert(!bad.length, `Echo text typo should not appear in source files: ${bad.join(", ")}`);
+}
+
+function readmesLinkLiveSite() {
+  const url = "https://wuwa-damage-calculator.chuan-hane.workers.dev";
+  assert(fs.readFileSync(path.join(root, "README.md"), "utf8").includes(url), "Chinese README should link to the live site");
+  assert(fs.readFileSync(path.join(root, "README.en.md"), "utf8").includes(url), "English README should link to the live site");
 }
 
 function damageMetricCritLabels() {
@@ -1001,6 +1021,39 @@ function sonataEffectAttachmentBuffsAreManual() {
   assert(__T.buffStatus(slot, 0, selfBuff).applies, "Gusts of Welkin 5pc should apply after the post-attachment window is manually confirmed");
 }
 
+function buffHasTriggerPrecondition(b) {
+  const hasItems = (value) => Array.isArray(value) ? value.length > 0 : !!value;
+  return !!(b && (
+    b.triggerOutro === true
+    || hasItems(b.triggerEvents)
+    || hasItems(b.triggerSkills)
+    || hasItems(b.triggerDamageTypes)
+    || hasItems(b.triggerRules)
+    || b.triggerStacks != null
+    || b.triggerStacksByTeamElement
+  ));
+}
+
+function triggeredBuffDefaultsAreExplicit() {
+  const bad = [];
+  for (const c of Object.values(window.WUWA.chars)) {
+    for (const b of allBuffs(c)) {
+      if (buffHasTriggerPrecondition(b) && b.defaultActive !== false) bad.push(`${c.id}.${b.id}`);
+    }
+  }
+  for (const w of weapons) {
+    for (const b of window.WUWA_EQUIPMENT.weaponBuffs(w.id, 1)) {
+      if (buffHasTriggerPrecondition(b) && b.defaultActive !== false) bad.push(`weapon ${w.id}.${b.id}`);
+    }
+  }
+  for (const s of sonatas) {
+    for (const item of rawSonataBuffs(s)) {
+      if (buffHasTriggerPrecondition(item.buff) && item.buff.defaultActive !== false) bad.push(item.owner);
+    }
+  }
+  assert(!bad.length, `triggered buffs should be defaultActive:false unless proven current-hit safe: ${bad.join(", ")}`);
+}
+
 function stateDefFor(c, stateName) {
   return (c.combatStates || []).find((def) => {
     if (def.id === stateName || def.label === stateName || def.idLabel === stateName) return true;
@@ -1161,6 +1214,32 @@ function baselineB() {
   __T.state.enemy.enemyLevel = 85;
   r = __T.compute();
   expectEqual(r.critHit, 2757, "baseline B enemy 85 crit");
+}
+
+function formulaNumberFormattingFloors() {
+  resetTeam();
+  const slot = __T.state.slots[0];
+  slot.skill = "a1";
+  slot.skillLevels = { "常态攻击": 6 };
+  slot.echo.fields = { attackPct: 88.1, atkFlat: 440, critRate: 40, critDamage: 108.8, elem: 30, basicDmg: 24.4, heavyDmg: 16.5 };
+  __T.state.enemy.enemyLevel = 83;
+  __T.state.lang = "zh-CN";
+  __T.render();
+  const html = String(board.innerHTML);
+  const metricHtml = html.slice(html.indexOf('id="metric-strip"'), html.indexOf('class="damage-lower'));
+  assert(metricHtml.includes("<b>2,438</b>"), "main formula stat base should display floored panel value");
+  assert(!metricHtml.includes("<b>2,439</b>"), "main formula stat base should not round panel value up");
+}
+
+function introEntryControlVisibility() {
+  resetTeam(["encore"]);
+  __T.render();
+  assert(!String(board.innerHTML).includes('data-act="intro-entry"'), "intro-entry control should stay hidden when it cannot affect the selected slot");
+
+  resetTeam(["yangyang"]);
+  assert(__T.introEntryRelevantForSlot(__T.state.slots[0]), "Yangyang intro-triggered buffs should make intro-entry confirmation relevant");
+  __T.render();
+  assert(String(board.innerHTML).includes('data-act="intro-entry"'), "intro-entry control should render only for relevant selected slots");
 }
 
 function detailedEchoModeRegressions() {
@@ -1362,6 +1441,11 @@ function reportedCharacterFixes() {
   resetTeam(["mornye", "lynae"]);
   slot = __T.state.slots[0];
   __T.state.slots[1].toggles.b_visual_break = true;
+  b = buff(slot, "b_interference_amp_base");
+  expectEqual(b.zone, "vulnerability", "Mornye Interference Mark should be target damage taken, not outgoing amplify");
+  slot.toggles[__T.stateChoiceKey("干涉标记")] = "干涉标记";
+  slot.toggles[__T.stateChoiceKey("谐度干涉")] = "谐度干涉·集谐";
+  assert(__T.buffStatus(slot, 0, b).applies, "Mornye Interference Mark target vulnerability should apply after target states are confirmed");
   slot.toggles[__T.stateChoiceKey("谐度干涉")] = "谐度干涉·集谐";
   slot.toggles.b_tune_response = true;
   b = buff(slot, "b_tune_response");
@@ -1984,6 +2068,9 @@ function effectPanelVisibility() {
   assert(html.includes('data-act="effect-key"'), "team with effect source should show effect calculator");
   assert(html.includes("爆发层数"), "electro effect calculator should show electro rage stacks");
   assert(html.includes("效应/爆发上限 10 层"), "electro effect calculator should show shared flare/rage cap");
+  const electroEffectSelect = html.match(/<select data-act="effect-key">([\s\S]*?)<\/select>/);
+  assert(electroEffectSelect && electroEffectSelect[1].includes(">电磁效应<"), "Chinese effect selector should localize effect names");
+  assert(!electroEffectSelect[1].includes(">electro<"), "Chinese effect selector should not expose effect keys");
 
   resetTeam(["cartethyia"]);
   __T.state.effectCalc = { key: "windErosion", stacks: 3, deepen: 0 };
@@ -2438,6 +2525,8 @@ function modernEchoDefaultRegressions() {
     ["augusta", "split32", 20, 3, null],
     ["iuno", "split32", 20, 4, null],
     ["chisa", "split32", 23, 6, null],
+    ["cartethyia", "single5", 17, null, null],
+    ["mornye", "single5", 33, null, "33:reactor_husk"],
     ["sigrika", "single5", 29, null, "29:nameless_explorer"],
   ];
   expected.forEach(([id, combo, primary, secondary, lead]) => {
@@ -2538,7 +2627,11 @@ const checks = [
   ["initial render completes", initialRenderCompletes],
   ["English render completes", englishRenderCompletes],
   ["English visible text has no Chinese", englishVisibleTextHasNoChinese],
+  ["source text has no echo typo", sourceTextHasNoEchoTypo],
+  ["READMEs link live site", readmesLinkLiveSite],
   ["damage metric crit labels", damageMetricCritLabels],
+  ["formula number formatting floors", formulaNumberFormattingFloors],
+  ["intro entry control visibility", introEntryControlVisibility],
   ["formula strip responsive css", formulaStripResponsiveCss],
   ["render preserves scroll", renderPreservesScroll],
   ["weapon picker keeps string ids", weaponPickerKeepsStringIds],
@@ -2550,6 +2643,7 @@ const checks = [
   ["equipment schema references resolve", equipmentSchemasAreLinked],
   ["sonata lead data completeness", sonataLeadDataCompleteness],
   ["sonata effect attachment buffs are manual", sonataEffectAttachmentBuffsAreManual],
+  ["triggered buff defaults are explicit", triggeredBuffDefaultsAreExplicit],
   ["state requirement arrays are ordered", stateRequirementArraysAreOrdered],
   ["combat state kinds match descriptions", combatStateKindsMatchDescriptions],
   ["capped scaleBy excerpts mention cap", cappedScaleByExcerptsMentionCap],

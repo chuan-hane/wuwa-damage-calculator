@@ -1025,6 +1025,7 @@ input:disabled {
   align-items: center;
   gap: 12px;
   min-width: 0;
+  flex: 1 1 auto;
 }
 
 .stage-brand > div {
@@ -1051,11 +1052,38 @@ input:disabled {
   white-space: nowrap;
 }
 
-.stage-language {
+.stage-actions {
   display: inline-flex;
   flex: 0 0 auto;
   align-items: center;
   margin-left: auto;
+  gap: 8px;
+}
+
+.stage-github-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 34px;
+  padding: 0 12px;
+  border: 1px solid #dfdcd4;
+  border-radius: 8px;
+  background: #ffffff;
+  color: #20211e;
+  font-size: var(--font-sm);
+  font-weight: 820;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.stage-github-link:hover {
+  background: #f7f5ef;
+}
+
+.stage-language {
+  display: inline-flex;
+  flex: 0 0 auto;
+  align-items: center;
   padding: 2px;
   border: 1px solid #dfdcd4;
   border-radius: 8px;

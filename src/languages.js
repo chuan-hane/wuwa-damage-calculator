@@ -293,12 +293,22 @@ window.WUWA_LANGUAGES = (() => {
   }
 
   function effect(keyOrDef) {
-    if (keyOrDef && typeof keyOrDef === "object") return mapValue("effects", keyOrDef.key || keyOrDef.label);
+    if (keyOrDef && typeof keyOrDef === "object") {
+      const key = keyOrDef.key || keyOrDef.label;
+      const mapped = mapValue("effects", key);
+      if (mapped !== String(key ?? "")) return mapped;
+      return mapValue("effects", keyOrDef.label || keyOrDef.shortLabel || key);
+    }
     return mapValue("effects", keyOrDef);
   }
 
   function effectShort(keyOrDef) {
-    if (keyOrDef && typeof keyOrDef === "object") return mapValue("effectShort", keyOrDef.key || keyOrDef.shortLabel || keyOrDef.label);
+    if (keyOrDef && typeof keyOrDef === "object") {
+      const key = keyOrDef.key || keyOrDef.shortLabel || keyOrDef.label;
+      const mapped = mapValue("effectShort", key);
+      if (mapped !== String(key ?? "")) return mapped;
+      return mapValue("effectShort", keyOrDef.shortLabel || keyOrDef.label || key);
+    }
     return mapValue("effectShort", keyOrDef);
   }
 
