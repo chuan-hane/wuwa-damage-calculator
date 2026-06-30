@@ -21,42 +21,6 @@
 - **装备系统**：所有5星及4星武器支持谐振阶 1-5 及武器技能效果；角色共鸣链 0-6；声骸按角色默认套装固定展示，支持 5 件单套、3+2、1+2+2、首位声骸和套装/单体效果，也可以自定义。
 - **详细声骸模式**：队伍卡可开启详细声骸模式；开启后角色面板的声骸加成输入改为只读展示，由下方「声骇详情」的主词条、副词条档位、套装和首位效果实时汇总。
 
-## 目录结构
-
-```text
-index.html          # 页面壳：注册 window.WUWA，按顺序加载数据、图标索引和 src/*.js
-styles.css          # 工作台布局、公式卡、角色面板、装备与 Buff 样式
-src/
-  rules.js          # 乘区、字段映射、技能等级比例等规则常量
-  render-helpers.js # 数字格式、HTML 转义、技能公式与 Buff 文案展示辅助
-  equipment.js      # 武器、声骸套装、首位声骸与声骸词条归一
-  settlement.js     # 技能解析、状态前置、Buff 判定、乘区聚合与伤害计算
-  buff-view.js      # Buff 卡片、分组、自动应用与未应用区渲染
-  panel-view.js     # 角色面板组成拆解、声骸输入表与面板局部刷新
-  stage-view.js     # 顶部伤害台、技能控件、队伍槽与装备区渲染
-  app.js            # 页面状态、面板拆解、渲染与事件绑定
-data/
-  icons.js          # 本地图标覆盖表，由 scripts/sync-icons.js 生成
-  core/             # 语言无关的数值、门槛、ID 与结构化规则
-    weapons.js      # 武器基础数值与效果结构
-    sonatas.js      # 声骸套装、首位声骸与效果结构
-    chara/          # 角色核心数据，一角色一文件，按登场版本分目录
-      v1.0/ ... v3.4/
-  languages/
-    zh-CN/          # 中文文本
-    en-US/          # 英文文本
-assets/
-  icons/
-    characters/     # 角色头像图标，文件名对应角色 id
-    weapons/        # 武器图标，文件名使用正式英文 slug
-    sonatas/        # 声骸套装图标，文件名使用正式英文 slug
-    elements/       # 元素图标
-    missing-icons.json # 本地图标缺失报告
-scripts/
-  sync-icons.js     # 扫描本地图标并生成 data/icons.js / missing-icons.json
-  verify.js         # 轻量回归检查
-```
-
 ## 计算口径
 
 ### 面板
