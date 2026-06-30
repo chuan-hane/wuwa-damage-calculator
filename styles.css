@@ -1747,6 +1747,40 @@ input:disabled {
   position: relative;
 }
 
+.formula-card-tip {
+  position: absolute;
+  z-index: 90;
+  left: 50%;
+  bottom: calc(100% + 8px);
+  width: max-content;
+  max-width: min(460px, 82vw);
+  padding: 9px 10px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 8px;
+  background: rgba(21, 25, 34, 0.96);
+  box-shadow: 0 18px 42px rgba(15, 23, 42, 0.22);
+  color: #ffffff;
+  font-size: var(--font-sm);
+  font-weight: 650;
+  line-height: 1.5;
+  text-align: left;
+  white-space: pre-line;
+  overflow-wrap: anywhere;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transform: translateX(-50%) translateY(3px);
+  transition: opacity 120ms ease, transform 120ms ease, visibility 120ms ease;
+}
+
+.formula-card:hover .formula-card-tip,
+.formula-card:focus .formula-card-tip,
+.formula-card:focus-visible .formula-card-tip {
+  opacity: 1;
+  visibility: visible;
+  transform: translateX(-50%) translateY(0);
+}
+
 .formula-strip--multiply > .formula-card:not(:first-child)::before {
   content: "×";
   position: absolute;

@@ -4,10 +4,10 @@ window.WUWA_STAGE_VIEW = (() => {
   function create({
     state, W, ch, wp, WEAPONS, SONATAS, leadChoicesForEcho, syncEchoLead,
     ECHO_COSTS, echoMainOptions, echoSubOptions, echoSubValues, echoFixedMain, ensureEchoDetail, echoDetailSummary, statLabel,
-    availableSkills, selectedSkill, resourceControlsForSlot, skillResourceReady, resolvedSkill, isIntroSkill, introEntryReady, introEntryRelevantForSlot, stateControlsHTML,
+    availableSkills, selectedSkill, resourceControlsForSlot, resolvedSkill, stateControlsHTML,
     panelEntryTableHTML, autoResolutionHTML, settlementBuffRowsHTML,
   }) {
-    const { skillLevelRatio, EFFECT_DEFS, EFFECT_ORDER, HARMONY_BASE_OPTIONS, effectKeyOf, num } = window.WUWA_RULES;
+    const { skillLevelRatio, skillMultValue, EFFECT_DEFS, EFFECT_ORDER, HARMONY_BASE_OPTIONS, effectKeyOf, num } = window.WUWA_RULES;
     const L = window.WUWA_LANGUAGES;
     const {
       fmt, fx, esc, tnum, RES_HINT, DAMAGE_MODES, skillFormulaText, damageSplitHTML,
@@ -101,6 +101,37 @@ window.WUWA_STAGE_VIEW = (() => {
       return `<img class="echo-set-icon" src="${esc(set.icon)}" alt="" onerror="this.style.visibility='hidden'" />`;
     }
 
+    function formulaCardTipHTML(tip) {
+      return tip ? `<span class="formula-card-tip" role="tooltip">${esc(tip)}</span>` : "";
+    }
+
+    function formulaCardAria(label, tip) {
+      return tip ? `${label}${L.isEnglish() ? " source: " : "来源："}${tip}` : label;
+    }
+
+    function formulaSource(label, value, suffix = "") {
+      return num(value) ? `${L.text(label)} ${tnum(value)}${suffix}` : "";
+    }
+
+    function formulaSources(items, empty = "0") {
+      const text = items.filter(Boolean).join(" + ");
+      return text || empty;
+    }
+
+    function formulaBreak() {
+      return L.isEnglish() ? "; " : "；";
+    }
+
+    function metricFormulaCardHTML({ k, v, sub, tip }) {
+      const subHTML = sub.startsWith("<small") ? sub : `<small>${sub}</small>`;
+      return `<div class="metric-card formula-card" tabindex="0" aria-label="${esc(formulaCardAria(k, tip))}">
+    <span>${esc(k)}</span>
+    ${v}
+    ${subHTML}
+    ${formulaCardTipHTML(tip)}
+  </div>`;
+    }
+
     function echoSetIconGroupHTML(ids) {
       const names = ids.map(sonataName);
       return `<div class="team-gear-set-icons" title="${esc(names.join(" + "))}">${ids.map((id, i) => {
@@ -115,10 +146,6 @@ window.WUWA_STAGE_VIEW = (() => {
       const s1 = state.slots[oi];
       const sk = selectedSkill(s1);
       let html = "";
-      if (introEntryRelevantForSlot(s1)) {
-        const introImplied = isIntroSkill(resolvedSkill(s1));
-        html += `<div class="field toggle-field"><label class="buff toggle-card resource-toggle"><input type="checkbox" data-act="intro-entry" data-slot="${oi}" ${introEntryReady(s1) ? "checked" : ""} ${introImplied ? "disabled" : ""} /> ${esc(L.text("已变奏入场"))}</label></div>`;
-      }
       const resources = resourceControlsForSlot(s1);
       const valueResources = resources.filter((resource) => resource.kind === "value");
       if (valueResources.length) {
@@ -239,8 +266,9 @@ window.WUWA_STAGE_VIEW = (() => {
       return `<select class="team-meta-select" data-act="seq-set" data-slot="${idx}" aria-label="${esc(L.provider("共鸣链"))}">${[0, 1, 2, 3, 4, 5, 6].map((v) => `<option value="${v}" ${slot.seq === v ? "selected" : ""}>${esc(L.t("common.sequence", { value: v }))}</option>`).join("")}</select>`;
     }
 
-    function echoCardPickerHTML(e, idx) {
-      return `<div class="team-echo-row"><div class="team-gear-set-row">${teamEchoSetIconHTML(e, idx)}</div><div class="team-gear-lead-row">${teamLeadEchoPickerHTML(e, idx)}</div></div>`;
+    function echoCardPickerHTML(slot, idx) {
+      const e = slot.echo;
+      return `<div class="team-echo-row"><div class="team-gear-set-row">${teamEchoSetIconHTML(slot)}</div><div class="team-gear-lead-row">${teamLeadEchoPickerHTML(e, idx)}</div></div>`;
     }
 
     function echoDetailToggleHTML(e, idx) {
@@ -250,7 +278,15 @@ window.WUWA_STAGE_VIEW = (() => {
     </label>`;
     }
 
-    function teamEchoSetIconHTML(e, idx) {
+    function teamEchoSetIconHTML(slot) {
+      const e = slot?.echo;
+      if (e?.detailMode) {
+        const ids = [];
+        (ensureEchoDetail(slot, ch(slot.char))?.echoes || []).forEach((item) => {
+          if (item.set && !ids.includes(item.set)) ids.push(item.set);
+        });
+        return echoSetIconGroupHTML(ids.length ? ids : [e.primary]);
+      }
       if (!e || e.combo === "single5") return echoSetIconGroupHTML([e?.primary]);
       if (e.combo === "split32") return echoSetIconGroupHTML([e.primary, e.secondary]);
       if (e.combo === "split122") return echoSetIconGroupHTML([e.primary, e.secondary, e.tertiary]);
@@ -295,7 +331,7 @@ window.WUWA_STAGE_VIEW = (() => {
         ${comboHTML("weapon", idx)}
         ${rankSelectHTML(slot, idx)}
       </div>
-      ${echoCardPickerHTML(e, idx)}
+      ${echoCardPickerHTML(slot, idx)}
       ${echoDetailToggleHTML(e, idx)}
     </div>`;
     }
@@ -337,10 +373,11 @@ window.WUWA_STAGE_VIEW = (() => {
       const options = echoSubOptions(c);
       return (item.subs || []).map((sub, subIdx) => {
         const values = echoSubValues(sub.key);
+        const usedKeys = new Set((item.subs || []).map((other, otherIdx) => otherIdx === subIdx ? "" : other.key).filter(Boolean));
         return `<div class="echo-detail-sub">
         <select data-act="detail-sub-key" data-slot="${idx}" data-echo-index="${echoIdx}" data-sub-index="${subIdx}" aria-label="${esc(L.text("副词条"))}">
           <option value="">${esc(L.text("副词条"))}</option>
-          ${options.map((opt) => `<option value="${esc(opt.key)}" ${opt.key === sub.key ? "selected" : ""}>${esc(opt.label)}</option>`).join("")}
+          ${options.map((opt) => `<option value="${esc(opt.key)}" ${opt.key === sub.key ? "selected" : ""} ${usedKeys.has(opt.key) ? "disabled" : ""}>${esc(opt.label)}</option>`).join("")}
         </select>
         <select data-act="detail-sub-value" data-slot="${idx}" data-echo-index="${echoIdx}" data-sub-index="${subIdx}" ${sub.key ? "" : "disabled"} aria-label="${esc(L.text("副词条数值"))}">
           ${values.length ? values.map((v) => `<option value="${v}" ${num(v) === num(sub.value) ? "selected" : ""}>${tnum(v)}${sub.key && sub.key.endsWith("Flat") ? "" : "%"}</option>`).join("") : `<option value="0">—</option>`}
@@ -426,49 +463,82 @@ window.WUWA_STAGE_VIEW = (() => {
 
     function damageMetricCardsHTML(r) {
       const isHarmonyResponse = r.damageModel === "harmonyResponse";
+      const s1 = state.slots[state.outputIdx];
+      const c = ch(s1.char);
+      const tree = c?.base?.tree || {};
       const statDisplay = isHarmonyResponse ? r.harmonyBase : r.panel.stat === "hp" ? r.panel.displayHp : r.panel.stat === "defense" ? r.panel.displayDef : r.panel.displayAtk;
+      const statRaw = r.panel.stat === "hp" ? r.panel.totalHp : r.panel.stat === "defense" ? r.panel.totalDef : r.panel.totalAtk;
       const statLabel = isHarmonyResponse ? L.text("谐度基础值") : L.stat(r.panel.stat);
       const totalResShred = num(state.enemy.resShred) + num(r?.totals?.resShred);
+      const effectiveRes = num(state.enemy.res) - totalResShred;
       const resSub = L.isEnglish() ? `RES ${tnum(state.enemy.res)}% + RES Shred ${tnum(totalResShred)}%` : `抗${tnum(state.enemy.res)}% + 减抗${tnum(totalResShred)}%`;
       const damageMode = activeDamageMode();
       const critMul = isHarmonyResponse ? 1 : damageMode === "expected" ? 1 + r.cr * (r.cd - 1) : damageMode === "crit" ? r.cd : 1;
+      const lvRatio = r.sk ? skillLevelRatio(r.skLevel) : 1;
+      const rawSkillMult = r.sk ? num(r.sk.multiplier) : 0;
+      const stackMult = r.sk?.perStack ? num(r.sk.perStack) * num(r.layers) * (1 + num(r.perStackBonus) / 100) : 0;
+      const levelMult = r.sk ? skillMultValue(rawSkillMult + stackMult, lvRatio) : 0;
+      const skillMultBonus = num(r.totals?.skillMultBonus);
+      const skType = r.sk?.damageType;
+      const echoBonusParts = [
+        formulaSource("属性树", tree.elemBonus, "%"),
+        formulaSource("声骸属性", r.es?.elem?.[c?.element], "%"),
+        formulaSource("声骸类型", skType ? r.es?.type?.[skType] : 0, "%"),
+      ];
+      const normalBonusParts = [
+        formulaSource("伤害加成 Buff", r.rawTotals?.damageBonus, "%"),
+        formulaSource("类型加成 Buff", r.rawTotals?.typeBonus, "%"),
+        ...echoBonusParts,
+      ];
+      const statTip = isHarmonyResponse
+        ? `${L.text("谐度基础值")} = ${fmt(r.harmonyBase)}\n${L.text("来源")}${L.isEnglish() ? ": " : "："}${L.text(offsetCostLabel(r.harmonyBase))}`
+        : `${statLabel} = ${fmt(statDisplay)}${L.isEnglish() ? " (display floor)" : "（显示取整）"}\n${L.text("伤害计算使用")} ${tnum(statRaw)}`;
+      const skillBaseParts = [
+        `${L.text("基础倍率")} ${tnum(rawSkillMult)}%`,
+        stackMult ? `${L.text("层数倍率")} ${tnum(stackMult)}%` : "",
+        `${L.text("等级")} ${tnum(r.skLevel)} × ${tnum(lvRatio)}`,
+      ].filter(Boolean).join(formulaBreak());
+      const skillTip = `${L.text("技能倍率")} = (${tnum(levelMult)}%${r.multAdd ? ` + ${L.text("倍率增加")} ${tnum(r.multAdd)}%` : ""}) × (1 + ${tnum(skillMultBonus)}%) = ${tnum(r.panel.skillMult * 100)}%\n${skillBaseParts}`;
       const bonusCard = isHarmonyResponse
-        ? { k: L.text("谐度增幅"), v: `<b>${esc(fx(r.breakAmpFactor))}</b>`, sub: L.isEnglish() ? `${esc(tnum(r.breakAmp))} pts` : `${esc(tnum(r.breakAmp))} 点` }
-        : { k: L.text("加成区"), v: `<b>${esc(tnum(r.bonus))}</b>`, sub: L.isEnglish() ? `+${esc(tnum((r.bonus - 1) * 100))}% · Attribute + Type` : `+${esc(tnum((r.bonus - 1) * 100))}% · 属性+类型` };
+        ? { k: L.text("谐度增幅"), v: `<b>${esc(fx(r.breakAmpFactor))}</b>`, sub: L.isEnglish() ? `${esc(tnum(r.breakAmp))} pts` : `${esc(tnum(r.breakAmp))} 点`, tip: `${L.text("谐度增幅")} = 1 + ${L.text("谐度破坏增幅")} ${tnum(r.breakAmp)} / 100 = ${fx(r.breakAmpFactor)}` }
+        : { k: L.text("加成区"), v: `<b>${esc(tnum(r.bonus))}</b>`, sub: L.isEnglish() ? `+${esc(tnum((r.bonus - 1) * 100))}% · Attribute + Type` : `+${esc(tnum((r.bonus - 1) * 100))}% · 属性+类型`, tip: `${L.text("加成区")} = 1 + (${formulaSources(normalBonusParts, "0%")}) / 100 = ${tnum(r.bonus)}` };
       const amplifyCard = isHarmonyResponse
-        ? { k: L.text("响应增伤"), v: `<b>${esc(tnum(r.amplify * r.vuln))}</b>`, sub: L.isEnglish() ? "Tune response only" : "谐度响应专属加深/易伤" }
-        : { k: L.text("加深区"), v: `<b>${esc(tnum(r.amplify))}</b>`, sub: L.isEnglish() ? `+${esc(tnum((r.amplify - 1) * 100))}% · Separate zone` : `+${esc(tnum((r.amplify - 1) * 100))}% · 独立乘区` };
+        ? { k: L.text("响应增伤"), v: `<b>${esc(tnum(r.amplify * r.vuln))}</b>`, sub: L.isEnglish() ? "Tune response only" : "谐度响应专属加深/易伤", tip: `${L.text("响应增伤")} = (1 + ${tnum(r.totals.amplify)}%) × (1 + ${tnum(r.totals.vulnerability)}%) = ${tnum(r.amplify * r.vuln)}` }
+        : { k: L.text("加深区"), v: `<b>${esc(tnum(r.amplify))}</b>`, sub: L.isEnglish() ? `+${esc(tnum((r.amplify - 1) * 100))}% · Separate zone` : `+${esc(tnum((r.amplify - 1) * 100))}% · 独立乘区`, tip: `${L.text("加深区")} = 1 + ${L.text("伤害加深 Buff")} ${tnum(r.rawTotals.amplify)}% / 100 = ${tnum(r.amplify)}` };
       let critCard = { k: L.text("不可暴击"), v: "<b>1</b>", sub: L.isEnglish() ? "Tune response" : "谐度响应" };
       if (!isHarmonyResponse) {
         switch (damageMode) {
           case "expected":
-            critCard = { k: L.text("期望修正"), v: `<b>${esc(tnum(critMul))}</b>`, sub: `${L.stat("暴击率")} ${esc(tnum(r.panel.critRate))}%` };
+            critCard = { k: L.text("期望修正"), v: `<b>${esc(tnum(critMul))}</b>`, sub: `${L.stat("暴击率")} ${esc(tnum(r.panel.critRate))}%`, tip: `${L.text("期望修正")} = ${L.stat("暴击率")} ${tnum(r.panel.critRate)}% × ${L.stat("暴击伤害")} ${tnum(r.panel.critDamage)}% + (1 - ${L.stat("暴击率")}) = ${tnum(critMul)}` };
             break;
           case "crit":
-            critCard = { k: L.text("暴击伤害"), v: `<b>${esc(tnum(critMul))}</b>`, sub: `${L.stat("暴击伤害")} ${esc(tnum(r.panel.critDamage))}%` };
+            critCard = { k: L.text("暴击伤害"), v: `<b>${esc(tnum(critMul))}</b>`, sub: `${L.stat("暴击伤害")} ${esc(tnum(r.panel.critDamage))}%`, tip: `${L.text("暴击伤害")} = ${tnum(r.panel.critDamage)}% / 100 = ${tnum(critMul)}` };
             break;
           default:
-            critCard = { k: L.text("非暴伤害"), v: "<b>1</b>", sub: L.isEnglish() ? "Crit ignored" : "不计算暴击" };
+            critCard = { k: L.text("非暴伤害"), v: "<b>1</b>", sub: L.isEnglish() ? "Crit ignored" : "不计算暴击", tip: `${L.text("非暴伤害")} = 1` };
         }
       }
+      if (isHarmonyResponse) critCard.tip = `${L.text("不可暴击")} = 1`;
+      const totalDefShred = num(r.defense?.totalDefShred);
+      const totalDefIgnore = num(r.defense?.totalDefIgnore);
+      const levelTerm = 800 + 8 * num(state.enemy.charLevel);
+      const enemyDefTerm = 8 * num(state.enemy.enemyLevel) + 792;
+      const defTip = `${L.text("防御系数")} = ${tnum(levelTerm)} / (${tnum(levelTerm)} + ${tnum(enemyDefTerm)} × (1 - ${tnum(totalDefShred)}%) × (1 - ${tnum(totalDefIgnore)}%)) = ${fx(r.defFactor)}`;
+      const resTip = `${L.text("抗性系数")} = f(${tnum(effectiveRes)}%) = ${fx(r.resFactor)}\n${L.text("抗性")} ${tnum(state.enemy.res)}% - ${L.text("减抗")} ${tnum(totalResShred)}%`;
       const finalCard = isHarmonyResponse
-        ? { k: L.text("最终伤害"), v: `<b>${r.finalDmg === 1 ? esc(L.isEnglish() ? "Ignored" : "不参与") : esc(tnum(r.finalDmg))}</b>`, sub: L.isEnglish() ? "Only explicit effects apply" : "明确指定才参与" }
-        : { k: L.text("最终伤害"), v: `<b>${esc(tnum(r.finalDmg))}</b>`, sub: L.isEnglish() ? `+${esc(tnum((r.finalDmg - 1) * 100))}% · Final zone` : `+${esc(tnum((r.finalDmg - 1) * 100))}% · 最终乘区` };
+        ? { k: L.text("最终伤害"), v: `<b>${r.finalDmg === 1 ? esc(L.isEnglish() ? "Ignored" : "不参与") : esc(tnum(r.finalDmg))}</b>`, sub: L.isEnglish() ? "Only explicit effects apply" : "明确指定才参与", tip: `${L.text("最终伤害")} = 1 + ${L.text("明确指定 Buff")} ${tnum(r.totals.finalDmg)}% / 100 = ${tnum(r.finalDmg)}` }
+        : { k: L.text("最终伤害"), v: `<b>${esc(tnum(r.finalDmg))}</b>`, sub: L.isEnglish() ? `+${esc(tnum((r.finalDmg - 1) * 100))}% · Final zone` : `+${esc(tnum((r.finalDmg - 1) * 100))}% · 最终乘区`, tip: `${L.text("最终伤害")} = 1 + (${L.text("手动")} ${tnum(state.enemy.finalDmg)}% + Buff ${tnum(r.totals.finalDmg)}%) / 100 = ${tnum(r.finalDmg)}` };
       const cards = [
-        { k: L.text("属性基数"), v: `<b>${esc(fmt(statDisplay))}</b>`, sub: esc(statLabel) },
-        { k: L.text("技能倍率"), v: `<b>${esc(`${tnum(r.panel.skillMult * 100)}%`)}</b>`, sub: esc(r.sk ? L.damageType(r.sk.damageType) : "—") },
+        { k: L.text("属性基数"), v: `<b>${esc(fmt(statDisplay))}</b>`, sub: esc(statLabel), tip: statTip },
+        { k: L.text("技能倍率"), v: `<b>${esc(`${tnum(r.panel.skillMult * 100)}%`)}</b>`, sub: esc(r.sk ? L.damageType(r.sk.damageType) : "—"), tip: skillTip },
         bonusCard,
         amplifyCard,
         critCard,
-        { k: L.text("防御系数"), v: `<b>${esc(fx(r.defFactor))}</b>`, sub: L.isEnglish() ? `Lv.${esc(tnum(state.enemy.charLevel))} / Enemy Lv.${esc(tnum(state.enemy.enemyLevel))}` : `我${esc(tnum(state.enemy.charLevel))} / 敌${esc(tnum(state.enemy.enemyLevel))}级` },
-        { k: L.text("抗性系数"), v: `<b>${esc(fx(r.resFactor))}</b>`, sub: esc(resSub) },
+        { k: L.text("防御系数"), v: `<b>${esc(fx(r.defFactor))}</b>`, sub: L.isEnglish() ? `Lv.${esc(tnum(state.enemy.charLevel))} / Enemy Lv.${esc(tnum(state.enemy.enemyLevel))}` : `我${esc(tnum(state.enemy.charLevel))} / 敌${esc(tnum(state.enemy.enemyLevel))}级`, tip: defTip },
+        { k: L.text("抗性系数"), v: `<b>${esc(fx(r.resFactor))}</b>`, sub: esc(resSub), tip: resTip },
         finalCard,
       ];
-      return cards.map(({ k, v, sub }) => `<div class="metric-card formula-card">
-    <span>${esc(k)}</span>
-    ${v}
-    ${sub.startsWith("<small") ? sub : `<small>${sub}</small>`}
-  </div>`).join("");
+      return cards.map(metricFormulaCardHTML).join("");
     }
 
     function stateChoiceKey(label) {
@@ -645,13 +715,23 @@ window.WUWA_STAGE_VIEW = (() => {
       if (e.kind === "attack" && e.extraRate) rateParts.push(`${L.isEnglish() ? "Extra" : "额外"} ${tnum(e.extraRate)}%`);
       const multDetail = e.kind === "attack" ? rateParts.join(" + ") : `${esc(L.effectShort(e.def))} ${e.stacks}${L.isEnglish() ? " stacks" : "层"}`;
       const provider = e.providerName ? `${e.providerName} ${L.stat("攻击")}` : (L.isEnglish() ? "Provider ATK" : "提供者攻击");
+      const baseTip = e.kind === "attack"
+        ? `${L.text("属性基数")} = ${provider} ${tnum(e.attack)}`
+        : `${L.text("属性基数")} = ${L.effect(e.def)} ${tnum(e.base)}`;
+      const multTip = e.kind === "attack"
+        ? `${L.isEnglish() ? "Effect Multiplier" : "效应倍率"} = ${formulaSources(rateParts, "0%")} = ${tnum(e.rate)}%`
+        : `${L.isEnglish() ? "Effect Multiplier" : "效应倍率"} = ${L.effectShort(e.def)} ${e.stacks}${L.isEnglish() ? " stacks" : "层"}`;
+      const deepenTip = `${L.isEnglish() ? "Effect Amplification" : "效应加深"} = ${L.text("手动")} ${tnum(e.manualDeepen)}% + Buff ${tnum(e.buffDeepen)}% = ${tnum(e.deepen)}%`;
+      const finalTip = `${L.text("最终伤害")} = 1 + Buff ${tnum(e.buffFinalDmg || 0)}% / 100 = ${fx(e.finalDmgFactor || 1)}`;
+      const defTip = `${L.text("防御系数")} = ${fx(e.defFactor)}\n${L.text("减防")} ${tnum(e.manualDefShred)}% + Buff ${tnum(e.buffDefShred)}%${formulaBreak()}${L.text("防御无视")} ${tnum(e.manualDefIgnore)}% + Buff ${tnum(e.buffDefIgnore)}%`;
+      const resTip = `${L.text("抗性系数")} = f(${tnum(e.res)}%) = ${fx(e.resFactor)}\n${L.text("抗性")} ${tnum(e.manualRes)}% - ${L.text("减抗")} ${tnum(e.manualResShred)}% - Buff ${tnum(e.buffResShred)}%`;
       return `<div class="effect-mini-strip effect-mini-strip--formula formula-strip formula-strip--multiply">
-        <div class="effect-mini-card formula-card"><span>${esc(L.text("属性基数"))}</span><b>${baseValue}</b><small>${e.kind === "attack" ? esc(provider) : esc(L.effect(e.def))}</small></div>
-        <div class="effect-mini-card formula-card"><span>${esc(L.isEnglish() ? "Effect Multiplier" : "效应倍率")}</span><b>${multValue}</b><small>${multDetail}</small></div>
-        <div class="effect-mini-card formula-card"><span>${esc(L.isEnglish() ? "Effect Amplification" : "效应加深")}</span><b>${tnum(e.deepen)}%</b><small>${L.isEnglish() ? "Manual" : "手动"} ${tnum(e.manualDeepen)} + Buff ${tnum(e.buffDeepen)}</small></div>
-        <div class="effect-mini-card formula-card"><span>${esc(L.text("最终伤害"))}</span><b>${fx(e.finalDmgFactor || 1)}</b><small>Buff ${tnum(e.buffFinalDmg || 0)}%</small></div>
-        <div class="effect-mini-card formula-card"><span>${esc(L.text("防御系数"))}</span><b>${fx(e.defFactor)}</b><small>${L.isEnglish() ? `Lv.${tnum(e.charLevel)} / Enemy Lv.${tnum(e.enemyLevel)}` : `我${tnum(e.charLevel)} / 敌${tnum(e.enemyLevel)}`}</small></div>
-        <div class="effect-mini-card formula-card"><span>${esc(L.text("抗性系数"))}</span><b>${fx(e.resFactor)}</b><small>${L.isEnglish() ? "RES" : "抗"} ${tnum(e.res)}%</small></div>
+        ${miniCardHTML("属性基数", baseValue, e.kind === "attack" ? provider : L.effect(e.def), baseTip)}
+        ${miniCardHTML(L.isEnglish() ? "Effect Multiplier" : "效应倍率", multValue, multDetail, multTip)}
+        ${miniCardHTML(L.isEnglish() ? "Effect Amplification" : "效应加深", `${tnum(e.deepen)}%`, `${L.isEnglish() ? "Manual" : "手动"} ${tnum(e.manualDeepen)} + Buff ${tnum(e.buffDeepen)}`, deepenTip)}
+        ${miniCardHTML("最终伤害", fx(e.finalDmgFactor || 1), `Buff ${tnum(e.buffFinalDmg || 0)}%`, finalTip)}
+        ${miniCardHTML("防御系数", fx(e.defFactor), L.isEnglish() ? `Lv.${tnum(e.charLevel)} / Enemy Lv.${tnum(e.enemyLevel)}` : `我${tnum(e.charLevel)} / 敌${tnum(e.enemyLevel)}`, defTip)}
+        ${miniCardHTML("抗性系数", fx(e.resFactor), `${L.isEnglish() ? "RES" : "抗"} ${tnum(e.res)}%`, resTip)}
       </div>`;
     }
 
@@ -775,8 +855,17 @@ window.WUWA_STAGE_VIEW = (() => {
       return `<label class="effect-field"><span>${esc(L.text("层数"))}</span><input type="number" min="0" step="1" data-act="offset-stacks" value="${esc(o.stacks || 0)}" /></label>`;
     }
 
-    function miniCardHTML(k, v, sub) {
-      return `<div class="effect-mini-card formula-card"><span>${esc(L.text(k))}</span><b>${v}</b><small>${esc(L.text(sub))}</small></div>`;
+    function plainText(value) {
+      return String(value || "").replace(/<[^>]*>/g, "").replace(/\s+/g, " ").trim();
+    }
+
+    function miniCardHTML(k, v, sub, tip = "") {
+      const label = L.text(k);
+      const subText = L.text(plainText(sub));
+      const detail = tip || `${label} = ${plainText(v)}${subText ? `\n${subText}` : ""}`;
+      return `<div class="effect-mini-card formula-card" tabindex="0" aria-label="${esc(formulaCardAria(label, detail))}">
+        <span>${esc(label)}</span><b>${v}</b><small>${esc(subText)}</small>${formulaCardTipHTML(detail)}
+      </div>`;
     }
 
     function offsetDefenseSub() {
@@ -786,7 +875,8 @@ window.WUWA_STAGE_VIEW = (() => {
     function offsetDeepenCardHTML(o) {
       const buff = tnum(o.buffDeepen || 0);
       const sub = L.isEnglish() ? `Vulnerability ${tnum(o.enemyVulnerability)}% · Reduction ${tnum(o.enemyDmgReduction)}%${buff !== "0" ? ` · Buff ${buff}%` : ""}` : `易伤${tnum(o.enemyVulnerability)}% · 减伤${tnum(o.enemyDmgReduction)}%${buff !== "0" ? ` · Buff${buff}%` : ""}`;
-      return miniCardHTML("减伤/易伤", esc(tnum(o.deepenFactor)), sub);
+      const tip = `${L.text("减伤/易伤")} = 1 - ${L.text("减伤")} ${tnum(o.enemyDmgReduction)}% + ${L.text("易伤")} ${tnum(o.enemyVulnerability)}%${buff !== "0" ? ` + Buff ${buff}%` : ""} = ${tnum(o.deepenFactor)}`;
+      return miniCardHTML("减伤/易伤", esc(tnum(o.deepenFactor)), sub, tip);
     }
 
     function offsetResponseLabels(o) {

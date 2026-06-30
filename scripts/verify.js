@@ -67,7 +67,7 @@ global.document = { getElementById: () => board, onclick: null, documentElement:
 
 const app = fs.readFileSync(path.join(root, "src/app.js"), "utf8").replace(
   /\nrender\(\);\s*$/,
-  "\nglobalThis.__T = { state, pickCharacter, compute, slotBuffs, availableSkills, resourceKey, resourceControlsForSlot, resolvedSkill, buffStatus, setBuffToggle, stateChoiceKey, stateControlsHTML, introEntryRelevantForSlot, buffFormulaText, render, syncOffsetFromStateChoice };",
+  "\nglobalThis.__T = { state, pickCharacter, compute, slotBuffs, availableSkills, resourceKey, resourceControlsForSlot, resolvedSkill, buffStatus, setBuffToggle, stateChoiceKey, stateControlsHTML, buffFormulaText, render, syncOffsetFromStateChoice };",
 );
 eval(app);
 
@@ -176,7 +176,6 @@ function resetTeam(chars = ["jinhsi", "zhezhi", "verina"]) {
     slot.skillLevels = {};
     slot.skill = null;
     slot.layers = null;
-    slot.introEntry = false;
     slot.extraPanelRows = [];
   });
   chars.forEach((charId, idx) => __T.pickCharacter(idx, charId));
@@ -1066,6 +1065,24 @@ function triggeredBuffDefaultsAreExplicit() {
   assert(!bad.length, `triggered buffs should be defaultActive:false unless proven current-hit safe: ${bad.join(", ")}`);
 }
 
+function weaponBuffScopesUseBeneficiary() {
+  const selfBuff = window.WUWA_EQUIPMENT.weaponBuffs("phasic_homogenizer", 1).find((b) => b.id === "w_e1");
+  const teamBuff = window.WUWA_EQUIPMENT.weaponBuffs("static_mist", 1).find((b) => b.id === "w_e0");
+  expectEqual(selfBuff.scope, "self", "weapon text with team trigger but self beneficiary should stay self-scoped");
+  expectEqual(teamBuff.scope, "team", "weapon text with incoming character beneficiary should stay team-scoped");
+
+  resetTeam(["jinhsi", "ciaccona"]);
+  const support = __T.state.slots[1];
+  support.weapon = "phasic_homogenizer";
+  let b = buff(support, "w_e1");
+  assert(__T.buffStatus(support, 1, b).gated === "仅自身输出时生效", "support self-scoped weapon buff should not be confirmable for another output");
+
+  support.weapon = "static_mist";
+  b = buff(support, "w_e0");
+  const st = __T.buffStatus(support, 1, b);
+  assert(st.precondition && !st.gated, "support outro weapon buff for the incoming character should remain confirmable");
+}
+
 function stateDefFor(c, stateName) {
   return (c.combatStates || []).find((def) => {
     if (def.id === stateName || def.label === stateName || def.idLabel === stateName) return true;
@@ -1243,15 +1260,32 @@ function formulaNumberFormattingFloors() {
   assert(!metricHtml.includes("<b>2,439</b>"), "main formula stat base should not round panel value up");
 }
 
-function introEntryControlVisibility() {
+function formulaCardTooltips() {
+  resetTeam();
+  __T.state.lang = "zh-CN";
+  __T.render();
+  const html = String(board.innerHTML);
+  const metricHtml = html.slice(html.indexOf('id="metric-strip"'), html.indexOf('class="damage-lower'));
+  assert((metricHtml.match(/class="formula-card-tip"/g) || []).length >= 8, "main formula cards should expose hover source tooltips");
+  assert(metricHtml.includes("技能倍率 =") && metricHtml.includes("防御系数 ="), "formula card tooltips should explain how card values are derived");
+  assert(metricHtml.includes('tabindex="0"') && metricHtml.includes('role="tooltip"'), "formula card tooltips should be keyboard reachable");
+  const css = fs.readFileSync(path.join(root, "styles.css"), "utf8");
+  assert(css.includes(".formula-card:hover .formula-card-tip") && css.includes("white-space: pre-line;"), "formula card tooltip CSS should show multiline details on card hover");
+}
+
+function introEntryIsSkillDriven() {
   resetTeam(["encore"]);
   __T.render();
-  assert(!String(board.innerHTML).includes('data-act="intro-entry"'), "intro-entry control should stay hidden when it cannot affect the selected slot");
+  assert(!String(board.innerHTML).includes('data-act="intro-entry"'), "intro-entry control should not render");
 
   resetTeam(["yangyang"]);
-  assert(__T.introEntryRelevantForSlot(__T.state.slots[0]), "Yangyang intro-triggered buffs should make intro-entry confirmation relevant");
+  let slot = __T.state.slots[0];
+  let b = buff(slot, "b1");
   __T.render();
-  assert(String(board.innerHTML).includes('data-act="intro-entry"'), "intro-entry control should render only for relevant selected slots");
+  assert(!String(board.innerHTML).includes('data-act="intro-entry"'), "intro-entry control should stay removed for intro-triggered buffs");
+  assert(__T.buffStatus(slot, 0, b).precondition && !__T.buffStatus(slot, 0, b).applies, "intro-triggered buff should wait until an intro skill is selected");
+  slot.skill = "intro";
+  assert(__T.buffStatus(slot, 0, b).applies, "intro skill should automatically provide intro-entry events");
 }
 
 function detailedEchoModeRegressions() {
@@ -1262,7 +1296,9 @@ function detailedEchoModeRegressions() {
   slot.echo.fields = { atkFlat: 9999, attackPct: 999, critRate: 99 };
   const detail = window.WUWA_EQUIPMENT.ensureEchoDetail(slot, c);
   detail.echoes[1].subs[0] = { key: "heavyDmg", value: 11.6 };
+  detail.echoes[1].subs[1] = { key: "heavyDmg", value: 10.9 };
   detail.echoes[2].subs[0] = { key: "heal", value: 0 };
+  detail.echoes[4].set = 16;
   detail.echoes[0].cost = 1;
   detail.echoes[0].main = "critDamage";
   detail.echoes[3].cost = 1;
@@ -1271,6 +1307,7 @@ function detailedEchoModeRegressions() {
   expectEqual(detail.echoes[0].cost, 4, "lead echo cost should be driven by the selected lead echo");
   expectEqual(detail.echoes[0].main, "critRate", "lead echo should reset to a valid 4-cost main stat when the lead cost changes");
   expectEqual(detail.echoes[3].main, "attackPct", "non-lead echo main stat should be normalized to valid options for its cost");
+  expectEqual(detail.echoes[1].subs[1].key, "", "detailed echo mode should clear duplicate substat keys on the same echo");
   let fields = window.WUWA_EQUIPMENT.echoFieldValues(slot, c);
   expectEqual(fields.atkFlat, 350, "detailed echo mode should ignore manual fixed attack and use detailed fixed mains");
   assert(fields.attackPct < 100, "detailed echo mode should ignore manual attack percent");
@@ -1288,6 +1325,10 @@ function detailedEchoModeRegressions() {
   assert(html.includes("哀声鸷 · 4c"), "lead echo selector should display the echo cost inline");
   assert(html.includes("Cost 12/12"), "detailed echo summary should display total cost");
   assert(html.includes("重击伤害加成"), "detailed echo-only type bonuses should auto-render in the panel");
+  const setRowStart = html.indexOf('class="team-gear-set-row"');
+  const setRowHtml = html.slice(setRowStart, html.indexOf('class="team-gear-lead-row"', setRowStart));
+  assert(setRowHtml.includes('data-tip="浮星祛暗"') && setRowHtml.includes('data-tip="轻云出月"'), "team card set icons should reflect detailed echo sets");
+  assert(/value="heavyDmg"\s+disabled/.test(html), "selected detailed substat keys should be disabled in sibling rows");
   assert(html.includes("panel-num-field--readonly") && !html.includes('data-act="efield"'), "detailed echo mode should make echo panel values read-only");
   assert(!html.includes('data-act="panel-add"') && !html.includes('data-act="echo-clear"'), "detailed echo mode should hide manual echo add/reset controls");
 }
@@ -2643,7 +2684,8 @@ const checks = [
   ["READMEs link live site", readmesLinkLiveSite],
   ["damage metric crit labels", damageMetricCritLabels],
   ["formula number formatting floors", formulaNumberFormattingFloors],
-  ["intro entry control visibility", introEntryControlVisibility],
+  ["formula card tooltips", formulaCardTooltips],
+  ["intro entry skill-driven events", introEntryIsSkillDriven],
   ["formula strip responsive css", formulaStripResponsiveCss],
   ["render preserves scroll", renderPreservesScroll],
   ["buff toggle uses partial refresh", buffToggleUsesPartialRefresh],
@@ -2657,6 +2699,7 @@ const checks = [
   ["sonata lead data completeness", sonataLeadDataCompleteness],
   ["sonata effect attachment buffs are manual", sonataEffectAttachmentBuffsAreManual],
   ["triggered buff defaults are explicit", triggeredBuffDefaultsAreExplicit],
+  ["weapon buff scopes use beneficiary", weaponBuffScopesUseBeneficiary],
   ["state requirement arrays are ordered", stateRequirementArraysAreOrdered],
   ["combat state kinds match descriptions", combatStateKindsMatchDescriptions],
   ["capped scaleBy excerpts mention cap", cappedScaleByExcerptsMentionCap],
