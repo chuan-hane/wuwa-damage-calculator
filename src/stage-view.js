@@ -870,9 +870,6 @@ window.WUWA_STAGE_VIEW = (() => {
       const modeKey = activeDamageMode();
       const mode = DAMAGE_MODES[modeKey];
       const activeValue = mode.value(r);
-      const effectHTML = effectCalcHTML(r);
-      const offsetHTML = offsetCalcHTML(r);
-      const independentHTML = `${effectHTML ? `<div id="out-effect">${effectHTML}</div>` : ""}${offsetHTML ? `<div id="out-offset">${offsetHTML}</div>` : ""}`;
       const lineModes = [["crit", "out-crit", r.critHit], ["expected", "out-exp", r.expected], ["normal", "out-normal", r.normal]];
       const lineHTML = lineModes.map(([key, id, val]) =>
         `<button type="button" class="dmg-line-btn${key === modeKey ? " on" : ""}" data-act="dmg-mode" data-mode="${key}">${DAMAGE_MODES[key].label} <b id="${id}">${fmt(val)}</b></button>`
@@ -891,13 +888,24 @@ window.WUWA_STAGE_VIEW = (() => {
     </div>
     ${targetControlsHTML(r)}
     <div class="metric-strip formula-strip formula-strip--multiply" id="metric-strip">${damageMetricCardsHTML(r)}</div>
-    <div class="damage-lower${independentHTML ? "" : " no-independent"}">
+    ${damageLowerHTML(r)}
+  </section>`;
+    }
+
+    function independentDamageHTML(r) {
+      const effectHTML = effectCalcHTML(r);
+      const offsetHTML = offsetCalcHTML(r);
+      return `${effectHTML ? `<div id="out-effect">${effectHTML}</div>` : ""}${offsetHTML ? `<div id="out-offset">${offsetHTML}</div>` : ""}`;
+    }
+
+    function damageLowerHTML(r) {
+      const independentHTML = independentDamageHTML(r);
+      return `<div class="damage-lower${independentHTML ? "" : " no-independent"}" id="damage-lower">
       <div class="damage-control-main">
         ${calcControlsHTML(r)}
       </div>
       ${independentHTML ? `<div class="damage-control-stack"><div class="other-damage-head">${esc(L.text("其它伤害 · 独立结算"))}</div>${independentHTML}</div>` : ""}
-    </div>
-  </section>`;
+    </div>`;
     }
 
     function panelStageHTML(r) {
@@ -908,7 +916,7 @@ window.WUWA_STAGE_VIEW = (() => {
     }
 
     function buffStageHTML() {
-      return `<section class="stage-card buff-stage">
+      return `<section class="stage-card buff-stage" id="buff-stage">
     <div class="stage-card-head module-head">
       <div class="module-title"><h2>${esc(L.text("本次攻击 Buff"))}</h2></div>
       <div class="module-actions">
@@ -982,7 +990,7 @@ window.WUWA_STAGE_VIEW = (() => {
         ? `<button type="button" class="metric-extra-toggle${state.showTargetExtras ? " on" : ""}" data-act="target-extra-toggle">${esc(state.showTargetExtras ? L.t("common.collapse") : L.t("common.more"))}</button>`
         : "";
       const columnCount = baseFields.length + extraFields.length + (toggle ? 1 : 0);
-      return `<div class="effect-calc metric-extra">
+      return `<div class="effect-calc metric-extra" id="target-controls">
     <div class="effect-controls metric-extra-fields" style="--metric-extra-columns:${columnCount}">
       ${baseFields.concat(visibleExtraFields).map(enemyField).join("")}
       ${toggle}
@@ -994,6 +1002,7 @@ window.WUWA_STAGE_VIEW = (() => {
       stageLayoutHTML, typeTagHTML, damageMetricCardsHTML, activeDamageMode,
       effectValueHTML, effectFormulaHTML, effectCapTextHTML,
       offsetValueHTML, offsetFormulaHTML, offsetCapTextHTML,
+      targetControlsHTML, damageLowerHTML, buffStageHTML,
     };
   }
 

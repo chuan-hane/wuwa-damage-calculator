@@ -74,6 +74,7 @@ const {
   stageLayoutHTML, typeTagHTML, damageMetricCardsHTML, activeDamageMode,
   effectValueHTML, effectFormulaHTML, effectCapTextHTML,
   offsetValueHTML, offsetFormulaHTML, offsetCapTextHTML,
+  targetControlsHTML, damageLowerHTML, buffStageHTML,
 } = window.WUWA_STAGE_VIEW.create({
   state, W, ch, wp, WEAPONS, SONATAS, leadChoicesForEcho, syncEchoLead,
   ECHO_COSTS, echoMainOptions, echoSubOptions, echoSubValues, echoFixedMain, ensureEchoDetail, echoDetailSummary, statLabel,
@@ -106,6 +107,12 @@ function render() {
   else restore();
 }
 function setHTML(id, h) { const el = document.getElementById(id); if (el) el.innerHTML = h; }
+function replaceOuterHTML(id, h) {
+  const el = document.getElementById(id);
+  if (!el || el === board || !("outerHTML" in el)) return null;
+  el.outerHTML = h;
+  return document.getElementById(id);
+}
 function refreshEffectInline(r) {
   setHTML("effect-value", esc(effectValueHTML(r)));
   setHTML("effect-cap-text", esc(effectCapTextHTML(r)));
@@ -160,6 +167,25 @@ function repaint() {
       if (b.maxStacks || b.scaleBy) setHTML(`bval_${idx}_${b.id}`, esc(buffFormulaText(slot, b, idx)));
     });
   });
+}
+
+function refreshAfterBuffToggle() {
+  const r = compute();
+  refreshPanelEntryTotals(r);
+  setHTML("out-exp", fmt(r.expected));
+  setHTML("out-normal", fmt(r.normal));
+  setHTML("out-crit", fmt(r.critHit));
+  const mode = DAMAGE_MODES[activeDamageMode()];
+  setHTML("out-active", fmt(mode.value(r)));
+  setHTML("out-active-split", damageSplitHTML(r, mode.split));
+  setHTML("metric-strip", damageMetricCardsHTML(r));
+  const targetControls = replaceOuterHTML("target-controls", targetControlsHTML(r));
+  const lower = replaceOuterHTML("damage-lower", damageLowerHTML(r));
+  const buffStage = replaceOuterHTML("buff-stage", buffStageHTML());
+  if (!targetControls || !lower || !buffStage) { render(); return; }
+  bind(targetControls);
+  bind(lower);
+  bind(buffStage);
 }
 
 function updateEnemyInput(el) {
@@ -532,7 +558,7 @@ const ACTIONS = {
     else el.onclick = updateStateChoice;
   },
   state: (el, idx) => { el.onchange = () => { state.slots[idx].toggles[stateKey(el.dataset.key)] = el.checked; render(); }; },
-  toggle: (el, idx) => { el.onchange = () => { setBuffToggle(state.slots[idx], idx, el.dataset.buff, el.checked); render(); }; },
+  toggle: (el, idx) => { el.onchange = () => { setBuffToggle(state.slots[idx], idx, el.dataset.buff, el.checked); refreshAfterBuffToggle(); }; },
   "buff-reset": (el) => { el.onclick = () => { resetBuffStage(); render(); }; },
   stack: (el, idx) => {
     el.oninput = () => {
@@ -580,13 +606,16 @@ const ACTIONS = {
   efield: (el, idx) => { el.oninput = () => { state.slots[idx].echo.fields[el.dataset.key] = num(el.value); repaint(); }; },
 };
 
-function bind() {
-  board.querySelectorAll("[data-act]").forEach((el) => {
+function bind(root = board) {
+  const controls = root.matches?.("[data-act]")
+    ? [root, ...root.querySelectorAll("[data-act]")]
+    : Array.from(root.querySelectorAll("[data-act]"));
+  controls.forEach((el) => {
     const idx = el.dataset.slot != null ? +el.dataset.slot : null;
     ACTIONS[el.dataset.act]?.(el, idx);
   });
   // 弹层内空白点击不关闭；点列以外关闭所有打开的下拉
-  board.querySelectorAll(".combo-pop").forEach((p) => (p.onclick = (ev) => ev.stopPropagation()));
+  root.querySelectorAll(".combo-pop").forEach((p) => (p.onclick = (ev) => ev.stopPropagation()));
   document.onclick = () => board.querySelectorAll(".combo.open").forEach((c) => c.classList.remove("open"));
 }
 

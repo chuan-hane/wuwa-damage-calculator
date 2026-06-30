@@ -432,6 +432,18 @@ function renderPreservesScroll() {
   }
 }
 
+function buffToggleUsesPartialRefresh() {
+  const appJs = fs.readFileSync(path.join(root, "src/app.js"), "utf8");
+  const stageJs = fs.readFileSync(path.join(root, "src/stage-view.js"), "utf8");
+  const toggleHandler = appJs.match(/toggle:\s*\(el,\s*idx\)\s*=>\s*\{\s*el\.onchange\s*=\s*\(\)\s*=>\s*\{([^}]*)\};\s*\},/);
+  assert(toggleHandler, "buff toggle handler should stay explicit");
+  assert(toggleHandler[1].includes("refreshAfterBuffToggle();"), "buff toggle should use partial refresh");
+  assert(!toggleHandler[1].includes("render();"), "buff toggle should not full-render the whole board");
+  assert(appJs.includes("function replaceOuterHTML") && appJs.includes("bind(targetControls);") && appJs.includes("bind(lower);") && appJs.includes("bind(buffStage);"), "partial buff refresh should replace and bind only local sections");
+  assert(stageJs.includes('id="target-controls"') && stageJs.includes('id="damage-lower"') && stageJs.includes('id="buff-stage"'), "partial buff refresh needs stable target, damage, and buff section ids");
+  assert(stageJs.includes("targetControlsHTML, damageLowerHTML, buffStageHTML"), "stage view should export partial section renderers");
+}
+
 function weaponPickerKeepsStringIds() {
   const appJs = fs.readFileSync(path.join(root, "src/app.js"), "utf8");
   assert(!appJs.includes("state.slots[si].weapon = +el.dataset.value"), "weapon picker must keep string weapon ids instead of coercing them to NaN");
@@ -2634,6 +2646,7 @@ const checks = [
   ["intro entry control visibility", introEntryControlVisibility],
   ["formula strip responsive css", formulaStripResponsiveCss],
   ["render preserves scroll", renderPreservesScroll],
+  ["buff toggle uses partial refresh", buffToggleUsesPartialRefresh],
   ["weapon picker keeps string ids", weaponPickerKeepsStringIds],
   ["character schema references resolve", characterSchemasAreLinked],
   ["resource fallback skill visibility", resourceFallbackSkillVisibility],
