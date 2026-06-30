@@ -19,7 +19,7 @@ const defaultEcho = (charId) => defaultEchoForChar(charId ? ch(charId) : null);
 // 面板默认展开的「添加」行：治疗辅助(validSubs 含 heal)默认带治疗效果加成行
 const defaultPanelRows = (charId) => (charId && (ch(charId).validSubs || []).includes("heal")) ? ["heal"] : [];
 const echoStats = (slot) => equipmentEchoStats(slot, slot.char ? ch(slot.char) : null);
-const characterSlotState = (charId) => { const c = charId ? ch(charId) : null; return { char: charId || null, weapon: c ? c.defaultWeaponId ?? c.signatureWeaponId : null, toggles: {}, resources: {}, echo: defaultEcho(charId), skill: c?.defaultSkillId ?? null, layers: null, introEntry: false, extraPanelRows: charId ? defaultPanelRows(charId) : [] }; };
+const characterSlotState = (charId) => { const c = charId ? ch(charId) : null; return { char: charId || null, weapon: c ? c.defaultWeaponId ?? c.signatureWeaponId : null, toggles: {}, resources: {}, echo: defaultEcho(charId), skill: c?.defaultSkillId ?? null, layers: null, extraPanelRows: charId ? defaultPanelRows(charId) : [] }; };
 const initialSlot = (charId, weapon, skill) => ({ ...characterSlotState(charId), weapon, skill, rank: 1, seq: 0, skillLevels: {} });
 
 function pickCharacter(idx, charId) {
@@ -60,8 +60,8 @@ const state = {
 };
 
 const {
-  slotBuffs, availableSkills, selectedSkill, resourceKey, resourceControlsForSlot, skillResourceReady, resolvedSkill,
-  stateKey, stateChoiceKey, isIntroSkill, introEntryReady, introEntryRelevantForSlot, stateControlsHTML,
+  slotBuffs, availableSkills, selectedSkill, resourceKey, resourceControlsForSlot, resolvedSkill,
+  stateKey, stateChoiceKey, stateControlsHTML,
   buffStackCount, buffStatus, setBuffToggle, scaleByInfo, buffValue, compute,
 } = window.WUWA_SETTLEMENT.create({ state, ch, wp, echoStats, weaponBuffs, sonataBuffs, esc });
 const {
@@ -78,7 +78,7 @@ const {
 } = window.WUWA_STAGE_VIEW.create({
   state, W, ch, wp, WEAPONS, SONATAS, leadChoicesForEcho, syncEchoLead,
   ECHO_COSTS, echoMainOptions, echoSubOptions, echoSubValues, echoFixedMain, ensureEchoDetail, echoDetailSummary, statLabel,
-  availableSkills, selectedSkill, resourceControlsForSlot, skillResourceReady, resolvedSkill, isIntroSkill, introEntryReady, introEntryRelevantForSlot, stateControlsHTML,
+  availableSkills, selectedSkill, resourceControlsForSlot, resolvedSkill, stateControlsHTML,
   panelEntryTableHTML, autoResolutionHTML, settlementBuffRowsHTML,
 });
 
@@ -545,7 +545,6 @@ const ACTIONS = {
     el.oninput = update;
     el.onchange = () => { update(); render(); };
   },
-  "intro-entry": (el, idx) => { el.onchange = () => { state.slots[idx].introEntry = el.checked; render(); }; },
   resource: (el, idx) => { el.onchange = () => { state.slots[idx].toggles[resourceKey(el.dataset.key)] = el.checked; render(); }; },
   "state-choice": (el, idx) => {
     const updateStateChoice = () => {
@@ -592,7 +591,7 @@ const ACTIONS = {
     updateDetailEcho(idx, echoIdx, (item) => { item.cost = nextCost; item.main = ""; });
   }; },
   "detail-echo-main": (el, idx) => { el.onchange = () => updateDetailEcho(idx, +el.dataset.echoIndex, (item) => { item.main = el.value; }); },
-  "detail-sub-key": (el, idx) => { el.onchange = () => updateDetailEcho(idx, +el.dataset.echoIndex, (item) => { const sub = item.subs[+el.dataset.subIndex]; sub.key = el.value; sub.value = echoSubValues(el.value)[0] || 0; }); },
+  "detail-sub-key": (el, idx) => { el.onchange = () => updateDetailEcho(idx, +el.dataset.echoIndex, (item) => { const subIdx = +el.dataset.subIndex; const sub = item.subs[subIdx]; const duplicate = el.value && item.subs.some((other, otherIdx) => otherIdx !== subIdx && other.key === el.value); sub.key = duplicate ? "" : el.value; sub.value = echoSubValues(sub.key)[0] || 0; }); },
   "detail-sub-value": (el, idx) => { el.onchange = () => updateDetailEcho(idx, +el.dataset.echoIndex, (item) => { item.subs[+el.dataset.subIndex].value = num(el.value); }); },
   "detail-lead": (el, idx) => { el.onchange = () => updateDetailEcho(idx, 0, (item, slot) => {
     const choices = leadChoicesForEcho({ detailMode: true, detail: { echoes: [{ set: item.set }] } });

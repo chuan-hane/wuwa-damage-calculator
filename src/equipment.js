@@ -130,9 +130,12 @@ window.WUWA_EQUIPMENT = (() => {
     next.set = next.set || fallbackSet || (SONATAS[0] && SONATAS[0].id) || null;
     next.cost = ECHO_COSTS.includes(num(next.cost)) ? num(next.cost) : cost;
     next.main = normalizedMainKey(next.cost, next.main, c);
+    const usedSubs = new Set();
     next.subs = Array.from({ length: 5 }, (_, i) => {
       const prev = (next.subs || [])[i] || {};
-      const key = echoSubValues(prev.key).length ? prev.key : "";
+      const prevKey = echoSubValues(prev.key).length ? prev.key : "";
+      const key = prevKey && !usedSubs.has(prevKey) ? prevKey : "";
+      if (key) usedSubs.add(key);
       const values = echoSubValues(key);
       const value = values.includes(num(prev.value)) ? num(prev.value) : (values[0] || 0);
       return { key, value };
@@ -228,10 +231,26 @@ window.WUWA_EQUIPMENT = (() => {
     return out;
   }
 
+  function escapeRegExp(text) {
+    return String(text || "").replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  }
+
+  function effectLabelPattern(e) {
+    const label = e.label && escapeRegExp(e.label);
+    return label ? new RegExp(label) : null;
+  }
+
   function weaponEffectScope(e) {
+    if (e.scope) return e.scope;
     const text = e.conditionText || "";
+    const labelPattern = effectLabelPattern(e);
     if (/施放延奏技能[后时].*(入场角色|队伍中登场角色)/.test(text)) return "team";
-    if (/附近队伍中所有角色|队伍中所有角色|队伍中的角色|队伍中登场角色|全队/.test(text)) return "team";
+    if (labelPattern && new RegExp(`自身.{0,18}${labelPattern.source}`).test(text)) return "self";
+    if (labelPattern && new RegExp(`(附近队伍中所有角色|队伍中所有角色|队伍中的角色|附近队伍中登场角色|队伍中登场角色|全队|入场角色|该角色).{0,18}${labelPattern.source}`).test(text)) return "team";
+    if (/使(附近队伍中所有角色|队伍中所有角色|队伍中的角色|队伍中登场角色|全队|入场角色)/.test(text)) return "team";
+    if (/队伍中的角色.*该角色.*(提升|加成|加深)/.test(text)) return "team";
+    if (/队伍中的角色.{0,24}施放.*后，自身/.test(text)) return "self";
+    if (/(附近队伍中所有角色|队伍中所有角色|队伍中的角色|附近队伍中登场角色|队伍中登场角色|全队).{0,24}(攻击|生命|防御|暴击|共鸣|伤害|全属性|热熔|冷凝|导电|气动|衍射|湮灭|声骸技能).{0,8}(提升|加成|加深)/.test(text)) return "team";
     return "self";
   }
 
