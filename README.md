@@ -1,4 +1,4 @@
-### [EN](README_en.md) | 中文 
+### [EN](README.en.md) | 中文 
 
 # 鸣潮伤害计算器
 
