@@ -222,8 +222,8 @@ WUWA.register({
     "energyRegen",
     "heal"
   ],
-  "echoSet": 7,
-  "echoLead": "7:fallacy_of_no_return",
+  "echoSet": 33,
+  "echoLead": "33:reactor_husk",
   "combatStates": [
     {
       "id": "mode_1",
@@ -326,7 +326,7 @@ WUWA.register({
     },
     {
       "id": "b_interference_amp_base",
-      "zone": "amplify",
+      "zone": "vulnerability",
       "value": 0,
       "scope": "team",
       "maxSeq": 0,

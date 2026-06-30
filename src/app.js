@@ -61,7 +61,7 @@ const state = {
 
 const {
   slotBuffs, availableSkills, selectedSkill, resourceKey, resourceControlsForSlot, skillResourceReady, resolvedSkill,
-  stateKey, stateChoiceKey, isIntroSkill, introEntryReady, stateControlsHTML,
+  stateKey, stateChoiceKey, isIntroSkill, introEntryReady, introEntryRelevantForSlot, stateControlsHTML,
   buffStackCount, buffStatus, setBuffToggle, scaleByInfo, buffValue, compute,
 } = window.WUWA_SETTLEMENT.create({ state, ch, wp, echoStats, weaponBuffs, sonataBuffs, esc });
 const {
@@ -77,7 +77,7 @@ const {
 } = window.WUWA_STAGE_VIEW.create({
   state, W, ch, wp, WEAPONS, SONATAS, leadChoicesForEcho, syncEchoLead,
   ECHO_COSTS, echoMainOptions, echoSubOptions, echoSubValues, echoFixedMain, ensureEchoDetail, echoDetailSummary, statLabel,
-  availableSkills, selectedSkill, resourceControlsForSlot, skillResourceReady, resolvedSkill, isIntroSkill, introEntryReady, stateControlsHTML,
+  availableSkills, selectedSkill, resourceControlsForSlot, skillResourceReady, resolvedSkill, isIntroSkill, introEntryReady, introEntryRelevantForSlot, stateControlsHTML,
   panelEntryTableHTML, autoResolutionHTML, settlementBuffRowsHTML,
 });
 

@@ -4,7 +4,7 @@ window.WUWA_STAGE_VIEW = (() => {
   function create({
     state, W, ch, wp, WEAPONS, SONATAS, leadChoicesForEcho, syncEchoLead,
     ECHO_COSTS, echoMainOptions, echoSubOptions, echoSubValues, echoFixedMain, ensureEchoDetail, echoDetailSummary, statLabel,
-    availableSkills, selectedSkill, resourceControlsForSlot, skillResourceReady, resolvedSkill, isIntroSkill, introEntryReady, stateControlsHTML,
+    availableSkills, selectedSkill, resourceControlsForSlot, skillResourceReady, resolvedSkill, isIntroSkill, introEntryReady, introEntryRelevantForSlot, stateControlsHTML,
     panelEntryTableHTML, autoResolutionHTML, settlementBuffRowsHTML,
   }) {
     const { skillLevelRatio, EFFECT_DEFS, EFFECT_ORDER, HARMONY_BASE_OPTIONS, effectKeyOf, num } = window.WUWA_RULES;
@@ -115,8 +115,10 @@ window.WUWA_STAGE_VIEW = (() => {
       const s1 = state.slots[oi];
       const sk = selectedSkill(s1);
       let html = "";
-      const introImplied = isIntroSkill(resolvedSkill(s1));
-      html += `<div class="field toggle-field"><label class="buff toggle-card resource-toggle"><input type="checkbox" data-act="intro-entry" data-slot="${oi}" ${introEntryReady(s1) ? "checked" : ""} ${introImplied ? "disabled" : ""} /> ${esc(L.text("已变奏入场"))}</label></div>`;
+      if (introEntryRelevantForSlot(s1)) {
+        const introImplied = isIntroSkill(resolvedSkill(s1));
+        html += `<div class="field toggle-field"><label class="buff toggle-card resource-toggle"><input type="checkbox" data-act="intro-entry" data-slot="${oi}" ${introEntryReady(s1) ? "checked" : ""} ${introImplied ? "disabled" : ""} /> ${esc(L.text("已变奏入场"))}</label></div>`;
+      }
       const resources = resourceControlsForSlot(s1);
       const valueResources = resources.filter((resource) => resource.kind === "value");
       if (valueResources.length) {
@@ -244,7 +246,7 @@ window.WUWA_STAGE_VIEW = (() => {
     function echoDetailToggleHTML(e, idx) {
       return `<label class="team-echo-detail">
       <input type="checkbox" data-act="echo-detail" data-slot="${idx}" ${e?.detailMode ? "checked" : ""} />
-      <span>${esc(L.text("详细声骇模式"))}</span>
+      <span>${esc(L.text("详细声骸模式"))}</span>
     </label>`;
     }
 
@@ -351,14 +353,14 @@ window.WUWA_STAGE_VIEW = (() => {
       const set = sonataById(item.set);
       return `<label class="echo-detail-field echo-detail-field--set">
       <span>${esc(L.text("套装"))}</span>
-      <span class="echo-detail-set-select">${sonataIconHTML(set)}<select data-act="detail-echo-set" data-slot="${idx}" data-echo-index="${echoIdx}" aria-label="${esc(L.text("声骇套装"))}">${detailSetOptions(item.set)}</select></span>
+      <span class="echo-detail-set-select">${sonataIconHTML(set)}<select data-act="detail-echo-set" data-slot="${idx}" data-echo-index="${echoIdx}" aria-label="${esc(L.text("声骸套装"))}">${detailSetOptions(item.set)}</select></span>
     </label>`;
     }
 
     function echoDetailPieceHTML(slot, idx, echoIdx, item, c, isLead) {
       const fixed = echoFixedMain(item.cost);
       return `<div class="echo-detail-card">
-      <div class="echo-detail-title">${esc(isLead ? L.text("首位声骇") : L.text(`声骇 ${echoIdx + 1}`))}</div>
+      <div class="echo-detail-title">${esc(isLead ? L.text("首位声骸") : L.text(`声骸 ${echoIdx + 1}`))}</div>
       ${echoDetailSetPicker(slot, idx, echoIdx, item)}
       ${isLead ? `<label class="echo-detail-field"><span>${esc(L.text("首位"))}</span><select data-act="detail-lead" data-slot="${idx}" aria-label="${esc(L.text("首位声骸"))}">${detailLeadOptions(slot, item)}</select></label>` : ""}
       ${isLead ? "" : `<label class="echo-detail-field"><span>${esc(L.t("common.cost"))}</span><select data-act="detail-echo-cost" data-slot="${idx}" data-echo-index="${echoIdx}" aria-label="${esc(L.t("common.cost"))}">${detailCostOptions(slot, echoIdx, item.cost)}</select></label>`}
@@ -413,8 +415,11 @@ window.WUWA_STAGE_VIEW = (() => {
         <p>${esc(L.t("app.subtitle"))}</p>
       </div>
     </div>
-    <div class="stage-language" role="group" aria-label="${esc(L.t("topbar.languageAria"))}">
-      ${langs.map((lang) => `<button type="button" class="stage-language-btn${lang.code === state.lang ? " on" : ""}" data-act="language" data-lang="${esc(lang.code)}" aria-pressed="${lang.code === state.lang ? "true" : "false"}">${esc(lang.shortLabel)}</button>`).join("")}
+    <div class="stage-actions">
+      <a class="stage-github-link" href="https://github.com/chuan-hane/wuwa-damage-calculator" target="_blank" rel="noopener noreferrer" aria-label="${esc(L.t("topbar.githubAria"))}">${esc(L.t("topbar.githubLabel"))}</a>
+      <div class="stage-language" role="group" aria-label="${esc(L.t("topbar.languageAria"))}">
+        ${langs.map((lang) => `<button type="button" class="stage-language-btn${lang.code === state.lang ? " on" : ""}" data-act="language" data-lang="${esc(lang.code)}" aria-pressed="${lang.code === state.lang ? "true" : "false"}">${esc(lang.shortLabel)}</button>`).join("")}
+      </div>
     </div>
   </section>`;
     }

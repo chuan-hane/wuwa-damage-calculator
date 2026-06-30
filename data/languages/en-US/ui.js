@@ -31,6 +31,8 @@ window.WUWA_LANGUAGES.extend("en-US", {
       stacks: "stacks"
     },
     topbar: {
+      githubAria: "Open GitHub repository",
+      githubLabel: "GitHub",
       languageAria: "Language"
     },
     damageModes: {

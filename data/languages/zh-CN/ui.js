@@ -31,6 +31,8 @@ window.WUWA_LANGUAGES.extend("zh-CN", {
       stacks: "层"
     },
     topbar: {
+      githubAria: "打开 GitHub 项目主页",
+      githubLabel: "GitHub",
       languageAria: "语言切换"
     },
     damageModes: {

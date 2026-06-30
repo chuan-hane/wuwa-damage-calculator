@@ -320,6 +320,7 @@ WUWA.register({
       "zone": "effectCapBonus",
       "value": 3,
       "scope": "team",
+      "defaultActive": false,
       "triggerOutro": true,
       "duration": 15
     },

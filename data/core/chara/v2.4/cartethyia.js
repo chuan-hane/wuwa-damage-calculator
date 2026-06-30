@@ -383,7 +383,7 @@ WUWA.register({
     "elem",
     "burstDmg"
   ],
-  "echoSet": 14,
+  "echoSet": 17,
   "skillEvents": [
     {
       "seq": 3,

@@ -395,6 +395,20 @@ window.WUWA_SETTLEMENT = (() => {
       return isIntroSkill(resolvedSkill(slot)) || slot.introEntry === true;
     }
 
+    const INTRO_ENTRY_EVENTS = new Set(["introEntry", "castIntroSkill"]);
+    function eventListUsesIntroEntry(events) {
+      return asList(events).some((eventName) => INTRO_ENTRY_EVENTS.has(eventKeyOf(eventName)));
+    }
+
+    function buffUsesIntroEntryTrigger(buff) {
+      return eventListUsesIntroEntry(buff.triggerEvents)
+        || asList(buff.triggerRules).some((rule) => eventListUsesIntroEntry(rule.events));
+    }
+
+    function introEntryRelevantForSlot(slot) {
+      return isIntroSkill(resolvedSkill(slot)) || slotBuffs(slot).some(buffUsesIntroEntryTrigger);
+    }
+
     function actionEventsForSlot(slot) {
       const c = ch(slot.char);
       const sk = resolvedSkill(slot);
@@ -1863,7 +1877,7 @@ window.WUWA_SETTLEMENT = (() => {
 
     return {
       slotBuffs, availableSkills, selectedSkill, resourceKey, resourceControlsForSlot, skillResourceReady, resolvedSkill,
-      stateKey, stateChoiceKey, isIntroSkill, introEntryReady, stateControlsHTML,
+      stateKey, stateChoiceKey, isIntroSkill, introEntryReady, introEntryRelevantForSlot, stateControlsHTML,
       buffStackCount, buffStatus, setBuffToggle, scaleByInfo, buffValue, compute,
     };
   }

@@ -4,7 +4,7 @@ window.WUWA_RENDER_HELPERS = (() => {
   const { num, skillLevelRatio, skillMultValue } = window.WUWA_RULES;
   const L = window.WUWA_LANGUAGES;
 
-  const fmt = (n) => Math.round(n).toLocaleString("en-US");
+  const fmt = (n) => Math.floor(num(n)).toLocaleString("en-US");
   const fx = (n) => n.toFixed(3);
   const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (m) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[m]));
   const tnum = (v) => String(Math.round(v * 100) / 100);
