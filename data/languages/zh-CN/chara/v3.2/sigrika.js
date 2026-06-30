@@ -1,3 +1,5 @@
+"use strict";
+
 window.WUWA_LANGUAGES.extend("zh-CN", {
   "data": {
     "chars": {
@@ -52,7 +54,8 @@ window.WUWA_LANGUAGES.extend("zh-CN", {
             "name": "大嘭嘭！"
           },
           {
-            "name": "日灵帮帮忙"
+            "name": "日灵帮帮忙",
+            "requiresResourceLabel": "句点不少于50"
           },
           {
             "name": "如那期望般！"
@@ -61,19 +64,24 @@ window.WUWA_LANGUAGES.extend("zh-CN", {
             "name": "昭日的语源"
           },
           {
-            "name": "重击·符语本源"
+            "name": "重击·符语本源",
+            "requiresResourceLabel": "2枚符文"
           },
           {
-            "name": "符语爆破"
+            "name": "符语爆破",
+            "requiresResourceLabel": "符文·期望+符文·答问"
           },
           {
-            "name": "符语链刃"
+            "name": "符语链刃",
+            "requiresResourceLabel": "2枚符文·期望"
           },
           {
-            "name": "符语日灵"
+            "name": "符语日灵",
+            "requiresResourceLabel": "2枚符文·答问"
           },
           {
-            "name": "共鸣回路·我即语义"
+            "name": "共鸣回路·我即语义",
+            "requiresResourceLabel": "100点句点"
           }
         ],
         "combatStates": [
@@ -83,9 +91,11 @@ window.WUWA_LANGUAGES.extend("zh-CN", {
             "entry": "施放普攻第4段后进入解读状态，持续5秒；切换至其他角色时提前结束。",
             "options": [
               {
-                "label": "解读"
+                "label": "解读",
+                "valueLabel": "解读"
               }
-            ]
+            ],
+            "idLabel": "解读"
           }
         ],
         "buffs": [
@@ -129,14 +139,16 @@ window.WUWA_LANGUAGES.extend("zh-CN", {
             "label": "符语倍率提升",
             "trigger": "消耗30点日灵能量时",
             "excerpt": "消耗30点日灵能量时，本次符语倍率提升50%",
-            "desc": "消耗符文时，若日灵能量不少于30点，消耗30点日灵能量，本次符语爆破、符语链刃和符语日灵伤害倍率提升50%，并为自身叠加一层「天赋？」。"
+            "desc": "消耗符文时，若日灵能量不少于30点，消耗30点日灵能量，本次符语爆破、符语链刃和符语日灵伤害倍率提升50%，并为自身叠加一层「天赋？」。",
+            "requiresResourceLabel": "日灵能量不少于30点"
           },
           {
             "source": "共鸣回路·在那浩瀚中",
             "label": "符语伤害加深",
             "trigger": "日灵能量少于30点时",
             "excerpt": "日灵能量少于30点时，每消耗10点本次符语伤害加深15%",
-            "desc": "消耗符文时，若日灵能量少于30点，消耗全部日灵能量，每消耗10点日灵能量，使得本次符语爆破、符语链刃和符语日灵造成的伤害加深15%。"
+            "desc": "消耗符文时，若日灵能量少于30点，消耗全部日灵能量，每消耗10点日灵能量，使得本次符语爆破、符语链刃和符语日灵造成的伤害加深15%。",
+            "requiresResourceLabel": "日灵能量少于30点"
           },
           {
             "source": "共鸣回路·在那浩瀚中",

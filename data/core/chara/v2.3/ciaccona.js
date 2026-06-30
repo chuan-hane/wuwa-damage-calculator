@@ -133,7 +133,7 @@ WUWA.register({
       "multiplier": 122.4,
       "formula": "6.12% × 20",
       "impliedStates": [
-        "演绎状态"
+        "state_1_option_1"
       ],
       "triggerEvents": [
         "applyAeroErosion"
@@ -146,7 +146,7 @@ WUWA.register({
       "multiplier": 122.4,
       "formula": "6.12% × 20",
       "impliedStates": [
-        "演绎状态"
+        "state_1_option_1"
       ],
       "triggerEvents": [
         "applySpectroFrazzle"
@@ -168,7 +168,7 @@ WUWA.register({
       "damageType": "heavy",
       "multiplier": 628.13,
       "formula": "31.41% × 10 + 314.03%",
-      "requiresResource": "3格音律",
+      "requiresResource": "resource_gate_1",
       "requiresResourceAtLeast": {
         "id": "rhythm",
         "value": 3
@@ -186,7 +186,7 @@ WUWA.register({
       "formula": "220%",
       "seq": 6,
       "impliedStates": [
-        "音律独奏"
+        "status_1_option_1"
       ]
     }
   ],
@@ -201,19 +201,19 @@ WUWA.register({
   "echoSet": 14,
   "combatStates": [
     {
-      "id": "音律独奏",
+      "id": "status_1",
       "kind": "status",
       "options": [
         {
-          "value": "音律独奏"
+          "value": "status_1_option_1"
         }
       ]
     },
     {
-      "id": "演绎状态",
+      "id": "state_1",
       "options": [
         {
-          "value": "演绎状态"
+          "value": "state_1_option_1"
         }
       ]
     }
@@ -225,7 +225,7 @@ WUWA.register({
       "element": "aero",
       "value": 24,
       "scope": "team",
-      "requiresState": "音律独奏"
+      "requiresState": "status_1_option_1"
     },
     {
       "id": "b_downbeat_amp",
@@ -271,7 +271,7 @@ WUWA.register({
           "element": "aero",
           "value": 40,
           "scope": "team",
-          "requiresState": "演绎状态"
+          "requiresState": "state_1_option_1"
         }
       ]
     },

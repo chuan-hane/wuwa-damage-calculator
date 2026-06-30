@@ -69,7 +69,7 @@ WUWA.register({
       "multiplier": 55.68,
       "formula": "13.92% × 4",
       "impliedStates": [
-        "广域观测模式"
+        "mode_1_option_1"
       ]
     },
     {
@@ -79,7 +79,7 @@ WUWA.register({
       "multiplier": 103.4,
       "formula": "25.85% × 4",
       "impliedStates": [
-        "广域观测模式"
+        "mode_1_option_1"
       ]
     },
     {
@@ -89,7 +89,7 @@ WUWA.register({
       "multiplier": 103.42,
       "formula": "9.31% × 4 + 33.09% × 2",
       "impliedStates": [
-        "广域观测模式"
+        "mode_1_option_1"
       ]
     },
     {
@@ -120,7 +120,7 @@ WUWA.register({
       "multiplier": 103.4,
       "formula": "25.85% × 4",
       "impliedStates": [
-        "广域观测模式"
+        "mode_1_option_1"
       ]
     },
     {
@@ -137,7 +137,7 @@ WUWA.register({
       "multiplier": 159.08,
       "formula": "39.77% × 4",
       "impliedStates": [
-        "广域观测模式"
+        "mode_1_option_1"
       ],
       "triggerEvents": [
         "heal"
@@ -171,7 +171,7 @@ WUWA.register({
       "multiplier": 198.85,
       "formula": "39.77% × 5",
       "impliedStates": [
-        "谐振场"
+        "field_1_option_1"
       ],
       "triggerEvents": [
         "heal"
@@ -183,7 +183,7 @@ WUWA.register({
       "damageType": "heavy",
       "multiplier": 143.16,
       "formula": "44.14% + 99.02%",
-      "requiresResource": "静质量能满",
+      "requiresResource": "resource_gate_1",
       "requiresResourceFull": "staticMassEnergy",
       "fallbackSkillId": "heavy"
     },
@@ -193,10 +193,10 @@ WUWA.register({
       "damageType": "heavy",
       "multiplier": 258.46,
       "formula": "258.46%",
-      "requiresResource": "相对动能满",
+      "requiresResource": "resource_gate_2",
       "requiresResourceFull": "relativeKineticEnergy",
       "impliedStates": [
-        "广域观测模式"
+        "mode_1_option_1"
       ],
       "triggerEvents": [
         "applyObservationMark"
@@ -211,7 +211,7 @@ WUWA.register({
       ],
       "multiplier": 298.22,
       "formula": "298.22%",
-      "requiresState": "谐度干涉·震谐"
+      "requiresState": "target_2_option_1"
     }
   ],
   "defaultSkillId": "lib",
@@ -226,44 +226,45 @@ WUWA.register({
   "echoLead": "7:fallacy_of_no_return",
   "combatStates": [
     {
-      "id": "广域观测模式",
+      "id": "mode_1",
       "kind": "mode",
       "options": [
         {
-          "value": "广域观测模式"
+          "value": "mode_1_option_1"
         }
       ]
     },
     {
-      "id": "谐振场",
+      "id": "field_1",
       "kind": "field",
       "options": [
         {
-          "value": "谐振场"
+          "value": "field_1_option_1"
         },
         {
-          "value": "谐振场·强谐振场"
+          "value": "field_1_option_2"
         }
       ]
     },
     {
-      "id": "干涉标记",
+      "id": "target_1",
       "kind": "target",
       "options": [
         {
-          "value": "干涉标记"
+          "value": "target_1_option_1"
         }
       ]
     },
     {
-      "id": "谐度干涉",
+      "id": "target_2",
       "kind": "target",
       "options": [
         {
-          "value": "谐度干涉·震谐"
+          "value": "target_2_option_1"
         },
         {
-          "value": "谐度干涉·集谐"
+          "value": "target_2_option_2",
+          "formulaKind": "coherenceInterference"
         }
       ]
     }
@@ -314,14 +315,14 @@ WUWA.register({
       "zone": "discordEff",
       "value": 50,
       "scope": "team",
-      "requiresState": "谐振场"
+      "requiresState": "field_1_option_1"
     },
     {
       "id": "b_strong_def",
       "zone": "defensePercent",
       "value": 20,
       "scope": "team",
-      "requiresState": "谐振场·强谐振场"
+      "requiresState": "field_1_option_2"
     },
     {
       "id": "b_interference_amp_base",
@@ -330,11 +331,11 @@ WUWA.register({
       "scope": "team",
       "maxSeq": 0,
       "requiresState": [
-        "谐度干涉·震谐",
-        "谐度干涉·集谐"
+        "target_2_option_1",
+        "target_2_option_2"
       ],
       "requiresAllStates": [
-        "干涉标记"
+        "target_1_option_1"
       ],
       "scaleBy": {
         "stat": "energyRegen",
@@ -349,11 +350,11 @@ WUWA.register({
       "id": "b_tune_response",
       "zone": "finalDmg",
       "scope": "self",
-      "requiresState": "谐度干涉·集谐",
+      "requiresState": "target_2_option_2",
       "maxStacks": 3,
       "defaultStacks": 0,
       "defaultActive": false,
-      "stackGroup": "谐度干涉·集谐",
+      "stackGroup": "stack_group_1",
       "scaleBy": {
         "stat": "breakAmp",
         "rate": 0.36
@@ -376,7 +377,7 @@ WUWA.register({
           "zone": "amplify",
           "value": 0,
           "scope": "team",
-          "requiresState": "干涉标记",
+          "requiresState": "target_1_option_1",
           "scaleBy": {
             "stat": "energyRegen",
             "statBonus": -100,
@@ -396,7 +397,7 @@ WUWA.register({
           "zone": "critDamage",
           "value": 0,
           "scope": "team",
-          "requiresState": "干涉标记",
+          "requiresState": "target_1_option_1",
           "scaleBy": {
             "stat": "energyRegen",
             "statBonus": -100,
@@ -411,7 +412,7 @@ WUWA.register({
           "zone": "discordEff",
           "value": 20,
           "scope": "team",
-          "requiresState": "谐振场"
+          "requiresState": "field_1_option_1"
         }
       ]
     },

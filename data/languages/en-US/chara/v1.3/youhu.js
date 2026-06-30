@@ -1,3 +1,5 @@
+"use strict";
+
 window.WUWA_LANGUAGES.extend("en-US", {
   "data": {
     "chars": {
@@ -25,7 +27,8 @@ window.WUWA_LANGUAGES.extend("en-US", {
             "name": "Frosty Punches - Stage 4 DMG"
           },
           {
-            "name": "Frosty Punches - Heavy Attack: Frostfall DMG"
+            "name": "Frosty Punches - Heavy Attack: Frostfall DMG",
+            "requiresResourceLabel": "霜色满"
           },
           {
             "name": "Frosty Punches - Mid-air Attack DMG"
@@ -55,7 +58,8 @@ window.WUWA_LANGUAGES.extend("en-US", {
             "name": "Scroll of Wonders - Skill DMG"
           },
           {
-            "name": "Poetic Essence - Poetic Essence Skill DMG"
+            "name": "Poetic Essence - Poetic Essence Skill DMG",
+            "requiresResourceLabel": "4吉兆"
           }
         ],
         "combatStates": [
@@ -65,18 +69,23 @@ window.WUWA_LANGUAGES.extend("en-US", {
             "entry": "诗中物根据四个吉兆的组合获得额外效果。",
             "options": [
               {
-                "label": "对偶"
+                "label": "对偶",
+                "valueLabel": "吉兆组合·对偶"
               },
               {
-                "label": "双关"
+                "label": "双关",
+                "valueLabel": "吉兆组合·双关"
               },
               {
-                "label": "联珠"
+                "label": "联珠",
+                "valueLabel": "吉兆组合·联珠"
               },
               {
-                "label": "合说"
+                "label": "合说",
+                "valueLabel": "吉兆组合·合说"
               }
-            ]
+            ],
+            "idLabel": "吉兆组合"
           }
         ],
         "buffs": [

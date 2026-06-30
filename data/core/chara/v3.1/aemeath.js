@@ -9,7 +9,7 @@ WUWA.register({
     "fusion"
   ],
   "effectTypeRequiresState": {
-    "fusion": "共鸣模态·聚爆"
+    "fusion": "mode_1_option_2"
   },
   "signatureWeaponId": "everbright_polestar",
   "portrait": "",
@@ -49,7 +49,7 @@ WUWA.register({
       "multiplier": 46.35,
       "formula": "46.35%",
       "impliedStates": [
-        "爱弥斯"
+        "form_1_option_1"
       ]
     },
     {
@@ -59,7 +59,7 @@ WUWA.register({
       "multiplier": 69.46,
       "formula": "13.89% + 20.84% + 34.73%",
       "impliedStates": [
-        "爱弥斯"
+        "form_1_option_1"
       ]
     },
     {
@@ -69,7 +69,7 @@ WUWA.register({
       "multiplier": 93.15,
       "formula": "9.32% × 3 + 18.63% + 46.56%",
       "impliedStates": [
-        "爱弥斯"
+        "form_1_option_1"
       ]
     },
     {
@@ -79,7 +79,7 @@ WUWA.register({
       "multiplier": 134.59,
       "formula": "6.73% × 5 + 100.94%",
       "impliedStates": [
-        "爱弥斯"
+        "form_1_option_1"
       ]
     },
     {
@@ -89,7 +89,7 @@ WUWA.register({
       "multiplier": 92.83,
       "formula": "18.57% + 74.26%",
       "impliedStates": [
-        "爱弥斯"
+        "form_1_option_1"
       ]
     },
     {
@@ -99,7 +99,7 @@ WUWA.register({
       "multiplier": 232,
       "formula": "11.60% × 4 + 185.60%",
       "impliedStates": [
-        "爱弥斯"
+        "form_1_option_1"
       ]
     },
     {
@@ -109,7 +109,7 @@ WUWA.register({
       "multiplier": 86.29,
       "formula": "86.29%",
       "impliedStates": [
-        "爱弥斯"
+        "form_1_option_1"
       ]
     },
     {
@@ -119,7 +119,7 @@ WUWA.register({
       "multiplier": 260.15,
       "formula": "26.02% × 3 + 52.03% + 130.06%",
       "impliedStates": [
-        "爱弥斯"
+        "form_1_option_1"
       ]
     },
     {
@@ -129,7 +129,7 @@ WUWA.register({
       "multiplier": 134.59,
       "formula": "26.92% + 40.38% + 67.29%",
       "impliedStates": [
-        "爱弥斯"
+        "form_1_option_1"
       ]
     },
     {
@@ -139,7 +139,7 @@ WUWA.register({
       "multiplier": 163.27,
       "formula": "16.33% × 3 + 114.28%",
       "impliedStates": [
-        "机兵"
+        "form_1_option_2"
       ]
     },
     {
@@ -149,7 +149,7 @@ WUWA.register({
       "multiplier": 69.6,
       "formula": "23.20% × 3",
       "impliedStates": [
-        "机兵"
+        "form_1_option_2"
       ]
     },
     {
@@ -159,7 +159,7 @@ WUWA.register({
       "multiplier": 92.83,
       "formula": "18.57% + 74.26%",
       "impliedStates": [
-        "机兵"
+        "form_1_option_2"
       ]
     },
     {
@@ -169,7 +169,7 @@ WUWA.register({
       "multiplier": 116.53,
       "formula": "3.89% × 6 + 81.54% + 11.65%",
       "impliedStates": [
-        "机兵"
+        "form_1_option_2"
       ]
     },
     {
@@ -179,7 +179,7 @@ WUWA.register({
       "multiplier": 134.59,
       "formula": "40.38% + 94.21%",
       "impliedStates": [
-        "机兵"
+        "form_1_option_2"
       ]
     },
     {
@@ -189,7 +189,7 @@ WUWA.register({
       "multiplier": 92.83,
       "formula": "92.83%",
       "impliedStates": [
-        "机兵"
+        "form_1_option_2"
       ]
     },
     {
@@ -199,7 +199,7 @@ WUWA.register({
       "multiplier": 232,
       "formula": "232.00%",
       "impliedStates": [
-        "机兵"
+        "form_1_option_2"
       ]
     },
     {
@@ -209,7 +209,7 @@ WUWA.register({
       "multiplier": 86.31,
       "formula": "73.35% + 4.32% × 3",
       "impliedStates": [
-        "机兵"
+        "form_1_option_2"
       ]
     },
     {
@@ -219,7 +219,7 @@ WUWA.register({
       "multiplier": 283.49,
       "formula": "9.45% × 6 + 198.44% + 28.35%",
       "impliedStates": [
-        "机兵"
+        "form_1_option_2"
       ]
     },
     {
@@ -238,7 +238,7 @@ WUWA.register({
       "damageType": "resonanceLiberation",
       "multiplier": 1789.29,
       "formula": "1789.29%",
-      "requiresResource": "同步率与共鸣率满",
+      "requiresResource": "resource_gate_1",
       "requiresAllResourcesAtLeast": [
         {
           "id": "syncRate",
@@ -249,7 +249,7 @@ WUWA.register({
           "value": 100
         }
       ],
-      "requiresState": "星辉破界而来·于此释放",
+      "requiresState": "status_3_option_1",
       "triggerEvents": [
         "castResonanceLiberation"
       ]
@@ -261,7 +261,7 @@ WUWA.register({
       "multiplier": 134.58,
       "formula": "13.46% × 2 + 107.66%",
       "impliedStates": [
-        "爱弥斯"
+        "form_1_option_1"
       ],
       "triggerEvents": [
         "introEntry"
@@ -274,7 +274,7 @@ WUWA.register({
       "multiplier": 163.25,
       "formula": "65.30% + 97.95%",
       "impliedStates": [
-        "机兵"
+        "form_1_option_2"
       ],
       "triggerEvents": [
         "introEntry"
@@ -286,14 +286,14 @@ WUWA.register({
       "damageType": "resonanceLiberation",
       "multiplier": 357.9,
       "formula": "17.90% × 4 + 35.79% × 3 + 178.93%",
-      "requiresResource": "100同步率",
+      "requiresResource": "resource_gate_2",
       "requiresResourceAtLeast": {
         "id": "syncRate",
         "value": 100
       },
-      "requiresState": "光翼共奏之时状态",
+      "requiresState": "status_1_option_1",
       "impliedStates": [
-        "机兵"
+        "form_1_option_2"
       ]
     },
     {
@@ -302,14 +302,14 @@ WUWA.register({
       "damageType": "resonanceLiberation",
       "multiplier": 357.95,
       "formula": "17.90% + 14.92% × 6 + 23.86% × 3 + 59.65% × 3",
-      "requiresResource": "100同步率",
+      "requiresResource": "resource_gate_2",
       "requiresResourceAtLeast": {
         "id": "syncRate",
         "value": 100
       },
-      "requiresState": "光翼共奏之时状态",
+      "requiresState": "status_1_option_1",
       "impliedStates": [
-        "爱弥斯"
+        "form_1_option_1"
       ]
     },
     {
@@ -321,9 +321,9 @@ WUWA.register({
       ],
       "multiplier": 596.43,
       "formula": "596.43%",
-      "requiresState": "目标震谐·干涉",
+      "requiresState": "target_1_option_2",
       "requiresAllStates": [
-        "共鸣模态·震谐"
+        "mode_1_option_1"
       ]
     },
     {
@@ -336,8 +336,8 @@ WUWA.register({
       "multiplier": 109.35,
       "formula": "109.35%",
       "requiresAllStates": [
-        "共鸣模态·震谐",
-        "目标震谐轨迹"
+        "mode_1_option_1",
+        "target_2_option_1"
       ]
     }
   ],
@@ -353,102 +353,102 @@ WUWA.register({
   "echoLead": "27:sigillum",
   "combatStates": [
     {
-      "id": "形态",
+      "id": "form_1",
       "kind": "form",
       "required": true,
-      "defaultValue": "爱弥斯",
+      "defaultValue": "form_1_option_1",
       "options": [
         {
-          "value": "爱弥斯"
+          "value": "form_1_option_1"
         },
         {
-          "value": "机兵"
+          "value": "form_1_option_2"
         }
       ]
     },
     {
-      "id": "共鸣模态",
+      "id": "mode_1",
       "kind": "mode",
       "required": true,
-      "defaultValue": "共鸣模态·震谐",
+      "defaultValue": "mode_1_option_1",
       "options": [
         {
-          "value": "共鸣模态·震谐"
+          "value": "mode_1_option_1"
         },
         {
-          "value": "共鸣模态·聚爆"
+          "value": "mode_1_option_2"
         }
       ]
     },
     {
-      "id": "光翼共奏之时",
+      "id": "status_1",
       "kind": "status",
       "options": [
         {
-          "value": "光翼共奏之时状态"
+          "value": "status_1_option_1"
         }
       ]
     },
     {
-      "id": "星屑共振",
+      "id": "status_2",
       "kind": "status",
       "options": [
         {
-          "value": "星屑共振状态"
+          "value": "status_2_option_1"
         }
       ]
     },
     {
-      "id": "星辉破界而来·于此释放",
+      "id": "status_3",
       "kind": "status",
       "options": [
         {
-          "value": "星辉破界而来·于此释放"
+          "value": "status_3_option_1"
         }
       ]
     },
     {
-      "id": "即刻响应",
+      "id": "status_4",
       "kind": "status",
       "options": [
         {
-          "value": "即刻响应状态"
+          "value": "status_4_option_1"
         },
         {
-          "value": "即刻响应·辉芒状态"
+          "value": "status_4_option_2"
         }
       ]
     },
     {
-      "id": "目标震谐状态",
+      "id": "target_1",
       "kind": "target",
-      "requiresState": "共鸣模态·震谐",
+      "requiresState": "mode_1_option_1",
       "options": [
         {
-          "value": "目标震谐·偏移"
+          "value": "target_1_option_1"
         },
         {
-          "value": "目标震谐·干涉"
+          "value": "target_1_option_2"
         }
       ]
     },
     {
-      "id": "目标震谐轨迹",
+      "id": "target_2",
       "kind": "target",
-      "requiresState": "共鸣模态·震谐",
+      "requiresState": "mode_1_option_1",
       "options": [
         {
-          "value": "目标震谐轨迹"
+          "value": "target_2_option_1"
         }
       ]
     },
     {
-      "id": "目标聚爆轨迹",
+      "id": "target_3",
       "kind": "target",
-      "requiresState": "共鸣模态·聚爆",
+      "requiresState": "mode_1_option_2",
       "options": [
         {
-          "value": "目标聚爆轨迹"
+          "value": "target_3_option_1"
         }
       ]
     }
@@ -466,8 +466,8 @@ WUWA.register({
         "mech_heavy2"
       ],
       "requiresState": [
-        "即刻响应状态",
-        "即刻响应·辉芒状态"
+        "status_4_option_1",
+        "status_4_option_2"
       ]
     },
     {
@@ -479,8 +479,8 @@ WUWA.register({
       "maxStacks": 3,
       "defaultStacks": 0,
       "defaultActive": false,
-      "stackGroup": "星与星之间·震谐",
-      "requiresState": "共鸣模态·震谐"
+      "stackGroup": "stack_group_1",
+      "requiresState": "mode_1_option_1"
     },
     {
       "id": "b_between_tune_final",
@@ -491,7 +491,7 @@ WUWA.register({
       "skills": [
         "lib_finale"
       ],
-      "requiresState": "共鸣模态·震谐",
+      "requiresState": "mode_1_option_1",
       "requiresBuffStacks": {
         "id": "b_between_tune_cd",
         "stacks": 3
@@ -506,8 +506,8 @@ WUWA.register({
       "maxStacks": 2,
       "defaultStacks": 0,
       "defaultActive": false,
-      "stackGroup": "星与星之间·聚爆",
-      "requiresState": "共鸣模态·聚爆"
+      "stackGroup": "stack_group_2",
+      "requiresState": "mode_1_option_2"
     },
     {
       "id": "b_between_fusion_final",
@@ -518,7 +518,7 @@ WUWA.register({
       "skills": [
         "lib_finale"
       ],
-      "requiresState": "共鸣模态·聚爆",
+      "requiresState": "mode_1_option_2",
       "requiresBuffStacks": {
         "id": "b_between_fusion_cd",
         "stacks": 2
@@ -541,10 +541,10 @@ WUWA.register({
       ],
       "defaultStacks": 0,
       "defaultActive": false,
-      "stackGroup": "震谐轨迹",
+      "stackGroup": "stack_group_3",
       "requiresAllStates": [
-        "共鸣模态·震谐",
-        "目标震谐轨迹"
+        "mode_1_option_1",
+        "target_2_option_1"
       ]
     },
     {
@@ -562,10 +562,10 @@ WUWA.register({
       ],
       "defaultStacks": 0,
       "defaultActive": false,
-      "stackGroup": "聚爆轨迹",
+      "stackGroup": "stack_group_4",
       "requiresAllStates": [
-        "共鸣模态·聚爆",
-        "目标聚爆轨迹"
+        "mode_1_option_2",
+        "target_3_option_1"
       ]
     },
     {
@@ -575,8 +575,8 @@ WUWA.register({
       "value": 200,
       "scope": "self",
       "requiresAllStates": [
-        "共鸣模态·聚爆",
-        "星屑共振状态"
+        "mode_1_option_2",
+        "status_2_option_1"
       ]
     },
     {
@@ -584,7 +584,7 @@ WUWA.register({
       "zone": "amplify",
       "value": 10,
       "scope": "team",
-      "requiresState": "共鸣模态·震谐",
+      "requiresState": "mode_1_option_1",
       "duration": 20
     },
     {
@@ -593,7 +593,7 @@ WUWA.register({
       "value": 10,
       "scope": "team",
       "defaultActive": false,
-      "requiresState": "共鸣模态·震谐",
+      "requiresState": "mode_1_option_1",
       "duration": 20
     },
     {
@@ -601,7 +601,7 @@ WUWA.register({
       "zone": "amplify",
       "value": 10,
       "scope": "team",
-      "requiresState": "共鸣模态·聚爆",
+      "requiresState": "mode_1_option_2",
       "duration": 20
     },
     {
@@ -610,7 +610,7 @@ WUWA.register({
       "value": 10,
       "scope": "team",
       "defaultActive": false,
-      "requiresState": "共鸣模态·聚爆",
+      "requiresState": "mode_1_option_2",
       "duration": 20
     }
   ],
@@ -630,8 +630,8 @@ WUWA.register({
             "mech_heavy2"
           ],
           "requiresState": [
-            "即刻响应状态",
-            "即刻响应·辉芒状态"
+            "status_4_option_1",
+            "status_4_option_2"
           ]
         }
       ]
@@ -660,10 +660,10 @@ WUWA.register({
           "maxStacks": 5,
           "defaultStacks": 0,
           "defaultActive": false,
-          "stackGroup": "光翼共奏追加震谐命中",
+          "stackGroup": "stack_group_5",
           "requiresAllStates": [
-            "共鸣模态·震谐",
-            "目标震谐轨迹"
+            "mode_1_option_1",
+            "target_2_option_1"
           ]
         },
         {
@@ -673,8 +673,8 @@ WUWA.register({
           "value": 200,
           "scope": "self",
           "requiresAllStates": [
-            "共鸣模态·聚爆",
-            "星屑共振状态"
+            "mode_1_option_2",
+            "status_2_option_1"
           ]
         },
         {
@@ -692,10 +692,10 @@ WUWA.register({
           ],
           "defaultStacks": 0,
           "defaultActive": false,
-          "stackGroup": "聚爆轨迹",
+          "stackGroup": "stack_group_4",
           "requiresAllStates": [
-            "共鸣模态·聚爆",
-            "目标聚爆轨迹"
+            "mode_1_option_2",
+            "target_3_option_1"
           ]
         }
       ]
@@ -729,8 +729,8 @@ WUWA.register({
           "maxStacks": 1,
           "defaultStacks": 0,
           "defaultActive": false,
-          "stackGroup": "星与星之间·三链·震谐",
-          "requiresState": "共鸣模态·震谐"
+          "stackGroup": "stack_group_6",
+          "requiresState": "mode_1_option_1"
         },
         {
           "id": "k3_between_tune_final",
@@ -740,7 +740,7 @@ WUWA.register({
           "skills": [
             "lib_finale"
           ],
-          "requiresState": "共鸣模态·震谐",
+          "requiresState": "mode_1_option_1",
           "requiresBuffStacks": {
             "id": "k3_between_tune_cd",
             "stacks": 1
@@ -754,8 +754,8 @@ WUWA.register({
           "maxStacks": 1,
           "defaultStacks": 0,
           "defaultActive": false,
-          "stackGroup": "星与星之间·三链·聚爆",
-          "requiresState": "共鸣模态·聚爆"
+          "stackGroup": "stack_group_7",
+          "requiresState": "mode_1_option_2"
         },
         {
           "id": "k3_between_fusion_final",
@@ -765,7 +765,7 @@ WUWA.register({
           "skills": [
             "lib_finale"
           ],
-          "requiresState": "共鸣模态·聚爆",
+          "requiresState": "mode_1_option_2",
           "requiresBuffStacks": {
             "id": "k3_between_fusion_cd",
             "stacks": 1

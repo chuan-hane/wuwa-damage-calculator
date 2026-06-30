@@ -1,3 +1,5 @@
+"use strict";
+
 window.WUWA_LANGUAGES.extend("en-US", {
   "data": {
     "chars": {
@@ -58,7 +60,8 @@ window.WUWA_LANGUAGES.extend("en-US", {
             "name": "Obedience of Rules - Skill DMG"
           },
           {
-            "name": "Flaming Sacrifice - Flaming Sacrifice DMG"
+            "name": "Flaming Sacrifice - Flaming Sacrifice DMG",
+            "requiresResourceLabel": "4层【离火】"
           }
         ],
         "combatStates": [
@@ -68,9 +71,11 @@ window.WUWA_LANGUAGES.extend("en-US", {
             "entry": "地面/空中普攻第4段、共鸣技能心眼·劫、变奏技能天道持枢可进入心眼状态，持续12秒。",
             "options": [
               {
-                "label": "心眼"
+                "label": "心眼",
+                "valueLabel": "心眼状态"
               }
-            ]
+            ],
+            "idLabel": "心眼状态"
           },
           {
             "label": "焰羽状态",
@@ -78,9 +83,11 @@ window.WUWA_LANGUAGES.extend("en-US", {
             "entry": "施放共鸣解放离火照丹心后进入焰羽状态，持续10秒。",
             "options": [
               {
-                "label": "焰羽"
+                "label": "焰羽",
+                "valueLabel": "焰羽状态"
               }
-            ]
+            ],
+            "idLabel": "焰羽状态"
           }
         ],
         "buffs": [

@@ -119,7 +119,7 @@ WUWA.register({
       "multiplier": 357.88,
       "formula": "89.47% × 4",
       "impliedStates": [
-        "磁殛状态"
+        "state_1_option_1"
       ]
     },
     {
@@ -132,8 +132,8 @@ WUWA.register({
       "multiplier": 19.89,
       "formula": "19.89%",
       "impliedStates": [
-        "磁殛状态",
-        "目标印记·缚罪标记"
+        "state_1_option_1",
+        "target_1_option_1"
       ]
     },
     {
@@ -159,7 +159,7 @@ WUWA.register({
       "damageType": "heavy",
       "multiplier": 357.86,
       "formula": "178.93% × 2",
-      "requiresResource": "100审判值",
+      "requiresResource": "resource_gate_1",
       "requiresResourceAtLeast": {
         "id": "judgment",
         "value": 100
@@ -176,7 +176,7 @@ WUWA.register({
       "multiplier": 78.64,
       "formula": "78.64%",
       "impliedStates": [
-        "目标印记·惩罚印记"
+        "target_1_option_2"
       ]
     }
   ],
@@ -192,22 +192,22 @@ WUWA.register({
   "echoLead": "3:tempest_mephis",
   "combatStates": [
     {
-      "id": "磁殛状态",
+      "id": "state_1",
       "options": [
         {
-          "value": "磁殛状态"
+          "value": "state_1_option_1"
         }
       ]
     },
     {
-      "id": "目标印记",
+      "id": "target_1",
       "kind": "target",
       "options": [
         {
-          "value": "目标印记·缚罪标记"
+          "value": "target_1_option_1"
         },
         {
-          "value": "目标印记·惩罚印记"
+          "value": "target_1_option_2"
         }
       ]
     }
@@ -229,7 +229,7 @@ WUWA.register({
       "skills": [
         "skill_lightning_execution"
       ],
-      "requiresState": "目标印记·缚罪标记"
+      "requiresState": "target_1_option_1"
     },
     {
       "id": "b3",
@@ -315,8 +315,8 @@ WUWA.register({
             "lib"
           ],
           "requiresState": [
-            "目标印记·缚罪标记",
-            "目标印记·惩罚印记"
+            "target_1_option_1",
+            "target_1_option_2"
           ]
         }
       ]

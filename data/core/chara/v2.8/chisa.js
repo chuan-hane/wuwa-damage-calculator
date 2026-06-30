@@ -12,7 +12,7 @@ WUWA.register({
   "portrait": "",
   "resources": [
     {
-      "id": "锯环残响",
+      "id": "resource_1",
       "min": 0,
       "max": 100,
       "defaultValue": "max"
@@ -139,8 +139,8 @@ WUWA.register({
       "damageType": "resonanceSkill",
       "multiplier": 139.6,
       "formula": "17.45% × 8",
-      "requiresResource": "锯环残响充满",
-      "requiresResourceFull": "锯环残响",
+      "requiresResource": "resource_gate_1",
+      "requiresResourceFull": "resource_1",
       "fallbackSkillId": "skill_eye"
     },
     {
@@ -149,8 +149,8 @@ WUWA.register({
       "damageType": "resonanceSkill",
       "multiplier": 119.36,
       "formula": "7.46% × 16",
-      "requiresResource": "锯环残响充满",
-      "requiresResourceFull": "锯环残响",
+      "requiresResource": "resource_gate_1",
+      "requiresResourceFull": "resource_1",
       "fallbackSkillId": "skill_eye"
     },
     {
@@ -180,7 +180,7 @@ WUWA.register({
       "multiplier": 68.94,
       "formula": "11.49% × 6",
       "impliedStates": [
-        "电锯模式"
+        "mode_1_option_1"
       ]
     },
     {
@@ -190,7 +190,7 @@ WUWA.register({
       "multiplier": 85.12,
       "formula": "10.64% × 8",
       "impliedStates": [
-        "电锯模式"
+        "mode_1_option_1"
       ]
     },
     {
@@ -200,7 +200,7 @@ WUWA.register({
       "multiplier": 106.4,
       "formula": "10.64% × 10",
       "impliedStates": [
-        "电锯模式"
+        "mode_1_option_1"
       ]
     },
     {
@@ -210,7 +210,7 @@ WUWA.register({
       "multiplier": 10.74,
       "formula": "3.58% × 3",
       "impliedStates": [
-        "电锯模式"
+        "mode_1_option_1"
       ]
     },
     {
@@ -220,7 +220,7 @@ WUWA.register({
       "multiplier": 127.84,
       "formula": "15.98% × 8",
       "impliedStates": [
-        "电锯模式"
+        "mode_1_option_1"
       ]
     },
     {
@@ -230,7 +230,7 @@ WUWA.register({
       "multiplier": 95.88,
       "formula": "15.98% × 6",
       "impliedStates": [
-        "电锯模式"
+        "mode_1_option_1"
       ]
     },
     {
@@ -240,7 +240,7 @@ WUWA.register({
       "multiplier": 10.74,
       "formula": "3.58% × 3",
       "impliedStates": [
-        "电锯模式"
+        "mode_1_option_1"
       ]
     },
     {
@@ -250,7 +250,7 @@ WUWA.register({
       "multiplier": 85.12,
       "formula": "10.64% × 8",
       "impliedStates": [
-        "电锯模式"
+        "mode_1_option_1"
       ]
     },
     {
@@ -260,7 +260,7 @@ WUWA.register({
       "multiplier": 106.4,
       "formula": "10.64% × 10",
       "impliedStates": [
-        "电锯模式"
+        "mode_1_option_1"
       ]
     },
     {
@@ -270,10 +270,10 @@ WUWA.register({
       "multiplier": 257.67,
       "formula": "51.54% + 206.13% + 2.59% × 锯环残响",
       "perStack": 2.59,
-      "stackResource": "锯环残响",
-      "stackLabel": "锯环残响",
+      "stackResource": "resource_1",
+      "stackLabel": "resource_1",
       "impliedStates": [
-        "电锯模式"
+        "mode_1_option_1"
       ],
       "triggerEvents": [
         "shield"
@@ -283,33 +283,33 @@ WUWA.register({
   "defaultSkillId": "sawring_end",
   "combatStates": [
     {
-      "id": "电锯模式",
+      "id": "mode_1",
       "kind": "mode",
       "required": true,
       "options": [
         {
-          "value": "电锯模式"
+          "value": "mode_1_option_1"
         }
       ]
     },
     {
-      "id": "万缕·汇终",
+      "id": "buff_1",
       "kind": "buff",
       "options": [
         {
-          "value": "万缕·汇终"
+          "value": "buff_1_option_1"
         }
       ]
     },
     {
-      "id": "虚无绞痕",
+      "id": "target_1",
       "kind": "target",
       "options": [
         {
-          "value": "虚无绞痕"
+          "value": "target_1_option_1"
         },
         {
-          "value": "虚无绞痕·终焉"
+          "value": "target_1_option_2"
         }
       ]
     }
@@ -335,7 +335,7 @@ WUWA.register({
       "zone": "skillMultBonus",
       "value": 120,
       "scope": "self",
-      "requiresState": "万缕·汇终",
+      "requiresState": "buff_1_option_1",
       "skills": [
         "sawring_1",
         "sawring_2",
@@ -467,14 +467,14 @@ WUWA.register({
           "effect": "all",
           "value": 30,
           "scope": "team",
-          "requiresState": "虚无绞痕·终焉"
+          "requiresState": "target_1_option_2"
         },
         {
           "id": "c6_chisa_amp",
           "zone": "vulnerability",
           "value": 40,
           "scope": "self",
-          "requiresState": "虚无绞痕·终焉"
+          "requiresState": "target_1_option_2"
         }
       ]
     }

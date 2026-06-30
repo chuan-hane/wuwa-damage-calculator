@@ -1,3 +1,5 @@
+"use strict";
+
 window.WUWA_LANGUAGES.extend("zh-CN", {
   "data": {
     "chars": {
@@ -40,16 +42,20 @@ window.WUWA_LANGUAGES.extend("zh-CN", {
             "name": "攻其必救"
           },
           {
-            "name": "答剑·质黑相青第一段"
+            "name": "答剑·质黑相青第一段",
+            "requiresResourceLabel": "200挑灯问剑"
           },
           {
-            "name": "答剑·质黑相青第二段"
+            "name": "答剑·质黑相青第二段",
+            "requiresResourceLabel": "200挑灯问剑"
           },
           {
-            "name": "答剑·质黑相青第三段"
+            "name": "答剑·质黑相青第三段",
+            "requiresResourceLabel": "200挑灯问剑"
           },
           {
-            "name": "答剑·质黑相青第四段"
+            "name": "答剑·质黑相青第四段",
+            "requiresResourceLabel": "200挑灯问剑"
           },
           {
             "name": "答剑·弦歌不辍"
@@ -61,10 +67,12 @@ window.WUWA_LANGUAGES.extend("zh-CN", {
             "name": "答剑·忠烈死节"
           },
           {
-            "name": "荷蓑出林"
+            "name": "荷蓑出林",
+            "requiresResourceLabel": "满协奏且未处于淋漓醉墨"
           },
           {
-            "name": "退出淋漓醉墨"
+            "name": "退出淋漓醉墨",
+            "requiresResourceLabel": "已退出淋漓醉墨且仍为登场角色"
           }
         ],
         "combatStates": [
@@ -74,9 +82,11 @@ window.WUWA_LANGUAGES.extend("zh-CN", {
             "entry": "【挑灯问剑】达到400点时获得【竹照】，持续30秒；施放变奏技能可获得400点【挑灯问剑】。",
             "options": [
               {
-                "label": "竹照"
+                "label": "竹照",
+                "valueLabel": "竹照"
               }
-            ]
+            ],
+            "idLabel": "竹照"
           },
           {
             "label": "淋漓醉墨状态",
@@ -84,9 +94,11 @@ window.WUWA_LANGUAGES.extend("zh-CN", {
             "entry": "【挑灯问剑】满600点时进入【淋漓醉墨】状态，持续8秒；【挑灯问剑】耗尽或切换角色时提前退出。",
             "options": [
               {
-                "label": "且从容"
+                "label": "且从容",
+                "valueLabel": "淋漓醉墨·且从容"
               }
-            ]
+            ],
+            "idLabel": "淋漓醉墨"
           }
         ],
         "buffs": [

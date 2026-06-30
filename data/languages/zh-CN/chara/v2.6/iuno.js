@@ -1,3 +1,5 @@
+"use strict";
+
 window.WUWA_LANGUAGES.extend("zh-CN", {
   "data": {
     "chars": {
@@ -61,19 +63,24 @@ window.WUWA_LANGUAGES.extend("zh-CN", {
             "name": "流变·月环"
           },
           {
-            "name": "月弓·普攻第一段强化"
+            "name": "月弓·普攻第一段强化",
+            "requiresResourceLabel": "灵性"
           },
           {
-            "name": "月弓·普攻第二段强化"
+            "name": "月弓·普攻第二段强化",
+            "requiresResourceLabel": "灵性"
           },
           {
-            "name": "月弓·普攻第三段强化"
+            "name": "月弓·普攻第三段强化",
+            "requiresResourceLabel": "灵性"
           },
           {
-            "name": "月弓·闪避反击强化"
+            "name": "月弓·闪避反击强化",
+            "requiresResourceLabel": "灵性"
           },
           {
-            "name": "越限的弦引强化"
+            "name": "越限的弦引强化",
+            "requiresResourceLabel": "灵性"
           },
           {
             "name": "至臻的完满"
@@ -86,12 +93,15 @@ window.WUWA_LANGUAGES.extend("zh-CN", {
             "entry": "由共鸣技能·告终的喧响或共鸣解放进入，初始为弦月；重击·流变在弦月/新月间切换。",
             "options": [
               {
-                "label": "弦月"
+                "label": "弦月",
+                "valueLabel": "月相流转·弦月"
               },
               {
-                "label": "新月"
+                "label": "新月",
+                "valueLabel": "月相流转·新月"
               }
-            ]
+            ],
+            "idLabel": "月相流转"
           },
           {
             "label": "满月领域",
@@ -99,9 +109,11 @@ window.WUWA_LANGUAGES.extend("zh-CN", {
             "entry": "尤诺施放变奏技能或共鸣解放可展开满月领域。",
             "options": [
               {
-                "label": "满月领域"
+                "label": "满月领域",
+                "valueLabel": "满月领域"
               }
-            ]
+            ],
+            "idLabel": "满月领域"
           }
         ],
         "buffs": [

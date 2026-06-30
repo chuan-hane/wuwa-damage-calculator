@@ -152,7 +152,7 @@ WUWA.register({
       "damageType": "heavy",
       "multiplier": 228.14,
       "formula": "228.14%",
-      "requiresResource": "暗流充满",
+      "requiresResource": "resource_gate_1",
       "requiresResourceFull": "umbra",
       "fallbackSkillId": "heavy"
     },
@@ -166,7 +166,7 @@ WUWA.register({
       "multiplier": 56.37,
       "formula": "56.37%",
       "impliedStates": [
-        "暗涌状态"
+        "state_1_option_1"
       ]
     },
     {
@@ -179,7 +179,7 @@ WUWA.register({
       "multiplier": 93.94,
       "formula": "93.94%",
       "impliedStates": [
-        "暗涌状态"
+        "state_1_option_1"
       ]
     },
     {
@@ -192,7 +192,7 @@ WUWA.register({
       "multiplier": 155.67,
       "formula": "155.67%",
       "impliedStates": [
-        "暗涌状态"
+        "state_1_option_1"
       ]
     },
     {
@@ -205,7 +205,7 @@ WUWA.register({
       "multiplier": 222.78,
       "formula": "37.13% × 3 + 111.39%",
       "impliedStates": [
-        "暗涌状态"
+        "state_1_option_1"
       ]
     },
     {
@@ -218,7 +218,7 @@ WUWA.register({
       "multiplier": 228.15,
       "formula": "28.52% × 4 + 114.07%",
       "impliedStates": [
-        "暗涌状态"
+        "state_1_option_1"
       ]
     },
     {
@@ -231,7 +231,7 @@ WUWA.register({
       "multiplier": 128.83,
       "formula": "128.83%",
       "impliedStates": [
-        "暗涌状态"
+        "state_1_option_1"
       ]
     },
     {
@@ -244,7 +244,7 @@ WUWA.register({
       "multiplier": 166.45,
       "formula": "126.65% + 9.95% × 4",
       "impliedStates": [
-        "暗涌状态"
+        "state_1_option_1"
       ]
     },
     {
@@ -257,7 +257,7 @@ WUWA.register({
       "multiplier": 123.27,
       "formula": "123.27%",
       "impliedStates": [
-        "暗涌状态"
+        "state_1_option_1"
       ]
     },
     {
@@ -270,7 +270,7 @@ WUWA.register({
       "multiplier": 316.71,
       "formula": "316.71%",
       "impliedStates": [
-        "暗涌状态"
+        "state_1_option_1"
       ]
     },
     {
@@ -283,7 +283,7 @@ WUWA.register({
       "multiplier": 592.5,
       "formula": "276.35% × 2 + 9.95% × 4",
       "impliedStates": [
-        "暗涌状态"
+        "state_1_option_1"
       ],
       "triggerEvents": [
         "castResonanceSkill"
@@ -311,10 +311,10 @@ WUWA.register({
   "echoSet": 6,
   "combatStates": [
     {
-      "id": "暗涌状态",
+      "id": "state_1",
       "options": [
         {
-          "value": "暗涌状态"
+          "value": "state_1_option_1"
         }
       ]
     }
@@ -326,7 +326,7 @@ WUWA.register({
       "element": "havoc",
       "value": 20,
       "scope": "self",
-      "requiresState": "暗涌状态"
+      "requiresState": "state_1_option_1"
     }
   ],
   "chain": [
@@ -374,7 +374,7 @@ WUWA.register({
           "skills": [
             "umbra_na5"
           ],
-          "requiresState": "暗涌状态"
+          "requiresState": "state_1_option_1"
         }
       ]
     },
@@ -386,7 +386,7 @@ WUWA.register({
           "zone": "critRate",
           "value": 25,
           "scope": "self",
-          "requiresState": "暗涌状态"
+          "requiresState": "state_1_option_1"
         }
       ]
     }

@@ -43,7 +43,7 @@ WUWA.register({
       "multiplier": 4.78,
       "formula": "4.78%",
       "impliedStates": [
-        "卡提希娅"
+        "form_1_option_1"
       ]
     },
     {
@@ -54,7 +54,7 @@ WUWA.register({
       "multiplier": 13.13,
       "formula": "3.94% + 3.94% + 5.25%",
       "impliedStates": [
-        "卡提希娅"
+        "form_1_option_1"
       ]
     },
     {
@@ -65,7 +65,7 @@ WUWA.register({
       "multiplier": 17.12,
       "formula": "4.28% + 4.28% + 4.28% + 4.28%",
       "impliedStates": [
-        "卡提希娅"
+        "form_1_option_1"
       ]
     },
     {
@@ -76,7 +76,7 @@ WUWA.register({
       "multiplier": 15.1,
       "formula": "2.52% × 3 + 7.54%",
       "impliedStates": [
-        "卡提希娅"
+        "form_1_option_1"
       ],
       "triggerEvents": [
         "applyAeroErosion"
@@ -90,7 +90,7 @@ WUWA.register({
       "multiplier": 12.48,
       "formula": "2.08% × 3 + 6.24%",
       "impliedStates": [
-        "卡提希娅"
+        "form_1_option_1"
       ]
     },
     {
@@ -104,7 +104,7 @@ WUWA.register({
       "multiplier": 5.65,
       "formula": "5.65%",
       "impliedStates": [
-        "卡提希娅"
+        "form_1_option_1"
       ]
     },
     {
@@ -118,7 +118,7 @@ WUWA.register({
       "multiplier": 5.65,
       "formula": "5.65%",
       "impliedStates": [
-        "卡提希娅"
+        "form_1_option_1"
       ]
     },
     {
@@ -132,7 +132,7 @@ WUWA.register({
       "multiplier": 9.9,
       "formula": "3.30% × 3",
       "impliedStates": [
-        "卡提希娅"
+        "form_1_option_1"
       ]
     },
     {
@@ -146,7 +146,7 @@ WUWA.register({
       "multiplier": 33.87,
       "formula": "11.29% × 3",
       "impliedStates": [
-        "卡提希娅"
+        "form_1_option_1"
       ]
     },
     {
@@ -157,7 +157,7 @@ WUWA.register({
       "multiplier": 27.4,
       "formula": "6.85% + 6.85% + 6.85% + 6.85%",
       "impliedStates": [
-        "卡提希娅"
+        "form_1_option_1"
       ]
     },
     {
@@ -168,7 +168,7 @@ WUWA.register({
       "multiplier": 29.53,
       "formula": "6.89% × 3 + 8.86%",
       "impliedStates": [
-        "卡提希娅"
+        "form_1_option_1"
       ],
       "triggerEvents": [
         "applyAeroErosion"
@@ -181,13 +181,13 @@ WUWA.register({
       "stat": "hp",
       "multiplier": 91.84,
       "formula": "13.12% × 7",
-      "requiresResource": "120决意",
+      "requiresResource": "resource_gate_1",
       "requiresResourceAtLeast": {
         "id": "resolve",
         "value": 120
       },
       "impliedStates": [
-        "芙露德莉斯"
+        "form_1_option_2"
       ]
     },
     {
@@ -198,7 +198,7 @@ WUWA.register({
       "multiplier": 12.48,
       "formula": "2.08% × 3 + 6.24%",
       "impliedStates": [
-        "卡提希娅"
+        "form_1_option_1"
       ],
       "triggerEvents": [
         "introEntry",
@@ -213,7 +213,7 @@ WUWA.register({
       "multiplier": 14.25,
       "formula": "4.28% + 9.97%",
       "impliedStates": [
-        "芙露德莉斯"
+        "form_1_option_2"
       ],
       "triggerEvents": [
         "introEntry"
@@ -227,7 +227,7 @@ WUWA.register({
       "multiplier": 6.49,
       "formula": "6.49%",
       "impliedStates": [
-        "芙露德莉斯"
+        "form_1_option_2"
       ]
     },
     {
@@ -238,7 +238,7 @@ WUWA.register({
       "multiplier": 9.09,
       "formula": "3.63% + 1.82% + 1.82% + 1.82%",
       "impliedStates": [
-        "芙露德莉斯"
+        "form_1_option_2"
       ]
     },
     {
@@ -249,7 +249,7 @@ WUWA.register({
       "multiplier": 10.65,
       "formula": "2.13% + 2.13% + 2.13% + 4.26%",
       "impliedStates": [
-        "芙露德莉斯"
+        "form_1_option_2"
       ]
     },
     {
@@ -260,7 +260,7 @@ WUWA.register({
       "multiplier": 13.7,
       "formula": "2.74% × 5",
       "impliedStates": [
-        "芙露德莉斯"
+        "form_1_option_2"
       ]
     },
     {
@@ -271,7 +271,7 @@ WUWA.register({
       "multiplier": 36,
       "formula": "7.20% + 28.80%",
       "impliedStates": [
-        "芙露德莉斯"
+        "form_1_option_2"
       ]
     },
     {
@@ -282,7 +282,7 @@ WUWA.register({
       "multiplier": 14.25,
       "formula": "4.28% + 9.97%",
       "impliedStates": [
-        "芙露德莉斯"
+        "form_1_option_2"
       ]
     },
     {
@@ -293,7 +293,7 @@ WUWA.register({
       "multiplier": 19.45,
       "formula": "7.78% × 2 + 3.89%",
       "impliedStates": [
-        "芙露德莉斯"
+        "form_1_option_2"
       ]
     },
     {
@@ -304,7 +304,7 @@ WUWA.register({
       "multiplier": 9.08,
       "formula": "4.54% × 2",
       "impliedStates": [
-        "芙露德莉斯"
+        "form_1_option_2"
       ]
     },
     {
@@ -315,7 +315,7 @@ WUWA.register({
       "multiplier": 9.06,
       "formula": "2.99% + 2.99% + 3.08%",
       "impliedStates": [
-        "芙露德莉斯"
+        "form_1_option_2"
       ]
     },
     {
@@ -326,7 +326,7 @@ WUWA.register({
       "multiplier": 29.55,
       "formula": "7.39% + 7.39% + 14.77%",
       "impliedStates": [
-        "芙露德莉斯"
+        "form_1_option_2"
       ]
     },
     {
@@ -337,7 +337,7 @@ WUWA.register({
       "multiplier": 2.2,
       "formula": "2.20%",
       "impliedStates": [
-        "芙露德莉斯"
+        "form_1_option_2"
       ]
     },
     {
@@ -348,7 +348,7 @@ WUWA.register({
       "multiplier": 15.99,
       "formula": "3.20% + 3.20% + 3.20% + 6.39%",
       "impliedStates": [
-        "芙露德莉斯"
+        "form_1_option_2"
       ]
     },
     {
@@ -359,7 +359,7 @@ WUWA.register({
       "multiplier": 24.8,
       "formula": "1.86% × 4 + 17.36%",
       "impliedStates": [
-        "芙露德莉斯"
+        "form_1_option_2"
       ]
     },
     {
@@ -370,7 +370,7 @@ WUWA.register({
       "multiplier": 24.81,
       "formula": "1.86% × 2 + 7.03% × 3",
       "impliedStates": [
-        "芙露德莉斯"
+        "form_1_option_2"
       ]
     }
   ],
@@ -405,31 +405,31 @@ WUWA.register({
   ],
   "combatStates": [
     {
-      "id": "形态",
+      "id": "form_1",
       "kind": "form",
       "required": true,
-      "defaultValue": "卡提希娅",
+      "defaultValue": "form_1_option_1",
       "options": [
         {
-          "value": "卡提希娅"
+          "value": "form_1_option_1"
         },
         {
-          "value": "芙露德莉斯"
+          "value": "form_1_option_2"
         }
       ]
     },
     {
-      "id": "权柄",
+      "id": "buff_1",
       "kind": "buff",
       "options": [
         {
-          "value": "人权之心"
+          "value": "buff_1_option_1"
         },
         {
-          "value": "神权之意"
+          "value": "buff_1_option_2"
         },
         {
-          "value": "异权之力"
+          "value": "buff_1_option_3"
         }
       ]
     }
@@ -482,8 +482,8 @@ WUWA.register({
       "value": 50,
       "scope": "self",
       "requiresAllStates": [
-        "芙露德莉斯",
-        "神权之意"
+        "form_1_option_2",
+        "buff_1_option_2"
       ]
     },
     {
@@ -572,7 +572,7 @@ WUWA.register({
           "zone": "critDamage",
           "value": 100,
           "scope": "self",
-          "requiresState": "芙露德莉斯",
+          "requiresState": "form_1_option_2",
           "maxStacks": 4,
           "defaultStacks": 0,
           "defaultActive": false,
@@ -588,14 +588,14 @@ WUWA.register({
           "zone": "effectCapBonus",
           "value": 3,
           "scope": "team",
-          "requiresState": "芙露德莉斯"
+          "requiresState": "form_1_option_2"
         },
         {
           "id": "k2_cartethyia",
           "zone": "skillMultBonus",
           "value": 50,
           "scope": "self",
-          "requiresState": "卡提希娅",
+          "requiresState": "form_1_option_1",
           "skills": [
             "na1",
             "na2",
@@ -611,7 +611,7 @@ WUWA.register({
           "zone": "skillMultBonus",
           "value": 200,
           "scope": "self",
-          "requiresState": "卡提希娅",
+          "requiresState": "form_1_option_1",
           "skills": [
             "air",
             "air_one",
@@ -629,7 +629,7 @@ WUWA.register({
           "zone": "skillMultBonus",
           "value": 100,
           "scope": "self",
-          "requiresState": "芙露德莉斯",
+          "requiresState": "form_1_option_2",
           "skills": [
             "lib_tideblade"
           ]
@@ -661,7 +661,7 @@ WUWA.register({
           "zone": "vulnerability",
           "value": 40,
           "scope": "self",
-          "requiresState": "芙露德莉斯",
+          "requiresState": "form_1_option_2",
           "skills": [
             "intro_future",
             "fl_na1",

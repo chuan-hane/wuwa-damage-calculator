@@ -1,3 +1,5 @@
+"use strict";
+
 window.WUWA_LANGUAGES.extend("en-US", {
   "data": {
     "chars": {
@@ -52,7 +54,8 @@ window.WUWA_LANGUAGES.extend("en-US", {
             "name": "Royan Close Quarters Combat - BIG BOOMY BOOM! DMG"
           },
           {
-            "name": "Royan Close Quarters Combat - Soliskin to the Aid DMG"
+            "name": "Royan Close Quarters Combat - Soliskin to the Aid DMG",
+            "requiresResourceLabel": "句点不少于50"
           },
           {
             "name": "Where Trust Leads Me! - Skill DMG"
@@ -61,19 +64,24 @@ window.WUWA_LANGUAGES.extend("en-US", {
             "name": "Solsworn Etymology - Skill DMG"
           },
           {
-            "name": "Within Infinity's Embrace - Heavy Attack - Schemata of Runes DMG"
+            "name": "Within Infinity's Embrace - Heavy Attack - Schemata of Runes DMG",
+            "requiresResourceLabel": "2枚符文"
           },
           {
-            "name": "Within Infinity's Embrace - Runic Outburst DMG"
+            "name": "Within Infinity's Embrace - Runic Outburst DMG",
+            "requiresResourceLabel": "符文·期望+符文·答问"
           },
           {
-            "name": "Within Infinity's Embrace - Runic Chain Whip DMG"
+            "name": "Within Infinity's Embrace - Runic Chain Whip DMG",
+            "requiresResourceLabel": "2枚符文·期望"
           },
           {
-            "name": "Within Infinity's Embrace - Runic Soliskin DMG"
+            "name": "Within Infinity's Embrace - Runic Soliskin DMG",
+            "requiresResourceLabel": "2枚符文·答问"
           },
           {
-            "name": "Within Infinity's Embrace - Forte Circuit - Learn My True Name DMG"
+            "name": "Within Infinity's Embrace - Forte Circuit - Learn My True Name DMG",
+            "requiresResourceLabel": "100点句点"
           }
         ],
         "combatStates": [
@@ -83,9 +91,11 @@ window.WUWA_LANGUAGES.extend("en-US", {
             "entry": "施放普攻第4段后进入解读状态，持续5秒；切换至其他角色时提前结束。",
             "options": [
               {
-                "label": "解读"
+                "label": "解读",
+                "valueLabel": "解读"
               }
-            ]
+            ],
+            "idLabel": "解读"
           }
         ],
         "buffs": [
@@ -129,14 +139,16 @@ window.WUWA_LANGUAGES.extend("en-US", {
             "label": "符语倍率提升",
             "trigger": "消耗30点日灵能量时",
             "excerpt": "消耗30点日灵能量时，本次符语倍率提升50%",
-            "desc": "消耗符文时，若日灵能量不少于30点，消耗30点日灵能量，本次符语爆破、符语链刃和符语日灵伤害倍率提升50%，并为自身叠加一层「天赋？」。"
+            "desc": "消耗符文时，若日灵能量不少于30点，消耗30点日灵能量，本次符语爆破、符语链刃和符语日灵伤害倍率提升50%，并为自身叠加一层「天赋？」。",
+            "requiresResourceLabel": "日灵能量不少于30点"
           },
           {
             "source": "共鸣回路·在那浩瀚中",
             "label": "符语伤害加深",
             "trigger": "日灵能量少于30点时",
             "excerpt": "日灵能量少于30点时，每消耗10点本次符语伤害加深15%",
-            "desc": "消耗符文时，若日灵能量少于30点，消耗全部日灵能量，每消耗10点日灵能量，使得本次符语爆破、符语链刃和符语日灵造成的伤害加深15%。"
+            "desc": "消耗符文时，若日灵能量少于30点，消耗全部日灵能量，每消耗10点日灵能量，使得本次符语爆破、符语链刃和符语日灵造成的伤害加深15%。",
+            "requiresResourceLabel": "日灵能量少于30点"
           },
           {
             "source": "共鸣回路·在那浩瀚中",

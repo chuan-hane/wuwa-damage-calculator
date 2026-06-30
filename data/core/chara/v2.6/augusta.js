@@ -101,7 +101,7 @@ WUWA.register({
       "damageType": "heavy",
       "multiplier": 53.68,
       "formula": "53.68%",
-      "requiresResource": "战势满",
+      "requiresResource": "resource_gate_1",
       "requiresResourceFull": "battleMomentum",
       "fallbackSkillId": "heavy_iron"
     },
@@ -111,7 +111,7 @@ WUWA.register({
       "damageType": "heavy",
       "multiplier": 425.16,
       "formula": "141.72% × 3",
-      "requiresResource": "战势满",
+      "requiresResource": "resource_gate_1",
       "requiresResourceFull": "battleMomentum"
     },
     {
@@ -120,7 +120,7 @@ WUWA.register({
       "damageType": "heavy",
       "multiplier": 357.86,
       "formula": "178.93% × 2",
-      "requiresResource": "战势满",
+      "requiresResource": "resource_gate_1",
       "requiresResourceFull": "battleMomentum"
     },
     {
@@ -129,7 +129,7 @@ WUWA.register({
       "damageType": "heavy",
       "multiplier": 139.17,
       "formula": "46.39% × 3",
-      "requiresResource": "战势满",
+      "requiresResource": "resource_gate_1",
       "requiresResourceFull": "battleMomentum",
       "fallbackSkillId": "dodge"
     },
@@ -139,7 +139,7 @@ WUWA.register({
       "damageType": "heavy",
       "multiplier": 53.68,
       "formula": "53.68%",
-      "requiresResource": "权炳满",
+      "requiresResource": "resource_gate_2",
       "requiresResourceFull": "authority",
       "fallbackSkillId": "dodge_heavy_iron"
     },
@@ -163,13 +163,13 @@ WUWA.register({
       "damageType": "heavy",
       "multiplier": 119.29,
       "formula": "119.29%",
-      "requiresResource": "2威慑",
+      "requiresResource": "resource_gate_3",
       "requiresResourceAtLeast": {
         "id": "deterrence",
         "value": 2
       },
       "impliedStates": [
-        "俯首之刻"
+        "phase_1_option_1"
       ]
     },
     {
@@ -178,13 +178,13 @@ WUWA.register({
       "damageType": "heavy",
       "multiplier": 1192.93,
       "formula": "238.58% + 894.65% + 5.97% × 10",
-      "requiresResource": "2威慑",
+      "requiresResource": "resource_gate_3",
       "requiresResourceAtLeast": {
         "id": "deterrence",
         "value": 2
       },
       "impliedStates": [
-        "俯首之刻"
+        "phase_1_option_1"
       ]
     },
     {
@@ -203,7 +203,7 @@ WUWA.register({
       "damageType": "resonanceSkill",
       "multiplier": 278.34,
       "formula": "139.17% × 2",
-      "requiresResource": "权炳满",
+      "requiresResource": "resource_gate_2",
       "requiresResourceFull": "authority",
       "fallbackSkillId": "skill_slash",
       "triggerEvents": [
@@ -216,7 +216,7 @@ WUWA.register({
       "damageType": "resonanceSkill",
       "multiplier": 278.35,
       "formula": "222.67% + 27.84% × 2",
-      "requiresResource": "权炳满",
+      "requiresResource": "resource_gate_2",
       "requiresResourceFull": "authority",
       "triggerEvents": [
         "castResonanceSkill"
@@ -228,7 +228,7 @@ WUWA.register({
       "damageType": "heavy",
       "multiplier": 865.83,
       "formula": "86.59% + 779.24%",
-      "requiresResource": "权炳满",
+      "requiresResource": "resource_gate_2",
       "requiresResourceFull": "authority",
       "triggerEvents": [
         "castResonanceSkill"
@@ -240,7 +240,7 @@ WUWA.register({
       "damageType": "resonanceSkill",
       "multiplier": 278.34,
       "formula": "139.17% × 2",
-      "requiresResource": "权炳满",
+      "requiresResource": "resource_gate_2",
       "requiresResourceFull": "authority",
       "fallbackSkillId": "dodge",
       "triggerEvents": [
@@ -268,21 +268,21 @@ WUWA.register({
   "echoSet2": 3,
   "combatStates": [
     {
-      "id": "俯首之刻",
+      "id": "phase_1",
       "kind": "phase",
       "required": true,
       "options": [
         {
-          "value": "俯首之刻"
+          "value": "phase_1_option_1"
         }
       ]
     },
     {
-      "id": "王之界域",
+      "id": "field_1",
       "kind": "field",
       "options": [
         {
-          "value": "王之界域"
+          "value": "field_1_option_1"
         }
       ]
     }

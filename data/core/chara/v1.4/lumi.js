@@ -40,7 +40,7 @@ WUWA.register({
       "multiplier": 95.43,
       "formula": "31.81% × 3",
       "impliedStates": [
-        "黄灯模式"
+        "mode_1_option_1"
       ]
     },
     {
@@ -53,7 +53,7 @@ WUWA.register({
       "multiplier": 90.66,
       "formula": "90.66%",
       "impliedStates": [
-        "红灯模式"
+        "mode_1_option_2"
       ]
     },
     {
@@ -66,7 +66,7 @@ WUWA.register({
       "multiplier": 215.36,
       "formula": "107.66% + 21.54% × 5",
       "impliedStates": [
-        "红灯模式"
+        "mode_1_option_2"
       ]
     },
     {
@@ -79,7 +79,7 @@ WUWA.register({
       "multiplier": 215.32,
       "formula": "64.60% + 150.72%",
       "impliedStates": [
-        "红灯模式"
+        "mode_1_option_2"
       ]
     },
     {
@@ -92,7 +92,7 @@ WUWA.register({
       "multiplier": 132.22,
       "formula": "66.11% × 2",
       "impliedStates": [
-        "红灯模式"
+        "mode_1_option_2"
       ]
     },
     {
@@ -105,7 +105,7 @@ WUWA.register({
       "multiplier": 113.33,
       "formula": "113.33%",
       "impliedStates": [
-        "红灯模式"
+        "mode_1_option_2"
       ]
     },
     {
@@ -118,7 +118,7 @@ WUWA.register({
       "multiplier": 334.6,
       "formula": "167.30% + 33.46% × 5",
       "impliedStates": [
-        "红灯模式"
+        "mode_1_option_2"
       ]
     },
     {
@@ -131,7 +131,7 @@ WUWA.register({
       "multiplier": 181.32,
       "formula": "181.32%",
       "impliedStates": [
-        "红灯模式"
+        "mode_1_option_2"
       ]
     },
     {
@@ -144,7 +144,7 @@ WUWA.register({
       "multiplier": 173.76,
       "formula": "173.76%",
       "impliedStates": [
-        "黄灯模式"
+        "mode_1_option_1"
       ]
     },
     {
@@ -167,7 +167,7 @@ WUWA.register({
       "multiplier": 168.99,
       "formula": "56.33% × 3",
       "impliedStates": [
-        "黄灯模式"
+        "mode_1_option_1"
       ],
       "triggerEvents": [
         "introEntry"
@@ -183,7 +183,7 @@ WUWA.register({
       "multiplier": 81.52,
       "formula": "81.52%",
       "impliedStates": [
-        "黄灯聚光模式"
+        "mode_1_option_3"
       ]
     },
     {
@@ -196,7 +196,7 @@ WUWA.register({
       "multiplier": 120.25,
       "formula": "120.25%",
       "impliedStates": [
-        "红灯聚光模式"
+        "mode_1_option_4"
       ]
     },
     {
@@ -209,7 +209,7 @@ WUWA.register({
       "multiplier": 276.67,
       "formula": "138.32% + 27.67% × 5",
       "impliedStates": [
-        "红灯聚光模式"
+        "mode_1_option_4"
       ]
     },
     {
@@ -222,7 +222,7 @@ WUWA.register({
       "multiplier": 312.42,
       "formula": "93.73% + 218.69%",
       "impliedStates": [
-        "红灯聚光模式"
+        "mode_1_option_4"
       ]
     },
     {
@@ -235,7 +235,7 @@ WUWA.register({
       "multiplier": 176.36,
       "formula": "88.18% × 2",
       "impliedStates": [
-        "红灯聚光模式"
+        "mode_1_option_4"
       ]
     },
     {
@@ -247,11 +247,11 @@ WUWA.register({
       "damageType": "basic",
       "multiplier": 366.62,
       "formula": "183.31% × 2",
-      "requiresResource": "黄灯光能满",
+      "requiresResource": "resource_gate_1",
       "requiresResourceFull": "lightEnergy",
       "fallbackSkillId": "skill_pounce",
       "impliedStates": [
-        "红灯聚光模式"
+        "mode_1_option_4"
       ]
     },
     {
@@ -263,11 +263,11 @@ WUWA.register({
       "damageType": "basic",
       "multiplier": 251.7,
       "formula": "251.70%",
-      "requiresResource": "红灯光能满",
+      "requiresResource": "resource_gate_2",
       "requiresResourceFull": "lightEnergy",
       "fallbackSkillId": "skill_rebound",
       "impliedStates": [
-        "黄灯聚光模式"
+        "mode_1_option_3"
       ]
     },
     {
@@ -282,7 +282,7 @@ WUWA.register({
       "stackMax": 4,
       "stackLabel": "段",
       "formula": "74.56% × 段数",
-      "requiresResource": "25以上光能",
+      "requiresResource": "resource_gate_3",
       "requiresResourceAtLeast": {
         "id": "lightEnergy",
         "value": 25
@@ -300,22 +300,22 @@ WUWA.register({
   "echoSet": 3,
   "combatStates": [
     {
-      "id": "灯号模式",
+      "id": "mode_1",
       "kind": "mode",
       "required": true,
-      "defaultValue": "黄灯模式",
+      "defaultValue": "mode_1_option_1",
       "options": [
         {
-          "value": "黄灯模式"
+          "value": "mode_1_option_1"
         },
         {
-          "value": "红灯模式"
+          "value": "mode_1_option_2"
         },
         {
-          "value": "黄灯聚光模式"
+          "value": "mode_1_option_3"
         },
         {
-          "value": "红灯聚光模式"
+          "value": "mode_1_option_4"
         }
       ]
     }
@@ -328,8 +328,8 @@ WUWA.register({
       "value": 10,
       "scope": "self",
       "requiresState": [
-        "红灯模式",
-        "红灯聚光模式"
+        "mode_1_option_2",
+        "mode_1_option_4"
       ]
     },
     {

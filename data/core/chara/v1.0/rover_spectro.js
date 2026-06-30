@@ -126,7 +126,7 @@ WUWA.register({
       "damageType": "resonanceSkill",
       "multiplier": 258.16,
       "formula": "129.08% × 2",
-      "requiresResource": "50尘微之声",
+      "requiresResource": "resource_gate_1",
       "requiresResourceAtLeast": {
         "id": "soundOfLight",
         "value": 50
@@ -142,7 +142,7 @@ WUWA.register({
       "damageType": "resonanceSkill",
       "multiplier": 39.77,
       "formula": "39.77%",
-      "requiresResource": "50尘微之声",
+      "requiresResource": "resource_gate_1",
       "requiresResourceAtLeast": {
         "id": "soundOfLight",
         "value": 50
@@ -157,7 +157,7 @@ WUWA.register({
       "damageType": "resonanceSkill",
       "multiplier": 79.53,
       "formula": "79.53%",
-      "requiresResource": "浮声千斩·旋音结束后"
+      "requiresResource": "resource_gate_2"
     },
     {
       "id": "forte_echo2",
@@ -165,7 +165,7 @@ WUWA.register({
       "damageType": "resonanceSkill",
       "multiplier": 159.05,
       "formula": "159.05%",
-      "requiresResource": "浮声千斩·旋音结束后"
+      "requiresResource": "resource_gate_2"
     }
   ],
   "defaultSkillId": "burst",

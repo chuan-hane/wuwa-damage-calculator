@@ -159,7 +159,7 @@ WUWA.register({
       "multiplier": 294.73,
       "formula": "58.95% × 2 + 82.52% + 94.31%",
       "impliedStates": [
-        "心眼状态"
+        "state_1_option_1"
       ]
     },
     {
@@ -172,7 +172,7 @@ WUWA.register({
       "multiplier": 181.7,
       "formula": "72.68% + 109.02%",
       "impliedStates": [
-        "心眼状态"
+        "state_1_option_1"
       ]
     },
     {
@@ -207,7 +207,7 @@ WUWA.register({
       "damageType": "resonanceSkill",
       "multiplier": 654.1,
       "formula": "39.25% × 5 + 457.85%",
-      "requiresResource": "4层【离火】",
+      "requiresResource": "resource_gate_1",
       "requiresResourceAtLeast": {
         "id": "enflamement",
         "value": 4
@@ -226,18 +226,18 @@ WUWA.register({
   "echoSet": 2,
   "combatStates": [
     {
-      "id": "心眼状态",
+      "id": "state_1",
       "options": [
         {
-          "value": "心眼状态"
+          "value": "state_1_option_1"
         }
       ]
     },
     {
-      "id": "焰羽状态",
+      "id": "state_2",
       "options": [
         {
-          "value": "焰羽状态"
+          "value": "state_2_option_1"
         }
       ]
     }
@@ -286,7 +286,7 @@ WUWA.register({
       "skills": [
         "forte_flaming_sacrifice"
       ],
-      "requiresState": "焰羽状态",
+      "requiresState": "state_2_option_1",
       "duration": 10
     },
     {

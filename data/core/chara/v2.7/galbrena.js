@@ -112,7 +112,7 @@ WUWA.register({
       "damageType": "heavy",
       "multiplier": 103.14,
       "formula": "51.57% + 51.57%",
-      "requiresResource": "100罪火",
+      "requiresResource": "resource_gate_1",
       "requiresResourceAtLeast": {
         "id": "sinflame",
         "value": 100
@@ -143,7 +143,7 @@ WUWA.register({
       "multiplier": 58.99,
       "formula": "58.99%",
       "impliedStates": [
-        "恶魔位格"
+        "state_1_option_1"
       ]
     },
     {
@@ -153,7 +153,7 @@ WUWA.register({
       "multiplier": 139.19,
       "formula": "27.84% + 27.84% + 83.51%",
       "impliedStates": [
-        "恶魔位格"
+        "state_1_option_1"
       ]
     },
     {
@@ -163,7 +163,7 @@ WUWA.register({
       "multiplier": 243.17,
       "formula": "24.32% × 3 + 170.21%",
       "impliedStates": [
-        "恶魔位格"
+        "state_1_option_1"
       ]
     },
     {
@@ -173,7 +173,7 @@ WUWA.register({
       "multiplier": 181.47,
       "formula": "18.15% × 3 + 127.02%",
       "impliedStates": [
-        "恶魔位格"
+        "state_1_option_1"
       ]
     },
     {
@@ -183,7 +183,7 @@ WUWA.register({
       "multiplier": 224.27,
       "formula": "67.28% + 156.99%",
       "impliedStates": [
-        "恶魔位格"
+        "state_1_option_1"
       ]
     },
     {
@@ -193,7 +193,7 @@ WUWA.register({
       "multiplier": 118.44,
       "formula": "59.22% + 59.22%",
       "impliedStates": [
-        "恶魔位格"
+        "state_1_option_1"
       ]
     },
     {
@@ -203,7 +203,7 @@ WUWA.register({
       "multiplier": 76.7,
       "formula": "38.35% × 2",
       "impliedStates": [
-        "恶魔位格"
+        "state_1_option_1"
       ]
     },
     {
@@ -213,7 +213,7 @@ WUWA.register({
       "multiplier": 176.84,
       "formula": "17.69% × 3 + 123.77%",
       "impliedStates": [
-        "恶魔位格"
+        "state_1_option_1"
       ]
     },
     {
@@ -223,7 +223,7 @@ WUWA.register({
       "multiplier": 321,
       "formula": "32.10% × 3 + 224.70%",
       "impliedStates": [
-        "恶魔位格"
+        "state_1_option_1"
       ]
     },
     {
@@ -233,7 +233,7 @@ WUWA.register({
       "multiplier": 159.05,
       "formula": "159.05%",
       "impliedStates": [
-        "恶魔位格"
+        "state_1_option_1"
       ]
     },
     {
@@ -243,7 +243,7 @@ WUWA.register({
       "multiplier": 29.83,
       "formula": "29.83%",
       "impliedStates": [
-        "恶魔位格"
+        "state_1_option_1"
       ]
     },
     {
@@ -253,7 +253,7 @@ WUWA.register({
       "multiplier": 35.78,
       "formula": "10.74% + 25.04%",
       "impliedStates": [
-        "恶魔位格"
+        "state_1_option_1"
       ],
       "triggerEvents": [
         "castResonanceSkill"
@@ -272,10 +272,10 @@ WUWA.register({
   "echoSet2": 2,
   "combatStates": [
     {
-      "id": "恶魔位格",
+      "id": "state_1",
       "options": [
         {
-          "value": "恶魔位格"
+          "value": "state_1_option_1"
         }
       ]
     }
@@ -296,7 +296,7 @@ WUWA.register({
       "zone": "vulnerability",
       "value": 60,
       "scope": "self",
-      "requiresState": "恶魔位格",
+      "requiresState": "state_1_option_1",
       "skills": [
         "seraphic_1",
         "seraphic_2",
@@ -336,7 +336,7 @@ WUWA.register({
       "zone": "skillMultBonus",
       "value": 85,
       "scope": "self",
-      "requiresState": "恶魔位格",
+      "requiresState": "state_1_option_1",
       "skills": [
         "seraphic_1",
         "seraphic_2",
@@ -363,7 +363,7 @@ WUWA.register({
           "zone": "critDamage",
           "value": 80,
           "scope": "self",
-          "requiresState": "恶魔位格",
+          "requiresState": "state_1_option_1",
           "skills": [
             "seraphic_1",
             "seraphic_2",
@@ -459,7 +459,7 @@ WUWA.register({
           "zone": "skillMultBonus",
           "value": 60,
           "scope": "self",
-          "requiresState": "恶魔位格",
+          "requiresState": "state_1_option_1",
           "skills": [
             "seraphic_1",
             "seraphic_2",
@@ -480,7 +480,7 @@ WUWA.register({
           "element": "fusion",
           "value": 35,
           "scope": "self",
-          "requiresState": "恶魔位格",
+          "requiresState": "state_1_option_1",
           "skills": [
             "seraphic_1",
             "seraphic_2",

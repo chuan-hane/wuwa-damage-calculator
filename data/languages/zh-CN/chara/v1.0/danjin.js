@@ -1,3 +1,5 @@
+"use strict";
+
 window.WUWA_LANGUAGES.extend("zh-CN", {
   "data": {
     "chars": {
@@ -55,16 +57,20 @@ window.WUWA_LANGUAGES.extend("zh-CN", {
             "name": "击雠"
           },
           {
-            "name": "重击·缭乱"
+            "name": "重击·缭乱",
+            "requiresResourceLabel": "60彤华"
           },
           {
-            "name": "重击·纷落"
+            "name": "重击·纷落",
+            "requiresResourceLabel": "已施放重击·缭乱"
           },
           {
-            "name": "满能重击·缭乱"
+            "name": "满能重击·缭乱",
+            "requiresResourceLabel": "120彤华"
           },
           {
-            "name": "满能重击·纷落"
+            "name": "满能重击·纷落",
+            "requiresResourceLabel": "已施放满能重击·缭乱"
           }
         ],
         "buffs": [

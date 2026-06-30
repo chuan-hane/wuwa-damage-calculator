@@ -1,3 +1,5 @@
+"use strict";
+
 window.WUWA_LANGUAGES.extend("en-US", {
   "data": {
     "chars": {
@@ -40,16 +42,20 @@ window.WUWA_LANGUAGES.extend("en-US", {
             "name": "Pero, Help - Skill DMG"
           },
           {
-            "name": "A Prop Master Prepares - Stage 1 DMG"
+            "name": "A Prop Master Prepares - Stage 1 DMG",
+            "requiresResourceLabel": "100想象力"
           },
           {
-            "name": "A Prop Master Prepares - Stage 2 DMG"
+            "name": "A Prop Master Prepares - Stage 2 DMG",
+            "requiresResourceLabel": "100想象力"
           },
           {
-            "name": "A Prop Master Prepares - Stage 3 DMG"
+            "name": "A Prop Master Prepares - Stage 3 DMG",
+            "requiresResourceLabel": "100想象力"
           },
           {
-            "name": "A Prop Master Prepares - Stage 3 DMG"
+            "name": "A Prop Master Prepares - Stage 3 DMG",
+            "requiresResourceLabel": "共鸣解放后12秒内"
           }
         ],
         "combatStates": [
@@ -59,9 +65,11 @@ window.WUWA_LANGUAGES.extend("en-US", {
             "entry": "施放共鸣技能高难度设计，或重击命中且想象力至少100点时进入飞跃幻想；第1/2段幻想照进现实落地后若想象力大于100点可再次进入。",
             "options": [
               {
-                "label": "飞跃幻想"
+                "label": "飞跃幻想",
+                "valueLabel": "飞跃幻想状态"
               }
-            ]
+            ],
+            "idLabel": "飞跃幻想状态"
           }
         ],
         "buffs": [

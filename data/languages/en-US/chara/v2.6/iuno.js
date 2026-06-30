@@ -1,3 +1,5 @@
+"use strict";
+
 window.WUWA_LANGUAGES.extend("en-US", {
   "data": {
     "chars": {
@@ -61,19 +63,24 @@ window.WUWA_LANGUAGES.extend("en-US", {
             "name": "Ebb and Flow - Flux - Moonring DMG"
           },
           {
-            "name": "Ebb and Flow - Enhanced Moonbow - Basic Attack 1 DMG"
+            "name": "Ebb and Flow - Enhanced Moonbow - Basic Attack 1 DMG",
+            "requiresResourceLabel": "灵性"
           },
           {
-            "name": "Ebb and Flow - Enhanced Moonbow - Basic Attack 2 DMG"
+            "name": "Ebb and Flow - Enhanced Moonbow - Basic Attack 2 DMG",
+            "requiresResourceLabel": "灵性"
           },
           {
-            "name": "Ebb and Flow - Enhanced Moonbow - Basic Attack 3 DMG"
+            "name": "Ebb and Flow - Enhanced Moonbow - Basic Attack 3 DMG",
+            "requiresResourceLabel": "灵性"
           },
           {
-            "name": "Ebb and Flow - Enhanced Moonbow - Dodge Counter DMG"
+            "name": "Ebb and Flow - Enhanced Moonbow - Dodge Counter DMG",
+            "requiresResourceLabel": "灵性"
           },
           {
-            "name": "Ebb and Flow - Enhanced Arc Beyond the Edge DMG"
+            "name": "Ebb and Flow - Enhanced Arc Beyond the Edge DMG",
+            "requiresResourceLabel": "灵性"
           },
           {
             "name": "Ebb and Flow - Absolute Fullness DMG"
@@ -86,12 +93,15 @@ window.WUWA_LANGUAGES.extend("en-US", {
             "entry": "由共鸣技能·告终的喧响或共鸣解放进入，初始为弦月；重击·流变在弦月/新月间切换。",
             "options": [
               {
-                "label": "弦月"
+                "label": "弦月",
+                "valueLabel": "月相流转·弦月"
               },
               {
-                "label": "新月"
+                "label": "新月",
+                "valueLabel": "月相流转·新月"
               }
-            ]
+            ],
+            "idLabel": "月相流转"
           },
           {
             "label": "满月领域",
@@ -99,9 +109,11 @@ window.WUWA_LANGUAGES.extend("en-US", {
             "entry": "尤诺施放变奏技能或共鸣解放可展开满月领域。",
             "options": [
               {
-                "label": "满月领域"
+                "label": "满月领域",
+                "valueLabel": "满月领域"
               }
-            ]
+            ],
+            "idLabel": "满月领域"
           }
         ],
         "buffs": [

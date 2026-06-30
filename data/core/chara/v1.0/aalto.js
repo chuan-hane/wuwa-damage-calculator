@@ -163,7 +163,7 @@ WUWA.register({
       "stackResource": "mistDrops",
       "stackLabel": "雾滴",
       "impliedStates": [
-        "迷雾潜行"
+        "buff_1_option_1"
       ],
       "formula": "59.65% × 雾滴"
     }
@@ -179,29 +179,29 @@ WUWA.register({
   "echoSet": 4,
   "combatStates": [
     {
-      "id": "雾气",
+      "id": "field_1",
       "kind": "field",
       "options": [
         {
-          "value": "雾气"
+          "value": "field_1_option_1"
         }
       ]
     },
     {
-      "id": "虚实之门",
+      "id": "field_2",
       "kind": "field",
       "options": [
         {
-          "value": "虚实之门"
+          "value": "field_2_option_1"
         }
       ]
     },
     {
-      "id": "迷雾潜行",
+      "id": "buff_1",
       "kind": "buff",
       "options": [
         {
-          "value": "迷雾潜行"
+          "value": "buff_1_option_1"
         }
       ]
     }
@@ -220,7 +220,7 @@ WUWA.register({
       "zone": "attackPercent",
       "value": 10,
       "scope": "self",
-      "requiresState": "虚实之门",
+      "requiresState": "field_2_option_1",
       "duration": 10
     },
     {
@@ -264,7 +264,7 @@ WUWA.register({
             "na5",
             "air"
           ],
-          "requiresState": "雾气"
+          "requiresState": "field_1_option_1"
         }
       ]
     },
@@ -293,7 +293,7 @@ WUWA.register({
           "element": "aero",
           "value": 25,
           "scope": "self",
-          "requiresState": "迷雾潜行",
+          "requiresState": "buff_1_option_1",
           "duration": 6
         }
       ]
@@ -306,7 +306,7 @@ WUWA.register({
           "zone": "critRate",
           "value": 8,
           "scope": "self",
-          "requiresState": "虚实之门"
+          "requiresState": "field_2_option_1"
         },
         {
           "id": "k6b",
@@ -318,7 +318,7 @@ WUWA.register({
             "aim",
             "aim_full"
           ],
-          "requiresState": "虚实之门"
+          "requiresState": "field_2_option_1"
         }
       ]
     }

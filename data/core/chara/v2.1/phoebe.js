@@ -86,7 +86,7 @@ WUWA.register({
       "multiplier": 263.04,
       "formula": "43.84% × 6",
       "impliedStates": [
-        "镜之环·环内"
+        "field_1_option_2"
       ]
     },
     {
@@ -103,7 +103,7 @@ WUWA.register({
       "multiplier": 29.84,
       "formula": "14.92% × 2",
       "impliedStates": [
-        "镜之环·环外"
+        "field_1_option_1"
       ]
     },
     {
@@ -113,7 +113,7 @@ WUWA.register({
       "multiplier": 59.35,
       "formula": "59.35%",
       "impliedStates": [
-        "镜之环·环内"
+        "field_1_option_2"
       ]
     },
     {
@@ -123,7 +123,7 @@ WUWA.register({
       "multiplier": 79.54,
       "formula": "39.77% × 2",
       "impliedStates": [
-        "镜之环·环内"
+        "field_1_option_2"
       ]
     },
     {
@@ -133,7 +133,7 @@ WUWA.register({
       "multiplier": 173.58,
       "formula": "28.93% × 6",
       "impliedStates": [
-        "镜之环·环内"
+        "field_1_option_2"
       ]
     },
     {
@@ -149,7 +149,7 @@ WUWA.register({
       "damageType": "resonanceLiberation",
       "multiplier": 401.6,
       "formula": "401.60%",
-      "requiresState": "赦罪状态"
+      "requiresState": "mode_1_option_1"
     },
     {
       "id": "burst_confession",
@@ -157,7 +157,7 @@ WUWA.register({
       "damageType": "resonanceLiberation",
       "multiplier": 401.6,
       "formula": "401.60%",
-      "requiresState": "告解状态",
+      "requiresState": "mode_1_option_2",
       "triggerEvents": [
         "applySpectroFrazzle"
       ]
@@ -178,9 +178,9 @@ WUWA.register({
       "damageType": "heavy",
       "multiplier": 248.07,
       "formula": "82.69% × 3",
-      "requiresResource": "福音",
+      "requiresResource": "gospel",
       "fallbackSkillId": "heavy",
-      "requiresState": "赦罪状态"
+      "requiresState": "mode_1_option_1"
     },
     {
       "id": "starflash_confession",
@@ -188,9 +188,9 @@ WUWA.register({
       "damageType": "heavy",
       "multiplier": 248.07,
       "formula": "82.69% × 3",
-      "requiresResource": "福音",
+      "requiresResource": "gospel",
       "fallbackSkillId": "heavy",
-      "requiresState": "告解状态",
+      "requiresState": "mode_1_option_2",
       "triggerEvents": [
         "applySpectroFrazzle"
       ]
@@ -201,9 +201,9 @@ WUWA.register({
       "damageType": "heavy",
       "multiplier": 638.19,
       "formula": "638.19%",
-      "requiresResource": "祈愿满",
+      "requiresResource": "prayer",
       "requiresResourceFull": "prayer",
-      "requiresState": "赦罪状态",
+      "requiresState": "mode_1_option_1",
       "triggerEvents": [
         "applySpectroFrazzle"
       ]
@@ -214,9 +214,9 @@ WUWA.register({
       "damageType": "resonanceSkill",
       "multiplier": 187.88,
       "formula": "187.88%",
-      "requiresResource": "祈愿满",
+      "requiresResource": "prayer",
       "requiresResourceFull": "prayer",
-      "requiresState": "告解状态",
+      "requiresState": "mode_1_option_2",
       "triggerEvents": [
         "applySpectroFrazzle"
       ]
@@ -228,7 +228,7 @@ WUWA.register({
       "multiplier": 248.07,
       "formula": "82.69% × 3",
       "seq": 6,
-      "requiresState": "赦罪状态"
+      "requiresState": "mode_1_option_1"
     },
     {
       "id": "c6_starflash_confession",
@@ -237,7 +237,7 @@ WUWA.register({
       "multiplier": 248.07,
       "formula": "82.69% × 3",
       "seq": 6,
-      "requiresState": "告解状态",
+      "requiresState": "mode_1_option_2",
       "triggerEvents": [
         "applySpectroFrazzle"
       ]
@@ -254,26 +254,26 @@ WUWA.register({
   "echoSet": 11,
   "combatStates": [
     {
-      "id": "赦罪/告解状态",
+      "id": "mode_1",
       "kind": "mode",
       "options": [
         {
-          "value": "赦罪状态"
+          "value": "mode_1_option_1"
         },
         {
-          "value": "告解状态"
+          "value": "mode_1_option_2"
         }
       ]
     },
     {
-      "id": "镜之环",
+      "id": "field_1",
       "kind": "field",
       "options": [
         {
-          "value": "镜之环·环外"
+          "value": "field_1_option_1"
         },
         {
-          "value": "镜之环·环内"
+          "value": "field_1_option_2"
         }
       ]
     }
@@ -286,8 +286,8 @@ WUWA.register({
       "value": 12,
       "scope": "self",
       "requiresState": [
-        "赦罪状态",
-        "告解状态"
+        "mode_1_option_1",
+        "mode_1_option_2"
       ]
     },
     {
@@ -299,7 +299,7 @@ WUWA.register({
         "burst",
         "burst_absolution"
       ],
-      "requiresState": "赦罪状态"
+      "requiresState": "mode_1_option_1"
     },
     {
       "id": "b_starflash_absolution",
@@ -310,7 +310,7 @@ WUWA.register({
         "starflash_absolution",
         "c6_starflash_absolution"
       ],
-      "requiresState": "赦罪状态",
+      "requiresState": "mode_1_option_1",
       "defaultActive": false
     },
     {
@@ -319,7 +319,7 @@ WUWA.register({
       "element": "spectro",
       "value": 10,
       "scope": "team",
-      "requiresState": "告解状态",
+      "requiresState": "mode_1_option_2",
       "duration": 30
     },
     {
@@ -328,7 +328,7 @@ WUWA.register({
       "effect": "光噪效应",
       "value": 100,
       "scope": "team",
-      "requiresState": "告解状态",
+      "requiresState": "mode_1_option_2",
       "duration": 30
     }
   ],
@@ -345,7 +345,7 @@ WUWA.register({
             "burst",
             "burst_absolution"
           ],
-          "requiresState": "赦罪状态"
+          "requiresState": "mode_1_option_1"
         },
         {
           "id": "k1_confession_burst",
@@ -356,7 +356,7 @@ WUWA.register({
             "burst",
             "burst_confession"
           ],
-          "requiresState": "告解状态"
+          "requiresState": "mode_1_option_2"
         }
       ]
     },
@@ -369,7 +369,7 @@ WUWA.register({
           "effect": "光噪效应",
           "value": 120,
           "scope": "team",
-          "requiresState": "告解状态",
+          "requiresState": "mode_1_option_2",
           "defaultActive": false,
           "triggerOutro": true,
           "duration": 30
@@ -388,7 +388,7 @@ WUWA.register({
             "starflash_absolution",
             "c6_starflash_absolution"
           ],
-          "requiresState": "赦罪状态"
+          "requiresState": "mode_1_option_1"
         },
         {
           "id": "k3_confession_starflash",
@@ -399,7 +399,7 @@ WUWA.register({
             "starflash_confession",
             "c6_starflash_confession"
           ],
-          "requiresState": "告解状态"
+          "requiresState": "mode_1_option_2"
         }
       ]
     },
@@ -446,8 +446,8 @@ WUWA.register({
           "value": 10,
           "scope": "self",
           "requiresState": [
-            "赦罪状态",
-            "告解状态"
+            "mode_1_option_1",
+            "mode_1_option_2"
           ],
           "defaultActive": false,
           "duration": 20

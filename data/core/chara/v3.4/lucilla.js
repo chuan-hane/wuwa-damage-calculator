@@ -9,7 +9,7 @@ WUWA.register({
     "frost"
   ],
   "effectTypeRequiresState": {
-    "frost": "共鸣模态·霜渐"
+    "frost": "mode_1_option_1"
   },
   "signatureWeaponId": "freeze_frame",
   "portrait": "",
@@ -99,7 +99,7 @@ WUWA.register({
       "multiplier": 548.98,
       "formula": "82.35% + 82.35% + 274.48% + 109.80%",
       "impliedStates": [
-        "共鸣模态·霜渐"
+        "mode_1_option_1"
       ],
       "triggerEvents": [
         "applyGlacioChafe"
@@ -112,7 +112,7 @@ WUWA.register({
       "multiplier": 548.98,
       "formula": "82.35% + 82.35% + 274.48% + 109.80%",
       "impliedStates": [
-        "共鸣模态·声骸"
+        "mode_1_option_2"
       ]
     },
     {
@@ -121,13 +121,13 @@ WUWA.register({
       "damageType": "basic",
       "multiplier": 142.74,
       "formula": "142.74%",
-      "requiresResource": "3张照片",
+      "requiresResource": "photo",
       "requiresResourceAtLeast": {
         "id": "photo",
         "value": 3
       },
       "impliedStates": [
-        "共鸣模态·霜渐"
+        "mode_1_option_1"
       ],
       "triggerEvents": [
         "castResonanceLiberation"
@@ -139,13 +139,13 @@ WUWA.register({
       "damageType": "echoSkill",
       "multiplier": 142.74,
       "formula": "142.74%",
-      "requiresResource": "3张照片",
+      "requiresResource": "photo",
       "requiresResourceAtLeast": {
         "id": "photo",
         "value": 3
       },
       "impliedStates": [
-        "共鸣模态·声骸"
+        "mode_1_option_2"
       ],
       "triggerEvents": [
         "castResonanceLiberation"
@@ -158,7 +158,7 @@ WUWA.register({
       "multiplier": 76.59,
       "formula": "30.64% + 45.95%",
       "impliedStates": [
-        "追忆状态"
+        "status_1_option_1"
       ]
     },
     {
@@ -168,7 +168,7 @@ WUWA.register({
       "multiplier": 149.42,
       "formula": "59.77% + 89.65%",
       "impliedStates": [
-        "追忆状态"
+        "status_1_option_1"
       ]
     },
     {
@@ -178,7 +178,7 @@ WUWA.register({
       "multiplier": 416.96,
       "formula": "52.12% × 8",
       "impliedStates": [
-        "追忆状态"
+        "status_1_option_1"
       ]
     },
     {
@@ -188,8 +188,8 @@ WUWA.register({
       "multiplier": 848.07,
       "formula": "84.81% × 3 + 593.64%",
       "impliedStates": [
-        "追忆状态",
-        "共鸣模态·霜渐"
+        "status_1_option_1",
+        "mode_1_option_1"
       ]
     },
     {
@@ -199,8 +199,8 @@ WUWA.register({
       "multiplier": 848.07,
       "formula": "84.81% × 3 + 593.64%",
       "impliedStates": [
-        "追忆状态",
-        "共鸣模态·声骸"
+        "status_1_option_1",
+        "mode_1_option_2"
       ]
     },
     {
@@ -210,7 +210,7 @@ WUWA.register({
       "multiplier": 110.94,
       "formula": "110.94%",
       "impliedStates": [
-        "追忆状态"
+        "status_1_option_1"
       ]
     },
     {
@@ -220,7 +220,7 @@ WUWA.register({
       "multiplier": 256.77,
       "formula": "115.55% + 141.22%",
       "impliedStates": [
-        "追忆状态"
+        "status_1_option_1"
       ]
     },
     {
@@ -241,7 +241,7 @@ WUWA.register({
       "multiplier": 149.41,
       "formula": "149.41%",
       "impliedStates": [
-        "追忆状态"
+        "status_1_option_1"
       ],
       "triggerEvents": [
         "applyGlacioChafe"
@@ -253,14 +253,14 @@ WUWA.register({
       "damageType": "basic",
       "multiplier": 285.48,
       "formula": "285.48%",
-      "requiresResource": "照片",
+      "requiresResource": "photo",
       "requiresResourceAtLeast": {
         "id": "photo",
         "value": 1
       },
       "impliedStates": [
-        "追忆状态",
-        "共鸣模态·霜渐"
+        "status_1_option_1",
+        "mode_1_option_1"
       ],
       "triggerEvents": [
         "applyGlacioChafe"
@@ -272,14 +272,14 @@ WUWA.register({
       "damageType": "echoSkill",
       "multiplier": 285.48,
       "formula": "285.48%",
-      "requiresResource": "照片",
+      "requiresResource": "photo",
       "requiresResourceAtLeast": {
         "id": "photo",
         "value": 1
       },
       "impliedStates": [
-        "追忆状态",
-        "共鸣模态·声骸"
+        "status_1_option_1",
+        "mode_1_option_2"
       ]
     }
   ],
@@ -295,25 +295,25 @@ WUWA.register({
   "echoLead": "30:reminiscence_threnodian_voidborne_construct",
   "combatStates": [
     {
-      "id": "共鸣模态",
+      "id": "mode_1",
       "kind": "mode",
       "required": true,
-      "defaultValue": "共鸣模态·霜渐",
+      "defaultValue": "mode_1_option_1",
       "options": [
         {
-          "value": "共鸣模态·霜渐"
+          "value": "mode_1_option_1"
         },
         {
-          "value": "共鸣模态·声骸"
+          "value": "mode_1_option_2"
         }
       ]
     },
     {
-      "id": "追忆状态",
+      "id": "status_1",
       "kind": "status",
       "options": [
         {
-          "value": "追忆状态"
+          "value": "status_1_option_1"
         }
       ]
     }
@@ -325,7 +325,7 @@ WUWA.register({
       "element": "glacio",
       "value": 8,
       "scope": "team",
-      "requiresState": "共鸣模态·霜渐",
+      "requiresState": "mode_1_option_1",
       "defaultActive": false,
       "triggerSkills": [
         "spotlight_frost"
@@ -338,7 +338,7 @@ WUWA.register({
       "damageType": "echoSkill",
       "value": 25,
       "scope": "team",
-      "requiresState": "共鸣模态·声骸",
+      "requiresState": "mode_1_option_2",
       "defaultActive": false,
       "triggerSkills": [
         "spotlight_echo"
@@ -351,7 +351,7 @@ WUWA.register({
       "damageType": "basic",
       "value": 30,
       "scope": "self",
-      "requiresState": "共鸣模态·霜渐",
+      "requiresState": "mode_1_option_1",
       "defaultActive": false,
       "triggerSkills": [
         "clear_as_day_frost"
@@ -364,7 +364,7 @@ WUWA.register({
       "damageType": "echoSkill",
       "value": 30,
       "scope": "self",
-      "requiresState": "共鸣模态·声骸",
+      "requiresState": "mode_1_option_2",
       "defaultActive": false,
       "triggerSkills": [
         "clear_as_day_echo"
@@ -377,11 +377,11 @@ WUWA.register({
       "damageType": "echoSkill",
       "value": 40,
       "scope": "team",
-      "requiresState": "共鸣模态·声骸",
+      "requiresState": "mode_1_option_2",
       "maxStacks": 4,
       "defaultStacks": 0,
       "defaultActive": false,
-      "stackGroup": "变焦",
+      "stackGroup": "stack_group_1",
       "triggerSkills": [
         "clear_as_day_echo",
         "oblivion_echo"
@@ -395,7 +395,7 @@ WUWA.register({
       "effect": "frost",
       "value": 60,
       "scope": "team",
-      "requiresState": "共鸣模态·霜渐",
+      "requiresState": "mode_1_option_1",
       "duration": 30
     },
     {
@@ -404,7 +404,7 @@ WUWA.register({
       "damageType": "echoSkill",
       "value": 50,
       "scope": "team",
-      "requiresState": "共鸣模态·声骸",
+      "requiresState": "mode_1_option_2",
       "duration": 14
     }
   ],
@@ -435,7 +435,7 @@ WUWA.register({
           "effect": "frost",
           "value": 80,
           "scope": "team",
-          "requiresState": "共鸣模态·霜渐",
+          "requiresState": "mode_1_option_1",
           "defaultActive": false,
           "triggerSkills": [
             "clear_as_day_frost"
@@ -448,7 +448,7 @@ WUWA.register({
           "damageType": "echoSkill",
           "value": 40,
           "scope": "team",
-          "requiresState": "共鸣模态·声骸",
+          "requiresState": "mode_1_option_2",
           "defaultActive": false,
           "triggerSkills": [
             "clear_as_day_echo"
@@ -522,7 +522,7 @@ WUWA.register({
           "maxStacks": 3,
           "defaultStacks": 0,
           "defaultActive": false,
-          "stackGroup": "铭记",
+          "stackGroup": "stack_group_2",
           "triggerSkills": [
             "oblivion_frost",
             "oblivion_echo"

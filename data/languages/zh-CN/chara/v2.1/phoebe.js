@@ -1,3 +1,5 @@
+"use strict";
+
 window.WUWA_LANGUAGES.extend("zh-CN", {
   "data": {
     "chars": {
@@ -61,16 +63,20 @@ window.WUWA_LANGUAGES.extend("zh-CN", {
             "name": "金色恩典"
           },
           {
-            "name": "赦罪·重击·星辉"
+            "name": "赦罪·重击·星辉",
+            "requiresResourceLabel": "福音"
           },
           {
-            "name": "告解·重击·星辉"
+            "name": "告解·重击·星辉",
+            "requiresResourceLabel": "福音"
           },
           {
-            "name": "圣祷赦罪"
+            "name": "圣祷赦罪",
+            "requiresResourceLabel": "祈愿满"
           },
           {
-            "name": "显明告解"
+            "name": "显明告解",
+            "requiresResourceLabel": "祈愿满"
           },
           {
             "name": "赦罪·镜之环附带星辉"
@@ -86,12 +92,15 @@ window.WUWA_LANGUAGES.extend("zh-CN", {
             "entry": "祈愿满时消耗全部祈愿，长按普攻施放圣祷赦罪进入赦罪；长按共鸣技能施放显明告解进入告解。二者不能同时存在，进入新状态会取代旧状态。",
             "options": [
               {
-                "label": "赦罪"
+                "label": "赦罪",
+                "valueLabel": "赦罪状态"
               },
               {
-                "label": "告解"
+                "label": "告解",
+                "valueLabel": "告解状态"
               }
-            ]
+            ],
+            "idLabel": "赦罪/告解状态"
           },
           {
             "label": "镜之环位置",
@@ -99,12 +108,15 @@ window.WUWA_LANGUAGES.extend("zh-CN", {
             "entry": "施放共鸣技能追寻光芒之所召唤镜之环，持续30秒；再次召唤会移除旧镜之环。",
             "options": [
               {
-                "label": "环外"
+                "label": "环外",
+                "valueLabel": "镜之环·环外"
               },
               {
-                "label": "环内"
+                "label": "环内",
+                "valueLabel": "镜之环·环内"
               }
-            ]
+            ],
+            "idLabel": "镜之环"
           }
         ],
         "buffs": [

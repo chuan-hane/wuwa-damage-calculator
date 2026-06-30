@@ -1,3 +1,5 @@
+"use strict";
+
 window.WUWA_LANGUAGES.extend("en-US", {
   "data": {
     "chars": {
@@ -62,16 +64,19 @@ window.WUWA_LANGUAGES.extend("en-US", {
             "name": "Everblooming - Skill DMG"
           },
           {
-            "name": "Vegetative Universe - Ephemeral DMG"
+            "name": "Vegetative Universe - Ephemeral DMG",
+            "requiresResourceLabel": "协奏能量满且一日花可用"
           },
           {
-            "name": "Vegetative Universe - Ephemeral DMG"
+            "name": "Vegetative Universe - Ephemeral DMG",
+            "requiresResourceLabel": "一日花后15秒内协奏能量满且永生花未冷却"
           },
           {
             "name": "Twining - Outro Skill DMG"
           },
           {
-            "name": "Twining - After Crimson Blossom DMG"
+            "name": "Twining - After Crimson Blossom DMG",
+            "requiresResourceLabel": "一日花后"
           }
         ],
         "combatStates": [
@@ -81,9 +86,11 @@ window.WUWA_LANGUAGES.extend("en-US", {
             "entry": "施放共鸣技能红椿盛绽后进入盛绽状态；施放黯蕊猎心、控物或旋舞等动作会退出。",
             "options": [
               {
-                "label": "盛绽"
+                "label": "盛绽",
+                "valueLabel": "盛绽状态"
               }
-            ]
+            ],
+            "idLabel": "盛绽状态"
           },
           {
             "label": "含苞状态",
@@ -91,12 +98,15 @@ window.WUWA_LANGUAGES.extend("en-US", {
             "entry": "施放共鸣回路一日花或6链永生花后进入含苞状态，持续15秒。",
             "options": [
               {
-                "label": "一日花后"
+                "label": "一日花后",
+                "valueLabel": "含苞状态·一日花"
               },
               {
-                "label": "永生花后"
+                "label": "永生花后",
+                "valueLabel": "含苞状态·永生花"
               }
-            ]
+            ],
+            "idLabel": "含苞状态"
           }
         ],
         "buffs": [

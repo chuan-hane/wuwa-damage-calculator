@@ -1,3 +1,5 @@
+"use strict";
+
 window.WUWA_LANGUAGES.extend("en-US", {
   "data": {
     "chars": {
@@ -28,10 +30,12 @@ window.WUWA_LANGUAGES.extend("en-US", {
             "name": "Flaming Star - Heavy Attack"
           },
           {
-            "name": "Flaming Star - Heavy Attack - Wolf's Gnawing DMG"
+            "name": "Flaming Star - Heavy Attack - Wolf's Gnawing DMG",
+            "requiresResourceLabel": "50狼焰"
           },
           {
-            "name": "Flaming Star - Heavy Attack - Wolf's Claw DMG"
+            "name": "Flaming Star - Heavy Attack - Wolf's Claw DMG",
+            "requiresResourceLabel": "50狼焰+1狼魂"
           },
           {
             "name": "Flaming Star - Mid-air Attack Stage 1 DMG"
@@ -43,7 +47,8 @@ window.WUWA_LANGUAGES.extend("en-US", {
             "name": "Flaming Star - Mid-air Attack Stage 3 DMG"
           },
           {
-            "name": "Flaming Star - Mid-air Attack - Firestrike DMG"
+            "name": "Flaming Star - Mid-air Attack - Firestrike DMG",
+            "requiresResourceLabel": "50狼焰"
           },
           {
             "name": "Flaming Star - Plunging Attack DMG"
@@ -58,13 +63,15 @@ window.WUWA_LANGUAGES.extend("en-US", {
             "name": "Shewolf's Hunt - Skill Damage"
           },
           {
-            "name": "Shewolf's Hunt - Feral Fang DMG"
+            "name": "Shewolf's Hunt - Feral Fang DMG",
+            "requiresResourceLabel": "围猎后"
           },
           {
             "name": "Fire-Kissed Glory - Skill Damage"
           },
           {
-            "name": "Fire-Kissed Glory - Foebreaker DMG"
+            "name": "Fire-Kissed Glory - Foebreaker DMG",
+            "requiresResourceLabel": "荣光欢酣于火后"
           },
           {
             "name": "Try Focusing, Eh? - Skill Damage"
@@ -73,16 +80,20 @@ window.WUWA_LANGUAGES.extend("en-US", {
             "name": "Try Focusing, Eh? - Nowhere to Run! DMG"
           },
           {
-            "name": "Ignis Lupa - Dance With the Wolf DMG"
+            "name": "Ignis Lupa - Dance With the Wolf DMG",
+            "requiresResourceLabel": "2狼魂"
           },
           {
-            "name": "Ignis Lupa - Dance With the Wolf: Climax DMG"
+            "name": "Ignis Lupa - Dance With the Wolf: Climax DMG",
+            "requiresResourceLabel": "2狼魂"
           },
           {
-            "name": "Ignis Lupa - Dance With the Wolf: Climax DMG"
+            "name": "Ignis Lupa - Dance With the Wolf: Climax DMG",
+            "requiresResourceLabel": "2狼魂"
           },
           {
-            "name": "Ignis Lupa - Set the Arena Ablaze DMG"
+            "name": "Ignis Lupa - Set the Arena Ablaze DMG",
+            "requiresResourceLabel": "狼舞后切人且队友施放共鸣解放"
           }
         ],
         "combatStates": [
@@ -92,9 +103,11 @@ window.WUWA_LANGUAGES.extend("en-US", {
             "entry": "施放共鸣技能破敌时进入赛点沸腾状态，持续12秒；施放狼舞的决意·极时失去赛点沸腾状态。",
             "options": [
               {
-                "label": "赛点沸腾"
+                "label": "赛点沸腾",
+                "valueLabel": "赛点沸腾"
               }
-            ]
+            ],
+            "idLabel": "赛点沸腾"
           },
           {
             "label": "追杀状态",
@@ -102,9 +115,11 @@ window.WUWA_LANGUAGES.extend("en-US", {
             "entry": "露帕的追猎攻击提升效果达到上限后，在追猎持续时间内进入追杀状态；同一个追猎仅可进入一次。",
             "options": [
               {
-                "label": "追杀"
+                "label": "追杀",
+                "valueLabel": "追杀状态"
               }
-            ]
+            ],
+            "idLabel": "追杀状态"
           }
         ],
         "buffs": [

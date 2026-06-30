@@ -1,3 +1,5 @@
+"use strict";
+
 window.WUWA_LANGUAGES.extend("en-US", {
   "data": {
     "chars": {
@@ -70,37 +72,48 @@ window.WUWA_LANGUAGES.extend("en-US", {
             "name": "Dreamweaver's Banquet - Mid-air Attack - Breakdown Form Stage 4 DMG"
           },
           {
-            "name": "\"Flawless\" - Void Particle - Basic Attack - Breakdown Form Stage 1 DMG"
+            "name": "\"Flawless\" - Void Particle - Basic Attack - Breakdown Form Stage 1 DMG",
+            "requiresResourceLabel": "虚质粒子"
           },
           {
-            "name": "\"Flawless\" - Void Particle - Basic Attack - Breakdown Form Stage 2 DMG"
+            "name": "\"Flawless\" - Void Particle - Basic Attack - Breakdown Form Stage 2 DMG",
+            "requiresResourceLabel": "虚质粒子"
           },
           {
-            "name": "\"Flawless\" - Void Particle - Basic Attack - Breakdown Form Stage 3 DMG"
+            "name": "\"Flawless\" - Void Particle - Basic Attack - Breakdown Form Stage 3 DMG",
+            "requiresResourceLabel": "虚质粒子"
           },
           {
-            "name": "\"Flawless\" - Void Particle - Basic Attack - Breakdown Form Stage 4 DMG"
+            "name": "\"Flawless\" - Void Particle - Basic Attack - Breakdown Form Stage 4 DMG",
+            "requiresResourceLabel": "虚质粒子"
           },
           {
-            "name": "\"Flawless\" - Void Particle - Heavy Attack - Breakdown Form DMG"
+            "name": "\"Flawless\" - Void Particle - Heavy Attack - Breakdown Form DMG",
+            "requiresResourceLabel": "虚质粒子"
           },
           {
-            "name": "\"Flawless\" - Void Particle - Mid-air Heavy Attack - Breakdown Form DMG"
+            "name": "\"Flawless\" - Void Particle - Mid-air Heavy Attack - Breakdown Form DMG",
+            "requiresResourceLabel": "虚质粒子"
           },
           {
-            "name": "\"Flawless\" - Void Particle - Dodge Counter - Breakdown Form DMG"
+            "name": "\"Flawless\" - Void Particle - Dodge Counter - Breakdown Form DMG",
+            "requiresResourceLabel": "虚质粒子"
           },
           {
-            "name": "\"Flawless\" - Void Particle - Mid-air Attack - Breakdown Form Stage 1 DMG"
+            "name": "\"Flawless\" - Void Particle - Mid-air Attack - Breakdown Form Stage 1 DMG",
+            "requiresResourceLabel": "虚质粒子"
           },
           {
-            "name": "\"Flawless\" - Void Particle - Mid-air Attack - Breakdown Form Stage 2 DMG"
+            "name": "\"Flawless\" - Void Particle - Mid-air Attack - Breakdown Form Stage 2 DMG",
+            "requiresResourceLabel": "虚质粒子"
           },
           {
-            "name": "\"Flawless\" - Void Particle - Mid-air Attack - Breakdown Form Stage 3 DMG"
+            "name": "\"Flawless\" - Void Particle - Mid-air Attack - Breakdown Form Stage 3 DMG",
+            "requiresResourceLabel": "虚质粒子"
           },
           {
-            "name": "\"Flawless\" - Void Particle - Mid-air Attack - Breakdown Form Stage 4 DMG"
+            "name": "\"Flawless\" - Void Particle - Mid-air Attack - Breakdown Form Stage 4 DMG",
+            "requiresResourceLabel": "虚质粒子"
           },
           {
             "name": "Bubbles and Baits - Phantom Bubble - Stagecraft Form DMG"
@@ -109,16 +122,19 @@ window.WUWA_LANGUAGES.extend("en-US", {
             "name": "Bubbles and Baits - Beckon - Breakdown Form DMG"
           },
           {
-            "name": "Bubbles and Baits - Banish - Breakdown Form Stage 1 DMG"
+            "name": "Bubbles and Baits - Banish - Breakdown Form Stage 1 DMG",
+            "requiresResourceLabel": "黯核"
           },
           {
-            "name": "Bubbles and Baits - Banish - Breakdown Form Stage 2 DMG"
+            "name": "Bubbles and Baits - Banish - Breakdown Form Stage 2 DMG",
+            "requiresResourceLabel": "黯核"
           },
           {
             "name": "Final Act - Final Act - Stagecraft Form DMG"
           },
           {
-            "name": "Final Act - Final Act - Breakdown Form DMG"
+            "name": "Final Act - Final Act - Breakdown Form DMG",
+            "requiresResourceLabel": "共形能量充满"
           },
           {
             "name": "Formal Greetings - It's Been A While! DMG"
@@ -130,10 +146,12 @@ window.WUWA_LANGUAGES.extend("en-US", {
             "name": "\"Flawless\" - Erosion Field DMG per tick"
           },
           {
-            "name": "Silent Glows in a Dimlit Dream - Dark Core - Basic Attack - Stagecraft Form Stage 4 DMG"
+            "name": "Silent Glows in a Dimlit Dream - Dark Core - Basic Attack - Stagecraft Form Stage 4 DMG",
+            "requiresResourceLabel": "黯核达到上限"
           },
           {
-            "name": "Silent Glows in a Dimlit Dream - Dark Core - Phantom Bubble - Stagecraft Form DMG"
+            "name": "Silent Glows in a Dimlit Dream - Dark Core - Phantom Bubble - Stagecraft Form DMG",
+            "requiresResourceLabel": "黯核达到上限"
           }
         ],
         "combatStates": [
@@ -143,12 +161,15 @@ window.WUWA_LANGUAGES.extend("en-US", {
             "entry": "达妮娅拥有布景之形与幻灭之形。施放帷幕终景·布景之形后获得熵变强化·幻灭之形并切换至幻灭之形；施放帷幕终景·幻灭之形后获得熵变强化·布景之形并切换至布景之形。",
             "options": [
               {
-                "label": "布景"
+                "label": "布景",
+                "valueLabel": "布景之形"
               },
               {
-                "label": "幻灭"
+                "label": "幻灭",
+                "valueLabel": "幻灭之形"
               }
-            ]
+            ],
+            "idLabel": "形态"
           },
           {
             "label": "共鸣模态",
@@ -156,12 +177,15 @@ window.WUWA_LANGUAGES.extend("en-US", {
             "entry": "达妮娅可在共鸣模态·聚爆与共鸣模态·集谐之间切换；默认分支为共鸣模态·聚爆。",
             "options": [
               {
-                "label": "聚爆"
+                "label": "聚爆",
+                "valueLabel": "共鸣模态·聚爆"
               },
               {
-                "label": "集谐"
+                "label": "集谐",
+                "valueLabel": "共鸣模态·集谐"
               }
-            ]
+            ],
+            "idLabel": "共鸣模态"
           },
           {
             "label": "熵变强化",
@@ -169,12 +193,15 @@ window.WUWA_LANGUAGES.extend("en-US", {
             "entry": "施放帷幕终景·布景之形后获得熵变强化·幻灭之形，持续12秒；施放帷幕终景·幻灭之形后获得熵变强化·布景之形，持续30秒。获得其中一个效果时会移除另一个。",
             "options": [
               {
-                "label": "布景强化"
+                "label": "布景强化",
+                "valueLabel": "熵变强化·布景之形"
               },
               {
-                "label": "幻灭强化"
+                "label": "幻灭强化",
+                "valueLabel": "熵变强化·幻灭之形"
               }
-            ]
+            ],
+            "idLabel": "熵变强化"
           },
           {
             "label": "蚀域",
@@ -182,9 +209,11 @@ window.WUWA_LANGUAGES.extend("en-US", {
             "entry": "施放共鸣解放帷幕终景·幻灭之形后生成蚀域，持续30秒；自身生成的蚀域同时最多存在一个。",
             "options": [
               {
-                "label": "已生成"
+                "label": "已生成",
+                "valueLabel": "蚀域"
               }
-            ]
+            ],
+            "idLabel": "蚀域"
           },
           {
             "label": "目标集谐状态",
@@ -192,12 +221,15 @@ window.WUWA_LANGUAGES.extend("en-US", {
             "entry": "共鸣模态·集谐下，指定技能造成伤害时可为目标附加【集谐·偏移】并刷新【集谐·干涉】持续时间；队伍附加集谐·偏移时可快速积累偏谐值。",
             "options": [
               {
-                "label": "集谐·偏移"
+                "label": "集谐·偏移",
+                "valueLabel": "目标集谐·偏移"
               },
               {
-                "label": "集谐·干涉"
+                "label": "集谐·干涉",
+                "valueLabel": "目标集谐·干涉"
               }
-            ]
+            ],
+            "idLabel": "目标集谐状态"
           }
         ],
         "buffs": [

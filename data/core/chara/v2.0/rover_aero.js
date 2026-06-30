@@ -137,7 +137,7 @@ WUWA.register({
       "damageType": "resonanceSkill",
       "multiplier": 171.5,
       "formula": "34.30% × 5",
-      "requiresResource": "60弦风息",
+      "requiresResource": "resource_gate_1",
       "requiresResourceAtLeast": {
         "id": "windstrings",
         "value": 60
@@ -153,7 +153,7 @@ WUWA.register({
       "damageType": "resonanceSkill",
       "multiplier": 723.03,
       "formula": "723.03%",
-      "requiresResource": "60弦风息",
+      "requiresResource": "resource_gate_1",
       "requiresResourceAtLeast": {
         "id": "windstrings",
         "value": 60

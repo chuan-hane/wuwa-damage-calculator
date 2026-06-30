@@ -1,3 +1,5 @@
+"use strict";
+
 window.WUWA_LANGUAGES.extend("zh-CN", {
   "data": {
     "chars": {
@@ -43,10 +45,12 @@ window.WUWA_LANGUAGES.extend("zh-CN", {
             "name": "精准反击"
           },
           {
-            "name": "集中压制"
+            "name": "集中压制",
+            "requiresResourceLabel": "冗余动能充满"
           },
           {
-            "name": "破袭反击"
+            "name": "破袭反击",
+            "requiresResourceLabel": "冗余动能充满"
           },
           {
             "name": "重燃"
@@ -58,16 +62,19 @@ window.WUWA_LANGUAGES.extend("zh-CN", {
             "name": "即刻执行"
           },
           {
-            "name": "重斩·破晓"
+            "name": "重斩·破晓",
+            "requiresResourceLabel": "焰光不少于30"
           },
           {
-            "name": "重斩·将明"
+            "name": "重斩·将明",
+            "requiresResourceLabel": "重斩·破晓后"
           },
           {
             "name": "重斩·终夜"
           },
           {
-            "name": "重斩·闪裂"
+            "name": "重斩·闪裂",
+            "requiresResourceLabel": "焰光不少于30"
           }
         ],
         "combatStates": [
@@ -77,9 +84,11 @@ window.WUWA_LANGUAGES.extend("zh-CN", {
             "entry": "施放共鸣解放重燃后进入，持续20秒；焰光低于30点或进入8秒后可施放终绝将至之刻，施放后退出。",
             "options": [
               {
-                "label": "灼焰形态"
+                "label": "灼焰形态",
+                "valueLabel": "灼焰形态"
               }
-            ]
+            ],
+            "idLabel": "灼焰形态"
           },
           {
             "label": "斩棘状态",
@@ -87,9 +96,11 @@ window.WUWA_LANGUAGES.extend("zh-CN", {
             "entry": "施放集中压制或破袭反击时进入，持续14秒。",
             "options": [
               {
-                "label": "斩棘"
+                "label": "斩棘",
+                "valueLabel": "斩棘状态"
               }
-            ]
+            ],
+            "idLabel": "斩棘状态"
           },
           {
             "label": "目标烈阳余烬",
@@ -97,9 +108,11 @@ window.WUWA_LANGUAGES.extend("zh-CN", {
             "entry": "赞妮在队伍中，附近队伍角色为目标附加光噪效应时，会立刻结算并转化为同层烈阳余烬；集中压制或破袭反击命中时附加1层。",
             "options": [
               {
-                "label": "有烈阳余烬"
+                "label": "有烈阳余烬",
+                "valueLabel": "烈阳余烬"
               }
-            ]
+            ],
+            "idLabel": "烈阳余烬"
           }
         ],
         "buffs": [

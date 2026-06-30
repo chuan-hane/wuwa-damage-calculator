@@ -1,3 +1,5 @@
+"use strict";
+
 window.WUWA_LANGUAGES.extend("en-US", {
   "data": {
     "chars": {
@@ -58,13 +60,16 @@ window.WUWA_LANGUAGES.extend("en-US", {
             "name": "Signal Light - Red Spotlight: Heavy Attack DMG"
           },
           {
-            "name": "Signal Light - Energized Pounce DMG"
+            "name": "Signal Light - Energized Pounce DMG",
+            "requiresResourceLabel": "黄灯光能满"
           },
           {
-            "name": "Signal Light - Energized Rebound DMG"
+            "name": "Signal Light - Energized Rebound DMG",
+            "requiresResourceLabel": "红灯光能满"
           },
           {
-            "name": "Signal Light - Single Laser Beam DMG"
+            "name": "Signal Light - Single Laser Beam DMG",
+            "requiresResourceLabel": "25以上光能"
           }
         ],
         "combatStates": [
@@ -74,18 +79,23 @@ window.WUWA_LANGUAGES.extend("en-US", {
             "entry": "黄灯期间使用前扑切换红灯；红灯期间使用后撤切换黄灯；满光能强化技能进入对应聚光模式。",
             "options": [
               {
-                "label": "黄灯模式"
+                "label": "黄灯模式",
+                "valueLabel": "黄灯模式"
               },
               {
-                "label": "红灯模式"
+                "label": "红灯模式",
+                "valueLabel": "红灯模式"
               },
               {
-                "label": "黄灯聚光模式"
+                "label": "黄灯聚光模式",
+                "valueLabel": "黄灯聚光模式"
               },
               {
-                "label": "红灯聚光模式"
+                "label": "红灯聚光模式",
+                "valueLabel": "红灯聚光模式"
               }
-            ]
+            ],
+            "idLabel": "灯号模式"
           }
         ],
         "buffs": [

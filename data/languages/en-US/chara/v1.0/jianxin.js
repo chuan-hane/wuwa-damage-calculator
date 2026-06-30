@@ -1,3 +1,5 @@
+"use strict";
+
 window.WUWA_LANGUAGES.extend("en-US", {
   "data": {
     "chars": {
@@ -37,22 +39,28 @@ window.WUWA_LANGUAGES.extend("en-US", {
             "name": "Calming Air - Chi Parry Damage"
           },
           {
-            "name": "Primordial Chi Spiral - Pushing Punch Damage"
+            "name": "Primordial Chi Spiral - Pushing Punch Damage",
+            "requiresResourceLabel": "120气"
           },
           {
-            "name": "Primordial Chi Spiral - Zhoutian Progress Continuous Damage"
+            "name": "Primordial Chi Spiral - Zhoutian Progress Continuous Damage",
+            "requiresResourceLabel": "120气"
           },
           {
-            "name": "Primordial Chi Spiral - Minor Zhoutian Shock Damage"
+            "name": "Primordial Chi Spiral - Minor Zhoutian Shock Damage",
+            "requiresResourceLabel": "120气"
           },
           {
-            "name": "Primordial Chi Spiral - Major Zhoutian: Inner Shock Damage"
+            "name": "Primordial Chi Spiral - Major Zhoutian: Inner Shock Damage",
+            "requiresResourceLabel": "120气"
           },
           {
-            "name": "Primordial Chi Spiral - Major Zhoutian: Outer Shock Damage"
+            "name": "Primordial Chi Spiral - Major Zhoutian: Outer Shock Damage",
+            "requiresResourceLabel": "120气"
           },
           {
-            "name": "Primordial Chi Spiral - Yielding Pull Damage"
+            "name": "Primordial Chi Spiral - Yielding Pull Damage",
+            "requiresResourceLabel": "120气"
           },
           {
             "name": "Purification Force Field - Resonance Liberation Continuous Damage"
@@ -61,7 +69,8 @@ window.WUWA_LANGUAGES.extend("en-US", {
             "name": "Purification Force Field - Resonance Liberation Explosion Damage"
           },
           {
-            "name": "Calming Air - Special Chi Counter Damage"
+            "name": "Calming Air - Special Chi Counter Damage",
+            "requiresResourceLabel": "特殊行气反击"
           },
           {
             "name": "Essence of Tao - Skill DMG"
@@ -74,18 +83,23 @@ window.WUWA_LANGUAGES.extend("en-US", {
             "entry": "气达到上限后长按普攻进入，期间持续消耗气；松开普攻或气耗尽时结束。",
             "options": [
               {
-                "label": "未达小周天"
+                "label": "未达小周天",
+                "valueLabel": "运气状态·未达小周天"
               },
               {
-                "label": "小周天"
+                "label": "小周天",
+                "valueLabel": "运气状态·小周天"
               },
               {
-                "label": "大周天·内"
+                "label": "大周天·内",
+                "valueLabel": "运气状态·大周天·内"
               },
               {
-                "label": "大周天·外"
+                "label": "大周天·外",
+                "valueLabel": "运气状态·大周天·外"
               }
-            ]
+            ],
+            "idLabel": "运气状态"
           }
         ],
         "buffs": [

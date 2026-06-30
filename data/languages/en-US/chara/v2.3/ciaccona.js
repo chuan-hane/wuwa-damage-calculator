@@ -1,3 +1,5 @@
+"use strict";
+
 window.WUWA_LANGUAGES.extend("en-US", {
   "data": {
     "chars": {
@@ -55,7 +57,8 @@ window.WUWA_LANGUAGES.extend("en-US", {
             "name": "Roaming with the Wind - Skill DMG"
           },
           {
-            "name": "Symphony of Wind and Verse - Quadruple Downbeat DMG"
+            "name": "Symphony of Wind and Verse - Quadruple Downbeat DMG",
+            "requiresResourceLabel": "3格音律"
           },
           {
             "name": "Unending Cadence - Solo Concert Coordinated DMG"
@@ -68,9 +71,11 @@ window.WUWA_LANGUAGES.extend("en-US", {
             "entry": "普攻第4段结束后进入；普攻第4段或音律独奏被打断时，合奏音影可代替夏空完成或继续该状态。",
             "options": [
               {
-                "label": "音律独奏"
+                "label": "音律独奏",
+                "valueLabel": "音律独奏"
               }
-            ]
+            ],
+            "idLabel": "音律独奏"
           },
           {
             "label": "演绎状态",
@@ -78,9 +83,11 @@ window.WUWA_LANGUAGES.extend("en-US", {
             "entry": "施放共鸣解放歌者的三重华彩后进入；切换角色不会结束，再次施放共鸣解放或切回夏空可提前结束。",
             "options": [
               {
-                "label": "演绎状态"
+                "label": "演绎状态",
+                "valueLabel": "演绎状态"
               }
-            ]
+            ],
+            "idLabel": "演绎状态"
           }
         ],
         "buffs": [

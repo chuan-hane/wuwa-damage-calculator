@@ -1,3 +1,5 @@
+"use strict";
+
 window.WUWA_LANGUAGES.extend("zh-CN", {
   "data": {
     "chars": {
@@ -43,7 +45,8 @@ window.WUWA_LANGUAGES.extend("zh-CN", {
             "name": "化刹"
           },
           {
-            "name": "灭音"
+            "name": "灭音",
+            "requiresResourceLabel": "暗流充满"
           },
           {
             "name": "暗流·普攻第一段"
@@ -86,9 +89,11 @@ window.WUWA_LANGUAGES.extend("zh-CN", {
             "entry": "【暗流】充满时，长按普攻施放灭音；施放灭音后进入暗涌状态。",
             "options": [
               {
-                "label": "暗涌"
+                "label": "暗涌",
+                "valueLabel": "暗涌状态"
               }
-            ]
+            ],
+            "idLabel": "暗涌状态"
           }
         ],
         "buffs": [

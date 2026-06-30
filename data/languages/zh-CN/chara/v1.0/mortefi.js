@@ -1,3 +1,5 @@
+"use strict";
+
 window.WUWA_LANGUAGES.extend("zh-CN", {
   "data": {
     "chars": {
@@ -46,7 +48,8 @@ window.WUWA_LANGUAGES.extend("zh-CN", {
             "name": "不协和音"
           },
           {
-            "name": "怒火赋格"
+            "name": "怒火赋格",
+            "requiresResourceLabel": "100怒气值"
           }
         ],
         "buffs": [

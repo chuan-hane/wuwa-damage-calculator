@@ -1,3 +1,5 @@
+"use strict";
+
 window.WUWA_LANGUAGES.extend("zh-CN", {
   "data": {
     "chars": {
@@ -64,10 +66,12 @@ window.WUWA_LANGUAGES.extend("zh-CN", {
             "name": "咩咩帮手"
           },
           {
-            "name": "重击·白咩·失控之炎"
+            "name": "重击·白咩·失控之炎",
+            "requiresResourceLabel": "100失序值"
           },
           {
-            "name": "重击·黑咩·暴走之炎"
+            "name": "重击·黑咩·暴走之炎",
+            "requiresResourceLabel": "100失序值"
           }
         ],
         "combatStates": [
@@ -77,9 +81,11 @@ window.WUWA_LANGUAGES.extend("zh-CN", {
             "entry": "施放共鸣解放黑咩大暴走后，安可进入黑咩大暴走状态。",
             "options": [
               {
-                "label": "处于黑咩大暴走"
+                "label": "处于黑咩大暴走",
+                "valueLabel": "黑咩大暴走"
               }
-            ]
+            ],
+            "idLabel": "黑咩大暴走"
           }
         ],
         "buffs": [

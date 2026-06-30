@@ -175,7 +175,7 @@ WUWA.register({
       "multiplier": 91.29,
       "formula": "65.21% × 140%",
       "seq": 5,
-      "requiresResource": "虚实境趣期间每3只墨鹤"
+      "requiresResource": "resource_gate_1"
     },
     {
       "id": "k6_white_crane",
@@ -184,7 +184,7 @@ WUWA.register({
       "multiplier": 357.86,
       "formula": "298.22% × 120%",
       "seq": 6,
-      "requiresResource": "神来之笔触发"
+      "requiresResource": "resource_gate_2"
     }
   ],
   "defaultSkillId": "forte_creations_zenith",

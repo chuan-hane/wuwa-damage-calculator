@@ -237,6 +237,59 @@ function coreDataDoesNotContainDisplayTextFields() {
   assert(!aliasBad.length, `core character aliases should live in language packs only: ${aliasBad.join(", ")}`);
 }
 
+function stateAndResourceTokensAreLanguageNeutral() {
+  const bad = [];
+  const hasCjk = (value) => /[\u3400-\u9fff]/.test(String(value));
+  const check = (owner, field, value) => {
+    [].concat(value || []).forEach((item) => {
+      if (hasCjk(item)) bad.push(`${owner}.${field}: ${item}`);
+    });
+  };
+  const checkResourceRequirement = (owner, field, req) => {
+    if (!req) return;
+    [].concat(req).forEach((item) => {
+      check(owner, `${field}.id`, item?.id);
+      check(owner, `${field}.ids`, item?.ids || item?.resources);
+      check(owner, `${field}.alternateStates`, item?.alternateStates);
+    });
+  };
+
+  for (const c of Object.values(window.WUWA.chars)) {
+    for (const resource of c.resources || []) {
+      check(`${c.id}.resource`, "id", resource.id);
+      check(`${c.id}.resource`, "group", resource.group);
+    }
+    for (const def of c.combatStates || []) {
+      const owner = `${c.id}.state.${def.id}`;
+      check(owner, "id", def.id);
+      check(owner, "defaultValue", def.defaultValue);
+      check(owner, "requiresState", def.requiresState);
+      check(owner, "requiresAllStates", def.requiresAllStates);
+      for (const opt of def.options || []) check(owner, "option.value", opt.value);
+    }
+    for (const sk of c.skills || []) {
+      const owner = `${c.id}.${sk.id}`;
+      check(owner, "requiresState", sk.requiresState);
+      check(owner, "requiresAllStates", sk.requiresAllStates);
+      check(owner, "impliedStates", sk.impliedStates);
+      check(owner, "requiresResource", sk.requiresResource);
+      check(owner, "requiresResourceFull", sk.requiresResourceFull);
+      check(owner, "stackResource", sk.stackResource);
+      checkResourceRequirement(owner, "requiresResourceAtLeast", sk.requiresResourceAtLeast);
+      checkResourceRequirement(owner, "requiresAllResourcesAtLeast", sk.requiresAllResourcesAtLeast);
+      checkResourceRequirement(owner, "requiresResourceSumAtLeast", sk.requiresResourceSumAtLeast);
+    }
+    for (const b of allBuffs(c)) {
+      const owner = `${c.id}.${b.id}`;
+      check(owner, "requiresState", b.requiresState);
+      check(owner, "requiresAllStates", b.requiresAllStates);
+      check(owner, "requiresResource", b.requiresResource);
+      check(owner, "stackGroup", b.stackGroup);
+    }
+  }
+  assert(!bad.length, `state/resource tokens must be language-neutral:\n${bad.join("\n")}`);
+}
+
 function initialRenderCompletes() {
   __T.state.lang = "zh-CN";
   __T.render();
@@ -552,14 +605,14 @@ function resourceFallbackSkillVisibility() {
         slot.toggles = { ...combo };
         slot.skill = sk.id;
         const onIds = new Set(__T.availableSkills(slot).map((s) => s.id));
-        const onControls = new Set(__T.resourceControlsForSlot(slot).map((control) => control.label));
+        const onControls = new Set(__T.resourceControlsForSlot(slot).flatMap((control) => [control.id, control.label].filter(Boolean)));
         if (onIds.has(sk.id) && onIds.has(fallback.id)) bad.push(`${c.id}.${sk.id}: resource ready shows fallback ${fallback.id}`);
         if (onIds.has(sk.id) && !onControls.has(sk.requiresResource)) bad.push(`${c.id}.${sk.id}: resource ready hides ${sk.requiresResource} control`);
 
         slot.toggles = { ...combo, [resourceKey]: false };
         slot.skill = fallback.id;
         const offIds = new Set(__T.availableSkills(slot).map((s) => s.id));
-        const offControls = new Set(__T.resourceControlsForSlot(slot).map((control) => control.label));
+        const offControls = new Set(__T.resourceControlsForSlot(slot).flatMap((control) => [control.id, control.label].filter(Boolean)));
         if (offIds.has(sk.id) && offIds.has(fallback.id)) bad.push(`${c.id}.${sk.id}: resource off shows both ${sk.id} and ${fallback.id}`);
         const sameActionReplacement = onIds.has(sk.id) && !onIds.has(fallback.id) && !offIds.has(sk.id) && offIds.has(fallback.id);
         if (!sameActionReplacement) continue;
@@ -595,10 +648,11 @@ function allCharacterResourceThresholdsAreStructured() {
   const thresholdText = /\d|满|充满|不少于|以上/;
   for (const c of Object.values(window.WUWA.chars)) {
     for (const sk of c.skills || []) {
-      if (!thresholdText.test(String(sk.requiresResource || ""))) continue;
+      const resourceText = String(sk.requiresResourceLabel || sk.resourceLabel || sk.requiresResource || "");
+      if (!thresholdText.test(resourceText)) continue;
       if (nonResourceThresholdWindows.has(`${c.id}.${sk.id}`)) continue;
       if (skillHasStructuredResourceGate(sk)) continue;
-      bad.push(`${c.id}.${sk.id}: ${sk.requiresResource}`);
+      bad.push(`${c.id}.${sk.id}: ${resourceText}`);
     }
   }
   assert(!bad.length, `resource threshold gates for all characters must bind to structured resources:\n${bad.join("\n")}`);
@@ -644,11 +698,18 @@ function allPlainResourceGatesAreReviewed() {
   const bad = [];
   for (const c of Object.values(window.WUWA.chars)) {
     const resourceKeys = new Set((c.resources || []).flatMap((r) => [r.id, r.label].filter(Boolean)));
+    const resourceIdByLabel = new Map((c.resources || []).filter((r) => r.label).map((r) => [r.label, r.id]));
     for (const sk of c.skills || []) {
       if (!sk.requiresResource || skillHasStructuredResourceGate(sk)) continue;
-      if (resourceKeys.has(sk.requiresResource)) continue;
+      const gateKeys = [sk.requiresResource, sk.requiresResourceLabel, sk.resourceLabel].filter(Boolean);
+      const labeledResourceId = [sk.requiresResourceLabel, sk.resourceLabel].map((key) => resourceIdByLabel.get(key)).find(Boolean);
+      if (labeledResourceId && sk.requiresResource !== labeledResourceId) {
+        bad.push(`${c.id}.${sk.id}: ${sk.requiresResourceLabel || sk.resourceLabel} must bind to ${labeledResourceId}, got ${sk.requiresResource}`);
+        continue;
+      }
+      if (gateKeys.some((key) => resourceKeys.has(key))) continue;
       if (reviewedManualWindows.has(`${c.id}.${sk.id}`)) continue;
-      bad.push(`${c.id}.${sk.id}: ${sk.requiresResource}`);
+      bad.push(`${c.id}.${sk.id}: ${sk.requiresResourceLabel || sk.requiresResource}`);
     }
   }
   assert(!bad.length, `plain requiresResource gates must either match character resources or be explicitly reviewed manual windows:\n${bad.join("\n")}`);
@@ -942,10 +1003,21 @@ function sonataEffectAttachmentBuffsAreManual() {
 
 function stateDefFor(c, stateName) {
   return (c.combatStates || []).find((def) => {
-    if (def.id === stateName) return true;
+    if (def.id === stateName || def.label === stateName || def.idLabel === stateName) return true;
     if (String(stateName).startsWith(def.id + "·")) return true;
-    return (def.options || []).some((opt) => opt.value === stateName);
+    return (def.options || []).some((opt) => opt.value === stateName || opt.label === stateName || opt.valueLabel === stateName);
   }) || null;
+}
+
+function stateOptionValueFor(c, stateName) {
+  const def = stateDefFor(c, stateName);
+  if (!def) return stateName;
+  const opt = (def.options || []).find((item) => item.value === stateName || item.label === stateName || item.valueLabel === stateName);
+  return opt?.value || stateName;
+}
+
+function resourceIdFor(c, resourceName) {
+  return (c.resources || []).find((item) => item.id === resourceName || item.label === resourceName)?.id || resourceName;
 }
 
 function stateOrderIndex(def, stateName) {
@@ -977,8 +1049,8 @@ function combatStateKindsMatchDescriptions() {
   for (const c of Object.values(window.WUWA.chars)) {
     for (const def of c.combatStates || []) {
       const ownText = [
-        def.id, def.label, def.inactiveLabel, def.entry, def.effects,
-        ...(def.options || []).flatMap((opt) => [opt.value, opt.label]),
+        def.id, def.idLabel, def.label, def.inactiveLabel, def.entry, def.effects,
+        ...(def.options || []).flatMap((opt) => [opt.value, opt.valueLabel, opt.label]),
       ].filter(Boolean).join(" ");
       if (def.kind && !validCombatStateKinds.has(def.kind)) bad.push(`${c.id}.${def.id}: invalid kind ${def.kind}`);
       if (!def.kind && !ownText.includes("状态")) bad.push(`${c.id}.${def.id}: non-status selector must declare kind`);
@@ -1015,13 +1087,16 @@ function supportTeamBuffConfirmationWritesProviderState() {
   resetTeam(["jinhsi", "shorekeeper", "verina"]);
   __T.state.outputIdx = 0;
   const slot = __T.state.slots[1];
-  const key = __T.stateChoiceKey("星域");
+  const fieldState = stateDefFor(window.WUWA.chars.shorekeeper, "星域");
+  const key = __T.stateChoiceKey(fieldState.id);
+  const deepenValue = stateOptionValueFor(window.WUWA.chars.shorekeeper, "星域·深潜");
+  const releasedValue = stateOptionValueFor(window.WUWA.chars.shorekeeper, "星域·解限");
   const cr = buff(slot, "b_field_cr");
   const cd = buff(slot, "b_field_cd");
 
   assert(__T.buffStatus(slot, 1, cr).precondition, "CR should need support-state confirmation before state is selected");
   __T.setBuffToggle(slot, 1, "b_field_cr", true);
-  assert(slot.toggles[key] === "星域·深潜", `CR confirmation should set Deepen field, got ${slot.toggles[key]}`);
+  assert(slot.toggles[key] === deepenValue, `CR confirmation should set Deepen field, got ${slot.toggles[key]}`);
 
   __T.state.outputIdx = 1;
   assert(__T.buffStatus(slot, 1, cr).applies, "CR should still apply after switching back to provider");
@@ -1029,7 +1104,7 @@ function supportTeamBuffConfirmationWritesProviderState() {
   __T.state.outputIdx = 0;
   assert(__T.buffStatus(slot, 1, cd).precondition, "CD should still need a higher field state");
   __T.setBuffToggle(slot, 1, "b_field_cd", true);
-  assert(slot.toggles[key] === "星域·解限", `CD confirmation should upgrade to Released field, got ${slot.toggles[key]}`);
+  assert(slot.toggles[key] === releasedValue, `CD confirmation should upgrade to Released field, got ${slot.toggles[key]}`);
 
   __T.state.outputIdx = 1;
   assert(__T.buffStatus(slot, 1, cd).applies, "CD should still apply after switching back to provider");
@@ -1197,14 +1272,17 @@ function reportedCharacterFixes() {
   let skillIds = new Set(__T.availableSkills(slot).map((s) => s.id));
   assert(!skillIds.has("starflash_absolution") && !skillIds.has("starflash_confession"), "Phoebe mode skills should wait for the current Prayer state");
   const prayerHTML = __T.stateControlsHTML(slot, 0);
-  const prayerInputs = [...prayerHTML.matchAll(/<button[^>]*data-act="state-choice"[^>]*data-key="赦罪\/告解状态"[^>]*>[^<]*<\/button>/g)].map((m) => m[0]);
+  const prayerState = stateDefFor(window.WUWA.chars.phoebe, "赦罪/告解状态");
+  const prayerKey = __T.stateChoiceKey(prayerState.id);
+  const prayerButtonRe = new RegExp(`<button[^>]*data-act="state-choice"[^>]*data-key="${prayerState.id}"[^>]*>[^<]*<\\/button>`, "g");
+  const prayerInputs = [...prayerHTML.matchAll(prayerButtonRe)].map((m) => m[0]);
   assert(prayerInputs.length === 3 && prayerHTML.includes("state-seg") && prayerHTML.includes(">赦罪</button>") && prayerHTML.includes(">告解</button>"), "Phoebe Prayer state should render as horizontal single-select segments");
   assert(prayerInputs.every((input) => !input.includes("disabled")), "Phoebe Prayer state should be chosen before selecting mode skills");
-  slot.toggles[__T.stateChoiceKey("赦罪/告解状态")] = "赦罪状态";
+  slot.toggles[prayerKey] = stateOptionValueFor(window.WUWA.chars.phoebe, "赦罪状态");
   skillIds = new Set(__T.availableSkills(slot).map((s) => s.id));
   assert(skillIds.has("starflash_absolution") && skillIds.has("absolution_litany") && skillIds.has("c6_starflash_absolution"), "Phoebe Absolution skills should remain available in Absolution state");
   assert(!skillIds.has("starflash_confession") && !skillIds.has("confession") && !skillIds.has("c6_starflash_confession"), "Phoebe Confession skills should be hidden in Absolution state");
-  slot.toggles[__T.stateChoiceKey("赦罪/告解状态")] = "告解状态";
+  slot.toggles[prayerKey] = stateOptionValueFor(window.WUWA.chars.phoebe, "告解状态");
   skillIds = new Set(__T.availableSkills(slot).map((s) => s.id));
   assert(skillIds.has("starflash_confession") && skillIds.has("confession") && skillIds.has("c6_starflash_confession"), "Phoebe Confession skills should remain available in Confession state");
   assert(!skillIds.has("starflash_absolution") && !skillIds.has("absolution_litany") && !skillIds.has("c6_starflash_absolution"), "Phoebe Absolution skills should be hidden in Confession state");
@@ -1285,9 +1363,9 @@ function reportedCharacterFixes() {
   slot = __T.state.slots[0];
   __T.state.slots[1].toggles.b_visual_break = true;
   slot.toggles[__T.stateChoiceKey("谐度干涉")] = "谐度干涉·集谐";
-  slot.toggles["stk_谐度干涉·集谐"] = 3;
   slot.toggles.b_tune_response = true;
   b = buff(slot, "b_tune_response");
+  slot.toggles[`stk_${b.stackGroup}`] = 3;
   assert(__T.buffStatus(slot, 0, b).applies, "Mornye Tune Strain - Interfered final damage should be modeled");
   assert(__T.buffFormulaText(slot, b, 0).includes("+18%"), "Mornye Tune Strain - Interfered should scale from active Tune Break Boost buffs per stack");
   slot.skill = "rupture_beam";
@@ -1407,24 +1485,29 @@ function reportedCharacterFixes() {
 
   resetTeam(["yuanwu"]);
   slot = __T.state.slots[0];
+  const yuanwu = window.WUWA.chars.yuanwu;
+  const thunderUprising = stateOptionValueFor(yuanwu, "雷厉风行");
+  const hasThunderUprising = (sk) => (sk?.impliedStates || []).includes(thunderUprising);
+  const thunderWedge = stateDefFor(yuanwu, "雷之楔在场");
+  const thunderWedgeKey = __T.stateChoiceKey(thunderWedge.id);
   slot.skill = "a12";
   r = __T.compute();
-  assert(!String(r.sk?.impliedStates || "").includes("雷厉风行"), "Yuanwu Thunder Wedge entry should not imply Thunder Uprising state");
+  assert(!hasThunderUprising(r.sk), "Yuanwu Thunder Wedge entry should not imply Thunder Uprising state");
   slot.skill = "a13";
   r = __T.compute();
-  assert(!String(r.sk?.impliedStates || "").includes("雷厉风行"), "Yuanwu Liberation entry should not imply Thunder Uprising state");
+  assert(!hasThunderUprising(r.sk), "Yuanwu Liberation entry should not imply Thunder Uprising state");
   slot.skill = "a16";
   r = __T.compute();
-  assert(String(r.sk?.impliedStates || "").includes("雷厉风行"), "Yuanwu Thunder Uprising attacks should still imply Thunder Uprising state");
+  assert(hasThunderUprising(r.sk), "Yuanwu Thunder Uprising attacks should still imply Thunder Uprising state");
   slot.seq = 5;
   slot.skill = "a13";
-  slot.toggles[__T.stateChoiceKey("雷之楔在场")] = "雷之楔在场";
+  slot.toggles[thunderWedgeKey] = stateOptionValueFor(yuanwu, "雷之楔在场");
   b = buff(slot, "k5");
   assert(__T.buffStatus(slot, 0, b).applies, "Yuanwu chain 5 should require Thunder Wedge presence, not Thunder Field range");
   slot.seq = 6;
   b = buff(slot, "k6");
   assert(!__T.buffStatus(slot, 0, b).applies, "Yuanwu chain 6 should still require Thunder Field range");
-  slot.toggles[__T.stateChoiceKey("雷之楔在场")] = "雷之楔在场·雷池范围";
+  slot.toggles[thunderWedgeKey] = stateOptionValueFor(yuanwu, "雷之楔在场·雷池范围");
   assert(__T.buffStatus(slot, 0, b).applies, "Yuanwu chain 6 should apply inside Thunder Field range");
   assert(window.WUWA.chars.yuanwu.skillEvents.some((e) => e.event === "shield" && e.seq === 4), "Yuanwu chain 4 shield event should be chain-gated");
 
@@ -1519,8 +1602,9 @@ function reportedCharacterFixes() {
   expectEqual(bulingTick.multiplier, 58.4, "Buling sustained pull multiplier");
 
   const chisa = window.WUWA.chars.chisa;
-  assert(!chisa.combatStates.some((s) => s.id === "虚湮之线"), "Chisa Thread of Nihility should not be modeled as a combat state");
-  assert(chisa.combatStates.find((s) => s.id === "虚无绞痕")?.kind === "target", "Chisa Void Snare should be labeled as a target marker");
+  const chisaVoidSnare = stateDefFor(chisa, "虚无绞痕");
+  assert(!stateDefFor(chisa, "虚湮之线"), "Chisa Thread of Nihility should not be modeled as a combat state");
+  assert(chisaVoidSnare?.kind === "target", "Chisa Void Snare should be labeled as a target marker");
   const chisaThreadDef = allBuffs(chisa).find((x) => x.id === "b_thread_def");
   assert(chisaThreadDef.defaultActive === false && !chisaThreadDef.requiresState && !chisaThreadDef.requiresAllStates, "Chisa Thread of Nihility defense ignore should be a manual buff confirmation");
   const chisaC2 = allBuffs(chisa).find((x) => x.id === "c2_dmg");
@@ -1549,7 +1633,7 @@ function reportedCharacterFixes() {
   let st = __T.buffStatus(chisaSlot, 1, b);
   assert(st.precondition && !st.gated, "effect-only support state buff should expose a confirmation control");
   __T.setBuffToggle(chisaSlot, 1, "c6_effect_amp", true);
-  assert(chisaSlot.toggles[__T.stateChoiceKey("虚无绞痕")] === "虚无绞痕·终焉", "confirming Chisa effect amp should write the provider target state");
+  assert(chisaSlot.toggles[__T.stateChoiceKey(chisaVoidSnare.id)] === stateOptionValueFor(chisa, "虚无绞痕·终焉"), "confirming Chisa effect amp should write the provider target state");
   r = __T.compute();
   expectEqual(r.effect.buffDeepen, 30, "confirmed Chisa chain 6 should deepen effect damage");
 
@@ -1587,40 +1671,42 @@ function reportedCharacterFixes() {
 
   resetTeam(["zani"]);
   slot = __T.state.slots[0];
+  const zaniBlaze = resourceIdFor(window.WUWA.chars.zani, "焰光");
   slot.toggles[__T.stateChoiceKey("灼焰形态")] = "灼焰形态";
   slot.skill = "forte_nightfall";
   __T.render();
-  assert(String(board.innerHTML).includes('data-key="焰光"') && String(board.innerHTML).includes("焰光 (0-40)"), "Zani Blaze should render as a persistent character resource control");
+  assert(String(board.innerHTML).includes(`data-key="${zaniBlaze}"`) && String(board.innerHTML).includes("焰光 (0-40)"), "Zani Blaze should render as a persistent character resource control");
   r = __T.compute();
   expectEqual(r.layers, 40, "Zani Nightfall should default to full Blaze");
   expectEqual(r.panel.baseMult, 795.63, "Zani Nightfall should scale from full Blaze");
-  slot.resources["焰光"] = 29;
+  slot.resources[zaniBlaze] = 29;
   slot.skill = "forte_daybreak";
   r = __T.compute();
   assert(r.resourceBlocked, "Zani Daybreak should be blocked below 30 Blaze");
   assert(!__T.resourceControlsForSlot(slot).some((control) => control.label === "焰光不少于30"), "Zani Blaze threshold should not render a duplicate boolean resource toggle");
-  slot.resources["焰光"] = 30;
+  slot.resources[zaniBlaze] = 30;
   r = __T.compute();
   expectEqual(r.sk.id, "forte_daybreak", "Zani Daybreak should unlock at 30 Blaze");
 
   resetTeam(["chisa"]);
   slot = __T.state.slots[0];
+  const chisaSawring = resourceIdFor(window.WUWA.chars.chisa, "锯环残响");
   slot.toggles[__T.stateChoiceKey("电锯模式")] = "电锯模式";
   slot.skill = "sawring_end";
   __T.render();
-  assert(String(board.innerHTML).includes('data-key="锯环残响"') && String(board.innerHTML).includes("锯环残响 (0-100)"), "Chisa Sawring Reverberation should render as a persistent character resource control");
+  assert(String(board.innerHTML).includes(`data-key="${chisaSawring}"`) && String(board.innerHTML).includes("锯环残响 (0-100)"), "Chisa Sawring Reverberation should render as a persistent character resource control");
   r = __T.compute();
   expectEqual(r.layers, 100, "Chisa Sawring End should default to full Sawring Reverberation");
   expectEqual(r.panel.baseMult, 516.67, "Chisa Sawring End should scale from full Sawring Reverberation");
-  slot.resources["锯环残响"] = 25;
+  slot.resources[chisaSawring] = 25;
   r = __T.compute();
   expectEqual(r.layers, 25, "Chisa Sawring End should read Sawring Reverberation from the character resource");
   expectEqual(r.panel.baseMult, 322.42, "Chisa Sawring End should update when Sawring Reverberation changes");
   slot.skill = "skill_cycle";
-  slot.resources["锯环残响"] = 99;
+  slot.resources[chisaSawring] = 99;
   r = __T.compute();
   expectEqual(r.sk.id, "skill_eye", "Chisa Serrated Loop should fall back before Sawring Reverberation is full");
-  slot.resources["锯环残响"] = 100;
+  slot.resources[chisaSawring] = 100;
   r = __T.compute();
   expectEqual(r.sk.id, "skill_cycle", "Chisa Serrated Loop should unlock at full Sawring Reverberation");
 
@@ -1974,24 +2060,29 @@ function modalEffectAndOffsetControlRegressions() {
 
   resetTeam(["denia"]);
   slot = __T.state.slots[0];
+  const deniaTargetState = stateDefFor(window.WUWA.chars.denia, "目标集谐状态");
+  const deniaInterference = stateOptionValueFor(window.WUWA.chars.denia, "目标集谐·干涉");
   slot.toggles[__T.stateChoiceKey("共鸣模态")] = "共鸣模态·集谐";
   assert(!effectOptions().includes("fusion"), "Denia Tune Strain mode should not expose Fusion effect damage");
-  assert(!String(board.innerHTML).includes('data-key="目标集谐状态"'), "Denia offset/interference target control should move out of the left state area");
+  assert(!String(board.innerHTML).includes(`data-key="${deniaTargetState.id}"`), "Denia offset/interference target control should move out of the left state area");
   let offsetValues = new Set((__T.compute().offset.entries || []).map((entry) => entry.optionValue));
-  assert(offsetValues.has("state|目标集谐状态|目标集谐·干涉"), "Denia Tune Strain Interference should stay available in the offset-system calculator");
+  assert(offsetValues.has(`state|${deniaTargetState.id}|${deniaInterference}`), "Denia Tune Strain Interference should stay available in the offset-system calculator");
   slot.toggles[__T.stateChoiceKey("共鸣模态")] = "共鸣模态·聚爆";
   assert(effectOptions().includes("fusion"), "Denia Fusion mode should expose Fusion effect damage");
 
   resetTeam(["aemeath"]);
   slot = __T.state.slots[0];
+  const aemeathTargetState = stateDefFor(window.WUWA.chars.aemeath, "目标震谐状态");
+  const aemeathTrailState = stateDefFor(window.WUWA.chars.aemeath, "目标震谐轨迹");
+  const aemeathFusionTrailState = stateDefFor(window.WUWA.chars.aemeath, "目标聚爆轨迹");
   assert(!effectOptions().includes("fusion"), "Aemeath Tune Rupture mode should not expose Fusion effect damage");
-  assert(!String(board.innerHTML).includes('data-key="目标震谐状态"'), "Aemeath offset/interference target control should move out of the left state area");
-  assert(String(board.innerHTML).includes('data-key="目标震谐轨迹"'), "Aemeath Tune Rupture trail control should remain visible");
+  assert(!String(board.innerHTML).includes(`data-key="${aemeathTargetState.id}"`), "Aemeath offset/interference target control should move out of the left state area");
+  assert(String(board.innerHTML).includes(`data-key="${aemeathTrailState.id}"`), "Aemeath Tune Rupture trail control should remain visible");
   offsetValues = new Set((__T.compute().offset.entries || []).map((entry) => entry.optionValue));
   assert(offsetValues.has("response|tune_starburst"), "Aemeath Tune Rupture response should stay available in the offset-system calculator");
   slot.toggles[__T.stateChoiceKey("共鸣模态")] = "共鸣模态·聚爆";
   assert(effectOptions().includes("fusion"), "Aemeath Fusion mode should expose Fusion effect damage");
-  assert(String(board.innerHTML).includes('data-key="目标聚爆轨迹"'), "Aemeath Fusion trail control should remain visible");
+  assert(String(board.innerHTML).includes(`data-key="${aemeathFusionTrailState.id}"`), "Aemeath Fusion trail control should remain visible");
 
   resetTeam(["lucilla"]);
   slot = __T.state.slots[0];
@@ -2206,16 +2297,20 @@ function lynaeCharacterRegressions() {
   slot.toggles[__T.stateChoiceKey("共鸣模态")] = "共鸣模态·集谐";
   r = __T.compute();
   offsetValues = new Set((r.offset.entries || []).map((entry) => entry.optionValue));
-  assert(offsetValues.has("state|目标集谐状态|目标集谐·干涉"), "Lynae Tune Strain mode should expose Tune Strain Interfered as the offset gain entry");
-  assert(!offsetValues.has("state|目标集谐状态|目标集谐·偏移"), "Lynae Tune Strain mode should not expose raw Tune Strain Offset in the offset calculator");
+  const lynaeStrainState = stateDefFor(window.WUWA.chars.lynae, "目标集谐状态");
+  const lynaeStrainInterfered = stateOptionValueFor(window.WUWA.chars.lynae, "目标集谐·干涉");
+  const lynaeStrainOffset = stateOptionValueFor(window.WUWA.chars.lynae, "目标集谐·偏移");
+  assert(offsetValues.has(`state|${lynaeStrainState.id}|${lynaeStrainInterfered}`), "Lynae Tune Strain mode should expose Tune Strain Interfered as the offset gain entry");
+  assert(!offsetValues.has(`state|${lynaeStrainState.id}|${lynaeStrainOffset}`), "Lynae Tune Strain mode should not expose raw Tune Strain Offset in the offset calculator");
   assert(![...offsetValues].some((value) => String(value).includes("目标震谐状态")), "Lynae Tune Strain mode should hide Tune Rupture target states");
   assert(![...offsetValues].some((value) => String(value).includes("共鸣模态")), "Lynae resonance mode entries should stay out of the offset-system dropdown");
   skillIds = new Set(__T.availableSkills(slot).map((s) => s.id));
   assert(!skillIds.has("tune_rupture_response_spectral"), "Lynae Tune Strain mode should hide Tune Rupture response skill");
-  slot.toggles[__T.stateChoiceKey("目标集谐状态")] = "目标集谐·干涉";
-  delete slot.toggles["stk_集谐·干涉"];
+  slot.toggles[__T.stateChoiceKey(lynaeStrainState.id)] = lynaeStrainInterfered;
+  const strainBuff = buff(slot, "b_tune_strain_response");
+  delete slot.toggles[`stk_${strainBuff.stackGroup}`];
   delete slot.toggles.b_tune_strain_response;
-  __T.state.offsetCalc = { key: "state", providerIdx: 0, skillId: null, stateId: "目标集谐状态", stateValue: "目标集谐·干涉", stacks: 0, deepen: 0 };
+  __T.state.offsetCalc = { key: "state", providerIdx: 0, skillId: null, stateId: lynaeStrainState.id, stateValue: lynaeStrainInterfered, stacks: 0, deepen: 0 };
   const noInterferenceDamage = __T.compute().expected;
   __T.state.offsetCalc.stacks = 3;
   r = __T.compute();
@@ -2225,12 +2320,11 @@ function lynaeCharacterRegressions() {
   expectEqual(r.offset.finalDmgGain, 18, "Tune Strain Interfered formula should scale stacks by Tune Break Boost");
   expectEqual(r.offsetFinalDmg, 18, "Tune Strain Interfered final damage gain should feed the main damage formula");
   assert(r.expected > noInterferenceDamage, "Increasing Tune Strain Interfered stacks should increase the main selected damage");
-  const b = buff(slot, "b_tune_strain_response");
-  slot.toggles["stk_集谐·干涉"] = 3;
+  slot.toggles[`stk_${strainBuff.stackGroup}`] = 3;
   slot.toggles.b_tune_strain_response = true;
   r = __T.compute();
-  assert(__T.buffStatus(slot, 0, b).applies, "Lynae Tune Strain - Interfered final damage buff should apply after target state confirmation");
-  assert(__T.buffFormulaText(slot, b, 0).includes("+18%"), "Lynae Tune Strain - Interfered should scale 3 stacks from active Tune Break Boost");
+  assert(__T.buffStatus(slot, 0, strainBuff).applies, "Lynae Tune Strain - Interfered final damage buff should apply after target state confirmation");
+  assert(__T.buffFormulaText(slot, strainBuff, 0).includes("+18%"), "Lynae Tune Strain - Interfered should scale 3 stacks from active Tune Break Boost");
   expectEqual(r.totals.finalDmg, 18, "Offset-system Tune Strain final damage should not double count the legacy buff card value");
   __T.render();
   assert(String(board.innerHTML).includes("最终伤害提升 = 3层 × 50点 × 0.12% = <b>18%</b>"), "Tune Strain Interfered formula should be visible in the offset-system calculator");
@@ -2260,7 +2354,8 @@ function hiyukiCharacterRegressions() {
 
   __T.state.effectCalc = { key: "frost", providerIdx: 0, stacks: 10, deepen: 0 };
   __T.setBuffToggle(slot, 0, "b_snow_rust_cd", true);
-  slot.toggles["stk_雪锈"] = 2;
+  const snowRust = buff(slot, "b_snow_rust_cd");
+  slot.toggles[`stk_${snowRust.stackGroup}`] = 2;
   let r = __T.compute();
   expectEqual(Math.round(r.effect.extraRate * 100) / 100, 102, "Hiyuki Snow Rust 2 stacks should add 102% extra Glacio Bite rate");
 
@@ -2268,7 +2363,7 @@ function hiyukiCharacterRegressions() {
   r = __T.compute();
   expectEqual(Math.round(r.effect.extraRate * 100) / 100, 590, "Hiyuki S3 should increase the extra Glacio Bite rate by 488%");
 
-  slot.toggles["stk_雪锈"] = 3;
+  slot.toggles[`stk_${snowRust.stackGroup}`] = 3;
   slot.seq = 5;
   const beforeS6 = __T.compute().effect.damage;
   slot.seq = 6;
@@ -2439,6 +2534,7 @@ const checks = [
   ["index loads every character file", indexLoadsAllCharacterFiles],
   ["language packs are split", languagePacksAreSplit],
   ["core data keeps display text out", coreDataDoesNotContainDisplayTextFields],
+  ["state/resource tokens are language-neutral", stateAndResourceTokensAreLanguageNeutral],
   ["initial render completes", initialRenderCompletes],
   ["English render completes", englishRenderCompletes],
   ["English visible text has no Chinese", englishVisibleTextHasNoChinese],

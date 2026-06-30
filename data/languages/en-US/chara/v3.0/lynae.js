@@ -1,3 +1,5 @@
+"use strict";
+
 window.WUWA_LANGUAGES.extend("en-US", {
   "data": {
     "chars": {
@@ -31,13 +33,16 @@ window.WUWA_LANGUAGES.extend("en-US", {
             "name": "Chroma Drift - Mid-air Attack DMG"
           },
           {
-            "name": "Chroma Drift - Basic Attack - Spark Collision Lv. 1 DMG"
+            "name": "Chroma Drift - Basic Attack - Spark Collision Lv. 1 DMG",
+            "requiresResourceLabel": "120点溢彩"
           },
           {
-            "name": "Chroma Drift - Basic Attack - Spark Collision Lv. 2 DMG"
+            "name": "Chroma Drift - Basic Attack - Spark Collision Lv. 2 DMG",
+            "requiresResourceLabel": "120点溢彩"
           },
           {
-            "name": "Chroma Drift - Basic Attack - Spark Collision Lv. 3 DMG"
+            "name": "Chroma Drift - Basic Attack - Spark Collision Lv. 3 DMG",
+            "requiresResourceLabel": "120点溢彩"
           },
           {
             "name": "Chroma Drift - Kaleidoscopic Parade - Basic Attack Stage 1 DMG"
@@ -79,25 +84,31 @@ window.WUWA_LANGUAGES.extend("en-US", {
             "name": "Prismatic Overblast - Prismatic Overblast DMG"
           },
           {
-            "name": "Prismatic Overblast - Basic Attack - To a Vivid Tomorrow! DMG"
+            "name": "Prismatic Overblast - Basic Attack - To a Vivid Tomorrow! DMG",
+            "requiresResourceLabel": "爆炸喷涂后"
           },
           {
             "name": "Time to Show Some Colors! - Time to Show Some Colors! DMG"
           },
           {
-            "name": "Chromaticity Modeling - Basic Attack - Iridescent Splash DMG"
+            "name": "Chromaticity Modeling - Basic Attack - Iridescent Splash DMG",
+            "requiresResourceLabel": "3点本色"
           },
           {
-            "name": "Chromaticity Modeling - Basic Attack - Visual Impact DMG"
+            "name": "Chromaticity Modeling - Basic Attack - Visual Impact DMG",
+            "requiresResourceLabel": "3点本色"
           },
           {
-            "name": "Chromaticity Modeling - Basic Attack - Polychrome Leap 1"
+            "name": "Chromaticity Modeling - Basic Attack - Polychrome Leap 1",
+            "requiresResourceLabel": "1/3流光上限"
           },
           {
-            "name": "Chromaticity Modeling - Basic Attack - Polychrome Leap 2"
+            "name": "Chromaticity Modeling - Basic Attack - Polychrome Leap 2",
+            "requiresResourceLabel": "1/3流光上限"
           },
           {
-            "name": "Chromaticity Modeling - Basic Attack - Polychrome Leap 3"
+            "name": "Chromaticity Modeling - Basic Attack - Polychrome Leap 3",
+            "requiresResourceLabel": "1/3流光上限"
           },
           {
             "name": "Chromaticity Modeling - Tune Rupture Response - Spectral Analysis DMG"
@@ -110,12 +121,15 @@ window.WUWA_LANGUAGES.extend("en-US", {
             "entry": "琳奈拥有共鸣模态·震谐和共鸣模态·集谐两种形态，可在两种形态间切换。",
             "options": [
               {
-                "label": "震谐"
+                "label": "震谐",
+                "valueLabel": "共鸣模态·震谐"
               },
               {
-                "label": "集谐"
+                "label": "集谐",
+                "valueLabel": "共鸣模态·集谐"
               }
-            ]
+            ],
+            "idLabel": "共鸣模态"
           },
           {
             "label": "战斗阶段",
@@ -123,12 +137,15 @@ window.WUWA_LANGUAGES.extend("en-US", {
             "entry": "琳奈初始处于光学取样阶段；施放普攻·灵感碰撞后进入绮彩巡游，退出绮彩巡游时清除流光和本色。",
             "options": [
               {
-                "label": "光学取样"
+                "label": "光学取样",
+                "valueLabel": "光学取样"
               },
               {
-                "label": "绮彩巡游"
+                "label": "绮彩巡游",
+                "valueLabel": "绮彩巡游"
               }
-            ]
+            ],
+            "idLabel": "战斗阶段"
           },
           {
             "label": "目标震谐状态",
@@ -136,12 +153,15 @@ window.WUWA_LANGUAGES.extend("en-US", {
             "entry": "共鸣模态·震谐下，光致变染会为目标附加【震谐·偏移】；队伍对偏移目标造成谐度破坏伤害并使其进入【震谐·干涉】后，琳奈可触发震谐响应·光谱解析。",
             "options": [
               {
-                "label": "震谐·偏移"
+                "label": "震谐·偏移",
+                "valueLabel": "目标震谐·偏移"
               },
               {
-                "label": "震谐·干涉"
+                "label": "震谐·干涉",
+                "valueLabel": "目标震谐·干涉"
               }
-            ]
+            ],
+            "idLabel": "目标震谐状态"
           },
           {
             "label": "目标集谐状态",
@@ -149,12 +169,15 @@ window.WUWA_LANGUAGES.extend("en-US", {
             "entry": "共鸣模态·集谐下，光致变染会为目标附加【集谐·偏移】；队伍对偏移目标造成谐度破坏伤害后可形成【集谐·干涉】层数。",
             "options": [
               {
-                "label": "集谐·偏移"
+                "label": "集谐·偏移",
+                "valueLabel": "目标集谐·偏移"
               },
               {
-                "label": "集谐·干涉"
+                "label": "集谐·干涉",
+                "valueLabel": "目标集谐·干涉"
               }
-            ]
+            ],
+            "idLabel": "目标集谐状态"
           }
         ],
         "buffs": [

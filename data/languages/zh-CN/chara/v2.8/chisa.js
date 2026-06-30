@@ -1,3 +1,5 @@
+"use strict";
+
 window.WUWA_LANGUAGES.extend("zh-CN", {
   "data": {
     "chars": {
@@ -49,10 +51,12 @@ window.WUWA_LANGUAGES.extend("zh-CN", {
             "name": "解弦之眼"
           },
           {
-            "name": "齿轨轮回"
+            "name": "齿轨轮回",
+            "requiresResourceLabel": "锯环残响充满"
           },
           {
-            "name": "齿轨轮回长按"
+            "name": "齿轨轮回长按",
+            "requiresResourceLabel": "锯环残响充满"
           },
           {
             "name": "即刻·归无"
@@ -98,9 +102,11 @@ window.WUWA_LANGUAGES.extend("zh-CN", {
             "entry": "施放齿轨轮回后进入；锯环·终结后退出。",
             "options": [
               {
-                "label": "电锯模式"
+                "label": "电锯模式",
+                "valueLabel": "电锯模式"
               }
-            ]
+            ],
+            "idLabel": "电锯模式"
           },
           {
             "label": "万缕·汇终",
@@ -108,9 +114,11 @@ window.WUWA_LANGUAGES.extend("zh-CN", {
             "entry": "施放共鸣解放即刻·归无后进入，持续15秒；施放锯环·终结后提前结束。",
             "options": [
               {
-                "label": "万缕·汇终"
+                "label": "万缕·汇终",
+                "valueLabel": "万缕·汇终"
               }
-            ]
+            ],
+            "idLabel": "万缕·汇终"
           },
           {
             "label": "目标虚无绞痕",
@@ -118,12 +126,15 @@ window.WUWA_LANGUAGES.extend("zh-CN", {
             "entry": "共鸣技能命中、齿轨轮回后命中、解弦之眼·收弦命中或锁定目标时附加，持续30秒。",
             "options": [
               {
-                "label": "虚无绞痕"
+                "label": "虚无绞痕",
+                "valueLabel": "虚无绞痕"
               },
               {
-                "label": "终焉"
+                "label": "终焉",
+                "valueLabel": "虚无绞痕·终焉"
               }
-            ]
+            ],
+            "idLabel": "虚无绞痕"
           }
         ],
         "buffs": [

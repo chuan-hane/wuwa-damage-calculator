@@ -1,3 +1,5 @@
+"use strict";
+
 window.WUWA_LANGUAGES.extend("en-US", {
   "data": {
     "chars": {
@@ -22,7 +24,8 @@ window.WUWA_LANGUAGES.extend("en-US", {
             "name": "Movement of Life and Death - Heavy Attack DMG"
           },
           {
-            "name": "Movement of Life and Death - Scarlet Coda DMG"
+            "name": "Movement of Life and Death - Scarlet Coda DMG",
+            "requiresResourceLabel": "6枚乐声且谱曲激活"
           },
           {
             "name": "Movement of Life and Death - Mid-air Attack DMG"
@@ -70,7 +73,8 @@ window.WUWA_LANGUAGES.extend("en-US", {
             "name": "Suite of Quietus - Suite of Quietus DMG"
           },
           {
-            "name": "Suite of Quietus - Suite of Immortality DMG"
+            "name": "Suite of Quietus - Suite of Immortality DMG",
+            "requiresResourceLabel": "永生组歌替换"
           },
           {
             "name": "Rhapsody of a New World - Movement of Fate and Finality DMG"
@@ -79,7 +83,8 @@ window.WUWA_LANGUAGES.extend("en-US", {
             "name": "Rhapsody of a New World - Murmurs in a Haunting Dream DMG"
           },
           {
-            "name": "A Night to Depart From Eternal Rest - Apparition of Beyond - Hecate DMG"
+            "name": "A Night to Depart From Eternal Rest - Apparition of Beyond - Hecate DMG",
+            "requiresResourceLabel": "亡与死的乐章/永不消逝的梦呓期间"
           }
         ],
         "combatStates": [
@@ -89,9 +94,11 @@ window.WUWA_LANGUAGES.extend("en-US", {
             "entry": "施放普攻第3段或共鸣技能稍纵即逝的梦呓后进入。",
             "options": [
               {
-                "label": "重世"
+                "label": "重世",
+                "valueLabel": "重世状态"
               }
-            ]
+            ],
+            "idLabel": "重世状态"
           },
           {
             "label": "定音状态",
@@ -99,9 +106,11 @@ window.WUWA_LANGUAGES.extend("en-US", {
             "entry": "施放谱曲终末后获得。",
             "options": [
               {
-                "label": "定音"
+                "label": "定音",
+                "valueLabel": "定音状态"
               }
-            ]
+            ],
+            "idLabel": "定音状态"
           },
           {
             "label": "指挥状态",
@@ -109,12 +118,15 @@ window.WUWA_LANGUAGES.extend("en-US", {
             "entry": "处于定音状态时施放往日深渊的圆舞曲进入，持续24秒。",
             "options": [
               {
-                "label": "指挥·登场"
+                "label": "指挥·登场",
+                "valueLabel": "指挥状态·登场"
               },
               {
-                "label": "指挥·后台"
+                "label": "指挥·后台",
+                "valueLabel": "指挥状态·后台"
               }
-            ]
+            ],
+            "idLabel": "指挥状态"
           },
           {
             "label": "谱曲激活",
@@ -122,9 +134,11 @@ window.WUWA_LANGUAGES.extend("en-US", {
             "entry": "拥有6枚乐声并激活谱曲时，重击替换为谱曲终末。",
             "options": [
               {
-                "label": "谱曲激活"
+                "label": "谱曲激活",
+                "valueLabel": "谱曲激活"
               }
-            ]
+            ],
+            "idLabel": "谱曲激活"
           }
         ],
         "buffs": [

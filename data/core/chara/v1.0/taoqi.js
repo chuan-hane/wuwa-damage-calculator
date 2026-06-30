@@ -151,7 +151,7 @@ WUWA.register({
       "stat": "defense",
       "multiplier": 86.2,
       "formula": "86.20%",
-      "requiresResource": "刚柔化势"
+      "requiresResource": "resource_gate_1"
     },
     {
       "id": "forte_timed_counters_2",
@@ -163,7 +163,7 @@ WUWA.register({
       "stat": "defense",
       "multiplier": 110.93,
       "formula": "110.93%",
-      "requiresResource": "刚柔化势"
+      "requiresResource": "resource_gate_1"
     },
     {
       "id": "forte_timed_counters_3",
@@ -175,7 +175,7 @@ WUWA.register({
       "stat": "defense",
       "multiplier": 145.41,
       "formula": "145.41%",
-      "requiresResource": "刚柔化势"
+      "requiresResource": "resource_gate_1"
     }
   ],
   "defaultSkillId": "lib",

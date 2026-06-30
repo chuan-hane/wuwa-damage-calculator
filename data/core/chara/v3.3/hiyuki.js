@@ -52,7 +52,7 @@ WUWA.register({
       "multiplier": 75.44,
       "formula": "37.72% + 37.72%",
       "impliedStates": [
-        "常世身"
+        "form_1_option_1"
       ]
     },
     {
@@ -62,7 +62,7 @@ WUWA.register({
       "multiplier": 90.25,
       "formula": "90.25%",
       "impliedStates": [
-        "常世身"
+        "form_1_option_1"
       ]
     },
     {
@@ -72,7 +72,7 @@ WUWA.register({
       "multiplier": 122.97,
       "formula": "4.92% × 5 + 98.37%",
       "impliedStates": [
-        "常世身"
+        "form_1_option_1"
       ]
     },
     {
@@ -82,9 +82,9 @@ WUWA.register({
       "multiplier": 317.23,
       "formula": "79.31% × 2 + 158.61%",
       "impliedStates": [
-        "常世身"
+        "form_1_option_1"
       ],
-      "requiresResource": "300心念",
+      "requiresResource": "resource_gate_1",
       "requiresResourceAtLeast": {
         "id": "mind",
         "value": 300
@@ -97,7 +97,7 @@ WUWA.register({
       "multiplier": 128.18,
       "formula": "128.18%",
       "impliedStates": [
-        "常世身"
+        "form_1_option_1"
       ]
     },
     {
@@ -107,7 +107,7 @@ WUWA.register({
       "multiplier": 173.75,
       "formula": "173.75%",
       "impliedStates": [
-        "常世身"
+        "form_1_option_1"
       ]
     },
     {
@@ -117,7 +117,7 @@ WUWA.register({
       "multiplier": 49.27,
       "formula": "49.27%",
       "impliedStates": [
-        "预求身"
+        "form_1_option_2"
       ]
     },
     {
@@ -127,7 +127,7 @@ WUWA.register({
       "multiplier": 80.04,
       "formula": "40.02% + 40.02%",
       "impliedStates": [
-        "预求身"
+        "form_1_option_2"
       ]
     },
     {
@@ -137,7 +137,7 @@ WUWA.register({
       "multiplier": 167.72,
       "formula": "25.16% × 4 + 67.08%",
       "impliedStates": [
-        "预求身"
+        "form_1_option_2"
       ]
     },
     {
@@ -147,7 +147,7 @@ WUWA.register({
       "multiplier": 149.65,
       "formula": "29.93% + 29.93% + 29.93% + 29.93% + 29.93%",
       "impliedStates": [
-        "预求身"
+        "form_1_option_2"
       ]
     },
     {
@@ -157,7 +157,7 @@ WUWA.register({
       "multiplier": 121.64,
       "formula": "12.17% + 109.47%",
       "impliedStates": [
-        "预求身"
+        "form_1_option_2"
       ]
     },
     {
@@ -167,7 +167,7 @@ WUWA.register({
       "multiplier": 107.16,
       "formula": "107.16%",
       "impliedStates": [
-        "预求身"
+        "form_1_option_2"
       ]
     },
     {
@@ -177,9 +177,9 @@ WUWA.register({
       "multiplier": 616.33,
       "formula": "15.41% × 8 + 493.05%",
       "impliedStates": [
-        "预求身"
+        "form_1_option_2"
       ],
-      "requiresResource": "3淬寒·枯霜",
+      "requiresResource": "resource_gate_2",
       "requiresResourceAtLeast": {
         "id": "bitterfrost",
         "value": 3
@@ -193,7 +193,7 @@ WUWA.register({
       "multiplier": 96.09,
       "formula": "28.83% + 28.83% + 38.43%",
       "impliedStates": [
-        "预求身"
+        "form_1_option_2"
       ]
     },
     {
@@ -203,7 +203,7 @@ WUWA.register({
       "multiplier": 104.36,
       "formula": "26.09% + 26.09% + 26.09% + 26.09%",
       "impliedStates": [
-        "预求身"
+        "form_1_option_2"
       ]
     },
     {
@@ -213,7 +213,7 @@ WUWA.register({
       "multiplier": 111.6,
       "formula": "111.60%",
       "impliedStates": [
-        "预求身"
+        "form_1_option_2"
       ]
     },
     {
@@ -223,7 +223,7 @@ WUWA.register({
       "multiplier": 163.54,
       "formula": "81.77% + 81.77%",
       "impliedStates": [
-        "预求身"
+        "form_1_option_2"
       ]
     },
     {
@@ -233,7 +233,7 @@ WUWA.register({
       "multiplier": 195.98,
       "formula": "24.50% × 4 + 97.98%",
       "impliedStates": [
-        "常世身"
+        "form_1_option_1"
       ],
       "triggerEvents": [
         "castResonanceSkill"
@@ -246,7 +246,7 @@ WUWA.register({
       "multiplier": 264.04,
       "formula": "66.01% × 4",
       "impliedStates": [
-        "预求身"
+        "form_1_option_2"
       ],
       "triggerEvents": [
         "castResonanceSkill"
@@ -259,7 +259,7 @@ WUWA.register({
       "multiplier": 320.1,
       "formula": "64.02% × 4 + 64.02%",
       "impliedStates": [
-        "预求身"
+        "form_1_option_2"
       ],
       "triggerEvents": [
         "castResonanceSkill"
@@ -272,9 +272,9 @@ WUWA.register({
       "multiplier": 397.62,
       "formula": "397.62%",
       "impliedStates": [
-        "常世身"
+        "form_1_option_1"
       ],
-      "requiresResource": "重击·寒簇·常世身后"
+      "requiresResource": "resource_gate_3"
     },
     {
       "id": "lib_blade",
@@ -287,7 +287,7 @@ WUWA.register({
       "stackLabel": "锻雪·归刃",
       "formula": "198.81% + 795.24% + 795.24% × 锻雪·归刃",
       "impliedStates": [
-        "预求身"
+        "form_1_option_2"
       ]
     },
     {
@@ -307,10 +307,10 @@ WUWA.register({
       "multiplier": 473.06,
       "formula": "283.82% + 47.31% × 4",
       "impliedStates": [
-        "预求身",
-        "居合架势"
+        "form_1_option_2",
+        "mechanic_1_option_1"
       ],
-      "requiresResource": "100寒意",
+      "requiresResource": "resource_gate_4",
       "requiresResourceAtLeast": {
         "id": "chill",
         "value": 100
@@ -328,25 +328,25 @@ WUWA.register({
   "echoSet": 30,
   "combatStates": [
     {
-      "id": "身相",
+      "id": "form_1",
       "kind": "form",
       "required": true,
-      "defaultValue": "预求身",
+      "defaultValue": "form_1_option_2",
       "options": [
         {
-          "value": "常世身"
+          "value": "form_1_option_1"
         },
         {
-          "value": "预求身"
+          "value": "form_1_option_2"
         }
       ]
     },
     {
-      "id": "居合架势",
+      "id": "mechanic_1",
       "kind": "mechanic",
       "options": [
         {
-          "value": "居合架势"
+          "value": "mechanic_1_option_1"
         }
       ]
     }
@@ -359,7 +359,7 @@ WUWA.register({
       "scope": "self",
       "maxStacks": 1,
       "stackMax": 3,
-      "stackGroup": "雪锈",
+      "stackGroup": "stack_group_1",
       "stackRange": [
         1,
         1

@@ -55,7 +55,7 @@ WUWA.register({
       "multiplier": 86.19,
       "formula": "86.19%",
       "impliedStates": [
-        "光学取样"
+        "phase_1_option_1"
       ]
     },
     {
@@ -65,7 +65,7 @@ WUWA.register({
       "multiplier": 157.17,
       "formula": "52.39% + 52.39% + 52.39%",
       "impliedStates": [
-        "光学取样"
+        "phase_1_option_1"
       ]
     },
     {
@@ -75,7 +75,7 @@ WUWA.register({
       "multiplier": 123.37,
       "formula": "123.37%",
       "impliedStates": [
-        "光学取样"
+        "phase_1_option_1"
       ]
     },
     {
@@ -85,7 +85,7 @@ WUWA.register({
       "multiplier": 239.97,
       "formula": "239.97%",
       "impliedStates": [
-        "光学取样"
+        "phase_1_option_1"
       ]
     },
     {
@@ -95,7 +95,7 @@ WUWA.register({
       "multiplier": 143.65,
       "formula": "14.37% + 129.28%",
       "impliedStates": [
-        "光学取样"
+        "phase_1_option_1"
       ]
     },
     {
@@ -104,13 +104,13 @@ WUWA.register({
       "damageType": "basic",
       "multiplier": 111.12,
       "formula": "55.56% × 2",
-      "requiresResource": "120点溢彩",
+      "requiresResource": "resource_gate_1",
       "requiresResourceAtLeast": {
         "id": "iridescence",
         "value": 120
       },
       "impliedStates": [
-        "光学取样"
+        "phase_1_option_1"
       ]
     },
     {
@@ -119,13 +119,13 @@ WUWA.register({
       "damageType": "basic",
       "multiplier": 333.34,
       "formula": "166.67% × 2",
-      "requiresResource": "120点溢彩",
+      "requiresResource": "resource_gate_1",
       "requiresResourceAtLeast": {
         "id": "iridescence",
         "value": 120
       },
       "impliedStates": [
-        "光学取样"
+        "phase_1_option_1"
       ]
     },
     {
@@ -134,13 +134,13 @@ WUWA.register({
       "damageType": "basic",
       "multiplier": 555.56,
       "formula": "277.78% × 2",
-      "requiresResource": "120点溢彩",
+      "requiresResource": "resource_gate_1",
       "requiresResourceAtLeast": {
         "id": "iridescence",
         "value": 120
       },
       "impliedStates": [
-        "光学取样"
+        "phase_1_option_1"
       ]
     },
     {
@@ -150,7 +150,7 @@ WUWA.register({
       "multiplier": 82.81,
       "formula": "82.81%",
       "impliedStates": [
-        "绮彩巡游"
+        "phase_1_option_2"
       ]
     },
     {
@@ -160,7 +160,7 @@ WUWA.register({
       "multiplier": 77.74,
       "formula": "38.87% × 2",
       "impliedStates": [
-        "绮彩巡游"
+        "phase_1_option_2"
       ]
     },
     {
@@ -170,7 +170,7 @@ WUWA.register({
       "multiplier": 113.25,
       "formula": "37.75% × 3",
       "impliedStates": [
-        "绮彩巡游"
+        "phase_1_option_2"
       ]
     },
     {
@@ -180,7 +180,7 @@ WUWA.register({
       "multiplier": 148.74,
       "formula": "29.75% × 2 + 44.62% + 44.62%",
       "impliedStates": [
-        "绮彩巡游"
+        "phase_1_option_2"
       ]
     },
     {
@@ -190,7 +190,7 @@ WUWA.register({
       "multiplier": 251.81,
       "formula": "75.54% + 15.11% × 5 + 100.72%",
       "impliedStates": [
-        "绮彩巡游"
+        "phase_1_option_2"
       ]
     },
     {
@@ -200,7 +200,7 @@ WUWA.register({
       "multiplier": 184.2,
       "formula": "184.20%",
       "impliedStates": [
-        "绮彩巡游"
+        "phase_1_option_2"
       ]
     },
     {
@@ -210,7 +210,7 @@ WUWA.register({
       "multiplier": 123.41,
       "formula": "17.63% × 7",
       "impliedStates": [
-        "绮彩巡游"
+        "phase_1_option_2"
       ]
     },
     {
@@ -220,7 +220,7 @@ WUWA.register({
       "multiplier": 104.78,
       "formula": "104.78%",
       "impliedStates": [
-        "绮彩巡游"
+        "phase_1_option_2"
       ]
     },
     {
@@ -230,7 +230,7 @@ WUWA.register({
       "multiplier": 143.65,
       "formula": "14.37% + 129.28%",
       "impliedStates": [
-        "绮彩巡游"
+        "phase_1_option_2"
       ]
     },
     {
@@ -240,7 +240,7 @@ WUWA.register({
       "multiplier": 243.39,
       "formula": "34.77% × 7",
       "impliedStates": [
-        "绮彩巡游"
+        "phase_1_option_2"
       ]
     },
     {
@@ -250,7 +250,7 @@ WUWA.register({
       "multiplier": 278.63,
       "formula": "139.31% + 46.44% × 3",
       "impliedStates": [
-        "光学取样"
+        "phase_1_option_1"
       ]
     },
     {
@@ -260,7 +260,7 @@ WUWA.register({
       "multiplier": 232.62,
       "formula": "116.31% × 2",
       "impliedStates": [
-        "绮彩巡游"
+        "phase_1_option_2"
       ]
     },
     {
@@ -279,7 +279,7 @@ WUWA.register({
       "damageType": "basic",
       "multiplier": 201.06,
       "formula": "8.38% × 12 + 10.05% × 10",
-      "requiresResource": "爆炸喷涂后"
+      "requiresResource": "resource_gate_2"
     },
     {
       "id": "time_to_show_some_colors",
@@ -298,13 +298,13 @@ WUWA.register({
       "damageType": "basic",
       "multiplier": 304.18,
       "formula": "304.18%",
-      "requiresResource": "3点本色",
+      "requiresResource": "resource_gate_3",
       "requiresResourceAtLeast": {
         "id": "trueColor",
         "value": 3
       },
       "impliedStates": [
-        "绮彩巡游"
+        "phase_1_option_2"
       ],
       "triggerEvents": [
         "applyPhotochromicFlux"
@@ -316,13 +316,13 @@ WUWA.register({
       "damageType": "basic",
       "multiplier": 1216.72,
       "formula": "1216.72%",
-      "requiresResource": "3点本色",
+      "requiresResource": "resource_gate_3",
       "requiresResourceAtLeast": {
         "id": "trueColor",
         "value": 3
       },
       "impliedStates": [
-        "绮彩巡游"
+        "phase_1_option_2"
       ],
       "triggerEvents": [
         "applyPhotochromicFlux"
@@ -334,13 +334,13 @@ WUWA.register({
       "damageType": "basic",
       "multiplier": 101.4,
       "formula": "33.80% × 3",
-      "requiresResource": "1/3流光上限",
+      "requiresResource": "resource_gate_4",
       "requiresResourceAtLeast": {
         "id": "luminousFlux",
         "fractionOfCap": 0.3333333333333333
       },
       "impliedStates": [
-        "绮彩巡游"
+        "phase_1_option_2"
       ],
       "triggerEvents": [
         "applyPhotochromicFlux"
@@ -352,13 +352,13 @@ WUWA.register({
       "damageType": "basic",
       "multiplier": 101.4,
       "formula": "16.90% × 6",
-      "requiresResource": "1/3流光上限",
+      "requiresResource": "resource_gate_4",
       "requiresResourceAtLeast": {
         "id": "luminousFlux",
         "fractionOfCap": 0.3333333333333333
       },
       "impliedStates": [
-        "绮彩巡游"
+        "phase_1_option_2"
       ],
       "triggerEvents": [
         "applyPhotochromicFlux"
@@ -370,13 +370,13 @@ WUWA.register({
       "damageType": "basic",
       "multiplier": 104.8,
       "formula": "13.10% × 8",
-      "requiresResource": "1/3流光上限",
+      "requiresResource": "resource_gate_4",
       "requiresResourceAtLeast": {
         "id": "luminousFlux",
         "fractionOfCap": 0.3333333333333333
       },
       "impliedStates": [
-        "绮彩巡游"
+        "phase_1_option_2"
       ],
       "triggerEvents": [
         "applyPhotochromicFlux"
@@ -394,9 +394,9 @@ WUWA.register({
       ],
       "multiplier": 1880.75,
       "formula": "1880.75%",
-      "requiresState": "目标震谐·干涉",
+      "requiresState": "target_1_option_2",
       "requiresAllStates": [
-        "共鸣模态·震谐"
+        "mode_1_option_1"
       ]
     }
   ],
@@ -412,56 +412,57 @@ WUWA.register({
   "echoLead": "25:hyvatia",
   "combatStates": [
     {
-      "id": "共鸣模态",
+      "id": "mode_1",
       "kind": "mode",
       "required": true,
-      "defaultValue": "共鸣模态·震谐",
+      "defaultValue": "mode_1_option_1",
       "options": [
         {
-          "value": "共鸣模态·震谐"
+          "value": "mode_1_option_1"
         },
         {
-          "value": "共鸣模态·集谐"
+          "value": "mode_1_option_2"
         }
       ]
     },
     {
-      "id": "战斗阶段",
+      "id": "phase_1",
       "kind": "phase",
       "required": true,
-      "defaultValue": "光学取样",
+      "defaultValue": "phase_1_option_1",
       "options": [
         {
-          "value": "光学取样"
+          "value": "phase_1_option_1"
         },
         {
-          "value": "绮彩巡游"
+          "value": "phase_1_option_2"
         }
       ]
     },
     {
-      "id": "目标震谐状态",
+      "id": "target_1",
       "kind": "target",
-      "requiresState": "共鸣模态·震谐",
+      "requiresState": "mode_1_option_1",
       "options": [
         {
-          "value": "目标震谐·偏移"
+          "value": "target_1_option_1"
         },
         {
-          "value": "目标震谐·干涉"
+          "value": "target_1_option_2"
         }
       ]
     },
     {
-      "id": "目标集谐状态",
+      "id": "target_2",
       "kind": "target",
-      "requiresState": "共鸣模态·集谐",
+      "requiresState": "mode_1_option_2",
       "options": [
         {
-          "value": "目标集谐·偏移"
+          "value": "target_2_option_1"
         },
         {
-          "value": "目标集谐·干涉"
+          "value": "target_2_option_2",
+          "formulaKind": "coherenceInterference"
         }
       ]
     }
@@ -505,14 +506,14 @@ WUWA.register({
       "id": "b_tune_strain_response",
       "zone": "finalDmg",
       "scope": "self",
-      "requiresState": "目标集谐·干涉",
+      "requiresState": "target_2_option_2",
       "requiresAllStates": [
-        "共鸣模态·集谐"
+        "mode_1_option_2"
       ],
       "maxStacks": 3,
       "defaultStacks": 0,
       "defaultActive": false,
-      "stackGroup": "集谐·干涉",
+      "stackGroup": "stack_group_1",
       "scaleBy": {
         "stat": "breakAmp",
         "rate": 0.36
@@ -596,7 +597,7 @@ WUWA.register({
           "maxStacks": 25,
           "defaultStacks": 0,
           "defaultActive": false,
-          "stackGroup": "预调色"
+          "stackGroup": "stack_group_2"
         }
       ]
     },
@@ -640,7 +641,7 @@ WUWA.register({
           "maxStacks": 3,
           "defaultStacks": 0,
           "defaultActive": false,
-          "stackGroup": "心之彩"
+          "stackGroup": "stack_group_3"
         }
       ]
     }

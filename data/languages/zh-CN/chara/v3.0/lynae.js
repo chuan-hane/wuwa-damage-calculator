@@ -1,3 +1,5 @@
+"use strict";
+
 window.WUWA_LANGUAGES.extend("zh-CN", {
   "data": {
     "chars": {
@@ -31,13 +33,16 @@ window.WUWA_LANGUAGES.extend("zh-CN", {
             "name": "空中攻击"
           },
           {
-            "name": "普攻·灵感碰撞·1级"
+            "name": "普攻·灵感碰撞·1级",
+            "requiresResourceLabel": "120点溢彩"
           },
           {
-            "name": "普攻·灵感碰撞·2级"
+            "name": "普攻·灵感碰撞·2级",
+            "requiresResourceLabel": "120点溢彩"
           },
           {
-            "name": "普攻·灵感碰撞·3级"
+            "name": "普攻·灵感碰撞·3级",
+            "requiresResourceLabel": "120点溢彩"
           },
           {
             "name": "绮彩巡游·普攻第一段"
@@ -79,25 +84,31 @@ window.WUWA_LANGUAGES.extend("zh-CN", {
             "name": "爆炸喷涂"
           },
           {
-            "name": "普攻·向着多彩的明天！"
+            "name": "普攻·向着多彩的明天！",
+            "requiresResourceLabel": "爆炸喷涂后"
           },
           {
             "name": "来点儿颜色瞧瞧！"
           },
           {
-            "name": "普攻·虹彩飞溅"
+            "name": "普攻·虹彩飞溅",
+            "requiresResourceLabel": "3点本色"
           },
           {
-            "name": "普攻·视觉冲击"
+            "name": "普攻·视觉冲击",
+            "requiresResourceLabel": "3点本色"
           },
           {
-            "name": "普攻·幻光折跃·第1段"
+            "name": "普攻·幻光折跃·第1段",
+            "requiresResourceLabel": "1/3流光上限"
           },
           {
-            "name": "普攻·幻光折跃·第2段"
+            "name": "普攻·幻光折跃·第2段",
+            "requiresResourceLabel": "1/3流光上限"
           },
           {
-            "name": "普攻·幻光折跃·第3段"
+            "name": "普攻·幻光折跃·第3段",
+            "requiresResourceLabel": "1/3流光上限"
           },
           {
             "name": "震谐响应·光谱解析"
@@ -110,12 +121,15 @@ window.WUWA_LANGUAGES.extend("zh-CN", {
             "entry": "琳奈拥有共鸣模态·震谐和共鸣模态·集谐两种形态，可在两种形态间切换。",
             "options": [
               {
-                "label": "震谐"
+                "label": "震谐",
+                "valueLabel": "共鸣模态·震谐"
               },
               {
-                "label": "集谐"
+                "label": "集谐",
+                "valueLabel": "共鸣模态·集谐"
               }
-            ]
+            ],
+            "idLabel": "共鸣模态"
           },
           {
             "label": "战斗阶段",
@@ -123,12 +137,15 @@ window.WUWA_LANGUAGES.extend("zh-CN", {
             "entry": "琳奈初始处于光学取样阶段；施放普攻·灵感碰撞后进入绮彩巡游，退出绮彩巡游时清除流光和本色。",
             "options": [
               {
-                "label": "光学取样"
+                "label": "光学取样",
+                "valueLabel": "光学取样"
               },
               {
-                "label": "绮彩巡游"
+                "label": "绮彩巡游",
+                "valueLabel": "绮彩巡游"
               }
-            ]
+            ],
+            "idLabel": "战斗阶段"
           },
           {
             "label": "目标震谐状态",
@@ -136,12 +153,15 @@ window.WUWA_LANGUAGES.extend("zh-CN", {
             "entry": "共鸣模态·震谐下，光致变染会为目标附加【震谐·偏移】；队伍对偏移目标造成谐度破坏伤害并使其进入【震谐·干涉】后，琳奈可触发震谐响应·光谱解析。",
             "options": [
               {
-                "label": "震谐·偏移"
+                "label": "震谐·偏移",
+                "valueLabel": "目标震谐·偏移"
               },
               {
-                "label": "震谐·干涉"
+                "label": "震谐·干涉",
+                "valueLabel": "目标震谐·干涉"
               }
-            ]
+            ],
+            "idLabel": "目标震谐状态"
           },
           {
             "label": "目标集谐状态",
@@ -149,12 +169,15 @@ window.WUWA_LANGUAGES.extend("zh-CN", {
             "entry": "共鸣模态·集谐下，光致变染会为目标附加【集谐·偏移】；队伍对偏移目标造成谐度破坏伤害后可形成【集谐·干涉】层数。",
             "options": [
               {
-                "label": "集谐·偏移"
+                "label": "集谐·偏移",
+                "valueLabel": "目标集谐·偏移"
               },
               {
-                "label": "集谐·干涉"
+                "label": "集谐·干涉",
+                "valueLabel": "目标集谐·干涉"
               }
-            ]
+            ],
+            "idLabel": "目标集谐状态"
           }
         ],
         "buffs": [

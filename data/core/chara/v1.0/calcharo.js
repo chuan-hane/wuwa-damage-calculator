@@ -159,7 +159,7 @@ WUWA.register({
       "multiplier": 88.07,
       "formula": "88.07%",
       "impliedStates": [
-        "杀戮武装"
+        "state_1_option_1"
       ]
     },
     {
@@ -169,7 +169,7 @@ WUWA.register({
       "multiplier": 176.14,
       "formula": "35.23% × 2 + 52.84% × 2",
       "impliedStates": [
-        "杀戮武装"
+        "state_1_option_1"
       ]
     },
     {
@@ -179,7 +179,7 @@ WUWA.register({
       "multiplier": 163.84,
       "formula": "163.84%",
       "impliedStates": [
-        "杀戮武装"
+        "state_1_option_1"
       ]
     },
     {
@@ -189,7 +189,7 @@ WUWA.register({
       "multiplier": 208.92,
       "formula": "34.82% × 6",
       "impliedStates": [
-        "杀戮武装"
+        "state_1_option_1"
       ]
     },
     {
@@ -199,7 +199,7 @@ WUWA.register({
       "multiplier": 300.38,
       "formula": "150.19% × 2",
       "impliedStates": [
-        "杀戮武装"
+        "state_1_option_1"
       ]
     },
     {
@@ -209,7 +209,7 @@ WUWA.register({
       "multiplier": 310.15,
       "formula": "62.03% × 5",
       "impliedStates": [
-        "杀戮武装"
+        "state_1_option_1"
       ]
     },
     {
@@ -219,7 +219,7 @@ WUWA.register({
       "multiplier": 341.94,
       "formula": "56.99% × 6",
       "impliedStates": [
-        "杀戮武装"
+        "state_1_option_1"
       ]
     },
     {
@@ -238,7 +238,7 @@ WUWA.register({
       "damageType": "heavy",
       "multiplier": 391.1,
       "formula": "39.11% × 8 + 78.22%",
-      "requiresResource": "3残忍",
+      "requiresResource": "resource_gate_1",
       "requiresResourceAtLeast": {
         "id": "cruelty",
         "value": 3
@@ -251,14 +251,14 @@ WUWA.register({
       "damageType": "resonanceLiberation",
       "multiplier": 977.69,
       "formula": "97.77% × 8 + 195.53%",
-      "requiresResource": "5杀意",
+      "requiresResource": "resource_gate_2",
       "requiresResourceAtLeast": {
         "id": "killingIntent",
         "value": 5
       },
       "fallbackSkillId": "lib_hounds_5",
       "impliedStates": [
-        "杀戮武装"
+        "state_1_option_1"
       ]
     },
     {
@@ -271,9 +271,9 @@ WUWA.register({
       "multiplier": 200,
       "formula": "100.00% × 2",
       "seq": 6,
-      "requiresResource": "重击·死告触发",
+      "requiresResource": "resource_gate_3",
       "impliedStates": [
-        "杀戮武装"
+        "state_1_option_1"
       ]
     }
   ],
@@ -289,10 +289,10 @@ WUWA.register({
   "echoLead": "3:tempest_mephis",
   "combatStates": [
     {
-      "id": "杀戮武装",
+      "id": "state_1",
       "options": [
         {
-          "value": "杀戮武装"
+          "value": "state_1_option_1"
         }
       ]
     }
@@ -346,7 +346,7 @@ WUWA.register({
           "element": "electro",
           "value": 25,
           "scope": "self",
-          "requiresState": "杀戮武装"
+          "requiresState": "state_1_option_1"
         }
       ]
     },

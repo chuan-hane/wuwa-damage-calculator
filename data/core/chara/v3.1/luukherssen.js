@@ -154,7 +154,7 @@ WUWA.register({
       "damageType": "basic",
       "multiplier": 153.45,
       "formula": "153.45%",
-      "requiresResource": "日髓阵列"
+      "requiresResource": "resource_gate_1"
     },
     {
       "id": "lib",
@@ -179,7 +179,7 @@ WUWA.register({
       "damageType": "basic",
       "multiplier": 306.9,
       "formula": "306.90%",
-      "requiresResource": "斩杀日冕·曜后"
+      "requiresResource": "resource_gate_2"
     }
   ],
   "defaultSkillId": "forte_gavel",
@@ -193,20 +193,21 @@ WUWA.register({
   "echoSet": 5,
   "combatStates": [
     {
-      "id": "黄金的裁量",
+      "id": "status_1",
       "kind": "status",
       "options": [
         {
-          "value": "黄金的裁量"
+          "value": "status_1_option_1"
         }
       ]
     },
     {
-      "id": "目标集谐·干涉",
+      "id": "target_1",
       "kind": "target",
       "options": [
         {
-          "value": "目标集谐·干涉"
+          "value": "target_1_option_1",
+          "formulaKind": "coherenceInterference"
         }
       ]
     }
@@ -223,13 +224,13 @@ WUWA.register({
       "maxStacks": 3,
       "defaultStacks": 0,
       "defaultActive": false,
-      "stackGroup": "终局之释义"
+      "stackGroup": "stack_group_1"
     },
     {
       "id": "b_tune_response",
       "zone": "finalDmg",
       "scope": "self",
-      "requiresState": "目标集谐·干涉",
+      "requiresState": "target_1_option_1",
       "maxStacks": 3,
       "stackMaxBySeq": [
         {
@@ -239,7 +240,7 @@ WUWA.register({
       ],
       "defaultStacks": 0,
       "defaultActive": false,
-      "stackGroup": "集谐·干涉",
+      "stackGroup": "stack_group_2",
       "scaleBy": {
         "stat": "breakAmp",
         "rate": 0.36
@@ -249,7 +250,7 @@ WUWA.register({
       "id": "b_doctor_amp",
       "zone": "amplify",
       "scope": "self",
-      "requiresState": "目标集谐·干涉",
+      "requiresState": "target_1_option_1",
       "maxSeq": 1,
       "scaleBy": {
         "stat": "breakAmp",
@@ -270,7 +271,7 @@ WUWA.register({
       "zone": "skillMultBonus",
       "value": 110,
       "scope": "self",
-      "requiresState": "黄金的裁量",
+      "requiresState": "status_1_option_1",
       "skills": [
         "aureole_ring",
         "aureole_breach",
@@ -286,7 +287,7 @@ WUWA.register({
         "forte_gavel",
         "ichor_deposit"
       ],
-      "requiresState": "黄金的裁量",
+      "requiresState": "status_1_option_1",
       "defaultActive": false
     }
   ],
@@ -327,7 +328,7 @@ WUWA.register({
           "id": "k2_doctor_amp",
           "zone": "amplify",
           "scope": "self",
-          "requiresState": "目标集谐·干涉",
+          "requiresState": "target_1_option_1",
           "scaleBy": {
             "stat": "breakAmp",
             "rate": 1,
@@ -344,7 +345,7 @@ WUWA.register({
           "zone": "skillMultBonus",
           "value": 136,
           "scope": "self",
-          "requiresState": "黄金的裁量",
+          "requiresState": "status_1_option_1",
           "skills": [
             "aureole_ring",
             "aureole_breach",
@@ -360,7 +361,7 @@ WUWA.register({
             "forte_gavel",
             "ichor_deposit"
           ],
-          "requiresState": "黄金的裁量",
+          "requiresState": "status_1_option_1",
           "defaultActive": false
         }
       ]
@@ -430,7 +431,7 @@ WUWA.register({
           "maxStacks": 3,
           "defaultStacks": 0,
           "defaultActive": false,
-          "stackGroup": "终局之释义"
+          "stackGroup": "stack_group_1"
         }
       ]
     }

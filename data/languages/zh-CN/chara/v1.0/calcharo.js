@@ -1,3 +1,5 @@
+"use strict";
+
 window.WUWA_LANGUAGES.extend("zh-CN", {
   "data": {
     "chars": {
@@ -73,13 +75,16 @@ window.WUWA_LANGUAGES.extend("zh-CN", {
             "name": "全境通缉"
           },
           {
-            "name": "重击·仁慈"
+            "name": "重击·仁慈",
+            "requiresResourceLabel": "3残忍"
           },
           {
-            "name": "重击·死告"
+            "name": "重击·死告",
+            "requiresResourceLabel": "5杀意"
           },
           {
-            "name": "幻影协同攻击"
+            "name": "幻影协同攻击",
+            "requiresResourceLabel": "重击·死告触发"
           }
         ],
         "combatStates": [
@@ -89,9 +94,11 @@ window.WUWA_LANGUAGES.extend("zh-CN", {
             "entry": "施放共鸣解放幻影蚀刻后进入，持续11秒；状态结束后，下次变奏技能替换为必要的手段。",
             "options": [
               {
-                "label": "杀戮武装"
+                "label": "杀戮武装",
+                "valueLabel": "杀戮武装"
               }
-            ]
+            ],
+            "idLabel": "杀戮武装"
           }
         ],
         "buffs": [

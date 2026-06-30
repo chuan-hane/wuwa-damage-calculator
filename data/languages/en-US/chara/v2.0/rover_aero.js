@@ -1,3 +1,5 @@
+"use strict";
+
 window.WUWA_LANGUAGES.extend("en-US", {
   "data": {
     "chars": {
@@ -52,10 +54,12 @@ window.WUWA_LANGUAGES.extend("en-US", {
             "name": "Cycle of Wind - Cloudburst Dance Stage 2 DMG"
           },
           {
-            "name": "Cycle of Wind - Unbound Flow Stage 1 DMG"
+            "name": "Cycle of Wind - Unbound Flow Stage 1 DMG",
+            "requiresResourceLabel": "60弦风息"
           },
           {
-            "name": "Cycle of Wind - Unbound Flow Stage 2 DMG"
+            "name": "Cycle of Wind - Unbound Flow Stage 2 DMG",
+            "requiresResourceLabel": "60弦风息"
           }
         ],
         "buffs": [

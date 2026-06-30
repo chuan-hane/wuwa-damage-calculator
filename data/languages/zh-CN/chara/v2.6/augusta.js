@@ -1,3 +1,5 @@
+"use strict";
+
 window.WUWA_LANGUAGES.extend("zh-CN", {
   "data": {
     "chars": {
@@ -40,19 +42,24 @@ window.WUWA_LANGUAGES.extend("zh-CN", {
             "name": "空中闪避反击"
           },
           {
-            "name": "重击·烁雷·后撤"
+            "name": "重击·烁雷·后撤",
+            "requiresResourceLabel": "战势满"
           },
           {
-            "name": "重击·烁雷·旋切"
+            "name": "重击·烁雷·旋切",
+            "requiresResourceLabel": "战势满"
           },
           {
-            "name": "重击·烁雷·升拳"
+            "name": "重击·烁雷·升拳",
+            "requiresResourceLabel": "战势满"
           },
           {
-            "name": "闪避反击·重击·鸣铁"
+            "name": "闪避反击·重击·鸣铁",
+            "requiresResourceLabel": "战势满"
           },
           {
-            "name": "闪避反击·烁雷·后撤"
+            "name": "闪避反击·烁雷·后撤",
+            "requiresResourceLabel": "权炳满"
           },
           {
             "name": "斩锋"
@@ -61,25 +68,31 @@ window.WUWA_LANGUAGES.extend("zh-CN", {
             "name": "共鸣解放·誓锋不殒"
           },
           {
-            "name": "赫日威临·烈阳"
+            "name": "赫日威临·烈阳",
+            "requiresResourceLabel": "2威慑"
           },
           {
-            "name": "赫日威临·不朽者之肃"
+            "name": "赫日威临·不朽者之肃",
+            "requiresResourceLabel": "2威慑"
           },
           {
             "name": "灼金的巡行"
           },
           {
-            "name": "共鸣技能·不败恒阳·迅击"
+            "name": "共鸣技能·不败恒阳·迅击",
+            "requiresResourceLabel": "权炳满"
           },
           {
-            "name": "共鸣技能·不败恒阳·跃空"
+            "name": "共鸣技能·不败恒阳·跃空",
+            "requiresResourceLabel": "权炳满"
           },
           {
-            "name": "共鸣技能·不败恒阳·落袭"
+            "name": "共鸣技能·不败恒阳·落袭",
+            "requiresResourceLabel": "权炳满"
           },
           {
-            "name": "闪避反击·不败恒阳·迅击"
+            "name": "闪避反击·不败恒阳·迅击",
+            "requiresResourceLabel": "权炳满"
           },
           {
             "name": "怒霆"
@@ -92,9 +105,11 @@ window.WUWA_LANGUAGES.extend("zh-CN", {
             "entry": "存在2层威慑时，长按共鸣解放可施放赫日威临并进入俯首之刻，持续7秒；期间仅能施放赫日威临·烈阳、赫日威临·不朽者之肃、闪避和空中攻击。",
             "options": [
               {
-                "label": "俯首之刻"
+                "label": "俯首之刻",
+                "valueLabel": "俯首之刻"
               }
-            ]
+            ],
+            "idLabel": "俯首之刻"
           },
           {
             "label": "王之界域",
@@ -102,9 +117,11 @@ window.WUWA_LANGUAGES.extend("zh-CN", {
             "entry": "施放共鸣解放·赫日威临时展开，持续30秒。",
             "options": [
               {
-                "label": "王之界域"
+                "label": "王之界域",
+                "valueLabel": "王之界域"
               }
-            ]
+            ],
+            "idLabel": "王之界域"
           }
         ],
         "buffs": [

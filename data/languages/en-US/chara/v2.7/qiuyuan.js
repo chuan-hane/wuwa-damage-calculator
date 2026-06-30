@@ -1,3 +1,5 @@
+"use strict";
+
 window.WUWA_LANGUAGES.extend("en-US", {
   "data": {
     "chars": {
@@ -40,16 +42,20 @@ window.WUWA_LANGUAGES.extend("en-US", {
             "name": "Attack the Must-Defend - Skill Damage"
           },
           {
-            "name": "Verdant Edge - Thus Spoke the Blade: Inkwash Stage 1 DMG"
+            "name": "Verdant Edge - Thus Spoke the Blade: Inkwash Stage 1 DMG",
+            "requiresResourceLabel": "200挑灯问剑"
           },
           {
-            "name": "Verdant Edge - Thus Spoke the Blade: Inkwash Stage 2 DMG"
+            "name": "Verdant Edge - Thus Spoke the Blade: Inkwash Stage 2 DMG",
+            "requiresResourceLabel": "200挑灯问剑"
           },
           {
-            "name": "Verdant Edge - Thus Spoke the Blade: Inkwash Stage 3 DMG"
+            "name": "Verdant Edge - Thus Spoke the Blade: Inkwash Stage 3 DMG",
+            "requiresResourceLabel": "200挑灯问剑"
           },
           {
-            "name": "Verdant Edge - Thus Spoke the Blade: Inkwash Stage 4 DMG"
+            "name": "Verdant Edge - Thus Spoke the Blade: Inkwash Stage 4 DMG",
+            "requiresResourceLabel": "200挑灯问剑"
           },
           {
             "name": "Verdant Edge - Thus Spoke the Blade: To Teach DMG"
@@ -61,10 +67,12 @@ window.WUWA_LANGUAGES.extend("en-US", {
             "name": "Verdant Edge - Thus Spoke the Blade: To Sacrifice DMG"
           },
           {
-            "name": "Through the Groves - Lotuscloak Emerges"
+            "name": "Through the Groves - Lotuscloak Emerges",
+            "requiresResourceLabel": "满协奏且未处于淋漓醉墨"
           },
           {
-            "name": "Verdant Edge - Exit Drunken Ink State DMG"
+            "name": "Verdant Edge - Exit Drunken Ink State DMG",
+            "requiresResourceLabel": "已退出淋漓醉墨且仍为登场角色"
           }
         ],
         "combatStates": [
@@ -74,9 +82,11 @@ window.WUWA_LANGUAGES.extend("en-US", {
             "entry": "【挑灯问剑】达到400点时获得【竹照】，持续30秒；施放变奏技能可获得400点【挑灯问剑】。",
             "options": [
               {
-                "label": "竹照"
+                "label": "竹照",
+                "valueLabel": "竹照"
               }
-            ]
+            ],
+            "idLabel": "竹照"
           },
           {
             "label": "淋漓醉墨状态",
@@ -84,9 +94,11 @@ window.WUWA_LANGUAGES.extend("en-US", {
             "entry": "【挑灯问剑】满600点时进入【淋漓醉墨】状态，持续8秒；【挑灯问剑】耗尽或切换角色时提前退出。",
             "options": [
               {
-                "label": "且从容"
+                "label": "且从容",
+                "valueLabel": "淋漓醉墨·且从容"
               }
-            ]
+            ],
+            "idLabel": "淋漓醉墨"
           }
         ],
         "buffs": [

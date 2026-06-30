@@ -1,3 +1,5 @@
+"use strict";
+
 window.WUWA_LANGUAGES.extend("en-US", {
   "data": {
     "chars": {
@@ -49,7 +51,8 @@ window.WUWA_LANGUAGES.extend("en-US", {
             "name": "Lion Awakens - Skill DMG"
           },
           {
-            "name": "Unification of Spirits - Glorious Plunge Damage"
+            "name": "Unification of Spirits - Glorious Plunge Damage",
+            "requiresResourceLabel": "狮魂满"
           },
           {
             "name": "Unification of Spirits - Feral Gyrate Stage 1 DMG"
@@ -77,9 +80,11 @@ window.WUWA_LANGUAGES.extend("en-US", {
             "entry": "满狮魂施放重击·起势·纵地金光后进入行狮状态；施放变奏技能或共鸣解放后若满狮魂，短按普攻也可进入。",
             "options": [
               {
-                "label": "行狮"
+                "label": "行狮",
+                "valueLabel": "行狮"
               }
-            ]
+            ],
+            "idLabel": "行狮"
           },
           {
             "label": "狮子奋迅",
@@ -87,9 +92,11 @@ window.WUWA_LANGUAGES.extend("en-US", {
             "entry": "施放共鸣解放奋进·狮子奋迅，俱足万行后进入。",
             "options": [
               {
-                "label": "狮子奋迅"
+                "label": "狮子奋迅",
+                "valueLabel": "狮子奋迅"
               }
-            ]
+            ],
+            "idLabel": "狮子奋迅"
           }
         ],
         "buffs": [

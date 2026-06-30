@@ -1,3 +1,5 @@
+"use strict";
+
 window.WUWA_LANGUAGES.extend("zh-CN", {
   "data": {
     "chars": {
@@ -38,13 +40,16 @@ window.WUWA_LANGUAGES.extend("zh-CN", {
             "name": "携攻守阵"
           },
           {
-            "name": "御反之隙第一段"
+            "name": "御反之隙第一段",
+            "requiresResourceLabel": "刚柔化势"
           },
           {
-            "name": "御反之隙第二段"
+            "name": "御反之隙第二段",
+            "requiresResourceLabel": "刚柔化势"
           },
           {
-            "name": "御反之隙第三段"
+            "name": "御反之隙第三段",
+            "requiresResourceLabel": "刚柔化势"
           }
         ],
         "buffs": [

@@ -1,3 +1,5 @@
+"use strict";
+
 window.WUWA_LANGUAGES.extend("zh-CN", {
   "data": {
     "chars": {
@@ -43,7 +45,8 @@ window.WUWA_LANGUAGES.extend("zh-CN", {
             "name": "雷之楔引爆"
           },
           {
-            "name": "万壑雷"
+            "name": "万壑雷",
+            "requiresResourceLabel": "100锋芒"
           },
           {
             "name": "寂土重明"
@@ -52,7 +55,8 @@ window.WUWA_LANGUAGES.extend("zh-CN", {
             "name": "轰雷"
           },
           {
-            "name": "掀雷"
+            "name": "掀雷",
+            "requiresResourceLabel": "100锋芒"
           },
           {
             "name": "雷厉风行第一段"
@@ -86,9 +90,11 @@ window.WUWA_LANGUAGES.extend("zh-CN", {
             "entry": "锋芒充满后施放万壑雷，或施放共鸣解放寂土重明，会进入雷厉风行状态。",
             "options": [
               {
-                "label": "处于雷厉风行"
+                "label": "处于雷厉风行",
+                "valueLabel": "雷厉风行"
               }
-            ]
+            ],
+            "idLabel": "雷厉风行"
           },
           {
             "label": "雷之楔",
@@ -96,12 +102,15 @@ window.WUWA_LANGUAGES.extend("zh-CN", {
             "entry": "施放共鸣技能雷之楔后，雷之楔在场并形成雷池。",
             "options": [
               {
-                "label": "雷之楔在场"
+                "label": "雷之楔在场",
+                "valueLabel": "雷之楔在场"
               },
               {
-                "label": "处于雷池范围"
+                "label": "处于雷池范围",
+                "valueLabel": "雷之楔在场·雷池范围"
               }
-            ]
+            ],
+            "idLabel": "雷之楔在场"
           }
         ],
         "buffs": [

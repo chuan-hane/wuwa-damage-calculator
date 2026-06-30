@@ -1,3 +1,5 @@
+"use strict";
+
 window.WUWA_LANGUAGES.extend("zh-CN", {
   "data": {
     "chars": {
@@ -58,13 +60,16 @@ window.WUWA_LANGUAGES.extend("zh-CN", {
             "name": "知无定形"
           },
           {
-            "name": "应刃"
+            "name": "应刃",
+            "requiresResourceLabel": "100演算效能"
           },
           {
-            "name": "万方法则"
+            "name": "万方法则",
+            "requiresResourceLabel": "5超算效能"
           },
           {
-            "name": "解裂重构"
+            "name": "解裂重构",
+            "requiresResourceLabel": "应刃或一相万殊后"
           },
           {
             "name": "正理"
@@ -77,9 +82,11 @@ window.WUWA_LANGUAGES.extend("zh-CN", {
             "entry": "施放共鸣解放思维矩阵后进入，持续24秒；获得3个幻方，施放万方法则会消耗1个幻方，幻方耗尽时结束。",
             "options": [
               {
-                "label": "洞见"
+                "label": "洞见",
+                "valueLabel": "洞见"
               }
-            ]
+            ],
+            "idLabel": "洞见"
           }
         ],
         "buffs": [

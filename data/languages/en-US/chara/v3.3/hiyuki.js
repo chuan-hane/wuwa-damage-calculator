@@ -1,3 +1,5 @@
+"use strict";
+
 window.WUWA_LANGUAGES.extend("en-US", {
   "data": {
     "chars": {
@@ -25,7 +27,8 @@ window.WUWA_LANGUAGES.extend("en-US", {
             "name": "Flaming Sakura Blade Art - Basic Attack - Present Self Stage 3 DMG"
           },
           {
-            "name": "Flaming Sakura Blade Art - Heavy Attack - Frost Splinter: Present Self DMG"
+            "name": "Flaming Sakura Blade Art - Heavy Attack - Frost Splinter: Present Self DMG",
+            "requiresResourceLabel": "300心念"
           },
           {
             "name": "Flaming Sakura Blade Art - Mid-air Attack - Present Self DMG"
@@ -52,7 +55,8 @@ window.WUWA_LANGUAGES.extend("en-US", {
             "name": "Flaming Sakura Blade Art - Heavy Attack - Foreclaimed Self DMG"
           },
           {
-            "name": "Flaming Sakura Blade Art - Heavy Attack - Bitterfrost: Foreclaimed Self DMG"
+            "name": "Flaming Sakura Blade Art - Heavy Attack - Bitterfrost: Foreclaimed Self DMG",
+            "requiresResourceLabel": "3淬寒·枯霜"
           },
           {
             "name": "Flaming Sakura Blade Art - Mid-air Attack - Foreclaimed Self Stage 1 DMG"
@@ -76,7 +80,8 @@ window.WUWA_LANGUAGES.extend("en-US", {
             "name": "Frostblight - Frostblight: Petalfall DMG"
           },
           {
-            "name": "Foreclaiming - Foreclaiming: Inward Vision DMG"
+            "name": "Foreclaiming - Foreclaiming: Inward Vision DMG",
+            "requiresResourceLabel": "重击·寒簇·常世身后"
           },
           {
             "name": "Foreclaiming - Foreclaiming: Blade Liberation Base DMG"
@@ -85,7 +90,8 @@ window.WUWA_LANGUAGES.extend("en-US", {
             "name": "Frostedge - Skill DMG"
           },
           {
-            "name": "Everfrost Dominion - Basic Attack - Iai DMG"
+            "name": "Everfrost Dominion - Basic Attack - Iai DMG",
+            "requiresResourceLabel": "100寒意"
           }
         ],
         "combatStates": [
@@ -95,12 +101,15 @@ window.WUWA_LANGUAGES.extend("en-US", {
             "entry": "绯雪初始处于常世身；施放预求我身·见心后进入预求身；施放预求我身·归刃后退出预求身。",
             "options": [
               {
-                "label": "常世身"
+                "label": "常世身",
+                "valueLabel": "常世身"
               },
               {
-                "label": "预求身"
+                "label": "预求身",
+                "valueLabel": "预求身"
               }
-            ]
+            ],
+            "idLabel": "身相"
           },
           {
             "label": "居合架势",
@@ -108,9 +117,11 @@ window.WUWA_LANGUAGES.extend("en-US", {
             "entry": "预求身形态下寒意不低于100点时，在指定攻击后短按闪避或长按共鸣技能进入；切换角色时提前退出。",
             "options": [
               {
-                "label": "居合架势"
+                "label": "居合架势",
+                "valueLabel": "居合架势"
               }
-            ]
+            ],
+            "idLabel": "居合架势"
           }
         ],
         "buffs": [

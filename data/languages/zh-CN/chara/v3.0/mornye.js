@@ -1,3 +1,5 @@
+"use strict";
+
 window.WUWA_LANGUAGES.extend("zh-CN", {
   "data": {
     "chars": {
@@ -61,10 +63,12 @@ window.WUWA_LANGUAGES.extend("zh-CN", {
             "name": "谐振场"
           },
           {
-            "name": "重击·位势转换"
+            "name": "重击·位势转换",
+            "requiresResourceLabel": "静质量能满"
           },
           {
-            "name": "重击·反演"
+            "name": "重击·反演",
+            "requiresResourceLabel": "相对动能满"
           },
           {
             "name": "震谐响应·粒子射流"
@@ -77,9 +81,11 @@ window.WUWA_LANGUAGES.extend("zh-CN", {
             "entry": "施放变奏技能·归敛或重击·位势转换后进入，持续30秒；切换角色、落地、耐力耗尽或特定动作会提前退出。",
             "options": [
               {
-                "label": "广域观测模式"
+                "label": "广域观测模式",
+                "valueLabel": "广域观测模式"
               }
-            ]
+            ],
+            "idLabel": "广域观测模式"
           },
           {
             "label": "谐振场",
@@ -87,12 +93,15 @@ window.WUWA_LANGUAGES.extend("zh-CN", {
             "entry": "进入广域观测模式时展开谐振场；若施放临界协议时已存在谐振场，随后摧毁并展开强谐振场。",
             "options": [
               {
-                "label": "谐振场"
+                "label": "谐振场",
+                "valueLabel": "谐振场"
               },
               {
-                "label": "强谐振场"
+                "label": "强谐振场",
+                "valueLabel": "谐振场·强谐振场"
               }
-            ]
+            ],
+            "idLabel": "谐振场"
           },
           {
             "label": "目标干涉标记",
@@ -100,9 +109,11 @@ window.WUWA_LANGUAGES.extend("zh-CN", {
             "entry": "重击·反演命中附加观测标记；队伍对观测标记目标造成谐度破坏伤害后，莫宁为目标附加干涉标记。1链后莫宁附加观测标记时会同时附加干涉标记。",
             "options": [
               {
-                "label": "干涉标记"
+                "label": "干涉标记",
+                "valueLabel": "干涉标记"
               }
-            ]
+            ],
+            "idLabel": "干涉标记"
           },
           {
             "label": "目标谐度干涉",
@@ -110,12 +121,15 @@ window.WUWA_LANGUAGES.extend("zh-CN", {
             "entry": "队伍中的角色对目标造成谐度破坏伤害后，使目标进入震谐·干涉或集谐·干涉。",
             "options": [
               {
-                "label": "震谐·干涉"
+                "label": "震谐·干涉",
+                "valueLabel": "谐度干涉·震谐"
               },
               {
-                "label": "集谐·干涉"
+                "label": "集谐·干涉",
+                "valueLabel": "谐度干涉·集谐"
               }
-            ]
+            ],
+            "idLabel": "谐度干涉"
           }
         ],
         "buffs": [
