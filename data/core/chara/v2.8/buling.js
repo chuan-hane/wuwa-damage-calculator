@@ -138,7 +138,7 @@ WUWA.register({
       "damageType": "resonanceLiberation",
       "multiplier": 536.79,
       "formula": "536.79%",
-      "requiresResource": "少阴+少阳",
+      "requiresResource": "resource_gate_1",
       "requiresAllResourcesAtLeast": [
         {
           "id": "shaoyin",
@@ -157,7 +157,7 @@ WUWA.register({
       "damageType": "resonanceLiberation",
       "multiplier": 19.89,
       "formula": "19.89%",
-      "requiresResource": "五雷荡煞阵"
+      "requiresResource": "resource_gate_2"
     }
   ],
   "defaultSkillId": "forte_lib",
@@ -172,17 +172,17 @@ WUWA.register({
   "echoLead": "7:fallacy_of_no_return",
   "combatStates": [
     {
-      "id": "雷法",
+      "id": "field_1",
       "kind": "field",
       "options": [
         {
-          "value": "雷法·一气初动"
+          "value": "field_1_option_1"
         },
         {
-          "value": "雷法·两仪交泰"
+          "value": "field_1_option_2"
         },
         {
-          "value": "雷法·三才合一"
+          "value": "field_1_option_3"
         }
       ]
     }
@@ -201,7 +201,7 @@ WUWA.register({
       "damageType": "resonanceSkill",
       "value": 10,
       "scope": "team",
-      "requiresState": "雷法·两仪交泰"
+      "requiresState": "field_1_option_2"
     },
     {
       "id": "b_leifa_sancai",
@@ -209,7 +209,7 @@ WUWA.register({
       "damageType": "resonanceSkill",
       "value": 25,
       "scope": "team",
-      "requiresState": "雷法·三才合一"
+      "requiresState": "field_1_option_3"
     },
     {
       "id": "b_outro",
@@ -266,7 +266,7 @@ WUWA.register({
           "damageType": "resonanceSkill",
           "value": 25,
           "scope": "team",
-          "requiresState": "雷法·三才合一"
+          "requiresState": "field_1_option_3"
         }
       ]
     }

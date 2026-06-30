@@ -12,7 +12,7 @@ WUWA.register({
   "portrait": "",
   "resources": [
     {
-      "id": "焰光",
+      "id": "resource_1",
       "min": 0,
       "max": 40,
       "defaultValue": "max"
@@ -125,11 +125,11 @@ WUWA.register({
       ],
       "multiplier": 287.29,
       "formula": "86.19% + 28.73% + 172.37%",
-      "requiresResource": "冗余动能充满",
+      "requiresResource": "resource_gate_1",
       "requiresResourceFull": "redundantKineticEnergy",
       "fallbackSkillId": "skill_standard",
       "impliedStates": [
-        "斩棘状态"
+        "state_1_option_1"
       ],
       "triggerEvents": [
         "applySpectroFrazzle"
@@ -144,11 +144,11 @@ WUWA.register({
       ],
       "multiplier": 287.29,
       "formula": "86.19% + 28.73% + 172.37%",
-      "requiresResource": "冗余动能充满",
+      "requiresResource": "resource_gate_1",
       "requiresResourceFull": "redundantKineticEnergy",
       "fallbackSkillId": "skill_counter",
       "impliedStates": [
-        "斩棘状态"
+        "state_1_option_1"
       ],
       "triggerEvents": [
         "applySpectroFrazzle"
@@ -171,7 +171,7 @@ WUWA.register({
       "multiplier": 1274.08,
       "formula": "191.12% + 1082.96%",
       "impliedStates": [
-        "灼焰形态"
+        "form_1_option_1"
       ],
       "triggerEvents": [
         "castResonanceLiberation"
@@ -196,13 +196,13 @@ WUWA.register({
       ],
       "multiplier": 198.81,
       "formula": "198.81%",
-      "requiresResource": "焰光不少于30",
+      "requiresResource": "resource_gate_2",
       "requiresResourceAtLeast": {
-        "id": "焰光",
+        "id": "resource_1",
         "value": 30
       },
       "impliedStates": [
-        "灼焰形态"
+        "form_1_option_1"
       ],
       "triggerEvents": [
         "castBasicAttack"
@@ -217,9 +217,9 @@ WUWA.register({
       ],
       "multiplier": 424.07,
       "formula": "424.07%",
-      "requiresResource": "重斩·破晓后",
+      "requiresResource": "resource_gate_3",
       "impliedStates": [
-        "灼焰形态"
+        "form_1_option_1"
       ],
       "triggerEvents": [
         "castBasicAttack"
@@ -234,11 +234,11 @@ WUWA.register({
       ],
       "multiplier": 397.63,
       "perStack": 9.95,
-      "stackResource": "焰光",
-      "stackLabel": "焰光",
+      "stackResource": "resource_1",
+      "stackLabel": "resource_1",
       "formula": "135.20% + 262.43% + 9.95% × 焰光",
       "impliedStates": [
-        "灼焰形态"
+        "form_1_option_1"
       ],
       "triggerEvents": [
         "castBasicAttack"
@@ -253,13 +253,13 @@ WUWA.register({
       ],
       "multiplier": 424.07,
       "formula": "424.07%",
-      "requiresResource": "焰光不少于30",
+      "requiresResource": "resource_gate_2",
       "requiresResourceAtLeast": {
-        "id": "焰光",
+        "id": "resource_1",
         "value": 30
       },
       "impliedStates": [
-        "灼焰形态"
+        "form_1_option_1"
       ],
       "triggerEvents": [
         "castBasicAttack"
@@ -269,29 +269,29 @@ WUWA.register({
   "defaultSkillId": "forte_nightfall",
   "combatStates": [
     {
-      "id": "灼焰形态",
+      "id": "form_1",
       "kind": "form",
       "required": true,
       "options": [
         {
-          "value": "灼焰形态"
+          "value": "form_1_option_1"
         }
       ]
     },
     {
-      "id": "斩棘状态",
+      "id": "state_1",
       "options": [
         {
-          "value": "斩棘状态"
+          "value": "state_1_option_1"
         }
       ]
     },
     {
-      "id": "烈阳余烬",
+      "id": "target_1",
       "kind": "target",
       "options": [
         {
-          "value": "烈阳余烬"
+          "value": "target_1_option_1"
         }
       ]
     }
@@ -303,7 +303,7 @@ WUWA.register({
       "value": 25,
       "scope": "self",
       "damageType": "basic",
-      "requiresState": "灼焰形态",
+      "requiresState": "form_1_option_1",
       "duration": 20
     },
     {
@@ -327,7 +327,7 @@ WUWA.register({
       "damageType": "lightNoise",
       "value": 20,
       "scope": "self",
-      "requiresState": "斩棘状态",
+      "requiresState": "state_1_option_1",
       "duration": 14
     },
     {
@@ -336,7 +336,7 @@ WUWA.register({
       "effect": "lightNoise",
       "value": 20,
       "scope": "self",
-      "requiresState": "斩棘状态",
+      "requiresState": "state_1_option_1",
       "duration": 14
     },
     {
@@ -345,7 +345,7 @@ WUWA.register({
       "element": "spectro",
       "value": 20,
       "scope": "team",
-      "requiresState": "烈阳余烬",
+      "requiresState": "target_1_option_1",
       "duration": 20
     }
   ],
@@ -399,7 +399,7 @@ WUWA.register({
           "skills": [
             "lib_last"
           ],
-          "requiresState": "灼焰形态",
+          "requiresState": "form_1_option_1",
           "defaultActive": false
         }
       ]

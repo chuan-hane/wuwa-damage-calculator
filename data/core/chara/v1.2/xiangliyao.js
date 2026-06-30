@@ -135,7 +135,7 @@ WUWA.register({
       "multiplier": 119.67,
       "formula": "119.67%",
       "impliedStates": [
-        "洞见"
+        "buff_1_option_1"
       ]
     },
     {
@@ -145,7 +145,7 @@ WUWA.register({
       "multiplier": 243.68,
       "formula": "60.92% × 4",
       "impliedStates": [
-        "洞见"
+        "buff_1_option_1"
       ]
     },
     {
@@ -155,7 +155,7 @@ WUWA.register({
       "multiplier": 266.5,
       "formula": "133.25% × 2",
       "impliedStates": [
-        "洞见"
+        "buff_1_option_1"
       ]
     },
     {
@@ -165,7 +165,7 @@ WUWA.register({
       "multiplier": 495.87,
       "formula": "49.59% × 3 + 173.55% × 2",
       "impliedStates": [
-        "洞见"
+        "buff_1_option_1"
       ],
       "triggerEvents": [
         "castResonanceSkill"
@@ -178,7 +178,7 @@ WUWA.register({
       "multiplier": 388.24,
       "formula": "38.83% × 2 + 310.58%",
       "impliedStates": [
-        "洞见"
+        "buff_1_option_1"
       ]
     },
     {
@@ -187,7 +187,7 @@ WUWA.register({
       "damageType": "resonanceLiberation",
       "multiplier": 397.82,
       "formula": "397.82%",
-      "requiresResource": "100演算效能",
+      "requiresResource": "resource_gate_1",
       "requiresResourceAtLeast": {
         "id": "performanceCapacity",
         "value": 100
@@ -203,14 +203,14 @@ WUWA.register({
       "damageType": "resonanceLiberation",
       "multiplier": 638.2,
       "formula": "95.73% × 4 + 255.28%",
-      "requiresResource": "5超算效能",
+      "requiresResource": "resource_gate_2",
       "requiresResourceAtLeast": {
         "id": "supercomputingCapacity",
         "value": 5
       },
       "fallbackSkillId": "lib_divergence",
       "impliedStates": [
-        "洞见"
+        "buff_1_option_1"
       ],
       "triggerEvents": [
         "castResonanceSkill"
@@ -222,7 +222,7 @@ WUWA.register({
       "damageType": "resonanceLiberation",
       "multiplier": 218.7,
       "formula": "21.87% × 4 + 65.61% × 2",
-      "requiresResource": "应刃或一相万殊后"
+      "requiresResource": "resource_gate_3"
     },
     {
       "id": "intro",
@@ -247,11 +247,11 @@ WUWA.register({
   "echoLead": "3:tempest_mephis",
   "combatStates": [
     {
-      "id": "洞见",
+      "id": "buff_1",
       "kind": "buff",
       "options": [
         {
-          "value": "洞见"
+          "value": "buff_1_option_1"
         }
       ]
     }

@@ -1,3 +1,5 @@
+"use strict";
+
 window.WUWA_LANGUAGES.extend("zh-CN", {
   "data": {
     "chars": {
@@ -25,7 +27,8 @@ window.WUWA_LANGUAGES.extend("zh-CN", {
             "name": "普攻·常世身第三段"
           },
           {
-            "name": "重击·寒簇·常世身"
+            "name": "重击·寒簇·常世身",
+            "requiresResourceLabel": "300心念"
           },
           {
             "name": "空中攻击·常世身"
@@ -52,7 +55,8 @@ window.WUWA_LANGUAGES.extend("zh-CN", {
             "name": "重击·预求身"
           },
           {
-            "name": "重击·枯霜·预求身"
+            "name": "重击·枯霜·预求身",
+            "requiresResourceLabel": "3淬寒·枯霜"
           },
           {
             "name": "空中攻击·预求身第一段"
@@ -76,7 +80,8 @@ window.WUWA_LANGUAGES.extend("zh-CN", {
             "name": "霜罚·落华"
           },
           {
-            "name": "预求我身·见心"
+            "name": "预求我身·见心",
+            "requiresResourceLabel": "重击·寒簇·常世身后"
           },
           {
             "name": "预求我身·归刃"
@@ -85,7 +90,8 @@ window.WUWA_LANGUAGES.extend("zh-CN", {
             "name": "霜锋"
           },
           {
-            "name": "普攻·居合"
+            "name": "普攻·居合",
+            "requiresResourceLabel": "100寒意"
           }
         ],
         "combatStates": [
@@ -95,12 +101,15 @@ window.WUWA_LANGUAGES.extend("zh-CN", {
             "entry": "绯雪初始处于常世身；施放预求我身·见心后进入预求身；施放预求我身·归刃后退出预求身。",
             "options": [
               {
-                "label": "常世身"
+                "label": "常世身",
+                "valueLabel": "常世身"
               },
               {
-                "label": "预求身"
+                "label": "预求身",
+                "valueLabel": "预求身"
               }
-            ]
+            ],
+            "idLabel": "身相"
           },
           {
             "label": "居合架势",
@@ -108,9 +117,11 @@ window.WUWA_LANGUAGES.extend("zh-CN", {
             "entry": "预求身形态下寒意不低于100点时，在指定攻击后短按闪避或长按共鸣技能进入；切换角色时提前退出。",
             "options": [
               {
-                "label": "居合架势"
+                "label": "居合架势",
+                "valueLabel": "居合架势"
               }
-            ]
+            ],
+            "idLabel": "居合架势"
           }
         ],
         "buffs": [

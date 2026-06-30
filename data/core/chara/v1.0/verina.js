@@ -192,7 +192,7 @@ WUWA.register({
       "damageType": "heavy",
       "multiplier": 162.37,
       "formula": "64.95% + 97.42%",
-      "requiresResource": "光合能量",
+      "requiresResource": "photosynthesis",
       "fallbackSkillId": "heavy"
     },
     {
@@ -204,7 +204,7 @@ WUWA.register({
       "damageType": "basic",
       "multiplier": 67.64,
       "formula": "67.64%",
-      "requiresResource": "光合能量",
+      "requiresResource": "photosynthesis",
       "fallbackSkillId": "na1_2"
     },
     {
@@ -216,7 +216,7 @@ WUWA.register({
       "damageType": "basic",
       "multiplier": 63.82,
       "formula": "63.82%",
-      "requiresResource": "光合能量",
+      "requiresResource": "photosynthesis",
       "fallbackSkillId": "na2_2"
     },
     {
@@ -228,7 +228,7 @@ WUWA.register({
       "damageType": "basic",
       "multiplier": 91.5,
       "formula": "30.50% × 3",
-      "requiresResource": "光合能量",
+      "requiresResource": "photosynthesis",
       "fallbackSkillId": "na3_2"
     }
   ],

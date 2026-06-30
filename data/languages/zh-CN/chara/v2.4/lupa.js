@@ -1,3 +1,5 @@
+"use strict";
+
 window.WUWA_LANGUAGES.extend("zh-CN", {
   "data": {
     "chars": {
@@ -28,10 +30,12 @@ window.WUWA_LANGUAGES.extend("zh-CN", {
             "name": "重击"
           },
           {
-            "name": "重击·狼咬"
+            "name": "重击·狼咬",
+            "requiresResourceLabel": "50狼焰"
           },
           {
-            "name": "重击·锐爪"
+            "name": "重击·锐爪",
+            "requiresResourceLabel": "50狼焰+1狼魂"
           },
           {
             "name": "空中攻击第一段"
@@ -43,7 +47,8 @@ window.WUWA_LANGUAGES.extend("zh-CN", {
             "name": "空中攻击第三段"
           },
           {
-            "name": "空中攻击·焰袭"
+            "name": "空中攻击·焰袭",
+            "requiresResourceLabel": "50狼焰"
           },
           {
             "name": "空中下落攻击"
@@ -58,13 +63,15 @@ window.WUWA_LANGUAGES.extend("zh-CN", {
             "name": "围猎"
           },
           {
-            "name": "凶噬"
+            "name": "凶噬",
+            "requiresResourceLabel": "围猎后"
           },
           {
             "name": "荣光欢酣于火"
           },
           {
-            "name": "破敌"
+            "name": "破敌",
+            "requiresResourceLabel": "荣光欢酣于火后"
           },
           {
             "name": "你在看哪里？"
@@ -73,16 +80,20 @@ window.WUWA_LANGUAGES.extend("zh-CN", {
             "name": "你无法逃离！"
           },
           {
-            "name": "狼舞的决意"
+            "name": "狼舞的决意",
+            "requiresResourceLabel": "2狼魂"
           },
           {
-            "name": "狼舞的决意·极"
+            "name": "狼舞的决意·极",
+            "requiresResourceLabel": "2狼魂"
           },
           {
-            "name": "狼舞的决意·极（6链）"
+            "name": "狼舞的决意·极（6链）",
+            "requiresResourceLabel": "2狼魂"
           },
           {
-            "name": "此刻，让火焰延燃赛场"
+            "name": "此刻，让火焰延燃赛场",
+            "requiresResourceLabel": "狼舞后切人且队友施放共鸣解放"
           }
         ],
         "combatStates": [
@@ -92,9 +103,11 @@ window.WUWA_LANGUAGES.extend("zh-CN", {
             "entry": "施放共鸣技能破敌时进入赛点沸腾状态，持续12秒；施放狼舞的决意·极时失去赛点沸腾状态。",
             "options": [
               {
-                "label": "赛点沸腾"
+                "label": "赛点沸腾",
+                "valueLabel": "赛点沸腾"
               }
-            ]
+            ],
+            "idLabel": "赛点沸腾"
           },
           {
             "label": "追杀状态",
@@ -102,9 +115,11 @@ window.WUWA_LANGUAGES.extend("zh-CN", {
             "entry": "露帕的追猎攻击提升效果达到上限后，在追猎持续时间内进入追杀状态；同一个追猎仅可进入一次。",
             "options": [
               {
-                "label": "追杀"
+                "label": "追杀",
+                "valueLabel": "追杀状态"
               }
-            ]
+            ],
+            "idLabel": "追杀状态"
           }
         ],
         "buffs": [

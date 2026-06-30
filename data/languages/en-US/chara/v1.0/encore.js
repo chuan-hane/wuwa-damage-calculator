@@ -1,3 +1,5 @@
+"use strict";
+
 window.WUWA_LANGUAGES.extend("en-US", {
   "data": {
     "chars": {
@@ -64,10 +66,12 @@ window.WUWA_LANGUAGES.extend("en-US", {
             "name": "Woolies Helpers - Skill DMG"
           },
           {
-            "name": "Black & White Woolies - Cloudy Frenzy Damage"
+            "name": "Black & White Woolies - Cloudy Frenzy Damage",
+            "requiresResourceLabel": "100失序值"
           },
           {
-            "name": "Black & White Woolies - Cosmos Rupture Damage"
+            "name": "Black & White Woolies - Cosmos Rupture Damage",
+            "requiresResourceLabel": "100失序值"
           }
         ],
         "combatStates": [
@@ -77,9 +81,11 @@ window.WUWA_LANGUAGES.extend("en-US", {
             "entry": "施放共鸣解放黑咩大暴走后，安可进入黑咩大暴走状态。",
             "options": [
               {
-                "label": "处于黑咩大暴走"
+                "label": "处于黑咩大暴走",
+                "valueLabel": "黑咩大暴走"
               }
-            ]
+            ],
+            "idLabel": "黑咩大暴走"
           }
         ],
         "buffs": [

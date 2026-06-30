@@ -1,3 +1,5 @@
+"use strict";
+
 window.WUWA_LANGUAGES.extend("en-US", {
   "data": {
     "chars": {
@@ -43,10 +45,12 @@ window.WUWA_LANGUAGES.extend("en-US", {
             "name": "Cerulean Song - Skill DMG"
           },
           {
-            "name": "Echoing Feathers - Stormy Strike Damage"
+            "name": "Echoing Feathers - Stormy Strike Damage",
+            "requiresResourceLabel": "3声流响"
           },
           {
-            "name": "Echoing Feathers - Feather Release Damage"
+            "name": "Echoing Feathers - Feather Release Damage",
+            "requiresResourceLabel": "3声流响"
           }
         ],
         "buffs": [

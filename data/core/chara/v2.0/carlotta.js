@@ -83,7 +83,7 @@ WUWA.register({
       "damageType": "heavy",
       "multiplier": 228.18,
       "formula": "34.23% × 2 + 34.23% × 2 + 91.26%",
-      "requiresResource": "灵萃充满",
+      "requiresResource": "resource_gate_1",
       "requiresResourceFull": "moldableCrystal",
       "fallbackSkillId": "heavy"
     },
@@ -135,7 +135,7 @@ WUWA.register({
       "multiplier": 402.71,
       "formula": "402.71%",
       "impliedStates": [
-        "枪花轮舞"
+        "status_1_option_1"
       ]
     },
     {
@@ -145,7 +145,7 @@ WUWA.register({
       "multiplier": 241.64,
       "formula": "183.64% + 14.50% × 4",
       "impliedStates": [
-        "枪花轮舞"
+        "status_1_option_1"
       ]
     },
     {
@@ -155,7 +155,7 @@ WUWA.register({
       "multiplier": 644.33,
       "formula": "644.33%",
       "impliedStates": [
-        "枪花轮舞"
+        "status_1_option_1"
       ]
     },
     {
@@ -171,9 +171,9 @@ WUWA.register({
       "damageType": "resonanceSkill",
       "multiplier": 835.36,
       "formula": "66.83% × 5 + 501.21%",
-      "requiresResource": "灵萃充满且镀色晶激活",
+      "requiresResource": "resource_gate_2",
       "requiresResourceFull": "moldableCrystal",
-      "requiresState": "镀色晶激活",
+      "requiresState": "mechanic_1_option_1",
       "fallbackSkillId": "heavy"
     }
   ],
@@ -189,29 +189,29 @@ WUWA.register({
   "echoLead": "10:sentry_construct",
   "combatStates": [
     {
-      "id": "解离",
+      "id": "target_1",
       "kind": "target",
       "options": [
         {
-          "value": "解离"
+          "value": "target_1_option_1"
         }
       ]
     },
     {
-      "id": "枪花轮舞",
+      "id": "status_1",
       "kind": "status",
       "options": [
         {
-          "value": "枪花轮舞"
+          "value": "status_1_option_1"
         }
       ]
     },
     {
-      "id": "镀色晶激活",
+      "id": "mechanic_1",
       "kind": "mechanic",
       "options": [
         {
-          "value": "镀色晶激活"
+          "value": "mechanic_1_option_1"
         }
       ]
     }
@@ -222,7 +222,7 @@ WUWA.register({
       "zone": "defIgnore",
       "value": 18,
       "scope": "self",
-      "requiresState": "解离",
+      "requiresState": "target_1_option_1",
       "duration": 4
     },
     {
@@ -235,7 +235,7 @@ WUWA.register({
         "death",
         "fatal"
       ],
-      "requiresState": "枪花轮舞",
+      "requiresState": "status_1_option_1",
       "defaultActive": false
     }
   ],
@@ -248,7 +248,7 @@ WUWA.register({
           "zone": "critRate",
           "value": 12.5,
           "scope": "self",
-          "requiresState": "解离"
+          "requiresState": "target_1_option_1"
         }
       ]
     },

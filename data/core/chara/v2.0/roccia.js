@@ -141,13 +141,13 @@ WUWA.register({
       "damageType": "heavy",
       "multiplier": 322.08,
       "formula": "322.08%",
-      "requiresResource": "100想象力",
+      "requiresResource": "resource_gate_1",
       "requiresResourceAtLeast": {
         "id": "imagination",
         "value": 100
       },
       "impliedStates": [
-        "飞跃幻想状态"
+        "state_1_option_1"
       ],
       "triggerEvents": [
         "castBasicAttack"
@@ -162,13 +162,13 @@ WUWA.register({
       "damageType": "heavy",
       "multiplier": 339.97,
       "formula": "339.97%",
-      "requiresResource": "100想象力",
+      "requiresResource": "resource_gate_1",
       "requiresResourceAtLeast": {
         "id": "imagination",
         "value": 100
       },
       "impliedStates": [
-        "飞跃幻想状态"
+        "state_1_option_1"
       ],
       "triggerEvents": [
         "castBasicAttack"
@@ -183,13 +183,13 @@ WUWA.register({
       "damageType": "heavy",
       "multiplier": 357.86,
       "formula": "357.86%",
-      "requiresResource": "100想象力",
+      "requiresResource": "resource_gate_1",
       "requiresResourceAtLeast": {
         "id": "imagination",
         "value": 100
       },
       "impliedStates": [
-        "飞跃幻想状态"
+        "state_1_option_1"
       ],
       "triggerEvents": [
         "castBasicAttack"
@@ -205,9 +205,9 @@ WUWA.register({
       "multiplier": 357.86,
       "formula": "幻想照进现实第三段100%",
       "seq": 6,
-      "requiresResource": "共鸣解放后12秒内",
+      "requiresResource": "resource_gate_2",
       "impliedStates": [
-        "飞跃幻想状态"
+        "state_1_option_1"
       ],
       "triggerEvents": [
         "castBasicAttack"
@@ -225,10 +225,10 @@ WUWA.register({
   "echoSet": 6,
   "combatStates": [
     {
-      "id": "飞跃幻想状态",
+      "id": "state_1",
       "options": [
         {
-          "value": "飞跃幻想状态"
+          "value": "state_1_option_1"
         }
       ]
     }

@@ -1,3 +1,5 @@
+"use strict";
+
 window.WUWA_LANGUAGES.extend("en-US", {
   "data": {
     "chars": {
@@ -73,13 +75,16 @@ window.WUWA_LANGUAGES.extend("en-US", {
             "name": "Applaud for Me! - Skill DMG"
           },
           {
-            "name": "Ocean Odyssey - Returned from Ashes DMG"
+            "name": "Ocean Odyssey - Returned from Ashes DMG",
+            "requiresResourceLabel": "喝彩充满"
           },
           {
-            "name": "For Smiles and Cheers - The Course is Set! Blast DMG"
+            "name": "For Smiles and Cheers - The Course is Set! Blast DMG",
+            "requiresResourceLabel": "2链延奏额外效果"
           },
           {
-            "name": "All the World's a Captain's Carnevale - Secondary Blast DMG"
+            "name": "All the World's a Captain's Carnevale - Secondary Blast DMG",
+            "requiresResourceLabel": "施放火焰归亡曲后"
           }
         ],
         "combatStates": [
@@ -89,9 +94,11 @@ window.WUWA_LANGUAGES.extend("en-US", {
             "entry": "施放共鸣解放直到世界尽头结束后进入燃焰状态，持续12秒。",
             "options": [
               {
-                "label": "燃焰"
+                "label": "燃焰",
+                "valueLabel": "燃焰状态"
               }
-            ]
+            ],
+            "idLabel": "燃焰状态"
           }
         ],
         "buffs": [

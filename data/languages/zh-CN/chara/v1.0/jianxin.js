@@ -1,3 +1,5 @@
+"use strict";
+
 window.WUWA_LANGUAGES.extend("zh-CN", {
   "data": {
     "chars": {
@@ -37,22 +39,28 @@ window.WUWA_LANGUAGES.extend("zh-CN", {
             "name": "降气反击"
           },
           {
-            "name": "冲拳"
+            "name": "冲拳",
+            "requiresResourceLabel": "120气"
           },
           {
-            "name": "运气持续"
+            "name": "运气持续",
+            "requiresResourceLabel": "120气"
           },
           {
-            "name": "小周天震气"
+            "name": "小周天震气",
+            "requiresResourceLabel": "120气"
           },
           {
-            "name": "大周天·内震气"
+            "name": "大周天·内震气",
+            "requiresResourceLabel": "120气"
           },
           {
-            "name": "大周天·外震气"
+            "name": "大周天·外震气",
+            "requiresResourceLabel": "120气"
           },
           {
-            "name": "推手"
+            "name": "推手",
+            "requiresResourceLabel": "120气"
           },
           {
             "name": "共鸣解放持续"
@@ -61,7 +69,8 @@ window.WUWA_LANGUAGES.extend("zh-CN", {
             "name": "共鸣解放炸裂"
           },
           {
-            "name": "特殊行气反击"
+            "name": "特殊行气反击",
+            "requiresResourceLabel": "特殊行气反击"
           },
           {
             "name": "掌息之要"
@@ -74,18 +83,23 @@ window.WUWA_LANGUAGES.extend("zh-CN", {
             "entry": "气达到上限后长按普攻进入，期间持续消耗气；松开普攻或气耗尽时结束。",
             "options": [
               {
-                "label": "未达小周天"
+                "label": "未达小周天",
+                "valueLabel": "运气状态·未达小周天"
               },
               {
-                "label": "小周天"
+                "label": "小周天",
+                "valueLabel": "运气状态·小周天"
               },
               {
-                "label": "大周天·内"
+                "label": "大周天·内",
+                "valueLabel": "运气状态·大周天·内"
               },
               {
-                "label": "大周天·外"
+                "label": "大周天·外",
+                "valueLabel": "运气状态·大周天·外"
               }
-            ]
+            ],
+            "idLabel": "运气状态"
           }
         ],
         "buffs": [

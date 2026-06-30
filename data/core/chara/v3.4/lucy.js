@@ -99,7 +99,7 @@ WUWA.register({
       "multiplier": 125.26,
       "formula": "62.63% + 62.63%",
       "impliedStates": [
-        "算法压缩"
+        "status_1_option_1"
       ]
     },
     {
@@ -109,7 +109,7 @@ WUWA.register({
       "multiplier": 194.85,
       "formula": "38.97% + 38.97% + 38.97% + 38.97% + 38.97%",
       "impliedStates": [
-        "算法压缩"
+        "status_1_option_1"
       ]
     },
     {
@@ -119,7 +119,7 @@ WUWA.register({
       "multiplier": 77.96,
       "formula": "19.49% + 19.49% + 19.49% + 19.49%",
       "impliedStates": [
-        "算法压缩"
+        "status_1_option_1"
       ]
     },
     {
@@ -129,7 +129,7 @@ WUWA.register({
       "multiplier": 111.35,
       "formula": "22.27% + 22.27% + 22.27% + 22.27% + 22.27%",
       "impliedStates": [
-        "算法压缩"
+        "status_1_option_1"
       ]
     },
     {
@@ -139,7 +139,7 @@ WUWA.register({
       "multiplier": 140.6,
       "formula": "28.12% + 28.12% + 28.12% + 28.12% + 28.12%",
       "impliedStates": [
-        "算法压缩"
+        "status_1_option_1"
       ]
     },
     {
@@ -149,7 +149,7 @@ WUWA.register({
       "multiplier": 125.3,
       "formula": "25.06% + 25.06% + 25.06% + 25.06% + 25.06%",
       "impliedStates": [
-        "算法压缩"
+        "status_1_option_1"
       ]
     },
     {
@@ -159,7 +159,7 @@ WUWA.register({
       "multiplier": 116.95,
       "formula": "23.39% + 23.39% + 23.39% + 23.39% + 23.39%",
       "impliedStates": [
-        "算法压缩"
+        "status_1_option_1"
       ]
     },
     {
@@ -169,9 +169,9 @@ WUWA.register({
       "multiplier": 167.05,
       "formula": "33.41% + 33.41% + 33.41% + 33.41% + 33.41%",
       "impliedStates": [
-        "算法压缩"
+        "status_1_option_1"
       ],
-      "requiresResource": "100点根权限",
+      "requiresResource": "resource_gate_1",
       "requiresResourceAtLeast": {
         "id": "rootAccess",
         "value": 100
@@ -185,9 +185,9 @@ WUWA.register({
       "multiplier": 238.6,
       "formula": "59.65% + 59.65% × 3",
       "impliedStates": [
-        "算法压缩"
+        "status_1_option_1"
       ],
-      "requiresResource": "重击·双线程后",
+      "requiresResource": "resource_gate_2",
       "fallbackSkillId": "heavy_double_thread"
     },
     {
@@ -197,7 +197,7 @@ WUWA.register({
       "multiplier": 508.6,
       "formula": "59.65% + 59.65% × 3 + 270%",
       "impliedStates": [
-        "算法压缩"
+        "status_1_option_1"
       ],
       "requiresResource": "SQL",
       "fallbackSkillId": "heavy_multithread"
@@ -237,12 +237,12 @@ WUWA.register({
       "damageType": "heavy",
       "multiplier": 258.47,
       "formula": "51.70% + 206.77%",
-      "requiresResource": "100点传输协议或算法压缩",
+      "requiresResource": "resource_gate_3",
       "requiresResourceAtLeast": {
         "id": "protocol",
         "value": 100,
         "alternateStates": [
-          "算法压缩"
+          "status_1_option_1"
         ]
       },
       "fallbackSkillId": "skill_payload_dash"
@@ -282,9 +282,9 @@ WUWA.register({
       "multiplier": 1789.29,
       "formula": "1789.29%",
       "impliedStates": [
-        "算法压缩"
+        "status_1_option_1"
       ],
-      "requiresResource": "重击·多线程后",
+      "requiresResource": "resource_gate_4",
       "fallbackSkillId": "burst_overwrite"
     },
     {
@@ -303,7 +303,7 @@ WUWA.register({
       "damageType": "hackDmg",
       "multiplier": 1367.75,
       "formula": "1094.19% + 68.39% × 4",
-      "requiresState": "目标骇破·干涉"
+      "requiresState": "target_1_option_2"
     }
   ],
   "defaultSkillId": "heavy_multithread_sql",
@@ -320,23 +320,23 @@ WUWA.register({
   "echoSet3": 8,
   "combatStates": [
     {
-      "id": "算法压缩",
+      "id": "status_1",
       "kind": "status",
       "options": [
         {
-          "value": "算法压缩"
+          "value": "status_1_option_1"
         }
       ]
     },
     {
-      "id": "骇破目标状态",
+      "id": "target_1",
       "kind": "target",
       "options": [
         {
-          "value": "目标骇破·偏移"
+          "value": "target_1_option_1"
         },
         {
-          "value": "目标骇破·干涉"
+          "value": "target_1_option_2"
         }
       ]
     }
@@ -348,7 +348,7 @@ WUWA.register({
       "element": "spectro",
       "value": 65,
       "scope": "self",
-      "requiresState": "算法压缩",
+      "requiresState": "status_1_option_1",
       "duration": 8
     },
     {
@@ -375,7 +375,7 @@ WUWA.register({
       "maxStacks": 2,
       "defaultStacks": 0,
       "defaultActive": false,
-      "stackGroup": "网络后门",
+      "stackGroup": "stack_group_1",
       "duration": 120
     },
     {
@@ -387,7 +387,7 @@ WUWA.register({
       "maxStacks": 2,
       "defaultStacks": 0,
       "defaultActive": false,
-      "stackGroup": "网络后门",
+      "stackGroup": "stack_group_1",
       "duration": 120
     },
     {
@@ -533,8 +533,8 @@ WUWA.register({
           "scope": "self",
           "damageType": "heavy",
           "requiresState": [
-            "目标骇破·偏移",
-            "目标骇破·干涉"
+            "target_1_option_1",
+            "target_1_option_2"
           ]
         },
         {
@@ -544,8 +544,8 @@ WUWA.register({
           "scope": "self",
           "damageType": "hackDmg",
           "requiresState": [
-            "目标骇破·偏移",
-            "目标骇破·干涉"
+            "target_1_option_1",
+            "target_1_option_2"
           ]
         }
       ]

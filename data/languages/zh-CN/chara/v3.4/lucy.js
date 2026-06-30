@@ -1,3 +1,5 @@
+"use strict";
+
 window.WUWA_LANGUAGES.extend("zh-CN", {
   "data": {
     "chars": {
@@ -58,10 +60,12 @@ window.WUWA_LANGUAGES.extend("zh-CN", {
             "name": "重击·单线程"
           },
           {
-            "name": "重击·双线程"
+            "name": "重击·双线程",
+            "requiresResourceLabel": "100点根权限"
           },
           {
-            "name": "重击·多线程"
+            "name": "重击·多线程",
+            "requiresResourceLabel": "重击·双线程后"
           },
           {
             "name": "重击·多线程（SQL）"
@@ -79,7 +83,8 @@ window.WUWA_LANGUAGES.extend("zh-CN", {
             "name": "脉冲干扰·链2追加"
           },
           {
-            "name": "共鸣技能·死锁"
+            "name": "共鸣技能·死锁",
+            "requiresResourceLabel": "100点传输协议或算法压缩"
           },
           {
             "name": "共鸣解放·网络行者·覆写篡改"
@@ -94,7 +99,8 @@ window.WUWA_LANGUAGES.extend("zh-CN", {
             "name": "欺骗程式·运动失能"
           },
           {
-            "name": "共鸣解放·暗网深潜·覆写篡改"
+            "name": "共鸣解放·暗网深潜·覆写篡改",
+            "requiresResourceLabel": "重击·多线程后"
           },
           {
             "name": "变奏技能·过时幻觉"
@@ -110,9 +116,11 @@ window.WUWA_LANGUAGES.extend("zh-CN", {
             "entry": "施放共鸣技能·死锁后进入算法压缩状态，持续8秒；施放共鸣解放·网络行者、共鸣解放·暗网深潜后，或施放重击·多线程后8秒内不施放指定技能时退出。",
             "options": [
               {
-                "label": "算法压缩"
+                "label": "算法压缩",
+                "valueLabel": "算法压缩"
               }
-            ]
+            ],
+            "idLabel": "算法压缩"
           },
           {
             "label": "目标骇破状态",
@@ -120,12 +128,15 @@ window.WUWA_LANGUAGES.extend("zh-CN", {
             "entry": "共鸣技能·有效载荷、共鸣技能·死锁、重击·多线程可附加【骇破·偏移】；队伍角色对偏移目标造成谐度破坏伤害并使其进入【骇破·干涉】时，露西可触发骇破响应·数据崩解。",
             "options": [
               {
-                "label": "骇破·偏移"
+                "label": "骇破·偏移",
+                "valueLabel": "目标骇破·偏移"
               },
               {
-                "label": "骇破·干涉"
+                "label": "骇破·干涉",
+                "valueLabel": "目标骇破·干涉"
               }
-            ]
+            ],
+            "idLabel": "骇破目标状态"
           }
         ],
         "buffs": [

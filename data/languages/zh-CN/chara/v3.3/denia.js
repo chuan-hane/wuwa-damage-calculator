@@ -1,3 +1,5 @@
+"use strict";
+
 window.WUWA_LANGUAGES.extend("zh-CN", {
   "data": {
     "chars": {
@@ -70,37 +72,48 @@ window.WUWA_LANGUAGES.extend("zh-CN", {
             "name": "空中攻击·幻灭之形第四段"
           },
           {
-            "name": "虚质粒子·普攻·幻灭之形第一段"
+            "name": "虚质粒子·普攻·幻灭之形第一段",
+            "requiresResourceLabel": "虚质粒子"
           },
           {
-            "name": "虚质粒子·普攻·幻灭之形第二段"
+            "name": "虚质粒子·普攻·幻灭之形第二段",
+            "requiresResourceLabel": "虚质粒子"
           },
           {
-            "name": "虚质粒子·普攻·幻灭之形第三段"
+            "name": "虚质粒子·普攻·幻灭之形第三段",
+            "requiresResourceLabel": "虚质粒子"
           },
           {
-            "name": "虚质粒子·普攻·幻灭之形第四段"
+            "name": "虚质粒子·普攻·幻灭之形第四段",
+            "requiresResourceLabel": "虚质粒子"
           },
           {
-            "name": "虚质粒子·重击·幻灭之形"
+            "name": "虚质粒子·重击·幻灭之形",
+            "requiresResourceLabel": "虚质粒子"
           },
           {
-            "name": "虚质粒子·空中重击·幻灭之形"
+            "name": "虚质粒子·空中重击·幻灭之形",
+            "requiresResourceLabel": "虚质粒子"
           },
           {
-            "name": "虚质粒子·闪避反击·幻灭之形"
+            "name": "虚质粒子·闪避反击·幻灭之形",
+            "requiresResourceLabel": "虚质粒子"
           },
           {
-            "name": "虚质粒子·空中攻击·幻灭之形第一段"
+            "name": "虚质粒子·空中攻击·幻灭之形第一段",
+            "requiresResourceLabel": "虚质粒子"
           },
           {
-            "name": "虚质粒子·空中攻击·幻灭之形第二段"
+            "name": "虚质粒子·空中攻击·幻灭之形第二段",
+            "requiresResourceLabel": "虚质粒子"
           },
           {
-            "name": "虚质粒子·空中攻击·幻灭之形第三段"
+            "name": "虚质粒子·空中攻击·幻灭之形第三段",
+            "requiresResourceLabel": "虚质粒子"
           },
           {
-            "name": "虚质粒子·空中攻击·幻灭之形第四段"
+            "name": "虚质粒子·空中攻击·幻灭之形第四段",
+            "requiresResourceLabel": "虚质粒子"
           },
           {
             "name": "拟态泡泡·布景之形"
@@ -109,16 +122,19 @@ window.WUWA_LANGUAGES.extend("zh-CN", {
             "name": "轻唤·幻灭之形"
           },
           {
-            "name": "放逐·幻灭之形第一段"
+            "name": "放逐·幻灭之形第一段",
+            "requiresResourceLabel": "黯核"
           },
           {
-            "name": "放逐·幻灭之形第二段"
+            "name": "放逐·幻灭之形第二段",
+            "requiresResourceLabel": "黯核"
           },
           {
             "name": "帷幕终景·布景之形"
           },
           {
-            "name": "帷幕终景·幻灭之形"
+            "name": "帷幕终景·幻灭之形",
+            "requiresResourceLabel": "共形能量充满"
           },
           {
             "name": "久疏问候！"
@@ -130,10 +146,12 @@ window.WUWA_LANGUAGES.extend("zh-CN", {
             "name": "蚀域每次伤害"
           },
           {
-            "name": "黯核·普攻·布景之形第四段"
+            "name": "黯核·普攻·布景之形第四段",
+            "requiresResourceLabel": "黯核达到上限"
           },
           {
-            "name": "黯核·拟态泡泡·布景之形"
+            "name": "黯核·拟态泡泡·布景之形",
+            "requiresResourceLabel": "黯核达到上限"
           }
         ],
         "combatStates": [
@@ -143,12 +161,15 @@ window.WUWA_LANGUAGES.extend("zh-CN", {
             "entry": "达妮娅拥有布景之形与幻灭之形。施放帷幕终景·布景之形后获得熵变强化·幻灭之形并切换至幻灭之形；施放帷幕终景·幻灭之形后获得熵变强化·布景之形并切换至布景之形。",
             "options": [
               {
-                "label": "布景"
+                "label": "布景",
+                "valueLabel": "布景之形"
               },
               {
-                "label": "幻灭"
+                "label": "幻灭",
+                "valueLabel": "幻灭之形"
               }
-            ]
+            ],
+            "idLabel": "形态"
           },
           {
             "label": "共鸣模态",
@@ -156,12 +177,15 @@ window.WUWA_LANGUAGES.extend("zh-CN", {
             "entry": "达妮娅可在共鸣模态·聚爆与共鸣模态·集谐之间切换；默认分支为共鸣模态·聚爆。",
             "options": [
               {
-                "label": "聚爆"
+                "label": "聚爆",
+                "valueLabel": "共鸣模态·聚爆"
               },
               {
-                "label": "集谐"
+                "label": "集谐",
+                "valueLabel": "共鸣模态·集谐"
               }
-            ]
+            ],
+            "idLabel": "共鸣模态"
           },
           {
             "label": "熵变强化",
@@ -169,12 +193,15 @@ window.WUWA_LANGUAGES.extend("zh-CN", {
             "entry": "施放帷幕终景·布景之形后获得熵变强化·幻灭之形，持续12秒；施放帷幕终景·幻灭之形后获得熵变强化·布景之形，持续30秒。获得其中一个效果时会移除另一个。",
             "options": [
               {
-                "label": "布景强化"
+                "label": "布景强化",
+                "valueLabel": "熵变强化·布景之形"
               },
               {
-                "label": "幻灭强化"
+                "label": "幻灭强化",
+                "valueLabel": "熵变强化·幻灭之形"
               }
-            ]
+            ],
+            "idLabel": "熵变强化"
           },
           {
             "label": "蚀域",
@@ -182,9 +209,11 @@ window.WUWA_LANGUAGES.extend("zh-CN", {
             "entry": "施放共鸣解放帷幕终景·幻灭之形后生成蚀域，持续30秒；自身生成的蚀域同时最多存在一个。",
             "options": [
               {
-                "label": "已生成"
+                "label": "已生成",
+                "valueLabel": "蚀域"
               }
-            ]
+            ],
+            "idLabel": "蚀域"
           },
           {
             "label": "目标集谐状态",
@@ -192,12 +221,15 @@ window.WUWA_LANGUAGES.extend("zh-CN", {
             "entry": "共鸣模态·集谐下，指定技能造成伤害时可为目标附加【集谐·偏移】并刷新【集谐·干涉】持续时间；队伍附加集谐·偏移时可快速积累偏谐值。",
             "options": [
               {
-                "label": "集谐·偏移"
+                "label": "集谐·偏移",
+                "valueLabel": "目标集谐·偏移"
               },
               {
-                "label": "集谐·干涉"
+                "label": "集谐·干涉",
+                "valueLabel": "目标集谐·干涉"
               }
-            ]
+            ],
+            "idLabel": "目标集谐状态"
           }
         ],
         "buffs": [

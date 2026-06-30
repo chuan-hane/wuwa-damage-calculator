@@ -1,3 +1,5 @@
+"use strict";
+
 window.WUWA_LANGUAGES.extend("en-US", {
   "data": {
     "chars": {
@@ -64,7 +66,8 @@ window.WUWA_LANGUAGES.extend("en-US", {
             "name": "Between Illusion and Reality - Abysmal Vortex DMG"
           },
           {
-            "name": "Between Illusion and Reality - Perception Drain DMG"
+            "name": "Between Illusion and Reality - Perception Drain DMG",
+            "requiresResourceLabel": "3颤栗"
           },
           {
             "name": "Between Illusion and Reality - Shadowy Sweep DMG"
@@ -77,9 +80,11 @@ window.WUWA_LANGUAGES.extend("en-US", {
             "entry": "拥有迷离时施放重击·浮潜幻海后进入；3链施放共鸣解放·陷溺后也会进入。",
             "options": [
               {
-                "label": "蜃境"
+                "label": "蜃境",
+                "valueLabel": "蜃境"
               }
-            ]
+            ],
+            "idLabel": "蜃境"
           },
           {
             "label": "目标迷梦",
@@ -87,9 +92,11 @@ window.WUWA_LANGUAGES.extend("en-US", {
             "entry": "斑驳幻梦或感知汲取命中目标后附加；2链后陷溺也可附加。持续6.5秒。",
             "options": [
               {
-                "label": "迷梦"
+                "label": "迷梦",
+                "valueLabel": "迷梦"
               }
-            ]
+            ],
+            "idLabel": "迷梦"
           }
         ],
         "buffs": [

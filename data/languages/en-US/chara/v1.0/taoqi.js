@@ -1,3 +1,5 @@
+"use strict";
+
 window.WUWA_LANGUAGES.extend("en-US", {
   "data": {
     "chars": {
@@ -38,13 +40,16 @@ window.WUWA_LANGUAGES.extend("en-US", {
             "name": "Defense Formation - Skill DMG"
           },
           {
-            "name": "Power Shift - Timed Counters Stage 1 DMG"
+            "name": "Power Shift - Timed Counters Stage 1 DMG",
+            "requiresResourceLabel": "刚柔化势"
           },
           {
-            "name": "Power Shift - Timed Counters Stage 2 DMG"
+            "name": "Power Shift - Timed Counters Stage 2 DMG",
+            "requiresResourceLabel": "刚柔化势"
           },
           {
-            "name": "Power Shift - Timed Counters Stage 3 DMG"
+            "name": "Power Shift - Timed Counters Stage 3 DMG",
+            "requiresResourceLabel": "刚柔化势"
           }
         ],
         "buffs": [

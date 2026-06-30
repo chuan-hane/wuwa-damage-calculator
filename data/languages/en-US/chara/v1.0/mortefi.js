@@ -1,3 +1,5 @@
+"use strict";
+
 window.WUWA_LANGUAGES.extend("en-US", {
   "data": {
     "chars": {
@@ -46,7 +48,8 @@ window.WUWA_LANGUAGES.extend("en-US", {
             "name": "Dissonance - Skill DMG"
           },
           {
-            "name": "Fury Fugue - Fury Fugue Damage"
+            "name": "Fury Fugue - Fury Fugue Damage",
+            "requiresResourceLabel": "100怒气值"
           }
         ],
         "buffs": [

@@ -1,3 +1,5 @@
+"use strict";
+
 window.WUWA_LANGUAGES.extend("zh-CN", {
   "data": {
     "chars": {
@@ -55,16 +57,20 @@ window.WUWA_LANGUAGES.extend("zh-CN", {
             "name": "蔓延"
           },
           {
-            "name": "重击·星星花绽放"
+            "name": "重击·星星花绽放",
+            "requiresResourceLabel": "光合能量"
           },
           {
-            "name": "空中攻击·星星花绽放第一段"
+            "name": "空中攻击·星星花绽放第一段",
+            "requiresResourceLabel": "光合能量"
           },
           {
-            "name": "空中攻击·星星花绽放第二段"
+            "name": "空中攻击·星星花绽放第二段",
+            "requiresResourceLabel": "光合能量"
           },
           {
-            "name": "空中攻击·星星花绽放第三段"
+            "name": "空中攻击·星星花绽放第三段",
+            "requiresResourceLabel": "光合能量"
           }
         ],
         "buffs": [

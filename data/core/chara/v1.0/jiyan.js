@@ -127,7 +127,7 @@ WUWA.register({
       "multiplier": 524.16,
       "formula": "65.52% × 8",
       "impliedStates": [
-        "破阵状态"
+        "state_1_option_1"
       ]
     },
     {
@@ -137,7 +137,7 @@ WUWA.register({
       "multiplier": 492.4,
       "formula": "61.55% × 8",
       "impliedStates": [
-        "破阵状态"
+        "state_1_option_1"
       ]
     },
     {
@@ -147,7 +147,7 @@ WUWA.register({
       "multiplier": 534.08,
       "formula": "66.76% × 8",
       "impliedStates": [
-        "破阵状态"
+        "state_1_option_1"
       ]
     },
     {
@@ -166,7 +166,7 @@ WUWA.register({
       "damageType": "heavy",
       "multiplier": 714.55,
       "formula": "142.91% × 2 + 428.73%",
-      "requiresResource": "30破阵值",
+      "requiresResource": "resource_gate_1",
       "requiresResourceAtLeast": {
         "id": "resolve",
         "value": 30
@@ -184,10 +184,10 @@ WUWA.register({
   "echoSet": 4,
   "combatStates": [
     {
-      "id": "破阵状态",
+      "id": "state_1",
       "options": [
         {
-          "value": "破阵状态"
+          "value": "state_1_option_1"
         }
       ]
     }
@@ -230,7 +230,7 @@ WUWA.register({
           "skills": [
             "skill_windqueller"
           ],
-          "requiresState": "破阵状态"
+          "requiresState": "state_1_option_1"
         }
       ]
     }

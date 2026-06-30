@@ -1,3 +1,5 @@
+"use strict";
+
 window.WUWA_LANGUAGES.extend("en-US", {
   "data": {
     "chars": {
@@ -43,7 +45,8 @@ window.WUWA_LANGUAGES.extend("en-US", {
             "name": "Sword to Bear Their Names - Skill DMG"
           },
           {
-            "name": "A Knight's Heartfelt Prayers - Blade of Howling Squall DMG"
+            "name": "A Knight's Heartfelt Prayers - Blade of Howling Squall DMG",
+            "requiresResourceLabel": "120决意"
           },
           {
             "name": "Sword to Mark Tide's Trace - Sword to Mark Tide's Trace DMG"
@@ -100,12 +103,15 @@ window.WUWA_LANGUAGES.extend("en-US", {
             "entry": "施放共鸣解放·听骑士从心祈愿后，卡提希娅化身芙露德莉斯并进入显化，持续12秒；决意满120点时可施放看潮怒风哮之刃。",
             "options": [
               {
-                "label": "卡提希娅"
+                "label": "卡提希娅",
+                "valueLabel": "卡提希娅"
               },
               {
-                "label": "芙露德莉斯"
+                "label": "芙露德莉斯",
+                "valueLabel": "芙露德莉斯"
               }
-            ]
+            ],
+            "idLabel": "形态"
           },
           {
             "label": "权柄",
@@ -113,15 +119,19 @@ window.WUWA_LANGUAGES.extend("en-US", {
             "entry": "卡提希娅施放空中攻击后回收场上的剑之影，根据回收的剑之影种类获得人权之心、神权之意、异权之力。",
             "options": [
               {
-                "label": "人权之心"
+                "label": "人权之心",
+                "valueLabel": "人权之心"
               },
               {
-                "label": "神权之意"
+                "label": "神权之意",
+                "valueLabel": "神权之意"
               },
               {
-                "label": "异权之力"
+                "label": "异权之力",
+                "valueLabel": "异权之力"
               }
-            ]
+            ],
+            "idLabel": "权柄"
           }
         ],
         "buffs": [

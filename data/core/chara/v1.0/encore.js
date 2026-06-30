@@ -140,7 +140,7 @@ WUWA.register({
       "multiplier": 180.36,
       "formula": "90.18% × 2",
       "impliedStates": [
-        "黑咩大暴走"
+        "state_1_option_1"
       ]
     },
     {
@@ -153,7 +153,7 @@ WUWA.register({
       "multiplier": 169.2,
       "formula": "56.40% × 3",
       "impliedStates": [
-        "黑咩大暴走"
+        "state_1_option_1"
       ]
     },
     {
@@ -166,7 +166,7 @@ WUWA.register({
       "multiplier": 263.96,
       "formula": "65.99% × 4",
       "impliedStates": [
-        "黑咩大暴走"
+        "state_1_option_1"
       ]
     },
     {
@@ -179,7 +179,7 @@ WUWA.register({
       "multiplier": 582.03,
       "formula": "194.01% × 3",
       "impliedStates": [
-        "黑咩大暴走"
+        "state_1_option_1"
       ]
     },
     {
@@ -192,7 +192,7 @@ WUWA.register({
       "multiplier": 217.58,
       "formula": "217.58%",
       "impliedStates": [
-        "黑咩大暴走"
+        "state_1_option_1"
       ]
     },
     {
@@ -205,7 +205,7 @@ WUWA.register({
       "multiplier": 253.28,
       "formula": "63.32% × 4",
       "impliedStates": [
-        "黑咩大暴走"
+        "state_1_option_1"
       ],
       "triggerEvents": [
         "castResonanceSkill"
@@ -221,7 +221,7 @@ WUWA.register({
       "multiplier": 263.96,
       "formula": "65.99% × 4",
       "impliedStates": [
-        "黑咩大暴走"
+        "state_1_option_1"
       ]
     },
     {
@@ -246,7 +246,7 @@ WUWA.register({
       "damageType": "resonanceLiberation",
       "multiplier": 334,
       "formula": "334.00%",
-      "requiresResource": "100失序值",
+      "requiresResource": "resource_gate_1",
       "requiresResourceAtLeast": {
         "id": "dissonance",
         "value": 100
@@ -262,14 +262,14 @@ WUWA.register({
       "damageType": "resonanceLiberation",
       "multiplier": 773.73,
       "formula": "46.42% × 6 + 495.21%",
-      "requiresResource": "100失序值",
+      "requiresResource": "resource_gate_1",
       "requiresResourceAtLeast": {
         "id": "dissonance",
         "value": 100
       },
       "fallbackSkillId": "heavy_2",
       "impliedStates": [
-        "黑咩大暴走"
+        "state_1_option_1"
       ]
     }
   ],
@@ -284,10 +284,10 @@ WUWA.register({
   "echoSet": 2,
   "combatStates": [
     {
-      "id": "黑咩大暴走",
+      "id": "state_1",
       "options": [
         {
-          "value": "黑咩大暴走"
+          "value": "state_1_option_1"
         }
       ]
     }
@@ -298,7 +298,7 @@ WUWA.register({
       "zone": "damageBonus",
       "value": 10,
       "scope": "self",
-      "requiresState": "黑咩大暴走",
+      "requiresState": "state_1_option_1",
       "defaultActive": false
     },
     {
@@ -388,7 +388,7 @@ WUWA.register({
           "zone": "attackPercent",
           "value": 25,
           "scope": "self",
-          "requiresState": "黑咩大暴走",
+          "requiresState": "state_1_option_1",
           "maxStacks": 5,
           "defaultStacks": 0,
           "defaultActive": false,

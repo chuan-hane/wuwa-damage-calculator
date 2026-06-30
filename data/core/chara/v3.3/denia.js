@@ -9,7 +9,7 @@ WUWA.register({
     "fusion"
   ],
   "effectTypeRequiresState": {
-    "fusion": "共鸣模态·聚爆"
+    "fusion": "mode_1_option_1"
   },
   "signatureWeaponId": "forged_dwarf_star",
   "portrait": "",
@@ -59,7 +59,7 @@ WUWA.register({
       "multiplier": 32.69,
       "formula": "32.69%",
       "impliedStates": [
-        "布景之形"
+        "form_1_option_1"
       ]
     },
     {
@@ -69,7 +69,7 @@ WUWA.register({
       "multiplier": 60.36,
       "formula": "30.18% × 2",
       "impliedStates": [
-        "布景之形"
+        "form_1_option_1"
       ]
     },
     {
@@ -79,7 +79,7 @@ WUWA.register({
       "multiplier": 76.47,
       "formula": "25.49% × 3",
       "impliedStates": [
-        "布景之形"
+        "form_1_option_1"
       ]
     },
     {
@@ -89,7 +89,7 @@ WUWA.register({
       "multiplier": 128,
       "formula": "128.00%",
       "impliedStates": [
-        "布景之形"
+        "form_1_option_1"
       ]
     },
     {
@@ -99,7 +99,7 @@ WUWA.register({
       "multiplier": 161.52,
       "formula": "80.76% × 2",
       "impliedStates": [
-        "布景之形"
+        "form_1_option_1"
       ]
     },
     {
@@ -109,7 +109,7 @@ WUWA.register({
       "multiplier": 73.97,
       "formula": "29.59% + 44.38%",
       "impliedStates": [
-        "布景之形"
+        "form_1_option_1"
       ]
     },
     {
@@ -119,7 +119,7 @@ WUWA.register({
       "multiplier": 148.05,
       "formula": "49.35% × 3",
       "impliedStates": [
-        "布景之形"
+        "form_1_option_1"
       ]
     },
     {
@@ -129,7 +129,7 @@ WUWA.register({
       "multiplier": 36.51,
       "formula": "36.51%",
       "impliedStates": [
-        "幻灭之形"
+        "form_1_option_2"
       ]
     },
     {
@@ -139,7 +139,7 @@ WUWA.register({
       "multiplier": 93.79,
       "formula": "37.51% + 14.07% × 4",
       "impliedStates": [
-        "幻灭之形"
+        "form_1_option_2"
       ]
     },
     {
@@ -149,7 +149,7 @@ WUWA.register({
       "multiplier": 62.39,
       "formula": "62.39%",
       "impliedStates": [
-        "幻灭之形"
+        "form_1_option_2"
       ]
     },
     {
@@ -159,7 +159,7 @@ WUWA.register({
       "multiplier": 118.46,
       "formula": "35.54% + 82.92%",
       "impliedStates": [
-        "幻灭之形"
+        "form_1_option_2"
       ]
     },
     {
@@ -169,7 +169,7 @@ WUWA.register({
       "multiplier": 137.06,
       "formula": "137.06%",
       "impliedStates": [
-        "幻灭之形"
+        "form_1_option_2"
       ]
     },
     {
@@ -179,7 +179,7 @@ WUWA.register({
       "multiplier": 73.97,
       "formula": "29.59% + 44.38%",
       "impliedStates": [
-        "幻灭之形"
+        "form_1_option_2"
       ]
     },
     {
@@ -189,7 +189,7 @@ WUWA.register({
       "multiplier": 108.08,
       "formula": "108.08%",
       "impliedStates": [
-        "幻灭之形"
+        "form_1_option_2"
       ]
     },
     {
@@ -199,7 +199,7 @@ WUWA.register({
       "multiplier": 36.51,
       "formula": "36.51%",
       "impliedStates": [
-        "幻灭之形"
+        "form_1_option_2"
       ]
     },
     {
@@ -209,7 +209,7 @@ WUWA.register({
       "multiplier": 93.79,
       "formula": "37.51% + 14.07% × 4",
       "impliedStates": [
-        "幻灭之形"
+        "form_1_option_2"
       ]
     },
     {
@@ -219,7 +219,7 @@ WUWA.register({
       "multiplier": 62.39,
       "formula": "62.39%",
       "impliedStates": [
-        "幻灭之形"
+        "form_1_option_2"
       ]
     },
     {
@@ -229,7 +229,7 @@ WUWA.register({
       "multiplier": 118.46,
       "formula": "35.54% + 82.92%",
       "impliedStates": [
-        "幻灭之形"
+        "form_1_option_2"
       ]
     },
     {
@@ -238,10 +238,10 @@ WUWA.register({
       "damageType": "resonanceLiberation",
       "multiplier": 36.51,
       "formula": "36.51%",
-      "requiresResource": "虚质粒子",
+      "requiresResource": "voidParticle",
       "fallbackSkillId": "bd_na1",
       "impliedStates": [
-        "幻灭之形"
+        "form_1_option_2"
       ]
     },
     {
@@ -250,10 +250,10 @@ WUWA.register({
       "damageType": "resonanceLiberation",
       "multiplier": 93.79,
       "formula": "37.51% + 14.07% × 4",
-      "requiresResource": "虚质粒子",
+      "requiresResource": "voidParticle",
       "fallbackSkillId": "bd_na2",
       "impliedStates": [
-        "幻灭之形"
+        "form_1_option_2"
       ]
     },
     {
@@ -262,10 +262,10 @@ WUWA.register({
       "damageType": "resonanceLiberation",
       "multiplier": 62.39,
       "formula": "62.39%",
-      "requiresResource": "虚质粒子",
+      "requiresResource": "voidParticle",
       "fallbackSkillId": "bd_na3",
       "impliedStates": [
-        "幻灭之形"
+        "form_1_option_2"
       ]
     },
     {
@@ -274,10 +274,10 @@ WUWA.register({
       "damageType": "resonanceLiberation",
       "multiplier": 118.46,
       "formula": "35.54% + 82.92%",
-      "requiresResource": "虚质粒子",
+      "requiresResource": "voidParticle",
       "fallbackSkillId": "bd_na4",
       "impliedStates": [
-        "幻灭之形"
+        "form_1_option_2"
       ]
     },
     {
@@ -286,10 +286,10 @@ WUWA.register({
       "damageType": "resonanceLiberation",
       "multiplier": 137.06,
       "formula": "137.06%",
-      "requiresResource": "虚质粒子",
+      "requiresResource": "voidParticle",
       "fallbackSkillId": "bd_heavy",
       "impliedStates": [
-        "幻灭之形"
+        "form_1_option_2"
       ]
     },
     {
@@ -298,10 +298,10 @@ WUWA.register({
       "damageType": "resonanceLiberation",
       "multiplier": 73.97,
       "formula": "29.59% + 44.38%",
-      "requiresResource": "虚质粒子",
+      "requiresResource": "voidParticle",
       "fallbackSkillId": "bd_air_heavy",
       "impliedStates": [
-        "幻灭之形"
+        "form_1_option_2"
       ]
     },
     {
@@ -310,10 +310,10 @@ WUWA.register({
       "damageType": "resonanceLiberation",
       "multiplier": 108.08,
       "formula": "108.08%",
-      "requiresResource": "虚质粒子",
+      "requiresResource": "voidParticle",
       "fallbackSkillId": "bd_dodge",
       "impliedStates": [
-        "幻灭之形"
+        "form_1_option_2"
       ]
     },
     {
@@ -322,10 +322,10 @@ WUWA.register({
       "damageType": "resonanceLiberation",
       "multiplier": 36.51,
       "formula": "36.51%",
-      "requiresResource": "虚质粒子",
+      "requiresResource": "voidParticle",
       "fallbackSkillId": "bd_air1",
       "impliedStates": [
-        "幻灭之形"
+        "form_1_option_2"
       ]
     },
     {
@@ -334,10 +334,10 @@ WUWA.register({
       "damageType": "resonanceLiberation",
       "multiplier": 93.79,
       "formula": "37.51% + 14.07% × 4",
-      "requiresResource": "虚质粒子",
+      "requiresResource": "voidParticle",
       "fallbackSkillId": "bd_air2",
       "impliedStates": [
-        "幻灭之形"
+        "form_1_option_2"
       ]
     },
     {
@@ -346,10 +346,10 @@ WUWA.register({
       "damageType": "resonanceLiberation",
       "multiplier": 62.39,
       "formula": "62.39%",
-      "requiresResource": "虚质粒子",
+      "requiresResource": "voidParticle",
       "fallbackSkillId": "bd_air3",
       "impliedStates": [
-        "幻灭之形"
+        "form_1_option_2"
       ]
     },
     {
@@ -358,10 +358,10 @@ WUWA.register({
       "damageType": "resonanceLiberation",
       "multiplier": 118.46,
       "formula": "35.54% + 82.92%",
-      "requiresResource": "虚质粒子",
+      "requiresResource": "voidParticle",
       "fallbackSkillId": "bd_air4",
       "impliedStates": [
-        "幻灭之形"
+        "form_1_option_2"
       ]
     },
     {
@@ -371,7 +371,7 @@ WUWA.register({
       "multiplier": 104.51,
       "formula": "17.42% × 3 + 52.25%",
       "impliedStates": [
-        "布景之形"
+        "form_1_option_1"
       ]
     },
     {
@@ -381,7 +381,7 @@ WUWA.register({
       "multiplier": 103.7,
       "formula": "31.10% + 14.52% × 5",
       "impliedStates": [
-        "幻灭之形"
+        "form_1_option_2"
       ]
     },
     {
@@ -390,10 +390,10 @@ WUWA.register({
       "damageType": "resonanceLiberation",
       "multiplier": 104.04,
       "formula": "34.68% × 3",
-      "requiresResource": "黯核",
+      "requiresResource": "darkCore",
       "fallbackSkillId": "bd_skill_beckon",
       "impliedStates": [
-        "幻灭之形"
+        "form_1_option_2"
       ]
     },
     {
@@ -405,9 +405,9 @@ WUWA.register({
       "stackResource": "darkCore",
       "stackLabel": "黯核",
       "formula": "112.01% + 150% × 黯核",
-      "requiresResource": "黯核",
+      "requiresResource": "darkCore",
       "impliedStates": [
-        "幻灭之形"
+        "form_1_option_2"
       ]
     },
     {
@@ -417,7 +417,7 @@ WUWA.register({
       "multiplier": 397.62,
       "formula": "397.62%",
       "impliedStates": [
-        "布景之形"
+        "form_1_option_1"
       ]
     },
     {
@@ -426,10 +426,10 @@ WUWA.register({
       "damageType": "resonanceLiberation",
       "multiplier": 795.24,
       "formula": "198.81% × 4",
-      "requiresResource": "共形能量充满",
+      "requiresResource": "symmorphEnergy",
       "requiresResourceFull": "symmorphEnergy",
       "impliedStates": [
-        "幻灭之形"
+        "form_1_option_2"
       ]
     },
     {
@@ -439,7 +439,7 @@ WUWA.register({
       "multiplier": 104.62,
       "formula": "104.62%",
       "impliedStates": [
-        "布景之形"
+        "form_1_option_1"
       ],
       "triggerEvents": [
         "introEntry"
@@ -452,7 +452,7 @@ WUWA.register({
       "multiplier": 155.22,
       "formula": "51.74% × 3",
       "impliedStates": [
-        "幻灭之形"
+        "form_1_option_2"
       ],
       "triggerEvents": [
         "introEntry"
@@ -465,7 +465,7 @@ WUWA.register({
       "multiplier": 136.33,
       "formula": "136.33%",
       "impliedStates": [
-        "蚀域"
+        "field_1_option_1"
       ]
     },
     {
@@ -475,11 +475,11 @@ WUWA.register({
       "multiplier": 128,
       "formula": "128.00% + 1200%",
       "seq": 3,
-      "requiresResource": "黯核达到上限",
+      "requiresResource": "darkCore",
       "requiresResourceFull": "darkCore",
       "fallbackSkillId": "sc_na4",
       "impliedStates": [
-        "布景之形"
+        "form_1_option_1"
       ]
     },
     {
@@ -489,11 +489,11 @@ WUWA.register({
       "multiplier": 104.51,
       "formula": "17.42% × 3 + 52.25% + 1200%",
       "seq": 3,
-      "requiresResource": "黯核达到上限",
+      "requiresResource": "darkCore",
       "requiresResourceFull": "darkCore",
       "fallbackSkillId": "sc_skill",
       "impliedStates": [
-        "布景之形"
+        "form_1_option_1"
       ]
     }
   ],
@@ -508,64 +508,65 @@ WUWA.register({
   "echoSet": 28,
   "combatStates": [
     {
-      "id": "形态",
+      "id": "form_1",
       "kind": "form",
       "required": true,
-      "defaultValue": "幻灭之形",
+      "defaultValue": "form_1_option_2",
       "options": [
         {
-          "value": "布景之形"
+          "value": "form_1_option_1"
         },
         {
-          "value": "幻灭之形"
+          "value": "form_1_option_2"
         }
       ]
     },
     {
-      "id": "共鸣模态",
+      "id": "mode_1",
       "kind": "mode",
       "required": true,
-      "defaultValue": "共鸣模态·聚爆",
+      "defaultValue": "mode_1_option_1",
       "options": [
         {
-          "value": "共鸣模态·聚爆"
+          "value": "mode_1_option_1"
         },
         {
-          "value": "共鸣模态·集谐"
+          "value": "mode_1_option_2"
         }
       ]
     },
     {
-      "id": "熵变强化",
+      "id": "buff_1",
       "kind": "buff",
       "options": [
         {
-          "value": "熵变强化·布景之形"
+          "value": "buff_1_option_1"
         },
         {
-          "value": "熵变强化·幻灭之形"
+          "value": "buff_1_option_2"
         }
       ]
     },
     {
-      "id": "蚀域",
+      "id": "field_1",
       "kind": "field",
       "options": [
         {
-          "value": "蚀域"
+          "value": "field_1_option_1"
         }
       ]
     },
     {
-      "id": "目标集谐状态",
+      "id": "target_1",
       "kind": "target",
-      "requiresState": "共鸣模态·集谐",
+      "requiresState": "mode_1_option_2",
       "options": [
         {
-          "value": "目标集谐·偏移"
+          "value": "target_1_option_1"
         },
         {
-          "value": "目标集谐·干涉"
+          "value": "target_1_option_2",
+          "formulaKind": "coherenceInterference"
         }
       ]
     }
@@ -576,7 +577,7 @@ WUWA.register({
       "zone": "attackPercent",
       "value": 30,
       "scope": "self",
-      "requiresState": "熵变强化·幻灭之形"
+      "requiresState": "buff_1_option_2"
     },
     {
       "id": "b_void_particle_mult",
@@ -604,11 +605,11 @@ WUWA.register({
       "value": 30,
       "scope": "team",
       "requiresState": [
-        "熵变强化·布景之形",
-        "熵变强化·幻灭之形"
+        "buff_1_option_1",
+        "buff_1_option_2"
       ],
       "requiresAllStates": [
-        "共鸣模态·聚爆"
+        "mode_1_option_1"
       ]
     },
     {
@@ -617,11 +618,11 @@ WUWA.register({
       "value": 10,
       "scope": "team",
       "requiresState": [
-        "熵变强化·布景之形",
-        "熵变强化·幻灭之形"
+        "buff_1_option_1",
+        "buff_1_option_2"
       ],
       "requiresAllStates": [
-        "共鸣模态·集谐"
+        "mode_1_option_2"
       ]
     },
     {
@@ -629,11 +630,11 @@ WUWA.register({
       "zone": "breakAmp",
       "scope": "team",
       "requiresState": [
-        "熵变强化·布景之形",
-        "熵变强化·幻灭之形"
+        "buff_1_option_1",
+        "buff_1_option_2"
       ],
       "requiresAllStates": [
-        "共鸣模态·集谐"
+        "mode_1_option_2"
       ],
       "scaleBy": {
         "stat": "discordEff",
@@ -648,14 +649,14 @@ WUWA.register({
       "id": "b_tune_response",
       "zone": "finalDmg",
       "scope": "self",
-      "requiresState": "目标集谐·干涉",
+      "requiresState": "target_1_option_2",
       "requiresAllStates": [
-        "共鸣模态·集谐"
+        "mode_1_option_2"
       ],
       "maxStacks": 3,
       "defaultStacks": 0,
       "defaultActive": false,
-      "stackGroup": "集谐·干涉",
+      "stackGroup": "stack_group_1",
       "scaleBy": {
         "stat": "breakAmp",
         "rate": 0.36
@@ -667,7 +668,7 @@ WUWA.register({
       "effect": "fusion",
       "value": 60,
       "scope": "team",
-      "requiresState": "共鸣模态·聚爆",
+      "requiresState": "mode_1_option_1",
       "duration": 30
     },
     {
@@ -675,7 +676,7 @@ WUWA.register({
       "zone": "amplify",
       "value": 15,
       "scope": "team",
-      "requiresState": "共鸣模态·集谐",
+      "requiresState": "mode_1_option_2",
       "duration": 16
     },
     {
@@ -683,7 +684,7 @@ WUWA.register({
       "zone": "amplify",
       "value": 25,
       "scope": "team",
-      "requiresState": "共鸣模态·集谐",
+      "requiresState": "mode_1_option_2",
       "defaultActive": false,
       "duration": 16
     }
@@ -709,7 +710,7 @@ WUWA.register({
           "element": "fusion",
           "value": 50,
           "scope": "team",
-          "requiresState": "共鸣模态·聚爆",
+          "requiresState": "mode_1_option_1",
           "defaultActive": false,
           "duration": 15
         },
@@ -719,11 +720,11 @@ WUWA.register({
           "element": "fusion",
           "value": 10,
           "scope": "self",
-          "requiresState": "共鸣模态·聚爆",
+          "requiresState": "mode_1_option_1",
           "maxStacks": 10,
           "defaultStacks": 0,
           "defaultActive": false,
-          "stackGroup": "简并虚质",
+          "stackGroup": "stack_group_2",
           "duration": 15
         },
         {
@@ -731,7 +732,7 @@ WUWA.register({
           "zone": "breakAmp",
           "value": 20,
           "scope": "team",
-          "requiresState": "共鸣模态·集谐",
+          "requiresState": "mode_1_option_2",
           "defaultActive": false,
           "duration": 15
         },
@@ -797,8 +798,8 @@ WUWA.register({
           "value": 60,
           "scope": "self",
           "requiresState": [
-            "熵变强化·布景之形",
-            "熵变强化·幻灭之形"
+            "buff_1_option_1",
+            "buff_1_option_2"
           ]
         },
         {
@@ -808,8 +809,8 @@ WUWA.register({
           "value": 60,
           "scope": "self",
           "requiresState": [
-            "熵变强化·布景之形",
-            "熵变强化·幻灭之形"
+            "buff_1_option_1",
+            "buff_1_option_2"
           ]
         },
         {
@@ -818,16 +819,16 @@ WUWA.register({
           "effect": "fusion",
           "value": 200,
           "scope": "self",
-          "requiresState": "共鸣模态·聚爆",
+          "requiresState": "mode_1_option_1",
           "defaultActive": false
         },
         {
           "id": "k6_tune_extra_stack",
           "zone": "finalDmg",
           "scope": "self",
-          "requiresState": "目标集谐·干涉",
+          "requiresState": "target_1_option_2",
           "requiresAllStates": [
-            "共鸣模态·集谐"
+            "mode_1_option_2"
           ],
           "defaultActive": false,
           "scaleBy": {

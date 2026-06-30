@@ -1,3 +1,5 @@
+"use strict";
+
 window.WUWA_LANGUAGES.extend("en-US", {
   "data": {
     "chars": {
@@ -58,13 +60,16 @@ window.WUWA_LANGUAGES.extend("en-US", {
             "name": "Cogitation Model - Unfathomed DMG"
           },
           {
-            "name": "Forever Seeking - Decipher DMG"
+            "name": "Forever Seeking - Decipher DMG",
+            "requiresResourceLabel": "100演算效能"
           },
           {
-            "name": "Forever Seeking - Law of Reigns DMG"
+            "name": "Forever Seeking - Law of Reigns DMG",
+            "requiresResourceLabel": "5超算效能"
           },
           {
-            "name": "Forever Seeking - Revamp DMG"
+            "name": "Forever Seeking - Revamp DMG",
+            "requiresResourceLabel": "应刃或一相万殊后"
           },
           {
             "name": "Principle - Skill DMG"
@@ -77,9 +82,11 @@ window.WUWA_LANGUAGES.extend("en-US", {
             "entry": "施放共鸣解放思维矩阵后进入，持续24秒；获得3个幻方，施放万方法则会消耗1个幻方，幻方耗尽时结束。",
             "options": [
               {
-                "label": "洞见"
+                "label": "洞见",
+                "valueLabel": "洞见"
               }
-            ]
+            ],
+            "idLabel": "洞见"
           }
         ],
         "buffs": [

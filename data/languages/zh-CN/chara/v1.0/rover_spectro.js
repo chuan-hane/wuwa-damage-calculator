@@ -1,3 +1,5 @@
+"use strict";
+
 window.WUWA_LANGUAGES.extend("zh-CN", {
   "data": {
     "chars": {
@@ -46,16 +48,20 @@ window.WUWA_LANGUAGES.extend("zh-CN", {
             "name": "震声"
           },
           {
-            "name": "浮声千斩·旋音"
+            "name": "浮声千斩·旋音",
+            "requiresResourceLabel": "50尘微之声"
           },
           {
-            "name": "浮声千斩·旋音飞轮"
+            "name": "浮声千斩·旋音飞轮",
+            "requiresResourceLabel": "50尘微之声"
           },
           {
-            "name": "浮声千斩·回声一段"
+            "name": "浮声千斩·回声一段",
+            "requiresResourceLabel": "浮声千斩·旋音结束后"
           },
           {
-            "name": "浮声千斩·回声二段"
+            "name": "浮声千斩·回声二段",
+            "requiresResourceLabel": "浮声千斩·旋音结束后"
           }
         ],
         "buffs": [

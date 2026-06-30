@@ -75,7 +75,7 @@ WUWA.register({
       "damageType": "heavy",
       "multiplier": 112.22,
       "formula": "56.11% + 56.11%",
-      "requiresResource": "50狼焰",
+      "requiresResource": "resource_gate_1",
       "requiresResourceAtLeast": {
         "id": "wolfFlame",
         "value": 50
@@ -88,7 +88,7 @@ WUWA.register({
       "damageType": "heavy",
       "multiplier": 240.5,
       "formula": "72.15% + 18.04% × 4 + 96.19%",
-      "requiresResource": "50狼焰+1狼魂",
+      "requiresResource": "resource_gate_2",
       "requiresAllResourcesAtLeast": [
         {
           "id": "wolfFlame",
@@ -128,7 +128,7 @@ WUWA.register({
       "damageType": "heavy",
       "multiplier": 56.96,
       "formula": "28.48% + 28.48%",
-      "requiresResource": "50狼焰",
+      "requiresResource": "resource_gate_1",
       "requiresResourceAtLeast": {
         "id": "wolfFlame",
         "value": 50
@@ -172,7 +172,7 @@ WUWA.register({
       "damageType": "resonanceSkill",
       "multiplier": 313.61,
       "formula": "313.61%",
-      "requiresResource": "围猎后",
+      "requiresResource": "resource_gate_3",
       "fallbackSkillId": "skill_hunt",
       "triggerEvents": [
         "castResonanceSkill"
@@ -194,7 +194,7 @@ WUWA.register({
       "damageType": "resonanceSkill",
       "multiplier": 304.46,
       "formula": "304.46%",
-      "requiresResource": "荣光欢酣于火后",
+      "requiresResource": "resource_gate_4",
       "triggerEvents": [
         "castResonanceSkill"
       ]
@@ -216,7 +216,7 @@ WUWA.register({
       "multiplier": 991.97,
       "formula": "793.57% + 49.60% × 4",
       "impliedStates": [
-        "追杀状态"
+        "state_2_option_1"
       ],
       "triggerEvents": [
         "introEntry"
@@ -228,7 +228,7 @@ WUWA.register({
       "damageType": "resonanceLiberation",
       "multiplier": 560.21,
       "formula": "56.02% + 42.02% × 4 + 336.11%",
-      "requiresResource": "2狼魂",
+      "requiresResource": "resource_gate_5",
       "requiresResourceAtLeast": {
         "id": "wolfSoul",
         "value": 2
@@ -245,13 +245,13 @@ WUWA.register({
       "multiplier": 756.26,
       "formula": "75.63% + 56.72% × 4 + 453.75%",
       "maxSeq": 5,
-      "requiresResource": "2狼魂",
+      "requiresResource": "resource_gate_5",
       "requiresResourceAtLeast": {
         "id": "wolfSoul",
         "value": 2
       },
       "impliedStates": [
-        "赛点沸腾"
+        "state_1_option_1"
       ],
       "fallbackSkillId": "wolfdance",
       "triggerEvents": [
@@ -265,7 +265,7 @@ WUWA.register({
       "multiplier": 756.26,
       "formula": "75.63% + 56.72% × 4 + 453.75%",
       "seq": 6,
-      "requiresResource": "2狼魂",
+      "requiresResource": "resource_gate_5",
       "requiresResourceAtLeast": {
         "id": "wolfSoul",
         "value": 2
@@ -284,7 +284,7 @@ WUWA.register({
       ],
       "multiplier": 211.75,
       "formula": "42.35% + 169.40%",
-      "requiresResource": "狼舞后切人且队友施放共鸣解放"
+      "requiresResource": "resource_gate_6"
     }
   ],
   "defaultSkillId": "wolfdance_primal",
@@ -304,18 +304,18 @@ WUWA.register({
   "echoSet": 2,
   "combatStates": [
     {
-      "id": "赛点沸腾",
+      "id": "state_1",
       "options": [
         {
-          "value": "赛点沸腾"
+          "value": "state_1_option_1"
         }
       ]
     },
     {
-      "id": "追杀状态",
+      "id": "state_2",
       "options": [
         {
-          "value": "追杀状态"
+          "value": "state_2_option_1"
         }
       ]
     }

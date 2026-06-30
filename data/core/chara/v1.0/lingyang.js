@@ -172,7 +172,7 @@ WUWA.register({
       "damageType": "heavy",
       "multiplier": 172.37,
       "formula": "172.37%",
-      "requiresResource": "狮魂满",
+      "requiresResource": "resource_gate_1",
       "requiresResourceFull": "lionSpirit",
       "fallbackSkillId": "heavy"
     },
@@ -186,7 +186,7 @@ WUWA.register({
       "multiplier": 290.27,
       "formula": "87.08% × 2 + 116.11%",
       "impliedStates": [
-        "行狮"
+        "status_1_option_1"
       ]
     },
     {
@@ -199,7 +199,7 @@ WUWA.register({
       "multiplier": 190.62,
       "formula": "31.77% × 6",
       "impliedStates": [
-        "行狮"
+        "status_1_option_1"
       ]
     },
     {
@@ -212,7 +212,7 @@ WUWA.register({
       "multiplier": 165.76,
       "formula": "82.88% × 2",
       "impliedStates": [
-        "行狮"
+        "status_1_option_1"
       ]
     },
     {
@@ -225,7 +225,7 @@ WUWA.register({
       "multiplier": 248.64,
       "formula": "82.88% × 2 × 150%",
       "impliedStates": [
-        "行狮"
+        "status_1_option_1"
       ]
     },
     {
@@ -238,7 +238,7 @@ WUWA.register({
       "multiplier": 480.39,
       "formula": "36.03% × 8 + 192.15%",
       "impliedStates": [
-        "行狮"
+        "status_1_option_1"
       ]
     },
     {
@@ -251,7 +251,7 @@ WUWA.register({
       "multiplier": 349.92,
       "formula": "174.96% × 2",
       "impliedStates": [
-        "行狮"
+        "status_1_option_1"
       ]
     }
   ],
@@ -266,20 +266,20 @@ WUWA.register({
   "echoSet": 1,
   "combatStates": [
     {
-      "id": "行狮",
+      "id": "status_1",
       "kind": "status",
       "options": [
         {
-          "value": "行狮"
+          "value": "status_1_option_1"
         }
       ]
     },
     {
-      "id": "狮子奋迅",
+      "id": "buff_1",
       "kind": "buff",
       "options": [
         {
-          "value": "狮子奋迅"
+          "value": "buff_1_option_1"
         }
       ]
     }
@@ -300,7 +300,7 @@ WUWA.register({
       "element": "glacio",
       "value": 50,
       "scope": "self",
-      "requiresState": "狮子奋迅"
+      "requiresState": "buff_1_option_1"
     }
   ],
   "chain": [
@@ -321,7 +321,7 @@ WUWA.register({
           "damageType": "basic",
           "value": 20,
           "scope": "self",
-          "requiresState": "狮子奋迅"
+          "requiresState": "buff_1_option_1"
         },
         {
           "id": "k3b",
@@ -329,7 +329,7 @@ WUWA.register({
           "damageType": "resonanceSkill",
           "value": 10,
           "scope": "self",
-          "requiresState": "狮子奋迅"
+          "requiresState": "buff_1_option_1"
         }
       ]
     },
@@ -370,7 +370,7 @@ WUWA.register({
           "damageType": "basic",
           "value": 100,
           "scope": "self",
-          "requiresState": "行狮",
+          "requiresState": "status_1_option_1",
           "skills": [
             "forte_feral_gyrate_1",
             "forte_feral_gyrate_2",

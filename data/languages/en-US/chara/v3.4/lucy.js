@@ -1,3 +1,5 @@
+"use strict";
+
 window.WUWA_LANGUAGES.extend("en-US", {
   "data": {
     "chars": {
@@ -58,10 +60,12 @@ window.WUWA_LANGUAGES.extend("en-US", {
             "name": "Locked Thread - Heavy Attack - Single Threading DMG"
           },
           {
-            "name": "Locked Thread - Heavy Attack - Dual Threading DMG"
+            "name": "Locked Thread - Heavy Attack - Dual Threading DMG",
+            "requiresResourceLabel": "100点根权限"
           },
           {
-            "name": "Locked Thread - Heavy Attack - Multithreading DMG"
+            "name": "Locked Thread - Heavy Attack - Multithreading DMG",
+            "requiresResourceLabel": "重击·双线程后"
           },
           {
             "name": "Locked Thread - Heavy Attack: Multithreading DMG (SQL)"
@@ -79,7 +83,8 @@ window.WUWA_LANGUAGES.extend("en-US", {
             "name": "Protocol Breach - Sequence 2 Pulse Interference Extra DMG"
           },
           {
-            "name": "Protocol Breach - Resonance Skill - Deadlock DMG"
+            "name": "Protocol Breach - Resonance Skill - Deadlock DMG",
+            "requiresResourceLabel": "100点传输协议或算法压缩"
           },
           {
             "name": "Netrunner - Resonance Liberation - Netrunner: Override DMG"
@@ -94,7 +99,8 @@ window.WUWA_LANGUAGES.extend("en-US", {
             "name": "Netrunner - Spoofing Program: Cripple Movement DMG"
           },
           {
-            "name": "Netrunner - Resonance Liberation - Old Net Deep Dive: Override DMG"
+            "name": "Netrunner - Resonance Liberation - Old Net Deep Dive: Override DMG",
+            "requiresResourceLabel": "重击·多线程后"
           },
           {
             "name": "Outdated Hallucination - Intro Skill - Outdated Hallucination DMG"
@@ -110,9 +116,11 @@ window.WUWA_LANGUAGES.extend("en-US", {
             "entry": "施放共鸣技能·死锁后进入算法压缩状态，持续8秒；施放共鸣解放·网络行者、共鸣解放·暗网深潜后，或施放重击·多线程后8秒内不施放指定技能时退出。",
             "options": [
               {
-                "label": "算法压缩"
+                "label": "算法压缩",
+                "valueLabel": "算法压缩"
               }
-            ]
+            ],
+            "idLabel": "算法压缩"
           },
           {
             "label": "目标骇破状态",
@@ -120,12 +128,15 @@ window.WUWA_LANGUAGES.extend("en-US", {
             "entry": "共鸣技能·有效载荷、共鸣技能·死锁、重击·多线程可附加【骇破·偏移】；队伍角色对偏移目标造成谐度破坏伤害并使其进入【骇破·干涉】时，露西可触发骇破响应·数据崩解。",
             "options": [
               {
-                "label": "骇破·偏移"
+                "label": "骇破·偏移",
+                "valueLabel": "目标骇破·偏移"
               },
               {
-                "label": "骇破·干涉"
+                "label": "骇破·干涉",
+                "valueLabel": "目标骇破·干涉"
               }
-            ]
+            ],
+            "idLabel": "骇破目标状态"
           }
         ],
         "buffs": [

@@ -1,3 +1,5 @@
+"use strict";
+
 window.WUWA_LANGUAGES.extend("en-US", {
   "data": {
     "chars": {
@@ -43,7 +45,8 @@ window.WUWA_LANGUAGES.extend("en-US", {
             "name": "Edge Transcended - Resonance Skill - Encroach DMG"
           },
           {
-            "name": "Edge Transcended - Resonance Skill - Ascent of Malice DMG"
+            "name": "Edge Transcended - Resonance Skill - Ascent of Malice DMG",
+            "requiresResourceLabel": "100罪火"
           },
           {
             "name": "Hellfire Absolution - Resonance Liberation - Hellfire Absolution DMG"
@@ -95,9 +98,11 @@ window.WUWA_LANGUAGES.extend("en-US", {
             "entry": "嘉贝莉娜初始处于阈限状态；罪火达到100点时施放共鸣技能·恶翼扬升进入恶魔位格，并将罪火转化为净炼火。",
             "options": [
               {
-                "label": "恶魔/永恒"
+                "label": "恶魔/永恒",
+                "valueLabel": "恶魔位格"
               }
-            ]
+            ],
+            "idLabel": "恶魔位格"
           }
         ],
         "buffs": [

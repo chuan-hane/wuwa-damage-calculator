@@ -1,3 +1,5 @@
+"use strict";
+
 window.WUWA_LANGUAGES.extend("zh-CN", {
   "data": {
     "chars": {
@@ -49,10 +51,12 @@ window.WUWA_LANGUAGES.extend("zh-CN", {
             "name": "召劾鬼神"
           },
           {
-            "name": "飞雷诀·归一"
+            "name": "飞雷诀·归一",
+            "requiresResourceLabel": "少阴+少阳"
           },
           {
-            "name": "五雷荡煞阵持续伤害"
+            "name": "五雷荡煞阵持续伤害",
+            "requiresResourceLabel": "五雷荡煞阵"
           }
         ],
         "combatStates": [
@@ -62,15 +66,19 @@ window.WUWA_LANGUAGES.extend("zh-CN", {
             "entry": "拥有少阴和少阳时，飞雷诀替换为飞雷诀·归一；施放后生成五雷荡煞阵，持续期间队伍获得雷法·一气初动。队伍角色施放变奏技能后，依次替换为雷法·两仪交泰、雷法·三才合一。",
             "options": [
               {
-                "label": "一气初动"
+                "label": "一气初动",
+                "valueLabel": "雷法·一气初动"
               },
               {
-                "label": "两仪交泰"
+                "label": "两仪交泰",
+                "valueLabel": "雷法·两仪交泰"
               },
               {
-                "label": "三才合一"
+                "label": "三才合一",
+                "valueLabel": "雷法·三才合一"
               }
-            ]
+            ],
+            "idLabel": "雷法"
           }
         ],
         "buffs": [

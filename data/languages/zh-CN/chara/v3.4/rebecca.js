@@ -1,3 +1,5 @@
+"use strict";
+
 window.WUWA_LANGUAGES.extend("zh-CN", {
   "data": {
     "chars": {
@@ -85,10 +87,12 @@ window.WUWA_LANGUAGES.extend("zh-CN", {
             "name": "蠢货，有本事来抓我！"
           },
           {
-            "name": "哒哒哒！·猎手"
+            "name": "哒哒哒！·猎手",
+            "requiresResourceLabel": "120点狂热"
           },
           {
-            "name": "砰砰砰！·铁胆"
+            "name": "砰砰砰！·铁胆",
+            "requiresResourceLabel": "120点狂热"
           },
           {
             "name": "骇破响应·熔触"
@@ -101,12 +105,15 @@ window.WUWA_LANGUAGES.extend("zh-CN", {
             "entry": "丽贝卡初始处于猎手模式；施放共鸣技能或变奏技能可在猎手与铁胆模式之间切换。",
             "options": [
               {
-                "label": "猎手"
+                "label": "猎手",
+                "valueLabel": "模式·猎手"
               },
               {
-                "label": "铁胆"
+                "label": "铁胆",
+                "valueLabel": "模式·铁胆"
               }
-            ]
+            ],
+            "idLabel": "模式"
           },
           {
             "label": "小孩子才做选择",
@@ -114,9 +121,11 @@ window.WUWA_LANGUAGES.extend("zh-CN", {
             "entry": "【手感火热】达到120点时施放变奏技能·呜呼，来发大的！、变奏技能·蠢货，有本事来抓我！、共鸣技能·来发大的！或共鸣技能·有本事来抓我！后获得，持续12秒。",
             "options": [
               {
-                "label": "已获得"
+                "label": "已获得",
+                "valueLabel": "小孩子才做选择"
               }
-            ]
+            ],
+            "idLabel": "小孩子才做选择"
           },
           {
             "label": "目标骇破",
@@ -124,9 +133,11 @@ window.WUWA_LANGUAGES.extend("zh-CN", {
             "entry": "队伍角色对目标造成谐度破坏伤害并使其进入【骇破·干涉】后，丽贝卡可触发骇破响应·熔触。",
             "options": [
               {
-                "label": "骇破·干涉"
+                "label": "骇破·干涉",
+                "valueLabel": "目标骇破·干涉"
               }
-            ]
+            ],
+            "idLabel": "目标骇破"
           }
         ],
         "buffs": [

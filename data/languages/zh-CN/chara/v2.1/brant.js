@@ -1,3 +1,5 @@
+"use strict";
+
 window.WUWA_LANGUAGES.extend("zh-CN", {
   "data": {
     "chars": {
@@ -73,13 +75,16 @@ window.WUWA_LANGUAGES.extend("zh-CN", {
             "name": "为我！"
           },
           {
-            "name": "火焰归亡曲"
+            "name": "火焰归亡曲",
+            "requiresResourceLabel": "喝彩充满"
           },
           {
-            "name": "航向确定！爆炸"
+            "name": "航向确定！爆炸",
+            "requiresResourceLabel": "2链延奏额外效果"
           },
           {
-            "name": "再燃"
+            "name": "再燃",
+            "requiresResourceLabel": "施放火焰归亡曲后"
           }
         ],
         "combatStates": [
@@ -89,9 +94,11 @@ window.WUWA_LANGUAGES.extend("zh-CN", {
             "entry": "施放共鸣解放直到世界尽头结束后进入燃焰状态，持续12秒。",
             "options": [
               {
-                "label": "燃焰"
+                "label": "燃焰",
+                "valueLabel": "燃焰状态"
               }
-            ]
+            ],
+            "idLabel": "燃焰状态"
           }
         ],
         "buffs": [

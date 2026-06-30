@@ -76,12 +76,12 @@ WUWA.register({
       ],
       "stackLabel": "余响",
       "formula": "33.01% × 2 + 12.38% × 8 + 495.10% + 82.55% × 余响",
-      "requiresResource": "6枚乐声且谱曲激活",
+      "requiresResource": "resource_gate_1",
       "requiresResourceAtLeast": {
         "id": "notes",
         "value": 6
       },
-      "requiresState": "谱曲激活",
+      "requiresState": "mechanic_1_option_1",
       "fallbackSkillId": "heavy"
     },
     {
@@ -116,7 +116,7 @@ WUWA.register({
       "multiplier": 27.84,
       "formula": "27.84%",
       "impliedStates": [
-        "指挥状态·登场"
+        "mode_1_option_1"
       ]
     },
     {
@@ -126,7 +126,7 @@ WUWA.register({
       "multiplier": 27.84,
       "formula": "13.92% × 2",
       "impliedStates": [
-        "指挥状态·登场"
+        "mode_1_option_1"
       ]
     },
     {
@@ -136,7 +136,7 @@ WUWA.register({
       "multiplier": 347.93,
       "formula": "104.38% + 243.55%",
       "impliedStates": [
-        "指挥状态·登场"
+        "mode_1_option_1"
       ]
     },
     {
@@ -146,7 +146,7 @@ WUWA.register({
       "multiplier": 330.53,
       "formula": "99.16% + 231.37%",
       "impliedStates": [
-        "指挥状态·登场"
+        "mode_1_option_1"
       ]
     },
     {
@@ -156,7 +156,7 @@ WUWA.register({
       "multiplier": 347.93,
       "formula": "104.38% + 243.55%",
       "impliedStates": [
-        "指挥状态·登场"
+        "mode_1_option_1"
       ]
     },
     {
@@ -166,7 +166,7 @@ WUWA.register({
       "multiplier": 27.84,
       "formula": "27.84%",
       "impliedStates": [
-        "指挥状态·后台"
+        "mode_1_option_2"
       ]
     },
     {
@@ -176,7 +176,7 @@ WUWA.register({
       "multiplier": 27.84,
       "formula": "13.92% × 2",
       "impliedStates": [
-        "指挥状态·后台"
+        "mode_1_option_2"
       ]
     },
     {
@@ -186,7 +186,7 @@ WUWA.register({
       "multiplier": 347.93,
       "formula": "104.38% + 243.55%",
       "impliedStates": [
-        "指挥状态·后台"
+        "mode_1_option_2"
       ]
     },
     {
@@ -196,7 +196,7 @@ WUWA.register({
       "multiplier": 330.53,
       "formula": "99.16% + 231.37%",
       "impliedStates": [
-        "指挥状态·后台"
+        "mode_1_option_2"
       ]
     },
     {
@@ -206,7 +206,7 @@ WUWA.register({
       "multiplier": 347.93,
       "formula": "104.38% + 243.55%",
       "impliedStates": [
-        "指挥状态·后台"
+        "mode_1_option_2"
       ]
     },
     {
@@ -216,8 +216,8 @@ WUWA.register({
       "multiplier": 465.22,
       "formula": "465.22%",
       "requiresState": [
-        "指挥状态",
-        "定音状态"
+        "mode_1",
+        "state_2_option_1"
       ]
     },
     {
@@ -236,7 +236,7 @@ WUWA.register({
       "damageType": "resonanceSkill",
       "multiplier": 596.43,
       "formula": "596.43%",
-      "requiresResource": "永生组歌替换",
+      "requiresResource": "resource_gate_2",
       "fallbackSkillId": "intro_quietus",
       "triggerEvents": [
         "introEntry"
@@ -249,7 +249,7 @@ WUWA.register({
       "multiplier": 505.01,
       "formula": "37.88% × 4 + 117.83% × 3",
       "impliedStates": [
-        "重世状态"
+        "state_1_option_1"
       ]
     },
     {
@@ -259,7 +259,7 @@ WUWA.register({
       "multiplier": 464.07,
       "formula": "23.21% × 4 + 46.41% + 324.82%",
       "impliedStates": [
-        "重世状态"
+        "state_1_option_1"
       ],
       "triggerEvents": [
         "castResonanceSkill"
@@ -272,7 +272,7 @@ WUWA.register({
       "multiplier": 216.42,
       "formula": "216.42%",
       "seq": 6,
-      "requiresResource": "亡与死的乐章/永不消逝的梦呓期间"
+      "requiresResource": "resource_gate_3"
     }
   ],
   "defaultSkillId": "hecate_cadenza",
@@ -287,39 +287,39 @@ WUWA.register({
   "echoSet2": 6,
   "combatStates": [
     {
-      "id": "重世状态",
+      "id": "state_1",
       "options": [
         {
-          "value": "重世状态"
+          "value": "state_1_option_1"
         }
       ]
     },
     {
-      "id": "定音状态",
+      "id": "state_2",
       "options": [
         {
-          "value": "定音状态"
+          "value": "state_2_option_1"
         }
       ]
     },
     {
-      "id": "指挥状态",
+      "id": "mode_1",
       "kind": "mode",
       "options": [
         {
-          "value": "指挥状态·登场"
+          "value": "mode_1_option_1"
         },
         {
-          "value": "指挥状态·后台"
+          "value": "mode_1_option_2"
         }
       ]
     },
     {
-      "id": "谱曲激活",
+      "id": "mechanic_1",
       "kind": "mechanic",
       "options": [
         {
-          "value": "谱曲激活"
+          "value": "mechanic_1_option_1"
         }
       ]
     }
@@ -351,7 +351,7 @@ WUWA.register({
       "zone": "attackPercent",
       "value": 120,
       "scope": "self",
-      "requiresState": "指挥状态",
+      "requiresState": "mode_1",
       "duration": 24
     },
     {
@@ -464,14 +464,14 @@ WUWA.register({
           "element": "havoc",
           "value": 60,
           "scope": "self",
-          "requiresState": "指挥状态·登场"
+          "requiresState": "mode_1_option_1"
         },
         {
           "id": "k6_amp",
           "zone": "vulnerability",
           "value": 40,
           "scope": "self",
-          "requiresState": "指挥状态·后台"
+          "requiresState": "mode_1_option_2"
         }
       ]
     }

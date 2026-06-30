@@ -122,7 +122,7 @@ WUWA.register({
       "multiplier": 96.33,
       "formula": "96.33%",
       "impliedStates": [
-        "盛绽状态"
+        "state_1_option_1"
       ]
     },
     {
@@ -135,7 +135,7 @@ WUWA.register({
       "multiplier": 91.26,
       "formula": "45.63% × 2",
       "impliedStates": [
-        "盛绽状态"
+        "state_1_option_1"
       ]
     },
     {
@@ -148,7 +148,7 @@ WUWA.register({
       "multiplier": 131.7,
       "formula": "21.95% × 6",
       "impliedStates": [
-        "盛绽状态"
+        "state_1_option_1"
       ]
     },
     {
@@ -161,7 +161,7 @@ WUWA.register({
       "multiplier": 202.77,
       "formula": "67.59% × 3",
       "impliedStates": [
-        "盛绽状态"
+        "state_1_option_1"
       ]
     },
     {
@@ -174,7 +174,7 @@ WUWA.register({
       "multiplier": 263.05,
       "formula": "52.61% × 5",
       "impliedStates": [
-        "盛绽状态"
+        "state_1_option_1"
       ]
     },
     {
@@ -187,7 +187,7 @@ WUWA.register({
       "multiplier": 158.85,
       "formula": "52.95% × 3",
       "impliedStates": [
-        "盛绽状态"
+        "state_1_option_1"
       ]
     },
     {
@@ -200,7 +200,7 @@ WUWA.register({
       "multiplier": 226.66,
       "formula": "113.33% × 2",
       "impliedStates": [
-        "盛绽状态"
+        "state_1_option_1"
       ]
     },
     {
@@ -213,7 +213,7 @@ WUWA.register({
       "multiplier": 417.05,
       "formula": "21.95% × 19",
       "impliedStates": [
-        "盛绽状态"
+        "state_1_option_1"
       ]
     },
     {
@@ -248,7 +248,7 @@ WUWA.register({
       "damageType": "basic",
       "multiplier": 1262.45,
       "formula": "1262.45%",
-      "requiresResource": "协奏能量满且一日花可用",
+      "requiresResource": "resource_gate_1",
       "triggerEvents": [
         "consumeConcerto"
       ]
@@ -263,7 +263,7 @@ WUWA.register({
       "multiplier": 1262.45,
       "formula": "一日花100%",
       "seq": 6,
-      "requiresResource": "一日花后15秒内协奏能量满且永生花未冷却",
+      "requiresResource": "resource_gate_2",
       "triggerEvents": [
         "consumeConcerto"
       ]
@@ -287,7 +287,7 @@ WUWA.register({
       "damageType": "outroSkill",
       "multiplier": 788.26,
       "formula": "329.24% + 459.02%",
-      "requiresResource": "一日花后"
+      "requiresResource": "resource_gate_3"
     }
   ],
   "defaultSkillId": "forte_ephemeral",
@@ -301,21 +301,21 @@ WUWA.register({
   "echoSet": 6,
   "combatStates": [
     {
-      "id": "盛绽状态",
+      "id": "state_1",
       "options": [
         {
-          "value": "盛绽状态"
+          "value": "state_1_option_1"
         }
       ]
     },
     {
-      "id": "含苞状态",
+      "id": "state_2",
       "options": [
         {
-          "value": "含苞状态·一日花"
+          "value": "state_2_option_1"
         },
         {
-          "value": "含苞状态·永生花"
+          "value": "state_2_option_2"
         }
       ]
     }
@@ -359,7 +359,7 @@ WUWA.register({
         "skill_atonement",
         "skill_blazing_waltz"
       ],
-      "requiresState": "含苞状态"
+      "requiresState": "state_2"
     },
     {
       "id": "b_dream_bud",
@@ -388,7 +388,7 @@ WUWA.register({
         "skill_atonement",
         "skill_blazing_waltz"
       ],
-      "requiresState": "含苞状态·一日花"
+      "requiresState": "state_2_option_1"
     }
   ],
   "chain": [
@@ -442,7 +442,7 @@ WUWA.register({
           "zone": "attackPercent",
           "value": 58,
           "scope": "self",
-          "requiresState": "含苞状态"
+          "requiresState": "state_2"
         }
       ]
     },
@@ -517,7 +517,7 @@ WUWA.register({
             "skill_atonement",
             "skill_blazing_waltz"
           ],
-          "requiresState": "含苞状态"
+          "requiresState": "state_2"
         },
         {
           "id": "k6_ever",
@@ -543,7 +543,7 @@ WUWA.register({
             "skill_atonement",
             "skill_blazing_waltz"
           ],
-          "requiresState": "含苞状态·永生花"
+          "requiresState": "state_2_option_2"
         }
       ]
     }

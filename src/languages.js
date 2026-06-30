@@ -341,7 +341,7 @@ window.WUWA_LANGUAGES = (() => {
   }
 
   function combatOptionLabel(opt) {
-    return text(opt?.label || opt?.value || "");
+    return text(opt?.label || opt?.valueLabel || opt?.value || "");
   }
 
   function source(value) {

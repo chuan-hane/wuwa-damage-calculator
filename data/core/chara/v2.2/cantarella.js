@@ -92,7 +92,7 @@ WUWA.register({
       "multiplier": 196.23,
       "formula": "196.23%",
       "impliedStates": [
-        "蜃境"
+        "state_1_option_1"
       ]
     },
     {
@@ -102,7 +102,7 @@ WUWA.register({
       "multiplier": 198.81,
       "formula": "198.81%",
       "impliedStates": [
-        "迷梦"
+        "target_1_option_1"
       ]
     },
     {
@@ -142,7 +142,7 @@ WUWA.register({
       "multiplier": 169,
       "formula": "16.90% × 3 + 118.30%",
       "impliedStates": [
-        "蜃境"
+        "state_1_option_1"
       ],
       "triggerEvents": [
         "introEntry"
@@ -155,7 +155,7 @@ WUWA.register({
       "multiplier": 105.99,
       "formula": "35.33% × 3",
       "impliedStates": [
-        "蜃境"
+        "state_1_option_1"
       ]
     },
     {
@@ -165,7 +165,7 @@ WUWA.register({
       "multiplier": 125.86,
       "formula": "62.93% × 2",
       "impliedStates": [
-        "蜃境"
+        "state_1_option_1"
       ]
     },
     {
@@ -178,7 +178,7 @@ WUWA.register({
       "multiplier": 258.48,
       "formula": "64.62% × 4",
       "impliedStates": [
-        "蜃境"
+        "state_1_option_1"
       ]
     },
     {
@@ -188,7 +188,7 @@ WUWA.register({
       "multiplier": 104.98,
       "formula": "41.99% + 62.99%",
       "impliedStates": [
-        "蜃境"
+        "state_1_option_1"
       ]
     },
     {
@@ -197,14 +197,14 @@ WUWA.register({
       "damageType": "basic",
       "multiplier": 1335.98,
       "formula": "667.99% × 2",
-      "requiresResource": "3颤栗",
+      "requiresResource": "resource_gate_1",
       "requiresResourceAtLeast": {
         "id": "tremor",
         "value": 3
       },
       "fallbackSkillId": "skill_reverie",
       "impliedStates": [
-        "蜃境"
+        "state_1_option_1"
       ],
       "triggerEvents": [
         "castResonanceSkill"
@@ -217,7 +217,7 @@ WUWA.register({
       "multiplier": 225.27,
       "formula": "75.09% × 3",
       "impliedStates": [
-        "蜃境"
+        "state_1_option_1"
       ]
     }
   ],
@@ -232,19 +232,19 @@ WUWA.register({
   ],
   "combatStates": [
     {
-      "id": "蜃境",
+      "id": "state_1",
       "options": [
         {
-          "value": "蜃境"
+          "value": "state_1_option_1"
         }
       ]
     },
     {
-      "id": "迷梦",
+      "id": "target_1",
       "kind": "target",
       "options": [
         {
-          "value": "迷梦"
+          "value": "target_1_option_1"
         }
       ]
     }
@@ -341,7 +341,7 @@ WUWA.register({
           "zone": "healingBonus",
           "value": 25,
           "scope": "self",
-          "requiresState": "蜃境"
+          "requiresState": "state_1_option_1"
         }
       ]
     },

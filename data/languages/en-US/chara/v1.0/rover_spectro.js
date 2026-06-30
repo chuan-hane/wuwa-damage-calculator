@@ -1,3 +1,5 @@
+"use strict";
+
 window.WUWA_LANGUAGES.extend("en-US", {
   "data": {
     "chars": {
@@ -46,16 +48,20 @@ window.WUWA_LANGUAGES.extend("en-US", {
             "name": "Waveshock - Skill DMG"
           },
           {
-            "name": "World in a Grain of Sand - Resonating Spin DMG"
+            "name": "World in a Grain of Sand - Resonating Spin DMG",
+            "requiresResourceLabel": "50尘微之声"
           },
           {
-            "name": "World in a Grain of Sand - Resonating Whirl DMG"
+            "name": "World in a Grain of Sand - Resonating Whirl DMG",
+            "requiresResourceLabel": "50尘微之声"
           },
           {
-            "name": "World in a Grain of Sand - Resonating Echoes Stage 1 DMG"
+            "name": "World in a Grain of Sand - Resonating Echoes Stage 1 DMG",
+            "requiresResourceLabel": "浮声千斩·旋音结束后"
           },
           {
-            "name": "World in a Grain of Sand - Resonating Echoes Stage 2 DMG"
+            "name": "World in a Grain of Sand - Resonating Echoes Stage 2 DMG",
+            "requiresResourceLabel": "浮声千斩·旋音结束后"
           }
         ],
         "buffs": [

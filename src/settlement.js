@@ -17,7 +17,7 @@ window.WUWA_SETTLEMENT = (() => {
     const HARMONY_RESPONSE_DEFENSE_ZONES = new Set(["resShred", "defShred", "defIgnore"]);
     const STATE_SKILL_FILTER_KINDS = new Set(["mode", "form", "phase"]);
     const OFFSET_STATE_KINDS = new Set(["target"]);
-    const OFFSET_STATE_RE = /偏移|震谐.*干涉|干涉.*震谐|集谐.*干涉|干涉.*集谐|骇破.*干涉|干涉.*骇破|谐度.*干涉|干涉.*谐度|Off-?Tune|Interference|Offset/i;
+    const OFFSET_STATE_RE = /偏移|震谐.*干涉|干涉.*震谐|集谐.*干涉|干涉.*集谐|骇破.*干涉|干涉.*骇破|谐度.*干涉|干涉.*谐度|Off-?Tune|Interference|Interfered|Shifting|Hack|Tune Strain|Tune Rupture|Offset/i;
     const TUNE_BREAK_LEVEL_RATE = 1600;
 
     function slotBuffs(slot) {
@@ -133,6 +133,12 @@ window.WUWA_SETTLEMENT = (() => {
     }
 
     const resourceKey = (label) => "res_" + label;
+
+    function manualResourceReady(slot, item) {
+      const id = typeof item === "string" ? item : item?.requiresResource || item?.id;
+      const labels = typeof item === "string" ? [] : [item?.requiresResourceLabel, item?.resourceLabel, item?.label];
+      return [id, ...labels].filter(Boolean).every((key) => slot.toggles[resourceKey(key)] !== false);
+    }
 
     function characterResourceDefs(slot) {
       return asList(ch(slot.char)?.resources);
@@ -259,7 +265,7 @@ window.WUWA_SETTLEMENT = (() => {
       }
       const resource = characterResourceDef(slot, sk.requiresResource);
       if (resource) return characterResourceValue(slot, resource.id) > characterResourceMin(resource);
-      return !sk.requiresResource || slot.toggles[resourceKey(sk.requiresResource)] !== false;
+      return !sk.requiresResource || manualResourceReady(slot, sk);
     }
 
     function skillById(slot, id) {
@@ -289,21 +295,25 @@ window.WUWA_SETTLEMENT = (() => {
       return asList(refs).map((ref) => skillRefLabel(slot, ref)).join("/");
     }
 
+    function manualResourceLabel(item) {
+      return item?.requiresResourceLabel || item?.resourceLabel || item?.requiresResource || item?.id || "";
+    }
+
     function resourceControlsForSlot(slot) {
       const controls = characterResourceControlsForSlot(slot);
       const seen = new Set();
-      const add = (label) => {
-        if (!label || seen.has(label)) return;
-        if (characterResourceDef(slot, label)) return;
-        seen.add(label);
-        controls.push({ label, ready: slot.toggles[resourceKey(label)] !== false });
+      const add = (id, label) => {
+        if (!id || seen.has(id)) return;
+        if (characterResourceDef(slot, id)) return;
+        seen.add(id);
+        controls.push({ kind: "manual", id, label: label || id, ready: manualResourceReady(slot, { id, label }) });
       };
       const skills = stateCompatibleSkills(slot);
       skills.forEach((sk) => {
-        if (!sk.requiresResourceFull && !sk.requiresResourceAtLeast && !sk.requiresAllResourcesAtLeast && !sk.requiresResourceSumAtLeast && sk.requiresResource && fallbackSkillInState(sk, skills)) add(sk.requiresResource);
+        if (!sk.requiresResourceFull && !sk.requiresResourceAtLeast && !sk.requiresAllResourcesAtLeast && !sk.requiresResourceSumAtLeast && sk.requiresResource && fallbackSkillInState(sk, skills)) add(sk.requiresResource, manualResourceLabel(sk));
       });
       const selected = selectedSkill(slot);
-      if (selected?.requiresResource && !selected.requiresResourceFull && !selected.requiresResourceAtLeast && !selected.requiresAllResourcesAtLeast && !selected.requiresResourceSumAtLeast) add(selected.requiresResource);
+      if (selected?.requiresResource && !selected.requiresResourceFull && !selected.requiresResourceAtLeast && !selected.requiresAllResourcesAtLeast && !selected.requiresResourceSumAtLeast) add(selected.requiresResource, manualResourceLabel(selected));
       return controls;
     }
 
@@ -409,7 +419,10 @@ window.WUWA_SETTLEMENT = (() => {
 
     function skillImpliesState(slot, stateName) {
       const implied = asList(resolvedSkill(slot)?.impliedStates);
-      return implied.some((s) => s === stateName || String(s).startsWith(stateName + "·"));
+      return implied.some((s) => {
+        const def = combatStateDefFor(slot, stateName);
+        return def ? stateValueMatches(s, stateName, def) : s === stateName;
+      });
     }
 
     function combatStateDefs(slot) {
@@ -428,8 +441,23 @@ window.WUWA_SETTLEMENT = (() => {
     }
 
     function configuredCombatStateValue(slot, def) {
-      const stored = slot?.toggles?.[stateChoiceKey(def.id)];
-      return stored || combatStateDefaultValue(def);
+      const stored = combatStateStoredValue(slot, def);
+      return normalizeCombatStateStoredValue(stored, def) || combatStateDefaultValue(def);
+    }
+
+    function combatStateStoredValue(slot, def) {
+      const toggles = slot?.toggles || {};
+      return toggles[stateChoiceKey(def.id)] ?? toggles[stateChoiceKey(def.label)] ?? toggles[stateChoiceKey(def.idLabel)];
+    }
+
+    function normalizeCombatStateStoredValue(value, def) {
+      if (!value) return "";
+      const opt = asList(def.options).find((item) =>
+        value === item.value || value === item.label || value === item.valueLabel || value === item.title
+      );
+      if (opt) return opt.value;
+      if (value === def.id || value === def.label || value === def.idLabel) return def.id;
+      return value;
     }
 
     function combatStateDefAvailable(slot, def) {
@@ -439,15 +467,13 @@ window.WUWA_SETTLEMENT = (() => {
     function combatStateDefFor(slot, stateName) {
       return combatStateDefs(slot).find((def) => {
         if (def.id === stateName) return true;
-        if (String(stateName).startsWith(def.id + "·")) return true;
         return asList(def.options).some((opt) => opt.value === stateName);
       }) || null;
     }
 
     function impliedCombatStateValue(slot, def) {
       const implied = asList(resolvedSkill(slot)?.impliedStates);
-      const exact = implied.find((s) => s === def.id || String(s).startsWith(def.id + "·"));
-      return exact || "";
+      return implied.find((stateName) => stateValueBelongsToDef(stateName, def)) || "";
     }
 
     function selectedCombatStateValue(slot, def) {
@@ -457,8 +483,16 @@ window.WUWA_SETTLEMENT = (() => {
 
     function stateValueMatches(value, stateName, def) {
       if (!value) return false;
-      if (stateName === def.id) return value === def.id || String(value).startsWith(def.id + "·");
-      return value === stateName || String(value).startsWith(stateName + "·");
+      if (stateName === def.id) return stateValueBelongsToDef(value, def);
+      return value === stateName;
+    }
+
+    function stateValueBelongsToDef(value, def) {
+      return value === def.id || asList(def.options).some((opt) => opt.value === value);
+    }
+
+    function combatStateOptionForValue(def, value) {
+      return asList(def?.options).find((opt) => opt.value === value) || null;
     }
 
     function combatStateReady(slot, stateName) {
@@ -484,8 +518,12 @@ window.WUWA_SETTLEMENT = (() => {
       return stateRequirementCompatibleWithSelectedFilters(slot, buff.requiresAllStates, "all");
     }
 
-    function stateLabel(stateName) {
-      return String(stateName).endsWith("状态") ? stateName : stateName + "状态";
+    function stateLabel(slot, stateName) {
+      const def = combatStateDefFor(slot, stateName);
+      if (!def) return L.text(stateName);
+      const opt = combatStateOptionForValue(def, stateName);
+      if (opt) return L.combatOptionLabel(opt);
+      return L.combatStateLabel(def);
     }
 
     function stateRequirementReady(slot, requirement) {
@@ -503,18 +541,22 @@ window.WUWA_SETTLEMENT = (() => {
     }
 
     function stateRequirementLabel(requirement) {
-      return asList(requirement).map(stateLabel).join("/");
+      return asList(requirement).map((stateName) => stateLabel(state.slots[state.outputIdx], stateName)).join("/");
     }
 
     function allStateRequirementLabel(requirement) {
-      return asList(requirement).map(stateLabel).join(" + ");
+      return asList(requirement).map((stateName) => stateLabel(state.slots[state.outputIdx], stateName)).join(" + ");
+    }
+
+    function buffStateRequirementLabelForSlot(slot, buff) {
+      const labels = [];
+      if (buff.requiresState) labels.push(asList(buff.requiresState).map((stateName) => stateLabel(slot, stateName)).join("/"));
+      if (buff.requiresAllStates) labels.push(asList(buff.requiresAllStates).map((stateName) => stateLabel(slot, stateName)).join(" + "));
+      return labels.join(" + ");
     }
 
     function buffStateRequirementLabel(buff) {
-      const labels = [];
-      if (buff.requiresState) labels.push(stateRequirementLabel(buff.requiresState));
-      if (buff.requiresAllStates) labels.push(allStateRequirementLabel(buff.requiresAllStates));
-      return labels.join(" + ");
+      return buffStateRequirementLabelForSlot(state.slots[state.outputIdx], buff);
     }
 
     function activateSingleStateRequirement(slot, stateName) {
@@ -579,7 +621,7 @@ window.WUWA_SETTLEMENT = (() => {
     }
 
     function offsetStateOptionText(def, opt) {
-      return [def.id, def.label, opt?.value, opt?.label].join(" ");
+      return [def.id, def.label, L.combatStateLabel(def), opt?.value, opt?.label, L.combatOptionLabel(opt), opt?.formulaKind].join(" ");
     }
 
     function legacyStateToggleHTML(slot, idx, stateName) {
@@ -896,7 +938,7 @@ window.WUWA_SETTLEMENT = (() => {
       if (buff.effect && buff.defaultActive !== false && !isSupportOutroBuff(slot, idx, buff, outputIdx) && !supportStateNeedsConfirmation(slot, idx, buff, outputIdx)) return "仅效应伤害";
       if (buff.seq && slot.seq < buff.seq) return `需 ${buff.seq} 链`;
       if (buff.maxSeq != null && slot.seq > buff.maxSeq) return `已被高链效果替换`;
-      if (!buffStateRequirementsReady(slot, buff) && !supportStateNeedsConfirmation(slot, idx, buff, outputIdx)) return `需处于${buffStateRequirementLabel(buff)}`;
+      if (!buffStateRequirementsReady(slot, buff) && !supportStateNeedsConfirmation(slot, idx, buff, outputIdx)) return `需处于${buffStateRequirementLabelForSlot(slot, buff)}`;
       if (!sourceStatRequirementReady(slot, buff)) return `需${sourceStatRequirementLabel(buff.requiresSourceStat)}`;
       if (!sourceCharRequirementReady(slot, buff)) return `需${sourceCharRequirementLabel(buff)}`;
       if (buff.maxStacks && (buff.stackStart != null || buff.stackEnd != null || buff.stackRange) && buffTriggerSatisfied(slot, idx, buff, outputIdx, ctx) && buffStackContribution(slot, buff, idx, outputIdx, ctx) <= 0) return buffStackRangeLabel(buff);
@@ -1207,8 +1249,14 @@ window.WUWA_SETTLEMENT = (() => {
       return t;
     }
 
-    function isCoherenceInterferenceFinalDmgBuff(buff) {
+    function isCoherenceInterferenceFinalDmgBuff(slot, buff) {
       if (!buff || buff.zone !== "finalDmg" || buff.scaleBy?.stat !== "breakAmp") return false;
+      if (buff.offsetFormulaKind === "coherenceInterference" || buff.formulaKind === "coherenceInterference") return true;
+      const requirements = [...asList(buff.requiresState), ...asList(buff.requiresAllStates)];
+      if (requirements.some((stateName) => {
+        const def = combatStateDefFor(slot, stateName);
+        return combatStateOptionForValue(def, stateName)?.formulaKind === "coherenceInterference";
+      })) return true;
       const text = [
         buff.id, buff.label, buff.source, buff.trigger, buff.stackGroup, buff.desc, buff.excerpt,
         ...asList(buff.requiresState), ...asList(buff.requiresAllStates),
@@ -1220,7 +1268,7 @@ window.WUWA_SETTLEMENT = (() => {
       let total = 0;
       state.slots.forEach((slot, idx) => {
         slotBuffs(slot).forEach((buff) => {
-          if (!isCoherenceInterferenceFinalDmgBuff(buff)) return;
+          if (!isCoherenceInterferenceFinalDmgBuff(slot, buff)) return;
           if (buffStatus(slot, idx, buff, new Set(), outputIdx).applies) total += buffValue(slot, buff, idx, outputIdx);
         });
       });
@@ -1481,15 +1529,15 @@ window.WUWA_SETTLEMENT = (() => {
         if (!combatStateDefAvailable(slot, def)) return [];
         return asList(def.options)
           .filter((opt) => OFFSET_STATE_RE.test(offsetStateOptionText(def, opt)))
-          .filter((opt) => offsetStateFormulaKind(opt.value) !== "state")
+          .filter((opt) => offsetStateFormulaKind(opt.value, opt) !== "state")
           .map((opt) => ({
             kind: "state",
             stateId: def.id,
             stateValue: opt.value,
-            label: opt.label || opt.value,
+            label: L.combatOptionLabel(opt),
             providerIdx: idx,
             providerName: c.name,
-            stateLabel: def.label || def.id,
+            stateLabel: L.combatStateLabel(def),
           }));
       });
     }
@@ -1554,7 +1602,8 @@ window.WUWA_SETTLEMENT = (() => {
       return "harmonyResponse";
     }
 
-    function offsetStateFormulaKind(stateValue) {
+    function offsetStateFormulaKind(stateValue, opt = null) {
+      if (opt?.formulaKind) return opt.formulaKind;
       const text = String(stateValue || "");
       return text.includes("集谐") && text.includes("干涉") ? "coherenceInterference" : "state";
     }
@@ -1647,7 +1696,7 @@ window.WUWA_SETTLEMENT = (() => {
         skillMultBonus, breakAmp, breakAmpFactor, buffDeepen: harmony.amplify + harmony.vulnerability,
         enemyVulnerability: state.enemy.vulnerability, enemyDmgReduction: state.enemy.dmgReduction,
         deepen, deepenFactor, finalDmg, raw, damage: raw == null ? null : Math.floor(raw), ...factors,
-        requiredState: sk ? buffStateRequirementLabel(sk) : "",
+        requiredState: sk ? buffStateRequirementLabelForSlot(providerSlot, sk) : "",
       };
     }
 
@@ -1660,16 +1709,20 @@ window.WUWA_SETTLEMENT = (() => {
       const def = combatStateDefs(providerSlot).find((stateDef) => stateDef.id === entry.stateId);
       const current = def ? selectedCombatStateValue(providerSlot, def) : "";
       const confirmed = def ? stateValueMatches(current, entry.stateValue, def) : false;
+      const expectedOpt = combatStateOptionForValue(def, entry.stateValue);
+      const currentOpt = combatStateOptionForValue(def, current);
       const fallbackStacks = providerSlot?.toggles?.["stk_" + entry.stateValue] ?? providerSlot?.toggles?.["stk_" + entry.stateId] ?? 0;
       const stacks = Math.max(0, Math.round(num(calc.stacks, fallbackStacks)));
       const breakAmp = outputBreakAmp(providerIdx);
-      const formulaKind = offsetStateFormulaKind(entry.stateValue);
+      const formulaKind = offsetStateFormulaKind(entry.stateValue, expectedOpt);
       const perStackRate = formulaKind === "coherenceInterference" ? 0.12 : 0;
       const finalDmgGain = stacks * breakAmp * perStackRate;
       return {
         available: true, enabled: true, valid: confirmed, kind: "state", key: "state", formulaKind,
         entries, providers, providerIdx, providerName: providerChar?.name || "", label: entry.label,
         stateId: entry.stateId, stateLabel: entry.stateLabel, stateValue: entry.stateValue, currentState: current,
+        stateValueLabel: expectedOpt ? L.combatOptionLabel(expectedOpt) : L.text(entry.label || entry.stateValue),
+        currentStateLabel: currentOpt ? L.combatOptionLabel(currentOpt) : L.text(current || "未确认"),
         stacks, breakAmp, perStackRate, finalDmgGain, status: confirmed ? "已确认" : "未确认",
       };
     }

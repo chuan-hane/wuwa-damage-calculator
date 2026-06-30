@@ -1,3 +1,5 @@
+"use strict";
+
 window.WUWA_LANGUAGES.extend("en-US", {
   "data": {
     "chars": {
@@ -47,10 +49,12 @@ window.WUWA_LANGUAGES.extend("en-US", {
             "name": "Ink and Wash - Creation's Zenith DMG"
           },
           {
-            "name": "Living Canvas - Sequence 5 Extra Inklit Spirit DMG"
+            "name": "Living Canvas - Sequence 5 Extra Inklit Spirit DMG",
+            "requiresResourceLabel": "虚实境趣期间每3只墨鹤"
           },
           {
-            "name": "Ink and Wash - Creation's Zenith DMG"
+            "name": "Ink and Wash - Creation's Zenith DMG",
+            "requiresResourceLabel": "神来之笔触发"
           }
         ],
         "buffs": [

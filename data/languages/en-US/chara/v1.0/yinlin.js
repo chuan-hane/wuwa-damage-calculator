@@ -1,3 +1,5 @@
+"use strict";
+
 window.WUWA_LANGUAGES.extend("en-US", {
   "data": {
     "chars": {
@@ -46,7 +48,8 @@ window.WUWA_LANGUAGES.extend("en-US", {
             "name": "Raging Storm - Skill DMG"
           },
           {
-            "name": "Chameleon Cipher - Chameleon Cipher Damage"
+            "name": "Chameleon Cipher - Chameleon Cipher Damage",
+            "requiresResourceLabel": "100审判值"
           },
           {
             "name": "Chameleon Cipher - Judgment Strike Damage"
@@ -59,9 +62,11 @@ window.WUWA_LANGUAGES.extend("en-US", {
             "entry": "施放共鸣技能磁殛咆哮后进入，持续10秒；若未在窗口内施放召雷磁爆或切换角色，则共鸣技能进入冷却。",
             "options": [
               {
-                "label": "处于磁殛状态"
+                "label": "处于磁殛状态",
+                "valueLabel": "磁殛状态"
               }
-            ]
+            ],
+            "idLabel": "磁殛状态"
           },
           {
             "label": "目标印记",
@@ -69,12 +74,15 @@ window.WUWA_LANGUAGES.extend("en-US", {
             "entry": "悬丝华刃舞、破天雷灭击或狂雷飓风命中目标时附加缚罪标记；审判值满时施放千面魅影命中缚罪标记目标，会替换为惩罚印记，持续18秒。",
             "options": [
               {
-                "label": "缚罪标记"
+                "label": "缚罪标记",
+                "valueLabel": "目标印记·缚罪标记"
               },
               {
-                "label": "惩罚印记"
+                "label": "惩罚印记",
+                "valueLabel": "目标印记·惩罚印记"
               }
-            ]
+            ],
+            "idLabel": "目标印记"
           }
         ],
         "buffs": [

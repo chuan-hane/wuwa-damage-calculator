@@ -1,3 +1,5 @@
+"use strict";
+
 window.WUWA_LANGUAGES.extend("zh-CN", {
   "data": {
     "chars": {
@@ -40,10 +42,12 @@ window.WUWA_LANGUAGES.extend("zh-CN", {
             "name": "声骸·追光"
           },
           {
-            "name": "霜渐·历历在目"
+            "name": "霜渐·历历在目",
+            "requiresResourceLabel": "3张照片"
           },
           {
-            "name": "声骸·历历在目"
+            "name": "声骸·历历在目",
+            "requiresResourceLabel": "3张照片"
           },
           {
             "name": "普攻·溯念留形第一段"
@@ -73,10 +77,12 @@ window.WUWA_LANGUAGES.extend("zh-CN", {
             "name": "剪辑·硬切"
           },
           {
-            "name": "霜渐·遗忘"
+            "name": "霜渐·遗忘",
+            "requiresResourceLabel": "照片"
           },
           {
-            "name": "声骸·遗忘"
+            "name": "声骸·遗忘",
+            "requiresResourceLabel": "照片"
           }
         ],
         "combatStates": [
@@ -86,12 +92,15 @@ window.WUWA_LANGUAGES.extend("zh-CN", {
             "entry": "洛瑟菈拥有共鸣模态·霜渐和共鸣模态·声骸两种模态，可在两种模态间切换。",
             "options": [
               {
-                "label": "霜渐"
+                "label": "霜渐",
+                "valueLabel": "共鸣模态·霜渐"
               },
               {
-                "label": "声骸"
+                "label": "声骸",
+                "valueLabel": "共鸣模态·声骸"
               }
-            ]
+            ],
+            "idLabel": "共鸣模态"
           },
           {
             "label": "追忆状态",
@@ -99,9 +108,11 @@ window.WUWA_LANGUAGES.extend("zh-CN", {
             "entry": "拥有全部3张照片时施放共鸣解放·历历在目后进入追忆状态。",
             "options": [
               {
-                "label": "追忆"
+                "label": "追忆",
+                "valueLabel": "追忆状态"
               }
-            ]
+            ],
+            "idLabel": "追忆状态"
           }
         ],
         "buffs": [

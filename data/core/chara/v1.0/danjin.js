@@ -192,7 +192,7 @@ WUWA.register({
       "damageType": "heavy",
       "multiplier": 417.55,
       "formula": "59.65% × 7",
-      "requiresResource": "60彤华",
+      "requiresResource": "resource_gate_1",
       "requiresResourceAtLeast": {
         "id": "rubyBlossom",
         "value": 60
@@ -208,7 +208,7 @@ WUWA.register({
       "damageType": "heavy",
       "multiplier": 178.93,
       "formula": "178.93%",
-      "requiresResource": "已施放重击·缭乱"
+      "requiresResource": "resource_gate_2"
     },
     {
       "id": "heavy_4",
@@ -219,7 +219,7 @@ WUWA.register({
       "damageType": "heavy",
       "multiplier": 1002.05,
       "formula": "143.15% × 7",
-      "requiresResource": "120彤华",
+      "requiresResource": "resource_gate_3",
       "requiresResourceAtLeast": {
         "id": "rubyBlossom",
         "value": 120
@@ -235,7 +235,7 @@ WUWA.register({
       "damageType": "heavy",
       "multiplier": 429.43,
       "formula": "429.43%",
-      "requiresResource": "已施放满能重击·缭乱",
+      "requiresResource": "resource_gate_4",
       "fallbackSkillId": "heavy_3"
     }
   ],

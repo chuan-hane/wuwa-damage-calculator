@@ -1,3 +1,5 @@
+"use strict";
+
 window.WUWA_LANGUAGES.extend("en-US", {
   "data": {
     "chars": {
@@ -85,10 +87,12 @@ window.WUWA_LANGUAGES.extend("en-US", {
             "name": "My Turn! - Hey, Leadhead, Come 'n' Get Me! DMG"
           },
           {
-            "name": "Gloves Are Comin' Off! - Rat-tat-tat!: Huntress DMG"
+            "name": "Gloves Are Comin' Off! - Rat-tat-tat!: Huntress DMG",
+            "requiresResourceLabel": "120点狂热"
           },
           {
-            "name": "Gloves Are Comin' Off! - Bang-bang-bang!: Guts DMG"
+            "name": "Gloves Are Comin' Off! - Bang-bang-bang!: Guts DMG",
+            "requiresResourceLabel": "120点狂热"
           },
           {
             "name": "Gloves Are Comin' Off! - Hack Response - Meltdown DMG"
@@ -101,12 +105,15 @@ window.WUWA_LANGUAGES.extend("en-US", {
             "entry": "丽贝卡初始处于猎手模式；施放共鸣技能或变奏技能可在猎手与铁胆模式之间切换。",
             "options": [
               {
-                "label": "猎手"
+                "label": "猎手",
+                "valueLabel": "模式·猎手"
               },
               {
-                "label": "铁胆"
+                "label": "铁胆",
+                "valueLabel": "模式·铁胆"
               }
-            ]
+            ],
+            "idLabel": "模式"
           },
           {
             "label": "小孩子才做选择",
@@ -114,9 +121,11 @@ window.WUWA_LANGUAGES.extend("en-US", {
             "entry": "【手感火热】达到120点时施放变奏技能·呜呼，来发大的！、变奏技能·蠢货，有本事来抓我！、共鸣技能·来发大的！或共鸣技能·有本事来抓我！后获得，持续12秒。",
             "options": [
               {
-                "label": "已获得"
+                "label": "已获得",
+                "valueLabel": "小孩子才做选择"
               }
-            ]
+            ],
+            "idLabel": "小孩子才做选择"
           },
           {
             "label": "目标骇破",
@@ -124,9 +133,11 @@ window.WUWA_LANGUAGES.extend("en-US", {
             "entry": "队伍角色对目标造成谐度破坏伤害并使其进入【骇破·干涉】后，丽贝卡可触发骇破响应·熔触。",
             "options": [
               {
-                "label": "骇破·干涉"
+                "label": "骇破·干涉",
+                "valueLabel": "目标骇破·干涉"
               }
-            ]
+            ],
+            "idLabel": "目标骇破"
           }
         ],
         "buffs": [

@@ -1,3 +1,5 @@
+"use strict";
+
 window.WUWA_LANGUAGES.extend("zh-CN", {
   "data": {
     "chars": {
@@ -56,9 +58,11 @@ window.WUWA_LANGUAGES.extend("zh-CN", {
             "entry": "普攻第4段会向前扩散雾气；共鸣技能移位戏法也会施放雾气。",
             "options": [
               {
-                "label": "本次普攻/空中攻击穿过雾气"
+                "label": "本次普攻/空中攻击穿过雾气",
+                "valueLabel": "雾气"
               }
-            ]
+            ],
+            "idLabel": "雾气"
           },
           {
             "label": "虚实之门",
@@ -66,9 +70,11 @@ window.WUWA_LANGUAGES.extend("zh-CN", {
             "entry": "施放共鸣解放雾里观花后在前方生成虚实之门，持续10秒。",
             "options": [
               {
-                "label": "本次攻击穿过虚实之门"
+                "label": "本次攻击穿过虚实之门",
+                "valueLabel": "虚实之门"
               }
-            ]
+            ],
+            "idLabel": "虚实之门"
           },
           {
             "label": "迷雾潜行",
@@ -76,9 +82,11 @@ window.WUWA_LANGUAGES.extend("zh-CN", {
             "entry": "秋水穿过雾气或虚实之门后进入迷雾潜行。",
             "options": [
               {
-                "label": "迷雾潜行"
+                "label": "迷雾潜行",
+                "valueLabel": "迷雾潜行"
               }
-            ]
+            ],
+            "idLabel": "迷雾潜行"
           }
         ],
         "buffs": [

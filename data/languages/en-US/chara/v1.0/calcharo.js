@@ -1,3 +1,5 @@
+"use strict";
+
 window.WUWA_LANGUAGES.extend("en-US", {
   "data": {
     "chars": {
@@ -73,13 +75,16 @@ window.WUWA_LANGUAGES.extend("en-US", {
             "name": "Wanted Outlaw - Skill DMG"
           },
           {
-            "name": "Hunting Mission - \"Mercy\" Damage"
+            "name": "Hunting Mission - \"Mercy\" Damage",
+            "requiresResourceLabel": "3残忍"
           },
           {
-            "name": "Hunting Mission - \"Death Messenger\" Damage"
+            "name": "Hunting Mission - \"Death Messenger\" Damage",
+            "requiresResourceLabel": "5杀意"
           },
           {
-            "name": "The Ultimatum - Phantom Coordinated Attack DMG"
+            "name": "The Ultimatum - Phantom Coordinated Attack DMG",
+            "requiresResourceLabel": "重击·死告触发"
           }
         ],
         "combatStates": [
@@ -89,9 +94,11 @@ window.WUWA_LANGUAGES.extend("en-US", {
             "entry": "施放共鸣解放幻影蚀刻后进入，持续11秒；状态结束后，下次变奏技能替换为必要的手段。",
             "options": [
               {
-                "label": "杀戮武装"
+                "label": "杀戮武装",
+                "valueLabel": "杀戮武装"
               }
-            ]
+            ],
+            "idLabel": "杀戮武装"
           }
         ],
         "buffs": [

@@ -149,7 +149,7 @@ WUWA.register({
       "damageType": "heavy",
       "multiplier": 76.04,
       "formula": "38.02% × 2",
-      "requiresResource": "3声流响",
+      "requiresResource": "resource_gate_1",
       "requiresResourceAtLeast": {
         "id": "melody",
         "value": 3
@@ -165,7 +165,7 @@ WUWA.register({
       "damageType": "basic",
       "multiplier": 362.27,
       "formula": "21.73% × 5 + 126.81% × 2",
-      "requiresResource": "3声流响",
+      "requiresResource": "resource_gate_1",
       "requiresResourceAtLeast": {
         "id": "melody",
         "value": 3

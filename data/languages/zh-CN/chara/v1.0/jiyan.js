@@ -1,3 +1,5 @@
+"use strict";
+
 window.WUWA_LANGUAGES.extend("zh-CN", {
   "data": {
     "chars": {
@@ -61,7 +63,8 @@ window.WUWA_LANGUAGES.extend("zh-CN", {
             "name": "攻其不备"
           },
           {
-            "name": "苍躣八荒·后动"
+            "name": "苍躣八荒·后动",
+            "requiresResourceLabel": "30破阵值"
           }
         ],
         "combatStates": [
@@ -71,9 +74,11 @@ window.WUWA_LANGUAGES.extend("zh-CN", {
             "entry": "施放共鸣解放「苍躣八荒·谋定」后进入，持续10秒；若有30点以上破阵值，会先消耗30点施放「苍躣八荒·后动」。",
             "options": [
               {
-                "label": "破阵状态"
+                "label": "破阵状态",
+                "valueLabel": "破阵状态"
               }
-            ]
+            ],
+            "idLabel": "破阵状态"
           }
         ],
         "buffs": [

@@ -1,3 +1,5 @@
+"use strict";
+
 window.WUWA_LANGUAGES.extend("zh-CN", {
   "data": {
     "chars": {
@@ -47,10 +49,12 @@ window.WUWA_LANGUAGES.extend("zh-CN", {
             "name": "极意·神来之笔"
           },
           {
-            "name": "经营位置·额外墨鹤"
+            "name": "经营位置·额外墨鹤",
+            "requiresResourceLabel": "虚实境趣期间每3只墨鹤"
           },
           {
-            "name": "白鹤"
+            "name": "白鹤",
+            "requiresResourceLabel": "神来之笔触发"
           }
         ],
         "buffs": [

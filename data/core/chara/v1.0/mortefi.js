@@ -165,7 +165,7 @@ WUWA.register({
       "damageType": "resonanceSkill",
       "multiplier": 326.05,
       "formula": "326.05%",
-      "requiresResource": "100怒气值",
+      "requiresResource": "resource_gate_1",
       "requiresResourceAtLeast": {
         "id": "anger",
         "value": 100

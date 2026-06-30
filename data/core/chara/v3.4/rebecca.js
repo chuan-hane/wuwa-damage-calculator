@@ -37,7 +37,7 @@ WUWA.register({
       "multiplier": 73.52,
       "formula": "36.76% + 36.76%",
       "impliedStates": [
-        "模式·猎手"
+        "mode_1_option_1"
       ]
     },
     {
@@ -47,7 +47,7 @@ WUWA.register({
       "multiplier": 95.65,
       "formula": "19.13% × 4 + 19.13%",
       "impliedStates": [
-        "模式·猎手"
+        "mode_1_option_1"
       ]
     },
     {
@@ -57,7 +57,7 @@ WUWA.register({
       "multiplier": 109.85,
       "formula": "109.85%",
       "impliedStates": [
-        "模式·猎手"
+        "mode_1_option_1"
       ]
     },
     {
@@ -67,7 +67,7 @@ WUWA.register({
       "multiplier": 33.8,
       "formula": "16.90% + 16.90%",
       "impliedStates": [
-        "模式·猎手"
+        "mode_1_option_1"
       ]
     },
     {
@@ -77,7 +77,7 @@ WUWA.register({
       "multiplier": 121.68,
       "formula": "60.84% + 60.84%",
       "impliedStates": [
-        "模式·猎手"
+        "mode_1_option_1"
       ]
     },
     {
@@ -87,7 +87,7 @@ WUWA.register({
       "multiplier": 136.04,
       "formula": "136.04%",
       "impliedStates": [
-        "模式·猎手"
+        "mode_1_option_1"
       ]
     },
     {
@@ -97,7 +97,7 @@ WUWA.register({
       "multiplier": 211.24,
       "formula": "211.24%",
       "impliedStates": [
-        "模式·猎手"
+        "mode_1_option_1"
       ]
     },
     {
@@ -107,7 +107,7 @@ WUWA.register({
       "multiplier": 84.5,
       "formula": "16.90% × 4 + 16.90%",
       "impliedStates": [
-        "模式·猎手"
+        "mode_1_option_1"
       ]
     },
     {
@@ -117,7 +117,7 @@ WUWA.register({
       "multiplier": 148.71,
       "formula": "148.71%",
       "impliedStates": [
-        "模式·猎手"
+        "mode_1_option_1"
       ]
     },
     {
@@ -127,7 +127,7 @@ WUWA.register({
       "multiplier": 123.38,
       "formula": "61.69% + 61.69%",
       "impliedStates": [
-        "模式·铁胆"
+        "mode_1_option_2"
       ]
     },
     {
@@ -137,7 +137,7 @@ WUWA.register({
       "multiplier": 84.5,
       "formula": "84.50%",
       "impliedStates": [
-        "模式·铁胆"
+        "mode_1_option_2"
       ]
     },
     {
@@ -147,7 +147,7 @@ WUWA.register({
       "multiplier": 225.11,
       "formula": "33.77% + 33.77% + 157.57%",
       "impliedStates": [
-        "模式·铁胆"
+        "mode_1_option_2"
       ]
     },
     {
@@ -157,7 +157,7 @@ WUWA.register({
       "multiplier": 202.79,
       "formula": "202.79%",
       "impliedStates": [
-        "模式·铁胆"
+        "mode_1_option_2"
       ]
     },
     {
@@ -167,7 +167,7 @@ WUWA.register({
       "multiplier": 104.78,
       "formula": "104.78%",
       "impliedStates": [
-        "模式·铁胆"
+        "mode_1_option_2"
       ]
     },
     {
@@ -177,7 +177,7 @@ WUWA.register({
       "multiplier": 258.56,
       "formula": "258.56%",
       "impliedStates": [
-        "模式·铁胆"
+        "mode_1_option_2"
       ]
     },
     {
@@ -187,7 +187,7 @@ WUWA.register({
       "multiplier": 101.4,
       "formula": "101.40%",
       "impliedStates": [
-        "模式·铁胆"
+        "mode_1_option_2"
       ]
     },
     {
@@ -197,7 +197,7 @@ WUWA.register({
       "multiplier": 148.71,
       "formula": "148.71%",
       "impliedStates": [
-        "模式·铁胆"
+        "mode_1_option_2"
       ]
     },
     {
@@ -207,7 +207,7 @@ WUWA.register({
       "multiplier": 236.6,
       "formula": "23.66% + 23.66% + 23.66% + 23.66% + 35.49% + 35.49% + 35.49% + 35.49%",
       "impliedStates": [
-        "模式·猎手"
+        "mode_1_option_1"
       ]
     },
     {
@@ -217,7 +217,7 @@ WUWA.register({
       "multiplier": 236.6,
       "formula": "23.66% + 4.74% + 23.66% + 23.66% + 137.22% + 11.83% + 11.83%",
       "impliedStates": [
-        "模式·铁胆"
+        "mode_1_option_2"
       ]
     },
     {
@@ -255,7 +255,7 @@ WUWA.register({
       "multiplier": 270.4,
       "formula": "27.04% + 27.04% + 27.04% + 27.04% + 27.04% + 27.04% + 40.56% + 67.60%",
       "impliedStates": [
-        "模式·猎手"
+        "mode_1_option_1"
       ],
       "triggerEvents": [
         "introEntry"
@@ -268,7 +268,7 @@ WUWA.register({
       "multiplier": 202.8,
       "formula": "10.14% + 30.42% + 40.56% + 40.56% + 40.56% + 40.56%",
       "impliedStates": [
-        "模式·铁胆"
+        "mode_1_option_2"
       ],
       "triggerEvents": [
         "introEntry"
@@ -280,14 +280,14 @@ WUWA.register({
       "damageType": "basic",
       "multiplier": 397.66,
       "formula": "19.89% + 19.89% + 19.89% + 318.10% + 19.89%",
-      "requiresResource": "120点狂热",
+      "requiresResource": "resource_gate_1",
       "requiresResourceAtLeast": {
         "id": "fervor",
         "value": 120
       },
       "fallbackSkillId": "hunt_heavy",
       "impliedStates": [
-        "模式·猎手"
+        "mode_1_option_1"
       ]
     },
     {
@@ -296,14 +296,14 @@ WUWA.register({
       "damageType": "basic",
       "multiplier": 278.34,
       "formula": "278.34%",
-      "requiresResource": "120点狂热",
+      "requiresResource": "resource_gate_1",
       "requiresResourceAtLeast": {
         "id": "fervor",
         "value": 120
       },
       "fallbackSkillId": "guts_heavy",
       "impliedStates": [
-        "模式·铁胆"
+        "mode_1_option_2"
       ]
     },
     {
@@ -312,7 +312,7 @@ WUWA.register({
       "damageType": "hackDmg",
       "multiplier": 2358.89,
       "formula": "2358.89%",
-      "requiresState": "目标骇破·干涉"
+      "requiresState": "target_1_option_1"
     }
   ],
   "defaultSkillId": "big_fireworks",
@@ -329,34 +329,34 @@ WUWA.register({
   "echoSet3": 8,
   "combatStates": [
     {
-      "id": "模式",
+      "id": "mode_1",
       "kind": "mode",
       "required": true,
-      "defaultValue": "模式·猎手",
+      "defaultValue": "mode_1_option_1",
       "options": [
         {
-          "value": "模式·猎手"
+          "value": "mode_1_option_1"
         },
         {
-          "value": "模式·铁胆"
+          "value": "mode_1_option_2"
         }
       ]
     },
     {
-      "id": "小孩子才做选择",
+      "id": "buff_1",
       "kind": "buff",
       "options": [
         {
-          "value": "小孩子才做选择"
+          "value": "buff_1_option_1"
         }
       ]
     },
     {
-      "id": "目标骇破",
+      "id": "target_1",
       "kind": "target",
       "options": [
         {
-          "value": "目标骇破·干涉"
+          "value": "target_1_option_1"
         }
       ]
     }
@@ -368,8 +368,8 @@ WUWA.register({
       "value": 30,
       "scope": "self",
       "requiresState": [
-        "模式·猎手",
-        "小孩子才做选择"
+        "mode_1_option_1",
+        "buff_1_option_1"
       ]
     },
     {
@@ -378,8 +378,8 @@ WUWA.register({
       "value": 15,
       "scope": "self",
       "requiresState": [
-        "模式·铁胆",
-        "小孩子才做选择"
+        "mode_1_option_2",
+        "buff_1_option_1"
       ]
     },
     {
@@ -432,7 +432,7 @@ WUWA.register({
       "maxStacks": 70,
       "defaultStacks": 0,
       "defaultActive": false,
-      "stackGroup": "浪客羁绊·超限",
+      "stackGroup": "stack_group_1",
       "duration": 14
     }
   ],
@@ -513,14 +513,14 @@ WUWA.register({
           "zone": "critDamage",
           "value": 18,
           "scope": "self",
-          "requiresState": "小孩子才做选择"
+          "requiresState": "buff_1_option_1"
         },
         {
           "id": "k4_mode_def",
           "zone": "defIgnore",
           "value": 9,
           "scope": "self",
-          "requiresState": "小孩子才做选择"
+          "requiresState": "buff_1_option_1"
         }
       ]
     },

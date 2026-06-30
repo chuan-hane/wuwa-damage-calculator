@@ -1,3 +1,5 @@
+"use strict";
+
 window.WUWA_LANGUAGES.extend("en-US", {
   "data": {
     "chars": {
@@ -46,10 +48,12 @@ window.WUWA_LANGUAGES.extend("en-US", {
             "name": "Astral Chord - Flare Star Butterfly DMG"
           },
           {
-            "name": "Astral Chord - Illation DMG"
+            "name": "Astral Chord - Illation DMG",
+            "requiresResourceLabel": "5实证数据"
           },
           {
-            "name": "Astral Chord - Transmutation DMG"
+            "name": "Astral Chord - Transmutation DMG",
+            "requiresResourceLabel": "5实证数据"
           }
         ],
         "combatStates": [
@@ -59,15 +63,19 @@ window.WUWA_LANGUAGES.extend("en-US", {
             "entry": "由共鸣解放终末回环展开浅析星域；浅析期间附近队伍角色使用变奏进入深潜，深潜期间再次使用变奏进入解限。",
             "options": [
               {
-                "label": "浅析"
+                "label": "浅析",
+                "valueLabel": "星域·浅析"
               },
               {
-                "label": "深潜"
+                "label": "深潜",
+                "valueLabel": "星域·深潜"
               },
               {
-                "label": "解限"
+                "label": "解限",
+                "valueLabel": "星域·解限"
               }
-            ]
+            ],
+            "idLabel": "星域"
           }
         ],
         "buffs": [

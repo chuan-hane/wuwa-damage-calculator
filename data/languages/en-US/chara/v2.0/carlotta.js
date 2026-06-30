@@ -1,3 +1,5 @@
+"use strict";
+
 window.WUWA_LANGUAGES.extend("en-US", {
   "data": {
     "chars": {
@@ -28,7 +30,8 @@ window.WUWA_LANGUAGES.extend("en-US", {
             "name": "Silent Execution - Heavy Attack DMG"
           },
           {
-            "name": "Silent Execution - Containment Tactics DMG"
+            "name": "Silent Execution - Containment Tactics DMG",
+            "requiresResourceLabel": "灵萃充满"
           },
           {
             "name": "Silent Execution - Mid-air Attack DMG"
@@ -58,7 +61,8 @@ window.WUWA_LANGUAGES.extend("en-US", {
             "name": "Wintertime Aria - Skill DMG"
           },
           {
-            "name": "Lethal Repertoire - Imminent Oblivion DMG"
+            "name": "Lethal Repertoire - Imminent Oblivion DMG",
+            "requiresResourceLabel": "灵萃充满且镀色晶激活"
           }
         ],
         "combatStates": [
@@ -68,9 +72,11 @@ window.WUWA_LANGUAGES.extend("en-US", {
             "entry": "共鸣解放命中目标附加解离；固有·艺术至上使变奏技能、示我璀璨、死兆、末路见行命中也可附加解离。",
             "options": [
               {
-                "label": "解离"
+                "label": "解离",
+                "valueLabel": "解离"
               }
-            ]
+            ],
+            "idLabel": "解离"
           },
           {
             "label": "枪花轮舞状态",
@@ -78,9 +84,11 @@ window.WUWA_LANGUAGES.extend("en-US", {
             "entry": "施放共鸣解放·新浪潮时代后进入枪花轮舞状态，期间可施放死兆；镜向箔达到4点后可施放致死以终。",
             "options": [
               {
-                "label": "枪花轮舞"
+                "label": "枪花轮舞",
+                "valueLabel": "枪花轮舞"
               }
-            ]
+            ],
+            "idLabel": "枪花轮舞"
           },
           {
             "label": "镀色晶",
@@ -88,9 +96,11 @@ window.WUWA_LANGUAGES.extend("en-US", {
             "entry": "灵萃充满并激活镀色晶时，可施放重击末路见行。",
             "options": [
               {
-                "label": "已激活"
+                "label": "已激活",
+                "valueLabel": "镀色晶激活"
               }
-            ]
+            ],
+            "idLabel": "镀色晶激活"
           }
         ],
         "buffs": [

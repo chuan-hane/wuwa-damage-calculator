@@ -111,7 +111,7 @@ WUWA.register({
       "damageType": "heavy",
       "multiplier": 119.3,
       "formula": "59.65% + 59.65%",
-      "requiresResource": "200挑灯问剑",
+      "requiresResource": "resource_gate_1",
       "requiresResourceAtLeast": {
         "id": "swordGauge",
         "value": 200
@@ -123,7 +123,7 @@ WUWA.register({
       "damageType": "heavy",
       "multiplier": 185.5,
       "formula": "55.65% + 55.65% + 74.20%",
-      "requiresResource": "200挑灯问剑",
+      "requiresResource": "resource_gate_1",
       "requiresResourceAtLeast": {
         "id": "swordGauge",
         "value": 200
@@ -135,7 +135,7 @@ WUWA.register({
       "damageType": "heavy",
       "multiplier": 145.77,
       "formula": "14.58% + 14.58% × 4 + 72.87%",
-      "requiresResource": "200挑灯问剑",
+      "requiresResource": "resource_gate_1",
       "requiresResourceAtLeast": {
         "id": "swordGauge",
         "value": 200
@@ -147,7 +147,7 @@ WUWA.register({
       "damageType": "heavy",
       "multiplier": 172.37,
       "formula": "172.37%",
-      "requiresResource": "200挑灯问剑",
+      "requiresResource": "resource_gate_1",
       "requiresResourceAtLeast": {
         "id": "swordGauge",
         "value": 200
@@ -162,7 +162,7 @@ WUWA.register({
       "damageType": "heavy",
       "multiplier": 457.2,
       "formula": "91.44% + 91.44% + 91.44% + 91.44% + 91.44%",
-      "requiresState": "淋漓醉墨"
+      "requiresState": "status_1"
     },
     {
       "id": "answer_save",
@@ -173,7 +173,7 @@ WUWA.register({
       "damageType": "heavy",
       "multiplier": 209.67,
       "formula": "38.44% × 3 + 31.45% + 31.45% + 31.45%",
-      "requiresState": "淋漓醉墨"
+      "requiresState": "status_1"
     },
     {
       "id": "answer_sacrifice",
@@ -184,7 +184,7 @@ WUWA.register({
       "damageType": "heavy",
       "multiplier": 217.7,
       "formula": "217.70%",
-      "requiresState": "淋漓醉墨"
+      "requiresState": "status_1"
     },
     {
       "id": "skill_lotuscloak",
@@ -196,7 +196,7 @@ WUWA.register({
       "multiplier": 500,
       "formula": "500%",
       "seq": 3,
-      "requiresResource": "满协奏且未处于淋漓醉墨"
+      "requiresResource": "resource_gate_2"
     },
     {
       "id": "ink_exit",
@@ -205,7 +205,7 @@ WUWA.register({
       "multiplier": 600,
       "formula": "600%",
       "seq": 6,
-      "requiresResource": "已退出淋漓醉墨且仍为登场角色"
+      "requiresResource": "resource_gate_3"
     }
   ],
   "defaultSkillId": "liberation",
@@ -220,20 +220,20 @@ WUWA.register({
   "echoSet2": 4,
   "combatStates": [
     {
-      "id": "竹照",
+      "id": "buff_1",
       "kind": "buff",
       "options": [
         {
-          "value": "竹照"
+          "value": "buff_1_option_1"
         }
       ]
     },
     {
-      "id": "淋漓醉墨",
+      "id": "status_1",
       "kind": "status",
       "options": [
         {
-          "value": "淋漓醉墨·且从容"
+          "value": "status_1_option_1"
         }
       ]
     }
@@ -263,7 +263,7 @@ WUWA.register({
       "damageType": "echoSkill",
       "value": 30,
       "scope": "team",
-      "requiresState": "竹照",
+      "requiresState": "buff_1_option_1",
       "duration": 30
     },
     {
@@ -276,7 +276,7 @@ WUWA.register({
         "answer_save",
         "answer_sacrifice"
       ],
-      "requiresState": "淋漓醉墨·且从容",
+      "requiresState": "status_1_option_1",
       "duration": 10
     },
     {
@@ -317,7 +317,7 @@ WUWA.register({
           "damageType": "echoSkill",
           "value": 30,
           "scope": "team",
-          "requiresState": "竹照",
+          "requiresState": "buff_1_option_1",
           "duration": 30
         }
       ]
@@ -342,7 +342,7 @@ WUWA.register({
             "answer_save",
             "answer_sacrifice"
           ],
-          "requiresState": "淋漓醉墨",
+          "requiresState": "status_1",
           "defaultActive": false
         }
       ]

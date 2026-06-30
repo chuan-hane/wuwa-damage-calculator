@@ -127,7 +127,8 @@ window.WUWA_STAGE_VIEW = (() => {
         html += `</div>`;
       }
       resources.filter((resource) => resource.kind !== "value").forEach((resource) => {
-        html += `<div class="field toggle-field"><label class="buff toggle-card resource-toggle"><input type="checkbox" data-act="resource" data-slot="${oi}" data-key="${esc(resource.label)}" ${resource.ready ? "checked" : ""} /> ${esc(L.isEnglish() ? `Has ${L.text(resource.label)}` : `有${resource.label}`)}</label></div>`;
+        const resourceName = L.text(resource.label || resource.id);
+        html += `<div class="field toggle-field"><label class="buff toggle-card resource-toggle"><input type="checkbox" data-act="resource" data-slot="${oi}" data-key="${esc(resource.id || resource.label)}" ${resource.ready ? "checked" : ""} /> ${esc(L.isEnglish() ? `Has ${resourceName}` : `有${resourceName}`)}</label></div>`;
       });
       html += stateControlsHTML(s1, oi);
       if (sk && sk.perStack && !sk.stackResource) {
@@ -146,22 +147,32 @@ window.WUWA_STAGE_VIEW = (() => {
       return layers;
     }
 
-    function skillResourceLabel(sk) {
+    function resourceNameForSkill(slot, id) {
+      const resource = asList(ch(slot?.char)?.resources).find((item) => item.id === id || item.label === id);
+      return resource ? L.resourceLabel(resource) : L.text(id);
+    }
+
+    function skillResourceLabel(slot, sk) {
       if (!sk) return "";
-      if (sk.requiresResource) return sk.requiresResource;
+      if (sk.requiresResource) return L.text(sk.requiresResourceLabel || sk.resourceLabel || resourceNameForSkill(slot, sk.requiresResource));
       if (sk.requiresResourceSumAtLeast) {
         const req = sk.requiresResourceSumAtLeast;
-        return L.isEnglish() ? `${L.text(req.label || "资源")} at least ${tnum(req.value)}` : `${req.label || "资源"}不少于${tnum(req.value)}`;
+        const label = req.label || asList(req.ids || req.resources).map((id) => resourceNameForSkill(slot, id)).join("+") || L.text("资源");
+        return L.isEnglish() ? `${L.text(label)} at least ${tnum(req.value)}` : `${L.text(label)}不少于${tnum(req.value)}`;
       }
       if (sk.requiresResourceAtLeast) {
         const req = sk.requiresResourceAtLeast;
+        const label = req.label || resourceNameForSkill(slot, req.id);
         const main = req.fractionOfCap != null
-          ? (L.isEnglish() ? `${L.text(req.label || req.id)} at least ${tnum(num(req.fractionOfCap) * 100)}% cap` : `${req.label || req.id}不少于${tnum(num(req.fractionOfCap) * 100)}%上限`)
-          : (L.isEnglish() ? `${L.text(req.label || req.id)} at least ${tnum(req.value)}` : `${req.label || req.id}不少于${tnum(req.value)}`);
+          ? (L.isEnglish() ? `${L.text(label)} at least ${tnum(num(req.fractionOfCap) * 100)}% cap` : `${L.text(label)}不少于${tnum(num(req.fractionOfCap) * 100)}%上限`)
+          : (L.isEnglish() ? `${L.text(label)} at least ${tnum(req.value)}` : `${L.text(label)}不少于${tnum(req.value)}`);
         const alternates = asList(req.alternateStates);
         return alternates.length ? `${main}${L.isEnglish() ? " or " : "或"}${alternates.map((item) => L.text(item)).join("/")}` : main;
       }
-      if (sk.requiresResourceFull) return L.isEnglish() ? `${L.text(sk.requiresResourceFull)} at max` : `${sk.requiresResourceFull}达到上限`;
+      if (sk.requiresResourceFull) {
+        const label = resourceNameForSkill(slot, sk.requiresResourceFull);
+        return L.isEnglish() ? `${L.text(label)} at max` : `${L.text(label)}达到上限`;
+      }
       return "";
     }
 
@@ -174,7 +185,7 @@ window.WUWA_STAGE_VIEW = (() => {
       if (r.resourceBlocked) {
         return (
           `<div class="dmg-type"><div>${esc(L.text("本次"))}: <b>${esc(L.skillName(selectedSk))}</b> (${esc(L.category(selectedSk.category))})</div>` +
-          `<div>${esc(L.text("缺少"))} "<span class="dt">${esc(skillResourceLabel(selectedSk))}</span>", ${esc(L.text("当前技能不可释放"))}</div></div>`
+          `<div>${esc(L.text("缺少"))} "<span class="dt">${esc(skillResourceLabel(s1, selectedSk))}</span>", ${esc(L.text("当前技能不可释放"))}</div></div>`
         );
       }
       const lv = r.skLevel || 10;
@@ -473,28 +484,47 @@ window.WUWA_STAGE_VIEW = (() => {
     function combatStateDefForSlot(slot, stateName) {
       const c = ch(slot?.char);
       return asList(c?.combatStates).find((def) => {
-        if (def.id === stateName || String(stateName).startsWith(def.id + "·")) return true;
+        if (def.id === stateName) return true;
         return asList(def.options).some((opt) => opt.value === stateName);
       }) || null;
     }
 
     function impliedCombatStateValue(slot, def) {
       const implied = asList(resolvedSkill(slot)?.impliedStates);
-      const exact = implied.find((s) => s === def.id || String(s).startsWith(def.id + "·"));
+      const exact = implied.find((s) => stateValueBelongsToDef(s, def));
       return exact || "";
     }
 
     function selectedCombatStateValue(slot, def) {
-      const stored = slot?.toggles?.[stateChoiceKey(def.id)];
-      const configured = stored || combatStateDefaultValue(def);
+      const stored = combatStateStoredValue(slot, def);
+      const configured = normalizeCombatStateStoredValue(stored, def) || combatStateDefaultValue(def);
       if (combatStateFiltersSkills(def)) return configured;
       return impliedCombatStateValue(slot, def) || configured;
     }
 
+    function combatStateStoredValue(slot, def) {
+      const toggles = slot?.toggles || {};
+      return toggles[stateChoiceKey(def.id)] ?? toggles[stateChoiceKey(def.label)] ?? toggles[stateChoiceKey(def.idLabel)];
+    }
+
+    function normalizeCombatStateStoredValue(value, def) {
+      if (!value) return "";
+      const opt = asList(def.options).find((item) =>
+        value === item.value || value === item.label || value === item.valueLabel || value === item.title
+      );
+      if (opt) return opt.value;
+      if (value === def.id || value === def.label || value === def.idLabel) return def.id;
+      return value;
+    }
+
     function stateValueMatches(value, stateName, def) {
       if (!value) return false;
-      if (stateName === def.id) return value === def.id || String(value).startsWith(def.id + "·");
-      return value === stateName || String(value).startsWith(stateName + "·");
+      if (stateName === def.id) return stateValueBelongsToDef(value, def);
+      return value === stateName;
+    }
+
+    function stateValueBelongsToDef(value, def) {
+      return value === def.id || asList(def?.options).some((opt) => opt.value === value);
     }
 
     function combatStateReady(slot, stateName) {
@@ -695,7 +725,7 @@ window.WUWA_STAGE_VIEW = (() => {
       const o = r.offset || {};
       if (!o.available) return "";
       if (!o.enabled) return L.isEnglish() ? "Separate from normal DMG above" : "独立于上方普通伤害";
-      if (o.kind === "state" && o.formulaKind === "coherenceInterference") return `${L.text(compactOffsetStateName(o.stateValue || "集谐·干涉"))} · ${tnum(o.stacks)}${L.isEnglish() ? " stacks" : "层"}`;
+      if (o.kind === "state" && o.formulaKind === "coherenceInterference") return `${L.text(o.stateValueLabel || compactOffsetStateName(o.stateValue || "集谐·干涉"))} · ${tnum(o.stacks)}${L.isEnglish() ? " stacks" : "层"}`;
       if (o.kind === "state") return `${L.text("层数")} ${tnum(o.stacks)} ${L.isEnglish() ? "stacks" : "层"}`;
       const base = `${offsetCostLabel()} · ${L.text("谐度基础值")} ${fmt(o.harmonyBase)}`;
       if (o.kind === "response" && !o.valid && o.requiredState) return `${base} · ${L.isEnglish() ? "Needs " : "需"}${L.text(o.requiredState)}`;
@@ -770,8 +800,8 @@ window.WUWA_STAGE_VIEW = (() => {
       if (!o.enabled) return L.isEnglish() ? "Off-Tune System DMG is calculated separately and does not enter the normal DMG above." : "偏移体系伤害独立结算，不进入上方普通伤害。";
       if (o.kind === "state") {
         if (o.formulaKind === "coherenceInterference") {
-          const compactState = compactOffsetStateName(o.currentState || o.stateValue || "集谐·干涉");
-          const stateHint = o.valid ? "" : `<div class="effect-equation">${L.isEnglish() ? "Confirm target state first: " : "需先确认目标处于"}${esc(L.text(compactOffsetStateName(o.stateValue || "集谐·干涉")))}${L.isEnglish() ? " before applying this bonus." : "，才应用该收益。"}</div>`;
+          const compactState = o.currentStateLabel || o.stateValueLabel || compactOffsetStateName(o.currentState || o.stateValue || "集谐·干涉");
+          const stateHint = o.valid ? "" : `<div class="effect-equation">${L.isEnglish() ? "Confirm target state first: " : "需先确认目标处于"}${esc(L.text(o.stateValueLabel || compactOffsetStateName(o.stateValue || "集谐·干涉")))}${L.isEnglish() ? " before applying this bonus." : "，才应用该收益。"}</div>`;
           return `<div class="effect-mini-strip">
           ${miniCardHTML("状态", esc(L.text(compactState || "未确认")), o.valid ? "已确认" : "未确认")}
           ${miniCardHTML("层数", esc(`${tnum(o.stacks)}${L.isEnglish() ? " stacks" : "层"}`), "集谐干涉")}
@@ -781,7 +811,7 @@ window.WUWA_STAGE_VIEW = (() => {
         </div><div class="effect-equation">${esc(L.text("最终伤害提升"))} = ${esc(tnum(o.stacks))}${L.isEnglish() ? " stacks" : "层"} × ${esc(tnum(o.breakAmp))}${L.isEnglish() ? " pts" : "点"} × ${esc(tnum(o.perStackRate))}% = <b>${esc(tnum(o.finalDmgGain))}%</b></div>${stateHint}`;
         }
         return `<div class="effect-mini-strip">
-          ${miniCardHTML("状态", esc(L.text(compactOffsetStateName(o.currentState || "未确认"))), esc(L.text(compactOffsetStateName(o.stateValue || "—"))))}
+          ${miniCardHTML("状态", esc(L.text(o.currentStateLabel || compactOffsetStateName(o.currentState || "未确认"))), esc(L.text(o.stateValueLabel || compactOffsetStateName(o.stateValue || "—"))))}
           ${miniCardHTML("层数", esc(`${tnum(o.stacks)}${L.isEnglish() ? " stacks" : "层"}`), "状态层数")}
           ${miniCardHTML("谐度增幅", esc(`${tnum(o.breakAmp)}${L.isEnglish() ? " pts" : "点"}`), "相关角色面板")}
           ${miniCardHTML("结算", esc(L.text(o.status || "未确认")), "该状态本身不直接造成伤害")}

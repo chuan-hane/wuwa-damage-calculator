@@ -185,7 +185,7 @@ function clampNumberInput(el, fallback = 0) {
 
 const list = (v) => Array.isArray(v) ? v : (v ? [v] : []);
 const STATE_SKILL_FILTER_KINDS = new Set(["mode", "form", "phase"]);
-const OFFSET_STATE_RE = /偏移|震谐.*干涉|干涉.*震谐|集谐.*干涉|干涉.*集谐|骇破.*干涉|干涉.*骇破|谐度.*干涉|干涉.*谐度|Off-?Tune|Interference|Offset/i;
+const OFFSET_STATE_RE = /偏移|震谐.*干涉|干涉.*震谐|集谐.*干涉|干涉.*集谐|骇破.*干涉|干涉.*骇破|谐度.*干涉|干涉.*谐度|Off-?Tune|Interference|Interfered|Shifting|Hack|Tune Strain|Tune Rupture|Offset/i;
 
 function skillIdMatches(sk, id) {
   return !!sk && !!id && (sk.id === id || list(sk.legacyIds).includes(id));
@@ -194,8 +194,8 @@ function skillIdMatches(sk, id) {
 function combatStateDefForApp(slot, stateName) {
   const c = ch(slot.char);
   return list(c?.combatStates).find((def) => {
-    if (def.id === stateName || String(stateName).startsWith(def.id + "·")) return true;
-    return list(def.options).some((opt) => opt.value === stateName);
+    if (def.id === stateName || def.label === stateName || def.idLabel === stateName) return true;
+    return list(def.options).some((opt) => opt.value === stateName || opt.label === stateName || opt.valueLabel === stateName);
   }) || null;
 }
 
@@ -211,18 +211,42 @@ function combatStateFiltersSkillsForApp(def) {
 }
 
 function selectedCombatStateValueForApp(slot, def) {
-  const stored = slot?.toggles?.[stateChoiceKey(def.id)];
-  const configured = stored || combatStateDefaultValueForApp(def);
+  const stored = combatStateStoredValueForApp(slot, def);
+  const configured = normalizeCombatStateStoredValueForApp(stored, def) || combatStateDefaultValueForApp(def);
   if (combatStateFiltersSkillsForApp(def)) return configured;
   const implied = list(resolvedSkill(slot)?.impliedStates);
-  const exact = implied.find((s) => s === def.id || String(s).startsWith(def.id + "·"));
+  const exact = implied.find((s) => stateValueBelongsToDefForApp(s, def));
   return exact || configured;
+}
+
+function combatStateStoredValueForApp(slot, def) {
+  const toggles = slot?.toggles || {};
+  return toggles[stateChoiceKey(def.id)] ?? toggles[stateChoiceKey(def.label)] ?? toggles[stateChoiceKey(def.idLabel)];
+}
+
+function normalizeCombatStateStoredValueForApp(value, def) {
+  if (!value) return "";
+  const opt = list(def.options).find((item) =>
+    value === item.value || value === item.label || value === item.valueLabel || value === item.title
+  );
+  if (opt) return opt.value;
+  if (value === def.id || value === def.label || value === def.idLabel) return def.id;
+  return value;
+}
+
+function combatStateOptionForValueApp(def, value) {
+  const normalized = normalizeCombatStateStoredValueForApp(value, def);
+  return list(def?.options).find((item) => item.value === normalized) || null;
 }
 
 function stateValueMatchesForApp(value, stateName, def) {
   if (!value) return false;
-  if (stateName === def.id) return value === def.id || String(value).startsWith(def.id + "·");
-  return value === stateName || String(value).startsWith(stateName + "·");
+  if (stateName === def.id) return stateValueBelongsToDefForApp(value, def);
+  return value === stateName;
+}
+
+function stateValueBelongsToDefForApp(value, def) {
+  return value === def.id || list(def?.options).some((opt) => opt.value === value);
 }
 
 function combatStateReadyForApp(slot, stateName) {
@@ -365,9 +389,7 @@ function isCoherenceInterferenceTarget(value) {
 }
 
 function skillRequiresTargetState(skill, value) {
-  return list(skill?.requiresState).some((req) =>
-    req === value || String(value || "").startsWith(req + "·") || String(req || "").startsWith(value + "·")
-  );
+  return list(skill?.requiresState).some((req) => req === value);
 }
 
 function responseSkillForTargetState(slot, value) {
@@ -387,22 +409,25 @@ function currentOffsetBelongsToTargetState(slot, def) {
 
 function syncOffsetFromStateChoice(slotIdx, stateId, value) {
   state.offsetCalc = state.offsetCalc || {};
-  if (state.offsetCalc.key === "state" && state.offsetCalc.stateId === stateId && !value) {
+  const slot = state.slots[slotIdx];
+  const def = combatStateDefForApp(slot, stateId);
+  if (state.offsetCalc.key === "state" && state.offsetCalc.stateId === def?.id && !value) {
     updateOffsetKey("tuneBreak");
     return;
   }
-  const slot = state.slots[slotIdx];
-  const def = list(ch(slot?.char)?.combatStates).find((item) => item.id === stateId);
-  if (def?.kind !== "target" || !value || !OFFSET_STATE_RE.test([stateId, value, def.label].join(" "))) return;
-  if (isCoherenceInterferenceTarget(value)) {
+  const normalizedValue = normalizeCombatStateStoredValueForApp(value, def);
+  const opt = combatStateOptionForValueApp(def, normalizedValue);
+  const stateText = [def?.id, normalizedValue, stateId, value, def?.label, L.combatStateLabel(def), opt?.label, L.combatOptionLabel(opt), opt?.valueLabel, opt?.formulaKind].join(" ");
+  if (def?.kind !== "target" || !normalizedValue || !OFFSET_STATE_RE.test(stateText)) return;
+  if (opt?.formulaKind === "coherenceInterference" || isCoherenceInterferenceTarget(stateText)) {
     state.offsetCalc.key = "state";
     state.offsetCalc.providerIdx = slotIdx;
     state.offsetCalc.skillId = null;
-    state.offsetCalc.stateId = stateId;
-    state.offsetCalc.stateValue = value;
+    state.offsetCalc.stateId = def.id;
+    state.offsetCalc.stateValue = normalizedValue;
     return;
   }
-  const responseSkill = responseSkillForTargetState(slot, value);
+  const responseSkill = responseSkillForTargetState(slot, normalizedValue);
   if (responseSkill) {
     state.offsetCalc.key = "response";
     state.offsetCalc.providerIdx = slotIdx;

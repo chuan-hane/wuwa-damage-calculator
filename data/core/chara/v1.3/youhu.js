@@ -84,7 +84,7 @@ WUWA.register({
       "damageType": "heavy",
       "multiplier": 86.7,
       "formula": "14.45% × 6",
-      "requiresResource": "霜色满",
+      "requiresResource": "resource_gate_1",
       "requiresResourceFull": "frost",
       "fallbackSkillId": "skill"
     },
@@ -193,7 +193,7 @@ WUWA.register({
       "damageType": "resonanceSkill",
       "multiplier": 372.1,
       "formula": "37.21% × 10",
-      "requiresResource": "4吉兆",
+      "requiresResource": "resource_gate_2",
       "requiresResourceAtLeast": {
         "id": "auspices",
         "value": 4
@@ -214,20 +214,20 @@ WUWA.register({
   "echoSet": 1,
   "combatStates": [
     {
-      "id": "吉兆组合",
+      "id": "mechanic_1",
       "kind": "mechanic",
       "options": [
         {
-          "value": "吉兆组合·对偶"
+          "value": "mechanic_1_option_1"
         },
         {
-          "value": "吉兆组合·双关"
+          "value": "mechanic_1_option_2"
         },
         {
-          "value": "吉兆组合·联珠"
+          "value": "mechanic_1_option_3"
         },
         {
-          "value": "吉兆组合·合说"
+          "value": "mechanic_1_option_4"
         }
       ]
     }
@@ -265,7 +265,7 @@ WUWA.register({
       "skills": [
         "forte_poetic_essence"
       ],
-      "requiresState": "吉兆组合·对偶"
+      "requiresState": "mechanic_1_option_1"
     },
     {
       "id": "b4",
@@ -277,8 +277,8 @@ WUWA.register({
         "forte_poetic_essence"
       ],
       "requiresState": [
-        "吉兆组合·联珠",
-        "吉兆组合·合说"
+        "mechanic_1_option_3",
+        "mechanic_1_option_4"
       ]
     }
   ],
@@ -299,7 +299,7 @@ WUWA.register({
           "skills": [
             "forte_poetic_essence"
           ],
-          "requiresState": "吉兆组合·对偶"
+          "requiresState": "mechanic_1_option_1"
         },
         {
           "id": "k2_triple",
@@ -311,8 +311,8 @@ WUWA.register({
             "forte_poetic_essence"
           ],
           "requiresState": [
-            "吉兆组合·联珠",
-            "吉兆组合·合说"
+            "mechanic_1_option_3",
+            "mechanic_1_option_4"
           ]
         }
       ]

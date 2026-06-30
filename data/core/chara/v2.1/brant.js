@@ -236,7 +236,7 @@ WUWA.register({
       "damageType": "basic",
       "multiplier": 1888.71,
       "formula": "47.22% × 2 + 94.44% + 188.87% × 2 + 1322.09%",
-      "requiresResource": "喝彩充满",
+      "requiresResource": "resource_gate_1",
       "requiresResourceFull": "applause",
       "fallbackSkillId": "skill_anchor",
       "triggerEvents": [
@@ -254,7 +254,7 @@ WUWA.register({
       "multiplier": 440,
       "formula": "440.00%",
       "seq": 2,
-      "requiresResource": "2链延奏额外效果"
+      "requiresResource": "resource_gate_2"
     },
     {
       "id": "rekindle",
@@ -263,7 +263,7 @@ WUWA.register({
       "multiplier": 566.61,
       "formula": "火焰归亡曲 × 30%",
       "seq": 6,
-      "requiresResource": "施放火焰归亡曲后"
+      "requiresResource": "resource_gate_3"
     }
   ],
   "defaultSkillId": "forte_returned",
@@ -278,10 +278,10 @@ WUWA.register({
   "echoSet": 12,
   "combatStates": [
     {
-      "id": "燃焰状态",
+      "id": "state_1",
       "options": [
         {
-          "value": "燃焰状态"
+          "value": "state_1_option_1"
         }
       ]
     }
@@ -303,7 +303,7 @@ WUWA.register({
       "id": "b_aflame_atk",
       "zone": "attackFlat",
       "scope": "self",
-      "requiresState": "燃焰状态",
+      "requiresState": "state_1_option_1",
       "scaleBy": {
         "stat": "energyRegen",
         "statBonus": -150,

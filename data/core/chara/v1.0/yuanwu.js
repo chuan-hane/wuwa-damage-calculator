@@ -156,7 +156,7 @@ WUWA.register({
       "stat": "defense",
       "multiplier": 108.54,
       "formula": "108.54%",
-      "requiresResource": "100锋芒",
+      "requiresResource": "resource_gate_1",
       "requiresResourceAtLeast": {
         "id": "readiness",
         "value": 100
@@ -197,7 +197,7 @@ WUWA.register({
       "stat": "defense",
       "multiplier": 39.77,
       "formula": "39.77%",
-      "requiresResource": "100锋芒",
+      "requiresResource": "resource_gate_1",
       "requiresResourceAtLeast": {
         "id": "readiness",
         "value": 100
@@ -217,7 +217,7 @@ WUWA.register({
       "multiplier": 24.56,
       "formula": "24.56%",
       "impliedStates": [
-        "雷厉风行"
+        "state_1_option_1"
       ]
     },
     {
@@ -231,7 +231,7 @@ WUWA.register({
       "multiplier": 51.82,
       "formula": "25.91% × 2",
       "impliedStates": [
-        "雷厉风行"
+        "state_1_option_1"
       ]
     },
     {
@@ -245,7 +245,7 @@ WUWA.register({
       "multiplier": 54.6,
       "formula": "10.92% × 2 + 16.38% × 2",
       "impliedStates": [
-        "雷厉风行"
+        "state_1_option_1"
       ]
     },
     {
@@ -259,7 +259,7 @@ WUWA.register({
       "multiplier": 57.3,
       "formula": "11.46% × 5",
       "impliedStates": [
-        "雷厉风行"
+        "state_1_option_1"
       ]
     },
     {
@@ -273,7 +273,7 @@ WUWA.register({
       "multiplier": 81.85,
       "formula": "16.37% × 3 + 32.74%",
       "impliedStates": [
-        "雷厉风行"
+        "state_1_option_1"
       ]
     },
     {
@@ -287,7 +287,7 @@ WUWA.register({
       "multiplier": 31.02,
       "formula": "31.02%",
       "impliedStates": [
-        "雷厉风行"
+        "state_1_option_1"
       ]
     },
     {
@@ -301,7 +301,7 @@ WUWA.register({
       "multiplier": 72.38,
       "formula": "31.02% + 20.68% × 2",
       "impliedStates": [
-        "雷厉风行"
+        "state_1_option_1"
       ]
     },
     {
@@ -315,7 +315,7 @@ WUWA.register({
       "multiplier": 108.17,
       "formula": "43.27% + 32.45% × 2",
       "impliedStates": [
-        "雷厉风行"
+        "state_1_option_1"
       ]
     }
   ],
@@ -339,22 +339,22 @@ WUWA.register({
   "echoSet": 3,
   "combatStates": [
     {
-      "id": "雷厉风行",
+      "id": "state_1",
       "options": [
         {
-          "value": "雷厉风行"
+          "value": "state_1_option_1"
         }
       ]
     },
     {
-      "id": "雷之楔在场",
+      "id": "field_1",
       "kind": "field",
       "options": [
         {
-          "value": "雷之楔在场"
+          "value": "field_1_option_1"
         },
         {
-          "value": "雷之楔在场·雷池范围"
+          "value": "field_1_option_2"
         }
       ]
     }
@@ -405,7 +405,7 @@ WUWA.register({
           "damageType": "resonanceLiberation",
           "value": 50,
           "scope": "self",
-          "requiresState": "雷之楔在场"
+          "requiresState": "field_1_option_1"
         }
       ]
     },
@@ -417,7 +417,7 @@ WUWA.register({
           "zone": "defensePercent",
           "value": 32,
           "scope": "team",
-          "requiresState": "雷之楔在场·雷池范围",
+          "requiresState": "field_1_option_2",
           "duration": 3
         }
       ]

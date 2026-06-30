@@ -78,7 +78,7 @@ WUWA.register({
       "damageType": "echoSkill",
       "multiplier": 307.79,
       "formula": "61.56% × 3 + 123.11%",
-      "requiresState": "解读"
+      "requiresState": "state_1_option_1"
     },
     {
       "id": "heavy",
@@ -114,7 +114,7 @@ WUWA.register({
       "damageType": "echoSkill",
       "multiplier": 307.79,
       "formula": "61.56% × 3 + 123.11%",
-      "requiresState": "解读"
+      "requiresState": "state_1_option_1"
     },
     {
       "id": "skill_boom",
@@ -129,7 +129,7 @@ WUWA.register({
       "damageType": "echoSkill",
       "multiplier": 288.09,
       "formula": "28.81% × 4 + 172.85%",
-      "requiresState": "解读"
+      "requiresState": "state_1_option_1"
     },
     {
       "id": "skill_soliskin",
@@ -137,8 +137,8 @@ WUWA.register({
       "damageType": "echoSkill",
       "multiplier": 278.26,
       "formula": "27.83% × 3 + 194.77%",
-      "requiresState": "解读",
-      "requiresResource": "句点不少于50",
+      "requiresState": "state_1_option_1",
+      "requiresResource": "resource_gate_1",
       "requiresResourceAtLeast": {
         "id": "period",
         "value": 50
@@ -168,7 +168,7 @@ WUWA.register({
       "damageType": "echoSkill",
       "multiplier": 132.51,
       "formula": "132.51%",
-      "requiresResource": "2枚符文",
+      "requiresResource": "resource_gate_2",
       "requiresResourceSumAtLeast": {
         "ids": [
           "hopeRune",
@@ -184,7 +184,7 @@ WUWA.register({
       "damageType": "echoSkill",
       "multiplier": 588.34,
       "formula": "117.67% + 205.92% + 264.75%",
-      "requiresResource": "符文·期望+符文·答问",
+      "requiresResource": "resource_gate_3",
       "requiresAllResourcesAtLeast": [
         {
           "id": "hopeRune",
@@ -203,7 +203,7 @@ WUWA.register({
       "damageType": "echoSkill",
       "multiplier": 397.58,
       "formula": "49.70% × 4 + 66.26% × 3",
-      "requiresResource": "2枚符文·期望",
+      "requiresResource": "resource_gate_4",
       "requiresResourceAtLeast": {
         "id": "hopeRune",
         "value": 2
@@ -216,7 +216,7 @@ WUWA.register({
       "damageType": "echoSkill",
       "multiplier": 397.54,
       "formula": "39.76% + 59.63% × 4 + 119.26%",
-      "requiresResource": "2枚符文·答问",
+      "requiresResource": "resource_gate_5",
       "requiresResourceAtLeast": {
         "id": "answerRune",
         "value": 2
@@ -229,7 +229,7 @@ WUWA.register({
       "damageType": "echoSkill",
       "multiplier": 1211.48,
       "formula": "302.87% + 908.61%",
-      "requiresResource": "100点句点",
+      "requiresResource": "resource_gate_6",
       "requiresResourceFull": "period"
     }
   ],
@@ -244,10 +244,10 @@ WUWA.register({
   "echoSet": 29,
   "combatStates": [
     {
-      "id": "解读",
+      "id": "state_1",
       "options": [
         {
-          "value": "解读"
+          "value": "state_1_option_1"
         }
       ]
     }
@@ -324,7 +324,7 @@ WUWA.register({
         "rune_chain",
         "rune_soliskin"
       ],
-      "requiresResource": "日灵能量不少于30点",
+      "requiresResource": "resource_gate_7",
       "exclusiveGroup": "sigrika_soliskin_energy",
       "defaultActive": false
     },
@@ -338,7 +338,7 @@ WUWA.register({
         "rune_chain",
         "rune_soliskin"
       ],
-      "requiresResource": "日灵能量少于30点",
+      "requiresResource": "resource_gate_8",
       "exclusiveGroup": "sigrika_soliskin_energy",
       "maxStacks": 2,
       "defaultStacks": 0,

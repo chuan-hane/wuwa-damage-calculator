@@ -36,7 +36,7 @@ WUWA.register({
       "multiplier": 87.68,
       "formula": "87.68%",
       "impliedStates": [
-        "月相流转·弦月"
+        "mode_1_option_1"
       ]
     },
     {
@@ -46,7 +46,7 @@ WUWA.register({
       "multiplier": 139.58,
       "formula": "46.06% × 2 + 47.46%",
       "impliedStates": [
-        "月相流转·弦月"
+        "mode_1_option_1"
       ]
     },
     {
@@ -56,7 +56,7 @@ WUWA.register({
       "multiplier": 266.61,
       "formula": "87.98% × 2 + 90.65%",
       "impliedStates": [
-        "月相流转·弦月"
+        "mode_1_option_1"
       ]
     },
     {
@@ -73,7 +73,7 @@ WUWA.register({
       "multiplier": 248.73,
       "formula": "82.08% × 2 + 84.57%",
       "impliedStates": [
-        "月相流转·弦月"
+        "mode_1_option_1"
       ]
     },
     {
@@ -83,7 +83,7 @@ WUWA.register({
       "multiplier": 126.45,
       "formula": "126.45%",
       "impliedStates": [
-        "月相流转·新月"
+        "mode_1_option_2"
       ]
     },
     {
@@ -93,7 +93,7 @@ WUWA.register({
       "multiplier": 167.01,
       "formula": "55.67% × 3",
       "impliedStates": [
-        "月相流转·新月"
+        "mode_1_option_2"
       ]
     },
     {
@@ -103,7 +103,7 @@ WUWA.register({
       "multiplier": 334.02,
       "formula": "167.01% × 2",
       "impliedStates": [
-        "月相流转·新月"
+        "mode_1_option_2"
       ]
     },
     {
@@ -113,7 +113,7 @@ WUWA.register({
       "multiplier": 310.17,
       "formula": "103.39% × 3",
       "impliedStates": [
-        "月相流转·新月"
+        "mode_1_option_2"
       ]
     },
     {
@@ -137,7 +137,7 @@ WUWA.register({
       "multiplier": 426.46,
       "formula": "140.73% × 2 + 145.00%",
       "impliedStates": [
-        "月相流转·弦月"
+        "mode_1_option_1"
       ]
     },
     {
@@ -147,7 +147,7 @@ WUWA.register({
       "multiplier": 439.58,
       "formula": "219.79% × 2",
       "impliedStates": [
-        "月相流转·新月"
+        "mode_1_option_2"
       ]
     },
     {
@@ -171,7 +171,7 @@ WUWA.register({
       "multiplier": 250.51,
       "formula": "250.51%",
       "impliedStates": [
-        "月相流转·弦月"
+        "mode_1_option_1"
       ]
     },
     {
@@ -181,7 +181,7 @@ WUWA.register({
       "multiplier": 316.72,
       "formula": "79.18% × 4",
       "impliedStates": [
-        "月相流转·新月"
+        "mode_1_option_2"
       ]
     },
     {
@@ -190,10 +190,10 @@ WUWA.register({
       "damageType": "resonanceLiberation",
       "multiplier": 205.97,
       "formula": "205.97%",
-      "requiresResource": "灵性",
+      "requiresResource": "spirituality",
       "fallbackSkillId": "yg_a1",
       "impliedStates": [
-        "月相流转·新月"
+        "mode_1_option_2"
       ]
     },
     {
@@ -202,10 +202,10 @@ WUWA.register({
       "damageType": "resonanceLiberation",
       "multiplier": 286.29,
       "formula": "95.43% × 3",
-      "requiresResource": "灵性",
+      "requiresResource": "spirituality",
       "fallbackSkillId": "yg_a2",
       "impliedStates": [
-        "月相流转·新月"
+        "mode_1_option_2"
       ]
     },
     {
@@ -214,10 +214,10 @@ WUWA.register({
       "damageType": "resonanceLiberation",
       "multiplier": 532.82,
       "formula": "266.41% × 2",
-      "requiresResource": "灵性",
+      "requiresResource": "spirituality",
       "fallbackSkillId": "yg_a3",
       "impliedStates": [
-        "月相流转·新月"
+        "mode_1_option_2"
       ]
     },
     {
@@ -226,10 +226,10 @@ WUWA.register({
       "damageType": "resonanceLiberation",
       "multiplier": 469.2,
       "formula": "156.40% × 3",
-      "requiresResource": "灵性",
+      "requiresResource": "spirituality",
       "fallbackSkillId": "yg_dodge",
       "impliedStates": [
-        "月相流转·新月"
+        "mode_1_option_2"
       ]
     },
     {
@@ -238,10 +238,10 @@ WUWA.register({
       "damageType": "resonanceLiberation",
       "multiplier": 638.38,
       "formula": "319.19% × 2",
-      "requiresResource": "灵性",
+      "requiresResource": "spirituality",
       "fallbackSkillId": "rs_yuexian",
       "impliedStates": [
-        "月相流转·新月"
+        "mode_1_option_2"
       ]
     },
     {
@@ -267,23 +267,23 @@ WUWA.register({
   ],
   "combatStates": [
     {
-      "id": "月相流转",
+      "id": "mode_1",
       "kind": "mode",
       "options": [
         {
-          "value": "月相流转·弦月"
+          "value": "mode_1_option_1"
         },
         {
-          "value": "月相流转·新月"
+          "value": "mode_1_option_2"
         }
       ]
     },
     {
-      "id": "满月领域",
+      "id": "field_1",
       "kind": "field",
       "options": [
         {
-          "value": "满月领域"
+          "value": "field_1_option_1"
         }
       ]
     }
@@ -320,7 +320,7 @@ WUWA.register({
           "events": [
             "shield"
           ],
-          "requiresState": "满月领域",
+          "requiresState": "field_1_option_1",
           "stacks": 1
         }
       ],
@@ -336,7 +336,7 @@ WUWA.register({
           "zone": "attackPercent",
           "value": 40,
           "scope": "self",
-          "requiresState": "月相流转"
+          "requiresState": "mode_1"
         }
       ]
     },
@@ -363,7 +363,7 @@ WUWA.register({
           "zone": "amplify",
           "value": 65,
           "scope": "self",
-          "requiresState": "月相流转",
+          "requiresState": "mode_1",
           "skills": [
             "yg_a1",
             "yg_a2",

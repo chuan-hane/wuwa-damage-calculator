@@ -1,3 +1,5 @@
+"use strict";
+
 window.WUWA_LANGUAGES.extend("zh-CN", {
   "data": {
     "chars": {
@@ -43,10 +45,12 @@ window.WUWA_LANGUAGES.extend("zh-CN", {
             "name": "湛蓝礼赞"
           },
           {
-            "name": "重击·风袭"
+            "name": "重击·风袭",
+            "requiresResourceLabel": "3声流响"
           },
           {
-            "name": "空中攻击·释羽"
+            "name": "空中攻击·释羽",
+            "requiresResourceLabel": "3声流响"
           }
         ],
         "buffs": [

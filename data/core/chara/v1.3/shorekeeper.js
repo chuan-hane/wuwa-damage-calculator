@@ -98,7 +98,7 @@ WUWA.register({
         "heal"
       ],
       "impliedStates": [
-        "星域·浅析"
+        "field_1_option_1"
       ]
     },
     {
@@ -122,7 +122,7 @@ WUWA.register({
         "heal"
       ],
       "impliedStates": [
-        "星域·解限"
+        "field_1_option_3"
       ]
     },
     {
@@ -138,7 +138,7 @@ WUWA.register({
       "damageType": "heavy",
       "multiplier": 94.85,
       "formula": "18.97% × 5",
-      "requiresResource": "5实证数据",
+      "requiresResource": "resource_gate_1",
       "requiresResourceAtLeast": {
         "id": "empiricalData",
         "value": 5
@@ -151,7 +151,7 @@ WUWA.register({
       "damageType": "basic",
       "multiplier": 73.96,
       "formula": "73.96%",
-      "requiresResource": "5实证数据",
+      "requiresResource": "resource_gate_1",
       "requiresResourceAtLeast": {
         "id": "empiricalData",
         "value": 5
@@ -172,17 +172,17 @@ WUWA.register({
   "echoLead": "7:fallacy_of_no_return",
   "combatStates": [
     {
-      "id": "星域",
+      "id": "field_1",
       "kind": "field",
       "options": [
         {
-          "value": "星域·浅析"
+          "value": "field_1_option_1"
         },
         {
-          "value": "星域·深潜"
+          "value": "field_1_option_2"
         },
         {
-          "value": "星域·解限"
+          "value": "field_1_option_3"
         }
       ]
     }
@@ -193,15 +193,15 @@ WUWA.register({
       "zone": "energyRegen",
       "value": 10,
       "scope": "self",
-      "requiresState": "星域"
+      "requiresState": "field_1"
     },
     {
       "id": "b_field_cr",
       "zone": "critRate",
       "scope": "team",
       "requiresState": [
-        "星域·深潜",
-        "星域·解限"
+        "field_1_option_2",
+        "field_1_option_3"
       ],
       "scaleBy": {
         "stat": "energyRegen",
@@ -214,7 +214,7 @@ WUWA.register({
       "id": "b_field_cd",
       "zone": "critDamage",
       "scope": "team",
-      "requiresState": "星域·解限",
+      "requiresState": "field_1_option_3",
       "scaleBy": {
         "stat": "energyRegen",
         "rate": 0.1,
@@ -252,7 +252,7 @@ WUWA.register({
           "zone": "attackPercent",
           "value": 40,
           "scope": "team",
-          "requiresState": "星域"
+          "requiresState": "field_1"
         }
       ]
     },

@@ -1,3 +1,5 @@
+"use strict";
+
 window.WUWA_LANGUAGES.extend("zh-CN", {
   "data": {
     "chars": {
@@ -52,10 +54,12 @@ window.WUWA_LANGUAGES.extend("zh-CN", {
             "name": "抃风儛润第二段"
           },
           {
-            "name": "缥缈无相第一段"
+            "name": "缥缈无相第一段",
+            "requiresResourceLabel": "60弦风息"
           },
           {
-            "name": "缥缈无相第二段"
+            "name": "缥缈无相第二段",
+            "requiresResourceLabel": "60弦风息"
           }
         ],
         "buffs": [

@@ -1,3 +1,5 @@
+"use strict";
+
 window.WUWA_LANGUAGES.extend("zh-CN", {
   "data": {
     "chars": {
@@ -70,7 +72,8 @@ window.WUWA_LANGUAGES.extend("zh-CN", {
             "name": "星辉破界而来·过载"
           },
           {
-            "name": "星辉破界而来·终结"
+            "name": "星辉破界而来·终结",
+            "requiresResourceLabel": "同步率与共鸣率满"
           },
           {
             "name": "以旋律穿越长空"
@@ -79,10 +82,12 @@ window.WUWA_LANGUAGES.extend("zh-CN", {
             "name": "携星辉降临于此"
           },
           {
-            "name": "光翼共奏·登台"
+            "name": "光翼共奏·登台",
+            "requiresResourceLabel": "100同步率"
           },
           {
-            "name": "光翼共奏·降临"
+            "name": "光翼共奏·降临",
+            "requiresResourceLabel": "100同步率"
           },
           {
             "name": "震谐响应·星爆"
@@ -97,24 +102,30 @@ window.WUWA_LANGUAGES.extend("zh-CN", {
             "entry": "施放共鸣技能构型切换、合击·突刺、星辉破界而来或光翼共奏时，爱弥斯可在爱弥斯形态与机兵形态间切换。",
             "options": [
               {
-                "label": "爱弥斯"
+                "label": "爱弥斯",
+                "valueLabel": "爱弥斯"
               },
               {
-                "label": "机兵"
+                "label": "机兵",
+                "valueLabel": "机兵"
               }
-            ]
+            ],
+            "idLabel": "形态"
           },
           {
             "label": "共鸣模态",
             "entry": "爱弥斯拥有共鸣模态·震谐和共鸣模态·聚爆；角色编入队伍或切换模态时会重置星与星之间的叠层。",
             "options": [
               {
-                "label": "震谐"
+                "label": "震谐",
+                "valueLabel": "共鸣模态·震谐"
               },
               {
-                "label": "聚爆"
+                "label": "聚爆",
+                "valueLabel": "共鸣模态·聚爆"
               }
-            ]
+            ],
+            "idLabel": "共鸣模态"
           },
           {
             "label": "光翼共奏之时",
@@ -122,9 +133,11 @@ window.WUWA_LANGUAGES.extend("zh-CN", {
             "entry": "施放普攻·爱弥斯第4段或普攻·机兵第4段时获得，持续5秒。",
             "options": [
               {
-                "label": "光翼共奏之时"
+                "label": "光翼共奏之时",
+                "valueLabel": "光翼共奏之时状态"
               }
-            ]
+            ],
+            "idLabel": "光翼共奏之时"
           },
           {
             "label": "星屑共振",
@@ -132,9 +145,11 @@ window.WUWA_LANGUAGES.extend("zh-CN", {
             "entry": "施放共鸣解放星辉破界而来·过载时获得，持续30秒；施放2次光翼共奏后移除。",
             "options": [
               {
-                "label": "星屑共振"
+                "label": "星屑共振",
+                "valueLabel": "星屑共振状态"
               }
-            ]
+            ],
+            "idLabel": "星屑共振"
           },
           {
             "label": "星辉破界而来·于此释放",
@@ -142,9 +157,11 @@ window.WUWA_LANGUAGES.extend("zh-CN", {
             "entry": "施放共鸣解放星辉破界而来·过载时获得星辉破界而来·于此释放状态，持续60秒。",
             "options": [
               {
-                "label": "于此释放"
+                "label": "于此释放",
+                "valueLabel": "星辉破界而来·于此释放"
               }
-            ]
+            ],
+            "idLabel": "星辉破界而来·于此释放"
           },
           {
             "label": "即刻响应",
@@ -152,12 +169,15 @@ window.WUWA_LANGUAGES.extend("zh-CN", {
             "entry": "处于星辉破界而来·于此释放状态且共鸣率达到上限时获得即刻响应；1链后非战斗状态满足条件超过4秒可获得即刻响应·辉芒。",
             "options": [
               {
-                "label": "即刻响应"
+                "label": "即刻响应",
+                "valueLabel": "即刻响应状态"
               },
               {
-                "label": "即刻响应·辉芒"
+                "label": "即刻响应·辉芒",
+                "valueLabel": "即刻响应·辉芒状态"
               }
-            ]
+            ],
+            "idLabel": "即刻响应"
           },
           {
             "label": "目标震谐状态",
@@ -165,12 +185,15 @@ window.WUWA_LANGUAGES.extend("zh-CN", {
             "entry": "共鸣模态·震谐下，爱弥斯指定技能可为目标附加【震谐·偏移】；队伍对目标造成谐度破坏伤害后使其进入【震谐·干涉】。",
             "options": [
               {
-                "label": "震谐·偏移"
+                "label": "震谐·偏移",
+                "valueLabel": "目标震谐·偏移"
               },
               {
-                "label": "震谐·干涉"
+                "label": "震谐·干涉",
+                "valueLabel": "目标震谐·干涉"
               }
-            ]
+            ],
+            "idLabel": "目标震谐状态"
           },
           {
             "label": "目标震谐轨迹",
@@ -178,9 +201,11 @@ window.WUWA_LANGUAGES.extend("zh-CN", {
             "entry": "共鸣模态·震谐下，队伍中的角色响应【震谐·干涉】时，为目标附加10层震谐轨迹，上限30层，持续30秒。",
             "options": [
               {
-                "label": "震谐轨迹"
+                "label": "震谐轨迹",
+                "valueLabel": "目标震谐轨迹"
               }
-            ]
+            ],
+            "idLabel": "目标震谐轨迹"
           },
           {
             "label": "目标聚爆轨迹",
@@ -188,9 +213,11 @@ window.WUWA_LANGUAGES.extend("zh-CN", {
             "entry": "共鸣模态·聚爆下，队伍中的角色附加【聚爆效应】时，为目标附加1层聚爆轨迹，上限30层，持续30秒。",
             "options": [
               {
-                "label": "聚爆轨迹"
+                "label": "聚爆轨迹",
+                "valueLabel": "目标聚爆轨迹"
               }
-            ]
+            ],
+            "idLabel": "目标聚爆轨迹"
           }
         ],
         "buffs": [

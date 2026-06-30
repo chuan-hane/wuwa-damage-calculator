@@ -1,3 +1,5 @@
+"use strict";
+
 window.WUWA_LANGUAGES.extend("zh-CN", {
   "data": {
     "chars": {
@@ -59,7 +61,8 @@ window.WUWA_LANGUAGES.extend("zh-CN", {
             "name": "普攻·流金贯行"
           },
           {
-            "name": "日髓阵列"
+            "name": "日髓阵列",
+            "requiresResourceLabel": "日髓阵列"
           },
           {
             "name": "于永冻中释义"
@@ -68,7 +71,8 @@ window.WUWA_LANGUAGES.extend("zh-CN", {
             "name": "注入黎明以前"
           },
           {
-            "name": "判决大地裂响"
+            "name": "判决大地裂响",
+            "requiresResourceLabel": "斩杀日冕·曜后"
           }
         ],
         "combatStates": [
@@ -78,9 +82,11 @@ window.WUWA_LANGUAGES.extend("zh-CN", {
             "entry": "【日髓能流】满时进入黄金的裁量状态；每次施放斩杀日冕消耗100点【日髓能流】，清空时退出。",
             "options": [
               {
-                "label": "黄金的裁量"
+                "label": "黄金的裁量",
+                "valueLabel": "黄金的裁量"
               }
-            ]
+            ],
+            "idLabel": "黄金的裁量"
           },
           {
             "label": "目标集谐·干涉",
@@ -88,9 +94,11 @@ window.WUWA_LANGUAGES.extend("zh-CN", {
             "entry": "陆·赫斯响应【集谐·干涉】；【续写白昼】可在队伍施放【谐度破坏】且目标有【集谐·偏移】时为目标追加【集谐·干涉】层数。",
             "options": [
               {
-                "label": "有集谐·干涉"
+                "label": "有集谐·干涉",
+                "valueLabel": "目标集谐·干涉"
               }
-            ]
+            ],
+            "idLabel": "目标集谐·干涉"
           }
         ],
         "buffs": [

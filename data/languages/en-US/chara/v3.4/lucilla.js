@@ -1,3 +1,5 @@
+"use strict";
+
 window.WUWA_LANGUAGES.extend("en-US", {
   "data": {
     "chars": {
@@ -40,10 +42,12 @@ window.WUWA_LANGUAGES.extend("en-US", {
             "name": "Phantom Frame - Spotlight DMG"
           },
           {
-            "name": "Clear As Day - Clear As Day DMG"
+            "name": "Clear As Day - Clear As Day DMG",
+            "requiresResourceLabel": "3张照片"
           },
           {
-            "name": "Clear As Day - Clear As Day DMG"
+            "name": "Clear As Day - Clear As Day DMG",
+            "requiresResourceLabel": "3张照片"
           },
           {
             "name": "Clear As Day - Basic Attack - Tracing Forms Stage 1 DMG"
@@ -73,10 +77,12 @@ window.WUWA_LANGUAGES.extend("en-US", {
             "name": "Clip It - Clip It: Hard Cut DMG"
           },
           {
-            "name": "Memory Palace - Oblivion DMG"
+            "name": "Memory Palace - Oblivion DMG",
+            "requiresResourceLabel": "照片"
           },
           {
-            "name": "Memory Palace - Oblivion DMG"
+            "name": "Memory Palace - Oblivion DMG",
+            "requiresResourceLabel": "照片"
           }
         ],
         "combatStates": [
@@ -86,12 +92,15 @@ window.WUWA_LANGUAGES.extend("en-US", {
             "entry": "洛瑟菈拥有共鸣模态·霜渐和共鸣模态·声骸两种模态，可在两种模态间切换。",
             "options": [
               {
-                "label": "霜渐"
+                "label": "霜渐",
+                "valueLabel": "共鸣模态·霜渐"
               },
               {
-                "label": "声骸"
+                "label": "声骸",
+                "valueLabel": "共鸣模态·声骸"
               }
-            ]
+            ],
+            "idLabel": "共鸣模态"
           },
           {
             "label": "追忆状态",
@@ -99,9 +108,11 @@ window.WUWA_LANGUAGES.extend("en-US", {
             "entry": "拥有全部3张照片时施放共鸣解放·历历在目后进入追忆状态。",
             "options": [
               {
-                "label": "追忆"
+                "label": "追忆",
+                "valueLabel": "追忆状态"
               }
-            ]
+            ],
+            "idLabel": "追忆状态"
           }
         ],
         "buffs": [

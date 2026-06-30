@@ -1,3 +1,5 @@
+"use strict";
+
 window.WUWA_LANGUAGES.extend("en-US", {
   "data": {
     "chars": {
@@ -43,7 +45,8 @@ window.WUWA_LANGUAGES.extend("en-US", {
             "name": "Instant of Annihilation - Skill DMG"
           },
           {
-            "name": "Umbra Eclipse - Devastation Damage"
+            "name": "Umbra Eclipse - Devastation Damage",
+            "requiresResourceLabel": "暗流充满"
           },
           {
             "name": "Umbra Eclipse - Umbra: Basic Attack Stage 1 DMG"
@@ -86,9 +89,11 @@ window.WUWA_LANGUAGES.extend("en-US", {
             "entry": "【暗流】充满时，长按普攻施放灭音；施放灭音后进入暗涌状态。",
             "options": [
               {
-                "label": "暗涌"
+                "label": "暗涌",
+                "valueLabel": "暗涌状态"
               }
-            ]
+            ],
+            "idLabel": "暗涌状态"
           }
         ],
         "buffs": [

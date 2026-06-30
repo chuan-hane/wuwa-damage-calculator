@@ -99,14 +99,14 @@ WUWA.register({
       "damageType": "heavy",
       "multiplier": 248.52,
       "formula": "248.52%",
-      "requiresResource": "120气",
+      "requiresResource": "resource_gate_1",
       "requiresResourceAtLeast": {
         "id": "chi",
         "value": 120
       },
       "fallbackSkillId": "heavy",
       "impliedStates": [
-        "运气状态·未达小周天"
+        "state_1_option_1"
       ],
       "triggerEvents": [
         "shield"
@@ -118,7 +118,7 @@ WUWA.register({
       "damageType": "heavy",
       "multiplier": 24.86,
       "formula": "24.86%",
-      "requiresResource": "120气",
+      "requiresResource": "resource_gate_1",
       "requiresResourceAtLeast": {
         "id": "chi",
         "value": 120
@@ -130,13 +130,13 @@ WUWA.register({
       "damageType": "heavy",
       "multiplier": 139.17,
       "formula": "139.17%",
-      "requiresResource": "120气",
+      "requiresResource": "resource_gate_1",
       "requiresResourceAtLeast": {
         "id": "chi",
         "value": 120
       },
       "impliedStates": [
-        "运气状态·小周天"
+        "state_1_option_2"
       ],
       "triggerEvents": [
         "shield"
@@ -148,13 +148,13 @@ WUWA.register({
       "damageType": "heavy",
       "multiplier": 377.74,
       "formula": "377.74%",
-      "requiresResource": "120气",
+      "requiresResource": "resource_gate_1",
       "requiresResourceAtLeast": {
         "id": "chi",
         "value": 120
       },
       "impliedStates": [
-        "运气状态·大周天·内"
+        "state_1_option_3"
       ],
       "triggerEvents": [
         "shield"
@@ -166,13 +166,13 @@ WUWA.register({
       "damageType": "heavy",
       "multiplier": 516.91,
       "formula": "516.91%",
-      "requiresResource": "120气",
+      "requiresResource": "resource_gate_1",
       "requiresResourceAtLeast": {
         "id": "chi",
         "value": 120
       },
       "impliedStates": [
-        "运气状态·大周天·外"
+        "state_1_option_4"
       ],
       "triggerEvents": [
         "shield"
@@ -184,7 +184,7 @@ WUWA.register({
       "damageType": "heavy",
       "multiplier": 218.7,
       "formula": "218.70%",
-      "requiresResource": "120气",
+      "requiresResource": "resource_gate_1",
       "requiresResourceAtLeast": {
         "id": "chi",
         "value": 120
@@ -215,7 +215,7 @@ WUWA.register({
       "multiplier": 556.67,
       "formula": "556.67%",
       "seq": 6,
-      "requiresResource": "特殊行气反击",
+      "requiresResource": "resource_gate_2",
       "fallbackSkillId": "skill_chi",
       "triggerEvents": [
         "shield"
@@ -244,19 +244,19 @@ WUWA.register({
   "echoLead": "7:bell_borne_geochelone",
   "combatStates": [
     {
-      "id": "运气状态",
+      "id": "state_1",
       "options": [
         {
-          "value": "运气状态·未达小周天"
+          "value": "state_1_option_1"
         },
         {
-          "value": "运气状态·小周天"
+          "value": "state_1_option_2"
         },
         {
-          "value": "运气状态·大周天·内"
+          "value": "state_1_option_3"
         },
         {
-          "value": "运气状态·大周天·外"
+          "value": "state_1_option_4"
         }
       ]
     }

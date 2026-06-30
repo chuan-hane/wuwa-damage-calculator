@@ -1,3 +1,5 @@
+"use strict";
+
 window.WUWA_LANGUAGES.extend("en-US", {
   "data": {
     "chars": {
@@ -55,16 +57,20 @@ window.WUWA_LANGUAGES.extend("en-US", {
             "name": "Verdant Growth - Skill DMG"
           },
           {
-            "name": "Starflower Blooms - Heavy Attack: Starflower Blooms Damage"
+            "name": "Starflower Blooms - Heavy Attack: Starflower Blooms Damage",
+            "requiresResourceLabel": "光合能量"
           },
           {
-            "name": "Starflower Blooms - Mid-air Attack: Starflower Blooms Stage 1 DMG"
+            "name": "Starflower Blooms - Mid-air Attack: Starflower Blooms Stage 1 DMG",
+            "requiresResourceLabel": "光合能量"
           },
           {
-            "name": "Starflower Blooms - Mid-air Attack: Starflower Blooms Stage 2 DMG"
+            "name": "Starflower Blooms - Mid-air Attack: Starflower Blooms Stage 2 DMG",
+            "requiresResourceLabel": "光合能量"
           },
           {
-            "name": "Starflower Blooms - Mid-air Attack: Starflower Blooms Stage 3 DMG"
+            "name": "Starflower Blooms - Mid-air Attack: Starflower Blooms Stage 3 DMG",
+            "requiresResourceLabel": "光合能量"
           }
         ],
         "buffs": [

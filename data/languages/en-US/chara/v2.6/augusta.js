@@ -1,3 +1,5 @@
+"use strict";
+
 window.WUWA_LANGUAGES.extend("en-US", {
   "data": {
     "chars": {
@@ -40,19 +42,24 @@ window.WUWA_LANGUAGES.extend("en-US", {
             "name": "Hunter's Path - Mid-air Dodge Counter DMG"
           },
           {
-            "name": "Hunter's Path - Heavy Attack - Thunderoar: Backstep DMG"
+            "name": "Hunter's Path - Heavy Attack - Thunderoar: Backstep DMG",
+            "requiresResourceLabel": "战势满"
           },
           {
-            "name": "Hunter's Path - Heavy Attack - Thunderoar: Spinslash DMG"
+            "name": "Hunter's Path - Heavy Attack - Thunderoar: Spinslash DMG",
+            "requiresResourceLabel": "战势满"
           },
           {
-            "name": "Hunter's Path - Heavy Attack - Thunderoar: Uppercut DMG"
+            "name": "Hunter's Path - Heavy Attack - Thunderoar: Uppercut DMG",
+            "requiresResourceLabel": "战势满"
           },
           {
-            "name": "Hunter's Path - Heavy Attack: Steelclash DMG"
+            "name": "Hunter's Path - Heavy Attack: Steelclash DMG",
+            "requiresResourceLabel": "战势满"
           },
           {
-            "name": "Hunter's Path - Dodge Counter - Thunderoar: Backstep DMG"
+            "name": "Hunter's Path - Dodge Counter - Thunderoar: Backstep DMG",
+            "requiresResourceLabel": "权炳满"
           },
           {
             "name": "Warrior's Blade - Skill DMG"
@@ -61,25 +68,31 @@ window.WUWA_LANGUAGES.extend("en-US", {
             "name": "Sunward Conquest - Resonance Liberation - Sword of Eternal Oath DMG"
           },
           {
-            "name": "Sunward Conquest - Sublime is the Sun - Sunborne DMG"
+            "name": "Sunward Conquest - Sublime is the Sun - Sunborne DMG",
+            "requiresResourceLabel": "2威慑"
           },
           {
-            "name": "Sunward Conquest - Sublime is the Sun - Everbright Protector DMG"
+            "name": "Sunward Conquest - Sublime is the Sun - Everbright Protector DMG",
+            "requiresResourceLabel": "2威慑"
           },
           {
             "name": "Stride of Goldenflare - Skill DMG"
           },
           {
-            "name": "Call Me By the Sun - Resonance Skill - Undying Sunlight: Strike DMG"
+            "name": "Call Me By the Sun - Resonance Skill - Undying Sunlight: Strike DMG",
+            "requiresResourceLabel": "权炳满"
           },
           {
-            "name": "Call Me By the Sun - Resonance Skill - Undying Sunlight: Leap DMG"
+            "name": "Call Me By the Sun - Resonance Skill - Undying Sunlight: Leap DMG",
+            "requiresResourceLabel": "权炳满"
           },
           {
-            "name": "Call Me By the Sun - Resonance Skill - Undying Sunlight: Plunge DMG"
+            "name": "Call Me By the Sun - Resonance Skill - Undying Sunlight: Plunge DMG",
+            "requiresResourceLabel": "权炳满"
           },
           {
-            "name": "Call Me By the Sun - Mid-air Dodge Counter: Undying Sunlight Strike DMG"
+            "name": "Call Me By the Sun - Mid-air Dodge Counter: Undying Sunlight Strike DMG",
+            "requiresResourceLabel": "权炳满"
           },
           {
             "name": "Engraved in Radiant Light - Thunder Rage DMG"
@@ -92,9 +105,11 @@ window.WUWA_LANGUAGES.extend("en-US", {
             "entry": "存在2层威慑时，长按共鸣解放可施放赫日威临并进入俯首之刻，持续7秒；期间仅能施放赫日威临·烈阳、赫日威临·不朽者之肃、闪避和空中攻击。",
             "options": [
               {
-                "label": "俯首之刻"
+                "label": "俯首之刻",
+                "valueLabel": "俯首之刻"
               }
-            ]
+            ],
+            "idLabel": "俯首之刻"
           },
           {
             "label": "王之界域",
@@ -102,9 +117,11 @@ window.WUWA_LANGUAGES.extend("en-US", {
             "entry": "施放共鸣解放·赫日威临时展开，持续30秒。",
             "options": [
               {
-                "label": "王之界域"
+                "label": "王之界域",
+                "valueLabel": "王之界域"
               }
-            ]
+            ],
+            "idLabel": "王之界域"
           }
         ],
         "buffs": [

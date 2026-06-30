@@ -1,3 +1,5 @@
+"use strict";
+
 window.WUWA_LANGUAGES.extend("en-US", {
   "data": {
     "chars": {
@@ -55,16 +57,20 @@ window.WUWA_LANGUAGES.extend("en-US", {
             "name": "Vindication - Skill DMG"
           },
           {
-            "name": "Serene Vigil - Chaoscleave Damage"
+            "name": "Serene Vigil - Chaoscleave Damage",
+            "requiresResourceLabel": "60彤华"
           },
           {
-            "name": "Serene Vigil - Scatterbloom Damage"
+            "name": "Serene Vigil - Scatterbloom Damage",
+            "requiresResourceLabel": "已施放重击·缭乱"
           },
           {
-            "name": "Serene Vigil - Full Energy Chaoscleave Damage"
+            "name": "Serene Vigil - Full Energy Chaoscleave Damage",
+            "requiresResourceLabel": "120彤华"
           },
           {
-            "name": "Serene Vigil - Full Energy Scatterbloom Damage"
+            "name": "Serene Vigil - Full Energy Scatterbloom Damage",
+            "requiresResourceLabel": "已施放满能重击·缭乱"
           }
         ],
         "buffs": [
