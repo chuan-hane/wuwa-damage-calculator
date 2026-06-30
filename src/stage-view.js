@@ -102,7 +102,7 @@ window.WUWA_STAGE_VIEW = (() => {
     }
 
     function formulaCardTipHTML(tip) {
-      return tip ? `<span class="formula-card-tip" role="tooltip">${esc(tip)}</span>` : "";
+      return tip ? `<div class="formula-card-tip" role="tooltip">${esc(tip)}</div>` : "";
     }
 
     function formulaCardAria(label, tip) {
@@ -113,9 +113,17 @@ window.WUWA_STAGE_VIEW = (() => {
       return num(value) ? `${L.text(label)} ${tnum(value)}${suffix}` : "";
     }
 
+    function formulaSourceText(label, value, suffix = "") {
+      return num(value) ? `${label} ${tnum(value)}${suffix}` : "";
+    }
+
     function formulaSources(items, empty = "0") {
       const text = items.filter(Boolean).join(" + ");
       return text || empty;
+    }
+
+    function formulaParen(text) {
+      return L.isEnglish() ? ` (${text})` : `（${text}）`;
     }
 
     function formulaBreak() {
@@ -480,10 +488,12 @@ window.WUWA_STAGE_VIEW = (() => {
       const levelMult = r.sk ? skillMultValue(rawSkillMult + stackMult, lvRatio) : 0;
       const skillMultBonus = num(r.totals?.skillMultBonus);
       const skType = r.sk?.damageType;
+      const echoElemLabel = `${L.text("声骸属性伤害加成")}${c?.element ? formulaParen(L.element(c.element)) : ""}`;
+      const echoTypeLabel = `${L.text("声骸类型伤害加成")}${skType ? formulaParen(L.damageType(skType)) : ""}`;
       const echoBonusParts = [
         formulaSource("属性树", tree.elemBonus, "%"),
-        formulaSource("声骸属性", r.es?.elem?.[c?.element], "%"),
-        formulaSource("声骸类型", skType ? r.es?.type?.[skType] : 0, "%"),
+        formulaSourceText(echoElemLabel, r.es?.elem?.[c?.element], "%"),
+        formulaSourceText(echoTypeLabel, skType ? r.es?.type?.[skType] : 0, "%"),
       ];
       const normalBonusParts = [
         formulaSource("伤害加成 Buff", r.rawTotals?.damageBonus, "%"),
@@ -493,18 +503,16 @@ window.WUWA_STAGE_VIEW = (() => {
       const statTip = isHarmonyResponse
         ? `${L.text("谐度基础值")} = ${fmt(r.harmonyBase)}\n${L.text("来源")}${L.isEnglish() ? ": " : "："}${L.text(offsetCostLabel(r.harmonyBase))}`
         : `${statLabel} = ${fmt(statDisplay)}${L.isEnglish() ? " (display floor)" : "（显示取整）"}\n${L.text("伤害计算使用")} ${tnum(statRaw)}`;
-      const skillBaseParts = [
-        `${L.text("基础倍率")} ${tnum(rawSkillMult)}%`,
-        stackMult ? `${L.text("层数倍率")} ${tnum(stackMult)}%` : "",
-        `${L.text("等级")} ${tnum(r.skLevel)} × ${tnum(lvRatio)}`,
-      ].filter(Boolean).join(formulaBreak());
-      const skillTip = `${L.text("技能倍率")} = (${tnum(levelMult)}%${r.multAdd ? ` + ${L.text("倍率增加")} ${tnum(r.multAdd)}%` : ""}) × (1 + ${tnum(skillMultBonus)}%) = ${tnum(r.panel.skillMult * 100)}%\n${skillBaseParts}`;
+      const stackPart = stackMult ? ` + ${L.text("层数倍率")} ${tnum(stackMult)}%` : "";
+      const skillTip = `${L.text("技能倍率")} = (((${L.text("基础倍率")} ${tnum(rawSkillMult)}%${stackPart}) × ${L.text("等级系数")} ${tnum(lvRatio)}) + ${L.text("倍率增加")} ${tnum(r.multAdd)}%) × (1 + ${L.text("技能倍率提升")} ${tnum(skillMultBonus)}%) = ${tnum(r.panel.skillMult * 100)}%\n${L.text("等级")} ${tnum(r.skLevel)}`;
       const bonusCard = isHarmonyResponse
         ? { k: L.text("谐度增幅"), v: `<b>${esc(fx(r.breakAmpFactor))}</b>`, sub: L.isEnglish() ? `${esc(tnum(r.breakAmp))} pts` : `${esc(tnum(r.breakAmp))} 点`, tip: `${L.text("谐度增幅")} = 1 + ${L.text("谐度破坏增幅")} ${tnum(r.breakAmp)} / 100 = ${fx(r.breakAmpFactor)}` }
         : { k: L.text("加成区"), v: `<b>${esc(tnum(r.bonus))}</b>`, sub: L.isEnglish() ? `+${esc(tnum((r.bonus - 1) * 100))}% · Attribute + Type` : `+${esc(tnum((r.bonus - 1) * 100))}% · 属性+类型`, tip: `${L.text("加成区")} = 1 + (${formulaSources(normalBonusParts, "0%")}) / 100 = ${tnum(r.bonus)}` };
       const amplifyCard = isHarmonyResponse
         ? { k: L.text("响应增伤"), v: `<b>${esc(tnum(r.amplify * r.vuln))}</b>`, sub: L.isEnglish() ? "Tune response only" : "谐度响应专属加深/易伤", tip: `${L.text("响应增伤")} = (1 + ${tnum(r.totals.amplify)}%) × (1 + ${tnum(r.totals.vulnerability)}%) = ${tnum(r.amplify * r.vuln)}` }
         : { k: L.text("加深区"), v: `<b>${esc(tnum(r.amplify))}</b>`, sub: L.isEnglish() ? `+${esc(tnum((r.amplify - 1) * 100))}% · Separate zone` : `+${esc(tnum((r.amplify - 1) * 100))}% · 独立乘区`, tip: `${L.text("加深区")} = 1 + ${L.text("伤害加深 Buff")} ${tnum(r.rawTotals.amplify)}% / 100 = ${tnum(r.amplify)}` };
+      const vulnBuff = num(r.rawTotals?.vulnerability);
+      const vulnCard = { k: L.text("减伤/易伤"), v: `<b>${esc(tnum(r.vuln))}</b>`, sub: L.isEnglish() ? `Vulnerability ${esc(tnum(state.enemy.vulnerability))}% · Reduction ${esc(tnum(state.enemy.dmgReduction))}%` : `易伤${esc(tnum(state.enemy.vulnerability))}% · 减伤${esc(tnum(state.enemy.dmgReduction))}%`, tip: `${L.text("减伤/易伤")} = max(0, 1 - ${L.text("受到伤害减少")} ${tnum(state.enemy.dmgReduction)}% + ${L.text("易伤")} ${tnum(state.enemy.vulnerability)}% + ${L.text("易伤 Buff")} ${tnum(vulnBuff)}%) = ${tnum(r.vuln)}` };
       let critCard = { k: L.text("不可暴击"), v: "<b>1</b>", sub: L.isEnglish() ? "Tune response" : "谐度响应" };
       if (!isHarmonyResponse) {
         switch (damageMode) {
@@ -523,7 +531,9 @@ window.WUWA_STAGE_VIEW = (() => {
       const totalDefIgnore = num(r.defense?.totalDefIgnore);
       const levelTerm = 800 + 8 * num(state.enemy.charLevel);
       const enemyDefTerm = 8 * num(state.enemy.enemyLevel) + 792;
-      const defTip = `${L.text("防御系数")} = ${tnum(levelTerm)} / (${tnum(levelTerm)} + ${tnum(enemyDefTerm)} × (1 - ${tnum(totalDefShred)}%) × (1 - ${tnum(totalDefIgnore)}%)) = ${fx(r.defFactor)}`;
+      const charLevelText = L.isEnglish() ? `Resonator Lv.${tnum(state.enemy.charLevel)}` : `我方等级${tnum(state.enemy.charLevel)}`;
+      const enemyLevelText = L.isEnglish() ? `Enemy Lv.${tnum(state.enemy.enemyLevel)}` : `敌方等级${tnum(state.enemy.enemyLevel)}`;
+      const defTip = `${L.text("防御系数")} = (800 + 8 × ${charLevelText}) / ((800 + 8 × ${charLevelText}) + (8 × ${enemyLevelText} + 792) × (1 - ${L.text("减防")} ${tnum(totalDefShred)}%) × (1 - ${L.text("防御无视")} ${tnum(totalDefIgnore)}%)) = ${fx(r.defFactor)}`;
       const resTip = `${L.text("抗性系数")} = f(${tnum(effectiveRes)}%) = ${fx(r.resFactor)}\n${L.text("抗性")} ${tnum(state.enemy.res)}% - ${L.text("减抗")} ${tnum(totalResShred)}%`;
       const finalCard = isHarmonyResponse
         ? { k: L.text("最终伤害"), v: `<b>${r.finalDmg === 1 ? esc(L.isEnglish() ? "Ignored" : "不参与") : esc(tnum(r.finalDmg))}</b>`, sub: L.isEnglish() ? "Only explicit effects apply" : "明确指定才参与", tip: `${L.text("最终伤害")} = 1 + ${L.text("明确指定 Buff")} ${tnum(r.totals.finalDmg)}% / 100 = ${tnum(r.finalDmg)}` }
@@ -533,6 +543,7 @@ window.WUWA_STAGE_VIEW = (() => {
         { k: L.text("技能倍率"), v: `<b>${esc(`${tnum(r.panel.skillMult * 100)}%`)}</b>`, sub: esc(r.sk ? L.damageType(r.sk.damageType) : "—"), tip: skillTip },
         bonusCard,
         amplifyCard,
+        ...(isHarmonyResponse ? [] : [vulnCard]),
         critCard,
         { k: L.text("防御系数"), v: `<b>${esc(fx(r.defFactor))}</b>`, sub: L.isEnglish() ? `Lv.${esc(tnum(state.enemy.charLevel))} / Enemy Lv.${esc(tnum(state.enemy.enemyLevel))}` : `我${esc(tnum(state.enemy.charLevel))} / 敌${esc(tnum(state.enemy.enemyLevel))}级`, tip: defTip },
         { k: L.text("抗性系数"), v: `<b>${esc(fx(r.resFactor))}</b>`, sub: esc(resSub), tip: resTip },

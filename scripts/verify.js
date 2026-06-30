@@ -323,8 +323,8 @@ function initialRenderCompletes() {
   assert(r.offset.available, "base Tune Break calculator should be available for ordinary teams");
   expectEqual(r.offset.kind, "tuneBreak", "offset calculator should default to base Tune Break damage");
   assert((r.offset.entries || []).some((entry) => entry.kind === "tuneBreak"), "ordinary teams should include base Tune Break damage entry");
-  assert(!html.includes("<span>减伤/易伤</span>"), "base Tune Break formula should not show the damage-reduction/vulnerability card");
   const offsetHtml = html.slice(html.indexOf('id="out-offset"'), html.indexOf("</div></div></section>", html.indexOf('id="out-offset"')));
+  assert(!offsetHtml.includes("<span>减伤/易伤</span>"), "base Tune Break formula should not show the damage-reduction/vulnerability card");
   assert(offsetHtml.includes("effect-mini-strip--formula") && !offsetHtml.includes("<b>×"), "offset formula cards should use outer multiply signs");
 }
 
@@ -404,7 +404,7 @@ function formulaStripResponsiveCss() {
   const responsiveIdx = css.lastIndexOf("@container (max-width: 38rem)");
   assert(metricBaseIdx >= 0, "metric strip base style should exist");
   assert(responsiveIdx > metricBaseIdx, "metric strip responsive rules should follow the base style so they override it");
-  assert(css.includes("grid-template-columns: repeat(8, minmax(0, 1fr));"), "main metric formula should keep all cards in one row until the shared narrow breakpoint");
+  assert(css.includes("grid-template-columns: repeat(9, minmax(0, 1fr));"), "main metric formula should keep all cards in one row until the shared narrow breakpoint");
   assert(css.includes(".metric-card b {\n  display: block;") && css.includes("font-variant-numeric: tabular-nums;\n  overflow-wrap: anywhere;"), "metric card values should wrap internally before the cards wrap");
   assert(css.includes(".effect-mini-strip.formula-strip--multiply {\n    grid-template-columns: repeat(2, minmax(0, 1fr));\n    padding-left: var(--formula-gap);"), "effect and offset formula wraps should reserve room for row-start multiply signs");
   assert(!css.includes("nth-child(4n + 1)::before") && !css.includes("nth-child(odd)::before"), "wrapped formulas should keep row-start multiply signs visible");
@@ -1262,15 +1262,25 @@ function formulaNumberFormattingFloors() {
 
 function formulaCardTooltips() {
   resetTeam();
+  const slot = __T.state.slots[0];
+  slot.echo.fields = { elem: 30, skillDmg: 57 };
+  __T.state.enemy.vulnerability = 12;
+  __T.state.enemy.dmgReduction = 5;
   __T.state.lang = "zh-CN";
   __T.render();
   const html = String(board.innerHTML);
   const metricHtml = html.slice(html.indexOf('id="metric-strip"'), html.indexOf('class="damage-lower'));
-  assert((metricHtml.match(/class="formula-card-tip"/g) || []).length >= 8, "main formula cards should expose hover source tooltips");
+  assert((metricHtml.match(/class="formula-card-tip"/g) || []).length >= 9, "main formula cards should expose hover source tooltips for every multiplier card");
   assert(metricHtml.includes("技能倍率 =") && metricHtml.includes("防御系数 ="), "formula card tooltips should explain how card values are derived");
+  assert(metricHtml.includes("声骸类型伤害加成（共鸣技能） 57%"), "echo type tooltip source should name the current damage type");
+  assert(metricHtml.includes("层数倍率") && metricHtml.includes("等级系数"), "skill multiplier tooltip should expand stack and level terms");
+  assert(metricHtml.includes("800 + 8 × 我方等级90") && metricHtml.includes("8 × 敌方等级90 + 792"), "defense tooltip should expand level terms");
+  assert(metricHtml.includes("减伤/易伤") && metricHtml.includes("受到伤害减少 5%") && metricHtml.includes("易伤 12%"), "normal formula should show the damage reduction/vulnerability multiplier");
   assert(metricHtml.includes('tabindex="0"') && metricHtml.includes('role="tooltip"'), "formula card tooltips should be keyboard reachable");
+  assert(metricHtml.includes('<div class="formula-card-tip"') && !metricHtml.includes('<span class="formula-card-tip"'), "formula card tooltips should not inherit parent span text color");
   const css = fs.readFileSync(path.join(root, "styles.css"), "utf8");
   assert(css.includes(".formula-card:hover .formula-card-tip") && css.includes("white-space: pre-line;"), "formula card tooltip CSS should show multiline details on card hover");
+  assert(css.includes(".formula-card .formula-card-tip") && css.includes("color: #f8fafc;"), "formula card tooltip text should keep high contrast over the dark tooltip background");
 }
 
 function introEntryIsSkillDriven() {
