@@ -1,0 +1,367 @@
+window.WUWA_LANGUAGES.extend("en-US", {
+  "data": {
+    "chars": {
+      "denia": {
+        "name": "Denia",
+        "resources": [
+          {
+            "label": "黯核"
+          },
+          {
+            "label": "虚质粒子"
+          },
+          {
+            "label": "共形能量"
+          }
+        ],
+        "skills": [
+          {
+            "name": "Dreamweaver's Banquet - Basic Attack - Stagecraft Form Stage 1 DMG"
+          },
+          {
+            "name": "Dreamweaver's Banquet - Basic Attack - Stagecraft Form Stage 2 DMG"
+          },
+          {
+            "name": "Dreamweaver's Banquet - Basic Attack - Stagecraft Form Stage 3 DMG"
+          },
+          {
+            "name": "Dreamweaver's Banquet - Basic Attack - Stagecraft Form Stage 4 DMG"
+          },
+          {
+            "name": "Dreamweaver's Banquet - Heavy Attack - Stagecraft Form DMG"
+          },
+          {
+            "name": "Dreamweaver's Banquet - Mid-air Attack - Stagecraft Form DMG"
+          },
+          {
+            "name": "Dreamweaver's Banquet - Dodge Counter - Stagecraft Form DMG"
+          },
+          {
+            "name": "Dreamweaver's Banquet - Basic Attack - Breakdown Form Stage 1 DMG"
+          },
+          {
+            "name": "Dreamweaver's Banquet - Basic Attack - Breakdown Form Stage 2 DMG"
+          },
+          {
+            "name": "Dreamweaver's Banquet - Basic Attack - Breakdown Form Stage 3 DMG"
+          },
+          {
+            "name": "Dreamweaver's Banquet - Basic Attack - Breakdown Form Stage 4 DMG"
+          },
+          {
+            "name": "Dreamweaver's Banquet - Heavy Attack - Breakdown Form DMG"
+          },
+          {
+            "name": "Dreamweaver's Banquet - Mid-air Heavy Attack - Breakdown Form DMG"
+          },
+          {
+            "name": "Dreamweaver's Banquet - Dodge Counter - Breakdown Form DMG"
+          },
+          {
+            "name": "Dreamweaver's Banquet - Mid-air Attack - Breakdown Form Stage 1 DMG"
+          },
+          {
+            "name": "Dreamweaver's Banquet - Mid-air Attack - Breakdown Form Stage 2 DMG"
+          },
+          {
+            "name": "Dreamweaver's Banquet - Mid-air Attack - Breakdown Form Stage 3 DMG"
+          },
+          {
+            "name": "Dreamweaver's Banquet - Mid-air Attack - Breakdown Form Stage 4 DMG"
+          },
+          {
+            "name": "\"Flawless\" - Void Particle - Basic Attack - Breakdown Form Stage 1 DMG"
+          },
+          {
+            "name": "\"Flawless\" - Void Particle - Basic Attack - Breakdown Form Stage 2 DMG"
+          },
+          {
+            "name": "\"Flawless\" - Void Particle - Basic Attack - Breakdown Form Stage 3 DMG"
+          },
+          {
+            "name": "\"Flawless\" - Void Particle - Basic Attack - Breakdown Form Stage 4 DMG"
+          },
+          {
+            "name": "\"Flawless\" - Void Particle - Heavy Attack - Breakdown Form DMG"
+          },
+          {
+            "name": "\"Flawless\" - Void Particle - Mid-air Heavy Attack - Breakdown Form DMG"
+          },
+          {
+            "name": "\"Flawless\" - Void Particle - Dodge Counter - Breakdown Form DMG"
+          },
+          {
+            "name": "\"Flawless\" - Void Particle - Mid-air Attack - Breakdown Form Stage 1 DMG"
+          },
+          {
+            "name": "\"Flawless\" - Void Particle - Mid-air Attack - Breakdown Form Stage 2 DMG"
+          },
+          {
+            "name": "\"Flawless\" - Void Particle - Mid-air Attack - Breakdown Form Stage 3 DMG"
+          },
+          {
+            "name": "\"Flawless\" - Void Particle - Mid-air Attack - Breakdown Form Stage 4 DMG"
+          },
+          {
+            "name": "Bubbles and Baits - Phantom Bubble - Stagecraft Form DMG"
+          },
+          {
+            "name": "Bubbles and Baits - Beckon - Breakdown Form DMG"
+          },
+          {
+            "name": "Bubbles and Baits - Banish - Breakdown Form Stage 1 DMG"
+          },
+          {
+            "name": "Bubbles and Baits - Banish - Breakdown Form Stage 2 DMG"
+          },
+          {
+            "name": "Final Act - Final Act - Stagecraft Form DMG"
+          },
+          {
+            "name": "Final Act - Final Act - Breakdown Form DMG"
+          },
+          {
+            "name": "Formal Greetings - It's Been A While! DMG"
+          },
+          {
+            "name": "Formal Greetings - Knock Knock DMG"
+          },
+          {
+            "name": "\"Flawless\" - Erosion Field DMG per tick"
+          },
+          {
+            "name": "Silent Glows in a Dimlit Dream - Dark Core - Basic Attack - Stagecraft Form Stage 4 DMG"
+          },
+          {
+            "name": "Silent Glows in a Dimlit Dream - Dark Core - Phantom Bubble - Stagecraft Form DMG"
+          }
+        ],
+        "combatStates": [
+          {
+            "label": "当前形态",
+            "inactiveLabel": "未确认形态",
+            "entry": "达妮娅拥有布景之形与幻灭之形。施放帷幕终景·布景之形后获得熵变强化·幻灭之形并切换至幻灭之形；施放帷幕终景·幻灭之形后获得熵变强化·布景之形并切换至布景之形。",
+            "options": [
+              {
+                "label": "布景"
+              },
+              {
+                "label": "幻灭"
+              }
+            ]
+          },
+          {
+            "label": "共鸣模态",
+            "inactiveLabel": "未确认共鸣模态",
+            "entry": "达妮娅可在共鸣模态·聚爆与共鸣模态·集谐之间切换；默认分支为共鸣模态·聚爆。",
+            "options": [
+              {
+                "label": "聚爆"
+              },
+              {
+                "label": "集谐"
+              }
+            ]
+          },
+          {
+            "label": "熵变强化",
+            "inactiveLabel": "未处于熵变强化",
+            "entry": "施放帷幕终景·布景之形后获得熵变强化·幻灭之形，持续12秒；施放帷幕终景·幻灭之形后获得熵变强化·布景之形，持续30秒。获得其中一个效果时会移除另一个。",
+            "options": [
+              {
+                "label": "布景强化"
+              },
+              {
+                "label": "幻灭强化"
+              }
+            ]
+          },
+          {
+            "label": "蚀域",
+            "inactiveLabel": "未生成蚀域",
+            "entry": "施放共鸣解放帷幕终景·幻灭之形后生成蚀域，持续30秒；自身生成的蚀域同时最多存在一个。",
+            "options": [
+              {
+                "label": "已生成"
+              }
+            ]
+          },
+          {
+            "label": "目标集谐状态",
+            "inactiveLabel": "目标无集谐状态",
+            "entry": "共鸣模态·集谐下，指定技能造成伤害时可为目标附加【集谐·偏移】并刷新【集谐·干涉】持续时间；队伍附加集谐·偏移时可快速积累偏谐值。",
+            "options": [
+              {
+                "label": "集谐·偏移"
+              },
+              {
+                "label": "集谐·干涉"
+              }
+            ]
+          }
+        ],
+        "buffs": [
+          {
+            "source": "共鸣解放·帷幕终景",
+            "label": "攻击",
+            "trigger": "处于熵变强化·幻灭之形时",
+            "excerpt": "熵变强化·幻灭之形期间，攻击提升30%",
+            "desc": "熵变强化·幻灭之形：攻击提升30%。"
+          },
+          {
+            "source": "共鸣回路·虚质粒子",
+            "label": "虚质粒子技能倍率提升",
+            "trigger": "幻灭之形常态攻击消耗虚质粒子时",
+            "excerpt": "消耗虚质粒子时，常态攻击视为共鸣解放伤害且倍率提升50%",
+            "desc": "处于幻灭之形且【虚质粒子】大于0时，常态攻击命中目标，消耗【虚质粒子】，使本次技能伤害为共鸣解放伤害，且伤害倍率提升50%。"
+          },
+          {
+            "source": "固有·蚀刻繁彩",
+            "label": "热熔伤害加成",
+            "trigger": "熵变强化且处于聚爆模态时",
+            "excerpt": "熵变强化期间处于聚爆模态，队伍热熔伤害加成提升30%",
+            "desc": "处于熵变强化时，根据共鸣模态获得以下效果：若处于共鸣模态·聚爆，队伍中的角色热熔伤害加成提升30%。"
+          },
+          {
+            "source": "固有·蚀刻繁彩",
+            "label": "谐度破坏增幅",
+            "trigger": "熵变强化且处于集谐模态时",
+            "excerpt": "熵变强化期间处于集谐模态，队伍谐度破坏增幅提升10点",
+            "desc": "处于熵变强化时，根据共鸣模态获得以下效果：若处于共鸣模态·集谐，队伍中的角色谐度破坏增幅提升10点。"
+          },
+          {
+            "source": "固有·蚀刻繁彩",
+            "label": "谐度破坏增幅",
+            "trigger": "熵变强化且处于集谐模态时",
+            "excerpt": "按受益者偏谐值累积效率换算谐度破坏增幅，上限40点",
+            "desc": "处于共鸣模态·集谐时，队伍中的角色偏谐值累积效率超过100%时，每超过10%的偏谐值累积效率使对应角色谐度破坏增幅提升8点，上限40点。"
+          },
+          {
+            "source": "谐度破坏·计时的溃灭",
+            "label": "最终伤害提升",
+            "trigger": "响应集谐·干涉时",
+            "excerpt": "响应集谐·干涉时，每层按谐度破坏增幅提升最终伤害",
+            "desc": "响应【集谐·干涉】：目标每有一层【集谐·干涉】效果，达妮娅自身的每点谐度破坏增幅会使自身对该目标造成的最终伤害提升0.12%。达妮娅在编队中时，目标的【集谐·干涉】效果的层数上限增加1层。"
+          },
+          {
+            "source": "延奏·未竟的谎言",
+            "label": "聚爆效应伤害加深",
+            "trigger": "释放延奏技能后",
+            "excerpt": "聚爆模态延奏后，目标受到聚爆效应伤害加深60%",
+            "desc": "处于共鸣模态·聚爆时，队伍中登场角色周围的目标受到聚爆效应伤害加深60%，持续30秒。达妮娅切换模态时，该效果提前结束。"
+          },
+          {
+            "source": "延奏·未竟的谎言",
+            "label": "全伤害加深",
+            "trigger": "释放延奏技能后",
+            "excerpt": "集谐模态延奏后，下一位登场角色全伤害加深15%",
+            "desc": "处于共鸣模态·集谐时，下一个登场的角色全伤害加深15%，持续16秒。效果持续期间，该角色附加【集谐·偏移】后，该全伤害加深效果提升至40%。切换至其他角色或达妮娅切换模态时，该效果提前结束。"
+          },
+          {
+            "source": "延奏·未竟的谎言",
+            "label": "全伤害加深",
+            "trigger": "延奏效果期间附加集谐·偏移后",
+            "excerpt": "延奏效果期间附加集谐·偏移后，全伤害加深提升至40%",
+            "desc": "处于共鸣模态·集谐时，下一个登场的角色全伤害加深15%，持续16秒。效果持续期间，该角色附加【集谐·偏移】后，该全伤害加深效果提升至40%。"
+          }
+        ],
+        "chain": [
+          {
+            "name": "薄明梦中的寂静光辉",
+            "desc": "暴击伤害提升30%。施放共鸣技能拟态泡泡·布景之形、共鸣技能放逐·幻灭之形、普攻·幻灭之形第3段、普攻·幻灭之形第4段、空中攻击·幻灭之形第3段、空中攻击·幻灭之形第4段期间，免疫打断。处于布景之形进入战斗时，获得熵变强化·布景之形，持续30秒。处于幻灭之形进入战斗时，获得熵变强化·幻灭之形，持续12秒。",
+            "buffs": [
+              {
+                "label": "暴击伤害",
+                "trigger": "默认",
+                "excerpt": "暴击伤害提升30%"
+              }
+            ]
+          },
+          {
+            "name": "坠入此世一片潮水",
+            "desc": "处于共鸣模态·聚爆，队伍中的角色施加【聚爆效应】后，该角色热熔伤害加成提升50%，持续15秒。登场角色附近的敌人触发【聚爆效应】引爆后，达妮娅获得1层简并虚质，持续15秒，上限10层。每层简并虚质使达妮娅造成伤害无视目标1%热熔伤害抗性。达妮娅切换模态时，该效果提前结束。处于共鸣模态·集谐，共鸣回路效果提升：队伍中的角色施加【集谐·偏移】后，该角色谐度破坏增幅提升20点，持续15秒，目标将积累偏谐值上限100%的【偏谐值】，积累【偏谐值】效果对同一目标300秒内只能触发1次。达妮娅切换模态时，该效果提前结束。共鸣技能放逐·幻灭之形伤害倍率提升40%。",
+            "buffs": [
+              {
+                "label": "热熔伤害加成",
+                "trigger": "队伍角色附加聚爆效应后",
+                "excerpt": "聚爆模态下，附加聚爆效应的角色热熔伤害加成提升50%"
+              },
+              {
+                "label": "热熔减抗",
+                "trigger": "聚爆效应引爆后",
+                "excerpt": "聚爆引爆后，每层简并虚质无视目标1%热熔抗性"
+              },
+              {
+                "label": "谐度破坏增幅",
+                "trigger": "队伍角色附加集谐·偏移后",
+                "excerpt": "集谐模态下，附加集谐·偏移的角色谐度破坏增幅提升20点"
+              },
+              {
+                "label": "放逐·幻灭之形倍率提升",
+                "trigger": "默认",
+                "excerpt": "放逐·幻灭之形伤害倍率提升40%"
+              }
+            ]
+          },
+          {
+            "name": "黑夜与风中奔驰着赤杨",
+            "desc": "共鸣解放帷幕终景·幻灭之形伤害倍率提升80%。【黯核】上限提升至5枚，处于熵变强化时，【黯核】的获取间隔缩短至6秒。熵变强化·布景之形效果获得强化：每秒获得【虚质粒子】提升至4点。熵变强化·幻灭之形效果获得强化：施放共鸣解放帷幕终景·幻灭之形时，额外回复30点协奏能量。固有技能伪物弥留效果强化：进入战斗时，【黯核】与【虚质粒子】回复至上限。该效果每12秒可触发1次。【黯核】数量达到上限时，施放普攻·布景之形第4段、共鸣技能拟态泡泡·布景之形消耗所有【黯核】，使本次技能伤害倍率增加1200%，本次伤害为共鸣解放伤害。",
+            "buffs": [
+              {
+                "label": "帷幕终景·幻灭之形倍率提升",
+                "trigger": "默认",
+                "excerpt": "帷幕终景·幻灭之形伤害倍率提升80%"
+              },
+              {
+                "label": "黯核技能倍率增加",
+                "trigger": "黯核数量达到上限时",
+                "excerpt": "黯核达到上限时，指定布景技能倍率增加1200%"
+              }
+            ]
+          },
+          {
+            "name": "从远方，回到远方",
+            "desc": "蚀域攻击间隔缩短至3秒。"
+          },
+          {
+            "name": "若能以谎言缝补心脏",
+            "desc": "共鸣解放帷幕终景·布景之形造成的伤害提升100%。",
+            "buffs": [
+              {
+                "label": "帷幕终景·布景之形伤害加深",
+                "trigger": "默认",
+                "excerpt": "帷幕终景·布景之形造成的伤害加深100%"
+              }
+            ]
+          },
+          {
+            "name": "祝愿你于静默中，得到太阳",
+            "desc": "处于熵变强化时，攻击提升60%，热熔伤害加成提升60%。处于共鸣模态·聚爆时，蚀域对目标造成伤害后，根据【聚爆效应】层数上限引爆【聚爆效应】，本次引爆对【聚爆效应】主目标的伤害倍率提升200%，且不移除【聚爆效应】层数。同一目标最多可受到1次该效果，目标受到共鸣解放帷幕终景·幻灭之形的伤害后，重置该次数，重置效果对同一目标2秒内只能触发1次。处于共鸣模态·集谐时，队伍中的角色对拥有【集谐·偏移】的【失谐】目标造成谐度破坏伤害时，将额外附加1层【集谐·干涉】，该效果对同一目标3秒内只能触发1次。",
+            "buffs": [
+              {
+                "label": "攻击",
+                "trigger": "处于熵变强化时",
+                "excerpt": "熵变强化期间，攻击提升60%"
+              },
+              {
+                "label": "热熔伤害加成",
+                "trigger": "处于熵变强化时",
+                "excerpt": "熵变强化期间，热熔伤害加成提升60%"
+              },
+              {
+                "label": "聚爆效应额外倍率",
+                "trigger": "蚀域造成伤害后",
+                "excerpt": "聚爆模态下，蚀域触发的聚爆效应倍率提升200%"
+              },
+              {
+                "label": "最终伤害提升",
+                "trigger": "额外附加1层集谐·干涉后",
+                "excerpt": "6链额外附加1层集谐·干涉时，按谐度破坏增幅提升最终伤害"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  }
+});

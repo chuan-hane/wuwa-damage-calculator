@@ -1,0 +1,228 @@
+window.WUWA_LANGUAGES.extend("en-US", {
+  "data": {
+    "chars": {
+      "phoebe": {
+        "name": "Phoebe",
+        "resources": [
+          {
+            "label": "福音"
+          },
+          {
+            "label": "祈愿"
+          }
+        ],
+        "skills": [
+          {
+            "name": "O Come Divine Light - Stage 1 DMG"
+          },
+          {
+            "name": "O Come Divine Light - Stage 2 DMG"
+          },
+          {
+            "name": "O Come Divine Light - Stage 3 DMG"
+          },
+          {
+            "name": "O Come Divine Light - Heavy Attack DMG"
+          },
+          {
+            "name": "O Come Divine Light - Mid-air Attack DMG"
+          },
+          {
+            "name": "O Come Divine Light - Dodge Counter DMG"
+          },
+          {
+            "name": "O Come Divine Light - Chamuel's Star: Dodge Counter DMG"
+          },
+          {
+            "name": "To Where Light Shines - Skill DMG"
+          },
+          {
+            "name": "To Where Light Shines - Ring of Mirrors: Refracted Holy Light DMG"
+          },
+          {
+            "name": "To Where Light Shines - Chamuel's Star: Stage 1 DMG"
+          },
+          {
+            "name": "To Where Light Shines - Chamuel's Star: Stage 2 DMG"
+          },
+          {
+            "name": "To Where Light Shines - Chamuel's Star: Stage 3 DMG"
+          },
+          {
+            "name": "Dawn of Enlightenment - Skill DMG"
+          },
+          {
+            "name": "Dawn of Enlightenment - Skill DMG"
+          },
+          {
+            "name": "Dawn of Enlightenment - Skill DMG"
+          },
+          {
+            "name": "Golden Grace - Skill DMG"
+          },
+          {
+            "name": "Radiant Invocation - Heavy Attack: Starflash DMG"
+          },
+          {
+            "name": "Radiant Invocation - Heavy Attack: Starflash DMG"
+          },
+          {
+            "name": "Radiant Invocation - Absolution Litany DMG"
+          },
+          {
+            "name": "Radiant Invocation - Utter Confession DMG"
+          },
+          {
+            "name": "Radiant Invocation - Heavy Attack: Starflash DMG"
+          },
+          {
+            "name": "Radiant Invocation - Heavy Attack: Starflash DMG"
+          }
+        ],
+        "combatStates": [
+          {
+            "label": "赦罪/告解状态",
+            "inactiveLabel": "未处于赦罪/告解",
+            "entry": "祈愿满时消耗全部祈愿，长按普攻施放圣祷赦罪进入赦罪；长按共鸣技能施放显明告解进入告解。二者不能同时存在，进入新状态会取代旧状态。",
+            "options": [
+              {
+                "label": "赦罪"
+              },
+              {
+                "label": "告解"
+              }
+            ]
+          },
+          {
+            "label": "镜之环位置",
+            "inactiveLabel": "未确认镜之环位置",
+            "entry": "施放共鸣技能追寻光芒之所召唤镜之环，持续30秒；再次召唤会移除旧镜之环。",
+            "options": [
+              {
+                "label": "环外"
+              },
+              {
+                "label": "环内"
+              }
+            ]
+          }
+        ],
+        "buffs": [
+          {
+            "source": "固有·启示",
+            "label": "衍射伤害加成",
+            "trigger": "处于赦罪/告解状态时",
+            "excerpt": "赦罪或告解状态下，衍射伤害加成提升12%",
+            "desc": "处于赦罪状态、告解状态时，衍射伤害加成提升12%。"
+          },
+          {
+            "source": "共鸣解放·启明之誓愿",
+            "label": "启明之誓愿倍率提升",
+            "trigger": "赦罪状态下",
+            "excerpt": "赦罪状态下，启明之誓愿伤害倍率提升255%",
+            "desc": "菲比将手中的光辉凝聚为启明之镜，用力敲碎，造成衍射伤害。·赦罪状态：伤害倍率提升255%。·告解状态：为命中的目标附加8层【光噪效应】。"
+          },
+          {
+            "source": "共鸣回路·重击·星辉",
+            "label": "重击·星辉伤害加深",
+            "trigger": "赦罪状态下命中光噪目标",
+            "excerpt": "赦罪状态下，重击·星辉命中光噪目标时伤害加深256%",
+            "desc": "重击·星辉若菲比拥有【福音】，施放普攻第3段或闪避反击时，下一次重击替换为重击星辉。消耗30点【福音】，造成衍射伤害。·赦罪状态：施放时所消耗的【福音】减少15点，命中的目标拥有【光噪效应】时，伤害加深256%。·告解状态：为命中的目标附加5层【光噪效应】。"
+          },
+          {
+            "source": "延奏·倾听之心",
+            "label": "衍射减抗",
+            "trigger": "释放延奏技能后",
+            "excerpt": "告解状态延奏后，目标衍射抗性减少10%",
+            "desc": "告解状态：队伍中登场角色获得默祷效果：使一定范围内的目标衍射伤害抗性减少10%，【光噪效应】伤害加深100%。目标身上的【光噪效应】触发伤害后，【光噪效应】下一次造成伤害的周期延长50%。效果持续30秒，若菲比进入赦罪状态则该效果提前结束。"
+          },
+          {
+            "source": "延奏·倾听之心",
+            "label": "光噪效应伤害加深",
+            "trigger": "释放延奏技能后",
+            "excerpt": "告解状态延奏后，光噪效应伤害加深100%",
+            "desc": "告解状态：队伍中登场角色获得默祷效果：使一定范围内的目标衍射伤害抗性减少10%，【光噪效应】伤害加深100%。目标身上的【光噪效应】触发伤害后，【光噪效应】下一次造成伤害的周期延长50%。效果持续30秒，若菲比进入赦罪状态则该效果提前结束。"
+          }
+        ],
+        "chain": [
+          {
+            "name": "暖灯与枕边的祝愿",
+            "desc": "赦罪状态下共鸣解放启明之誓愿伤害倍率提升效果从255%变为480%。告解状态下共鸣解放启明之誓愿伤害倍率提升90%，并且附加【光噪效应】层数提升至目标可附加层数的上限。",
+            "buffs": [
+              {
+                "label": "启明之誓愿倍率提升",
+                "trigger": "赦罪状态下",
+                "excerpt": "赦罪状态下，启明之誓愿倍率额外提升225%"
+              },
+              {
+                "label": "启明之誓愿倍率提升",
+                "trigger": "告解状态下",
+                "excerpt": "告解状态下，启明之誓愿伤害倍率提升90%"
+              }
+            ]
+          },
+          {
+            "name": "泪水中飘摇的孤船",
+            "desc": "赦罪状态下，延奏技能对拥有【光噪效应】的目标伤害加深120%。告解状态下，默祷的【光噪效应】伤害加深效果额外提升120%。",
+            "buffs": [
+              {
+                "label": "光噪效应伤害加深",
+                "trigger": "告解状态延奏默祷后",
+                "excerpt": "告解状态默祷下，光噪效应伤害加深额外提升120%"
+              }
+            ]
+          },
+          {
+            "name": "雏菊编织花环与梦",
+            "desc": "赦罪状态下，重击星辉伤害倍率提升91%。告解状态下，重击星辉伤害倍率提升249%。",
+            "buffs": [
+              {
+                "label": "重击·星辉倍率提升",
+                "trigger": "赦罪状态下",
+                "excerpt": "赦罪状态下，重击·星辉伤害倍率提升91%"
+              },
+              {
+                "label": "重击·星辉倍率提升",
+                "trigger": "告解状态下",
+                "excerpt": "告解状态下，重击·星辉伤害倍率提升249%"
+              }
+            ]
+          },
+          {
+            "name": "再次敲响振翅的钟声",
+            "desc": "普攻、普攻夏弥尔之星、闪避反击、夏弥尔之星·闪避反击命中目标时，目标衍射伤害抗性降低10%，持续30秒。",
+            "buffs": [
+              {
+                "label": "衍射减抗",
+                "trigger": "指定普攻/闪避反击命中后",
+                "excerpt": "普攻或闪避反击命中后，目标衍射抗性降低10%"
+              }
+            ]
+          },
+          {
+            "name": "向遥远光辉虔声祈祷",
+            "desc": "施放变奏技能金色恩典时，菲比的衍射伤害加成提升12%，持续15秒。",
+            "buffs": [
+              {
+                "label": "衍射伤害加成",
+                "trigger": "施放变奏技能时",
+                "excerpt": "施放金色恩典时，衍射伤害加成提升12%"
+              }
+            ]
+          },
+          {
+            "name": "于静寂窗边啁啾歌唱",
+            "desc": "【镜之环】的停滞效果增加2秒。【镜之环】持续期间，对每个进入【镜之环】的目标施加停滞效果；同一个【镜之环】最多可对12个目标施加停滞效果，且对每个目标只能施加一次。赦罪状态、告解状态下，菲比施放共鸣技能召唤【镜之环】时，攻击提升10%，持续20秒，同时向【镜之环】位置附带一次重击星辉。此次重击星辉不消耗【福音】，不视为施放重击。",
+            "buffs": [
+              {
+                "label": "攻击",
+                "trigger": "施放共鸣技能召唤镜之环后",
+                "excerpt": "赦罪或告解状态下召唤镜之环后，攻击提升10%"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  }
+});

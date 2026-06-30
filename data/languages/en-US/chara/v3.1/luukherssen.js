@@ -1,0 +1,236 @@
+window.WUWA_LANGUAGES.extend("en-US", {
+  "data": {
+    "chars": {
+      "luukherssen": {
+        "name": "Luuk Herssen",
+        "skills": [
+          {
+            "name": "Such is Light - Basic Attack Stage 1 DMG"
+          },
+          {
+            "name": "Such is Light - Basic Attack Stage 2 DMG"
+          },
+          {
+            "name": "Such is Light - Basic Attack Stage 3 DMG"
+          },
+          {
+            "name": "Such is Light - Basic Attack Stage 4 DMG"
+          },
+          {
+            "name": "Such is Light - Heavy Attack DMG"
+          },
+          {
+            "name": "Such is Light - Mid-air Attack Stage 1 DMG"
+          },
+          {
+            "name": "Such is Light - Mid-air Attack Stage 2 Scythe: Dissection DMG"
+          },
+          {
+            "name": "Such is Light - Mid-air Attack Stage 3 Scythe: Dissection DMG"
+          },
+          {
+            "name": "Such is Light - Mid-air Attack Stage 2 Scythe: Resction DMG"
+          },
+          {
+            "name": "Such is Light - Mid-air Attack Stage 3 Scythe: Resction DMG"
+          },
+          {
+            "name": "Such is Light - Mid-air Attack Stage 4 DMG"
+          },
+          {
+            "name": "Such is Light - Ground Dodge Counter DMG"
+          },
+          {
+            "name": "Such is Light - Mid-air Dodge Counter DMG"
+          },
+          {
+            "name": "Reunion of All the Fallen - Golden Reflux DMG"
+          },
+          {
+            "name": "Reunion of All the Fallen - Aureole of Execution: Ring DMG"
+          },
+          {
+            "name": "Reunion of All the Fallen - Aureole of Execution: Breach DMG"
+          },
+          {
+            "name": "Reunion of All the Fallen - Aureole of Execution: Glare DMG"
+          },
+          {
+            "name": "Reunion of All the Fallen - Basic Attack - Golden Impale DMG"
+          },
+          {
+            "name": "Reunion of All the Fallen - Ichor Deposit DMG"
+          },
+          {
+            "name": "Rewritten in Winter's Margins - Skill DMG"
+          },
+          {
+            "name": "Before Injection of Dawn - Skill DMG"
+          },
+          {
+            "name": "Spark from the Frost - Gavel of Earthshaker DMG"
+          }
+        ],
+        "combatStates": [
+          {
+            "label": "黄金的裁量状态",
+            "inactiveLabel": "未处于黄金的裁量状态",
+            "entry": "【日髓能流】满时进入黄金的裁量状态；每次施放斩杀日冕消耗100点【日髓能流】，清空时退出。",
+            "options": [
+              {
+                "label": "黄金的裁量"
+              }
+            ]
+          },
+          {
+            "label": "目标集谐·干涉",
+            "inactiveLabel": "目标无集谐·干涉",
+            "entry": "陆·赫斯响应【集谐·干涉】；【续写白昼】可在队伍施放【谐度破坏】且目标有【集谐·偏移】时为目标追加【集谐·干涉】层数。",
+            "options": [
+              {
+                "label": "有集谐·干涉"
+              }
+            ]
+          }
+        ],
+        "buffs": [
+          {
+            "source": "共鸣技能·终局之释义",
+            "label": "于永冻中释义倍率提升",
+            "trigger": "施放斩杀日冕后",
+            "excerpt": "施放斩杀日冕后，每层使于永冻中释义倍率提升25%",
+            "desc": "终局之释义使共鸣解放于永冻中释义伤害倍率提升25%，可叠加3层，施放共鸣解放于永冻中释义或切换至下个角色后移除。"
+          },
+          {
+            "source": "谐度破坏·一场关于光的默辩",
+            "label": "最终伤害提升",
+            "trigger": "响应集谐·干涉时",
+            "excerpt": "响应集谐·干涉时，每层按谐度破坏增幅提升最终伤害",
+            "desc": "响应【集谐·干涉】：目标每有一层【集谐·干涉】效果，陆·赫斯自身的每点谐度破坏增幅会使自身对该目标造成的最终伤害提升0.12%。陆·赫斯在编队中时，目标的【集谐·干涉】效果的层数上限增加1层。"
+          },
+          {
+            "source": "固有·无因的医谕",
+            "label": "伤害加深",
+            "trigger": "攻击集谐·干涉目标时",
+            "excerpt": "攻击集谐·干涉目标时，按谐度破坏增幅获得伤害加深，上限30%",
+            "desc": "自身施放的技能对有【集谐·干涉】的目标直接造成伤害时，陆·赫斯每拥有10点谐度破坏增幅，本次伤害加深5%，最高加深30%。"
+          },
+          {
+            "source": "固有·无因的医谕",
+            "label": "攻击",
+            "trigger": "附加集谐·偏移或造成谐度破坏伤害后",
+            "excerpt": "附加集谐·偏移或造成谐度破坏伤害后，攻击提升25%",
+            "desc": "附近队伍中所有角色为敌方怪物附加【集谐·偏移】或造成【谐度破坏】伤害后，陆·赫斯攻击提升25%，持续20秒。"
+          },
+          {
+            "source": "共鸣回路·黄金的裁量",
+            "label": "斩杀日冕倍率提升",
+            "trigger": "处于黄金的裁量时",
+            "excerpt": "黄金的裁量中，斩杀日冕倍率提升110%",
+            "desc": "【日髓能流】满时，进入黄金的裁量状态，获得以下效果：无法回复【日髓能流】，所有形态的共鸣技能斩杀日冕伤害倍率提升110%。"
+          },
+          {
+            "source": "共鸣回路·黄金的裁量",
+            "label": "判决与日髓阵列倍率提升",
+            "trigger": "黄金的裁量中施放斩杀日冕·曜后",
+            "excerpt": "黄金的裁量中释放斩杀日冕·曜后，判决大地裂响和日髓阵列倍率提升110%",
+            "desc": "施放共鸣技能斩杀日冕·曜后，使接下来的空中攻击·判决大地裂响和日髓阵列伤害倍率提升110%。"
+          }
+        ],
+        "chain": [
+          {
+            "name": "流金于灰白中灼烧",
+            "desc": "空中攻击伤害加成提升150%。【日辉庇覆】层数上限提升1层。处于黄金的裁量状态时，施放共鸣技能斩杀日冕可获得1层【日辉庇覆】。",
+            "buffs": [
+              {
+                "label": "空中攻击伤害加成",
+                "trigger": "默认",
+                "excerpt": "空中攻击伤害加成提升150%",
+                "desc": "空中攻击伤害加成提升150%。"
+              }
+            ]
+          },
+          {
+            "name": "眼底尚有雪崩未止",
+            "desc": "共鸣解放于永冻中释义伤害倍率提升60%，该倍率提升效果与【终局之释义】的倍率提升效果相互叠加。固有技能无因的医谕效果中：对有【集谐·干涉】的目标造成伤害时，陆·赫斯每拥有10点谐度破坏增幅，伤害加深效果提升至10%，此效果最高加深由30%提升至60%。",
+            "buffs": [
+              {
+                "label": "于永冻中释义倍率提升",
+                "trigger": "默认",
+                "excerpt": "于永冻中释义伤害倍率提升60%"
+              },
+              {
+                "label": "伤害加深",
+                "trigger": "攻击集谐·干涉目标时",
+                "excerpt": "攻击集谐·干涉目标时，按谐度破坏增幅获得伤害加深，上限60%",
+                "desc": "对有【集谐·干涉】的目标造成伤害时，陆·赫斯每拥有10点谐度破坏增幅，伤害加深效果提升至10%，此效果最高加深由30%提升至60%。"
+              }
+            ]
+          },
+          {
+            "name": "金雨浇筑你的脊骨",
+            "desc": "黄金的裁量状态下所有形态的共鸣技能斩杀日冕伤害倍率提升136%，施放斩杀日冕·曜后，使接下来的空中攻击·判决大地裂响和日髓阵列伤害倍率提升136%。该倍率提升效果与共鸣回路黄金的裁量的倍率提升效果相互叠加。固有技能雪下的脉搏获得强化：【续写白昼】效果可叠加上限提升至4层。",
+            "buffs": [
+              {
+                "label": "斩杀日冕倍率提升",
+                "trigger": "处于黄金的裁量时",
+                "excerpt": "黄金的裁量中，斩杀日冕倍率额外提升136%"
+              },
+              {
+                "label": "判决与日髓阵列倍率提升",
+                "trigger": "黄金的裁量中施放斩杀日冕·曜后",
+                "excerpt": "黄金的裁量中释放斩杀日冕·曜后，判决大地裂响和日髓阵列倍率额外提升136%"
+              }
+            ]
+          },
+          {
+            "name": "冻土之下，亦有新生",
+            "desc": "队伍中的角色造成【谐度破坏】伤害后，使队伍中所有角色造成的伤害提升20%，持续20秒，无法叠加。",
+            "buffs": [
+              {
+                "label": "最终伤害提升",
+                "trigger": "队伍角色造成谐度破坏伤害后",
+                "excerpt": "队伍角色造成谐度破坏伤害后，全队伤害提升20%",
+                "desc": "队伍中的角色造成【谐度破坏】伤害后，使队伍中所有角色造成的伤害提升20%，持续20秒，无法叠加。"
+              }
+            ]
+          },
+          {
+            "name": "穿过风雪构筑的静场",
+            "desc": "变奏技能注入黎明以前和延奏技能致濒死以答伤害加成提升80%。共鸣技能流金回潮伤害倍率提升50%，冷却时间降低2秒，可施放次数增加1次。",
+            "buffs": [
+              {
+                "label": "注入黎明以前伤害加成",
+                "trigger": "默认",
+                "excerpt": "注入黎明以前伤害加成提升80%"
+              },
+              {
+                "label": "流金回潮倍率提升",
+                "trigger": "默认",
+                "excerpt": "流金回潮伤害倍率提升50%"
+              }
+            ]
+          },
+          {
+            "name": "冰原之上，铺开无垠曦光",
+            "desc": "附近队伍中所有角色造成【谐度破坏】伤害时，使目标受到陆·赫斯所有形态的共鸣技能斩杀日冕、日髓阵列和空中攻击·判决大地裂响的伤害提升30%，持续25秒。陆·赫斯每层【终局之释义】额外使共鸣解放于永冻中释义伤害加成提升40%，最高120%。陆·赫斯对有【集谐·干涉】的目标造成伤害时，视为将目标当前的【集谐·干涉】提升2层，且此效果无视层数上限。",
+            "buffs": [
+              {
+                "label": "指定技能易伤",
+                "trigger": "队伍角色造成谐度破坏伤害后",
+                "excerpt": "队伍造成谐度破坏伤害后，目标受到指定技能伤害提升30%",
+                "desc": "附近队伍中所有角色造成【谐度破坏】伤害时，使目标受到陆·赫斯所有形态的共鸣技能斩杀日冕、日髓阵列和空中攻击·判决大地裂响的伤害提升30%，持续25秒。"
+              },
+              {
+                "label": "于永冻中释义伤害加成",
+                "trigger": "拥有终局之释义时",
+                "excerpt": "每层终局之释义额外使于永冻中释义伤害加成提升40%",
+                "desc": "陆·赫斯每层【终局之释义】额外使共鸣解放于永冻中释义伤害加成提升40%，最高120%。"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  }
+});

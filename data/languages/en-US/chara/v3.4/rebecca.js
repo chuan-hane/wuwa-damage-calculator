@@ -1,0 +1,265 @@
+window.WUWA_LANGUAGES.extend("en-US", {
+  "data": {
+    "chars": {
+      "rebecca": {
+        "name": "Rebecca",
+        "resources": [
+          {
+            "label": "狂热"
+          }
+        ],
+        "skills": [
+          {
+            "name": "Mix-'n'-Match - Basic Attack - Huntress Stage 1 DMG"
+          },
+          {
+            "name": "Mix-'n'-Match - Basic Attack - Huntress Stage 2 DMG"
+          },
+          {
+            "name": "Mix-'n'-Match - Basic Attack - Huntress Stage 3 DMG"
+          },
+          {
+            "name": "Mix-'n'-Match - Heavy Attack - Huntress DMG"
+          },
+          {
+            "name": "Mix-'n'-Match - Heavy Attack - Eat Lead!: Huntress DMG"
+          },
+          {
+            "name": "Mix-'n'-Match - Mid-air Attack - Huntress DMG"
+          },
+          {
+            "name": "Mix-'n'-Match - Dodge Counter - Huntress DMG"
+          },
+          {
+            "name": "Mix-'n'-Match - Tactical Dodge - Huntress DMG"
+          },
+          {
+            "name": "Mix-'n'-Match - Tactical Dodge - Huntress Successful Dodge DMG"
+          },
+          {
+            "name": "Mix-'n'-Match - Basic Attack - Guts Stage 1 DMG"
+          },
+          {
+            "name": "Mix-'n'-Match - Basic Attack - Guts Stage 2 DMG"
+          },
+          {
+            "name": "Mix-'n'-Match - Basic Attack - Guts Stage 3 DMG"
+          },
+          {
+            "name": "Mix-'n'-Match - Heavy Attack - Guts DMG"
+          },
+          {
+            "name": "Mix-'n'-Match - Mid-air Attack - Guts DMG"
+          },
+          {
+            "name": "Mix-'n'-Match - Dodge Counter - Guts DMG"
+          },
+          {
+            "name": "Mix-'n'-Match - Tactical Dodge - Guts DMG"
+          },
+          {
+            "name": "Mix-'n'-Match - Tactical Dodge - Guts Successful Dodge DMG"
+          },
+          {
+            "name": "Tactical Tweaks - Resonance Skill - It's Big Boomin' Time! DMG"
+          },
+          {
+            "name": "Tactical Tweaks - Resonance Skill - Come 'n' Get Me! DMG"
+          },
+          {
+            "name": "Party 'til Dawn! - Mk. 31 HMG DMG"
+          },
+          {
+            "name": "Party 'til Dawn! - Mk. 31 HMG 1st Enhancement DMG"
+          },
+          {
+            "name": "Party 'til Dawn! - Mk. 31 HMG 2nd Enhancement DMG"
+          },
+          {
+            "name": "Party 'til Dawn! - BOOM! Fireworks! DMG"
+          },
+          {
+            "name": "My Turn! - Yo, It's Big Boomin' Time! DMG"
+          },
+          {
+            "name": "My Turn! - Hey, Leadhead, Come 'n' Get Me! DMG"
+          },
+          {
+            "name": "Gloves Are Comin' Off! - Rat-tat-tat!: Huntress DMG"
+          },
+          {
+            "name": "Gloves Are Comin' Off! - Bang-bang-bang!: Guts DMG"
+          },
+          {
+            "name": "Gloves Are Comin' Off! - Hack Response - Meltdown DMG"
+          }
+        ],
+        "combatStates": [
+          {
+            "label": "战斗模式",
+            "inactiveLabel": "未确认模式",
+            "entry": "丽贝卡初始处于猎手模式；施放共鸣技能或变奏技能可在猎手与铁胆模式之间切换。",
+            "options": [
+              {
+                "label": "猎手"
+              },
+              {
+                "label": "铁胆"
+              }
+            ]
+          },
+          {
+            "label": "小孩子才做选择",
+            "inactiveLabel": "未获得小孩子才做选择",
+            "entry": "【手感火热】达到120点时施放变奏技能·呜呼，来发大的！、变奏技能·蠢货，有本事来抓我！、共鸣技能·来发大的！或共鸣技能·有本事来抓我！后获得，持续12秒。",
+            "options": [
+              {
+                "label": "已获得"
+              }
+            ]
+          },
+          {
+            "label": "目标骇破",
+            "inactiveLabel": "目标无骇破·干涉",
+            "entry": "队伍角色对目标造成谐度破坏伤害并使其进入【骇破·干涉】后，丽贝卡可触发骇破响应·熔触。",
+            "options": [
+              {
+                "label": "骇破·干涉"
+              }
+            ]
+          }
+        ],
+        "buffs": [
+          {
+            "source": "共鸣回路·该用这个了！",
+            "label": "暴击伤害",
+            "trigger": "处于猎手模式时",
+            "excerpt": "猎手模式下，暴击伤害提升30%",
+            "desc": "处于【猎手】模式时，丽贝卡暴击伤害提升30%。"
+          },
+          {
+            "source": "共鸣回路·该用这个了！",
+            "label": "防御无视",
+            "trigger": "处于铁胆模式时",
+            "excerpt": "铁胆模式下，造成伤害无视目标15%防御",
+            "desc": "处于【铁胆】模式时，丽贝卡造成伤害无视目标15%防御。"
+          },
+          {
+            "source": "固有·该你了！",
+            "label": "攻击",
+            "trigger": "获得小孩子才做选择或施放强化重击后",
+            "excerpt": "获得小孩子才做选择或施放强化重击时，每层攻击提升10%",
+            "desc": "每次获得小孩子才做选择！效果或者施放重击·哒哒哒！·猎手和重击·砰砰砰！·铁胆时，攻击提升10%，持续12秒，可叠加2层。"
+          },
+          {
+            "source": "固有·该你了！",
+            "label": "谐度破坏增幅",
+            "trigger": "附加骇破·偏移后",
+            "excerpt": "队伍附加骇破·偏移后，谐度破坏增幅提升30点",
+            "desc": "队伍中的角色附加【骇破·偏移】时，谐度破坏增幅提升30点，持续30秒。"
+          },
+          {
+            "source": "固有·有破绽！",
+            "label": "攻击",
+            "trigger": "施放共鸣解放后",
+            "excerpt": "释放狂欢时间！后，队伍攻击提升20%",
+            "desc": "丽贝卡施放共鸣解放·狂欢时间！时，附近队伍中所有角色攻击提升20%，持续30秒。"
+          },
+          {
+            "source": "延奏·好搭档",
+            "label": "全伤害加深",
+            "trigger": "释放延奏技能后",
+            "excerpt": "下一位登场角色全伤害加深15%",
+            "desc": "下一位登场角色获得浪客羁绊，全伤害加深15%，持续14秒。若切换至其他角色则提前结束浪客羁绊和超限。"
+          },
+          {
+            "source": "延奏·好搭档",
+            "label": "重击伤害加深",
+            "trigger": "浪客羁绊期间获得超限后",
+            "excerpt": "浪客羁绊期间，每层超限使重击伤害加深0.5%",
+            "desc": "持有浪客羁绊的角色每0.2秒会获得1层超限，造成重击伤害加深0.5%（若是露西持有浪客羁绊，则直接获得满层），上限为35%。若切换至其他角色则提前结束浪客羁绊和超限。"
+          }
+        ],
+        "chain": [
+          {
+            "name": "请多指教咯~",
+            "desc": "丽贝卡以下技能伤害倍率提升50%：·普攻·猎手、重击·猎手、战术闪避·猎手、闪避反击·猎手。·普攻·铁胆、战术闪避·铁胆、闪避反击·铁胆。丽贝卡获得小孩子才做选择！效果时，额外获得3层街头直觉，持续12秒。施放战术闪避·猎手、战术闪避·铁胆时，若拥有街头直觉则消耗1层街头直觉，回复20点耐力。共鸣解放大烟花！免疫打断。",
+            "buffs": [
+              {
+                "label": "指定技能倍率提升",
+                "trigger": "默认",
+                "excerpt": "指定猎手/铁胆普攻系技能倍率提升50%"
+              }
+            ]
+          },
+          {
+            "name": "哦，原来是你啊！",
+            "desc": "施放变奏技能呜呼，来发大的！、变奏技能蠢货，有本事来抓我！或共鸣解放狂欢时间！时，队伍中的角色全属性伤害加成提升20%，持续30秒。队伍中的角色附加【骇破·偏移】时，全伤害加深15%，持续30秒。处于非战斗状态时，【手感火热】回复速度翻倍。",
+            "buffs": [
+              {
+                "label": "全属性伤害加成",
+                "trigger": "施放变奏技能/共鸣解放后",
+                "excerpt": "释放变奏技能或狂欢时间！时，全属性伤害加成提升20%"
+              },
+              {
+                "label": "全伤害加深",
+                "trigger": "附加骇破·偏移后",
+                "excerpt": "队伍附加骇破·偏移后，全伤害加深15%"
+              }
+            ]
+          },
+          {
+            "name": "背后就交给我吧！",
+            "desc": "丽贝卡共鸣解放狂欢时间！、共鸣解放大烟花！伤害倍率提升60%。丽贝卡共鸣解放狂欢时间！爆炸范围增加30%。施放变奏技能呜呼，来发大的！、变奏技能蠢货，有本事来抓我！时，获得120点【手感火热】。",
+            "buffs": [
+              {
+                "label": "共鸣解放倍率提升",
+                "trigger": "默认",
+                "excerpt": "狂欢时间！和大烟花！倍率提升60%"
+              }
+            ]
+          },
+          {
+            "name": "我会保护你的！",
+            "desc": "丽贝卡小孩子才做选择！属性加成效果额外提升60%。",
+            "buffs": [
+              {
+                "label": "暴击伤害",
+                "trigger": "小孩子才做选择期间",
+                "excerpt": "小孩子才做选择期间，猎手暴伤加成额外提升18%"
+              },
+              {
+                "label": "防御无视",
+                "trigger": "小孩子才做选择期间",
+                "excerpt": "小孩子才做选择期间，铁胆防御无视额外提升9%"
+              }
+            ]
+          },
+          {
+            "name": "边缘幻梦",
+            "desc": "丽贝卡附加【骇破·偏移】时，自身普攻伤害加成提升20%，持续8秒。",
+            "buffs": [
+              {
+                "label": "普攻伤害加成",
+                "trigger": "附加骇破·偏移后",
+                "excerpt": "附加骇破·偏移后，普攻伤害加成提升20%"
+              }
+            ]
+          },
+          {
+            "name": "也许……",
+            "desc": "丽贝卡从所有来源中获得的普攻伤害加成数值提升40%。丽贝卡施放重击·哒哒哒！·猎手、重击·砰砰砰！·铁胆期间，额外造成一次900%的导电伤害，此次伤害为普攻伤害。丽贝卡施放重击·哒哒哒！·猎手、重击·砰砰砰！·铁胆时，额外回复20点【手感火热】。受到致死伤害时，此次伤害不会使丽贝卡倒下，并且立即回复5次2077点固定生命值，该效果每10分钟可触发1次。处于非战斗状态大于4秒时，丽贝卡回复120点【狂热】，每4秒只生效1次。",
+            "buffs": [
+              {
+                "label": "强化重击额外伤害",
+                "trigger": "施放强化重击期间",
+                "excerpt": "强化重击期间，额外造成900%导电普攻伤害",
+                "desc": "丽贝卡施放重击·哒哒哒！·猎手、重击·砰砰砰！·铁胆期间，额外造成一次900%的导电伤害，此次伤害为普攻伤害。"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  }
+});

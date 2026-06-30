@@ -1,0 +1,183 @@
+window.WUWA_LANGUAGES.extend("en-US", {
+  "data": {
+    "chars": {
+      "carlotta": {
+        "name": "Carlotta",
+        "resources": [
+          {
+            "label": "灵萃"
+          }
+        ],
+        "skills": [
+          {
+            "name": "Silent Execution - Basic Attack Stage 1"
+          },
+          {
+            "name": "Silent Execution - Basic Attack Stage 2"
+          },
+          {
+            "name": "Silent Execution - Necessary Measures Stage 1 DMG"
+          },
+          {
+            "name": "Silent Execution - Necessary Measures Stage 2 DMG"
+          },
+          {
+            "name": "Silent Execution - Necessary Measures Stage 3 DMG"
+          },
+          {
+            "name": "Silent Execution - Heavy Attack DMG"
+          },
+          {
+            "name": "Silent Execution - Containment Tactics DMG"
+          },
+          {
+            "name": "Silent Execution - Mid-air Attack DMG"
+          },
+          {
+            "name": "Silent Execution - Customary Greetings DMG"
+          },
+          {
+            "name": "Silent Execution - Dodge Counter DMG"
+          },
+          {
+            "name": "Art of Violence - Skill DMG"
+          },
+          {
+            "name": "Art of Violence - Chromatic Splendor DMG"
+          },
+          {
+            "name": "Era of New Wave - Skill DMG"
+          },
+          {
+            "name": "Era of New Wave - Death Knell DMG"
+          },
+          {
+            "name": "Era of New Wave - Fatal Finale DMG"
+          },
+          {
+            "name": "Wintertime Aria - Skill DMG"
+          },
+          {
+            "name": "Lethal Repertoire - Imminent Oblivion DMG"
+          }
+        ],
+        "combatStates": [
+          {
+            "label": "目标状态",
+            "inactiveLabel": "目标未处于解离",
+            "entry": "共鸣解放命中目标附加解离；固有·艺术至上使变奏技能、示我璀璨、死兆、末路见行命中也可附加解离。",
+            "options": [
+              {
+                "label": "解离"
+              }
+            ]
+          },
+          {
+            "label": "枪花轮舞状态",
+            "inactiveLabel": "未处于枪花轮舞状态",
+            "entry": "施放共鸣解放·新浪潮时代后进入枪花轮舞状态，期间可施放死兆；镜向箔达到4点后可施放致死以终。",
+            "options": [
+              {
+                "label": "枪花轮舞"
+              }
+            ]
+          },
+          {
+            "label": "镀色晶",
+            "inactiveLabel": "镀色晶未激活",
+            "entry": "灵萃充满并激活镀色晶时，可施放重击末路见行。",
+            "options": [
+              {
+                "label": "已激活"
+              }
+            ]
+          }
+        ],
+        "buffs": [
+          {
+            "source": "共鸣解放·解离 / 固有·艺术至上",
+            "label": "防御无视",
+            "trigger": "目标处于解离时",
+            "excerpt": "攻击解离目标时，无视18%防御",
+            "desc": "解离：珂莱塔攻击携带解离效果的目标，造成伤害时忽视目标18%防御。共鸣解放命中目标附加解离；固有·艺术至上使变奏技能入冬叹调、共鸣技能示我璀璨、共鸣解放死兆、重击末路见行可以为命中的目标附加解离效果。"
+          },
+          {
+            "source": "共鸣回路·揭幕者",
+            "label": "共鸣解放倍率提升",
+            "trigger": "灵萃达到上限后",
+            "excerpt": "灵萃达到上限后，共鸣解放伤害倍率提升80%",
+            "desc": "揭幕者：【灵萃】达到上限时获得。共鸣解放新浪潮时代、共鸣解放死兆、共鸣解放致死以终的伤害倍率提升80%，枪花轮舞状态时若切换至其他角色或枪花轮舞状态结束时，效果结束。"
+          }
+        ],
+        "chain": [
+          {
+            "name": "美或死，璀璨即凋零",
+            "desc": "珂莱塔对拥有解离效果的目标攻击造成伤害时，该次伤害的暴击提升12.5%。对处于变彩状态下的目标施放共鸣技能示我璀璨并命中时，额外回复30点【灵萃】。",
+            "buffs": [
+              {
+                "label": "暴击",
+                "trigger": "目标处于解离时",
+                "excerpt": "攻击解离目标时，暴击提升12.5%"
+              }
+            ]
+          },
+          {
+            "name": "寂与亡，衰败亦新生",
+            "desc": "共鸣解放致死以终的伤害倍率提升126%。",
+            "buffs": [
+              {
+                "label": "致死以终倍率提升",
+                "trigger": "默认",
+                "excerpt": "致死以终伤害倍率提升126%"
+              }
+            ]
+          },
+          {
+            "name": "切步、向前，此为优雅的进行式",
+            "desc": "延奏技能碎璃镜花：施放延奏技能致辞后，额外进行一次攻击，造成珂莱塔1032.18%攻击的冷凝伤害。共鸣技能暴力美学、共鸣技能示我璀璨的伤害倍率提升93%。",
+            "buffs": [
+              {
+                "label": "暴力美学/示我璀璨倍率提升",
+                "trigger": "默认",
+                "excerpt": "暴力美学、示我璀璨伤害倍率提升93%"
+              }
+            ]
+          },
+          {
+            "name": "以旧雨，为颂赞的苦酒",
+            "desc": "珂莱塔施放重击、重击限制性策略、重击末路见行时，队伍中的角色共鸣技能伤害加成提升25%，持续30秒。",
+            "buffs": [
+              {
+                "label": "共鸣技能伤害加成",
+                "trigger": "施放重击/限制性策略/末路见行后",
+                "excerpt": "释放重击、限制性策略或末路见行时，共鸣技能伤害加成提升25%"
+              }
+            ]
+          },
+          {
+            "name": "敬昨夜、今日和彼时彼刻",
+            "desc": "重击末路见行的伤害倍率提升47%。",
+            "buffs": [
+              {
+                "label": "末路见行倍率提升",
+                "trigger": "默认",
+                "excerpt": "末路见行伤害倍率提升47%"
+              }
+            ]
+          },
+          {
+            "name": "我依然故我，于终幕之上",
+            "desc": "共鸣解放死兆的射击造成更高的伤害，并且生成的晶体数量翻倍，二者总计使共鸣解放死兆伤害倍率提升186.6%。共鸣解放死兆的射击命中目标时，对目标附加焕彩效果：持续时间内无法进行任何动作，受到伤害或持续1.5秒时清除效果。",
+            "buffs": [
+              {
+                "label": "死兆倍率提升",
+                "trigger": "默认",
+                "excerpt": "死兆伤害倍率提升186.6%"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  }
+});

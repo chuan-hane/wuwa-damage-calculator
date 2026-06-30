@@ -1,0 +1,234 @@
+window.WUWA_LANGUAGES.extend("en-US", {
+  "data": {
+    "chars": {
+      "lucilla": {
+        "name": "Lucilla",
+        "resources": [
+          {
+            "label": "照片"
+          }
+        ],
+        "skills": [
+          {
+            "name": "Snapshot - Basic Attack Stage 1 DMG"
+          },
+          {
+            "name": "Snapshot - Basic Attack Stage 2 DMG"
+          },
+          {
+            "name": "Snapshot - Basic Attack Stage 3 - Unremarkable DMG"
+          },
+          {
+            "name": "Snapshot - Basic Attack Stage 3 - Commendable DMG"
+          },
+          {
+            "name": "Snapshot - Mid-air Attack DMG"
+          },
+          {
+            "name": "Snapshot - Dodge Counter DMG"
+          },
+          {
+            "name": "Phantom Frame - Phantom Frame DMG"
+          },
+          {
+            "name": "Phantom Frame - Compensate DMG"
+          },
+          {
+            "name": "Phantom Frame - Spotlight DMG"
+          },
+          {
+            "name": "Phantom Frame - Spotlight DMG"
+          },
+          {
+            "name": "Clear As Day - Clear As Day DMG"
+          },
+          {
+            "name": "Clear As Day - Clear As Day DMG"
+          },
+          {
+            "name": "Clear As Day - Basic Attack - Tracing Forms Stage 1 DMG"
+          },
+          {
+            "name": "Clear As Day - Basic Attack - Tracing Forms Stage 2 DMG"
+          },
+          {
+            "name": "Clear As Day - Basic Attack - Tracing Forms Stage 3 DMG"
+          },
+          {
+            "name": "Clear As Day - Letting It Go DMG"
+          },
+          {
+            "name": "Clear As Day - Letting It Go DMG"
+          },
+          {
+            "name": "Clear As Day - Mid-air Attack - Reminiscence DMG"
+          },
+          {
+            "name": "Clear As Day - Dodge Counter - Reminiscence DMG"
+          },
+          {
+            "name": "Clip It - Clip It DMG"
+          },
+          {
+            "name": "Clip It - Clip It: Hard Cut DMG"
+          },
+          {
+            "name": "Memory Palace - Oblivion DMG"
+          },
+          {
+            "name": "Memory Palace - Oblivion DMG"
+          }
+        ],
+        "combatStates": [
+          {
+            "label": "共鸣模态",
+            "inactiveLabel": "未确认共鸣模态",
+            "entry": "洛瑟菈拥有共鸣模态·霜渐和共鸣模态·声骸两种模态，可在两种模态间切换。",
+            "options": [
+              {
+                "label": "霜渐"
+              },
+              {
+                "label": "声骸"
+              }
+            ]
+          },
+          {
+            "label": "追忆状态",
+            "inactiveLabel": "未处于追忆状态",
+            "entry": "拥有全部3张照片时施放共鸣解放·历历在目后进入追忆状态。",
+            "options": [
+              {
+                "label": "追忆"
+              }
+            ]
+          }
+        ],
+        "buffs": [
+          {
+            "source": "固有·慢镜头",
+            "label": "冷凝减抗",
+            "trigger": "施放追光后",
+            "excerpt": "霜渐模态施放追光后，目标冷凝抗性降低8%",
+            "desc": "处于共鸣模态·霜渐时，队伍中登场角色一定范围内的目标冷凝抗性降低8%，持续30秒。"
+          },
+          {
+            "source": "固有·慢镜头",
+            "label": "声骸技能伤害加成",
+            "trigger": "施放追光后",
+            "excerpt": "声骸模态施放追光后，队伍声骸技能伤害加成提升25%",
+            "desc": "处于共鸣模态·声骸时，队伍中的角色声骸技能伤害加成提升25%，持续30秒。"
+          },
+          {
+            "source": "共鸣解放·历历在目",
+            "label": "普攻伤害加成",
+            "trigger": "施放历历在目时",
+            "excerpt": "霜渐模态施放历历在目时，普攻伤害加成提升30%",
+            "desc": "处于共鸣模态·霜渐时，此次伤害为普攻伤害。施放该技能时洛瑟菈的普攻伤害加成提升30%，持续10秒。"
+          },
+          {
+            "source": "共鸣解放·历历在目",
+            "label": "声骸技能伤害加成",
+            "trigger": "施放历历在目时",
+            "excerpt": "声骸模态施放历历在目时，声骸技能伤害加成提升30%",
+            "desc": "处于共鸣模态·声骸时，此次伤害为声骸技能伤害。施放该技能时洛瑟菈的声骸技能伤害加成提升30%，持续10秒。"
+          },
+          {
+            "source": "共鸣回路·变焦",
+            "label": "暴击伤害",
+            "trigger": "声骸模态获得变焦时",
+            "excerpt": "声骸模态消耗照片或施放历历在目后，每层声骸技能暴击伤害提升10%",
+            "desc": "变焦每层变焦使队伍中登场角色造成声骸技能伤害的暴击伤害提升10%。胶卷的可叠加层数上限增加至10层，变焦的可叠加层数上限增加至4层。洛瑟菈每次消耗【照片】时，若处于共鸣模态·声骸，获得1层变焦。"
+          },
+          {
+            "source": "延奏·蒙太奇",
+            "label": "霜渐效应伤害加深",
+            "trigger": "释放延奏技能后",
+            "excerpt": "霜渐模态延奏后，目标受到霜渐效应伤害加深60%",
+            "desc": "处于共鸣模态·霜渐时，队伍中登场角色一定范围内的目标受到【霜渐效应】的伤害加深60%，持续30秒。洛瑟菈切换模态时，该效果提前结束。"
+          },
+          {
+            "source": "延奏·蒙太奇",
+            "label": "声骸技能伤害加深",
+            "trigger": "释放延奏技能后",
+            "excerpt": "声骸模态延奏后，下一位登场角色声骸技能伤害加深50%",
+            "desc": "处于共鸣模态·声骸时，下一个登场角色声骸技能伤害加深50%，持续14秒。切换至其他角色或洛瑟菈切换模态时，该效果提前结束。"
+          }
+        ],
+        "chain": [
+          {
+            "name": "遥远的晌午",
+            "desc": "施放共鸣技能·幻象定帧展开聚焦环期间，指针首次进入完美焦距时将立即使完美焦距充满聚焦环。施放共鸣技能·追光时，洛瑟菈的暴击提升20%，持续10秒。共鸣技能·幻象定帧、普攻·溯念留形第3段免疫打断。",
+            "buffs": [
+              {
+                "label": "暴击",
+                "trigger": "施放追光时",
+                "excerpt": "施放追光时，暴击提升20%"
+              }
+            ]
+          },
+          {
+            "name": "酣睡的月光",
+            "desc": "施放共鸣解放·历历在目时，洛瑟菈将根据共鸣模态提供额外的强化效果：·处于共鸣模态·霜渐时，队伍中登场角色一定范围内的目标受到【霜渐效应】的伤害加深80%。·处于共鸣模态·声骸时，队伍中角色的声骸技能伤害加成提升40%。追忆状态持续期间，上述效果持续存在。退出追忆状态后，上述效果保留30秒。洛瑟菈切换模态时，上述效果提前结束。",
+            "buffs": [
+              {
+                "label": "霜渐效应伤害加深",
+                "trigger": "施放历历在目后",
+                "excerpt": "霜渐模态施放历历在目后，霜渐效应伤害加深80%"
+              },
+              {
+                "label": "声骸技能伤害加成",
+                "trigger": "施放历历在目后",
+                "excerpt": "声骸模态施放历历在目后，队伍声骸技能伤害加成提升40%"
+              }
+            ]
+          },
+          {
+            "name": "时间自无声处消逝",
+            "desc": "断舍离的伤害倍率提升100%。",
+            "buffs": [
+              {
+                "label": "断舍离倍率提升",
+                "trigger": "默认",
+                "excerpt": "断舍离伤害倍率提升100%"
+              }
+            ]
+          },
+          {
+            "name": "过去悄然沉默",
+            "desc": "遗忘命中将牵引周围的目标。施放遗忘时，洛瑟菈的攻击提升10%，可叠加3层，持续6秒，持续时间结束清除全部层数。施放普攻·溯念留形第3段时，洛瑟菈受到的伤害降低30%。",
+            "buffs": [
+              {
+                "label": "攻击",
+                "trigger": "施放遗忘时",
+                "excerpt": "施放遗忘时，每层攻击提升10%"
+              }
+            ]
+          },
+          {
+            "name": "岁月如溪水",
+            "desc": "遗忘的伤害倍率提升50%。",
+            "buffs": [
+              {
+                "label": "遗忘倍率提升",
+                "trigger": "默认",
+                "excerpt": "遗忘伤害倍率提升50%"
+              }
+            ]
+          },
+          {
+            "name": "在如烟的时间里张望",
+            "desc": "追忆状态持续期间，洛瑟菈每次消耗【照片】将获得1层铭记，可叠加3层。每层铭记使断舍离造成的伤害提升200%，至多提升600%。施放断舍离后清除全部的铭记层数。若洛瑟菈在追忆状态持续期间击败了任意目标，将获得怀恋：退出追忆状态且处于非战斗状态时，消耗怀恋，洛瑟菈回复150点【印象】。",
+            "buffs": [
+              {
+                "label": "断舍离伤害加深",
+                "trigger": "追忆状态消耗照片后",
+                "excerpt": "每层铭记使断舍离伤害加深200%"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  }
+});

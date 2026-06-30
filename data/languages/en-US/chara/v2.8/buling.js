@@ -1,0 +1,157 @@
+window.WUWA_LANGUAGES.extend("en-US", {
+  "data": {
+    "chars": {
+      "buling": {
+        "name": "Buling",
+        "resources": [
+          {
+            "label": "少阴"
+          },
+          {
+            "label": "少阳"
+          }
+        ],
+        "skills": [
+          {
+            "name": "Hexagram Calls, Lightning Falls - Stage 1 DMG"
+          },
+          {
+            "name": "Hexagram Calls, Lightning Falls - Stage 2 DMG"
+          },
+          {
+            "name": "Hexagram Calls, Lightning Falls - Stage 3 DMG"
+          },
+          {
+            "name": "Hexagram Calls, Lightning Falls - Stage 4 DMG"
+          },
+          {
+            "name": "Hexagram Calls, Lightning Falls - Heavy Attack - Mountain Over Thunder DMG"
+          },
+          {
+            "name": "Hexagram Calls, Lightning Falls - Heavy Attack - Thunder Over Mountain DMG"
+          },
+          {
+            "name": "Hexagram Calls, Lightning Falls - Mid-air Attack DMG"
+          },
+          {
+            "name": "Hexagram Calls, Lightning Falls - Dodge Counter DMG"
+          },
+          {
+            "name": "In Shadow Thunder Stirs - Thunder Talisman DMG"
+          },
+          {
+            "name": "In Shadow Thunder Stirs - Pull-in Effect Continuous DMG"
+          },
+          {
+            "name": "Flashing Thunder Spell - Flashing Thunder Spell DMG"
+          },
+          {
+            "name": "Summon and Smite - Skill DMG"
+          },
+          {
+            "name": "Thunder Begets Life - Flashing Thunder Spell - Harmony DMG"
+          },
+          {
+            "name": "Thunder Begets Life - Five Thunders Spell Array Continuous DMG"
+          }
+        ],
+        "combatStates": [
+          {
+            "label": "雷法状态",
+            "inactiveLabel": "未展开五雷荡煞阵",
+            "entry": "拥有少阴和少阳时，飞雷诀替换为飞雷诀·归一；施放后生成五雷荡煞阵，持续期间队伍获得雷法·一气初动。队伍角色施放变奏技能后，依次替换为雷法·两仪交泰、雷法·三才合一。",
+            "options": [
+              {
+                "label": "一气初动"
+              },
+              {
+                "label": "两仪交泰"
+              },
+              {
+                "label": "三才合一"
+              }
+            ]
+          }
+        ],
+        "buffs": [
+          {
+            "source": "固有·吉时已至，厄运退散",
+            "label": "治疗效果加成",
+            "trigger": "治疗生命值低于50%的角色时",
+            "excerpt": "治疗低生命角色时，治疗效果加成提升25%",
+            "desc": "治疗生命值低于50%的角色时，卜灵的治疗效果加成提升25%。"
+          },
+          {
+            "source": "共鸣回路·雷炁化生",
+            "label": "共鸣技能伤害加成",
+            "trigger": "雷法·两仪交泰期间",
+            "excerpt": "两仪交泰中，登场角色共鸣技能伤害加成提升10%",
+            "desc": "雷法·两仪交泰状态持续期间，使队伍中登场的角色共鸣技能伤害加成提升10%。队伍中的角色施放变奏技能后，雷法·两仪交泰替换为雷法·三才合一。"
+          },
+          {
+            "source": "共鸣回路·雷炁化生",
+            "label": "共鸣技能伤害加成",
+            "trigger": "雷法·三才合一期间",
+            "excerpt": "三才合一中，登场角色共鸣技能伤害加成提升25%",
+            "desc": "雷法·三才合一状态持续期间，使队伍中登场的角色共鸣技能伤害加成提升25%。"
+          },
+          {
+            "source": "延奏·役将驱邪",
+            "label": "全伤害加深",
+            "trigger": "释放延奏技能后",
+            "excerpt": "附近队伍中所有角色全伤害加深15%",
+            "desc": "持续为队伍中登场角色回复生命值，每秒回复卜灵18%攻击的生命值，持续16秒。附近队伍中所有角色全伤害加深15%，持续30秒。"
+          }
+        ],
+        "chain": [
+          {
+            "name": "百般法宝，借物打力",
+            "desc": "共鸣解放·飞雷诀·归一造成伤害时，此次伤害的暴击提升20%。",
+            "buffs": [
+              {
+                "label": "暴击",
+                "trigger": "飞雷诀·归一造成伤害时",
+                "excerpt": "飞雷诀·归一造成伤害时，暴击提升20%"
+              }
+            ]
+          },
+          {
+            "name": "符法通玄，神鬼咸听",
+            "desc": "卜灵进入阴阳相生状态时，回复25点共鸣能量，该效果每24秒可生效1次。"
+          },
+          {
+            "name": "召灵遣将，窥探天机",
+            "desc": "五雷荡煞阵持续期间，队伍中的角色生命值低于50%时，立即回复350+150%卜灵攻击的生命值，该效果每24秒可生效1次。"
+          },
+          {
+            "name": "索拉云游，气运加身",
+            "desc": "卜灵的治疗效果加成提升20%。",
+            "buffs": [
+              {
+                "label": "治疗效果加成",
+                "trigger": "默认",
+                "excerpt": "治疗效果加成提升20%"
+              }
+            ]
+          },
+          {
+            "name": "论坛禁言，速换马甲",
+            "desc": "五雷荡煞阵生成时，立即对范围内所有目标附加6层电磁效应。"
+          },
+          {
+            "name": "“天地混元雷符水帖天尊”",
+            "desc": "雷法·三才合一状态持续期间，队伍中登场的角色获得的共鸣技能伤害加成效果提升至50%。",
+            "buffs": [
+              {
+                "label": "共鸣技能伤害加成",
+                "trigger": "雷法·三才合一期间",
+                "excerpt": "三才合一中，共鸣技能伤害加成额外提升25%",
+                "desc": "雷法·三才合一状态持续期间，队伍中登场的角色获得的共鸣技能伤害加成效果提升至50%。"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  }
+});

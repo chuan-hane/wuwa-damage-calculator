@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>wuwa伤害计算器</title>
+  <link rel="stylesheet" href="styles.css" />
+  <!-- 命名空间 + 注册器：必须在角色数据文件之前 -->
+  <script>
+    window.WUWA = {
+      chars: {},
+      order: [],
+      register(c) { this.chars[c.id] = c; this.order.push(c.id); },
+    };
+  </script>
+</head>
+<body>
+  <main class="app-main">
+    <div class="board" id="board"><!-- 由 src/app.js 调度渲染：顶栏 / 伤害 / 面板 / Buff / 队伍 --></div>
+  </main>
+
+  <!-- 核心数据：数值、门槛、ID；展示文本由语言包覆盖 -->
+  <script src="data/core/weapons.js"></script>
+  <script src="data/core/sonatas.js"></script>
+  <script src="data/core/chara/v1.0/aalto.js"></script>
+  <script src="data/core/chara/v1.0/baizhi.js"></script>
+  <script src="data/core/chara/v1.0/calcharo.js"></script>
+  <script src="data/core/chara/v1.0/chixia.js"></script>
+  <script src="data/core/chara/v1.0/danjin.js"></script>
+  <script src="data/core/chara/v1.0/encore.js"></script>
+  <script src="data/core/chara/v1.0/jianxin.js"></script>
+  <script src="data/core/chara/v1.0/jiyan.js"></script>
+  <script src="data/core/chara/v1.0/lingyang.js"></script>
+  <script src="data/core/chara/v1.0/mortefi.js"></script>
+  <script src="data/core/chara/v1.0/rover_havoc.js"></script>
+  <script src="data/core/chara/v1.0/rover_spectro.js"></script>
+  <script src="data/core/chara/v1.0/sanhua.js"></script>
+  <script src="data/core/chara/v1.0/taoqi.js"></script>
+  <script src="data/core/chara/v1.0/verina.js"></script>
+  <script src="data/core/chara/v1.0/yangyang.js"></script>
+  <script src="data/core/chara/v1.0/yinlin.js"></script>
+  <script src="data/core/chara/v1.0/yuanwu.js"></script>
+  <script src="data/core/chara/v1.1/changli.js"></script>
+  <script src="data/core/chara/v1.1/jinhsi.js"></script>
+  <script src="data/core/chara/v1.2/xiangliyao.js"></script>
+  <script src="data/core/chara/v1.2/zhezhi.js"></script>
+  <script src="data/core/chara/v1.3/shorekeeper.js"></script>
+  <script src="data/core/chara/v1.3/youhu.js"></script>
+  <script src="data/core/chara/v1.4/camellya.js"></script>
+  <script src="data/core/chara/v1.4/lumi.js"></script>
+  <script src="data/core/chara/v2.0/carlotta.js"></script>
+  <script src="data/core/chara/v2.0/roccia.js"></script>
+  <script src="data/core/chara/v2.0/rover_aero.js"></script>
+  <script src="data/core/chara/v2.1/brant.js"></script>
+  <script src="data/core/chara/v2.1/phoebe.js"></script>
+  <script src="data/core/chara/v2.2/cantarella.js"></script>
+  <script src="data/core/chara/v2.3/ciaccona.js"></script>
+  <script src="data/core/chara/v2.3/zani.js"></script>
+  <script src="data/core/chara/v2.4/cartethyia.js"></script>
+  <script src="data/core/chara/v2.4/lupa.js"></script>
+  <script src="data/core/chara/v2.5/phrolova.js"></script>
+  <script src="data/core/chara/v2.6/augusta.js"></script>
+  <script src="data/core/chara/v2.6/iuno.js"></script>
+  <script src="data/core/chara/v2.7/galbrena.js"></script>
+  <script src="data/core/chara/v2.7/qiuyuan.js"></script>
+  <script src="data/core/chara/v2.8/buling.js"></script>
+  <script src="data/core/chara/v2.8/chisa.js"></script>
+  <script src="data/core/chara/v3.0/lynae.js"></script>
+  <script src="data/core/chara/v3.0/mornye.js"></script>
+  <script src="data/core/chara/v3.1/aemeath.js"></script>
+  <script src="data/core/chara/v3.1/luukherssen.js"></script>
+  <script src="data/core/chara/v3.2/sigrika.js"></script>
+  <script src="data/core/chara/v3.3/denia.js"></script>
+  <script src="data/core/chara/v3.3/hiyuki.js"></script>
+  <script src="data/core/chara/v3.4/lucilla.js"></script>
+  <script src="data/core/chara/v3.4/lucy.js"></script>
+  <script src="data/core/chara/v3.4/rebecca.js"></script>
+  <!-- 本地图标覆盖表，由 scripts/sync-icons.js 生成 -->
+  <script src="data/icons.js"></script>
+  <!-- 语言运行时与语言包 -->
+  <script src="src/languages.js"></script>
+  <script src="data/languages/zh-CN/base.js"></script>
+  <script src="data/languages/zh-CN/ui.js"></script>
+  <script src="data/languages/zh-CN/terms.js"></script>
+  <script src="data/languages/zh-CN/weapons.js"></script>
+  <script src="data/languages/zh-CN/sonatas.js"></script>
+  <script src="data/languages/zh-CN/chara/v1.0/aalto.js"></script>
+  <script src="data/languages/zh-CN/chara/v1.0/baizhi.js"></script>
+  <script src="data/languages/zh-CN/chara/v1.0/calcharo.js"></script>
+  <script src="data/languages/zh-CN/chara/v1.0/chixia.js"></script>
+  <script src="data/languages/zh-CN/chara/v1.0/danjin.js"></script>
+  <script src="data/languages/zh-CN/chara/v1.0/encore.js"></script>
+  <script src="data/languages/zh-CN/chara/v1.0/jianxin.js"></script>
+  <script src="data/languages/zh-CN/chara/v1.0/jiyan.js"></script>
+  <script src="data/languages/zh-CN/chara/v1.0/lingyang.js"></script>
+  <script src="data/languages/zh-CN/chara/v1.0/mortefi.js"></script>
+  <script src="data/languages/zh-CN/chara/v1.0/rover_havoc.js"></script>
+  <script src="data/languages/zh-CN/chara/v1.0/rover_spectro.js"></script>
+  <script src="data/languages/zh-CN/chara/v1.0/sanhua.js"></script>
+  <script src="data/languages/zh-CN/chara/v1.0/taoqi.js"></script>
+  <script src="data/languages/zh-CN/chara/v1.0/verina.js"></script>
+  <script src="data/languages/zh-CN/chara/v1.0/yangyang.js"></script>
+  <script src="data/languages/zh-CN/chara/v1.0/yinlin.js"></script>
+  <script src="data/languages/zh-CN/chara/v1.0/yuanwu.js"></script>
+  <script src="data/languages/zh-CN/chara/v1.1/changli.js"></script>
+  <script src="data/languages/zh-CN/chara/v1.1/jinhsi.js"></script>
+  <script src="data/languages/zh-CN/chara/v1.2/xiangliyao.js"></script>
+  <script src="data/languages/zh-CN/chara/v1.2/zhezhi.js"></script>
+  <script src="data/languages/zh-CN/chara/v1.3/shorekeeper.js"></script>
+  <script src="data/languages/zh-CN/chara/v1.3/youhu.js"></script>
+  <script src="data/languages/zh-CN/chara/v1.4/camellya.js"></script>
+  <script src="data/languages/zh-CN/chara/v1.4/lumi.js"></script>
+  <script src="data/languages/zh-CN/chara/v2.0/carlotta.js"></script>
+  <script src="data/languages/zh-CN/chara/v2.0/roccia.js"></script>
+  <script src="data/languages/zh-CN/chara/v2.0/rover_aero.js"></script>
+  <script src="data/languages/zh-CN/chara/v2.1/brant.js"></script>
+  <script src="data/languages/zh-CN/chara/v2.1/phoebe.js"></script>
+  <script src="data/languages/zh-CN/chara/v2.2/cantarella.js"></script>
+  <script src="data/languages/zh-CN/chara/v2.3/ciaccona.js"></script>
+  <script src="data/languages/zh-CN/chara/v2.3/zani.js"></script>
+  <script src="data/languages/zh-CN/chara/v2.4/cartethyia.js"></script>
+  <script src="data/languages/zh-CN/chara/v2.4/lupa.js"></script>
+  <script src="data/languages/zh-CN/chara/v2.5/phrolova.js"></script>
+  <script src="data/languages/zh-CN/chara/v2.6/augusta.js"></script>
+  <script src="data/languages/zh-CN/chara/v2.6/iuno.js"></script>
+  <script src="data/languages/zh-CN/chara/v2.7/galbrena.js"></script>
+  <script src="data/languages/zh-CN/chara/v2.7/qiuyuan.js"></script>
+  <script src="data/languages/zh-CN/chara/v2.8/buling.js"></script>
+  <script src="data/languages/zh-CN/chara/v2.8/chisa.js"></script>
+  <script src="data/languages/zh-CN/chara/v3.0/lynae.js"></script>
+  <script src="data/languages/zh-CN/chara/v3.0/mornye.js"></script>
+  <script src="data/languages/zh-CN/chara/v3.1/aemeath.js"></script>
+  <script src="data/languages/zh-CN/chara/v3.1/luukherssen.js"></script>
+  <script src="data/languages/zh-CN/chara/v3.2/sigrika.js"></script>
+  <script src="data/languages/zh-CN/chara/v3.3/denia.js"></script>
+  <script src="data/languages/zh-CN/chara/v3.3/hiyuki.js"></script>
+  <script src="data/languages/zh-CN/chara/v3.4/lucilla.js"></script>
+  <script src="data/languages/zh-CN/chara/v3.4/lucy.js"></script>
+  <script src="data/languages/zh-CN/chara/v3.4/rebecca.js"></script>
+  <script src="data/languages/en-US/base.js"></script>
+  <script src="data/languages/en-US/ui.js"></script>
+  <script src="data/languages/en-US/terms.js"></script>
+  <script src="data/languages/en-US/mechanics.js"></script>
+  <script src="data/languages/en-US/weapons.js"></script>
+  <script src="data/languages/en-US/sonatas.js"></script>
+  <script src="data/languages/en-US/chara/v1.0/aalto.js"></script>
+  <script src="data/languages/en-US/chara/v1.0/baizhi.js"></script>
+  <script src="data/languages/en-US/chara/v1.0/calcharo.js"></script>
+  <script src="data/languages/en-US/chara/v1.0/chixia.js"></script>
+  <script src="data/languages/en-US/chara/v1.0/danjin.js"></script>
+  <script src="data/languages/en-US/chara/v1.0/encore.js"></script>
+  <script src="data/languages/en-US/chara/v1.0/jianxin.js"></script>
+  <script src="data/languages/en-US/chara/v1.0/jiyan.js"></script>
+  <script src="data/languages/en-US/chara/v1.0/lingyang.js"></script>
+  <script src="data/languages/en-US/chara/v1.0/mortefi.js"></script>
+  <script src="data/languages/en-US/chara/v1.0/rover_havoc.js"></script>
+  <script src="data/languages/en-US/chara/v1.0/rover_spectro.js"></script>
+  <script src="data/languages/en-US/chara/v1.0/sanhua.js"></script>
+  <script src="data/languages/en-US/chara/v1.0/taoqi.js"></script>
+  <script src="data/languages/en-US/chara/v1.0/verina.js"></script>
+  <script src="data/languages/en-US/chara/v1.0/yangyang.js"></script>
+  <script src="data/languages/en-US/chara/v1.0/yinlin.js"></script>
+  <script src="data/languages/en-US/chara/v1.0/yuanwu.js"></script>
+  <script src="data/languages/en-US/chara/v1.1/changli.js"></script>
+  <script src="data/languages/en-US/chara/v1.1/jinhsi.js"></script>
+  <script src="data/languages/en-US/chara/v1.2/xiangliyao.js"></script>
+  <script src="data/languages/en-US/chara/v1.2/zhezhi.js"></script>
+  <script src="data/languages/en-US/chara/v1.3/shorekeeper.js"></script>
+  <script src="data/languages/en-US/chara/v1.3/youhu.js"></script>
+  <script src="data/languages/en-US/chara/v1.4/camellya.js"></script>
+  <script src="data/languages/en-US/chara/v1.4/lumi.js"></script>
+  <script src="data/languages/en-US/chara/v2.0/carlotta.js"></script>
+  <script src="data/languages/en-US/chara/v2.0/roccia.js"></script>
+  <script src="data/languages/en-US/chara/v2.0/rover_aero.js"></script>
+  <script src="data/languages/en-US/chara/v2.1/brant.js"></script>
+  <script src="data/languages/en-US/chara/v2.1/phoebe.js"></script>
+  <script src="data/languages/en-US/chara/v2.2/cantarella.js"></script>
+  <script src="data/languages/en-US/chara/v2.3/ciaccona.js"></script>
+  <script src="data/languages/en-US/chara/v2.3/zani.js"></script>
+  <script src="data/languages/en-US/chara/v2.4/cartethyia.js"></script>
+  <script src="data/languages/en-US/chara/v2.4/lupa.js"></script>
+  <script src="data/languages/en-US/chara/v2.5/phrolova.js"></script>
+  <script src="data/languages/en-US/chara/v2.6/augusta.js"></script>
+  <script src="data/languages/en-US/chara/v2.6/iuno.js"></script>
+  <script src="data/languages/en-US/chara/v2.7/galbrena.js"></script>
+  <script src="data/languages/en-US/chara/v2.7/qiuyuan.js"></script>
+  <script src="data/languages/en-US/chara/v2.8/buling.js"></script>
+  <script src="data/languages/en-US/chara/v2.8/chisa.js"></script>
+  <script src="data/languages/en-US/chara/v3.0/lynae.js"></script>
+  <script src="data/languages/en-US/chara/v3.0/mornye.js"></script>
+  <script src="data/languages/en-US/chara/v3.1/aemeath.js"></script>
+  <script src="data/languages/en-US/chara/v3.1/luukherssen.js"></script>
+  <script src="data/languages/en-US/chara/v3.2/sigrika.js"></script>
+  <script src="data/languages/en-US/chara/v3.3/denia.js"></script>
+  <script src="data/languages/en-US/chara/v3.3/hiyuki.js"></script>
+  <script src="data/languages/en-US/chara/v3.4/lucilla.js"></script>
+  <script src="data/languages/en-US/chara/v3.4/lucy.js"></script>
+  <script src="data/languages/en-US/chara/v3.4/rebecca.js"></script>
+  <!-- 规则映射与展示辅助 -->
+  <script src="src/rules.js"></script>
+  <script src="src/render-helpers.js"></script>
+  <script src="src/equipment.js"></script>
+  <script src="src/settlement.js"></script>
+  <script src="src/buff-view.js"></script>
+  <script src="src/panel-view.js"></script>
+  <script src="src/stage-view.js"></script>
+  <!-- 逻辑 -->
+  <script src="src/app.js"></script>
+</body>
+</html>

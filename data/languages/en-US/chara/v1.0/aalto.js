@@ -1,0 +1,176 @@
+window.WUWA_LANGUAGES.extend("en-US", {
+  "data": {
+    "chars": {
+      "aalto": {
+        "name": "Aalto",
+        "resources": [
+          {
+            "label": "雾滴"
+          }
+        ],
+        "skills": [
+          {
+            "name": "Half Truths - Stage 1 DMG"
+          },
+          {
+            "name": "Half Truths - Stage 2 DMG"
+          },
+          {
+            "name": "Half Truths - Stage 3 DMG"
+          },
+          {
+            "name": "Half Truths - Stage 4 DMG"
+          },
+          {
+            "name": "Half Truths - Stage 5 DMG"
+          },
+          {
+            "name": "Half Truths - Aimed Shot Damage"
+          },
+          {
+            "name": "Half Truths - Fully Charged Aimed Shot Damage"
+          },
+          {
+            "name": "Half Truths - Mid-air Attack"
+          },
+          {
+            "name": "Half Truths - Dodge Counter DMG"
+          },
+          {
+            "name": "Shift Trick - Mist Bullet Damage (Total)"
+          },
+          {
+            "name": "Flower in the Mist - Skill DMG"
+          },
+          {
+            "name": "Feint Shot - Skill DMG"
+          },
+          {
+            "name": "Misty Cover - Mist Bullet DMG"
+          }
+        ],
+        "combatStates": [
+          {
+            "label": "雾气",
+            "inactiveLabel": "本次攻击未穿过雾气",
+            "entry": "普攻第4段会向前扩散雾气；共鸣技能移位戏法也会施放雾气。",
+            "options": [
+              {
+                "label": "本次普攻/空中攻击穿过雾气"
+              }
+            ]
+          },
+          {
+            "label": "虚实之门",
+            "inactiveLabel": "本次攻击未穿过虚实之门",
+            "entry": "施放共鸣解放雾里观花后在前方生成虚实之门，持续10秒。",
+            "options": [
+              {
+                "label": "本次攻击穿过虚实之门"
+              }
+            ]
+          },
+          {
+            "label": "迷雾潜行",
+            "inactiveLabel": "未处于迷雾潜行",
+            "entry": "秋水穿过雾气或虚实之门后进入迷雾潜行。",
+            "options": [
+              {
+                "label": "迷雾潜行"
+              }
+            ]
+          }
+        ],
+        "buffs": [
+          {
+            "source": "固有·零失误演绎",
+            "label": "暴击",
+            "trigger": "重击可触发时",
+            "excerpt": "重击可触发时，暴击补足至必定暴击",
+            "desc": "秋水的重击必定暴击，每30秒可触发1次。"
+          },
+          {
+            "source": "共鸣解放·雾里观花",
+            "label": "攻击",
+            "trigger": "攻击穿过虚实之门时",
+            "excerpt": "攻击穿过虚实之门时，攻击提升10%",
+            "desc": "在面前生成〖虚实之门〗，造成气动伤害且当攻击穿过〖虚实之门〗时攻击提升，〖虚实之门〗持续10秒。"
+          },
+          {
+            "source": "延奏·雾解",
+            "label": "气动伤害加深",
+            "trigger": "释放延奏技能后",
+            "excerpt": "下一位登场角色气动伤害加深23%",
+            "desc": "下一位登场角色气动伤害加深23%，效果持续14秒，若切换至其他角色则该效果提前结束。"
+          }
+        ],
+        "chain": [
+          {
+            "name": "恶作剧开场",
+            "desc": "共鸣技能移位戏法的冷却时间减少4秒。"
+          },
+          {
+            "name": "织雾首秀",
+            "desc": "【雾化分身】继承的生命值提升100%，秋水攻击被分身嘲讽的目标时，攻击提升15%。",
+            "buffs": [
+              {
+                "label": "攻击",
+                "trigger": "攻击被分身嘲讽目标时",
+                "excerpt": "攻击被分身嘲讽的目标时，攻击提升15%"
+              }
+            ]
+          },
+          {
+            "name": "雾化转场",
+            "desc": "秋水的普攻或空中攻击穿过【雾气】时，会额外生成2颗子弹，共造成普攻或空中攻击的50%伤害。",
+            "buffs": [
+              {
+                "label": "额外子弹倍率增加",
+                "trigger": "普攻/空中攻击穿过雾气时",
+                "excerpt": "普攻或空中攻击穿过雾气时，额外子弹造成当前倍率50%的伤害"
+              }
+            ]
+          },
+          {
+            "name": "终幕的黑花",
+            "desc": "共鸣技能雾化子弹伤害提升30%，共鸣回路迷雾潜行状态下秋水受到的伤害降低30%。",
+            "buffs": [
+              {
+                "label": "雾化子弹伤害加成",
+                "trigger": "默认",
+                "excerpt": "雾化子弹伤害加成提升30%"
+              }
+            ]
+          },
+          {
+            "name": "迷途者喝彩",
+            "desc": "处于共鸣回路迷雾潜行时，秋水的气动伤害加成提升25%，效果持续6秒。",
+            "buffs": [
+              {
+                "label": "气动伤害加成",
+                "trigger": "处于迷雾潜行时",
+                "excerpt": "处于迷雾潜行时，气动伤害加成提升25%"
+              }
+            ]
+          },
+          {
+            "name": "幕后卖家",
+            "desc": "共鸣解放雾里观花的效果会使暴击额外提升8%，秋水的重击穿过【虚实之门】时，伤害额外提升50%。",
+            "buffs": [
+              {
+                "label": "暴击",
+                "trigger": "攻击穿过虚实之门时",
+                "excerpt": "攻击穿过虚实之门时，暴击提升8%"
+              },
+              {
+                "label": "重击伤害加成",
+                "trigger": "重击穿过虚实之门时",
+                "excerpt": "重击穿过虚实之门时，伤害加成提升50%"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  }
+});

@@ -1,0 +1,247 @@
+window.WUWA_LANGUAGES.extend("en-US", {
+  "data": {
+    "chars": {
+      "chisa": {
+        "name": "Chisa",
+        "resources": [
+          {
+            "label": "锯环残响"
+          }
+        ],
+        "skills": [
+          {
+            "name": "Reign of Silence - Stage 1 DMG"
+          },
+          {
+            "name": "Reign of Silence - Stage 2 DMG"
+          },
+          {
+            "name": "Reign of Silence - Death Snip DMG"
+          },
+          {
+            "name": "Reign of Silence - Death Snip Additional DMG"
+          },
+          {
+            "name": "Reign of Silence - Thread Withdrawn DMG"
+          },
+          {
+            "name": "Reign of Silence - Rending Lunge DMG"
+          },
+          {
+            "name": "Reign of Silence - Heavy Attack DMG"
+          },
+          {
+            "name": "Reign of Silence - Mid-air Attack DMG"
+          },
+          {
+            "name": "Reign of Silence - Severed Facet DMG"
+          },
+          {
+            "name": "Reign of Silence - Hanging Finality DMG"
+          },
+          {
+            "name": "Reign of Silence - Dodge Counter DMG"
+          },
+          {
+            "name": "Reign of Silence - Eye of Unraveling - Retraction DMG"
+          },
+          {
+            "name": "Fractured Composition - Eye of Unraveling DMG"
+          },
+          {
+            "name": "Fractured Composition - Serrated Loop DMG"
+          },
+          {
+            "name": "Fractured Composition - Serrated Loop Hold DMG"
+          },
+          {
+            "name": "Moment of Nihility - Skill DMG"
+          },
+          {
+            "name": "Reverberance - Return - Skill DMG"
+          },
+          {
+            "name": "Sight of Unraveling - Oblivion - Sawring - Blitz Stage 1 DMG"
+          },
+          {
+            "name": "Sight of Unraveling - Oblivion - Sawring - Blitz Stage 2 DMG"
+          },
+          {
+            "name": "Sight of Unraveling - Oblivion - Sawring - Blitz Stage 2 Hold DMG"
+          },
+          {
+            "name": "Sight of Unraveling - Oblivion - Sawring - Blitz Stage 2: Discordance DMG"
+          },
+          {
+            "name": "Sight of Unraveling - Oblivion - Sawring - Blitz Stage 3 DMG"
+          },
+          {
+            "name": "Sight of Unraveling - Oblivion - Sawring - Blitz Stage 3 Hold DMG"
+          },
+          {
+            "name": "Sight of Unraveling - Oblivion - Sawring - Blitz Stage 3: Falltone DMG"
+          },
+          {
+            "name": "Sight of Unraveling - Oblivion - Chainsaw Mode - Dodge Counter DMG"
+          },
+          {
+            "name": "Sight of Unraveling - Oblivion - Chainsaw Mode - Dodge Counter Hold DMG"
+          },
+          {
+            "name": "Sight of Unraveling - Oblivion - Sawring - Eradication DMG"
+          }
+        ],
+        "combatStates": [
+          {
+            "label": "电锯模式",
+            "inactiveLabel": "未处于电锯模式",
+            "entry": "施放齿轨轮回后进入；锯环·终结后退出。",
+            "options": [
+              {
+                "label": "电锯模式"
+              }
+            ]
+          },
+          {
+            "label": "万缕·汇终",
+            "inactiveLabel": "未处于万缕·汇终",
+            "entry": "施放共鸣解放即刻·归无后进入，持续15秒；施放锯环·终结后提前结束。",
+            "options": [
+              {
+                "label": "万缕·汇终"
+              }
+            ]
+          },
+          {
+            "label": "目标虚无绞痕",
+            "inactiveLabel": "目标未处于虚无绞痕",
+            "entry": "共鸣技能命中、齿轨轮回后命中、解弦之眼·收弦命中或锁定目标时附加，持续30秒。",
+            "options": [
+              {
+                "label": "虚无绞痕"
+              },
+              {
+                "label": "终焉"
+              }
+            ]
+          }
+        ],
+        "buffs": [
+          {
+            "source": "延奏·解弦式第零定律",
+            "label": "异常效应层数上限",
+            "trigger": "释放延奏技能后攻击命中",
+            "excerpt": "攻击命中后，目标异常效应和电磁爆发层数上限提升3层",
+            "desc": "附近队伍中所有角色获得拖曳终焉之弦，持续20秒。拖曳终焉之弦状态下：攻击命中后，使目标异常效应、电磁爆发层数上限增加3层，持续15秒。该效果无法叠加。"
+          },
+          {
+            "source": "共鸣回路·虚湮之线",
+            "label": "防御无视",
+            "trigger": "拥有虚湮之线并攻击虚无绞痕目标",
+            "excerpt": "虚湮之线角色攻击虚无绞痕目标时，无视18%防御",
+            "desc": "延奏技能使队伍获得拖曳终焉之弦；队伍角色附加异常效应或造成异常效应伤害后获得虚湮之线，持续15秒。对拥有虚无绞痕的目标造成伤害时，可无视其18%防御。"
+          },
+          {
+            "source": "共鸣解放·万缕·汇终",
+            "label": "锯环技能倍率提升",
+            "trigger": "处于万缕·汇终时",
+            "excerpt": "万缕·汇终中，锯环技能伤害倍率提升120%",
+            "desc": "万缕·汇终期间，锯环·疾攻、电锯模式·闪避反击、锯环·终结的伤害倍率提升120%。锯环残响点数对锯环·终结伤害倍率增加的效果提升120%。"
+          },
+          {
+            "source": "固有技能·终点在此处",
+            "label": "湮灭伤害加成",
+            "trigger": "施放变奏技能或共鸣解放后",
+            "excerpt": "施放变奏技能或共鸣解放后，湮灭伤害加成提升20%",
+            "desc": "施放变奏技能或共鸣解放时，千咲的湮灭伤害加成提升20%，治疗效果加成提升20%，持续12秒。"
+          },
+          {
+            "source": "固有技能·终点在此处",
+            "label": "治疗效果加成",
+            "trigger": "施放变奏技能或共鸣解放后",
+            "excerpt": "施放变奏技能或共鸣解放后，治疗效果加成提升20%",
+            "desc": "施放变奏技能或共鸣解放时，千咲的湮灭伤害加成提升20%，治疗效果加成提升20%，持续12秒。"
+          }
+        ],
+        "chain": [
+          {
+            "name": "穿行于荒芜长廊",
+            "desc": "千咲施放锯环·疾攻、锯环·终结、电锯模式·闪避反击期间，免疫打断。千咲附加虚无绞痕时，触发下述效果：·自身攻击提升30%，持续15秒。·对目标造成61803点固定湮灭伤害，最多可将目标生命扣除至61.80%，同一目标最多可受到1次该伤害。此次伤害为普攻伤害，不受伤害加成影响。",
+            "buffs": [
+              {
+                "label": "攻击",
+                "trigger": "附加虚无绞痕后",
+                "excerpt": "附加虚无绞痕后，攻击提升30%",
+                "desc": "千咲附加虚无绞痕时，自身攻击提升30%，持续15秒。"
+              }
+            ]
+          },
+          {
+            "name": "织作牵绊的弦网",
+            "desc": "造成伤害无视目标10%湮灭伤害抗性。附近队伍中的角色处于虚湮之线状态时，全属性伤害加成提升50%。",
+            "buffs": [
+              {
+                "label": "湮灭减抗",
+                "trigger": "默认",
+                "excerpt": "造成伤害时，无视目标10%湮灭抗性",
+                "desc": "千咲造成伤害无视目标10%湮灭伤害抗性。"
+              },
+              {
+                "label": "全属性伤害加成",
+                "trigger": "拥有虚湮之线时",
+                "excerpt": "拥有虚湮之线时，全属性伤害加成提升50%",
+                "desc": "附近队伍中的角色拥有虚湮之线时，其全属性伤害加成提升50%。"
+              }
+            ]
+          },
+          {
+            "name": "踱过长夜的迷惘",
+            "desc": "锯环·疾攻、电锯模式·闪避反击、锯环·终结的伤害倍率提升120%，该倍率提升效果与万缕·汇终的倍率提升效果相互叠加。锯环·疾攻、电锯模式·闪避反击消耗【锯环残响】提供的锯环·终结倍率增加效果提升120%，该倍率提升效果与万缕·汇终的倍率提升效果相互叠加。锯环·疾攻、电锯模式·闪避反击、锯环·终结破共振度能力提升50%。",
+            "buffs": [
+              {
+                "label": "锯环技能倍率提升",
+                "trigger": "默认",
+                "excerpt": "锯环技能伤害倍率提升120%",
+                "desc": "锯环·疾攻、电锯模式·闪避反击、锯环·终结的伤害倍率提升120%。锯环·疾攻、电锯模式·闪避反击消耗【锯环残响】提供的锯环·终结倍率增加效果提升120%。"
+              }
+            ]
+          },
+          {
+            "name": "斩断循环的劫章",
+            "desc": "虚无绞痕效果替换为：拥有虚无绞痕的目标受到角色直接造成的伤害时，千咲为目标附加1层【虚湮效应】，该效果每1秒最多触发1次。"
+          },
+          {
+            "name": "万盏灯火将照亮归途所向",
+            "desc": "共鸣解放即刻·归无的伤害加成提升100%。命弦·掠行消耗的【命弦·本流】降低50%。",
+            "buffs": [
+              {
+                "label": "即刻·归无伤害加成",
+                "trigger": "默认",
+                "excerpt": "即刻·归无伤害加成提升100%",
+                "desc": "共鸣解放即刻·归无的伤害加成提升100%。"
+              }
+            ]
+          },
+          {
+            "name": "由此重铸希望，与天光",
+            "desc": "千咲施放锯环·疾攻、锯环·终结、电锯模式·闪避反击期间，受到致死伤害时不会倒下，最少保留1点生命。虚无绞痕强化为虚无绞痕·终焉，获得下述效果：·虚无绞痕·终焉拥有虚无绞痕的所有效果。·拥有虚无绞痕·终焉的目标受到异常效应伤害加深30%。·拥有虚无绞痕·终焉的目标受到千咲伤害提升40%。",
+            "buffs": [
+              {
+                "label": "异常效应伤害加深",
+                "trigger": "目标处于虚无绞痕·终焉时",
+                "excerpt": "虚无绞痕·终焉目标受到异常效应伤害加深30%",
+                "desc": "拥有虚无绞痕·终焉的目标受到异常效应伤害加深30%。"
+              },
+              {
+                "label": "千咲伤害提升",
+                "trigger": "目标处于虚无绞痕·终焉时",
+                "excerpt": "攻击虚无绞痕·终焉目标时，目标受到千咲伤害提升40%",
+                "desc": "拥有虚无绞痕·终焉的目标受到千咲伤害提升40%。"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  }
+});

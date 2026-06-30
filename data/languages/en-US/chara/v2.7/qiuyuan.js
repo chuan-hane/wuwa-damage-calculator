@@ -1,0 +1,205 @@
+window.WUWA_LANGUAGES.extend("en-US", {
+  "data": {
+    "chars": {
+      "qiuyuan": {
+        "name": "Qiuyuan",
+        "resources": [
+          {
+            "label": "挑灯问剑"
+          }
+        ],
+        "skills": [
+          {
+            "name": "Inkwash - Stage 1 DMG"
+          },
+          {
+            "name": "Inkwash - Stage 2 DMG"
+          },
+          {
+            "name": "Inkwash - Stage 3 DMG"
+          },
+          {
+            "name": "Inkwash - Mid-air Attack DMG"
+          },
+          {
+            "name": "Inkwash - Heavy Attack DMG"
+          },
+          {
+            "name": "Inkwash - Dodge Counter DMG"
+          },
+          {
+            "name": "Through the Groves - Skill DMG"
+          },
+          {
+            "name": "Through the Groves - Undaunted Wayfarer DMG"
+          },
+          {
+            "name": "Sundering Strike - Skill DMG"
+          },
+          {
+            "name": "Attack the Must-Defend - Skill Damage"
+          },
+          {
+            "name": "Verdant Edge - Thus Spoke the Blade: Inkwash Stage 1 DMG"
+          },
+          {
+            "name": "Verdant Edge - Thus Spoke the Blade: Inkwash Stage 2 DMG"
+          },
+          {
+            "name": "Verdant Edge - Thus Spoke the Blade: Inkwash Stage 3 DMG"
+          },
+          {
+            "name": "Verdant Edge - Thus Spoke the Blade: Inkwash Stage 4 DMG"
+          },
+          {
+            "name": "Verdant Edge - Thus Spoke the Blade: To Teach DMG"
+          },
+          {
+            "name": "Verdant Edge - Thus Spoke the Blade: To Save DMG"
+          },
+          {
+            "name": "Verdant Edge - Thus Spoke the Blade: To Sacrifice DMG"
+          },
+          {
+            "name": "Through the Groves - Lotuscloak Emerges"
+          },
+          {
+            "name": "Verdant Edge - Exit Drunken Ink State DMG"
+          }
+        ],
+        "combatStates": [
+          {
+            "label": "竹照",
+            "inactiveLabel": "未获得竹照",
+            "entry": "【挑灯问剑】达到400点时获得【竹照】，持续30秒；施放变奏技能可获得400点【挑灯问剑】。",
+            "options": [
+              {
+                "label": "竹照"
+              }
+            ]
+          },
+          {
+            "label": "淋漓醉墨状态",
+            "inactiveLabel": "未处于淋漓醉墨状态",
+            "entry": "【挑灯问剑】满600点时进入【淋漓醉墨】状态，持续8秒；【挑灯问剑】耗尽或切换角色时提前退出。",
+            "options": [
+              {
+                "label": "且从容"
+              }
+            ]
+          }
+        ],
+        "buffs": [
+          {
+            "source": "共鸣解放·万钧一断",
+            "label": "暴击伤害",
+            "trigger": "施放共鸣解放时",
+            "excerpt": "释放万钧一断时，按自身超出50%的暴击转暴击伤害，上限30%",
+            "desc": "仇远暴击高于50%时，每多出1%暴击，施放该技能时，附近队伍中的登场角色提升2%暴击伤害，持续30秒。最高可提升30%暴击伤害。"
+          },
+          {
+            "source": "共鸣回路·竹照",
+            "label": "声骸技能伤害加成",
+            "trigger": "挑灯问剑达到400点后",
+            "excerpt": "获得竹照时，声骸技能伤害加成提升30%",
+            "desc": "【挑灯问剑】达到400点时，获得【竹照】效果，附近队伍中的登场角色声骸技能伤害加成提升30%，持续30秒。"
+          },
+          {
+            "source": "固有·且从容",
+            "label": "答剑伤害易伤",
+            "trigger": "进入淋漓醉墨后",
+            "excerpt": "且从容期间，三段答剑目标受伤提升50%",
+            "desc": "进入【淋漓醉墨】状态时，仇远获得且从容效果，持续10秒，该效果每22秒可触发1次。目标受到重击答剑·弦歌不辍、答剑·割股之心、答剑·忠烈死节的伤害提升50%。"
+          },
+          {
+            "source": "固有·与尔同销万古愁",
+            "label": "攻击",
+            "trigger": "施放声骸技能后获得挑灯问剑",
+            "excerpt": "声骸技能蓄能后，下次获得挑灯问剑时攻击提升10%",
+            "desc": "仇远施放声骸技能时，仇远的竹壶会吸收溢散的能量转化为【金药玉馔】。下次获得【挑灯问剑】时，消耗【金药玉馔】，仇远攻击提升10%，持续20秒。"
+          },
+          {
+            "source": "延奏·出其不趋",
+            "label": "声骸技能伤害加深",
+            "trigger": "释放延奏技能后",
+            "excerpt": "下一位登场角色声骸技能伤害加深50%",
+            "desc": "攻击目标，造成仇远自身100%攻击的气动伤害，此次伤害视为声骸技能伤害。下一个登场角色声骸技能伤害加深50%，持续14秒，若切换至其他角色则该效果提前结束。"
+          }
+        ],
+        "chain": [
+          {
+            "name": "如剑不动，相由心生",
+            "desc": "答剑·弦歌不辍、答剑·割股之心、答剑·忠烈死节免疫打断。仇远暴击提升20%。",
+            "buffs": [
+              {
+                "label": "暴击",
+                "trigger": "默认",
+                "excerpt": "暴击提升20%"
+              }
+            ]
+          },
+          {
+            "name": "剑啊，谓我弃绝弦歌不辍",
+            "desc": "【竹照】获得时增加额外效果：附近队伍中的角色声骸技能伤害加深30%。",
+            "buffs": [
+              {
+                "label": "声骸技能伤害加深",
+                "trigger": "获得竹照时",
+                "excerpt": "获得竹照时，声骸技能伤害加深30%"
+              }
+            ]
+          },
+          {
+            "name": "剑啊，谓我弃绝割股之心",
+            "desc": "共鸣解放万钧一断伤害倍率增加500%。协奏能量充满且不处于【淋漓醉墨】状态下时，仇远的共鸣技能替换为共鸣技能荷蓑出林，每20秒可施放1次。施放荷蓑出林时，提前结束且从容效果，消耗60点协奏能量并回复【挑灯问剑】400点，对目标造成仇远自身500%攻击的气动伤害，此次伤害视为声骸技能伤害，下一次常态攻击普攻替换为答剑·质黑相青第三段。施放荷蓑出林后，下次仇远进入【淋漓醉墨】状态时无法获得且从容效果，答剑·弦歌不辍、答剑·割股之心、答剑·忠烈死节伤害倍率增加600%，答剑·忠烈死节命中时额外获得协奏能量30点。施放荷蓑出林后，非联机状态下下次延奏技能替换为延奏技能新筠坠箨，造成仇远自身500%攻击的气动伤害，此次伤害视为声骸技能伤害。",
+            "buffs": [
+              {
+                "label": "万钧一断倍率增加",
+                "trigger": "默认",
+                "excerpt": "万钧一断伤害倍率增加500%"
+              },
+              {
+                "label": "答剑倍率增加",
+                "trigger": "施放荷蓑出林后",
+                "excerpt": "荷蓑出林后，下次淋漓醉墨三段答剑倍率增加600%"
+              }
+            ]
+          },
+          {
+            "name": "剑啊，谓我弃绝忠烈死节",
+            "desc": "仇远攻击提升20%。",
+            "buffs": [
+              {
+                "label": "攻击",
+                "trigger": "默认",
+                "excerpt": "攻击提升20%"
+              }
+            ]
+          },
+          {
+            "name": "剑啊，如今我弹铗而歌",
+            "desc": "仇远无视目标15%的防御。",
+            "buffs": [
+              {
+                "label": "防御无视",
+                "trigger": "默认",
+                "excerpt": "无视目标15%防御"
+              }
+            ]
+          },
+          {
+            "name": "如是我闻、我见、我言",
+            "desc": "施放重击答剑·忠烈死节时，停滞周围的敌人，持续5秒，该效果联机状态下不会生效。切换至其他角色或目标受到伤害时提前清除停滞效果。退出【淋漓醉墨】状态且为队伍中登场角色时，对范围内敌人造成自身600%攻击的气动伤害，该伤害视为声骸技能伤害。施放共鸣技能荷蓑出林时，仇远暴击伤害增加100%，持续6秒。切换至其他角色时，效果提前结束。",
+            "buffs": [
+              {
+                "label": "暴击伤害",
+                "trigger": "施放荷蓑出林时",
+                "excerpt": "施放荷蓑出林时，暴击伤害提升100%"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  }
+});

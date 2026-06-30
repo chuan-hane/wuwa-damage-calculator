@@ -1,0 +1,280 @@
+window.WUWA_LANGUAGES.extend("en-US", {
+  "data": {
+    "chars": {
+      "lucy": {
+        "name": "Lucy",
+        "resources": [
+          {
+            "label": "根权限"
+          },
+          {
+            "label": "传输协议"
+          }
+        ],
+        "skills": [
+          {
+            "name": "Locked Thread - Basic Attack Stage 1 DMG"
+          },
+          {
+            "name": "Locked Thread - Basic Attack Stage 2 DMG"
+          },
+          {
+            "name": "Locked Thread - Basic Attack Stage 3 DMG"
+          },
+          {
+            "name": "Locked Thread - Basic Attack Stage 4 DMG"
+          },
+          {
+            "name": "Locked Thread - Heavy Attack 1 DMG"
+          },
+          {
+            "name": "Locked Thread - Heavy Attack 2 DMG"
+          },
+          {
+            "name": "Locked Thread - Plunging Attack DMG"
+          },
+          {
+            "name": "Locked Thread - Dodge Counter DMG"
+          },
+          {
+            "name": "Locked Thread - Mid-air Attack - Algorithm Compaction DMG"
+          },
+          {
+            "name": "Locked Thread - Dodge Counter - Algorithm Compaction DMG"
+          },
+          {
+            "name": "Locked Thread - Basic Attack - Thread Shredding Stage 1 DMG"
+          },
+          {
+            "name": "Locked Thread - Basic Attack - Thread Shredding Stage 2 DMG"
+          },
+          {
+            "name": "Locked Thread - Basic Attack - Thread Shredding Stage 3 DMG"
+          },
+          {
+            "name": "Locked Thread - Basic Attack - Thread Shredding Stage 4 DMG"
+          },
+          {
+            "name": "Locked Thread - Heavy Attack - Single Threading DMG"
+          },
+          {
+            "name": "Locked Thread - Heavy Attack - Dual Threading DMG"
+          },
+          {
+            "name": "Locked Thread - Heavy Attack - Multithreading DMG"
+          },
+          {
+            "name": "Locked Thread - Heavy Attack: Multithreading DMG (SQL)"
+          },
+          {
+            "name": "Protocol Breach - Resonance Skill - Payload Charge DMG"
+          },
+          {
+            "name": "Protocol Breach - Resonance Skill - Payload Follow-Up Attack DMG"
+          },
+          {
+            "name": "Protocol Breach - Resonance Skill - Pulse Interference DMG"
+          },
+          {
+            "name": "Protocol Breach - Sequence 2 Pulse Interference Extra DMG"
+          },
+          {
+            "name": "Protocol Breach - Resonance Skill - Deadlock DMG"
+          },
+          {
+            "name": "Netrunner - Resonance Liberation - Netrunner: Override DMG"
+          },
+          {
+            "name": "Netrunner - Spoofing Program: Ping DMG"
+          },
+          {
+            "name": "Netrunner - Spoofing Program: Synapse Burnout DMG"
+          },
+          {
+            "name": "Netrunner - Spoofing Program: Cripple Movement DMG"
+          },
+          {
+            "name": "Netrunner - Resonance Liberation - Old Net Deep Dive: Override DMG"
+          },
+          {
+            "name": "Outdated Hallucination - Intro Skill - Outdated Hallucination DMG"
+          },
+          {
+            "name": "Depths of Blackwall - Hack Response - Data Crash DMG"
+          }
+        ],
+        "combatStates": [
+          {
+            "label": "算法压缩状态",
+            "inactiveLabel": "未处于算法压缩状态",
+            "entry": "施放共鸣技能·死锁后进入算法压缩状态，持续8秒；施放共鸣解放·网络行者、共鸣解放·暗网深潜后，或施放重击·多线程后8秒内不施放指定技能时退出。",
+            "options": [
+              {
+                "label": "算法压缩"
+              }
+            ]
+          },
+          {
+            "label": "目标骇破状态",
+            "inactiveLabel": "目标无骇破状态",
+            "entry": "共鸣技能·有效载荷、共鸣技能·死锁、重击·多线程可附加【骇破·偏移】；队伍角色对偏移目标造成谐度破坏伤害并使其进入【骇破·干涉】时，露西可触发骇破响应·数据崩解。",
+            "options": [
+              {
+                "label": "骇破·偏移"
+              },
+              {
+                "label": "骇破·干涉"
+              }
+            ]
+          }
+        ],
+        "buffs": [
+          {
+            "source": "共鸣回路·算法压缩",
+            "label": "衍射伤害加成",
+            "trigger": "处于算法压缩时",
+            "excerpt": "算法压缩期间，衍射伤害加成提升65%",
+            "desc": "施放共鸣技能·死锁后露西进入算法压缩状态，并获得1层SQL。普攻替换为普攻·线程撕裂，重击替换为重击·单线程。自身衍射伤害加成提升65%，持续8秒。"
+          },
+          {
+            "source": "共鸣解放·欺骗程式·义体故障",
+            "label": "受到伤害提升",
+            "trigger": "施放欺骗程式·义体故障后",
+            "excerpt": "义体故障命中标记目标后，目标受到伤害提升5%",
+            "desc": "欺骗程式·义体故障消耗4点Ram。使所有标记目标受到伤害提升5%，持续30秒。"
+          },
+          {
+            "source": "共鸣解放·欺骗程式·突破协议",
+            "label": "减防",
+            "trigger": "施放欺骗程式·突破协议后",
+            "excerpt": "突破协议命中标记目标后，目标防御降低5%",
+            "desc": "欺骗程式·突破协议消耗4点Ram。使所有标记目标降低5%的防御，持续30秒。"
+          },
+          {
+            "source": "固有·进程破解",
+            "label": "全伤害加深",
+            "trigger": "获得网络后门后",
+            "excerpt": "网络后门每层全伤害加深10%",
+            "desc": "【网络后门】全伤害加深10%，骇破伤害倍率提升10%。效果持续2分钟，最多叠加2层。当叠加至2层时，额外获得全伤害加深5%，骇破伤害倍率提升5%。"
+          },
+          {
+            "source": "固有·进程破解",
+            "label": "骇破伤害倍率提升",
+            "trigger": "获得网络后门后",
+            "excerpt": "网络后门每层骇破伤害倍率提升10%",
+            "desc": "【网络后门】全伤害加深10%，骇破伤害倍率提升10%。效果持续2分钟，最多叠加2层。当叠加至2层时，额外获得全伤害加深5%，骇破伤害倍率提升5%。"
+          },
+          {
+            "source": "固有·进程破解",
+            "label": "全伤害加深",
+            "trigger": "网络后门达到2层后",
+            "excerpt": "网络后门满2层时，全伤害加深额外提升5%",
+            "desc": "当【网络后门】叠加至2层时，额外获得全伤害加深5%，骇破伤害倍率提升5%。"
+          },
+          {
+            "source": "固有·进程破解",
+            "label": "骇破伤害倍率提升",
+            "trigger": "网络后门达到2层后",
+            "excerpt": "网络后门满2层时，骇破伤害倍率额外提升5%",
+            "desc": "当【网络后门】叠加至2层时，额外获得全伤害加深5%，骇破伤害倍率提升5%。"
+          },
+          {
+            "source": "延奏·反制程序",
+            "label": "普攻伤害加深",
+            "trigger": "释放延奏技能后",
+            "excerpt": "下一名登场角色普攻伤害加深25%",
+            "desc": "下一名登场角色普攻伤害加深25%，持续14秒，若切换至其他角色则该效果提前结束。"
+          },
+          {
+            "source": "延奏·反制程序",
+            "label": "全伤害加深",
+            "trigger": "反制程序期间附加骇破·偏移后",
+            "excerpt": "反制程序期间，非露西登场角色附加骇破·偏移后全伤害加深20%",
+            "desc": "队伍中的角色获得反制程序效果，持续25秒。效果持续期间，队伍中除露西以外的登场角色附加【骇破·偏移】时，该角色全伤害加深20%。全伤害加深效果激活后，若切换至其他角色则反制程序效果提前结束。"
+          }
+        ],
+        "chain": [
+          {
+            "name": "月球、船票与梦想",
+            "desc": "共鸣技能·有效载荷、共鸣技能·脉冲干扰、重击·双线程和重击·多线程免疫打断。施放变奏技能·过时幻觉时攻击提升20%，持续14秒。队伍中的角色直接造成的伤害击败带有欺骗程式效果的目标时，露西记录该效果并激活对应的快捷响应，持续6秒。露西失去意识时，记录效果失效。快捷响应：生效期间，对队伍中登场角色周围一定范围内的所有目标附加记录的欺骗程式效果，对范围内每名目标仅生效一次。可被记录的欺骗程式效果：欺骗程式·义体故障、欺骗程式·突破协议、欺骗程式·运动失能、欺骗程式·武装故障、欺骗程式·赛博精神病。通过快捷响应附加欺骗程式效果时，仅附加可持续生效的状态效果。",
+            "buffs": [
+              {
+                "label": "攻击",
+                "trigger": "施放变奏技能时",
+                "excerpt": "施放过时幻觉时，攻击提升20%"
+              }
+            ]
+          },
+          {
+            "name": "黑墙、过去与逃离",
+            "desc": "施放共鸣解放·网络行者和共鸣解放·暗网深潜时，初始的Ram点数提升至32点。施放共鸣技能·脉冲干扰后额外造成1次450%的衍射伤害，该次伤害为重击伤害。该次伤害命中目标时，为目标额外附加以下欺骗程式效果：欺骗程式·义体故障、欺骗程式·突破协议、欺骗程式·运动失能、欺骗程式·武装故障、欺骗程式·赛博精神病。通过该方式附加欺骗程式效果时，仅附加可持续生效的状态效果。共鸣回路·黑墙深度效果中：施放重击·多线程时，若自身持有SQL，伤害倍率提升效果由270%提升至560%。",
+            "buffs": [
+              {
+                "label": "SQL倍率增加",
+                "trigger": "持有SQL施放重击·多线程时",
+                "excerpt": "SQL带来的重击·多线程倍率增加额外提升290%"
+              }
+            ]
+          },
+          {
+            "name": "赛博朋克",
+            "desc": "共鸣解放·网络行者和共鸣解放·暗网深潜的覆写篡改的伤害倍率提升50%、暴击伤害提升100%。欺骗程式·运动失能的伤害倍率提升65%。骇破响应·数据崩解的伤害倍率提升65%。",
+            "buffs": [
+              {
+                "label": "覆写篡改倍率提升",
+                "trigger": "默认",
+                "excerpt": "覆写篡改伤害倍率提升50%"
+              },
+              {
+                "label": "暴击伤害",
+                "trigger": "默认",
+                "excerpt": "覆写篡改暴击伤害提升100%"
+              },
+              {
+                "label": "运动失能倍率提升",
+                "trigger": "默认",
+                "excerpt": "欺骗程式·运动失能伤害倍率提升65%"
+              },
+              {
+                "label": "数据崩解倍率提升",
+                "trigger": "默认",
+                "excerpt": "骇破响应·数据崩解伤害倍率提升65%"
+              }
+            ]
+          },
+          {
+            "name": "夜之城没有活着的传奇",
+            "desc": "队伍中的角色附加【骇破·偏移】后，使队伍中的角色全属性伤害加成提升20%，持续20秒。",
+            "buffs": [
+              {
+                "label": "全属性伤害加成",
+                "trigger": "队伍角色附加骇破·偏移后",
+                "excerpt": "队伍角色附加骇破·偏移后，全属性伤害加成提升20%"
+              }
+            ]
+          },
+          {
+            "name": "前往地狱的断路",
+            "desc": "固有技能·幽灵义体中获取的光学欺骗层数上限提升至2层。固有技能·幽灵义体获得强化：生命值低于50%时，自身受到攻击后获得1层光学欺骗，该效果有180秒的冷却时间。触发光学欺骗效果时，获得基于露西自身攻击力150%的护盾，持续10秒。"
+          },
+          {
+            "name": "I Really Want to Stay At Your House",
+            "desc": "拥有【骇破·偏移】效果或处于【骇破·干涉】状态的目标受到露西的重击伤害提升40%。拥有【骇破·偏移】效果或处于【骇破·干涉】状态的目标受到露西的骇破伤害提升60%。骇破响应·数据崩解触发的停滞效果延长至1.5秒。",
+            "buffs": [
+              {
+                "label": "重击易伤",
+                "trigger": "攻击骇破目标时",
+                "excerpt": "骇破目标受到露西重击伤害提升40%"
+              },
+              {
+                "label": "骇破伤害易伤",
+                "trigger": "攻击骇破目标时",
+                "excerpt": "骇破目标受到露西骇破伤害提升60%"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  }
+});

@@ -1,0 +1,136 @@
+window.WUWA_LANGUAGES.extend("en-US", {
+  "data": {
+    "chars": {
+      "zhezhi": {
+        "name": "Zhezhi",
+        "skills": [
+          {
+            "name": "Dimming Brush - Stage 1 DMG"
+          },
+          {
+            "name": "Dimming Brush - Stage 2 DMG"
+          },
+          {
+            "name": "Dimming Brush - Stage 3 DMG"
+          },
+          {
+            "name": "Dimming Brush - HA DMG"
+          },
+          {
+            "name": "Dimming Brush - Mid-air Attack DMG"
+          },
+          {
+            "name": "Dimming Brush - Dodge Counter DMG"
+          },
+          {
+            "name": "Manifestation - Press DMG"
+          },
+          {
+            "name": "Manifestation - Hold DMG"
+          },
+          {
+            "name": "Manifestation - Mid-air Press DMG"
+          },
+          {
+            "name": "Living Canvas - Inklit Spirit DMG"
+          },
+          {
+            "name": "Radiant Ruin - DMG"
+          },
+          {
+            "name": "Ink and Wash - HA - Conjuration DMG"
+          },
+          {
+            "name": "Ink and Wash - Stroke of Genius DMG"
+          },
+          {
+            "name": "Ink and Wash - Creation's Zenith DMG"
+          },
+          {
+            "name": "Living Canvas - Sequence 5 Extra Inklit Spirit DMG"
+          },
+          {
+            "name": "Ink and Wash - Creation's Zenith DMG"
+          }
+        ],
+        "buffs": [
+          {
+            "source": "固有·挥毫",
+            "label": "攻击",
+            "trigger": "施放共鸣技能后",
+            "excerpt": "释放神来之笔或极意·神来之笔时，每层攻击提升6%",
+            "desc": "施放共鸣技能神来之笔或共鸣技能极意·神来之笔时，攻击提升6%，可叠加3层，持续27秒。"
+          },
+          {
+            "source": "共鸣回路·妙笔丹青",
+            "label": "普攻伤害加成",
+            "trigger": "施放共鸣技能后",
+            "excerpt": "释放极意·神来之笔时，普攻伤害加成提升18%",
+            "desc": "施放共鸣技能极意·神来之笔时，让折枝的普攻伤害加成提升18%，持续27秒。"
+          },
+          {
+            "source": "延奏·提白",
+            "label": "冷凝伤害加深",
+            "trigger": "释放延奏技能后",
+            "excerpt": "下一位登场角色冷凝伤害加深20%",
+            "desc": "下一位登场角色冷凝伤害加深20%，共鸣技能伤害加深25%，效果持续14秒，若切换至其他角色则该效果提前结束。"
+          },
+          {
+            "source": "延奏·提白",
+            "label": "共鸣技能伤害加深",
+            "trigger": "释放延奏技能后",
+            "excerpt": "下一位登场角色共鸣技能伤害加深25%",
+            "desc": "下一位登场角色冷凝伤害加深20%，共鸣技能伤害加深25%，效果持续14秒，若切换至其他角色则该效果提前结束。"
+          }
+        ],
+        "chain": [
+          {
+            "name": "骨法用笔",
+            "desc": "折枝施放共鸣技能极意·神来之笔时，回复15点共鸣能量，且自身暴击提升10%，持续27秒。",
+            "buffs": [
+              {
+                "label": "暴击",
+                "trigger": "施放共鸣技能后",
+                "excerpt": "释放极意·神来之笔时，暴击提升10%"
+              }
+            ]
+          },
+          {
+            "name": "气韵生动",
+            "desc": "共鸣解放虚实境趣的墨鹤的最大召唤数增加6只。"
+          },
+          {
+            "name": "应物象形",
+            "desc": "折枝施放共鸣技能以形写神、共鸣技能神来之笔或共鸣技能极意·神来之笔时，攻击提升15%，可叠加3层，持续27秒。",
+            "buffs": [
+              {
+                "label": "攻击",
+                "trigger": "施放共鸣技能后",
+                "excerpt": "释放以形写神、神来之笔或极意·神来之笔时，每层攻击提升15%"
+              }
+            ]
+          },
+          {
+            "name": "随类赋彩",
+            "desc": "折枝施放共鸣解放虚实境趣时，队伍中角色攻击提升20%，持续30秒。",
+            "buffs": [
+              {
+                "label": "攻击",
+                "trigger": "施放共鸣解放后",
+                "excerpt": "释放虚实境趣时，攻击提升20%"
+              }
+            ]
+          },
+          {
+            "name": "经营位置",
+            "desc": "共鸣解放虚实境趣持续期间，每召唤3只墨鹤，会额外召唤1只墨鹤进行协同攻击，能造成等同于墨鹤140%的伤害，此次伤害为普攻伤害，该伤害不会触发召唤墨鹤的效果。"
+          },
+          {
+            "name": "传移摹写",
+            "desc": "施放共鸣技能神来之笔或共鸣技能极意·神来之笔时，会额外召唤一只白鹤，能造成等同于共鸣技能神来之笔120%的伤害，此次伤害为普攻伤害。"
+          }
+        ]
+      }
+    }
+  }
+});
