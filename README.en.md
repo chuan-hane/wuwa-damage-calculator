@@ -1,4 +1,4 @@
-### EN | [中文](README.md)
+### [中文](README.md) | EN | [KO](README.ko.md) | [JA](README.ja-JP.md)
 
 # Wuthering Waves Damage Calculator
 

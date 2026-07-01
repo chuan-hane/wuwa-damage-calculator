@@ -533,6 +533,9 @@ function sourceTextHasNoEchoTypo() {
   const typo = "声" + "骇";
   const files = [
     "README.md",
+    "README.en.md",
+    "README.ko.md",
+    "README.ja-JP.md",
     "scripts/verify.js",
     ...jsFilesUnder(path.join(root, "src")),
     ...jsFilesUnder(path.join(root, "data/languages")),
@@ -543,8 +546,15 @@ function sourceTextHasNoEchoTypo() {
 
 function readmesLinkLiveSite() {
   const url = "https://wuwa-damage-calculator.chuan-hane.workers.dev";
-  assert(fs.readFileSync(path.join(root, "README.md"), "utf8").includes(url), "Chinese README should link to the live site");
-  assert(fs.readFileSync(path.join(root, "README.en.md"), "utf8").includes(url), "English README should link to the live site");
+  const readmes = [
+    ["README.md", "Chinese"],
+    ["README.en.md", "English"],
+    ["README.ko.md", "Korean"],
+    ["README.ja-JP.md", "Japanese"],
+  ];
+  for (const [file, label] of readmes) {
+    assert(fs.readFileSync(path.join(root, file), "utf8").includes(url), `${label} README should link to the live site`);
+  }
 }
 
 function damageMetricCritLabels() {
