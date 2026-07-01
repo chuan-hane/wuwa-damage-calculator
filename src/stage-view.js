@@ -726,20 +726,25 @@ window.WUWA_STAGE_VIEW = (() => {
       if (e.kind === "attack" && e.extraRate) rateParts.push(`${L.isEnglish() ? "Extra" : "额外"} ${tnum(e.extraRate)}%`);
       const multDetail = e.kind === "attack" ? rateParts.join(" + ") : `${esc(L.effectShort(e.def))} ${e.stacks}${L.isEnglish() ? " stacks" : "层"}`;
       const provider = e.providerName ? `${e.providerName} ${L.stat("攻击")}` : (L.isEnglish() ? "Provider ATK" : "提供者攻击");
+      const effectDeepenFactor = Math.max(0, 1 + num(e.deepen) / 100);
       const baseTip = e.kind === "attack"
-        ? `${L.text("属性基数")} = ${provider} ${tnum(e.attack)}`
-        : `${L.text("属性基数")} = ${L.effect(e.def)} ${tnum(e.base)}`;
+        ? `${L.text("效应基础值")} = ${provider} ${tnum(e.attack)} × ${L.text("效应倍率")} ${tnum(e.rate)}% / 100 = ${tnum(e.base)}`
+        : `${L.text("效应基础值")} = ${L.effect(e.def)} ${e.stacks}${L.isEnglish() ? " stacks fixed base" : "层固定基础值"} ${tnum(e.base)}`;
       const multTip = e.kind === "attack"
-        ? `${L.isEnglish() ? "Effect Multiplier" : "效应倍率"} = ${formulaSources(rateParts, "0%")} = ${tnum(e.rate)}%`
-        : `${L.isEnglish() ? "Effect Multiplier" : "效应倍率"} = ${L.effectShort(e.def)} ${e.stacks}${L.isEnglish() ? " stacks" : "层"}`;
-      const deepenTip = `${L.isEnglish() ? "Effect Amplification" : "效应加深"} = ${L.text("手动")} ${tnum(e.manualDeepen)}% + Buff ${tnum(e.buffDeepen)}% = ${tnum(e.deepen)}%`;
+        ? `${L.text("效应倍率")} = ${formulaSources(rateParts, "0%")} = ${tnum(e.rate)}%`
+        : `${L.text("效应倍率")} = ${L.effectShort(e.def)} ${e.stacks}${L.isEnglish() ? " stacks" : "层"}`;
+      const deepenTip = `${L.text("效应加深")} = max(0, 1 + (${L.text("手动")} ${tnum(e.manualDeepen)}% + Buff ${tnum(e.buffDeepen)}%) / 100) = ${fx(effectDeepenFactor)}`;
       const finalTip = `${L.text("最终伤害")} = 1 + Buff ${tnum(e.buffFinalDmg || 0)}% / 100 = ${fx(e.finalDmgFactor || 1)}`;
-      const defTip = `${L.text("防御系数")} = ${fx(e.defFactor)}\n${L.text("减防")} ${tnum(e.manualDefShred)}% + Buff ${tnum(e.buffDefShred)}%${formulaBreak()}${L.text("防御无视")} ${tnum(e.manualDefIgnore)}% + Buff ${tnum(e.buffDefIgnore)}%`;
+      const effectLevelTerm = 800 + 8 * num(e.charLevel);
+      const effectEnemyDefTerm = 8 * num(e.enemyLevel) + 792;
+      const effectDefShred = num(e.manualDefShred) + num(e.buffDefShred);
+      const effectDefIgnore = num(e.manualDefIgnore) + num(e.buffDefIgnore);
+      const defTip = `${L.text("防御系数")} = (800 + 8 × ${L.isEnglish() ? `Resonator Lv.${tnum(e.charLevel)}` : `我方等级${tnum(e.charLevel)}`}) / ((800 + 8 × ${L.isEnglish() ? `Resonator Lv.${tnum(e.charLevel)}` : `我方等级${tnum(e.charLevel)}`}) + (8 × ${L.isEnglish() ? `Enemy Lv.${tnum(e.enemyLevel)}` : `敌方等级${tnum(e.enemyLevel)}`} + 792) × (1 - ${L.text("减防")} ${tnum(effectDefShred)}%) × (1 - ${L.text("防御无视")} ${tnum(effectDefIgnore)}%)) = ${fx(e.defFactor)}\n${tnum(effectLevelTerm)} / (${tnum(effectLevelTerm)} + ${tnum(effectEnemyDefTerm)} × (1 - ${tnum(effectDefShred)}%) × (1 - ${tnum(effectDefIgnore)}%))`;
       const resTip = `${L.text("抗性系数")} = f(${tnum(e.res)}%) = ${fx(e.resFactor)}\n${L.text("抗性")} ${tnum(e.manualRes)}% - ${L.text("减抗")} ${tnum(e.manualResShred)}% - Buff ${tnum(e.buffResShred)}%`;
       return `<div class="effect-mini-strip effect-mini-strip--formula formula-strip formula-strip--multiply">
-        ${miniCardHTML("属性基数", baseValue, e.kind === "attack" ? provider : L.effect(e.def), baseTip)}
-        ${miniCardHTML(L.isEnglish() ? "Effect Multiplier" : "效应倍率", multValue, multDetail, multTip)}
-        ${miniCardHTML(L.isEnglish() ? "Effect Amplification" : "效应加深", `${tnum(e.deepen)}%`, `${L.isEnglish() ? "Manual" : "手动"} ${tnum(e.manualDeepen)} + Buff ${tnum(e.buffDeepen)}`, deepenTip)}
+        ${miniCardHTML("效应基础值", baseValue, e.kind === "attack" ? provider : L.effect(e.def), baseTip)}
+        ${miniCardHTML("效应倍率", multValue, multDetail, multTip)}
+        ${miniCardHTML("效应加深", fx(effectDeepenFactor), `+${tnum(e.deepen)}%`, deepenTip)}
         ${miniCardHTML("最终伤害", fx(e.finalDmgFactor || 1), `Buff ${tnum(e.buffFinalDmg || 0)}%`, finalTip)}
         ${miniCardHTML("防御系数", fx(e.defFactor), L.isEnglish() ? `Lv.${tnum(e.charLevel)} / Enemy Lv.${tnum(e.enemyLevel)}` : `我${tnum(e.charLevel)} / 敌${tnum(e.enemyLevel)}`, defTip)}
         ${miniCardHTML("抗性系数", fx(e.resFactor), `${L.isEnglish() ? "RES" : "抗"} ${tnum(e.res)}%`, resTip)}
@@ -883,10 +888,38 @@ window.WUWA_STAGE_VIEW = (() => {
       return L.isEnglish() ? `Lv.${tnum(state.enemy.charLevel)} / Enemy Lv.${tnum(state.enemy.enemyLevel)}` : `我${tnum(state.enemy.charLevel)} / 敌${tnum(state.enemy.enemyLevel)}`;
     }
 
+    function offsetHarmonyBaseTip(o) {
+      return `${L.text("谐度基础值")} = ${fmt(o.harmonyBase)}\n${L.text("来源")}${L.isEnglish() ? ": " : "："}${L.text(offsetCostLabel(o.harmonyBase))}`;
+    }
+
+    function offsetBreakAmpTip(o) {
+      return `${L.text("谐度增幅")} = 1 + ${L.text("谐度破坏增幅")} ${tnum(o.breakAmp)} / 100 = ${fx(o.breakAmpFactor)}`;
+    }
+
+    function offsetDefenseTip(o) {
+      const levelTerm = 800 + 8 * num(state.enemy.charLevel);
+      const enemyDefTerm = 8 * num(state.enemy.enemyLevel) + 792;
+      const charLevelText = L.isEnglish() ? `Resonator Lv.${tnum(state.enemy.charLevel)}` : `我方等级${tnum(state.enemy.charLevel)}`;
+      const enemyLevelText = L.isEnglish() ? `Enemy Lv.${tnum(state.enemy.enemyLevel)}` : `敌方等级${tnum(state.enemy.enemyLevel)}`;
+      return `${L.text("防御系数")} = (800 + 8 × ${charLevelText}) / ((800 + 8 × ${charLevelText}) + (8 × ${enemyLevelText} + 792) × (1 - ${L.text("减防")} ${tnum(o.defReduction)}%) × (1 - ${L.text("防御无视")} ${tnum(o.defIgnore)}%)) = ${fx(o.defFactor)}\n${tnum(levelTerm)} / (${tnum(levelTerm)} + ${tnum(enemyDefTerm)} × (1 - ${tnum(o.defReduction)}%) × (1 - ${tnum(o.defIgnore)}%))`;
+    }
+
+    function offsetFinalTip(o) {
+      const total = Math.max(0, (num(o.finalDmg) - 1) * 100);
+      const buff = total - num(state.enemy.finalDmg);
+      return `${L.text("最终伤害")} = max(0, 1 + (${L.text("手动")} ${tnum(state.enemy.finalDmg)}% + Buff ${tnum(buff)}%) / 100) = ${tnum(o.finalDmg)}`;
+    }
+
+    function offsetResTip(o) {
+      const totalResShred = num(state.enemy.res) - num(o.res);
+      const buffResShred = totalResShred - num(state.enemy.resShred);
+      return `${L.text("抗性系数")} = f(${tnum(o.res)}%) = ${fx(o.resFactor)}\n${L.text("抗性")} ${tnum(state.enemy.res)}% - ${L.text("减抗")} ${tnum(state.enemy.resShred)}% - Buff ${tnum(buffResShred)}%`;
+    }
+
     function offsetDeepenCardHTML(o) {
       const buff = tnum(o.buffDeepen || 0);
       const sub = L.isEnglish() ? `Vulnerability ${tnum(o.enemyVulnerability)}% · Reduction ${tnum(o.enemyDmgReduction)}%${buff !== "0" ? ` · Buff ${buff}%` : ""}` : `易伤${tnum(o.enemyVulnerability)}% · 减伤${tnum(o.enemyDmgReduction)}%${buff !== "0" ? ` · Buff${buff}%` : ""}`;
-      const tip = `${L.text("减伤/易伤")} = 1 - ${L.text("减伤")} ${tnum(o.enemyDmgReduction)}% + ${L.text("易伤")} ${tnum(o.enemyVulnerability)}%${buff !== "0" ? ` + Buff ${buff}%` : ""} = ${tnum(o.deepenFactor)}`;
+      const tip = `${L.text("减伤/易伤")} = max(0, 1 - ${L.text("受到伤害减少")} ${tnum(o.enemyDmgReduction)}% + ${L.text("易伤")} ${tnum(o.enemyVulnerability)}% + Buff ${buff}%) = ${tnum(o.deepenFactor)}`;
       return miniCardHTML("减伤/易伤", esc(tnum(o.deepenFactor)), sub, tip);
     }
 
@@ -896,9 +929,8 @@ window.WUWA_STAGE_VIEW = (() => {
       return { damage: L.text("谐度响应伤害"), multiplier: L.text("响应倍率") };
     }
 
-    function offsetResponseFinalSub(o) {
-      const final = tnum(o.finalDmg);
-      return final === "1" ? `${L.isEnglish() ? "RES" : "抗"}${tnum(o.res)}%` : `${L.isEnglish() ? "RES" : "抗"}${tnum(o.res)}% · ${L.text("最终伤害")}×${final}`;
+    function offsetResponseMultiplierTip(o, labels) {
+      return `${labels.multiplier} = ${L.text("基础倍率")} ${tnum(o.baseMult)}% × (1 + ${L.text("技能倍率提升")} ${tnum(o.skillMultBonus)}%) = ${tnum(o.multiplier)}%\n${L.text("等级")} ${tnum(o.skLevel || 10)}`;
     }
 
     function offsetFormulaHTML(r) {
@@ -925,22 +957,25 @@ window.WUWA_STAGE_VIEW = (() => {
       }
       if (o.kind === "tuneBreak") {
         return `<div class="effect-mini-strip effect-mini-strip--formula formula-strip formula-strip--multiply">
-          ${miniCardHTML("谐度基础值", esc(fmt(o.harmonyBase)), esc(offsetCostLabel(o.harmonyBase)))}
-          ${miniCardHTML("等级倍率", esc(`${tnum(o.multiplier)}%`), "固定等级参数")}
-          ${miniCardHTML("谐度增幅", esc(fx(o.breakAmpFactor)), `${esc(tnum(o.breakAmp))} 点`)}
-          ${miniCardHTML("防御系数", esc(fx(o.defFactor)), offsetDefenseSub(o))}
-          ${miniCardHTML("抗性/固定", esc(tnum(o.fixedFactor)), "固定系数0.8")}
+          ${miniCardHTML("谐度基础值", esc(fmt(o.harmonyBase)), esc(offsetCostLabel(o.harmonyBase)), offsetHarmonyBaseTip(o))}
+          ${miniCardHTML("等级倍率", esc(`${tnum(o.multiplier)}%`), "固定等级参数", `${L.text("等级倍率")} = ${tnum(o.multiplier)}%`)}
+          ${miniCardHTML("谐度增幅", esc(fx(o.breakAmpFactor)), `${esc(tnum(o.breakAmp))} 点`, offsetBreakAmpTip(o))}
+          ${miniCardHTML("防御系数", esc(fx(o.defFactor)), offsetDefenseSub(o), offsetDefenseTip(o))}
+          ${offsetDeepenCardHTML(o)}
+          ${miniCardHTML("最终伤害", esc(tnum(o.finalDmg)), `+${tnum((num(o.finalDmg) - 1) * 100)}%`, offsetFinalTip(o))}
+          ${miniCardHTML("固定系数", esc(tnum(o.fixedFactor)), "固定系数0.8", `${L.text("固定系数")} = ${tnum(o.fixedFactor)}`)}
         </div><div class="effect-equation">${L.text("谐度破坏伤害")} = ${L.text("谐度基础值")} × ${L.text("等级倍率")} × ${L.text("谐度增幅")} × ${L.text("防御系数")} × ${L.text("减伤/易伤")} × ${L.text("最终伤害")} × ${L.isEnglish() ? "fixed 0.8" : "固定0.8"}</div>`;
       }
       const stateHint = o.valid ? "" : `<div class="effect-equation">${L.isEnglish() ? "Confirm target state first: " : "需先确认目标处于"}${esc(L.text(o.requiredState || "对应干涉状态"))}${L.isEnglish() ? " before calculating this response DMG." : "，才结算该响应伤害。"}</div>`;
       const labels = offsetResponseLabels(o);
       return `<div class="effect-mini-strip effect-mini-strip--formula formula-strip formula-strip--multiply">
-        ${miniCardHTML("谐度基础值", esc(fmt(o.harmonyBase)), esc(offsetCostLabel(o.harmonyBase)))}
-        ${miniCardHTML(labels.multiplier, esc(`${tnum(o.multiplier)}%`), `${esc(o.label || "响应技能")} ${esc(o.skLevel || 10)}级`)}
-        ${miniCardHTML("谐度增幅", esc(fx(o.breakAmpFactor)), `${esc(tnum(o.breakAmp))} 点`)}
+        ${miniCardHTML("谐度基础值", esc(fmt(o.harmonyBase)), esc(offsetCostLabel(o.harmonyBase)), offsetHarmonyBaseTip(o))}
+        ${miniCardHTML(labels.multiplier, esc(`${tnum(o.multiplier)}%`), `${esc(o.label || "响应技能")} ${esc(o.skLevel || 10)}级`, offsetResponseMultiplierTip(o, labels))}
+        ${miniCardHTML("谐度增幅", esc(fx(o.breakAmpFactor)), `${esc(tnum(o.breakAmp))} 点`, offsetBreakAmpTip(o))}
         ${offsetDeepenCardHTML(o)}
-        ${miniCardHTML("防御系数", esc(fx(o.defFactor)), offsetDefenseSub(o))}
-        ${miniCardHTML("抗性/最终", esc(tnum(o.resFactor * o.finalDmg)), offsetResponseFinalSub(o))}
+        ${miniCardHTML("防御系数", esc(fx(o.defFactor)), offsetDefenseSub(o), offsetDefenseTip(o))}
+        ${miniCardHTML("抗性系数", esc(fx(o.resFactor)), `${L.isEnglish() ? "RES" : "抗"}${tnum(o.res)}%`, offsetResTip(o))}
+        ${miniCardHTML("最终伤害", esc(tnum(o.finalDmg)), `+${tnum((num(o.finalDmg) - 1) * 100)}%`, offsetFinalTip(o))}
       </div><div class="effect-equation">${esc(labels.damage)} = ${L.text("谐度基础值")} × ${esc(labels.multiplier)} × ${L.text("谐度增幅")} × ${L.text("防御系数")} × ${L.text("抗性系数")} × ${L.text("减伤/易伤")} × ${L.text("最终伤害")}</div>${stateHint}`;
     }
 

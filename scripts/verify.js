@@ -324,7 +324,8 @@ function initialRenderCompletes() {
   expectEqual(r.offset.kind, "tuneBreak", "offset calculator should default to base Tune Break damage");
   assert((r.offset.entries || []).some((entry) => entry.kind === "tuneBreak"), "ordinary teams should include base Tune Break damage entry");
   const offsetHtml = html.slice(html.indexOf('id="out-offset"'), html.indexOf("</div></div></section>", html.indexOf('id="out-offset"')));
-  assert(!offsetHtml.includes("<span>减伤/易伤</span>"), "base Tune Break formula should not show the damage-reduction/vulnerability card");
+  assert(offsetHtml.includes("<span>减伤/易伤</span>") && offsetHtml.includes("<span>最终伤害</span>") && offsetHtml.includes("<span>固定系数</span>"), "base Tune Break formula should show every multiplier card");
+  assert(!offsetHtml.includes("抗性/固定"), "base Tune Break formula should not imply RES is part of Tune Break damage");
   assert(offsetHtml.includes("effect-mini-strip--formula") && !offsetHtml.includes("<b>×"), "offset formula cards should use outer multiply signs");
 }
 
@@ -1990,8 +1991,20 @@ function effectDamageModel() {
   expectEqual(r.effect.rate, 415.85, "10-stack electro rate");
   __T.render();
   let html = String(board.innerHTML);
-  const effectHtml = html.slice(html.indexOf('id="out-effect"'), html.indexOf('id="out-offset"'));
+  let effectHtml = html.slice(html.indexOf('id="out-effect"'), html.indexOf('id="out-offset"'));
   assert(effectHtml.includes("effect-mini-strip--formula") && !effectHtml.includes("<b>×"), "effect formula cards should use outer multiply signs");
+  assert(effectHtml.includes("<span>效应基础值</span>") && effectHtml.includes("<span>效应倍率</span>"), "effect formula should name effect base and multiplier clearly");
+  assert(effectHtml.includes("<span>效应加深</span>") && !effectHtml.includes("<span>效应加深</span><b>0%</b>"), "effect amplification card should show the multiplier factor, not the raw percent");
+
+  __T.state.effectCalc.deepen = 20;
+  r = __T.compute();
+  assert(r.effect.damage > baseDamage * 1.19, "manual effect amplification should increase effect damage through a multiplier");
+  __T.render();
+  html = String(board.innerHTML);
+  effectHtml = html.slice(html.indexOf('id="out-effect"'), html.indexOf('id="out-offset"'));
+  assert(effectHtml.includes("<span>效应加深</span>") && effectHtml.includes("<b>1.200</b>"), "effect amplification card should display the active multiplier factor");
+  assert(effectHtml.includes("效应加深 = max(0, 1 + (手动 20% + Buff 0%) / 100) = 1.200"), "effect amplification tooltip should explain manual and buff deepen sources");
+  __T.state.effectCalc.deepen = 0;
 
   __T.state.effectCalc.electroRageStacks = 10;
   r = __T.compute();
@@ -2361,6 +2374,8 @@ function cyberpunkCharacterRegressions() {
   assert(String(board.innerHTML).includes("骇破倍率"), "Hack-break offset formula should label the response multiplier as Hack Break");
   assert(String(board.innerHTML).includes("骇破伤害 = 谐度基础值 × 骇破倍率"), "Hack-break offset formula should show the current Hack Break equation");
   assert(String(board.innerHTML).includes("减伤/易伤"), "Hack-break response formula should show the damage-reduction/vulnerability card");
+  assert(String(board.innerHTML).includes("<span>抗性系数</span>") && String(board.innerHTML).includes("<span>最终伤害</span>"), "Hack-break response formula should split RES and final damage into separate cards");
+  assert(!String(board.innerHTML).includes("抗性/最终"), "Hack-break response formula should not merge RES and final damage into one card");
   assert(String(board.innerHTML).includes("谐度响应伤害按谐度基础值"), "Harmony-response stage note should explain the special formula");
   assert(!String(board.innerHTML).includes('data-key="harmonyBase"'), "More bonuses/debuffs should not expose raw harmony base input");
   assert(String(board.innerHTML).includes("目标Cost"), "Offset-system calculator should expose target Cost selection");
@@ -2430,6 +2445,7 @@ function lynaeCharacterRegressions() {
   __T.render();
   assert(String(board.innerHTML).includes("震谐倍率"), "Tune Rupture offset formula should label the response multiplier as Tune Rupture");
   assert(String(board.innerHTML).includes("震谐伤害 = 谐度基础值 × 震谐倍率"), "Tune Rupture offset formula should show the current Tune Rupture equation");
+  assert(String(board.innerHTML).includes("<span>抗性系数</span>") && String(board.innerHTML).includes("<span>最终伤害</span>"), "Tune Rupture response formula should split RES and final damage into separate cards");
   __T.state.offsetCalc = { key: "tuneBreak", providerIdx: 0, skillId: null, stateId: null, stateValue: null, stacks: 3, deepen: 0 };
   r = __T.compute();
   expectEqual(r.offset.kind, "tuneBreak", "Tune Break damage should be selectable in the offset-system calculator");
@@ -2442,6 +2458,8 @@ function lynaeCharacterRegressions() {
   assert(String(board.innerHTML).includes('data-act="offset-cost"'), "Offset calculator should render target Cost selector");
   assert(!String(board.innerHTML).includes('data-act="offset-char-level"'), "Offset calculator should not render player level selector");
   assert(String(board.innerHTML).includes("固定等级参数"), "Tune Break formula should explain the fixed level multiplier in formula details");
+  assert(String(board.innerHTML).includes("<span>减伤/易伤</span>") && String(board.innerHTML).includes("<span>最终伤害</span>") && String(board.innerHTML).includes("<span>固定系数</span>"), "Tune Break formula should expose damage reduction, final damage, and fixed 0.8 as cards");
+  assert(!String(board.innerHTML).includes("抗性/固定"), "Tune Break formula should not label fixed 0.8 as a RES factor");
 
   slot.skill = "visual_impact";
   slot.toggles[__T.stateChoiceKey("共鸣模态")] = "共鸣模态·集谐";
