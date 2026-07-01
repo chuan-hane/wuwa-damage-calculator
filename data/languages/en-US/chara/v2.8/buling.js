@@ -5,14 +5,6 @@ window.WUWA_LANGUAGES.extend("en-US", {
     "chars": {
       "buling": {
         "name": "Buling",
-        "resources": [
-          {
-            "label": "少阴"
-          },
-          {
-            "label": "少阳"
-          }
-        ],
         "skills": [
           {
             "name": "Hexagram Calls, Lightning Falls - Stage 1 DMG"
@@ -52,109 +44,117 @@ window.WUWA_LANGUAGES.extend("en-US", {
           },
           {
             "name": "Thunder Begets Life - Flashing Thunder Spell - Harmony DMG",
-            "requiresResourceLabel": "少阴+少阳"
+            "requiresResourceLabel": "Minor Yin at least 1 / Minor Yang at least 1"
           },
           {
             "name": "Thunder Begets Life - Five Thunders Spell Array Continuous DMG",
-            "requiresResourceLabel": "五雷荡煞阵"
+            "requiresResourceLabel": "resource_gate_2"
+          }
+        ],
+        "resources": [
+          {
+            "label": "Minor Yin"
+          },
+          {
+            "label": "Minor Yang"
           }
         ],
         "combatStates": [
           {
-            "label": "雷法状态",
-            "inactiveLabel": "未展开五雷荡煞阵",
-            "entry": "拥有少阴和少阳时，飞雷诀替换为飞雷诀·归一；施放后生成五雷荡煞阵，持续期间队伍获得雷法·一气初动。队伍角色施放变奏技能后，依次替换为雷法·两仪交泰、雷法·三才合一。",
+            "label": "Thunder Spell State",
+            "idLabel": "Thunder Spell",
+            "inactiveLabel": "Not in Thunder Spell",
+            "entry": "When Buling obtains Minor Yin and Minor Yang, she enters the Yin-Yang Balance state, replacing her Resonance Liberation - Flashing Thunder Spell with Resonance Liberation - Flashing Thunder Spell: Harmony.",
+            "effects": "When Buling obtains Minor Yin and Minor Yang, she enters the Yin-Yang Balance state, replacing her Resonance Liberation - Flashing Thunder Spell with Resonance Liberation - Flashing Thunder Spell: Harmony.",
             "options": [
               {
-                "label": "一气初动",
-                "valueLabel": "雷法·一气初动"
+                "label": "Thunder Spell · Primordial Qi",
+                "valueLabel": "Thunder Spell · Primordial Qi"
               },
               {
-                "label": "两仪交泰",
-                "valueLabel": "雷法·两仪交泰"
+                "label": "Thunder Spell · Yin and Yang",
+                "valueLabel": "Thunder Spell · Yin and Yang"
               },
               {
-                "label": "三才合一",
-                "valueLabel": "雷法·三才合一"
+                "label": "Thunder Spell - Heaven, Earth, Mind",
+                "valueLabel": "Thunder Spell - Heaven, Earth, Mind"
               }
-            ],
-            "idLabel": "雷法"
+            ]
           }
         ],
         "buffs": [
           {
-            "source": "固有·吉时已至，厄运退散",
-            "label": "治疗效果加成",
-            "trigger": "治疗生命值低于50%的角色时",
-            "excerpt": "治疗低生命角色时，治疗效果加成提升25%",
-            "desc": "治疗生命值低于50%的角色时，卜灵的治疗效果加成提升25%。"
+            "source": "Inherent Skill: Time Arrives, Evil Declines",
+            "label": "Healing Bonus",
+            "trigger": "In Thunder Spell - Heaven, Earth, Mind",
+            "excerpt": "Healing Bonus +25%",
+            "desc": "Healing Bonus +25%"
           },
           {
-            "source": "共鸣回路·雷炁化生",
-            "label": "共鸣技能伤害加成",
-            "trigger": "雷法·两仪交泰期间",
-            "excerpt": "两仪交泰中，登场角色共鸣技能伤害加成提升10%",
-            "desc": "雷法·两仪交泰状态持续期间，使队伍中登场的角色共鸣技能伤害加成提升10%。队伍中的角色施放变奏技能后，雷法·两仪交泰替换为雷法·三才合一。"
+            "source": "Forte Circuit: Thunder Begets Life",
+            "label": "Resonance Skill DMG Bonus",
+            "trigger": "In Thunder Spell · Yin and Yang",
+            "excerpt": "Resonance Skill DMG Bonus +10%",
+            "desc": "Resonance Skill DMG Bonus +10%"
           },
           {
-            "source": "共鸣回路·雷炁化生",
-            "label": "共鸣技能伤害加成",
-            "trigger": "雷法·三才合一期间",
-            "excerpt": "三才合一中，登场角色共鸣技能伤害加成提升25%",
-            "desc": "雷法·三才合一状态持续期间，使队伍中登场的角色共鸣技能伤害加成提升25%。"
+            "source": "Forte Circuit: Thunder Begets Life",
+            "label": "Resonance Skill DMG Bonus",
+            "trigger": "In Thunder Spell - Heaven, Earth, Mind",
+            "excerpt": "Resonance Skill DMG Bonus +25%",
+            "desc": "Resonance Skill DMG Bonus +25%"
           },
           {
-            "source": "延奏·役将驱邪",
-            "label": "全伤害加深",
-            "trigger": "释放延奏技能后",
-            "excerpt": "附近队伍中所有角色全伤害加深15%",
-            "desc": "持续为队伍中登场角色回复生命值，每秒回复卜灵18%攻击的生命值，持续16秒。附近队伍中所有角色全伤害加深15%，持续30秒。"
+            "source": "Outro Skill: Exorcism Spell",
+            "label": "DMG Increase",
+            "trigger": "In Thunder Spell - Heaven, Earth, Mind",
+            "excerpt": "DMG Increase +15%",
+            "desc": "DMG Increase +15%"
           }
         ],
         "chain": [
           {
-            "name": "百般法宝，借物打力",
-            "desc": "共鸣解放·飞雷诀·归一造成伤害时，此次伤害的暴击提升20%。",
+            "name": "Exorcist Gadgets, Lend Me Your Power",
+            "desc": "The Crit. Rate of Resonance Liberation - Flashing Thunder Spell: Harmony is increased by 20% upon dealing damage.",
             "buffs": [
               {
-                "label": "暴击",
-                "trigger": "飞雷诀·归一造成伤害时",
-                "excerpt": "飞雷诀·归一造成伤害时，暴击提升20%"
+                "label": "Crit. Rate",
+                "trigger": "In Thunder Spell - Heaven, Earth, Mind",
+                "excerpt": "Crit. Rate +20%"
               }
             ]
           },
           {
-            "name": "符法通玄，神鬼咸听",
-            "desc": "卜灵进入阴阳相生状态时，回复25点共鸣能量，该效果每24秒可生效1次。"
+            "name": "Talisman Burns, Spirits Turn",
+            "desc": "Buling restores 25 points of Resonance Energy when she enters the Yin-Yang Balance state. This effect is triggered once every 24s."
           },
           {
-            "name": "召灵遣将，窥探天机",
-            "desc": "五雷荡煞阵持续期间，队伍中的角色生命值低于50%时，立即回复350+150%卜灵攻击的生命值，该效果每24秒可生效1次。"
+            "name": "Summoner of Spirits, Seeker of Fate",
+            "desc": "While Five Thunders Spell Array lasts, whenever the HP of Resonators in the team drops below 50%, immediately restore their HP by 350+150% of Buling's ATK. This effect can be triggered once every 24s."
           },
           {
-            "name": "索拉云游，气运加身",
-            "desc": "卜灵的治疗效果加成提升20%。",
+            "name": "Wanderer of Solaris, Blessed by Fortune",
+            "desc": "Buling gains 20% Healing Bonus.",
             "buffs": [
               {
-                "label": "治疗效果加成",
-                "trigger": "默认",
-                "excerpt": "治疗效果加成提升20%"
+                "label": "Healing Bonus",
+                "trigger": "In Thunder Spell - Heaven, Earth, Mind",
+                "excerpt": "Healing Bonus +20%"
               }
             ]
           },
           {
-            "name": "论坛禁言，速换马甲",
-            "desc": "五雷荡煞阵生成时，立即对范围内所有目标附加6层电磁效应。"
+            "name": "Forum Ban? New Account!",
+            "desc": "Five Thunders Spell Array instantly inflicts another 6 stacks of Electro Flare on all targets within its range upon generation."
           },
           {
-            "name": "“天地混元雷符水帖天尊”",
-            "desc": "雷法·三才合一状态持续期间，队伍中登场的角色获得的共鸣技能伤害加成效果提升至50%。",
+            "name": "\"Almighty Forum Lord of Thunder Spell\"",
+            "desc": "The Thunder Spell - Heaven, Earth, Mind state now grants 50% Resonance Skill DMG Bonus to the active Resonator in the team.",
             "buffs": [
               {
-                "label": "共鸣技能伤害加成",
-                "trigger": "雷法·三才合一期间",
-                "excerpt": "三才合一中，共鸣技能伤害加成额外提升25%",
-                "desc": "雷法·三才合一状态持续期间，队伍中登场的角色获得的共鸣技能伤害加成效果提升至50%。"
+                "label": "Resonance Skill DMG Bonus",
+                "trigger": "In Thunder Spell - Heaven, Earth, Mind",
+                "excerpt": "Resonance Skill DMG Bonus +25%"
               }
             ]
           }

@@ -62,7 +62,7 @@ window.WUWA_LANGUAGES.extend("en-US", {
           },
           {
             "name": "Reunion of All the Fallen - Ichor Deposit DMG",
-            "requiresResourceLabel": "日髓阵列"
+            "requiresResourceLabel": "resource_gate_1"
           },
           {
             "name": "Rewritten in Winter's Margins - Skill DMG"
@@ -72,168 +72,165 @@ window.WUWA_LANGUAGES.extend("en-US", {
           },
           {
             "name": "Spark from the Frost - Gavel of Earthshaker DMG",
-            "requiresResourceLabel": "斩杀日冕·曜后"
+            "requiresResourceLabel": "resource_gate_2"
           }
         ],
         "combatStates": [
           {
-            "label": "黄金的裁量状态",
-            "inactiveLabel": "未处于黄金的裁量状态",
-            "entry": "【日髓能流】满时进入黄金的裁量状态；每次施放斩杀日冕消耗100点【日髓能流】，清空时退出。",
+            "label": "Aureate Judge State",
+            "idLabel": "Aureate Judge",
+            "inactiveLabel": "Not in Aureate Judge",
+            "entry": "Aureate Judge",
+            "effects": "Aureate Judge",
             "options": [
               {
-                "label": "黄金的裁量",
-                "valueLabel": "黄金的裁量"
+                "label": "Aureate Judge",
+                "valueLabel": "Aureate Judge"
               }
-            ],
-            "idLabel": "黄金的裁量"
+            ]
           },
           {
-            "label": "目标集谐·干涉",
-            "inactiveLabel": "目标无集谐·干涉",
-            "entry": "陆·赫斯响应【集谐·干涉】；【续写白昼】可在队伍施放【谐度破坏】且目标有【集谐·偏移】时为目标追加【集谐·干涉】层数。",
+            "label": "Target Tune Strain · Interfered",
+            "idLabel": "Target Tune Strain · Interfered",
+            "inactiveLabel": "Not in Target Tune Strain · Interfered",
+            "entry": "Select the current Target Tune Strain · Interfered.",
+            "effects": "Select the current Target Tune Strain · Interfered.",
             "options": [
               {
-                "label": "有集谐·干涉",
-                "valueLabel": "目标集谐·干涉"
+                "label": "Target Tune Strain · Interfered",
+                "valueLabel": "Target Tune Strain · Interfered"
               }
-            ],
-            "idLabel": "目标集谐·干涉"
+            ]
           }
         ],
         "buffs": [
           {
-            "source": "共鸣技能·终局之释义",
-            "label": "于永冻中释义倍率提升",
-            "trigger": "施放斩杀日冕后",
-            "excerpt": "施放斩杀日冕后，每层使于永冻中释义倍率提升25%",
-            "desc": "终局之释义使共鸣解放于永冻中释义伤害倍率提升25%，可叠加3层，施放共鸣解放于永冻中释义或切换至下个角色后移除。"
+            "source": "Resonance Skill: Endnotes on the Endgame",
+            "label": "Rewritten in Winter's Margins - Skill DMG Multiplier Increase",
+            "trigger": "After casting Rewritten in Winter's Margins - Skill DMG",
+            "excerpt": "Rewritten in Winter's Margins - Skill DMG Multiplier Increase +75% per stack",
+            "desc": "Casting any form of Aureole of Execution grants 1 stacks of Endnotes on the Endgame and switches Aureole of Execution to the next form in sequence."
           },
           {
-            "source": "谐度破坏·一场关于光的默辩",
-            "label": "最终伤害提升",
-            "trigger": "响应集谐·干涉时",
-            "excerpt": "响应集谐·干涉时，每层按谐度破坏增幅提升最终伤害",
-            "desc": "响应【集谐·干涉】：目标每有一层【集谐·干涉】效果，陆·赫斯自身的每点谐度破坏增幅会使自身对该目标造成的最终伤害提升0.12%。陆·赫斯在编队中时，目标的【集谐·干涉】效果的层数上限增加1层。"
+            "source": "Tune Break: Silent Debate of Light",
+            "label": "Final DMG Bonus",
+            "trigger": "In Target Tune Strain · Interfered",
+            "excerpt": "Final DMG Bonus +0% per stack",
+            "desc": "Final DMG Bonus +0% per stack"
           },
           {
-            "source": "固有·无因的医谕",
-            "label": "伤害加深",
-            "trigger": "攻击集谐·干涉目标时",
-            "excerpt": "攻击集谐·干涉目标时，按谐度破坏增幅获得伤害加深，上限30%",
-            "desc": "自身施放的技能对有【集谐·干涉】的目标直接造成伤害时，陆·赫斯每拥有10点谐度破坏增幅，本次伤害加深5%，最高加深30%。"
+            "source": "Inherent Skill: Uncaused Diagnosis",
+            "label": "DMG Increase",
+            "trigger": "In Target Tune Strain · Interfered",
+            "excerpt": "DMG Increase based on Tune Break Boost, cap 30%",
+            "desc": "Inherent Skill Uncaused Diagnosis is enhanced:"
           },
           {
-            "source": "固有·无因的医谕",
-            "label": "攻击",
-            "trigger": "附加集谐·偏移或造成谐度破坏伤害后",
-            "excerpt": "附加集谐·偏移或造成谐度破坏伤害后，攻击提升25%",
-            "desc": "附近队伍中所有角色为敌方怪物附加【集谐·偏移】或造成【谐度破坏】伤害后，陆·赫斯攻击提升25%，持续20秒。"
+            "source": "Inherent Skill: Uncaused Diagnosis",
+            "label": "ATK",
+            "trigger": "In Target Tune Strain · Interfered",
+            "excerpt": "ATK +25%",
+            "desc": "Inherent Skill Uncaused Diagnosis is enhanced:"
           },
           {
-            "source": "共鸣回路·黄金的裁量",
-            "label": "斩杀日冕倍率提升",
-            "trigger": "处于黄金的裁量时",
-            "excerpt": "黄金的裁量中，斩杀日冕倍率提升110%",
-            "desc": "【日髓能流】满时，进入黄金的裁量状态，获得以下效果：无法回复【日髓能流】，所有形态的共鸣技能斩杀日冕伤害倍率提升110%。"
+            "source": "Forte Circuit: Aureate Judge",
+            "label": "Reunion of All the Fallen - Aureole of Execution: Ring DMG Multiplier Increase",
+            "trigger": "In Aureate Judge",
+            "excerpt": "Reunion of All the Fallen - Aureole of Execution: Ring DMG Multiplier Increase +110%",
+            "desc": "Aureate Judge"
           },
           {
-            "source": "共鸣回路·黄金的裁量",
-            "label": "判决与日髓阵列倍率提升",
-            "trigger": "黄金的裁量中施放斩杀日冕·曜后",
-            "excerpt": "黄金的裁量中释放斩杀日冕·曜后，判决大地裂响和日髓阵列倍率提升110%",
-            "desc": "施放共鸣技能斩杀日冕·曜后，使接下来的空中攻击·判决大地裂响和日髓阵列伤害倍率提升110%。"
+            "source": "Forte Circuit: Aureate Judge",
+            "label": "Spark from the Frost - Gavel of Earthshaker DMG Multiplier Increase",
+            "trigger": "After casting Spark from the Frost - Gavel of Earthshaker DMG / Reunion of All the Fallen - Ichor Deposit DMG",
+            "excerpt": "Spark from the Frost - Gavel of Earthshaker DMG Multiplier Increase +110%",
+            "desc": "Aureate Judge"
           }
         ],
         "chain": [
           {
-            "name": "流金于灰白中灼烧",
-            "desc": "空中攻击伤害加成提升150%。【日辉庇覆】层数上限提升1层。处于黄金的裁量状态时，施放共鸣技能斩杀日冕可获得1层【日辉庇覆】。",
+            "name": "Gold Kindled in Ash",
+            "desc": "Luuk Herssen gains 150% Mid-air Attack DMG Bonus.\nThe max stack limit of Dawnlit Keep is increased by 1.\nWhen in the Aureate Judge state, casting Resonance Skill Aureole of Execution grants 1 stacks of Dawnlit Keep.",
             "buffs": [
               {
-                "label": "空中攻击伤害加成",
-                "trigger": "默认",
-                "excerpt": "空中攻击伤害加成提升150%",
-                "desc": "空中攻击伤害加成提升150%。"
+                "label": "DMG Bonus",
+                "trigger": "In Target Tune Strain · Interfered",
+                "excerpt": "DMG Bonus +150%"
               }
             ]
           },
           {
-            "name": "眼底尚有雪崩未止",
-            "desc": "共鸣解放于永冻中释义伤害倍率提升60%，该倍率提升效果与【终局之释义】的倍率提升效果相互叠加。固有技能无因的医谕效果中：对有【集谐·干涉】的目标造成伤害时，陆·赫斯每拥有10点谐度破坏增幅，伤害加深效果提升至10%，此效果最高加深由30%提升至60%。",
+            "name": "Avalanche Roaring in Eyes",
+            "desc": "The DMG Multiplier of Resonance Liberation Rewritten in Winter's Margins is increased by 60%. This DMG Multiplier increase effect is stackable with that of Endnotes on the Endgame.\nInherent Skill Uncaused Diagnosis is enhanced:\nWhen Luuk Herssen deals damage to targets inflicted with Tune Strain - Interfered, every 10 points of Tune Break Boost he has now Amplify this instance of damage by 10%. This effect now increases the DMG Amplification up to 60% instead of 30%.",
             "buffs": [
               {
-                "label": "于永冻中释义倍率提升",
-                "trigger": "默认",
-                "excerpt": "于永冻中释义伤害倍率提升60%"
+                "label": "Rewritten in Winter's Margins - Skill DMG Multiplier Increase",
+                "trigger": "In Target Tune Strain · Interfered",
+                "excerpt": "Rewritten in Winter's Margins - Skill DMG Multiplier Increase +60%"
               },
               {
-                "label": "伤害加深",
-                "trigger": "攻击集谐·干涉目标时",
-                "excerpt": "攻击集谐·干涉目标时，按谐度破坏增幅获得伤害加深，上限60%",
-                "desc": "对有【集谐·干涉】的目标造成伤害时，陆·赫斯每拥有10点谐度破坏增幅，伤害加深效果提升至10%，此效果最高加深由30%提升至60%。"
+                "label": "DMG Increase",
+                "trigger": "In Target Tune Strain · Interfered",
+                "excerpt": "DMG Increase based on Tune Break Boost, cap 60%"
               }
             ]
           },
           {
-            "name": "金雨浇筑你的脊骨",
-            "desc": "黄金的裁量状态下所有形态的共鸣技能斩杀日冕伤害倍率提升136%，施放斩杀日冕·曜后，使接下来的空中攻击·判决大地裂响和日髓阵列伤害倍率提升136%。该倍率提升效果与共鸣回路黄金的裁量的倍率提升效果相互叠加。固有技能雪下的脉搏获得强化：【续写白昼】效果可叠加上限提升至4层。",
+            "name": "Spine Tempered by Golden Rain",
+            "desc": "The DMG Multipliers of all forms of Resonance Skill Aureole of Execution are increased by 136% in the Aureate Judge state. Casting Aureole of Execution: Glare increases the DMG Multipliers of the next Mid-Attack - Gavel of Earthshaker and Ichor Deposit by 136%.\nInherent Skill Pulses Under the Snow is enhanced:\nPerpetuating Daytime now stacks up to 4 times.",
             "buffs": [
               {
-                "label": "斩杀日冕倍率提升",
-                "trigger": "处于黄金的裁量时",
-                "excerpt": "黄金的裁量中，斩杀日冕倍率额外提升136%"
+                "label": "Reunion of All the Fallen - Aureole of Execution: Ring DMG Multiplier Increase",
+                "trigger": "In Aureate Judge",
+                "excerpt": "Reunion of All the Fallen - Aureole of Execution: Ring DMG Multiplier Increase +136%"
               },
               {
-                "label": "判决与日髓阵列倍率提升",
-                "trigger": "黄金的裁量中施放斩杀日冕·曜后",
-                "excerpt": "黄金的裁量中释放斩杀日冕·曜后，判决大地裂响和日髓阵列倍率额外提升136%"
+                "label": "Spark from the Frost - Gavel of Earthshaker DMG Multiplier Increase",
+                "trigger": "After casting Spark from the Frost - Gavel of Earthshaker DMG / Reunion of All the Fallen - Ichor Deposit DMG",
+                "excerpt": "Spark from the Frost - Gavel of Earthshaker DMG Multiplier Increase +136%"
               }
             ]
           },
           {
-            "name": "冻土之下，亦有新生",
-            "desc": "队伍中的角色造成【谐度破坏】伤害后，使队伍中所有角色造成的伤害提升20%，持续20秒，无法叠加。",
+            "name": "Pulse Thrumming Under Rime",
+            "desc": "After a Resonator in the team deals Tune Break DMG, all Resonators in the team deal 20% more DMG for 20s. This effect is unstackable.",
             "buffs": [
               {
-                "label": "最终伤害提升",
-                "trigger": "队伍角色造成谐度破坏伤害后",
-                "excerpt": "队伍角色造成谐度破坏伤害后，全队伤害提升20%",
-                "desc": "队伍中的角色造成【谐度破坏】伤害后，使队伍中所有角色造成的伤害提升20%，持续20秒，无法叠加。"
+                "label": "Final DMG Bonus",
+                "trigger": "In Target Tune Strain · Interfered",
+                "excerpt": "Final DMG Bonus +20%"
               }
             ]
           },
           {
-            "name": "穿过风雪构筑的静场",
-            "desc": "变奏技能注入黎明以前和延奏技能致濒死以答伤害加成提升80%。共鸣技能流金回潮伤害倍率提升50%，冷却时间降低2秒，可施放次数增加1次。",
+            "name": "Through the Stillness of Snowstorm",
+            "desc": "Intro Skill Before Injection of Dawn and Outro Skill Bow to the Last Light gain 80% DMG Bonus.\nResonance Skill Golden Reflux has its DMG Multiplier increased by 50% and Cooldown reduced by 2s, and gains 1 more charge.",
             "buffs": [
               {
-                "label": "注入黎明以前伤害加成",
-                "trigger": "默认",
-                "excerpt": "注入黎明以前伤害加成提升80%"
+                "label": "DMG Bonus",
+                "trigger": "In Target Tune Strain · Interfered",
+                "excerpt": "DMG Bonus +80%"
               },
               {
-                "label": "流金回潮倍率提升",
-                "trigger": "默认",
-                "excerpt": "流金回潮伤害倍率提升50%"
+                "label": "Reunion of All the Fallen - Golden Reflux DMG Multiplier Increase",
+                "trigger": "In Target Tune Strain · Interfered",
+                "excerpt": "Reunion of All the Fallen - Golden Reflux DMG Multiplier Increase +50%"
               }
             ]
           },
           {
-            "name": "冰原之上，铺开无垠曦光",
-            "desc": "附近队伍中所有角色造成【谐度破坏】伤害时，使目标受到陆·赫斯所有形态的共鸣技能斩杀日冕、日髓阵列和空中攻击·判决大地裂响的伤害提升30%，持续25秒。陆·赫斯每层【终局之释义】额外使共鸣解放于永冻中释义伤害加成提升40%，最高120%。陆·赫斯对有【集谐·干涉】的目标造成伤害时，视为将目标当前的【集谐·干涉】提升2层，且此效果无视层数上限。",
+            "name": "Dawn Unfurling over Frostlands",
+            "desc": "When nearby Resonators in the team deal Tune Break DMG, all forms of Resonance Skill Aureole of Execution, Ichor Deposit, and Mid-air Attack - Gavel of Earthshaker deal 30% more DMG to the target for 25s.\nEach stack of Endnotes on the Endgame additionally grants Resonance Liberation Rewritten in Winter's Margins 40% DMG Bonus, up to 120%.\nWhen Luuk Herssen deals damage to targets inflicted with Tune Strain - Interfered, the stack count of Tune Strain - Interfered on the target is increased by 2. This effect ignores the max stack limit.",
             "buffs": [
               {
-                "label": "指定技能易伤",
-                "trigger": "队伍角色造成谐度破坏伤害后",
-                "excerpt": "队伍造成谐度破坏伤害后，目标受到指定技能伤害提升30%",
-                "desc": "附近队伍中所有角色造成【谐度破坏】伤害时，使目标受到陆·赫斯所有形态的共鸣技能斩杀日冕、日髓阵列和空中攻击·判决大地裂响的伤害提升30%，持续25秒。"
+                "label": "Vulnerability",
+                "trigger": "After casting Reunion of All the Fallen - Aureole of Execution: Ring DMG / Reunion of All the Fallen - Aureole of Execution: Breach DMG / Reunion of All the Fallen - Aureole of Execution: Glare DMG / Reunion of All the Fallen - Ichor Deposit DMG / Spark from the Frost - Gavel of Earthshaker DMG",
+                "excerpt": "Vulnerability +30%"
               },
               {
-                "label": "于永冻中释义伤害加成",
-                "trigger": "拥有终局之释义时",
-                "excerpt": "每层终局之释义额外使于永冻中释义伤害加成提升40%",
-                "desc": "陆·赫斯每层【终局之释义】额外使共鸣解放于永冻中释义伤害加成提升40%，最高120%。"
+                "label": "DMG Bonus",
+                "trigger": "After casting Rewritten in Winter's Margins - Skill DMG",
+                "excerpt": "DMG Bonus +120% per stack"
               }
             ]
           }

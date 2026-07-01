@@ -5,11 +5,6 @@ window.WUWA_LANGUAGES.extend("en-US", {
     "chars": {
       "ciaccona": {
         "name": "Ciaccona",
-        "resources": [
-          {
-            "label": "音律"
-          }
-        ],
         "skills": [
           {
             "name": "Quadruple Time Steps - Stage 1 DMG"
@@ -58,118 +53,125 @@ window.WUWA_LANGUAGES.extend("en-US", {
           },
           {
             "name": "Symphony of Wind and Verse - Quadruple Downbeat DMG",
-            "requiresResourceLabel": "3格音律"
+            "requiresResourceLabel": "Musical Essence at least 3"
           },
           {
             "name": "Unending Cadence - Solo Concert Coordinated DMG"
           }
         ],
+        "resources": [
+          {
+            "label": "Musical Essence"
+          }
+        ],
         "combatStates": [
           {
-            "label": "音律独奏",
-            "inactiveLabel": "未处于音律独奏",
-            "entry": "普攻第4段结束后进入；普攻第4段或音律独奏被打断时，合奏音影可代替夏空完成或继续该状态。",
+            "label": "Ensemble Sylph",
+            "idLabel": "Ensemble Sylph",
+            "inactiveLabel": "Not in Ensemble Sylph",
+            "entry": "If Ciaccona's Basic Attack Stage 4 or Solo Concert ends early (proactively or being interrupted), an Ensemble Sylph is generated.",
+            "effects": "If Ciaccona's Basic Attack Stage 4 or Solo Concert ends early (proactively or being interrupted), an Ensemble Sylph is generated.",
             "options": [
               {
-                "label": "音律独奏",
-                "valueLabel": "音律独奏"
+                "label": "Ensemble Sylph",
+                "valueLabel": "Ensemble Sylph"
               }
-            ],
-            "idLabel": "音律独奏"
+            ]
           },
           {
-            "label": "演绎状态",
-            "inactiveLabel": "未处于演绎状态",
-            "entry": "施放共鸣解放歌者的三重华彩后进入；切换角色不会结束，再次施放共鸣解放或切回夏空可提前结束。",
+            "label": "Recital",
+            "idLabel": "Recital",
+            "inactiveLabel": "Not in Recital",
+            "entry": "Ciaccona and Ensemble Sylphs perform an Improvised Symphonic Poem together, dealing Aero DMG once to the nearby targets and entering Recital.",
+            "effects": "Ciaccona and Ensemble Sylphs perform an Improvised Symphonic Poem together, dealing Aero DMG once to the nearby targets and entering Recital.",
             "options": [
               {
-                "label": "演绎状态",
-                "valueLabel": "演绎状态"
+                "label": "Recital",
+                "valueLabel": "Recital"
               }
-            ],
-            "idLabel": "演绎状态"
+            ]
           }
         ],
         "buffs": [
           {
-            "source": "音律独奏",
-            "label": "气动伤害加成",
-            "trigger": "进入音律独奏时",
-            "excerpt": "进入音律独奏时，队伍气动伤害加成提升24%",
-            "desc": "夏空或合奏音影在进入音律独奏状态时能够以自身为中心，使附近队伍中所有角色的气动伤害加成提升24%，该效果不可叠加。演绎状态下的合奏音影可触发音律独奏的气动伤害加成提升效果。"
+            "source": "Ensemble Sylph",
+            "label": "Aero DMG Bonus",
+            "trigger": "In Ensemble Sylph",
+            "excerpt": "Aero DMG Bonus +24%",
+            "desc": "If Ciaccona's Basic Attack Stage 4 or Solo Concert ends early (proactively or being interrupted), an Ensemble Sylph is generated."
           },
           {
-            "source": "固有·黎那汐塔之风",
-            "label": "四拍重奏伤害加深",
-            "trigger": "默认",
-            "excerpt": "重击·四拍重奏造成的伤害提升30%",
-            "desc": "重击·四拍重奏造成的伤害提升30%。"
+            "source": "Inherent Skill: Winds of Rinascita",
+            "label": "Symphony of Wind and Verse - Quadruple Downbeat DMG Increase",
+            "trigger": "In Recital",
+            "excerpt": "Symphony of Wind and Verse - Quadruple Downbeat DMG Increase +30%",
+            "desc": "Symphony of Wind and Verse - Quadruple Downbeat DMG Increase +30%"
           },
           {
-            "source": "延奏·和声引风",
-            "label": "风蚀效应伤害加深",
-            "trigger": "释放延奏技能后",
-            "excerpt": "登场角色周围目标受到风蚀效应伤害加深100%",
-            "desc": "队伍中登场角色周围的目标受到【风蚀效应】的伤害加深100%，持续30秒。"
+            "source": "Outro Skill: Windcalling Tune",
+            "label": "DMG Increase",
+            "trigger": "In Recital",
+            "excerpt": "DMG Increase +100%",
+            "desc": "DMG Increase +100%"
           }
         ],
         "chain": [
           {
-            "name": "故风的吟游序曲",
-            "desc": "施放共鸣技能谐律速奏时，夏空获得免疫打断的效果，持续3秒；施放普攻时，夏空的攻击提升35%，持续10秒。",
+            "name": "Where Wind Sings",
+            "desc": "Casting Resonance Skill Harmonic Allegro grants Ciaccona immunity to interruption for 3s. Casting Basic Attack increases Ciaccona's ATK by 35% for 10s.",
             "buffs": [
               {
-                "label": "攻击",
-                "trigger": "施放普攻时",
-                "excerpt": "释放普攻时，攻击提升35%"
+                "label": "ATK",
+                "trigger": "In Recital",
+                "excerpt": "ATK +35%"
               }
             ]
           },
           {
-            "name": "四季的连奏之音",
-            "desc": "共鸣解放歌者的三重华彩持续期间队伍中的角色气动伤害加成提升40%。",
+            "name": "Song of the Four Seasons",
+            "desc": "During Resonance Liberation Singer's Triple Cadenza, Resonators in the team gain 40% Aero DMG Bonus.",
             "buffs": [
               {
-                "label": "气动伤害加成",
-                "trigger": "歌者的三重华彩持续期间",
-                "excerpt": "演绎状态期间，队伍气动伤害加成提升40%"
+                "label": "Aero DMG Bonus",
+                "trigger": "In Recital",
+                "excerpt": "Aero DMG Bonus +40%"
               }
             ]
           },
           {
-            "name": "星烁此时的即兴演奏",
-            "desc": "施放普攻第4段时可额外获得1格【音律】；共鸣技能谐律速奏可使用次数增加1次。"
+            "name": "Starlit Improv",
+            "desc": "Casting Basic Attack Stage 4 additionally grants 1 segments of Musical Essence. Resonance Skill Harmonic Allegro gains 1 more charge."
           },
           {
-            "name": "托卡塔与赋格",
-            "desc": "夏空重击四拍重奏造成伤害时无视敌人45%的防御； 夏空造成共鸣解放伤害时无视敌人45%的防御。",
+            "name": "Toccata and Fugue",
+            "desc": "Ciaccona ignores 45% of the targets' DEF when dealing damage with Heavy Attack Quadruple Downbeat;\nCiaccona ignores 45% of the targets' DEF when dealing Resonance Liberation DMG.",
             "buffs": [
               {
-                "label": "防御无视",
-                "trigger": "四拍重奏造成伤害时",
-                "excerpt": "重击·四拍重奏无视目标45%防御"
+                "label": "DEF Ignore",
+                "trigger": "In Recital",
+                "excerpt": "DEF Ignore +45%"
               },
               {
-                "label": "防御无视",
-                "trigger": "造成共鸣解放伤害时",
-                "excerpt": "共鸣解放伤害无视目标45%防御"
+                "label": "DEF Ignore",
+                "trigger": "In Recital",
+                "excerpt": "DEF Ignore +45%"
               }
             ]
           },
           {
-            "name": "献予长夏的永恒叙诗",
-            "desc": "夏空共鸣解放伤害加成提升40%； 夏空共鸣解放歌者的三重华彩附近范围内的角色受到的伤害降低30%。",
+            "name": "Eternal Idyll to Lasting Summer",
+            "desc": "Gain 40% Resonance Liberation DMG Bonus;\nDMG taken by Resonators within and around the range of Resonance Liberation Singer's Triple Cadenza is reduced by 30%.",
             "buffs": [
               {
-                "label": "共鸣解放伤害加成",
-                "trigger": "默认",
-                "excerpt": "共鸣解放伤害加成提升40%"
+                "label": "Resonance Liberation DMG Bonus",
+                "trigger": "In Recital",
+                "excerpt": "Resonance Liberation DMG Bonus +40%"
               }
             ]
           },
           {
-            "name": "终曲未终",
-            "desc": "夏空或合奏音影在进入音律独奏状态时可以对周围目标造成220%的气动伤害，该伤害视为共鸣解放伤害。"
+            "name": "Unending Cadence",
+            "desc": "When in Solo Concert, Ciaccona or Ensemble Sylph deals Aero DMG equal to 220% of Ciaccona's ATK to nearby targets, considered Resonance Liberation DMG."
           }
         ]
       }

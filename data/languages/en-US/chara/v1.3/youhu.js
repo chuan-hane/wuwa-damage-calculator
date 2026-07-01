@@ -5,14 +5,6 @@ window.WUWA_LANGUAGES.extend("en-US", {
     "chars": {
       "youhu": {
         "name": "Youhu",
-        "resources": [
-          {
-            "label": "霜色"
-          },
-          {
-            "label": "吉兆"
-          }
-        ],
         "skills": [
           {
             "name": "Frosty Punches - Stage 1 DMG"
@@ -28,7 +20,7 @@ window.WUWA_LANGUAGES.extend("en-US", {
           },
           {
             "name": "Frosty Punches - Heavy Attack: Frostfall DMG",
-            "requiresResourceLabel": "霜色满"
+            "requiresResourceLabel": "Frost full"
           },
           {
             "name": "Frosty Punches - Mid-air Attack DMG"
@@ -59,120 +51,129 @@ window.WUWA_LANGUAGES.extend("en-US", {
           },
           {
             "name": "Poetic Essence - Poetic Essence Skill DMG",
-            "requiresResourceLabel": "4吉兆"
+            "requiresResourceLabel": "Auspice at least 4"
+          }
+        ],
+        "resources": [
+          {
+            "label": "Frost"
+          },
+          {
+            "label": "Auspice"
           }
         ],
         "combatStates": [
           {
-            "label": "吉兆组合",
-            "inactiveLabel": "未确认吉兆组合",
-            "entry": "诗中物根据四个吉兆的组合获得额外效果。",
+            "label": "Auspice Combination",
+            "idLabel": "Auspice Combination",
+            "inactiveLabel": "Not in Auspice Combination",
+            "entry": "Select the current Auspice Combination.",
+            "effects": "Select the current Auspice Combination.",
             "options": [
               {
-                "label": "对偶",
-                "valueLabel": "吉兆组合·对偶"
+                "label": "Auspice Combination · Antithesis",
+                "valueLabel": "Auspice Combination · Antithesis"
               },
               {
-                "label": "双关",
-                "valueLabel": "吉兆组合·双关"
+                "label": "Auspice Combination · Double Pun",
+                "valueLabel": "Auspice Combination · Double Pun"
               },
               {
-                "label": "联珠",
-                "valueLabel": "吉兆组合·联珠"
+                "label": "Auspice Combination · Triplet",
+                "valueLabel": "Auspice Combination · Triplet"
               },
               {
-                "label": "合说",
-                "valueLabel": "吉兆组合·合说"
+                "label": "Auspice Combination · Perfect Rhyme",
+                "valueLabel": "Auspice Combination · Perfect Rhyme"
               }
-            ],
-            "idLabel": "吉兆组合"
+            ]
           }
         ],
         "buffs": [
           {
-            "source": "固有·珠玑",
-            "label": "冷凝伤害加成",
-            "trigger": "施放变奏技能时",
-            "excerpt": "释放遂心匣时，冷凝伤害加成提升15%",
-            "desc": "施放变奏技能遂心匣时，釉瑚的冷凝伤害加成提升15%，持续14秒。"
+            "source": "Inherent Skill: Rare Find",
+            "label": "Glacio DMG Bonus",
+            "trigger": "After casting Scroll of Wonders - Skill DMG",
+            "excerpt": "Glacio DMG Bonus +15%",
+            "desc": "Glacio DMG Bonus +15%"
           },
           {
-            "source": "延奏·鉴珍",
-            "label": "协同攻击伤害加深",
-            "trigger": "释放延奏技能后",
-            "excerpt": "下一位登场角色的协同攻击伤害加深100%",
-            "desc": "下一位登场角色的协同攻击伤害加深100%，效果持续28秒。"
+            "source": "Outro Skill: Timeless Classics",
+            "label": "Coordinated Attack DMG Increase",
+            "trigger": "In Auspice Combination · Perfect Rhyme",
+            "excerpt": "Coordinated Attack DMG Increase +100%",
+            "desc": "Coordinated Attack DMG Increase +100%"
           },
           {
-            "source": "共鸣回路·诗中物",
-            "label": "诗中物伤害加成",
-            "trigger": "拥有一对相同吉兆时",
-            "excerpt": "拥有一对相同吉兆时，诗中物伤害提升70%",
-            "desc": "对偶：拥有一对相同的【吉兆】时。诗中物造成的伤害提升70%。"
+            "source": "Forte Circuit: Poetic Essence",
+            "label": "Resonance Skill DMG Bonus",
+            "trigger": "In Auspice Combination · Antithesis",
+            "excerpt": "Resonance Skill DMG Bonus +70%",
+            "desc": "At four Auspices, hold the Normal Attack button to release Poetic Essence, dealing Glacio DMG, considered as Resonance Skill DMG, while restoring HP for all nearby party members."
           },
           {
-            "source": "共鸣回路·诗中物",
-            "label": "诗中物伤害加成",
-            "trigger": "拥有三个或四个相同吉兆时",
-            "excerpt": "联珠或合说时，诗中物伤害提升175%",
-            "desc": "联珠：拥有三个相同的【吉兆】时。诗中物造成的伤害提升175%。合说：拥有四个相同的【吉兆】时，同时触发飞白、双关、联珠的效果。"
+            "source": "Forte Circuit: Poetic Essence",
+            "label": "Resonance Skill DMG Bonus",
+            "trigger": "In Auspice Combination · Triplet",
+            "excerpt": "Resonance Skill DMG Bonus +175%",
+            "desc": "At four Auspices, hold the Normal Attack button to release Poetic Essence, dealing Glacio DMG, considered as Resonance Skill DMG, while restoring HP for all nearby party members."
           }
         ],
         "chain": [
           {
-            "name": "港边小憩",
-            "desc": "施放问祯时，釉瑚有10%概率免疫伤害和受击，持续5秒，若切换至其他角色则该效果提前结束。"
+            "name": "Waterside Respite",
+            "desc": "Youhu has a 10% chance to gain immunity to damage and interruption after casting Lucky Draw. This effect lasts for 5s or until she is switched out."
           },
           {
-            "name": "堂侧酣睡",
-            "desc": "对偶、联珠、合说对共鸣回路诗中物的伤害提升效果额外生效一次。",
+            "name": "Sunroom Siesta",
+            "desc": "The DMG bonus of Antithesis, Triplet and Perfect Rhyme on Poetic Essence is doubled.",
             "buffs": [
               {
-                "label": "诗中物额外伤害加成",
-                "trigger": "对偶额外生效时",
-                "excerpt": "对偶效果额外生效一次"
+                "label": "Resonance Skill DMG Bonus",
+                "trigger": "In Auspice Combination · Antithesis",
+                "excerpt": "Resonance Skill DMG Bonus +70%"
               },
               {
-                "label": "诗中物额外伤害加成",
-                "trigger": "联珠或合说额外生效时",
-                "excerpt": "联珠或合说的伤害提升效果额外生效一次"
+                "label": "Resonance Skill DMG Bonus",
+                "trigger": "In Auspice Combination · Triplet",
+                "excerpt": "Resonance Skill DMG Bonus +175%"
               }
             ]
           },
           {
-            "name": "火中噩魇",
-            "desc": "釉瑚的攻击提升20%。",
+            "name": "Restless Sleep",
+            "desc": "Youhu's ATK is increased by 20%.",
             "buffs": [
               {
-                "label": "攻击",
-                "trigger": "默认",
-                "excerpt": "攻击提升20%"
+                "label": "ATK",
+                "trigger": "In Auspice Combination · Perfect Rhyme",
+                "excerpt": "ATK +20%"
               }
             ]
           },
           {
-            "name": "雪夜迷寐",
-            "desc": "每次施放共鸣技能匣中问祯时，有20%概率不进入冷却状态。"
+            "name": "Frosted Lullaby",
+            "desc": "Every time Resonance Skill Scroll Divination is cast, there is a 20% chance that the skill will not enter Cooldown."
           },
           {
-            "name": "万里浅眠",
-            "desc": "施放变奏技能遂心匣时，釉瑚的暴击提升15%，持续14秒。",
+            "name": "Dreamland Meander",
+            "desc": "When Intro Skill Scroll of Wonders is cast, Youhu's Crit. Rate is increased by 15% for 14s.",
             "buffs": [
               {
-                "label": "暴击",
-                "trigger": "释放遂心匣时",
-                "excerpt": "释放遂心匣时，暴击提升15%"
+                "label": "Crit. Rate",
+                "trigger": "After casting Scroll of Wonders - Skill DMG",
+                "excerpt": "Crit. Rate +15%"
               }
             ]
           },
           {
-            "name": "千秋一枕",
-            "desc": "施放共鸣技能奇珍赏时，获得1层霁青效果，最多可叠加4层，持续7秒，每层霁青使釉瑚的暴击伤害提升15%。",
+            "name": "Slumber Evermore",
+            "desc": "When casting Resonance Skill Antique Appraisal, gain 1 stack of Sky Blue, stackable up to 4 times, lasting for 7s. Each stack increases Youhu's Crit. DMG by 15%.",
             "buffs": [
               {
-                "label": "暴击伤害",
-                "trigger": "释放奇珍赏时",
-                "excerpt": "释放奇珍赏时，每层暴击伤害提升15%"
+                "label": "Crit. DMG",
+                "trigger": "After casting Scroll Divination - Chime DMG / Scroll Divination - Ding DMG / Scroll Divination - Ruyi DMG / Scroll Divination - Mask DMG",
+                "excerpt": "Crit. DMG +60% per stack"
               }
             ]
           }

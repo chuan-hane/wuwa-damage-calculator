@@ -50,88 +50,88 @@ window.WUWA_LANGUAGES.extend("en-US", {
           },
           {
             "name": "Living Canvas - Sequence 5 Extra Inklit Spirit DMG",
-            "requiresResourceLabel": "虚实境趣期间每3只墨鹤"
+            "requiresResourceLabel": "resource_gate_1"
           },
           {
             "name": "Ink and Wash - Creation's Zenith DMG",
-            "requiresResourceLabel": "神来之笔触发"
+            "requiresResourceLabel": "resource_gate_2"
           }
         ],
         "buffs": [
           {
-            "source": "固有·挥毫",
-            "label": "攻击",
-            "trigger": "施放共鸣技能后",
-            "excerpt": "释放神来之笔或极意·神来之笔时，每层攻击提升6%",
-            "desc": "施放共鸣技能神来之笔或共鸣技能极意·神来之笔时，攻击提升6%，可叠加3层，持续27秒。"
+            "source": "Inherent Skill: Calligrapher's Touch",
+            "label": "ATK",
+            "trigger": "After casting Ink and Wash - Stroke of Genius DMG / Ink and Wash - Creation's Zenith DMG",
+            "excerpt": "ATK +18% per stack",
+            "desc": "ATK +18% per stack"
           },
           {
-            "source": "共鸣回路·妙笔丹青",
-            "label": "普攻伤害加成",
-            "trigger": "施放共鸣技能后",
-            "excerpt": "释放极意·神来之笔时，普攻伤害加成提升18%",
-            "desc": "施放共鸣技能极意·神来之笔时，让折枝的普攻伤害加成提升18%，持续27秒。"
+            "source": "Forte Circuit: Ink and Wash",
+            "label": "Basic Attack DMG Bonus",
+            "trigger": "After casting Ink and Wash - Creation's Zenith DMG",
+            "excerpt": "Basic Attack DMG Bonus +18%",
+            "desc": "Basic Attack DMG Bonus +18%"
           },
           {
-            "source": "延奏·提白",
-            "label": "冷凝伤害加深",
-            "trigger": "释放延奏技能后",
-            "excerpt": "下一位登场角色冷凝伤害加深20%",
-            "desc": "下一位登场角色冷凝伤害加深20%，共鸣技能伤害加深25%，效果持续14秒，若切换至其他角色则该效果提前结束。"
+            "source": "Outro Skill: Carve and Draw",
+            "label": "DMG Increase",
+            "trigger": "Default",
+            "excerpt": "DMG Increase +20%",
+            "desc": "DMG Increase +20%"
           },
           {
-            "source": "延奏·提白",
-            "label": "共鸣技能伤害加深",
-            "trigger": "释放延奏技能后",
-            "excerpt": "下一位登场角色共鸣技能伤害加深25%",
-            "desc": "下一位登场角色冷凝伤害加深20%，共鸣技能伤害加深25%，效果持续14秒，若切换至其他角色则该效果提前结束。"
+            "source": "Outro Skill: Carve and Draw",
+            "label": "Resonance Skill DMG Increase",
+            "trigger": "Default",
+            "excerpt": "Resonance Skill DMG Increase +25%",
+            "desc": "Resonance Skill DMG Increase +25%"
           }
         ],
         "chain": [
           {
-            "name": "骨法用笔",
-            "desc": "折枝施放共鸣技能极意·神来之笔时，回复15点共鸣能量，且自身暴击提升10%，持续27秒。",
+            "name": "Brushwork's Finish",
+            "desc": "Casting Resonance Skill Creation's Zenith restores 15 Resonance Energy and increases Crit. Rate by 10% for 27s.",
             "buffs": [
               {
-                "label": "暴击",
-                "trigger": "施放共鸣技能后",
-                "excerpt": "释放极意·神来之笔时，暴击提升10%"
+                "label": "Crit. Rate",
+                "trigger": "After casting Ink and Wash - Creation's Zenith DMG",
+                "excerpt": "Crit. Rate +10%"
               }
             ]
           },
           {
-            "name": "气韵生动",
-            "desc": "共鸣解放虚实境趣的墨鹤的最大召唤数增加6只。"
+            "name": "Vivid Strokes",
+            "desc": "Max Inklit Spirits summoned by Resonance Liberation Living Canvas increases by 6."
           },
           {
-            "name": "应物象形",
-            "desc": "折枝施放共鸣技能以形写神、共鸣技能神来之笔或共鸣技能极意·神来之笔时，攻击提升15%，可叠加3层，持续27秒。",
+            "name": "Reflection's Grace",
+            "desc": "Casting Resonance Skill Manifestation, Resonance Skill Stroke of Genius, or Resonance Skill Creation's Zenith increases ATK by 15% for 27s, stacking up to 3 time(s).",
             "buffs": [
               {
-                "label": "攻击",
-                "trigger": "施放共鸣技能后",
-                "excerpt": "释放以形写神、神来之笔或极意·神来之笔时，每层攻击提升15%"
+                "label": "ATK",
+                "trigger": "After casting Manifestation - Press DMG / Manifestation - Hold DMG / Manifestation - Mid-air Press DMG / Ink and Wash - Stroke of Genius DMG / Ink and Wash - Creation's Zenith DMG",
+                "excerpt": "ATK +45% per stack"
               }
             ]
           },
           {
-            "name": "随类赋彩",
-            "desc": "折枝施放共鸣解放虚实境趣时，队伍中角色攻击提升20%，持续30秒。",
+            "name": "Hue's Spectrum",
+            "desc": "Casting Resonance Liberation Living Canvas increases ATK of Resonators on the team 20% for 30s.",
             "buffs": [
               {
-                "label": "攻击",
-                "trigger": "施放共鸣解放后",
-                "excerpt": "释放虚实境趣时，攻击提升20%"
+                "label": "ATK",
+                "trigger": "Default",
+                "excerpt": "ATK +20%"
               }
             ]
           },
           {
-            "name": "经营位置",
-            "desc": "共鸣解放虚实境趣持续期间，每召唤3只墨鹤，会额外召唤1只墨鹤进行协同攻击，能造成等同于墨鹤140%的伤害，此次伤害为普攻伤害，该伤害不会触发召唤墨鹤的效果。"
+            "name": "Composition's Clue",
+            "desc": "For every 3 Inklit Spirits summoned by Resonance Liberation Living Canvas, 1 extra Inklit Spirit is summoned to perform a Coordinated Attack, dealing DMG equal to 140% of Inklit Spirit's DMG, considered as Basic Attack DMG. This damage dealt will not further summon Inklit Spirit."
           },
           {
-            "name": "传移摹写",
-            "desc": "施放共鸣技能神来之笔或共鸣技能极意·神来之笔时，会额外召唤一只白鹤，能造成等同于共鸣技能神来之笔120%的伤害，此次伤害为普攻伤害。"
+            "name": "Infinite Legacy",
+            "desc": "Casting Resonance Skill Stroke of Genius or Resonance Skill Creation's Zenith summons an extra Ivory Herald to deal DMG equal to 120% of Resonance Skill Stroke of Genius's DMG, considered as Basic Attack DMG."
           }
         ]
       }

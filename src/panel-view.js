@@ -91,14 +91,14 @@ window.WUWA_PANEL_VIEW = (() => {
     function typeBonusRow(t, D, idPrefix = "") {
       const key = TYPE_FIELD_BY_DAMAGE[t], arr = D.type[t] || [];
       const typeName = L.damageType(t);
-      const label = L.isEnglish() ? `${typeName} Bonus` : `${typeName}伤害加成`;
+      const label = L.typeBonusLabel(typeName);
       return { id: `${idPrefix}type_${key}`, label, total: tnum(sum(arr)) + "%", formula: `${label} = ${pctFormulaLead(arr)}`, title: parts(arr, "%"), fields: key ? [{ key, suffix: "%" }] : [] };
     }
 
     function elemBonusRow(el, c, D, idPrefix = "") {
       const arr = D.elem[el] || [];
       const elemName = L.element(el);
-      const label = L.isEnglish() ? `${elemName} DMG Bonus` : `${elemName}伤害加成`;
+      const label = L.damageBonusLabel(elemName);
       return { id: `${idPrefix}elem_${el}`, label, total: tnum(sum(arr)) + "%", formula: `${label} = ${pctFormulaLead(arr)}`, title: parts(arr, "%"), fields: el === "physical" ? [] : [{ key: `elem:${el}`, suffix: "%" }] };
     }
 
@@ -144,11 +144,11 @@ window.WUWA_PANEL_VIEW = (() => {
       const ptType = TYPE_BY_KEY[primaryTypeKey(c)];
       TYPE_ADD_ORDER.filter((t) => t !== ptType).forEach((t) => {
         const typeName = L.damageType(t);
-        if (!shown.has("type:" + t)) out.push(["type:" + t, L.isEnglish() ? `${typeName} Bonus` : `${typeName}伤害加成`]);
+        if (!shown.has("type:" + t)) out.push(["type:" + t, L.typeBonusLabel(typeName)]);
       });
       ELEM_ADD_ORDER.filter((el) => el !== c.element).forEach((el) => {
         const elemName = L.element(el);
-        if (!shown.has("elem:" + el)) out.push(["elem:" + el, L.isEnglish() ? `${elemName} DMG Bonus` : `${elemName}伤害加成`]);
+        if (!shown.has("elem:" + el)) out.push(["elem:" + el, L.damageBonusLabel(elemName)]);
       });
       if (!shown.has("heal")) out.push(["heal", "治疗效果加成"]);
       return out;
@@ -244,7 +244,7 @@ window.WUWA_PANEL_VIEW = (() => {
     function panelEntryTableHTML(r, slot, idx) {
       const c = ch(slot.char);
       const rowData = panelEntryRows(r, slot);
-      const rows = rowData.map((row) => `<div class="panel-entry-row${row.removeKey ? " panel-entry-row--extra" : ""}" id="panel-row-${row.id}" tabindex="0" aria-label="${esc(L.text(row.label))}${L.isEnglish() ? " sources: " : "来源："}${esc(L.text(row.title || "无额外来源"))}">
+      const rows = rowData.map((row) => `<div class="panel-entry-row${row.removeKey ? " panel-entry-row--extra" : ""}" id="panel-row-${row.id}" tabindex="0" aria-label="${esc(L.sourceJoin(L.text(row.label), L.text(row.title || "无额外来源")))}">
     <div class="panel-entry-formula" id="panel-formula-${row.id}">${panelFormulaHTML(row)}</div>
     <div class="panel-entry-echo-anchor"></div>
     <div class="panel-entry-total"><span class="panel-entry-sep">=</span><span id="panel-total-${row.id}">${esc(row.total)}</span>${row.removeKey ? `<button type="button" class="panel-row-rm" data-act="panel-rm" data-slot="${idx}" data-key="${esc(row.removeKey)}" title="${esc(L.text("移除"))}" aria-label="${esc(L.text("移除"))}${esc(L.text(row.label))}">×</button>` : ""}</div>
@@ -253,7 +253,7 @@ window.WUWA_PANEL_VIEW = (() => {
       const addOpts = availableAddKeys(c, slot);
       const addRow = addOpts.length ? `<div class="panel-entry-row panel-add-row">
     <select class="panel-add-select" data-act="panel-add" data-slot="${idx}">
-      <option value="">＋ ${esc(L.isEnglish() ? "Add stat..." : "添加属性…")}</option>
+      <option value="">＋ ${esc(L.text("添加属性…"))}</option>
       ${addOpts.map(([k, l]) => `<option value="${esc(k)}">${esc(L.text(l))}</option>`).join("")}
     </select>
   </div>` : "";
@@ -282,7 +282,7 @@ window.WUWA_PANEL_VIEW = (() => {
         setHTML(`panel-formula-${row.id}`, panelFormulaHTML(row));
         setHTML(`panel-tip-${row.id}`, esc(row.title || ""));
         const el = document.getElementById(`panel-row-${row.id}`);
-        if (el) el.setAttribute("aria-label", `${L.text(row.label)}${L.isEnglish() ? " sources: " : "来源："}${L.text(row.title || "无额外来源")}`);
+        if (el) el.setAttribute("aria-label", L.sourceJoin(L.text(row.label), L.text(row.title || "无额外来源")));
       });
     }
 

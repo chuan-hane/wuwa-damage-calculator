@@ -5,11 +5,6 @@ window.WUWA_LANGUAGES.extend("en-US", {
     "chars": {
       "verina": {
         "name": "Verina",
-        "resources": [
-          {
-            "label": "光合能量"
-          }
-        ],
         "skills": [
           {
             "name": "Cultivation - Stage 1 DMG"
@@ -58,73 +53,78 @@ window.WUWA_LANGUAGES.extend("en-US", {
           },
           {
             "name": "Starflower Blooms - Heavy Attack: Starflower Blooms Damage",
-            "requiresResourceLabel": "光合能量"
+            "requiresResourceLabel": "Photosynthesis Energy"
           },
           {
             "name": "Starflower Blooms - Mid-air Attack: Starflower Blooms Stage 1 DMG",
-            "requiresResourceLabel": "光合能量"
+            "requiresResourceLabel": "Photosynthesis Energy"
           },
           {
             "name": "Starflower Blooms - Mid-air Attack: Starflower Blooms Stage 2 DMG",
-            "requiresResourceLabel": "光合能量"
+            "requiresResourceLabel": "Photosynthesis Energy"
           },
           {
             "name": "Starflower Blooms - Mid-air Attack: Starflower Blooms Stage 3 DMG",
-            "requiresResourceLabel": "光合能量"
+            "requiresResourceLabel": "Photosynthesis Energy"
+          }
+        ],
+        "resources": [
+          {
+            "label": "Photosynthesis Energy"
           }
         ],
         "buffs": [
           {
-            "source": "固有·自然的献礼",
-            "label": "攻击",
-            "trigger": "施放重击/共鸣解放/延奏后",
-            "excerpt": "释放重击、空中攻击、共鸣解放或延奏技能时，攻击提升20%",
-            "desc": "施放重击星星花绽放、空中攻击星星花绽放、共鸣解放草木生长或延奏技能盛放时，队伍中的角色攻击提升20%，持续20秒。"
+            "source": "Inherent Skill: Gift of Nature",
+            "label": "ATK",
+            "trigger": "After casting Starflower Blooms - Heavy Attack: Starflower Blooms Damage / Starflower Blooms - Mid-air Attack: Starflower Blooms Stage 1 DMG / Starflower Blooms - Mid-air Attack: Starflower Blooms Stage 2 DMG / Starflower Blooms - Mid-air Attack: Starflower Blooms Stage 3 DMG / Arboreal Flourish - Skill DMG",
+            "excerpt": "ATK +20%",
+            "desc": "ATK +20%"
           },
           {
-            "source": "延奏·盛放",
-            "label": "全伤害加深",
-            "trigger": "释放延奏技能后",
-            "excerpt": "附近队伍中所有角色全伤害加深15%",
-            "desc": "附近队伍中所有角色全伤害加深15%，持续30秒。"
+            "source": "Outro Skill: Blossom",
+            "label": "DMG Increase",
+            "trigger": "Default",
+            "excerpt": "DMG Increase +15%",
+            "desc": "When Verina casts Heavy Attack Starflower Blooms, Mid-air Attack Starflower Blooms, Resonance Liberation Arboreal Flourish or Outro Skill Blossom, all team members' ATK are increased by 20% for 20s."
           }
         ],
         "chain": [
           {
-            "name": "萌芽的一瞬",
-            "desc": "施放延奏技能盛放时，队伍中登场角色额外获得持续回复生命效果，每5秒回复维里奈20%攻击的生命值，持续30秒。"
+            "name": "Moment of Emergence",
+            "desc": "Outro Skill Blossom grants the next character a continuous Healing effect, recovering HP by 20% of Verina's ATK every 5s for 30s."
           },
           {
-            "name": "抽叶的思考",
-            "desc": "施放共鸣技能扩繁试验时额外获得 1 点光合能量和 10 点协奏能量。"
+            "name": "Sprouting Reflections",
+            "desc": "Resonance Skill Botany Experiment additionally grants 1 [Photosynthesis Energy] and 10 Concerto Energy."
           },
           {
-            "name": "生长的选择",
-            "desc": "共鸣解放光合标记的治疗效果加成提升 12%。"
+            "name": "The Choice to Flourish",
+            "desc": "Healing of Resonance Liberation's Photosynthesis Mark is increased by 12%."
           },
           {
-            "name": "盛放的拥抱",
-            "desc": "施放重击星星花绽放、空中攻击星星花绽放、共鸣解放草木生长或延奏技能盛放时，队伍中的角色衍射伤害加成提升15%，持续24秒。",
+            "name": "Blossoming Embrace",
+            "desc": "Heavy Attack Starflower Blooms, Mid-Air Attack Starflower Blooms, Resonance Liberation Arboreal Flourish and Outro Skill Blossom increases the Spectro DMG Bonus of all team members by 15% for 24s.",
             "buffs": [
               {
-                "label": "衍射伤害加成",
-                "trigger": "施放重击/共鸣解放/延奏后",
-                "excerpt": "释放重击、空中攻击、共鸣解放或延奏技能时，衍射伤害加成提升15%"
+                "label": "Spectro DMG Bonus",
+                "trigger": "After casting Starflower Blooms - Heavy Attack: Starflower Blooms Damage / Starflower Blooms - Mid-air Attack: Starflower Blooms Stage 1 DMG / Starflower Blooms - Mid-air Attack: Starflower Blooms Stage 2 DMG / Starflower Blooms - Mid-air Attack: Starflower Blooms Stage 3 DMG / Arboreal Flourish - Skill DMG",
+                "excerpt": "Spectro DMG Bonus +15%"
               }
             ]
           },
           {
-            "name": "结果的奇迹",
-            "desc": "治疗生命值低于50%的角色时，维里奈的治疗效果加成提升20%。"
+            "name": "Miraculous Blooms",
+            "desc": "When Verina heals a team member with HP less than 50%, her Healing is increased by 20%."
           },
           {
-            "name": "丰收的喜悦",
-            "desc": "重击星星花绽放及空中攻击星星花绽放的伤害提升20%，命中目标时触发1次协同攻击，并为附近队伍中所有角色回复生命值，此次协同攻击伤害和回复生命值等同于共鸣解放光合标记。",
+            "name": "Joyous Harvest",
+            "desc": "Heavy Attack Starflower Blooms and Mid-air Attack Starflower Blooms deal 20% more DMG. They will trigger Coordinated Attack 1 time and heal all characters nearby. The damage of this Coordinated Attack and the Healing are equal to those of the Resonance Liberation's Photosynthesis Mark.",
             "buffs": [
               {
-                "label": "星星花绽放倍率提升",
-                "trigger": "默认",
-                "excerpt": "星星花绽放伤害倍率提升20%"
+                "label": "Starflower Blooms - Heavy Attack: Starflower Blooms Damage DMG Multiplier Increase",
+                "trigger": "Default",
+                "excerpt": "Starflower Blooms - Heavy Attack: Starflower Blooms Damage DMG Multiplier Increase +20%"
               }
             ]
           }

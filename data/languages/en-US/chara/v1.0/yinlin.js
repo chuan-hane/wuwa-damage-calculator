@@ -5,11 +5,6 @@ window.WUWA_LANGUAGES.extend("en-US", {
     "chars": {
       "yinlin": {
         "name": "Yinlin",
-        "resources": [
-          {
-            "label": "审判值"
-          }
-        ],
         "skills": [
           {
             "name": "Zapstring's Dance - Stage 1 DMG"
@@ -49,131 +44,138 @@ window.WUWA_LANGUAGES.extend("en-US", {
           },
           {
             "name": "Chameleon Cipher - Chameleon Cipher Damage",
-            "requiresResourceLabel": "100审判值"
+            "requiresResourceLabel": "Judgement Point(s) at least 100"
           },
           {
             "name": "Chameleon Cipher - Judgment Strike Damage"
           }
         ],
+        "resources": [
+          {
+            "label": "Judgement Point(s)"
+          }
+        ],
         "combatStates": [
           {
-            "label": "磁殛状态",
-            "inactiveLabel": "未处于磁殛状态",
-            "entry": "施放共鸣技能磁殛咆哮后进入，持续10秒；若未在窗口内施放召雷磁爆或切换角色，则共鸣技能进入冷却。",
+            "label": "Execution Mode",
+            "idLabel": "Execution Mode",
+            "inactiveLabel": "Not in Execution Mode",
+            "entry": "The puppet \"Zapstring\" deals Electro DMG to the target, and puts Yinlin in Resonance Skill Execution Mode.",
+            "effects": "The puppet \"Zapstring\" deals Electro DMG to the target, and puts Yinlin in Resonance Skill Execution Mode.",
             "options": [
               {
-                "label": "处于磁殛状态",
-                "valueLabel": "磁殛状态"
+                "label": "Execution Mode",
+                "valueLabel": "Execution Mode"
               }
-            ],
-            "idLabel": "磁殛状态"
+            ]
           },
           {
-            "label": "目标印记",
-            "inactiveLabel": "目标无吟霖印记",
-            "entry": "悬丝华刃舞、破天雷灭击或狂雷飓风命中目标时附加缚罪标记；审判值满时施放千面魅影命中缚罪标记目标，会替换为惩罚印记，持续18秒。",
+            "label": "Target Mark",
+            "idLabel": "Target Mark",
+            "inactiveLabel": "Not in Target Mark",
+            "entry": "Select the current Target Mark.",
+            "effects": "Select the current Target Mark.",
             "options": [
               {
-                "label": "缚罪标记",
-                "valueLabel": "目标印记·缚罪标记"
+                "label": "Target Mark · Sinner's Mark",
+                "valueLabel": "Target Mark · Sinner's Mark"
               },
               {
-                "label": "惩罚印记",
-                "valueLabel": "目标印记·惩罚印记"
+                "label": "Target Mark · Punishment Mark",
+                "valueLabel": "Target Mark · Punishment Mark"
               }
-            ],
-            "idLabel": "目标印记"
+            ]
           }
         ],
         "buffs": [
           {
-            "source": "固有·浸渍痛楚",
-            "label": "暴击",
-            "trigger": "使用磁殛咆哮后",
-            "excerpt": "使用磁殛咆哮后，暴击提升15%",
-            "desc": "使用共鸣技能磁殛咆哮后，暴击提升15%，持续5秒。"
+            "source": "Inherent Skill: Pain Immersion",
+            "label": "Crit. Rate",
+            "trigger": "In Target Mark · Punishment Mark",
+            "excerpt": "Crit. Rate +15%",
+            "desc": "Crit. Rate +15%"
           },
           {
-            "source": "固有·目标专注",
-            "label": "召雷磁爆伤害加深",
-            "trigger": "召雷磁爆命中缚罪标记目标时",
-            "excerpt": "召雷磁爆命中缚罪标记目标时，伤害加深10%",
-            "desc": "共鸣技能召雷磁爆命中带有缚罪标记的目标伤害提升10%，并且触发该效果时攻击提升10%，持续4秒。"
+            "source": "Inherent Skill: Deadly Focus",
+            "label": "Magnetic Roar - Lightning Execution Damage DMG Increase",
+            "trigger": "In Target Mark · Sinner's Mark",
+            "excerpt": "Magnetic Roar - Lightning Execution Damage DMG Increase +10%",
+            "desc": "Magnetic Roar - Lightning Execution Damage DMG Increase +10%"
           },
           {
-            "source": "固有·目标专注",
-            "label": "攻击",
-            "trigger": "召雷磁爆命中缚罪标记目标后",
-            "excerpt": "召雷磁爆触发目标专注后，攻击提升10%",
-            "desc": "共鸣技能召雷磁爆命中带有缚罪标记的目标伤害提升10%，并且触发该效果时攻击提升10%，持续4秒。"
+            "source": "Inherent Skill: Deadly Focus",
+            "label": "ATK",
+            "trigger": "In Target Mark · Punishment Mark",
+            "excerpt": "ATK +10%",
+            "desc": "ATK +10%"
           },
           {
-            "source": "延奏·策电",
-            "label": "导电伤害加深",
-            "trigger": "释放延奏技能后",
-            "excerpt": "下一位登场角色导电伤害加深20%",
-            "desc": "下一位登场角色导电伤害加深20%，共鸣解放伤害加深25%，效果持续14秒，若切换至其他角色则该效果提前结束。"
+            "source": "Outro Skill: Strategist",
+            "label": "DMG Increase",
+            "trigger": "In Target Mark · Punishment Mark",
+            "excerpt": "DMG Increase +20%",
+            "desc": "DMG Increase +20%"
           },
           {
-            "source": "延奏·策电",
-            "label": "共鸣解放伤害加深",
-            "trigger": "释放延奏技能后",
-            "excerpt": "下一位登场角色共鸣解放伤害加深25%",
-            "desc": "下一位登场角色导电伤害加深20%，共鸣解放伤害加深25%，效果持续14秒，若切换至其他角色则该效果提前结束。"
+            "source": "Outro Skill: Strategist",
+            "label": "Resonance Liberation DMG Increase",
+            "trigger": "In Target Mark · Punishment Mark",
+            "excerpt": "Resonance Liberation DMG Increase +25%",
+            "desc": "Resonance Liberation DMG Increase +25%"
           }
         ],
         "chain": [
           {
-            "name": "矛盾的抉择",
-            "desc": "共鸣技能磁殛咆哮和召雷磁爆伤害提升70%。",
+            "name": "Morality's Crossroads",
+            "desc": "Resonance Skill Magnetic Roar and Lightning Execution deal 70% more DMG.",
             "buffs": [
               {
-                "label": "磁殛技能伤害加深",
-                "trigger": "默认",
-                "excerpt": "磁殛咆哮和召雷磁爆伤害加深70%"
+                "label": "Magnetic Roar - Magnetic Roar Damage DMG Increase",
+                "trigger": "In Target Mark · Punishment Mark",
+                "excerpt": "Magnetic Roar - Magnetic Roar Damage DMG Increase +70%"
               }
             ]
           },
           {
-            "name": "牵绊的俘虏",
-            "desc": "共鸣技能磁殛爆发命中时额外恢复5点审判值和5点共鸣能量。"
+            "name": "Ensnarled by Rapport",
+            "desc": "Resonance Skill Electromagnetic Blast recovers an additional 5 Judgement Point(s) and 5 Resonance Energy on hit."
           },
           {
-            "name": "无情的断罪",
-            "desc": "共鸣回路审判之雷伤害倍率提升55%。",
+            "name": "Unyielding Verdict",
+            "desc": "Forte Circuit Judgment Strike's DMG multiplier is increased by 55%.",
             "buffs": [
               {
-                "label": "审判之雷倍率提升",
-                "trigger": "默认",
-                "excerpt": "审判之雷伤害倍率提升55%"
+                "label": "Chameleon Cipher - Judgment Strike Damage DMG Multiplier Increase",
+                "trigger": "In Target Mark · Punishment Mark",
+                "excerpt": "Chameleon Cipher - Judgment Strike Damage DMG Multiplier Increase +55%"
               }
             ]
           },
           {
-            "name": "前行的鼓舞",
-            "desc": "共鸣回路审判之雷命中时，队伍中的角色攻击提升20%，持续12秒。",
+            "name": "Steadfast Conviction",
+            "desc": "When Forte Circuit Judgment Strike hits a target, the ATK of all team members is increased by 20% for 12s.",
             "buffs": [
               {
-                "label": "攻击",
-                "trigger": "审判之雷命中后",
-                "excerpt": "审判之雷命中后，队伍中的角色攻击提升20%"
+                "label": "ATK",
+                "trigger": "In Target Mark · Punishment Mark",
+                "excerpt": "ATK +20%"
               }
             ]
           },
           {
-            "name": "决意的回响",
-            "desc": "共鸣解放破天雷灭击命中带有共鸣回路缚罪标记、惩罚印记的目标时，伤害提升100%。",
+            "name": "Resounding Will",
+            "desc": "Resonance Liberation Thundering Wrath deals 100% extra DMG to targets with Forte Circuit's Sinner's Mark or Punishment Mark.",
             "buffs": [
               {
-                "label": "破天雷灭击伤害加深",
-                "trigger": "命中带有吟霖印记的目标时",
-                "excerpt": "破天雷灭击命中吟霖印记目标时，伤害加深100%"
+                "label": "Thundering Wrath - Skill DMG Increase",
+                "trigger": "In Target Mark · Sinner's Mark",
+                "excerpt": "Thundering Wrath - Skill DMG Increase +100%"
               }
             ]
           },
           {
-            "name": "正义的践行",
-            "desc": "施放共鸣解放破天雷灭击后的30秒内，吟霖的普攻命中目标时额外触发疾霆昭彰，造成吟霖攻击力419.59%的导电伤害，每段普攻可触发1次，最多触发4次，此次伤害为共鸣技能伤害。"
+            "name": "Pursuit of Justice",
+            "desc": "In the first 30s after casting Resonance Liberation Thundering Wrath, when Yinlin's Basic Attack hits a target, Furious Thunder will be triggered, dealing Electro DMG equal to 419.59% of Yinlin's ATK. Every Basic Attack hit can trigger Furious Thunder 1 time, up to 4 times. This is considered Resonance Skill DMG."
           }
         ]
       }

@@ -5,11 +5,6 @@ window.WUWA_LANGUAGES.extend("en-US", {
     "chars": {
       "lucilla": {
         "name": "Lucilla",
-        "resources": [
-          {
-            "label": "照片"
-          }
-        ],
         "skills": [
           {
             "name": "Snapshot - Basic Attack Stage 1 DMG"
@@ -43,11 +38,11 @@ window.WUWA_LANGUAGES.extend("en-US", {
           },
           {
             "name": "Clear As Day - Clear As Day DMG",
-            "requiresResourceLabel": "3张照片"
+            "requiresResourceLabel": "Photo at least 3"
           },
           {
             "name": "Clear As Day - Clear As Day DMG",
-            "requiresResourceLabel": "3张照片"
+            "requiresResourceLabel": "Photo at least 3"
           },
           {
             "name": "Clear As Day - Basic Attack - Tracing Forms Stage 1 DMG"
@@ -78,163 +73,170 @@ window.WUWA_LANGUAGES.extend("en-US", {
           },
           {
             "name": "Memory Palace - Oblivion DMG",
-            "requiresResourceLabel": "照片"
+            "requiresResourceLabel": "Photo at least 1"
           },
           {
             "name": "Memory Palace - Oblivion DMG",
-            "requiresResourceLabel": "照片"
+            "requiresResourceLabel": "Photo at least 1"
+          }
+        ],
+        "resources": [
+          {
+            "label": "Photo"
           }
         ],
         "combatStates": [
           {
-            "label": "共鸣模态",
-            "inactiveLabel": "未确认共鸣模态",
-            "entry": "洛瑟菈拥有共鸣模态·霜渐和共鸣模态·声骸两种模态，可在两种模态间切换。",
+            "label": "Resonance Mode",
+            "idLabel": "Resonance Mode",
+            "inactiveLabel": "Not in Resonance Mode",
+            "entry": "While casting Spotlight, Lucilla additionally restores 20 points of Concerto Energy, and inflicts 1 extra stacks of Glacio Chafe onto the target if she is in Resonance Mode - Glacio Chafe.",
+            "effects": "While casting Spotlight, Lucilla additionally restores 20 points of Concerto Energy, and inflicts 1 extra stacks of Glacio Chafe onto the target if she is in Resonance Mode - Glacio Chafe.",
             "options": [
               {
-                "label": "霜渐",
-                "valueLabel": "共鸣模态·霜渐"
+                "label": "Resonance Mode - Glacio Chafe",
+                "valueLabel": "Resonance Mode - Glacio Chafe"
               },
               {
-                "label": "声骸",
-                "valueLabel": "共鸣模态·声骸"
+                "label": "Resonance Mode - Echo",
+                "valueLabel": "Resonance Mode - Echo"
               }
-            ],
-            "idLabel": "共鸣模态"
+            ]
           },
           {
-            "label": "追忆状态",
-            "inactiveLabel": "未处于追忆状态",
-            "entry": "拥有全部3张照片时施放共鸣解放·历历在目后进入追忆状态。",
+            "label": "Reminiscence",
+            "idLabel": "Reminiscence",
+            "inactiveLabel": "Not in Reminiscence",
+            "entry": "Deal Glacio DMG and enter Reminiscence:",
+            "effects": "Deal Glacio DMG and enter Reminiscence:",
             "options": [
               {
-                "label": "追忆",
-                "valueLabel": "追忆状态"
+                "label": "Reminiscence",
+                "valueLabel": "Reminiscence"
               }
-            ],
-            "idLabel": "追忆状态"
+            ]
           }
         ],
         "buffs": [
           {
-            "source": "固有·慢镜头",
-            "label": "冷凝减抗",
-            "trigger": "施放追光后",
-            "excerpt": "霜渐模态施放追光后，目标冷凝抗性降低8%",
-            "desc": "处于共鸣模态·霜渐时，队伍中登场角色一定范围内的目标冷凝抗性降低8%，持续30秒。"
+            "source": "Inherent Skill: Slow Motion",
+            "label": "RES Shred",
+            "trigger": "After casting Phantom Frame - Spotlight DMG",
+            "excerpt": "RES Shred +8%",
+            "desc": "RES Shred +8%"
           },
           {
-            "source": "固有·慢镜头",
-            "label": "声骸技能伤害加成",
-            "trigger": "施放追光后",
-            "excerpt": "声骸模态施放追光后，队伍声骸技能伤害加成提升25%",
-            "desc": "处于共鸣模态·声骸时，队伍中的角色声骸技能伤害加成提升25%，持续30秒。"
+            "source": "Inherent Skill: Slow Motion",
+            "label": "Echo Skill DMG Bonus",
+            "trigger": "After casting Phantom Frame - Spotlight DMG",
+            "excerpt": "Echo Skill DMG Bonus +25%",
+            "desc": "Echo Skill DMG Bonus +25%"
           },
           {
-            "source": "共鸣解放·历历在目",
-            "label": "普攻伤害加成",
-            "trigger": "施放历历在目时",
-            "excerpt": "霜渐模态施放历历在目时，普攻伤害加成提升30%",
-            "desc": "处于共鸣模态·霜渐时，此次伤害为普攻伤害。施放该技能时洛瑟菈的普攻伤害加成提升30%，持续10秒。"
+            "source": "Resonance Liberation: Clear As Day",
+            "label": "Basic Attack DMG Bonus",
+            "trigger": "After casting Clear As Day - Clear As Day DMG",
+            "excerpt": "Basic Attack DMG Bonus +30%",
+            "desc": "Clear As Day consumes no Resonance Energy."
           },
           {
-            "source": "共鸣解放·历历在目",
-            "label": "声骸技能伤害加成",
-            "trigger": "施放历历在目时",
-            "excerpt": "声骸模态施放历历在目时，声骸技能伤害加成提升30%",
-            "desc": "处于共鸣模态·声骸时，此次伤害为声骸技能伤害。施放该技能时洛瑟菈的声骸技能伤害加成提升30%，持续10秒。"
+            "source": "Resonance Liberation: Clear As Day",
+            "label": "Echo Skill DMG Bonus",
+            "trigger": "After casting Clear As Day - Clear As Day DMG",
+            "excerpt": "Echo Skill DMG Bonus +30%",
+            "desc": "Clear As Day consumes no Resonance Energy."
           },
           {
-            "source": "共鸣回路·变焦",
-            "label": "暴击伤害",
-            "trigger": "声骸模态获得变焦时",
-            "excerpt": "声骸模态消耗照片或施放历历在目后，每层声骸技能暴击伤害提升10%",
-            "desc": "变焦每层变焦使队伍中登场角色造成声骸技能伤害的暴击伤害提升10%。胶卷的可叠加层数上限增加至10层，变焦的可叠加层数上限增加至4层。洛瑟菈每次消耗【照片】时，若处于共鸣模态·声骸，获得1层变焦。"
+            "source": "Forte Circuit: Zoom",
+            "label": "Crit. DMG",
+            "trigger": "After casting Clear As Day - Clear As Day DMG / Memory Palace - Oblivion DMG",
+            "excerpt": "Crit. DMG +40% per stack",
+            "desc": "Film Roll can now be stacked up to 10 stacks, and Zoom up to 4 stacks."
           },
           {
-            "source": "延奏·蒙太奇",
-            "label": "霜渐效应伤害加深",
-            "trigger": "释放延奏技能后",
-            "excerpt": "霜渐模态延奏后，目标受到霜渐效应伤害加深60%",
-            "desc": "处于共鸣模态·霜渐时，队伍中登场角色一定范围内的目标受到【霜渐效应】的伤害加深60%，持续30秒。洛瑟菈切换模态时，该效果提前结束。"
+            "source": "Outro Skill: Montage",
+            "label": "DMG Increase",
+            "trigger": "In Resonance Mode - Glacio Chafe",
+            "excerpt": "DMG Increase +60%",
+            "desc": "DMG Increase +60%"
           },
           {
-            "source": "延奏·蒙太奇",
-            "label": "声骸技能伤害加深",
-            "trigger": "释放延奏技能后",
-            "excerpt": "声骸模态延奏后，下一位登场角色声骸技能伤害加深50%",
-            "desc": "处于共鸣模态·声骸时，下一个登场角色声骸技能伤害加深50%，持续14秒。切换至其他角色或洛瑟菈切换模态时，该效果提前结束。"
+            "source": "Outro Skill: Montage",
+            "label": "Echo Skill DMG Increase",
+            "trigger": "In Resonance Mode - Echo",
+            "excerpt": "Echo Skill DMG Increase +50%",
+            "desc": "Echo Skill DMG Increase +50%"
           }
         ],
         "chain": [
           {
-            "name": "遥远的晌午",
-            "desc": "施放共鸣技能·幻象定帧展开聚焦环期间，指针首次进入完美焦距时将立即使完美焦距充满聚焦环。施放共鸣技能·追光时，洛瑟菈的暴击提升20%，持续10秒。共鸣技能·幻象定帧、普攻·溯念留形第3段免疫打断。",
+            "name": "Distant Noon",
+            "desc": "While casting Resonance Skill - Phantom Frame to deploy Focus Ring, the first time landing the cursor within Perfect Focus will immediately expand Perfect Focus to fill up Focus Ring.\nLucilla's Crit. Rate increases by 20% for 10s when Resonance Skill - Spotlight is cast.\nLucilla is immune to interruptions while casting Resonance Skill - Phantom Frame and Basic Attack - Tracing Forms Stage 3.",
             "buffs": [
               {
-                "label": "暴击",
-                "trigger": "施放追光时",
-                "excerpt": "施放追光时，暴击提升20%"
+                "label": "Crit. Rate",
+                "trigger": "After casting Phantom Frame - Spotlight DMG / Phantom Frame - Spotlight DMG",
+                "excerpt": "Crit. Rate +20%"
               }
             ]
           },
           {
-            "name": "酣睡的月光",
-            "desc": "施放共鸣解放·历历在目时，洛瑟菈将根据共鸣模态提供额外的强化效果：·处于共鸣模态·霜渐时，队伍中登场角色一定范围内的目标受到【霜渐效应】的伤害加深80%。·处于共鸣模态·声骸时，队伍中角色的声骸技能伤害加成提升40%。追忆状态持续期间，上述效果持续存在。退出追忆状态后，上述效果保留30秒。洛瑟菈切换模态时，上述效果提前结束。",
+            "name": "Slumbering Moonlight",
+            "desc": "While casting Resonance Liberation - Clear As Day, Lucilla grants the following enhancements based on her Resonance Mode:\n- When in Resonance Mode - Glacio Chafe, Glacio Chafe DMG against targets within a certain range around the active Resonator is Amplified by 80%.\n- When in Resonance Mode - Echo, grant 40% Echo Skill DMG Amplification to Resonators in the team.\nThese enhancements last as long as Reminiscence is active and remain effective for 30s after Reminiscence ends.\nThese effects end when Lucilla switches Resonance Modes.",
             "buffs": [
               {
-                "label": "霜渐效应伤害加深",
-                "trigger": "施放历历在目后",
-                "excerpt": "霜渐模态施放历历在目后，霜渐效应伤害加深80%"
+                "label": "DMG Increase",
+                "trigger": "After casting Clear As Day - Clear As Day DMG",
+                "excerpt": "DMG Increase +80%"
               },
               {
-                "label": "声骸技能伤害加成",
-                "trigger": "施放历历在目后",
-                "excerpt": "声骸模态施放历历在目后，队伍声骸技能伤害加成提升40%"
+                "label": "Echo Skill DMG Bonus",
+                "trigger": "After casting Clear As Day - Clear As Day DMG",
+                "excerpt": "Echo Skill DMG Bonus +40%"
               }
             ]
           },
           {
-            "name": "时间自无声处消逝",
-            "desc": "断舍离的伤害倍率提升100%。",
+            "name": "Days Fade Unheard",
+            "desc": "The DMG Multiplier of Letting It Go is increased by 100%.",
             "buffs": [
               {
-                "label": "断舍离倍率提升",
-                "trigger": "默认",
-                "excerpt": "断舍离伤害倍率提升100%"
+                "label": "Clear As Day - Letting It Go DMG Multiplier Increase",
+                "trigger": "In Reminiscence",
+                "excerpt": "Clear As Day - Letting It Go DMG Multiplier Increase +100%"
               }
             ]
           },
           {
-            "name": "过去悄然沉默",
-            "desc": "遗忘命中将牵引周围的目标。施放遗忘时，洛瑟菈的攻击提升10%，可叠加3层，持续6秒，持续时间结束清除全部层数。施放普攻·溯念留形第3段时，洛瑟菈受到的伤害降低30%。",
+            "name": "The Past Fades Into Silence",
+            "desc": "Oblivion pulls in nearby targets on hit. While casting Oblivion, Lucilla's ATK is increased by 10% for 6s, stacking up 3 times. All stacks are removed when the duration ends.\nWhile casting Basic Attack - Tracing Forms Stage 3, Lucilla takes 30% less DMG.",
             "buffs": [
               {
-                "label": "攻击",
-                "trigger": "施放遗忘时",
-                "excerpt": "施放遗忘时，每层攻击提升10%"
+                "label": "ATK",
+                "trigger": "After casting Memory Palace - Oblivion DMG / Memory Palace - Oblivion DMG",
+                "excerpt": "ATK +30% per stack"
               }
             ]
           },
           {
-            "name": "岁月如溪水",
-            "desc": "遗忘的伤害倍率提升50%。",
+            "name": "Time is Like a Stream",
+            "desc": "The DMG Multiplier of Oblivion is increased by 50%.",
             "buffs": [
               {
-                "label": "遗忘倍率提升",
-                "trigger": "默认",
-                "excerpt": "遗忘伤害倍率提升50%"
+                "label": "Memory Palace - Oblivion DMG Multiplier Increase",
+                "trigger": "In Reminiscence",
+                "excerpt": "Memory Palace - Oblivion DMG Multiplier Increase +50%"
               }
             ]
           },
           {
-            "name": "在如烟的时间里张望",
-            "desc": "追忆状态持续期间，洛瑟菈每次消耗【照片】将获得1层铭记，可叠加3层。每层铭记使断舍离造成的伤害提升200%，至多提升600%。施放断舍离后清除全部的铭记层数。若洛瑟菈在追忆状态持续期间击败了任意目标，将获得怀恋：退出追忆状态且处于非战斗状态时，消耗怀恋，洛瑟菈回复150点【印象】。",
+            "name": "Gazing In the Mist of Time",
+            "desc": "When in Reminiscence, each time Lucilla consumes Photo, she gains 1 stacks of Remembrance, stacking up to 3 times. Each stack of Remembrance increases Letting It Go's DMG dealt to the target by 200%, up to 600%. Casting Letting It Go removes all stacks of Remembrance.\nLucilla gains Longing if she has defeated a target while in Reminiscence: Upon ending Reminiscence while not in combat, consume Longing to restore 150 points of Trace.",
             "buffs": [
               {
-                "label": "断舍离伤害加深",
-                "trigger": "追忆状态消耗照片后",
-                "excerpt": "每层铭记使断舍离伤害加深200%"
+                "label": "Clear As Day - Letting It Go DMG Increase",
+                "trigger": "After casting Memory Palace - Oblivion DMG / Memory Palace - Oblivion DMG",
+                "excerpt": "Clear As Day - Letting It Go DMG Increase +600% per stack"
               }
             ]
           }

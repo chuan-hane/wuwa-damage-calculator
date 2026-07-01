@@ -5,11 +5,6 @@ window.WUWA_LANGUAGES.extend("en-US", {
     "chars": {
       "lingyang": {
         "name": "Lingyang",
-        "resources": [
-          {
-            "label": "狮魂"
-          }
-        ],
         "skills": [
           {
             "name": "Majestic Fists - Stage 1 DMG"
@@ -52,7 +47,7 @@ window.WUWA_LANGUAGES.extend("en-US", {
           },
           {
             "name": "Unification of Spirits - Glorious Plunge Damage",
-            "requiresResourceLabel": "狮魂满"
+            "requiresResourceLabel": "Lion's Spirit full"
           },
           {
             "name": "Unification of Spirits - Feral Gyrate Stage 1 DMG"
@@ -73,103 +68,110 @@ window.WUWA_LANGUAGES.extend("en-US", {
             "name": "Unification of Spirits - Tail Strike Damage"
           }
         ],
+        "resources": [
+          {
+            "label": "Lion's Spirit"
+          }
+        ],
         "combatStates": [
           {
-            "label": "行狮状态",
-            "inactiveLabel": "未处于行狮状态",
-            "entry": "满狮魂施放重击·起势·纵地金光后进入行狮状态；施放变奏技能或共鸣解放后若满狮魂，短按普攻也可进入。",
+            "label": "Striding Lion State",
+            "idLabel": "Striding Lion",
+            "inactiveLabel": "Not in Striding Lion",
+            "entry": "Under the Forte Circuit Striding Lion state, within 3s after each Basic Attack, the next Forte Circuit Mountain Roamer will deal an additional Glacio DMG, equal to 150% of Mountain Roamer DMG, considered as Resonance Skill DMG.",
+            "effects": "Under the Forte Circuit Striding Lion state, within 3s after each Basic Attack, the next Forte Circuit Mountain Roamer will deal an additional Glacio DMG, equal to 150% of Mountain Roamer DMG, considered as Resonance Skill DMG.",
             "options": [
               {
-                "label": "行狮",
-                "valueLabel": "行狮"
+                "label": "Striding Lion",
+                "valueLabel": "Striding Lion"
               }
-            ],
-            "idLabel": "行狮"
+            ]
           },
           {
-            "label": "狮子奋迅",
-            "inactiveLabel": "未处于狮子奋迅",
-            "entry": "施放共鸣解放奋进·狮子奋迅，俱足万行后进入。",
+            "label": "Lion's Vigor",
+            "idLabel": "Lion's Vigor",
+            "inactiveLabel": "Not in Lion's Vigor",
+            "entry": "Attack the target, dealing Glacio DMG, and receive the blessing of Lion's Vigor.",
+            "effects": "Attack the target, dealing Glacio DMG, and receive the blessing of Lion's Vigor.",
             "options": [
               {
-                "label": "狮子奋迅",
-                "valueLabel": "狮子奋迅"
+                "label": "Lion's Vigor",
+                "valueLabel": "Lion's Vigor"
               }
-            ],
-            "idLabel": "狮子奋迅"
+            ]
           }
         ],
         "buffs": [
           {
-            "source": "固有·狮班免掠，逢场避让",
-            "label": "出洞·睡狮蛰醒倍率提升",
-            "trigger": "默认",
-            "excerpt": "出洞·睡狮蛰醒伤害倍率提升50%",
-            "desc": "变奏技能出洞·睡狮蛰醒的伤害提升50%。"
+            "source": "Inherent Skill: Lion's Pride",
+            "label": "Lion Awakens - Skill DMG Multiplier Increase",
+            "trigger": "In Lion's Vigor",
+            "excerpt": "Lion Awakens - Skill DMG Multiplier Increase +50%",
+            "desc": "Lion Awakens - Skill DMG Multiplier Increase +50%"
           },
           {
-            "source": "共鸣解放·狮子奋迅",
-            "label": "冷凝伤害加成",
-            "trigger": "狮子奋迅期间",
-            "excerpt": "处于狮子奋迅期间，冷凝伤害加成提升50%",
-            "desc": "狮子奋迅状态期间：凌阳的冷凝伤害加成提升50%。"
+            "source": "Resonance Liberation: Lion's Vigor",
+            "label": "Glacio DMG Bonus",
+            "trigger": "In Lion's Vigor",
+            "excerpt": "Glacio DMG Bonus +50%",
+            "desc": "Attack the target, dealing Glacio DMG, and receive the blessing of Lion's Vigor."
           }
         ],
         "chain": [
           {
-            "name": "醒狮开光，如意吉祥",
-            "desc": "共鸣解放狮子奋迅持续期间提升凌阳的抗打断能力。"
+            "name": "Lion of Light, Blessings Abound",
+            "desc": "During Resonance Liberation Lion's Vigor, Lingyang's Anti-Interruption is enhanced."
           },
           {
-            "name": "威风凛凛，四方张狂",
-            "desc": "施放变奏技能出洞·睡狮蛰醒时，凌阳额外回复10点共鸣能量，每20秒可触发1次。"
+            "name": "Dominant and Fierce, \nPower Unbound",
+            "desc": "Intro Skill Lion Awakens additionally recovers 10 Resonance Energy for Lingyang, triggered once every 20s."
           },
           {
-            "name": "瞠目顾盼，其声昂昂",
-            "desc": "共鸣解放狮子奋迅持续期间，凌阳的普攻伤害加成提升20%，共鸣技能伤害加成提升10%。",
+            "name": "Jaw-Dropping Feats, \nLoud and Wide",
+            "desc": "During Resonance Liberation Lion's Vigor, Lingyang's Basic Attack DMG Bonus is increased by 20%, and Resonance Skill DMG Bonus increased by 10%.",
             "buffs": [
               {
-                "label": "普攻伤害加成",
-                "trigger": "狮子奋迅期间",
-                "excerpt": "处于狮子奋迅期间，普攻伤害加成提升20%"
+                "label": "Basic Attack DMG Bonus",
+                "trigger": "In Lion's Vigor",
+                "excerpt": "Basic Attack DMG Bonus +20%"
               },
               {
-                "label": "共鸣技能伤害加成",
-                "trigger": "狮子奋迅期间",
-                "excerpt": "处于狮子奋迅期间，共鸣技能伤害加成提升10%"
+                "label": "Resonance Skill DMG Bonus",
+                "trigger": "In Lion's Vigor",
+                "excerpt": "Resonance Skill DMG Bonus +10%"
               }
             ]
           },
           {
-            "name": "一跳三叫，众仙折腰",
-            "desc": "凌阳施放延奏技能留痕·踏雪点星时，队伍中的角色冷凝伤害加成提升20%，持续30秒。",
+            "name": "Immortals Bow, \nin Reverence Flawed",
+            "desc": "Outro Skill Frosty Marks increases the Glacio DMG Bonus of all team members by 20% for 30s.",
             "buffs": [
               {
-                "label": "冷凝伤害加成",
-                "trigger": "释放延奏技能后",
-                "excerpt": "释放延奏技能后，队伍中的角色冷凝伤害加成提升20%"
+                "label": "Glacio DMG Bonus",
+                "trigger": "After casting Intro Skill",
+                "excerpt": "Glacio DMG Bonus +20%"
               }
             ]
           },
           {
-            "name": "蹑罡踏斗，七星悬朗",
-            "desc": "施放共鸣解放奋进·狮子奋迅，俱足万行时，将额外造成凌阳200%攻击的冷凝伤害。",
+            "name": "Seven Stars Shine, \nStepped upon High",
+            "desc": "Resonance Liberation Strive: Lion's Vigor additionally deals Glacio DMG equal to 200% of Lingyang's ATK.",
             "buffs": [
               {
-                "label": "共鸣解放倍率增加",
-                "trigger": "施放共鸣解放时",
-                "excerpt": "释放共鸣解放时，额外造成200%攻击的冷凝伤害"
+                "label": "Strive: Lion's Vigor - Skill DMG Multiplier Increase",
+                "trigger": "In Lion's Vigor",
+                "excerpt": "Strive: Lion's Vigor - Skill DMG Multiplier Increase +200%"
               }
             ]
           },
           {
-            "name": "神功盖世，百鬼震惶",
-            "desc": "处于共鸣回路行狮状态时，凌阳每次施放共鸣技能飞身式·翻山越涧后3秒内，下1次普攻的普攻伤害加成提升100%。",
+            "name": "Demons Tremble, \nDivine Power Nigh",
+            "desc": "In the Forte Circuit Striding Lion state, during the first 3s after every Resonance Skill Mountain Roamer, the Basic Attack DMG Bonus for Lingyang's next Basic Attack is increased by 100%.",
             "buffs": [
               {
-                "label": "普攻伤害加成",
-                "trigger": "施放飞身式后的下次普攻",
-                "excerpt": "释放飞身式后3秒内，下次行狮普攻伤害加成提升100%"
+                "label": "Basic Attack DMG Bonus",
+                "trigger": "After casting Unification of Spirits - Feral Gyrate Stage 1 DMG / Unification of Spirits - Feral Gyrate Stage 2 DMG / Unification of Spirits - Stormy Kicks Damage",
+                "excerpt": "Basic Attack DMG Bonus +100%"
               }
             ]
           }

@@ -5,11 +5,6 @@ window.WUWA_LANGUAGES.extend("en-US", {
     "chars": {
       "carlotta": {
         "name": "Carlotta",
-        "resources": [
-          {
-            "label": "灵萃"
-          }
-        ],
         "skills": [
           {
             "name": "Silent Execution - Basic Attack Stage 1"
@@ -31,7 +26,7 @@ window.WUWA_LANGUAGES.extend("en-US", {
           },
           {
             "name": "Silent Execution - Containment Tactics DMG",
-            "requiresResourceLabel": "灵萃充满"
+            "requiresResourceLabel": "Substance full"
           },
           {
             "name": "Silent Execution - Mid-air Attack DMG"
@@ -62,127 +57,135 @@ window.WUWA_LANGUAGES.extend("en-US", {
           },
           {
             "name": "Lethal Repertoire - Imminent Oblivion DMG",
-            "requiresResourceLabel": "灵萃充满且镀色晶激活"
+            "requiresResourceLabel": "Substance full"
+          }
+        ],
+        "resources": [
+          {
+            "label": "Substance"
           }
         ],
         "combatStates": [
           {
-            "label": "目标状态",
-            "inactiveLabel": "目标未处于解离",
-            "entry": "共鸣解放命中目标附加解离；固有·艺术至上使变奏技能、示我璀璨、死兆、末路见行命中也可附加解离。",
+            "label": "Target State",
+            "idLabel": "Deconstruction",
+            "inactiveLabel": "Not in Deconstruction",
+            "entry": "Deal Glacio DMG to all targets in an area (considered Resonance Skill DMG) and inflict Deconstruction on targets hit, then activate Twilight Tango.",
+            "effects": "Deal Glacio DMG to all targets in an area (considered Resonance Skill DMG) and inflict Deconstruction on targets hit, then activate Twilight Tango.",
             "options": [
               {
-                "label": "解离",
-                "valueLabel": "解离"
+                "label": "Deconstruction",
+                "valueLabel": "Deconstruction"
               }
-            ],
-            "idLabel": "解离"
+            ]
           },
           {
-            "label": "枪花轮舞状态",
-            "inactiveLabel": "未处于枪花轮舞状态",
-            "entry": "施放共鸣解放·新浪潮时代后进入枪花轮舞状态，期间可施放死兆；镜向箔达到4点后可施放致死以终。",
+            "label": "Twilight Tango State",
+            "idLabel": "Twilight Tango",
+            "inactiveLabel": "Not in Twilight Tango",
+            "entry": "Deal Glacio DMG to all targets in an area (considered Resonance Skill DMG) and inflict Deconstruction on targets hit, then activate Twilight Tango.",
+            "effects": "Deal Glacio DMG to all targets in an area (considered Resonance Skill DMG) and inflict Deconstruction on targets hit, then activate Twilight Tango.",
             "options": [
               {
-                "label": "枪花轮舞",
-                "valueLabel": "枪花轮舞"
+                "label": "Twilight Tango",
+                "valueLabel": "Twilight Tango"
               }
-            ],
-            "idLabel": "枪花轮舞"
+            ]
           },
           {
-            "label": "镀色晶",
-            "inactiveLabel": "镀色晶未激活",
-            "entry": "灵萃充满并激活镀色晶时，可施放重击末路见行。",
+            "label": "Tinted Crystal",
+            "idLabel": "Tinted Crystal Active",
+            "inactiveLabel": "Not in Tinted Crystal Active",
+            "entry": "Select the current Tinted Crystal Active.",
+            "effects": "Select the current Tinted Crystal Active.",
             "options": [
               {
-                "label": "已激活",
-                "valueLabel": "镀色晶激活"
+                "label": "Tinted Crystal Active",
+                "valueLabel": "Tinted Crystal Active"
               }
-            ],
-            "idLabel": "镀色晶激活"
+            ]
           }
         ],
         "buffs": [
           {
-            "source": "共鸣解放·解离 / 固有·艺术至上",
-            "label": "防御无视",
-            "trigger": "目标处于解离时",
-            "excerpt": "攻击解离目标时，无视18%防御",
-            "desc": "解离：珂莱塔攻击携带解离效果的目标，造成伤害时忽视目标18%防御。共鸣解放命中目标附加解离；固有·艺术至上使变奏技能入冬叹调、共鸣技能示我璀璨、共鸣解放死兆、重击末路见行可以为命中的目标附加解离效果。"
+            "source": "Resonance Liberation: Deconstruction / Inherent Skill: Ars Gratia Artis",
+            "label": "DEF Ignore",
+            "trigger": "In Deconstruction",
+            "excerpt": "DEF Ignore +18%",
+            "desc": "DEF Ignore +18%"
           },
           {
-            "source": "共鸣回路·揭幕者",
-            "label": "共鸣解放倍率提升",
-            "trigger": "灵萃达到上限后",
-            "excerpt": "灵萃达到上限后，共鸣解放伤害倍率提升80%",
-            "desc": "揭幕者：【灵萃】达到上限时获得。共鸣解放新浪潮时代、共鸣解放死兆、共鸣解放致死以终的伤害倍率提升80%，枪花轮舞状态时若切换至其他角色或枪花轮舞状态结束时，效果结束。"
+            "source": "Forte Circuit: Final Bow",
+            "label": "Era of New Wave - Skill DMG Multiplier Increase",
+            "trigger": "After casting Era of New Wave - Skill DMG / Era of New Wave - Death Knell DMG / Era of New Wave - Fatal Finale DMG",
+            "excerpt": "Era of New Wave - Skill DMG Multiplier Increase +80%",
+            "desc": "Final Bow"
           }
         ],
         "chain": [
           {
-            "name": "美或死，璀璨即凋零",
-            "desc": "珂莱塔对拥有解离效果的目标攻击造成伤害时，该次伤害的暴击提升12.5%。对处于变彩状态下的目标施放共鸣技能示我璀璨并命中时，额外回复30点【灵萃】。",
+            "name": "Beauty Blazes Brightest Before It Fades",
+            "desc": "When Carlotta deals DMG to a target inflicted with Deconstruction, the Crit. Rate of this instance of DMG is increased by 12.5%. When Resonance Skill Chromatic Splendor hits a target inflicted with Dispersion, Carlotta additionally restores 30 points of Substance.",
             "buffs": [
               {
-                "label": "暴击",
-                "trigger": "目标处于解离时",
-                "excerpt": "攻击解离目标时，暴击提升12.5%"
+                "label": "Crit. Rate",
+                "trigger": "In Deconstruction",
+                "excerpt": "Crit. Rate +12.5%"
               }
             ]
           },
           {
-            "name": "寂与亡，衰败亦新生",
-            "desc": "共鸣解放致死以终的伤害倍率提升126%。",
+            "name": "Fallen Petals Give Life to New Blooms",
+            "desc": "The DMG Multiplier of Resonance Liberation Fatal Finale is increased by 126%.",
             "buffs": [
               {
-                "label": "致死以终倍率提升",
-                "trigger": "默认",
-                "excerpt": "致死以终伤害倍率提升126%"
+                "label": "Era of New Wave - Fatal Finale DMG Multiplier Increase",
+                "trigger": "In Tinted Crystal Active",
+                "excerpt": "Era of New Wave - Fatal Finale DMG Multiplier Increase +126%"
               }
             ]
           },
           {
-            "name": "切步、向前，此为优雅的进行式",
-            "desc": "延奏技能碎璃镜花：施放延奏技能致辞后，额外进行一次攻击，造成珂莱塔1032.18%攻击的冷凝伤害。共鸣技能暴力美学、共鸣技能示我璀璨的伤害倍率提升93%。",
+            "name": "Adelante, Cortado, Spinning in Grace",
+            "desc": "Enable Outro Skill Kaleidoscope Sparks: Deal 1 additional strike at the end of Outro Skill Closing Remark, dealing Glacio DMG equal to 1032.18% of Carlotta's ATK. The DMG Multiplier of Resonance Skill Art of Violence and Resonance Skill Chromatic Splendor is increased by 93%.",
             "buffs": [
               {
-                "label": "暴力美学/示我璀璨倍率提升",
-                "trigger": "默认",
-                "excerpt": "暴力美学、示我璀璨伤害倍率提升93%"
+                "label": "Art of Violence - Skill DMG Multiplier Increase",
+                "trigger": "In Tinted Crystal Active",
+                "excerpt": "Art of Violence - Skill DMG Multiplier Increase +93%"
               }
             ]
           },
           {
-            "name": "以旧雨，为颂赞的苦酒",
-            "desc": "珂莱塔施放重击、重击限制性策略、重击末路见行时，队伍中的角色共鸣技能伤害加成提升25%，持续30秒。",
+            "name": "Yesterday's Raindrops Make Finest Wine",
+            "desc": "Casting Heavy Attack, Heavy Attack Containment Tactics, and Heavy Attack Imminent Oblivion grants all Resonators in the team 25% Resonance Skill DMG Bonus for 30s.",
             "buffs": [
               {
-                "label": "共鸣技能伤害加成",
-                "trigger": "施放重击/限制性策略/末路见行后",
-                "excerpt": "释放重击、限制性策略或末路见行时，共鸣技能伤害加成提升25%"
+                "label": "Resonance Skill DMG Bonus",
+                "trigger": "After casting Silent Execution - Heavy Attack DMG / Silent Execution - Containment Tactics DMG / Lethal Repertoire - Imminent Oblivion DMG",
+                "excerpt": "Resonance Skill DMG Bonus +25%"
               }
             ]
           },
           {
-            "name": "敬昨夜、今日和彼时彼刻",
-            "desc": "重击末路见行的伤害倍率提升47%。",
+            "name": "Toast to Past, Today, and Every Day to Come",
+            "desc": "The DMG Multiplier of Heavy Attack Imminent Oblivion is increased by 47%.",
             "buffs": [
               {
-                "label": "末路见行倍率提升",
-                "trigger": "默认",
-                "excerpt": "末路见行伤害倍率提升47%"
+                "label": "Lethal Repertoire - Imminent Oblivion DMG Multiplier Increase",
+                "trigger": "In Tinted Crystal Active",
+                "excerpt": "Lethal Repertoire - Imminent Oblivion DMG Multiplier Increase +47%"
               }
             ]
           },
           {
-            "name": "我依然故我，于终幕之上",
-            "desc": "共鸣解放死兆的射击造成更高的伤害，并且生成的晶体数量翻倍，二者总计使共鸣解放死兆伤害倍率提升186.6%。共鸣解放死兆的射击命中目标时，对目标附加焕彩效果：持续时间内无法进行任何动作，受到伤害或持续1.5秒时清除效果。",
+            "name": "As the Curtain Falls, I Remain What I Am",
+            "desc": "Shots of Resonance Liberation Death Knell deal higher DMG and shoot out double the number of crystal shards, representing a total increase of 186.6% in the DMG Multiplier of Resonance Liberation Death Knell.\nShots of Resonance Liberation Death Knell inflict Scattering on targets when hit, during which the target is immobilized. This effect is removed after 1.5s or when the target receives DMG.",
             "buffs": [
               {
-                "label": "死兆倍率提升",
-                "trigger": "默认",
-                "excerpt": "死兆伤害倍率提升186.6%"
+                "label": "Era of New Wave - Death Knell DMG Multiplier Increase",
+                "trigger": "In Tinted Crystal Active",
+                "excerpt": "Era of New Wave - Death Knell DMG Multiplier Increase +186.6%"
               }
             ]
           }

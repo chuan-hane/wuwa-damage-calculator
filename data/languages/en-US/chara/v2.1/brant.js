@@ -5,11 +5,6 @@ window.WUWA_LANGUAGES.extend("en-US", {
     "chars": {
       "brant": {
         "name": "Brant",
-        "resources": [
-          {
-            "label": "喝彩"
-          }
-        ],
         "skills": [
           {
             "name": "Captain's Rhapsody - Stage 1 DMG"
@@ -76,125 +71,131 @@ window.WUWA_LANGUAGES.extend("en-US", {
           },
           {
             "name": "Ocean Odyssey - Returned from Ashes DMG",
-            "requiresResourceLabel": "喝彩充满"
+            "requiresResourceLabel": "Bravo full"
           },
           {
             "name": "For Smiles and Cheers - The Course is Set! Blast DMG",
-            "requiresResourceLabel": "2链延奏额外效果"
+            "requiresResourceLabel": "resource_gate_2"
           },
           {
             "name": "All the World's a Captain's Carnevale - Secondary Blast DMG",
-            "requiresResourceLabel": "施放火焰归亡曲后"
+            "requiresResourceLabel": "resource_gate_3"
+          }
+        ],
+        "resources": [
+          {
+            "label": "Bravo"
           }
         ],
         "combatStates": [
           {
-            "label": "燃焰状态",
-            "inactiveLabel": "未处于燃焰",
-            "entry": "施放共鸣解放直到世界尽头结束后进入燃焰状态，持续12秒。",
+            "label": "Aflame State",
+            "idLabel": "Aflame State",
+            "inactiveLabel": "Not in Aflame State",
+            "entry": "Select the current Aflame State.",
+            "effects": "Select the current Aflame State.",
             "options": [
               {
-                "label": "燃焰",
-                "valueLabel": "燃焰状态"
+                "label": "Aflame State",
+                "valueLabel": "Aflame State"
               }
-            ],
-            "idLabel": "燃焰状态"
+            ]
           }
         ],
         "buffs": [
           {
-            "source": "共鸣回路·戏中人生",
-            "label": "固定攻击",
-            "trigger": "默认",
-            "excerpt": "共鸣效率超过150%时转固定攻击，上限1560",
-            "desc": "戏中人生：布兰特基于共鸣效率获得额外攻击：当自身共鸣效率大于150%时，每超过1%的共鸣效率计算为12点攻击提升，上限为1560。"
+            "source": "Forte Circuit: Theatrical Moment",
+            "label": "Flat ATK",
+            "trigger": "In Aflame State",
+            "excerpt": "Flat ATK based on Energy Regen, cap 1560%",
+            "desc": "Meanwhile, Forte Circuit Theatrical Moment is replaced by \"My\" Moment."
           },
           {
-            "source": "共鸣解放·「我」的人生",
-            "label": "固定攻击",
-            "trigger": "燃焰状态中",
-            "excerpt": "燃焰状态下，固定攻击换算额外提高，上限1040",
-            "desc": "「我」的人生：布兰特基于共鸣效率获得额外攻击：当自身共鸣效率大于150%时，每超过1%的共鸣效率计算为20点攻击提升，上限为2600。"
+            "source": "Resonance Liberation: \"My\" Moment",
+            "label": "Flat ATK",
+            "trigger": "In Aflame State",
+            "excerpt": "Flat ATK based on Energy Regen, cap 1040%",
+            "desc": "Meanwhile, Forte Circuit Theatrical Moment is replaced by \"My\" Moment."
           },
           {
-            "source": "固有·迎海投火的决意",
-            "label": "热熔伤害加成",
-            "trigger": "默认",
-            "excerpt": "热熔伤害加成提升15%",
-            "desc": "布兰特空中攻击抗打断提升，热熔伤害加成提升15%。"
+            "source": "Inherent Skill: Trial by Fire and Tide",
+            "label": "Fusion DMG Bonus",
+            "trigger": "In Aflame State",
+            "excerpt": "Fusion DMG Bonus +15%",
+            "desc": "Fusion DMG Bonus +15%"
           },
           {
-            "source": "延奏·航向确定！",
-            "label": "热熔伤害加深",
-            "trigger": "释放延奏技能后",
-            "excerpt": "下一位登场角色热熔伤害加深20%",
-            "desc": "下一位登场角色热熔伤害加深20%，共鸣技能伤害加深25%，效果持续14秒，若切换至其他角色则该效果提前结束。"
+            "source": "Outro Skill: The Course is Set!",
+            "label": "DMG Increase",
+            "trigger": "In Aflame State",
+            "excerpt": "DMG Increase +20%",
+            "desc": "Brant's Outro Skill The Course is Set!"
           },
           {
-            "source": "延奏·航向确定！",
-            "label": "共鸣技能伤害加深",
-            "trigger": "释放延奏技能后",
-            "excerpt": "下一位登场角色共鸣技能伤害加深25%",
-            "desc": "下一位登场角色热熔伤害加深20%，共鸣技能伤害加深25%，效果持续14秒，若切换至其他角色则该效果提前结束。"
+            "source": "Outro Skill: The Course is Set!",
+            "label": "Resonance Skill DMG Increase",
+            "trigger": "In Aflame State",
+            "excerpt": "Resonance Skill DMG Increase +25%",
+            "desc": "Brant's Outro Skill The Course is Set!"
           }
         ],
         "chain": [
           {
-            "name": "跟随洋流和信风",
-            "desc": "火焰归亡曲施放期间会短暂停滞周围的目标，若在此期间切换至其他角色则提前结束停滞效果。施放变奏技能为我！后或每次空中攻击空翻时，布兰特造成伤害提升20%，持续5秒，可叠加3层。",
+            "name": "By Currents and Winds",
+            "desc": "Returned from Ashes temporarily causes nearby targets to stagnate while casting. The stagnation effect is removed when Brant is switched off the field.\nAfter casting Intro Skill Applaud for Me! or each flip following Mid-air Attack, Brant's DMG dealt is increased by 20% for 5s, stacking up to 3 times.",
             "buffs": [
               {
-                "label": "伤害加深",
-                "trigger": "施放变奏技能后/空翻后",
-                "excerpt": "释放为我或空翻后，每层伤害加深20%"
+                "label": "DMG Increase",
+                "trigger": "In Aflame State",
+                "excerpt": "DMG Increase +60% per stack"
               }
             ]
           },
           {
-            "name": "掠夺欢声与笑颜",
-            "desc": "施放空中攻击和火焰归亡曲时暴击提升30%。布兰特延奏技能航向确定！获得额外效果，20秒内：下一位登场角色或附近队伍中激活布兰特延奏技能的角色施放共鸣技能命中目标时，布兰特将攻击目标，会产生一次爆炸，造成布兰特攻击440%的热熔伤害，此次伤害为普攻伤害。爆炸每秒可触发1次，最多可触发2次爆炸。·切换至其他角色会保留该额外效果。",
+            "name": "For Smiles and Cheers",
+            "desc": "Casting Mid-air Attack and Returned from Ashes increases Brant's Crit. Rate by 30%.\nBrant's Outro Skill The Course is Set! gains a new enhancement:\nWhen Resonance Skill cast by the incoming Resonator (or nearby Resonators who activate Brant's Outro Skill) hits a target within 20s after Brant's Outro Skill, Brant blasts the hit target, dealing Fusion DMG equal to 440% of Brant's ATK (considered Basic Attack DMG). This explosion can be triggered 1 time per second, up to 2 explosions in total.\n- This effect remains active when Brant is switched off the field.",
             "buffs": [
               {
-                "label": "暴击",
-                "trigger": "施放空中攻击/火焰归亡曲时",
-                "excerpt": "空中攻击或火焰归亡曲暴击提升30%"
+                "label": "Crit. Rate",
+                "trigger": "In Aflame State",
+                "excerpt": "Crit. Rate +30%"
               }
             ]
           },
           {
-            "name": "无惧惊涛骇浪",
-            "desc": "火焰归亡曲伤害倍率提升42%。",
+            "name": "Through Storms I Sail",
+            "desc": "The DMG Multiplier of Returned from Ashes is increased by 42%.",
             "buffs": [
               {
-                "label": "火焰归亡曲倍率提升",
-                "trigger": "默认",
-                "excerpt": "火焰归亡曲伤害倍率提升42%"
+                "label": "Ocean Odyssey - Returned from Ashes DMG Multiplier Increase",
+                "trigger": "In Aflame State",
+                "excerpt": "Ocean Odyssey - Returned from Ashes DMG Multiplier Increase +42%"
               }
             ]
           },
           {
-            "name": "纵情放声歌唱",
-            "desc": "火焰归亡曲获得的护盾量提升20%，布兰特施放火焰归亡曲时，会回复附近队伍所有角色的生命值（每1%的共鸣效率回复6.60点生命值）。"
+            "name": "To Freedom I Sing",
+            "desc": "The Shield obtained from Returned from Ashes is increased by 20%. Casting Returned from Ashes restores HP for all nearby Resonators in the team (6.60 HP for every 1% Energy Regen)."
           },
           {
-            "name": "演员说：生活皆舞台",
-            "desc": "造成普攻伤害时，普攻伤害加成提升15%，持续10秒。",
+            "name": "All the World's an Actor's Stage",
+            "desc": "Dealing Basic Attack DMG gives Brant 15% Basic Attack DMG Bonus for 10s.",
             "buffs": [
               {
-                "label": "普攻伤害加成",
-                "trigger": "造成普攻伤害后",
-                "excerpt": "造成普攻伤害后，普攻伤害加成提升15%"
+                "label": "Basic Attack DMG Bonus",
+                "trigger": "In Aflame State",
+                "excerpt": "Basic Attack DMG Bonus +15%"
               }
             ]
           },
           {
-            "name": "船长答：狂欢即世界！",
-            "desc": "空中攻击的倍率提升30%。施放火焰归亡曲后，会在原地产生一次再燃，造成等同于火焰归亡曲30%的热熔伤害，此次伤害为普攻伤害。",
+            "name": "All the World's a Captain's Carnevale",
+            "desc": "Mid-air Attack's DMG Multiplier is increased by 30%. Casting Returned from Ashes causes a secondary blast, dealing Fusion DMG equal to 30% of the DMG dealt by Returned from Ashes, considered Basic Attack DMG.",
             "buffs": [
               {
-                "label": "空中攻击倍率提升",
-                "trigger": "默认",
-                "excerpt": "空中攻击伤害倍率提升30%"
+                "label": "Captain's Rhapsody - Mid-air Attack Stage 1 DMG Multiplier Increase",
+                "trigger": "In Aflame State",
+                "excerpt": "Captain's Rhapsody - Mid-air Attack Stage 1 DMG Multiplier Increase +30%"
               }
             ]
           }

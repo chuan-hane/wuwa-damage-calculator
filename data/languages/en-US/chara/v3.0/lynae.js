@@ -5,17 +5,6 @@ window.WUWA_LANGUAGES.extend("en-US", {
     "chars": {
       "lynae": {
         "name": "Lynae",
-        "resources": [
-          {
-            "label": "溢彩"
-          },
-          {
-            "label": "本色"
-          },
-          {
-            "label": "流光"
-          }
-        ],
         "skills": [
           {
             "name": "Chroma Drift - Basic Attack Stage 1 DMG"
@@ -34,15 +23,15 @@ window.WUWA_LANGUAGES.extend("en-US", {
           },
           {
             "name": "Chroma Drift - Basic Attack - Spark Collision Lv. 1 DMG",
-            "requiresResourceLabel": "120点溢彩"
+            "requiresResourceLabel": "Overflow at least 120"
           },
           {
             "name": "Chroma Drift - Basic Attack - Spark Collision Lv. 2 DMG",
-            "requiresResourceLabel": "120点溢彩"
+            "requiresResourceLabel": "Overflow at least 120"
           },
           {
             "name": "Chroma Drift - Basic Attack - Spark Collision Lv. 3 DMG",
-            "requiresResourceLabel": "120点溢彩"
+            "requiresResourceLabel": "Overflow at least 120"
           },
           {
             "name": "Chroma Drift - Kaleidoscopic Parade - Basic Attack Stage 1 DMG"
@@ -85,219 +74,234 @@ window.WUWA_LANGUAGES.extend("en-US", {
           },
           {
             "name": "Prismatic Overblast - Basic Attack - To a Vivid Tomorrow! DMG",
-            "requiresResourceLabel": "爆炸喷涂后"
+            "requiresResourceLabel": "resource_gate_2"
           },
           {
             "name": "Time to Show Some Colors! - Time to Show Some Colors! DMG"
           },
           {
             "name": "Chromaticity Modeling - Basic Attack - Iridescent Splash DMG",
-            "requiresResourceLabel": "3点本色"
+            "requiresResourceLabel": "True Color at least 3"
           },
           {
             "name": "Chromaticity Modeling - Basic Attack - Visual Impact DMG",
-            "requiresResourceLabel": "3点本色"
+            "requiresResourceLabel": "True Color at least 3"
           },
           {
             "name": "Chromaticity Modeling - Basic Attack - Polychrome Leap 1",
-            "requiresResourceLabel": "1/3流光上限"
+            "requiresResourceLabel": "Lumiflow at least 33.33"
           },
           {
             "name": "Chromaticity Modeling - Basic Attack - Polychrome Leap 2",
-            "requiresResourceLabel": "1/3流光上限"
+            "requiresResourceLabel": "Lumiflow at least 33.33"
           },
           {
             "name": "Chromaticity Modeling - Basic Attack - Polychrome Leap 3",
-            "requiresResourceLabel": "1/3流光上限"
+            "requiresResourceLabel": "Lumiflow at least 33.33"
           },
           {
             "name": "Chromaticity Modeling - Tune Rupture Response - Spectral Analysis DMG"
           }
         ],
+        "resources": [
+          {
+            "label": "Overflow"
+          },
+          {
+            "label": "True Color"
+          },
+          {
+            "label": "Lumiflow"
+          }
+        ],
         "combatStates": [
           {
-            "label": "共鸣模态",
-            "inactiveLabel": "未确认共鸣模态",
-            "entry": "琳奈拥有共鸣模态·震谐和共鸣模态·集谐两种形态，可在两种形态间切换。",
+            "label": "Resonance Mode",
+            "idLabel": "Resonance Mode",
+            "inactiveLabel": "Not in Resonance Mode",
+            "entry": "When Spray Paint is on the ground, switching to another Resonance Mode doesn't affect the Photochromic Flux effects inflicted by the Spray Paint.",
+            "effects": "When Spray Paint is on the ground, switching to another Resonance Mode doesn't affect the Photochromic Flux effects inflicted by the Spray Paint.",
             "options": [
               {
-                "label": "震谐",
-                "valueLabel": "共鸣模态·震谐"
+                "label": "Resonance Mode - Tune Rupture",
+                "valueLabel": "Resonance Mode - Tune Rupture"
               },
               {
-                "label": "集谐",
-                "valueLabel": "共鸣模态·集谐"
+                "label": "Resonance Mode - Tune Strain",
+                "valueLabel": "Resonance Mode - Tune Strain"
               }
-            ],
-            "idLabel": "共鸣模态"
+            ]
           },
           {
-            "label": "战斗阶段",
-            "inactiveLabel": "未确认战斗阶段",
-            "entry": "琳奈初始处于光学取样阶段；施放普攻·灵感碰撞后进入绮彩巡游，退出绮彩巡游时清除流光和本色。",
+            "label": "Combat Phase",
+            "idLabel": "Combat Phase",
+            "inactiveLabel": "Not in Combat Phase",
+            "entry": "Select the current Combat Phase.",
+            "effects": "Select the current Combat Phase.",
             "options": [
               {
-                "label": "光学取样",
-                "valueLabel": "光学取样"
+                "label": "Optical Sampling",
+                "valueLabel": "Optical Sampling"
               },
               {
-                "label": "绮彩巡游",
-                "valueLabel": "绮彩巡游"
+                "label": "Kaleidoscopic Parade",
+                "valueLabel": "Kaleidoscopic Parade"
               }
-            ],
-            "idLabel": "战斗阶段"
+            ]
           },
           {
-            "label": "目标震谐状态",
-            "inactiveLabel": "目标无震谐状态",
-            "entry": "共鸣模态·震谐下，光致变染会为目标附加【震谐·偏移】；队伍对偏移目标造成谐度破坏伤害并使其进入【震谐·干涉】后，琳奈可触发震谐响应·光谱解析。",
+            "label": "Target Tune Rupture State",
+            "idLabel": "Target Tune Rupture State",
+            "inactiveLabel": "Not in Target Tune Rupture State",
+            "entry": "Select the current Target Tune Rupture State.",
+            "effects": "Select the current Target Tune Rupture State.",
             "options": [
               {
-                "label": "震谐·偏移",
-                "valueLabel": "目标震谐·偏移"
+                "label": "Target Tune Rupture · Shifting",
+                "valueLabel": "Target Tune Rupture · Shifting"
               },
               {
-                "label": "震谐·干涉",
-                "valueLabel": "目标震谐·干涉"
+                "label": "Target Tune Rupture · Interfered",
+                "valueLabel": "Target Tune Rupture · Interfered"
               }
-            ],
-            "idLabel": "目标震谐状态"
+            ]
           },
           {
-            "label": "目标集谐状态",
-            "inactiveLabel": "目标无集谐状态",
-            "entry": "共鸣模态·集谐下，光致变染会为目标附加【集谐·偏移】；队伍对偏移目标造成谐度破坏伤害后可形成【集谐·干涉】层数。",
+            "label": "Target Tune Strain State",
+            "idLabel": "Target Tune Strain State",
+            "inactiveLabel": "Not in Target Tune Strain State",
+            "entry": "Select the current Target Tune Strain State.",
+            "effects": "Select the current Target Tune Strain State.",
             "options": [
               {
-                "label": "集谐·偏移",
-                "valueLabel": "目标集谐·偏移"
+                "label": "Target Tune Strain · Shifting",
+                "valueLabel": "Target Tune Strain · Shifting"
               },
               {
-                "label": "集谐·干涉",
-                "valueLabel": "目标集谐·干涉"
+                "label": "Target Tune Strain · Interfered",
+                "valueLabel": "Target Tune Strain · Interfered"
               }
-            ],
-            "idLabel": "目标集谐状态"
+            ]
           }
         ],
         "buffs": [
           {
-            "source": "固有·《自适应光学在生活中的实际应用》",
-            "label": "衍射伤害加成",
-            "trigger": "施放变奏技能时",
-            "excerpt": "施放变奏技能时，衍射伤害加成提升25%",
-            "desc": "施放变奏技能·来点儿颜色瞧瞧时，9秒内自身的衍射伤害加成提升25%。"
+            "source": "Inherent Skill: \"Adaptive Optics: Everyday Applications\"",
+            "label": "Spectro DMG Bonus",
+            "trigger": "In Target Tune Strain · Interfered",
+            "excerpt": "Spectro DMG Bonus +25%",
+            "desc": "Spectro DMG Bonus +25%"
           },
           {
-            "source": "共鸣解放·爆炸喷涂",
-            "label": "最终伤害提升",
-            "trigger": "施放共鸣解放时",
-            "excerpt": "释放爆炸喷涂时，队伍造成的伤害提升24%",
-            "desc": "施放时使附近队伍中所有角色造成的伤害提升24%，持续30秒。"
+            "source": "Resonance Liberation: Prismatic Overblast",
+            "label": "Final DMG Bonus",
+            "trigger": "In Target Tune Strain · Interfered",
+            "excerpt": "Final DMG Bonus +24%",
+            "desc": "Press Normal Attack within a certain time after casting Resonance Liberation - Prismatic Overblast to cast Basic Attack - To a Vivid Tomorrow!, dealing Spectro DMG."
           },
           {
-            "source": "共鸣回路·普攻·视觉冲击",
-            "label": "谐度破坏增幅",
-            "trigger": "施放普攻·视觉冲击时",
-            "excerpt": "释放普攻·视觉冲击时，谐度破坏增幅提升40点",
-            "desc": "普攻·视觉冲击施放时消耗3点【本色】，并使附近队伍中所有角色的谐度破坏增幅提升40点，持续30秒。"
+            "source": "Forte Circuit: Normal Attack · Visual Impact",
+            "label": "Tune Break Boost",
+            "trigger": "After casting Chromaticity Modeling - Basic Attack - Visual Impact DMG",
+            "excerpt": "Tune Break Boost +40%",
+            "desc": "Tune Break Boost +40%"
           },
           {
-            "source": "谐度破坏·光谱解析",
-            "label": "最终伤害提升",
-            "trigger": "响应集谐·干涉时",
-            "excerpt": "响应集谐·干涉时，每层按谐度破坏增幅提升最终伤害",
-            "desc": "响应【集谐·干涉】：目标每有一层【集谐·干涉】效果，琳奈自身的每点谐度破坏增幅会使自身对该目标造成的最终伤害提升0.12%。琳奈在编队中时，目标的【集谐·干涉】效果的层数上限增加1层。"
+            "source": "Tune Break: Spectral Analysis",
+            "label": "Final DMG Bonus",
+            "trigger": "In Resonance Mode - Tune Strain",
+            "excerpt": "Final DMG Bonus +0% per stack",
+            "desc": "Tune Rupture Response - Spectral Analysis"
           },
           {
-            "source": "延奏·有空一起兜风！",
-            "label": "全伤害加深",
-            "trigger": "释放延奏技能后",
-            "excerpt": "下一位登场角色全伤害加深15%",
-            "desc": "下一个登场的角色全伤害加深15%，共鸣解放伤害加深25%，持续14秒，若切换至其他角色则该效果提前结束。"
+            "source": "Outro Skill: Let's Hit the Road!",
+            "label": "DMG Increase",
+            "trigger": "In Target Tune Strain · Interfered",
+            "excerpt": "DMG Increase +15%",
+            "desc": "Lynae now stays in Kaleidoscopic Parade after casting Outro Skill - Let's Hit the Road!."
           },
           {
-            "source": "延奏·有空一起兜风！",
-            "label": "共鸣解放伤害加深",
-            "trigger": "释放延奏技能后",
-            "excerpt": "下一位登场角色共鸣解放伤害加深25%",
-            "desc": "下一个登场的角色全伤害加深15%，共鸣解放伤害加深25%，持续14秒，若切换至其他角色则该效果提前结束。"
+            "source": "Outro Skill: Let's Hit the Road!",
+            "label": "Resonance Liberation DMG Increase",
+            "trigger": "In Target Tune Strain · Interfered",
+            "excerpt": "Resonance Liberation DMG Increase +25%",
+            "desc": "Lynae now stays in Kaleidoscopic Parade after casting Outro Skill - Let's Hit the Road!."
           }
         ],
         "chain": [
           {
-            "name": "应是肆意挥洒的年华",
-            "desc": "普攻·幻光折跃的伤害倍率提升120%。颜料的持续时间提升100%，每6秒将处于颜料范围内的敌人向颜料中心进行一次牵引。施放普攻·幻光折跃和普攻·视觉冲击期间免疫打断。「光学取样」阶段期间，处于非战斗状态大于2秒时，回复120点【溢彩】，每2秒触发一次。",
+            "name": "Days to be Painted Like a Canvas",
+            "desc": "The DMG Multiplier of Basic Attack - Polychrome Leap is increased by 120%.\nThe duration of Spray Paint is increased by 100%. Targets within the range of Spray Paint are pulled in towards the center every 6s.\nLynae is now immune to interruptions during Basic Attack - Polychrome Leap and Basic Attack - Visual Impact.\nDuring Optical Sampling Stage, after staying in a non-combat state for 2s, restore 120 points of Overflow every 2s.",
             "buffs": [
               {
-                "label": "幻光折跃倍率提升",
-                "trigger": "默认",
-                "excerpt": "普攻·幻光折跃伤害倍率提升120%"
+                "label": "Chromaticity Modeling - Basic Attack - Polychrome Leap 1 DMG Multiplier Increase",
+                "trigger": "In Target Tune Strain · Interfered",
+                "excerpt": "Chromaticity Modeling - Basic Attack - Polychrome Leap 1 DMG Multiplier Increase +120%"
               }
             ]
           },
           {
-            "name": "驶向光彩交绘的彼方",
-            "desc": "全伤害加深25%。延奏技能额外获得以下效果：施放延奏技能时，使下一个登场的角色全伤害加深25%，持续14秒，若切换至其他角色则该效果提前结束。",
+            "name": "Into Lights' Vanishing Point",
+            "desc": "Gain 25% All DMG Amplification.\nOutro Skill gains the following effect:\nCasting Outro Skill now additionally grants the incoming Resonator 25% All DMG Amplification for 14s or until the Resonator is switched out.",
             "buffs": [
               {
-                "label": "全伤害加深",
-                "trigger": "默认",
-                "excerpt": "全伤害加深25%"
+                "label": "DMG Increase",
+                "trigger": "In Target Tune Strain · Interfered",
+                "excerpt": "DMG Increase +25%"
               },
               {
-                "label": "全伤害加深",
-                "trigger": "释放延奏技能后",
-                "excerpt": "释放延奏后，下一位登场角色全伤害额外加深25%"
+                "label": "DMG Increase",
+                "trigger": "After casting Intro Skill",
+                "excerpt": "DMG Increase +25%"
               }
             ]
           },
           {
-            "name": "为一瞬的绚烂",
-            "desc": "普攻·视觉冲击和普攻·虹彩飞溅的伤害倍率提升90%。战斗状态期间，【流光】大于等于120点时，每1秒获得一层预调色，上限25层。每层预调色使加色混合的衍射伤害加成提升55%。施放加色混合期间不会获得预调色，加色混合结束时，移除所有预调色。【流光】小于120点时，每0.5秒失去一层预调色。非战斗状态期间，【流光】大于等于120点时，每0.5秒获取一层预调色，【流光】小于120点时，每1秒失去一层预调色。",
+            "name": "For One Brilliant Moment",
+            "desc": "The DMG Multiplier of Basic Attack - Visual Impact and Basic Attack - Iridescent Splash is increased by 90%.\nWhile Lynae is in combat, when Lumiflow is at least 120 points, gain 1 stack of Premixed Hue every 1s, up to 25 stacks. Each stack of Premixed Hue increases the Spectro DMG Bonus of Additive Color by 55%. No Premixed Hue is gained while casting Additive Color. When Additive Color ends, remove all stacks of Premixed Hue. Lynae loses a stack of Premixed Hue every 0.5s when Lumiflow is below 120 points.\nWhile Lynae is out of combat, with at least 120 points of Lumiflow, gain 1 stack of Premixed Hue every 0.5s; when Lumiflow is below 120 points, lose 1 stack of Premixed Hue every 1s.",
             "buffs": [
               {
-                "label": "指定普攻倍率提升",
-                "trigger": "默认",
-                "excerpt": "普攻·视觉冲击和虹彩飞溅伤害倍率提升90%"
+                "label": "Chromaticity Modeling - Basic Attack - Visual Impact DMG Multiplier Increase",
+                "trigger": "In Target Tune Strain · Interfered",
+                "excerpt": "Chromaticity Modeling - Basic Attack - Visual Impact DMG Multiplier Increase +90%"
               },
               {
-                "label": "衍射伤害加成",
-                "trigger": "流光达到120点后",
-                "excerpt": "流光达到120点后，每层预调色使加色混合衍射伤害加成提升55%"
+                "label": "Spectro DMG Bonus",
+                "trigger": "After casting Lynae-Style Palettes - Additive Color DMG",
+                "excerpt": "Spectro DMG Bonus +1375% per stack"
               }
             ]
           },
           {
-            "name": "灰影随风呼啸而去",
-            "desc": "攻击提升20%。",
+            "name": "Shadows of a Wind Racer",
+            "desc": "ATK is increased by 20%.",
             "buffs": [
               {
-                "label": "攻击",
-                "trigger": "默认",
-                "excerpt": "攻击提升20%"
+                "label": "ATK",
+                "trigger": "In Target Tune Strain · Interfered",
+                "excerpt": "ATK +20%"
               }
             ]
           },
           {
-            "name": "不羁未来的映想",
-            "desc": "共鸣解放·爆炸喷涂的伤害倍率提升70%。",
+            "name": "Visions of a Future Unbound",
+            "desc": "The DMG Multiplier of Resonance Liberation - Prismatic Overblast is increased by 70%.",
             "buffs": [
               {
-                "label": "爆炸喷涂倍率提升",
-                "trigger": "默认",
-                "excerpt": "爆炸喷涂伤害倍率提升70%"
+                "label": "Prismatic Overblast - Prismatic Overblast DMG Multiplier Increase",
+                "trigger": "In Target Tune Strain · Interfered",
+                "excerpt": "Prismatic Overblast - Prismatic Overblast DMG Multiplier Increase +70%"
               }
             ]
           },
           {
-            "name": "以「我」为名的真彩",
-            "desc": "每次施放绮彩巡游·跃动集束或绮彩巡游·空中重击时，为自身叠加1层心之彩，最多叠加3层，每层心之彩使目标受到普攻·虹彩飞溅和普攻·视觉冲击的伤害提升30%。施放普攻·虹彩飞溅或普攻·视觉冲击后，移除所有心之彩。施放普攻·幻光折跃时，刷新绮彩巡游·空中重击的可施放次数。施放绮彩巡游·空中重击期间免疫打断且受到伤害降低30%。施放延奏技能·有空一起兜风！时，琳奈不会退出绮彩巡游状态。【流光】上限由120提升至360。且【流光】达到上限时，轮滑速度进一步提升。施放变奏技能时，若处于绮彩巡游状态，回复120点【流光】。",
+            "name": "Painted in My True Color",
+            "desc": "Each time Kaleidoscopic Parade - Graffiti Blast or Kaleidoscopic Parade - Mid-air Heavy Attack is cast, Lynae gains 1 stack of Color of Soul, up to 3 stacks. Each stack of Color of Soul increases the DMG the target takes from Basic Attack - Iridescent Splash and Basic Attack - Visual Impact by 30%. After casting Basic Attack - Iridescent Splash or Basic Attack - Visual Impact, all stacks of Color of Soul are removed.\nCasting Basic Attack - Polychrome Leap resets the charges of Kaleidoscopic Parade - Mid-air Heavy Attack.\nLynae is immune to interruptions, and DMG taken is reduced by 30% during Kaleidoscopic Parade - Mid-air Heavy Attack.\nLynae now stays in Kaleidoscopic Parade after casting Outro Skill - Let's Hit the Road!.\nThe Lumiflow upper limit is increased from 120 to 360. At the max limit, Lynae's roller skating speed further increases.\nIf Intro Skill is cast during Kaleidoscopic Parade, restore 120 points of Lumiflow.",
             "buffs": [
               {
-                "label": "指定普攻易伤",
-                "trigger": "施放跃动集束或空中重击后",
-                "excerpt": "每层心之彩使目标受到虹彩飞溅和视觉冲击伤害提升30%"
+                "label": "Vulnerability",
+                "trigger": "After casting Chromaticity Modeling - Basic Attack - Iridescent Splash DMG / Chromaticity Modeling - Basic Attack - Visual Impact DMG",
+                "excerpt": "Vulnerability +90% per stack"
               }
             ]
           }

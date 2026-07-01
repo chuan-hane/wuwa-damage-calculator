@@ -5,14 +5,6 @@ window.WUWA_LANGUAGES.extend("en-US", {
     "chars": {
       "aemeath": {
         "name": "Aemeath",
-        "resources": [
-          {
-            "label": "同步率"
-          },
-          {
-            "label": "共鸣率"
-          }
-        ],
         "skills": [
           {
             "name": "Infinity Calibration - Basic Attack - Aemeath Stage 1 DMG"
@@ -73,7 +65,7 @@ window.WUWA_LANGUAGES.extend("en-US", {
           },
           {
             "name": "Towards the Daybreak - Heavenfall Edict: Finale DMG",
-            "requiresResourceLabel": "同步率与共鸣率满"
+            "requiresResourceLabel": "Synchronization Rate at least 100 / Resonance Rate at least 100"
           },
           {
             "name": "Overture of Departure - Songs Across the Universe DMG"
@@ -83,11 +75,11 @@ window.WUWA_LANGUAGES.extend("en-US", {
           },
           {
             "name": "To Sculpt the Silence - Seraphic Duet: Encore DMG",
-            "requiresResourceLabel": "100同步率"
+            "requiresResourceLabel": "Synchronization Rate at least 100"
           },
           {
             "name": "To Sculpt the Silence - Seraphic Duet: Overture DMG",
-            "requiresResourceLabel": "100同步率"
+            "requiresResourceLabel": "Synchronization Rate at least 100"
           },
           {
             "name": "To Sculpt the Silence - Tune Rupture Response - Starburst DMG"
@@ -96,313 +88,332 @@ window.WUWA_LANGUAGES.extend("en-US", {
             "name": "To Sculpt the Silence - Seraphic Duet Bonus DMG (Per Instance)"
           }
         ],
+        "resources": [
+          {
+            "label": "Synchronization Rate"
+          },
+          {
+            "label": "Resonance Rate"
+          }
+        ],
         "combatStates": [
           {
-            "label": "当前形态",
-            "entry": "施放共鸣技能构型切换、合击·突刺、星辉破界而来或光翼共奏时，爱弥斯可在爱弥斯形态与机兵形态间切换。",
+            "label": "Current form",
+            "idLabel": "Form",
+            "inactiveLabel": "Not in Form",
+            "entry": "Form Switch",
+            "effects": "Form Switch",
             "options": [
               {
-                "label": "爱弥斯",
-                "valueLabel": "爱弥斯"
+                "label": "Aemeath",
+                "valueLabel": "Aemeath"
               },
               {
-                "label": "机兵",
-                "valueLabel": "机兵"
+                "label": "Mech",
+                "valueLabel": "Mech"
               }
-            ],
-            "idLabel": "形态"
+            ]
           },
           {
-            "label": "共鸣模态",
-            "entry": "爱弥斯拥有共鸣模态·震谐和共鸣模态·聚爆；角色编入队伍或切换模态时会重置星与星之间的叠层。",
+            "label": "Resonance Mode",
+            "idLabel": "Resonance Mode",
+            "inactiveLabel": "Not in Resonance Mode",
+            "entry": "In Resonance Mode - Tune Rupture, when Resonators in the team inflict Tune Rupture - Shifting or deal Tune Rupture DMG, Aemeath's Crit.",
+            "effects": "In Resonance Mode - Tune Rupture, when Resonators in the team inflict Tune Rupture - Shifting or deal Tune Rupture DMG, Aemeath's Crit.",
             "options": [
               {
-                "label": "震谐",
-                "valueLabel": "共鸣模态·震谐"
+                "label": "Resonance Mode - Tune Rupture",
+                "valueLabel": "Resonance Mode - Tune Rupture"
               },
               {
-                "label": "聚爆",
-                "valueLabel": "共鸣模态·聚爆"
+                "label": "Resonance Mode - Fusion Burst",
+                "valueLabel": "Resonance Mode - Fusion Burst"
               }
-            ],
-            "idLabel": "共鸣模态"
+            ]
           },
           {
-            "label": "光翼共奏之时",
-            "inactiveLabel": "未处于光翼共奏之时",
-            "entry": "施放普攻·爱弥斯第4段或普攻·机兵第4段时获得，持续5秒。",
+            "label": "Seraphic Duo",
+            "idLabel": "Seraphic Duo",
+            "inactiveLabel": "Not in Seraphic Duo",
+            "entry": "Casting this skill depletes all Synchronization Rate and Resonance Rate, dealing Fusion DMG, and ends the Heavenfall Edict: Unbound state and Seraphic Duo state.",
+            "effects": "Casting this skill depletes all Synchronization Rate and Resonance Rate, dealing Fusion DMG, and ends the Heavenfall Edict: Unbound state and Seraphic Duo state.",
             "options": [
               {
-                "label": "光翼共奏之时",
-                "valueLabel": "光翼共奏之时状态"
+                "label": "Seraphic Duo State",
+                "valueLabel": "Seraphic Duo State"
               }
-            ],
-            "idLabel": "光翼共奏之时"
+            ]
           },
           {
-            "label": "星屑共振",
-            "inactiveLabel": "未处于星屑共振",
-            "entry": "施放共鸣解放星辉破界而来·过载时获得，持续30秒；施放2次光翼共奏后移除。",
+            "label": "Stardust Resonance",
+            "idLabel": "Stardust Resonance",
+            "inactiveLabel": "Not in Stardust Resonance",
+            "entry": "- Enter Stardust Resonance for 30s.",
+            "effects": "- Enter Stardust Resonance for 30s.",
             "options": [
               {
-                "label": "星屑共振",
-                "valueLabel": "星屑共振状态"
+                "label": "Stardust Resonance State",
+                "valueLabel": "Stardust Resonance State"
               }
-            ],
-            "idLabel": "星屑共振"
+            ]
           },
           {
-            "label": "星辉破界而来·于此释放",
-            "inactiveLabel": "未处于于此释放",
-            "entry": "施放共鸣解放星辉破界而来·过载时获得星辉破界而来·于此释放状态，持续60秒。",
+            "label": "Heavenfall Edict: Unbound",
+            "idLabel": "Heavenfall Edict: Unbound",
+            "inactiveLabel": "Not in Heavenfall Edict: Unbound",
+            "entry": "- Enter Heavenfall Edict: Unbound for 60s.",
+            "effects": "- Enter Heavenfall Edict: Unbound for 60s.",
             "options": [
               {
-                "label": "于此释放",
-                "valueLabel": "星辉破界而来·于此释放"
+                "label": "Heavenfall Edict: Unbound",
+                "valueLabel": "Heavenfall Edict: Unbound"
               }
-            ],
-            "idLabel": "星辉破界而来·于此释放"
+            ]
           },
           {
-            "label": "即刻响应",
-            "inactiveLabel": "未处于即刻响应",
-            "entry": "处于星辉破界而来·于此释放状态且共鸣率达到上限时获得即刻响应；1链后非战斗状态满足条件超过4秒可获得即刻响应·辉芒。",
+            "label": "Instant Response",
+            "idLabel": "Instant Response",
+            "inactiveLabel": "Not in Instant Response",
+            "entry": "When in Instant Response, Heavy Attack - Aemeath: Charged II charges more quickly.",
+            "effects": "When in Instant Response, Heavy Attack - Aemeath: Charged II charges more quickly.",
             "options": [
               {
-                "label": "即刻响应",
-                "valueLabel": "即刻响应状态"
+                "label": "Instant Response State",
+                "valueLabel": "Instant Response State"
               },
               {
-                "label": "即刻响应·辉芒",
-                "valueLabel": "即刻响应·辉芒状态"
+                "label": "Instant Response · Brilliance",
+                "valueLabel": "Instant Response · Brilliance"
               }
-            ],
-            "idLabel": "即刻响应"
+            ]
           },
           {
-            "label": "目标震谐状态",
-            "inactiveLabel": "目标无震谐状态",
-            "entry": "共鸣模态·震谐下，爱弥斯指定技能可为目标附加【震谐·偏移】；队伍对目标造成谐度破坏伤害后使其进入【震谐·干涉】。",
+            "label": "Target Tune Rupture State",
+            "idLabel": "Target Tune Rupture State",
+            "inactiveLabel": "Not in Target Tune Rupture State",
+            "entry": "Select the current Target Tune Rupture State.",
+            "effects": "Select the current Target Tune Rupture State.",
             "options": [
               {
-                "label": "震谐·偏移",
-                "valueLabel": "目标震谐·偏移"
+                "label": "Target Tune Rupture · Shifting",
+                "valueLabel": "Target Tune Rupture · Shifting"
               },
               {
-                "label": "震谐·干涉",
-                "valueLabel": "目标震谐·干涉"
+                "label": "Target Tune Rupture · Interfered",
+                "valueLabel": "Target Tune Rupture · Interfered"
               }
-            ],
-            "idLabel": "目标震谐状态"
+            ]
           },
           {
-            "label": "目标震谐轨迹",
-            "inactiveLabel": "目标无震谐轨迹",
-            "entry": "共鸣模态·震谐下，队伍中的角色响应【震谐·干涉】时，为目标附加10层震谐轨迹，上限30层，持续30秒。",
+            "label": "Target Tune Rupture Trace",
+            "idLabel": "Target Tune Rupture Trace",
+            "inactiveLabel": "Not in Target Tune Rupture Trace",
+            "entry": "Select the current Target Tune Rupture Trace.",
+            "effects": "Select the current Target Tune Rupture Trace.",
             "options": [
               {
-                "label": "震谐轨迹",
-                "valueLabel": "目标震谐轨迹"
+                "label": "Target Tune Rupture Trace",
+                "valueLabel": "Target Tune Rupture Trace"
               }
-            ],
-            "idLabel": "目标震谐轨迹"
+            ]
           },
           {
-            "label": "目标聚爆轨迹",
-            "inactiveLabel": "目标无聚爆轨迹",
-            "entry": "共鸣模态·聚爆下，队伍中的角色附加【聚爆效应】时，为目标附加1层聚爆轨迹，上限30层，持续30秒。",
+            "label": "Target Fusion Burst Trace",
+            "idLabel": "Target Fusion Burst Trace",
+            "inactiveLabel": "Not in Target Fusion Burst Trace",
+            "entry": "Select the current Target Fusion Burst Trace.",
+            "effects": "Select the current Target Fusion Burst Trace.",
             "options": [
               {
-                "label": "聚爆轨迹",
-                "valueLabel": "目标聚爆轨迹"
+                "label": "Target Fusion Burst Trace",
+                "valueLabel": "Target Fusion Burst Trace"
               }
-            ],
-            "idLabel": "目标聚爆轨迹"
+            ]
           }
         ],
         "buffs": [
           {
-            "source": "固有·于万籁之前",
-            "label": "重击伤害加深",
-            "trigger": "处于即刻响应状态时",
-            "excerpt": "即刻响应状态下，重击伤害加深200%",
-            "desc": "处于即刻响应状态时，重击·爱弥斯、重击·机兵造成的伤害加深200%。"
+            "source": "Inherent Skill: Before All Sounds",
+            "label": "Infinity Calibration - Heavy Attack - Aemeath Charged I DMG Increase",
+            "trigger": "In Instant Response State",
+            "excerpt": "Infinity Calibration - Heavy Attack - Aemeath Charged I DMG Increase +200%",
+            "desc": "Infinity Calibration - Heavy Attack - Aemeath Charged I DMG Increase +200%"
           },
           {
-            "source": "固有·星与星之间",
-            "label": "暴击伤害",
-            "trigger": "队伍附加震谐·偏移或造成震谐伤害时",
-            "excerpt": "震谐模态下，每名角色触发一次，暴击伤害每层提升20%",
-            "desc": "处于共鸣模态·震谐时，队伍中的角色附加【震谐·偏移】或造成震谐伤害时，爱弥斯暴击伤害提升20%，最多可叠加3层。该效果每名角色仅可触发1次。"
+            "source": "Inherent Skill: Between the Stars",
+            "label": "Crit. DMG",
+            "trigger": "In Resonance Mode - Tune Rupture",
+            "excerpt": "Crit. DMG +60% per stack",
+            "desc": "Inherent Skill Between the Stars is replaced with the following effects:"
           },
           {
-            "source": "固有·星与星之间",
-            "label": "星辉破界而来·终结伤害加深",
-            "trigger": "星与星之间叠至3层后",
-            "excerpt": "震谐模态满3层后，星辉破界而来·终结伤害加深25%",
-            "desc": "达到3层时，共鸣解放星辉破界而来·终结伤害加深25%。角色编入队伍或切换模态时，重置该效果。"
+            "source": "Inherent Skill: Between the Stars",
+            "label": "Towards the Daybreak - Heavenfall Edict: Finale DMG Increase",
+            "trigger": "In Resonance Mode - Tune Rupture",
+            "excerpt": "Towards the Daybreak - Heavenfall Edict: Finale DMG Increase +25%",
+            "desc": "Inherent Skill Between the Stars is replaced with the following effects:"
           },
           {
-            "source": "固有·星与星之间",
-            "label": "暴击伤害",
-            "trigger": "队伍附加聚爆效应时",
-            "excerpt": "聚爆模态下，每名角色触发一次，暴击伤害每层提升30%",
-            "desc": "处于共鸣模态·聚爆时，队伍中的角色附加【聚爆效应】时，爱弥斯暴击伤害提升30%，最多可叠加2层。该效果每名角色仅可触发1次。"
+            "source": "Inherent Skill: Between the Stars",
+            "label": "Crit. DMG",
+            "trigger": "In Resonance Mode - Fusion Burst",
+            "excerpt": "Crit. DMG +60% per stack",
+            "desc": "Inherent Skill Between the Stars is replaced with the following effects:"
           },
           {
-            "source": "固有·星与星之间",
-            "label": "星辉破界而来·终结伤害加深",
-            "trigger": "星与星之间叠至2层后",
-            "excerpt": "聚爆模态满2层后，星辉破界而来·终结伤害加深25%",
-            "desc": "达到2层时，共鸣解放星辉破界而来·终结伤害加深25%。角色编入队伍或切换模态时，重置该效果。"
+            "source": "Inherent Skill: Between the Stars",
+            "label": "Towards the Daybreak - Heavenfall Edict: Finale DMG Increase",
+            "trigger": "In Resonance Mode - Fusion Burst",
+            "excerpt": "Towards the Daybreak - Heavenfall Edict: Finale DMG Increase +25%",
+            "desc": "Inherent Skill Between the Stars is replaced with the following effects:"
           },
           {
-            "source": "共鸣回路·光翼共奏",
-            "label": "光翼共奏追加伤害倍率提升",
-            "trigger": "光翼共奏移除震谐轨迹时",
-            "excerpt": "光翼共奏每移除1层震谐轨迹，追加震谐伤害倍率提升4%",
-            "desc": "处于共鸣模态·震谐时，施放共鸣技能光翼共奏期间，移除附近目标的震谐轨迹并额外造成5次震谐伤害。目标每被移除1层震谐轨迹，使其受到共鸣技能光翼共奏额外造成的震谐伤害倍率提升4%，该效果持续1秒。"
+            "source": "Forte Circuit: Seraphic Duet",
+            "label": "To Sculpt the Silence - Seraphic Duet Bonus DMG (Per Instance) DMG Multiplier Increase",
+            "trigger": "After casting To Sculpt the Silence - Seraphic Duet Bonus DMG (Per Instance)",
+            "excerpt": "To Sculpt the Silence - Seraphic Duet Bonus DMG (Per Instance) DMG Multiplier Increase +120% per stack",
+            "desc": "The next Seraphic Duet cast within 30s after casting this skill doesn't consume Rupturous Trail/Fusion Trail."
           },
           {
-            "source": "共鸣回路·光翼共奏",
-            "label": "聚爆效应额外倍率",
-            "trigger": "光翼共奏移除聚爆轨迹时",
-            "excerpt": "光翼共奏每移除1层聚爆轨迹，聚爆效应主目标倍率提升10%",
-            "desc": "处于共鸣模态·聚爆时，共鸣技能光翼共奏期间，若目标拥有聚爆轨迹，则移除目标的聚爆轨迹，并根据【聚爆效应】层数上限引爆【聚爆效应】，本次引爆不移除【聚爆效应】层数。根据目标被移除的聚爆轨迹层数，提升本次【聚爆效应】对【聚爆效应】主目标的伤害倍率，每层提升10%。"
+            "source": "Forte Circuit: Seraphic Duet",
+            "label": "Fusion Burst Extra Multiplier",
+            "trigger": "In Resonance Mode - Fusion Burst",
+            "excerpt": "Fusion Burst Extra Multiplier +300% per stack",
+            "desc": "The next Seraphic Duet cast within 30s after casting this skill doesn't consume Rupturous Trail/Fusion Trail."
           },
           {
-            "source": "共鸣回路·星屑共振",
-            "label": "聚爆效应额外倍率",
-            "trigger": "星屑共振状态下",
-            "excerpt": "星屑共振状态下，光翼共奏引爆聚爆效应主目标倍率额外提升200%",
-            "desc": "处于星屑共振状态，共鸣模态·聚爆时，共鸣技能光翼共奏引爆的【聚爆效应】，对【聚爆效应】主目标的伤害倍率额外提升200%，该倍率提升效果与聚爆轨迹的倍率提升效果相互叠加。"
+            "source": "Forte Circuit: Stardust Resonance",
+            "label": "Fusion Burst Extra Multiplier",
+            "trigger": "In Resonance Mode - Fusion Burst",
+            "excerpt": "Fusion Burst Extra Multiplier +200%",
+            "desc": "- Enter Stardust Resonance for 30s."
           },
           {
-            "source": "延奏·不可见的守候",
-            "label": "全伤害加深",
-            "trigger": "释放延奏技能后",
-            "excerpt": "震谐模态延奏后，队伍中除爱弥斯以外的角色全伤害加深10%",
-            "desc": "处于共鸣模态·震谐时，队伍中除爱弥斯以外的角色全伤害加深10%，持续20秒。角色附加【震谐·偏移】时，该角色的该全伤害加深效果提升至20%。"
+            "source": "Outro Skill: Silent Protection",
+            "label": "DMG Increase",
+            "trigger": "In Resonance Mode - Tune Rupture",
+            "excerpt": "DMG Increase +10%",
+            "desc": "DMG Increase +10%"
           },
           {
-            "source": "延奏·不可见的守候",
-            "label": "全伤害加深",
-            "trigger": "延奏后受益角色附加震谐·偏移时",
-            "excerpt": "延奏后受益角色附加震谐·偏移时，全伤害加深额外提升10%",
-            "desc": "处于共鸣模态·震谐时，队伍中除爱弥斯以外的角色全伤害加深10%，持续20秒。角色附加【震谐·偏移】时，该角色的该全伤害加深效果提升至20%。"
+            "source": "Outro Skill: Silent Protection",
+            "label": "DMG Increase",
+            "trigger": "In Resonance Mode - Tune Rupture",
+            "excerpt": "DMG Increase +10%",
+            "desc": "DMG Increase +10%"
           },
           {
-            "source": "延奏·不可见的守候",
-            "label": "全伤害加深",
-            "trigger": "释放延奏技能后",
-            "excerpt": "聚爆模态延奏后，队伍中除爱弥斯以外的角色全伤害加深10%",
-            "desc": "处于共鸣模态·聚爆时，队伍中除爱弥斯以外的角色全伤害加深10%，持续20秒。角色附加【聚爆效应】时，该角色的该全伤害加深效果提升至20%。"
+            "source": "Outro Skill: Silent Protection",
+            "label": "DMG Increase",
+            "trigger": "In Resonance Mode - Fusion Burst",
+            "excerpt": "DMG Increase +10%",
+            "desc": "DMG Increase +10%"
           },
           {
-            "source": "延奏·不可见的守候",
-            "label": "全伤害加深",
-            "trigger": "延奏后受益角色附加聚爆效应时",
-            "excerpt": "延奏后受益角色附加聚爆效应时，全伤害加深额外提升10%",
-            "desc": "处于共鸣模态·聚爆时，队伍中除爱弥斯以外的角色全伤害加深10%，持续20秒。角色附加【聚爆效应】时，该角色的该全伤害加深效果提升至20%。"
+            "source": "Outro Skill: Silent Protection",
+            "label": "DMG Increase",
+            "trigger": "In Resonance Mode - Fusion Burst",
+            "excerpt": "DMG Increase +10%",
+            "desc": "DMG Increase +10%"
           }
         ],
         "chain": [
           {
-            "name": "如金粉般洒落的初煦",
-            "desc": "即刻响应状态下，重击·爱弥斯、重击·机兵暴击伤害提升300%，且蓄力期间可牵引周围的目标。爱弥斯满足以下条件超过4秒时，获得即刻响应·辉芒状态。·处于非战斗状态。·未处于重击·爱弥斯、重击·机兵、共鸣解放星辉破界而来·终结施放状态。即刻响应·辉芒拥有即刻响应的所有效果，且即刻响应·辉芒不会因星辉破界而来·于此释放状态结束而移除。处于即刻响应·辉芒状态且不处于星辉破界而来·于此释放状态，施放重击·爱弥斯·二段蓄力或重击·机兵·二段蓄力时，可获得100点【同步率】。处于共鸣模态·震谐/共鸣模态·聚爆时，爱弥斯自身施放的技能直接造成的伤害击败被附加震谐轨迹/聚爆轨迹状态的敌人时，获得轨迹封存·震谐/轨迹封存·聚爆状态，持续10秒。轨迹封存·震谐/轨迹封存·聚爆状态下保留击败目标被附加震谐轨迹/聚爆轨迹的最高层数。爱弥斯下一次自身施放的技能直接造成的伤害立即为命中目标附加对应层数的震谐轨迹/聚爆轨迹，最高可叠加至当前目标的震谐轨迹/聚爆轨迹层数上限，同时清除轨迹封存·震谐/轨迹封存·聚爆状态，1秒内无法再次获得轨迹封存·震谐/轨迹封存·聚爆。",
+            "name": "Gilded Glimmer of the First Dawn",
+            "desc": "In Instant Response, Heavy Attack - Aemeath and Heavy Attack - Mech gain 300% Crit. DMG increase and continuously pull in nearby target while charging.\n\nWhen Aemeath remains in a state that meets all of the following conditions for over 4s, she enters Instant Response - Brilliance:\n- Out of combat;\n- Not performing Heavy Attack - Aemeath, Heavy Attack - Mech, or Resonance Liberation Heavenfall Edict: Finale.\nInstant Response: Brilliance inherits all effects of Instant Response and remains active even when out of the duration of Heavenfall Edict: Unbound.\nWhen in Instant Response - Brilliance and not in Heavenfall Edict: Unbound, casting Heavy Attack - Aemeath Charged II or Heavy Attack - Mech Charged II grants 100 points of Synchronization Rate.\n\nIn Resonance Mode - Tune Rupture or Resonance Mode - Fusion Burst, when Aemeath defeats a target affected by Rupturous Trail/Fusion Trail, she enters Sealed Trail - Tune Rupture/Sealed Trail - Fusion Burst for 10s.\nWhile in Sealed Trail - Tune Rupture or Sealed Trail - Fusion Burst, Aemeath records the highest stack count of Rupturous Trail/Fusion Trail among the targets defeated.\nHer next skill that directly damages the target immediately inflicts the targets with the recorded stacks of Rupturous Trail/Fusion Trail, up to the current max limit of Rupturous Trail/Fusion Trail. This ends Sealed Trail - Tune Rupture/Sealed Trail - Fusion Burst and Aemeath cannot enter Sealed Trail - Tune Rupture or Sealed Trail - Fusion Burst for 1s.",
             "buffs": [
               {
-                "label": "暴击伤害",
-                "trigger": "即刻响应状态下",
-                "excerpt": "即刻响应状态下，重击暴击伤害提升300%"
+                "label": "Crit. DMG",
+                "trigger": "In Instant Response State",
+                "excerpt": "Crit. DMG +300%"
               }
             ]
           },
           {
-            "name": "如雪绒般漂浮的音符",
-            "desc": "共鸣技能光翼共奏·降临的伤害倍率提升100%。共鸣技能光翼共奏·登台的伤害倍率提升100%。处于共鸣模态·震谐，共鸣技能光翼共奏额外造成的震谐伤害命中目标时，使目标受到共鸣技能光翼共奏额外造成的震谐伤害倍率提升20%，持续1秒，最多叠加5层。处于共鸣模态·聚爆获得以下强化：·星屑共振状态对共鸣技能光翼共奏引爆的【聚爆效应】伤害倍率提升效果增强，对【聚爆效应】主目标的伤害倍率提升效果提升至400%。·聚爆轨迹对共鸣技能光翼共奏引爆的【聚爆效应】伤害倍率提升效果增强，每层对【聚爆效应】主目标的伤害倍率提升效果提升至15%。·处于战斗状态，队伍中登场角色附近的敌人被击败时，立即根据【聚爆效应】层数上限引爆【聚爆效应】。",
+            "name": "Downy Notes of Snowfluff",
+            "desc": "The DMG Multiplier of Resonance Skill Seraphic Duet: Overture is increased by 100%.\nThe DMG Multiplier of Resonance Skill Seraphic Duet: Encore is increased by 100%.\n\nWhile in Resonance Mode - Tune Rupture, when the additional instances Tune Rupture DMG triggered by Resonance Skill Seraphic Duet hit the same target, the DMG Multiplier of the Tune Rupture DMG triggered by Resonance Skill Seraphic Duet against this target is increased by 20% for 1s, stacking up to 5 times.\n\nWhile in Resonance Mode - Fusion Burst, gain the following effects:\n- In the Stardust Resonance state, the DMG Multiplier of Fusion Burst triggered by Resonance Skill Seraphic Duet is further increased to 400% against the main target of the Fusion Burst.\n- Fusion Trail now additionally increases the DMG Multiplier of Fusion Trail triggered by Resonance Skill Seraphic Duet. Each stack of Fusion Trail removed now provides a 15% DMG Multiplier increase to Fusion Burst on the main target.\n- In combat state, when a target near the active Resonator in the team is defeated, immediately trigger Fusion Burst based on the target's current stack limit of Fusion Burst.",
             "buffs": [
               {
-                "label": "光翼共奏倍率提升",
-                "trigger": "默认",
-                "excerpt": "光翼共奏·降临和光翼共奏·登台伤害倍率提升100%"
+                "label": "To Sculpt the Silence - Seraphic Duet: Overture DMG Multiplier Increase",
+                "trigger": "In Target Fusion Burst Trace",
+                "excerpt": "To Sculpt the Silence - Seraphic Duet: Overture DMG Multiplier Increase +100%"
               },
               {
-                "label": "光翼共奏追加伤害倍率提升",
-                "trigger": "追加震谐伤害命中同一目标时",
-                "excerpt": "光翼共奏追加震谐伤害每层倍率提升20%"
+                "label": "To Sculpt the Silence - Seraphic Duet Bonus DMG (Per Instance) DMG Multiplier Increase",
+                "trigger": "After casting To Sculpt the Silence - Seraphic Duet Bonus DMG (Per Instance)",
+                "excerpt": "To Sculpt the Silence - Seraphic Duet Bonus DMG (Per Instance) DMG Multiplier Increase +100% per stack"
               },
               {
-                "label": "聚爆效应额外倍率",
-                "trigger": "星屑共振状态下",
-                "excerpt": "星屑共振下，光翼共奏引爆聚爆效应倍率额外提升200%"
+                "label": "Fusion Burst Extra Multiplier",
+                "trigger": "In Resonance Mode - Fusion Burst",
+                "excerpt": "Fusion Burst Extra Multiplier +200%"
               },
               {
-                "label": "聚爆效应额外倍率",
-                "trigger": "光翼共奏移除聚爆轨迹时",
-                "excerpt": "2链后，每层聚爆轨迹额外使聚爆效应主目标倍率提升5%"
+                "label": "Fusion Burst Extra Multiplier",
+                "trigger": "In Resonance Mode - Fusion Burst",
+                "excerpt": "Fusion Burst Extra Multiplier +150% per stack"
               }
             ]
           },
           {
-            "name": "炽烈在静默间延展如初",
-            "desc": "共鸣解放星辉破界而来·终结的伤害倍率提升100%。共鸣解放星辉破界而来·过载的伤害倍率提升40%。处于即刻响应状态，施放重击·爱弥斯、重击·机兵时，根据自身处于共鸣模态·震谐/共鸣模态·聚爆，为附近目标附加【震谐·偏移】/【聚爆效应】。固有技能星与星之间替换为以下效果：·处于共鸣模态·震谐时，队伍中的角色附加【震谐·偏移】或造成震谐伤害时，爱弥斯暴击伤害提升60%，共鸣解放星辉破界而来·终结伤害加深25%。角色编入队伍或切换模态时，重置该效果。·处于共鸣模态·聚爆时，队伍中的角色附加【聚爆效应】时，爱弥斯暴击伤害提升60%，共鸣解放星辉破界而来·终结伤害加深25%。角色编入队伍或切换模态时，重置该效果。",
+            "name": "Fervor Sightly Burns Bright as New",
+            "desc": "Resonance Liberation Heavenfall Edict: Finale's DMG Multiplier is increased by 100%.\nResonance Liberation Heavenfall Edict: Overdrive's DMG Multiplier is increased by 40%.\n\nIn Instant Response, Aemeath now inflicts Tune Rupture - Shifting or Fusion Burst on nearby targets while casting Heavy Attack - Aemeath or Heavy Attack - Mech, based on her current Resonance Mode.\n\nInherent Skill Between the Stars is replaced with the following effects:\n\n- In Resonance Mode - Tune Rupture, when Resonators in the team inflict Tune Rupture - Shifting or deal Tune Rupture DMG, Aemeath's Crit. DMG is increased by 60%, and Resonance Liberation Heavenfall Edict: Finale DMG is now Amplified by 25%.\nResonators joining the team or switching Resonance Mode resets this effect.\n\n- In Resonance Mode - Fusion Burst, when Resonators in the team inflict Fusion Burst, Aemeath's Crit. DMG is increased by 60%, and Resonance Liberation Heavenfall Edict: Finale DMG is now Amplified by 25%.\nResonators joining the team or switching Resonance Mode resets this effect.",
             "buffs": [
               {
-                "label": "星辉破界而来·终结倍率提升",
-                "trigger": "默认",
-                "excerpt": "星辉破界而来·终结伤害倍率提升100%"
+                "label": "Towards the Daybreak - Heavenfall Edict: Finale DMG Multiplier Increase",
+                "trigger": "In Target Fusion Burst Trace",
+                "excerpt": "Towards the Daybreak - Heavenfall Edict: Finale DMG Multiplier Increase +100%"
               },
               {
-                "label": "星辉破界而来·过载倍率提升",
-                "trigger": "默认",
-                "excerpt": "星辉破界而来·过载伤害倍率提升40%"
+                "label": "Towards the Daybreak - Heavenfall Edict: Overdrive DMG Multiplier Increase",
+                "trigger": "In Target Fusion Burst Trace",
+                "excerpt": "Towards the Daybreak - Heavenfall Edict: Overdrive DMG Multiplier Increase +40%"
               },
               {
-                "label": "暴击伤害",
-                "trigger": "队伍附加震谐·偏移或造成震谐伤害时",
-                "excerpt": "3链震谐模态触发后，暴击伤害提升60%"
+                "label": "Crit. DMG",
+                "trigger": "In Resonance Mode - Tune Rupture",
+                "excerpt": "Crit. DMG +60% per stack"
               },
               {
-                "label": "星辉破界而来·终结伤害加深",
-                "trigger": "星与星之间触发后",
-                "excerpt": "3链震谐模态触发后，星辉破界而来·终结伤害加深25%"
+                "label": "Towards the Daybreak - Heavenfall Edict: Finale DMG Increase",
+                "trigger": "In Resonance Mode - Tune Rupture",
+                "excerpt": "Towards the Daybreak - Heavenfall Edict: Finale DMG Increase +25%"
               },
               {
-                "label": "暴击伤害",
-                "trigger": "队伍附加聚爆效应时",
-                "excerpt": "3链聚爆模态触发后，暴击伤害提升60%"
+                "label": "Crit. DMG",
+                "trigger": "In Resonance Mode - Fusion Burst",
+                "excerpt": "Crit. DMG +60% per stack"
               },
               {
-                "label": "星辉破界而来·终结伤害加深",
-                "trigger": "星与星之间触发后",
-                "excerpt": "3链聚爆模态触发后，星辉破界而来·终结伤害加深25%"
+                "label": "Towards the Daybreak - Heavenfall Edict: Finale DMG Increase",
+                "trigger": "In Resonance Mode - Fusion Burst",
+                "excerpt": "Towards the Daybreak - Heavenfall Edict: Finale DMG Increase +25%"
               }
             ]
           },
           {
-            "name": "于无垠电子海间轻舞",
-            "desc": "施放变奏技能以旋律穿越长空、变奏技能携星辉降临于此、共鸣技能合击·突刺、共鸣技能光翼共奏时，队伍中的角色全属性伤害加成提升20%，持续30秒。",
+            "name": "Ethereal Waltz on Binary Tides",
+            "desc": "When casting Intro Skill Songs Across the Universe, Intro Skill Debut of Meteoric Radiance, Resonance Skill Sync Strike and Resonance Skill Seraphic Duet, Resonators in the team gain 20% All-Attribute DMG Bonus for 30s.",
             "buffs": [
               {
-                "label": "全属性伤害加成",
-                "trigger": "施放指定变奏/共鸣技能时",
-                "excerpt": "释放指定变奏、合击·突刺或光翼共奏时，全属性伤害加成提升20%"
+                "label": "All-Attribute DMG Bonus",
+                "trigger": "After casting Overture of Departure - Songs Across the Universe DMG / Overture of Departure - Debut of Meteoric Radiance DMG / Shared Voyage - Sync Strike: Armament Merge DMG / Shared Voyage - Sync Strike: Call of Dawn DMG / To Sculpt the Silence - Seraphic Duet: Overture DMG / To Sculpt the Silence - Seraphic Duet: Encore DMG",
+                "excerpt": "All-Attribute DMG Bonus +20%"
               }
             ]
           },
           {
-            "name": "远航至那星海尽处",
-            "desc": "爱弥斯自身技能直接造成的伤害击败目标时，【流溢辉光】重置为100%。爱弥斯受到致命伤害时，将失去意识并进入二维电子幽灵状态，持续5秒。进入二维电子幽灵状态时，为队伍中的角色提供爱弥斯360%攻击的护盾，持续5秒。退出二维电子幽灵状态时，爱弥斯将恢复意识并回复生命上限100%的生命值与30点共鸣能量。该效果每10分钟可触发1次。爱弥斯恢复意识时，退出二维电子幽灵状态并移除该效果提供的护盾。"
+            "name": "Voyage to the Astral Shore",
+            "desc": "When Aemeath defeats a target directly with her skills, Starflux is reset to 100%.\n\nWhen taking fatal damage, Aemeath is knocked out and turns into 2D Digital Ghost for 5s.\nIn the 2D Digital Ghost state, Aemeath grants Resonators in the team a Shield equal to 360% of her ATK for 5s. As she exits from the 2D Digital Ghost state, she revives and recovers 100% of her Max HP and 30 points of Resonance Energy. This effect can be triggered once every 10 min.\nWhen Aemeath revives, she exits the 2D Digital Ghost state and removes the Shield provided."
           },
           {
-            "name": "春风祝颂你的旅途",
-            "desc": "目标受到爱弥斯的共鸣解放伤害提升40%。处于共鸣模态·震谐时，爱弥斯的震谐伤害可暴击，暴击固定为80%，暴击伤害固定为275%。处于共鸣模态·聚爆，并处于战斗状态，队伍中登场角色附近的敌人受到聚爆效应触发的伤害可暴击，暴击固定为80%，暴击伤害固定为275%。共鸣回路为寂静赋形为目标附加震谐轨迹、聚爆轨迹层数翻倍。处于共鸣模态·震谐/共鸣模态·聚爆，并处于战斗状态，队伍中登场角色附近的敌人震谐轨迹/聚爆轨迹层数上限提升至60层。爱弥斯施放共鸣技能光翼共奏期间，对附近目标附加10层震谐轨迹/聚爆轨迹，持续30秒。",
+            "name": "A Zephyr-Kissed Journey to You",
+            "desc": "Targets take 40% more Resonance Liberation DMG from Aemeath.\n\nWhen in Resonance Mode - Tune Rupture, Aemeath's Tune Rupture DMG can critically hit, with a fixed Crit. Rate of 80%, and fixed Crit. DMG of 275%.\n\nWhen in Resonance Mode - Fusion Burst and in combat state, Fusion Burst DMG triggered on targets near the active Resonator in the team can critically hit, with a fixed Crit. Rate of 80%, and fixed Crit. DMG of 275%.\n\nThe stacks of Rupturous Trail and Fusion Trail inflicted on the target through Forte Circuit To Sculpt the Silence is doubled.\n\nIn Resonance Mode - Tune Rupture/Resonance Mode - Fusion Burst and in combat, the max stack limit of Rupturous Trail/Fusion Trail on the targets near the active Resonator in the team is increased to 60. While casting Resonance Skill Seraphic Duet, inflict 10 stacks of Rupturous Trail/Fusion Trail on targets within range for 30s.",
             "buffs": [
               {
-                "label": "共鸣解放伤害易伤",
-                "trigger": "默认",
-                "excerpt": "目标受到爱弥斯共鸣解放伤害提升40%"
+                "label": "Vulnerability",
+                "trigger": "In Target Fusion Burst Trace",
+                "excerpt": "Vulnerability +40%"
               }
             ]
           }

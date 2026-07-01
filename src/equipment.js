@@ -39,8 +39,8 @@ window.WUWA_EQUIPMENT = (() => {
 
   function statLabel(key, c = null) {
     if (!key) return L.t("common.unselected");
-    if (String(key).startsWith("elem:")) return `${L.element(key.slice(5))}${L.isEnglish() ? " DMG Bonus" : "伤害加成"}`;
-    if (key === "elem") return `${c?.element ? L.element(c.element) : L.text("属性")}${L.isEnglish() ? " DMG Bonus" : "伤害加成"}`;
+    if (String(key).startsWith("elem:")) return L.damageBonusLabel(L.element(key.slice(5)));
+    if (key === "elem") return L.damageBonusLabel(c?.element ? L.element(c.element) : L.text("属性"));
     return L.stat(STAT_DEF[key]?.label || key);
   }
 
@@ -295,14 +295,14 @@ window.WUWA_EQUIPMENT = (() => {
     const secZone = SEC_ZONE[w.secondaryStat];
     if (secZone) {
       const secondaryLabel = L.stat(w.secondaryStat);
-      out.push({ id: "w_sec", source: w.name, label: `${secondaryLabel}(武器副词条)`, zone: secZone, value: num(w.secondary90), scope: "self", duration: null, desc: `武器副词条：${secondaryLabel} ${w.secondary90}（不随谐振阶变化）。` });
+      out.push({ id: "w_sec", source: w.name, label: `${secondaryLabel}${L.paren(L.text("武器副词条"))}`, zone: secZone, value: num(w.secondary90), scope: "self", duration: null, desc: `武器副词条：${secondaryLabel} ${w.secondary90}（不随谐振阶变化）。` });
     }
     (w.effects || []).forEach((e) => {
       if (!ZONE_LABEL[e.zone]) return;
       const ranks = rankValuesForEffect(e);
       const triggerEvents = [...asList(e.triggerEvents), ...inferredWeaponTriggerEvents(e.conditionText)];
       const isOutroEntryBuff = weaponEffectTriggersOutro(e);
-      out.push({ id: "w_" + e.id, source: `${w.name} ${r}阶`, label: e.label, zone: e.zone, value: ranks[Math.min(r - 1, ranks.length - 1)], damageType: e.damageType || null, element: e.element || null, effect: e.effect || null, scope: weaponEffectScope(e), duration: e.duration || null, maxStacks: e.maxStacks || null, defaultStacks: e.defaultStacks ?? null, defaultActive: e.defaultActive, trigger: e.trigger || null, triggerEvents, triggerSkills: e.triggerSkills || null, triggerDamageTypes: e.triggerDamageTypes || null, triggerStacks: e.triggerStacks ?? null, triggerOutro: e.triggerOutro || isOutroEntryBuff || null, requiresBuffStacks: weaponStackRequirement(e.requiresBuffStacks), requiresEffectStacks: e.requiresEffectStacks || null, requiresAnyEffectStacks: e.requiresAnyEffectStacks || null, excerpt: e.excerpt ? descForRank(e.excerpt, r) : null, desc: descForRank(e.conditionText || w.description, r) });
+      out.push({ id: "w_" + e.id, source: `${w.name} ${L.t("common.rank", { value: r })}`, label: e.label, zone: e.zone, value: ranks[Math.min(r - 1, ranks.length - 1)], damageType: e.damageType || null, element: e.element || null, effect: e.effect || null, scope: weaponEffectScope(e), duration: e.duration || null, maxStacks: e.maxStacks || null, defaultStacks: e.defaultStacks ?? null, defaultActive: e.defaultActive, trigger: e.trigger || null, triggerEvents, triggerSkills: e.triggerSkills || null, triggerDamageTypes: e.triggerDamageTypes || null, triggerStacks: e.triggerStacks ?? null, triggerOutro: e.triggerOutro || isOutroEntryBuff || null, requiresBuffStacks: weaponStackRequirement(e.requiresBuffStacks), requiresEffectStacks: e.requiresEffectStacks || null, requiresAnyEffectStacks: e.requiresAnyEffectStacks || null, excerpt: e.excerpt ? descForRank(e.excerpt, r) : null, desc: descForRank(e.conditionText || w.description, r) });
     });
     return out;
   }

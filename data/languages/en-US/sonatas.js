@@ -1,34 +1,36 @@
+"use strict";
+
 window.WUWA_LANGUAGES.extend("en-US", {
   "data": {
     "sonatas": {
       "1": {
         "name": "Freezing Frost",
         "p2": {
-          "label": "冷凝伤害加成",
-          "trigger": "默认",
-          "excerpt": "2件套：冷凝伤害加成提升10%",
-          "desc": "2件：冷凝伤害提升10%"
+          "label": "Glacio DMG Bonus",
+          "trigger": "Default",
+          "excerpt": "Glacio DMG Bonus +10%",
+          "desc": "Glacio DMG + 10%."
         },
         "p5": {
-          "label": "冷凝伤害加成",
-          "trigger": "施放普攻/重击后",
-          "excerpt": "释放普攻或重击时，每层冷凝伤害加成提升10%",
-          "desc": "5件：使用普攻或重击时，冷凝伤害提升10%，该效果可叠加三层，持续15秒（满层 30%）"
+          "label": "Glacio DMG Bonus",
+          "trigger": "After casting",
+          "excerpt": "Glacio DMG Bonus +30% per stack",
+          "desc": "Glacio DMG + 10% after releasing Basic Attack or Heavy Attack. This effect stacks up to 3 times, each stack lasts 15s."
         },
         "lead": {
           "echo": "Lampylumen Myriad",
           "buffs": [
             {
-              "label": "冷凝伤害加成",
-              "trigger": "声骸冲击命中后",
-              "excerpt": "冲击命中后，每层冷凝伤害加成提升4%",
-              "desc": "首位·辉萤军势：每次冲击使自身冷凝伤害加成提升4%，最多3层，持续15秒（满层 12%）"
+              "label": "Glacio DMG Bonus",
+              "trigger": "After hit",
+              "excerpt": "Glacio DMG Bonus +12% per stack",
+              "desc": "Transform into Lampylumen Myriad. Perform up to 3 consecutive attacks.\n\nUnleash a freezing shock by performing consecutive forward strikes, with the initial two strikes inflicting 200.16% and 200.16% Glacio DMG respectively, and the final strike dealing 266.88% Glacio DMG. Enemies will be frozen on hit.\n\nEach shock increases the current character's Glacio DMG by 4.00% and Resonance Skill DMG dealt by 4.00% for 15s, stacking up to 3 times\n\nCD: 20s"
             },
             {
-              "label": "共鸣技能伤害加成",
-              "trigger": "声骸冲击命中后",
-              "excerpt": "冲击命中后，每层共鸣技能伤害加成提升4%",
-              "desc": "首位·辉萤军势：每次冲击使自身共鸣技能伤害加成提升4%，最多3层，持续15秒（满层 12%）"
+              "label": "Resonance Skill DMG Bonus",
+              "trigger": "After hit",
+              "excerpt": "Resonance Skill DMG Bonus +12% per stack",
+              "desc": "Transform into Lampylumen Myriad. Perform up to 3 consecutive attacks.\n\nUnleash a freezing shock by performing consecutive forward strikes, with the initial two strikes inflicting 200.16% and 200.16% Glacio DMG respectively, and the final strike dealing 266.88% Glacio DMG. Enemies will be frozen on hit.\n\nEach shock increases the current character's Glacio DMG by 4.00% and Resonance Skill DMG dealt by 4.00% for 15s, stacking up to 3 times\n\nCD: 20s"
             }
           ]
         }
@@ -36,32 +38,32 @@ window.WUWA_LANGUAGES.extend("en-US", {
       "2": {
         "name": "Molten Rift",
         "p2": {
-          "label": "热熔伤害加成",
-          "trigger": "默认",
-          "excerpt": "2件套：热熔伤害加成提升10%",
-          "desc": "2件：热熔伤害提升10%"
+          "label": "Fusion DMG Bonus",
+          "trigger": "Default",
+          "excerpt": "Fusion DMG Bonus +10%",
+          "desc": "Fusion DMG + 10%."
         },
         "p5": {
-          "label": "热熔伤害加成",
-          "trigger": "施放共鸣技能后",
-          "excerpt": "释放共鸣技能后，热熔伤害加成提升30%",
-          "desc": "5件：施放共鸣技能时，热熔伤害提升30%，持续15秒"
+          "label": "Fusion DMG Bonus",
+          "trigger": "After casting",
+          "excerpt": "Fusion DMG Bonus +30%",
+          "desc": "Fusion DMG + 30% for 15s after releasing Resonance Skill."
         },
         "leads": [
           {
             "echo": "Inferno Rider",
             "buffs": [
               {
-                "label": "热熔伤害加成",
-                "trigger": "声骸技能末段命中后",
-                "excerpt": "声骸技能末段命中后，热熔伤害加成提升12%",
-                "desc": "首位·燎照之骑：声骸技能末段命中后，自身热熔伤害加成提升12.00%，持续15秒"
+                "label": "Fusion DMG Bonus",
+                "trigger": "After hit",
+                "excerpt": "Fusion DMG Bonus +12%",
+                "desc": "Transform into the Inferno Rider to launch up to 3 consecutive slashes in a row, each slash dealing 242.40%, 282.80%, and 282.80% Fusion DMG respectively.\n\nAfter the final hit, increase the current Resonator's Fusion DMG by 12.00% and Basic Attack DMG by 12.00% for 15s.\n\nLong press the Echo Skill to transform into the Inferno Rider and enter Riding Mode. When exiting Riding Mode, deal 282.80% Fusion DMG to enemies in front.\n\nCD: 20s"
               },
               {
-                "label": "普攻伤害加成",
-                "trigger": "声骸技能末段命中后",
-                "excerpt": "声骸技能末段命中后，普攻伤害加成提升12%",
-                "desc": "首位·燎照之骑：声骸技能末段命中后，自身普攻伤害加成提升12.00%，持续15秒"
+                "label": "Basic Attack DMG Bonus",
+                "trigger": "After hit",
+                "excerpt": "Basic Attack DMG Bonus +12%",
+                "desc": "Transform into the Inferno Rider to launch up to 3 consecutive slashes in a row, each slash dealing 242.40%, 282.80%, and 282.80% Fusion DMG respectively.\n\nAfter the final hit, increase the current Resonator's Fusion DMG by 12.00% and Basic Attack DMG by 12.00% for 15s.\n\nLong press the Echo Skill to transform into the Inferno Rider and enter Riding Mode. When exiting Riding Mode, deal 282.80% Fusion DMG to enemies in front.\n\nCD: 20s"
               }
             ]
           },
@@ -69,16 +71,16 @@ window.WUWA_LANGUAGES.extend("en-US", {
             "echo": "Nightmare: Inferno Rider",
             "buffs": [
               {
-                "label": "热熔伤害加成",
-                "trigger": "首位装配时",
-                "excerpt": "首位装配时，热熔伤害加成提升12%",
-                "desc": "首位·梦魇·燎照之骑：在首位装配该声骸技能时，自身热熔伤害加成提升12.00%，共鸣技能伤害加成提升12.00%"
+                "label": "Fusion DMG Bonus",
+                "trigger": "Enabled",
+                "excerpt": "Fusion DMG Bonus +12%",
+                "desc": "Transform into Nightmare: Inferno Rider and jump to attack enemies in front, dealing 405.00% Fusion DMG.\nThe Resonator with this Echo equipped in their main slot gains 12.00% Fusion DMG Bonus and 12.00% Resonance Skill DMG Bonus.\nHold Echo Skill to transform into Nightmare: Inferno Rider and enter Riding Mode. When exiting Riding Mode, deal 283.50% Fusion DMG to enemies in front.\nCD: 25s."
               },
               {
-                "label": "共鸣技能伤害加成",
-                "trigger": "首位装配时",
-                "excerpt": "首位装配时，共鸣技能伤害加成提升12%",
-                "desc": "首位·梦魇·燎照之骑：在首位装配该声骸技能时，自身热熔伤害加成提升12.00%，共鸣技能伤害加成提升12.00%"
+                "label": "Resonance Skill DMG Bonus",
+                "trigger": "Enabled",
+                "excerpt": "Resonance Skill DMG Bonus +12%",
+                "desc": "Transform into Nightmare: Inferno Rider and jump to attack enemies in front, dealing 405.00% Fusion DMG.\nThe Resonator with this Echo equipped in their main slot gains 12.00% Fusion DMG Bonus and 12.00% Resonance Skill DMG Bonus.\nHold Echo Skill to transform into Nightmare: Inferno Rider and enter Riding Mode. When exiting Riding Mode, deal 283.50% Fusion DMG to enemies in front.\nCD: 25s."
               }
             ]
           }
@@ -87,32 +89,32 @@ window.WUWA_LANGUAGES.extend("en-US", {
       "3": {
         "name": "Void Thunder",
         "p2": {
-          "label": "导电伤害加成",
-          "trigger": "默认",
-          "excerpt": "2件套：导电伤害加成提升10%",
-          "desc": "2件：导电伤害提升10%"
+          "label": "Electro DMG Bonus",
+          "trigger": "Default",
+          "excerpt": "Electro DMG Bonus +10%",
+          "desc": "Electro DMG + 10%."
         },
         "p5": {
-          "label": "导电伤害加成",
-          "trigger": "重击或共鸣技能命中后",
-          "excerpt": "重击或共鸣技能命中后，每层导电伤害加成提升15%",
-          "desc": "5件：使用重击或共鸣技能时，导电伤害提升15%，该效果可叠加2层，持续15秒（满层 30%）"
+          "label": "Electro DMG Bonus",
+          "trigger": "After casting",
+          "excerpt": "Electro DMG Bonus +30% per stack",
+          "desc": "Electro DMG + 15% after releasing Heavy Attack or Resonance Skill. This effect stacks up to 2 times, each stack lasts 15s."
         },
         "leads": [
           {
             "echo": "Thundering Mephis",
             "buffs": [
               {
-                "label": "导电伤害加成",
-                "trigger": "声骸技能末段命中后",
-                "excerpt": "声骸技能末段命中后，导电伤害加成提升12%",
-                "desc": "首位·云闪之鳞：声骸技能末段命中后，自身导电伤害加成提升12.00%，持续15秒"
+                "label": "Electro DMG Bonus",
+                "trigger": "After hit",
+                "excerpt": "Electro DMG Bonus +12%",
+                "desc": "Transform into Thundering Mephis, engaging in a rapid assault of up to 6 strikes. The first 5 strikes deal 132.61% Electro DMG each, while the final strike inflicts 189.44% Electro DMG, with an additional 31.57% Electro DMG from the thunder.\n\nAfter the final hit, increase the current character's Electro DMG by 12.00% and Resonance Liberation DMG by 12.00% for 15s.\n\nCD: 20s"
               },
               {
-                "label": "重击伤害加成",
-                "trigger": "声骸技能末段命中后",
-                "excerpt": "声骸技能末段命中后，重击伤害加成提升12%",
-                "desc": "首位·云闪之鳞：声骸技能末段命中后，自身重击伤害加成提升12.00%，持续15秒"
+                "label": "Heavy Attack DMG Bonus",
+                "trigger": "After hit",
+                "excerpt": "Heavy Attack DMG Bonus +12%",
+                "desc": "Transform into Thundering Mephis, engaging in a rapid assault of up to 6 strikes. The first 5 strikes deal 132.61% Electro DMG each, while the final strike inflicts 189.44% Electro DMG, with an additional 31.57% Electro DMG from the thunder.\n\nAfter the final hit, increase the current character's Electro DMG by 12.00% and Resonance Liberation DMG by 12.00% for 15s.\n\nCD: 20s"
               }
             ]
           },
@@ -120,16 +122,16 @@ window.WUWA_LANGUAGES.extend("en-US", {
             "echo": "Tempest Mephis",
             "buffs": [
               {
-                "label": "导电伤害加成",
-                "trigger": "声骸技能末段命中后",
-                "excerpt": "声骸技能末段命中后，导电伤害加成提升12%",
-                "desc": "首位·朔雷之鳞：声骸技能末段命中后，自身导电伤害加成提升12.00%，持续15秒"
+                "label": "Electro DMG Bonus",
+                "trigger": "After hit",
+                "excerpt": "Electro DMG Bonus +12%",
+                "desc": "Summon Hecate to control the target for 6s and restore 60 Concerto Energy for all nearby Resonators in the team during this time.\nCD: 40s"
               },
               {
-                "label": "共鸣解放伤害加成",
-                "trigger": "声骸技能末段命中后",
-                "excerpt": "声骸技能末段命中后，共鸣解放伤害加成提升12%",
-                "desc": "首位·朔雷之鳞：声骸技能末段命中后，自身共鸣解放伤害加成提升12.00%，持续15秒"
+                "label": "Resonance Liberation DMG Bonus",
+                "trigger": "After hit",
+                "excerpt": "Resonance Liberation DMG Bonus +12%",
+                "desc": "Summon Hecate to control the target for 6s and restore 60 Concerto Energy for all nearby Resonators in the team during this time.\nCD: 40s"
               }
             ]
           },
@@ -137,16 +139,16 @@ window.WUWA_LANGUAGES.extend("en-US", {
             "echo": "Nightmare: Thundering Mephis",
             "buffs": [
               {
-                "label": "导电伤害加成",
-                "trigger": "首位装配时",
-                "excerpt": "首位装配时，导电伤害加成提升12%",
-                "desc": "首位·梦魇·云闪之鳞：在首位装配该声骸技能时，自身导电伤害加成提升12.00%，共鸣解放伤害加成提升12.00%"
+                "label": "Electro DMG Bonus",
+                "trigger": "Enabled",
+                "excerpt": "Electro DMG Bonus +12%",
+                "desc": "Transform into Nightmare: Thundering Mephis and attack enemies in front, dealing 405.00% Electro DMG.\nThe Resonator with this Echo equipped in their main slot gains 12.00% Electro DMG Bonus and 12.00% Resonance Liberation DMG Bonus.\nCD: 25s."
               },
               {
-                "label": "共鸣解放伤害加成",
-                "trigger": "首位装配时",
-                "excerpt": "首位装配时，共鸣解放伤害加成提升12%",
-                "desc": "首位·梦魇·云闪之鳞：在首位装配该声骸技能时，自身导电伤害加成提升12.00%，共鸣解放伤害加成提升12.00%"
+                "label": "Resonance Liberation DMG Bonus",
+                "trigger": "Enabled",
+                "excerpt": "Resonance Liberation DMG Bonus +12%",
+                "desc": "Transform into Nightmare: Thundering Mephis and attack enemies in front, dealing 405.00% Electro DMG.\nThe Resonator with this Echo equipped in their main slot gains 12.00% Electro DMG Bonus and 12.00% Resonance Liberation DMG Bonus.\nCD: 25s."
               }
             ]
           },
@@ -154,16 +156,16 @@ window.WUWA_LANGUAGES.extend("en-US", {
             "echo": "Nightmare: Tempest Mephis",
             "buffs": [
               {
-                "label": "导电伤害加成",
-                "trigger": "首位装配时",
-                "excerpt": "首位装配时，导电伤害加成提升12%",
-                "desc": "首位·梦魇·朔雷之鳞：在首位装配该声骸技能时，自身导电伤害加成提升12.00%，共鸣技能伤害加成提升12.00%"
+                "label": "Electro DMG Bonus",
+                "trigger": "Enabled",
+                "excerpt": "Electro DMG Bonus +12%",
+                "desc": "Transform into Nightmare: Tempest Mephis and attack surrounding enemies, dealing 405.00% Electro DMG.\nThe Resonator with this Echo equipped in their main slot gains 12.00% Electro DMG Bonus and 12.00% Resonance Skill DMG Bonus.\nCD: 25s."
               },
               {
-                "label": "共鸣技能伤害加成",
-                "trigger": "首位装配时",
-                "excerpt": "首位装配时，共鸣技能伤害加成提升12%",
-                "desc": "首位·梦魇·朔雷之鳞：在首位装配该声骸技能时，自身导电伤害加成提升12.00%，共鸣技能伤害加成提升12.00%"
+                "label": "Resonance Skill DMG Bonus",
+                "trigger": "Enabled",
+                "excerpt": "Resonance Skill DMG Bonus +12%",
+                "desc": "Transform into Nightmare: Tempest Mephis and attack surrounding enemies, dealing 405.00% Electro DMG.\nThe Resonator with this Echo equipped in their main slot gains 12.00% Electro DMG Bonus and 12.00% Resonance Skill DMG Bonus.\nCD: 25s."
               }
             ]
           }
@@ -172,32 +174,32 @@ window.WUWA_LANGUAGES.extend("en-US", {
       "4": {
         "name": "Sierra Gale",
         "p2": {
-          "label": "气动伤害加成",
-          "trigger": "默认",
-          "excerpt": "2件套：气动伤害加成提升10%",
-          "desc": "2件：气动伤害提升10%"
+          "label": "Aero DMG Bonus",
+          "trigger": "Default",
+          "excerpt": "Aero DMG Bonus +10%",
+          "desc": "Aero DMG + 10%."
         },
         "p5": {
-          "label": "气动伤害加成",
-          "trigger": "变奏入场后",
-          "excerpt": "变奏入场后，气动伤害加成提升30%",
-          "desc": "5件：使用变奏技能入场时，气动伤害提升30%，持续15秒"
+          "label": "Aero DMG Bonus",
+          "trigger": "After casting",
+          "excerpt": "Aero DMG Bonus +30%",
+          "desc": "Aero DMG + 30% for 15s after releasing Intro Skill."
         },
         "leads": [
           {
             "echo": "Feilian Beringal",
             "buffs": [
               {
-                "label": "气动伤害加成",
-                "trigger": "追击命中后",
-                "excerpt": "追击命中后，气动伤害加成提升12%",
-                "desc": "首位·飞廉之猩：追击命中后，自身气动伤害加成提升12.00%，持续15秒"
+                "label": "Aero DMG Bonus",
+                "trigger": "After hit",
+                "excerpt": "Aero DMG Bonus +12%",
+                "desc": "Transform into Feilian Beringal to perform a powerful kick. If the kick lands on an enemy, immediately perform a follow-up strike. The kick deals 231.84% Aero DMG, and the follow-up strike deals 283.36% Aero DMG.\n\nAfter the follow-up strike hits, the current character's Aero DMG increases by 12.00%, and the Heavy Attack DMG increases by 12.00% for 15s\n\nCD: 20s"
               },
               {
-                "label": "重击伤害加成",
-                "trigger": "追击命中后",
-                "excerpt": "追击命中后，重击伤害加成提升12%",
-                "desc": "首位·飞廉之猩：追击命中后，自身重击伤害加成提升12.00%，持续15秒"
+                "label": "Heavy Attack DMG Bonus",
+                "trigger": "After hit",
+                "excerpt": "Heavy Attack DMG Bonus +12%",
+                "desc": "Transform into Feilian Beringal to perform a powerful kick. If the kick lands on an enemy, immediately perform a follow-up strike. The kick deals 231.84% Aero DMG, and the follow-up strike deals 283.36% Aero DMG.\n\nAfter the follow-up strike hits, the current character's Aero DMG increases by 12.00%, and the Heavy Attack DMG increases by 12.00% for 15s\n\nCD: 20s"
               }
             ]
           },
@@ -205,16 +207,16 @@ window.WUWA_LANGUAGES.extend("en-US", {
             "echo": "Nightmare: Feilian Beringal",
             "buffs": [
               {
-                "label": "气动伤害加成",
-                "trigger": "首位装配时",
-                "excerpt": "首位装配时，气动伤害加成提升12%",
-                "desc": "首位·梦魇·飞廉之猩：在首位装配该声骸技能时，自身气动伤害加成提升12.00%，重击伤害加成提升12.00%"
+                "label": "Aero DMG Bonus",
+                "trigger": "Enabled",
+                "excerpt": "Aero DMG Bonus +12%",
+                "desc": "Summon a Nightmare: Feilian Beringal to attack enemies, dealing 164.16% Aero DMG. The remaining Whirlwind Beam will continuously attack surrounding enemies up to 5 times, each dealing 21.89% Aero DMG.\nThe Resonator with this Echo equipped in their main slot gains 12.00% Aero DMG Bonus and 12.00% Heavy Attack DMG Bonus.\nCD: 20s."
               },
               {
-                "label": "重击伤害加成",
-                "trigger": "首位装配时",
-                "excerpt": "首位装配时，重击伤害加成提升12%",
-                "desc": "首位·梦魇·飞廉之猩：在首位装配该声骸技能时，自身气动伤害加成提升12.00%，重击伤害加成提升12.00%"
+                "label": "Heavy Attack DMG Bonus",
+                "trigger": "Enabled",
+                "excerpt": "Heavy Attack DMG Bonus +12%",
+                "desc": "Summon a Nightmare: Feilian Beringal to attack enemies, dealing 164.16% Aero DMG. The remaining Whirlwind Beam will continuously attack surrounding enemies up to 5 times, each dealing 21.89% Aero DMG.\nThe Resonator with this Echo equipped in their main slot gains 12.00% Aero DMG Bonus and 12.00% Heavy Attack DMG Bonus.\nCD: 20s."
               }
             ]
           }
@@ -223,32 +225,32 @@ window.WUWA_LANGUAGES.extend("en-US", {
       "5": {
         "name": "Celestial Light",
         "p2": {
-          "label": "衍射伤害加成",
-          "trigger": "默认",
-          "excerpt": "2件套：衍射伤害加成提升10%",
-          "desc": "2件：衍射伤害提升10%"
+          "label": "Spectro DMG Bonus",
+          "trigger": "Default",
+          "excerpt": "Spectro DMG Bonus +10%",
+          "desc": "Spectro DMG + 10%."
         },
         "p5": {
-          "label": "衍射伤害加成",
-          "trigger": "变奏入场后",
-          "excerpt": "变奏入场后，衍射伤害加成提升30%",
-          "desc": "5件：使用变奏技能入场时，衍射伤害提升30%，持续15秒"
+          "label": "Spectro DMG Bonus",
+          "trigger": "After casting",
+          "excerpt": "Spectro DMG Bonus +30%",
+          "desc": "Spectro DMG + 30% for 15s after releasing Intro Skill."
         },
         "leads": [
           {
             "echo": "Mourning Aix",
             "buffs": [
               {
-                "label": "衍射伤害加成",
-                "trigger": "释放声骸技能后",
-                "excerpt": "释放声骸技能后，衍射伤害加成提升12%",
-                "desc": "首位·哀声鸷：幻形后自身衍射伤害加成提升12%，持续15秒"
+                "label": "Spectro DMG Bonus",
+                "trigger": "After hit",
+                "excerpt": "Spectro DMG Bonus +12%",
+                "desc": "Transform into Mourning Aix and perform 2 consecutive claw attacks, each attack dealing 157.44% and 236.16% Spectro DMG respectively.\n\nAfter the transformation, increase current character's Spectro DMG by 12.00% and Resonance Liberation DMG by 12.00% for 15s\n\nCD: 20s"
               },
               {
-                "label": "共鸣解放伤害加成",
-                "trigger": "释放声骸技能后",
-                "excerpt": "释放声骸技能后，共鸣解放伤害加成提升12%",
-                "desc": "首位·哀声鸷：幻形后自身共鸣解放伤害加成提升12%，持续15秒"
+                "label": "Resonance Liberation DMG Bonus",
+                "trigger": "After hit",
+                "excerpt": "Resonance Liberation DMG Bonus +12%",
+                "desc": "Transform into Mourning Aix and perform 2 consecutive claw attacks, each attack dealing 157.44% and 236.16% Spectro DMG respectively.\n\nAfter the transformation, increase current character's Spectro DMG by 12.00% and Resonance Liberation DMG by 12.00% for 15s\n\nCD: 20s"
               }
             ]
           },
@@ -256,10 +258,10 @@ window.WUWA_LANGUAGES.extend("en-US", {
             "echo": "Jué",
             "buffs": [
               {
-                "label": "共鸣技能伤害加成",
-                "trigger": "释放声骸技能后",
-                "excerpt": "释放声骸技能后，共鸣技能伤害加成提升16%",
-                "desc": "首位·角：释放声骸技能后，自身共鸣技能伤害加成提升16%，持续15秒"
+                "label": "Resonance Skill DMG Bonus",
+                "trigger": "After hit",
+                "excerpt": "Resonance Skill DMG Bonus +16%",
+                "desc": "Transform into Chop Chop for 5s, dealing 70.09% Fusion DMG. Dealing DMG to enemies resets the duration of Echo Transformation, with a maximum of 20s, and inflicts 3 stack of Panic on the target. This effect can be triggered once per second on each target. The Echo Transformation duration will not be reset when the Resonator is not on the field.\nWhen the target receives 100 stacks of Panic, deplete the target's Vibration Strength by 100.00% of the Max Vibration Strength and Immobilize the target. The DMG taken by the target when Immobilized is guaranteed to be Crit. DMG, and their DMG RES for all Attributes is reduced by 40.00%. Triggering this effect removes all stacks of Panic.\nThe target will not gain new stacks of Panic when Immobilized.\nCD: 40s"
               }
             ]
           }
@@ -268,32 +270,32 @@ window.WUWA_LANGUAGES.extend("en-US", {
       "6": {
         "name": "Havoc Eclipse",
         "p2": {
-          "label": "湮灭伤害加成",
-          "trigger": "默认",
-          "excerpt": "2件套：湮灭伤害加成提升10%",
-          "desc": "2件：湮灭伤害提升10%"
+          "label": "Havoc DMG Bonus",
+          "trigger": "Default",
+          "excerpt": "Havoc DMG Bonus +10%",
+          "desc": "Havoc DMG + 10%."
         },
         "p5": {
-          "label": "湮灭伤害加成",
-          "trigger": "普攻或重击命中后",
-          "excerpt": "普攻或重击命中后，每层湮灭伤害加成提升7.5%",
-          "desc": "5件：使用普攻或重击时，湮灭伤害提升7.5%，该效果可叠加4层，持续15秒（满层 30%）"
+          "label": "Havoc DMG Bonus",
+          "trigger": "After casting",
+          "excerpt": "Havoc DMG Bonus +30% per stack",
+          "desc": "Havoc DMG + 7.5% after releasing Basic Attack or Heavy Attack. This effect stacks up to 4 times, each stack lasts 15s."
         },
         "leads": [
           {
             "echo": "Crownless",
             "buffs": [
               {
-                "label": "湮灭伤害加成",
-                "trigger": "释放声骸技能后",
-                "excerpt": "释放声骸技能后，湮灭伤害加成提升12%",
-                "desc": "首位·无冠者：释放声骸技能后，自身湮灭伤害加成提升12.00%，持续15秒"
+                "label": "Havoc DMG Bonus",
+                "trigger": "After hit",
+                "excerpt": "Havoc DMG Bonus +12%",
+                "desc": "Transform into Crownless and perform up to 4 consecutive attacks. The first 2 attacks deal 134.08% Havoc DMG each, the 3rd attack deals 100.56% Havoc DMG 2 times, and the 4th attack deals 67.04% Havoc DMG 3 times.\n\nAfter the transformation, increase current character's Havoc DMG by 12.00% and Resonance Skill DMG by 12.00% for 15s.\n\nCD: 20s"
               },
               {
-                "label": "共鸣技能伤害加成",
-                "trigger": "释放声骸技能后",
-                "excerpt": "释放声骸技能后，共鸣技能伤害加成提升12%",
-                "desc": "首位·无冠者：释放声骸技能后，自身共鸣技能伤害加成提升12.00%，持续15秒"
+                "label": "Resonance Skill DMG Bonus",
+                "trigger": "After hit",
+                "excerpt": "Resonance Skill DMG Bonus +12%",
+                "desc": "Transform into Crownless and perform up to 4 consecutive attacks. The first 2 attacks deal 134.08% Havoc DMG each, the 3rd attack deals 100.56% Havoc DMG 2 times, and the 4th attack deals 67.04% Havoc DMG 3 times.\n\nAfter the transformation, increase current character's Havoc DMG by 12.00% and Resonance Skill DMG by 12.00% for 15s.\n\nCD: 20s"
               }
             ]
           },
@@ -301,16 +303,16 @@ window.WUWA_LANGUAGES.extend("en-US", {
             "echo": "Nightmare: Crownless",
             "buffs": [
               {
-                "label": "湮灭伤害加成",
-                "trigger": "首位装配时",
-                "excerpt": "首位装配时，湮灭伤害加成提升12%",
-                "desc": "首位·梦魇·无冠者：在首位装配该声骸技能时，自身湮灭伤害加成提升12.00%，普攻伤害加成提升12.00%"
+                "label": "Havoc DMG Bonus",
+                "trigger": "Enabled",
+                "excerpt": "Havoc DMG Bonus +12%",
+                "desc": "Transform into Nightmare: Crownless and attack enemies in front, dealing 264.60% Havoc DMG. The Resonator with this Echo equipped in their main slot gains 12.00% Havoc DMG Bonus and 12.00% Basic Attack DMG Bonus.\nThis skill has 3 initial charges, replenished once every 12s, max 3 charges. When Nightmare: Crownless hits a target, DMG dealt by this skill is increased by 20.00%. This effect lasts for 2s and does not stack.\nCD: 12s."
               },
               {
-                "label": "普攻伤害加成",
-                "trigger": "首位装配时",
-                "excerpt": "首位装配时，普攻伤害加成提升12%",
-                "desc": "首位·梦魇·无冠者：在首位装配该声骸技能时，自身湮灭伤害加成提升12.00%，普攻伤害加成提升12.00%"
+                "label": "Basic Attack DMG Bonus",
+                "trigger": "Enabled",
+                "excerpt": "Basic Attack DMG Bonus +12%",
+                "desc": "Transform into Nightmare: Crownless and attack enemies in front, dealing 264.60% Havoc DMG. The Resonator with this Echo equipped in their main slot gains 12.00% Havoc DMG Bonus and 12.00% Basic Attack DMG Bonus.\nThis skill has 3 initial charges, replenished once every 12s, max 3 charges. When Nightmare: Crownless hits a target, DMG dealt by this skill is increased by 20.00%. This effect lasts for 2s and does not stack.\nCD: 12s."
               }
             ]
           }
@@ -319,26 +321,26 @@ window.WUWA_LANGUAGES.extend("en-US", {
       "7": {
         "name": "Rejuvenating Glow",
         "p2": {
-          "label": "治疗效果加成",
-          "trigger": "默认",
-          "excerpt": "2件套：治疗效果加成提升10%",
-          "desc": "2件：治疗效果提升10%（本原型治疗不参与伤害结算）"
+          "label": "Healing Bonus",
+          "trigger": "Default",
+          "excerpt": "Healing Bonus +10%",
+          "desc": "Healing Bonus + 10%."
         },
         "p5": {
-          "label": "攻击",
-          "trigger": "施放治疗后",
-          "excerpt": "提供治疗时，攻击提升15%",
-          "desc": "5件：自身为友方提供治疗时，全队共鸣者攻击提升15%，持续30秒"
+          "label": "ATK",
+          "trigger": "After casting",
+          "excerpt": "ATK +15%",
+          "desc": "Increases the ATK of all party members by 15% for 30s upon healing allies."
         },
         "leads": [
           {
             "echo": "Bell-Borne Geochelone",
             "buffs": [
               {
-                "label": "最终伤害提升",
-                "trigger": "护盾期间",
-                "excerpt": "鸣钟之盾期间，伤害提升10%",
-                "desc": "首位·鸣钟之龟：鸣钟之盾为队伍中登场角色提供10%的伤害提升（最终伤害提升区），受3次攻击后消失"
+                "label": "Final DMG Bonus",
+                "trigger": "After hit",
+                "excerpt": "Final DMG Bonus +10%",
+                "desc": "Activate the protection of Bell-Borne Geochelone. Deal Glacio DMG based on 145.92% of the current character's DEF to nearby enemies, and obtain a Bell-Borne Shield that lasts for 15s\n\nThe Bell-Borne Shield provides 50.00% DMG Reduction and 10.00% DMG Boost for the current team members, and disappears after the current character is hit for 3 times.\n\nCD: 20s"
               }
             ]
           },
@@ -346,16 +348,16 @@ window.WUWA_LANGUAGES.extend("en-US", {
             "echo": "Fallacy of No Return",
             "buffs": [
               {
-                "label": "自身共鸣效率",
-                "trigger": "释放声骸技能后",
-                "excerpt": "释放声骸技能后，共鸣效率提升10%",
-                "desc": "首位·无归的谬误：使用声骸技能后，自身共鸣效率提升10%，持续20秒。"
+                "label": "Energy Regen",
+                "trigger": "After hit",
+                "excerpt": "Energy Regen +10%",
+                "desc": "Activate the Echo Skill to summon a fraction of the Fallacy of No Return's power and deal a blast to the surrounding area, inflicting Spectro DMG equal to 15.86% of max HP, after which the Resonator gains 10% bonus Energy Regen and all team members 10% bonus ATK for 20s.\nHold Echo Skill to unleash a series of flurry assaults at the cost of STA, each dealing Spectro DMG equal to 1.58% of max HP; Release to end the assail in a powerful blow, dealing Spectro DMG equal to 19.82% of max HP.\nCD: 20s"
               },
               {
-                "label": "全队攻击",
-                "trigger": "释放声骸技能后",
-                "excerpt": "释放声骸技能后，攻击提升10%",
-                "desc": "首位·无归的谬误：使用声骸技能后，队伍中所有角色攻击提升10%，持续20秒。"
+                "label": "ATK",
+                "trigger": "After hit",
+                "excerpt": "ATK +10%",
+                "desc": "Activate the Echo Skill to summon a fraction of the Fallacy of No Return's power and deal a blast to the surrounding area, inflicting Spectro DMG equal to 15.86% of max HP, after which the Resonator gains 10% bonus Energy Regen and all team members 10% bonus ATK for 20s.\nHold Echo Skill to unleash a series of flurry assaults at the cost of STA, each dealing Spectro DMG equal to 1.58% of max HP; Release to end the assail in a powerful blow, dealing Spectro DMG equal to 19.82% of max HP.\nCD: 20s"
               }
             ]
           }
@@ -364,19 +366,19 @@ window.WUWA_LANGUAGES.extend("en-US", {
       "8": {
         "name": "Lingering Tunes",
         "p2": {
-          "label": "攻击",
-          "trigger": "默认",
-          "excerpt": "2件套：攻击提升10%",
-          "desc": "2件：攻击提升10%"
+          "label": "ATK",
+          "trigger": "Default",
+          "excerpt": "ATK +10%",
+          "desc": "ATK +10%"
         },
         "lead": {
           "echo": "Mech Abomination",
           "buffs": [
             {
-              "label": "攻击",
-              "trigger": "施放声骸技能后",
-              "excerpt": "施放声骸技能后，攻击提升12%",
-              "desc": "首位·聚械机偶：施放声骸技能后，自身攻击提升12.00%，持续15秒。废料造成的伤害为角色的延奏技能伤害。"
+              "label": "ATK",
+              "trigger": "After hit",
+              "excerpt": "ATK +12%",
+              "desc": "Strike enemies in front, dealing 48.64% Electro DMG, and summon Mech Waste to attack. Mech Waste deals 320.00% Electro DMG on hit and explodes after a while, dealing 160.00% Electro DMG.\n\nAfter casting this Echo Skill, increase the current character's ATK by 12.00% for 15s.\nDamage dealt by Mech Waste equals to the Resonator's Outro Skill DMG.\n\nCD: 20s"
             }
           ]
         }
@@ -384,23 +386,23 @@ window.WUWA_LANGUAGES.extend("en-US", {
       "10": {
         "name": "Frosty Resolve",
         "p2": {
-          "label": "共鸣技能伤害加成",
-          "trigger": "默认",
-          "excerpt": "2件套：共鸣技能伤害加成提升12%",
-          "desc": "2件：共鸣技能伤害提升12%"
+          "label": "Resonance Skill DMG Bonus",
+          "trigger": "Default",
+          "excerpt": "Resonance Skill DMG Bonus +12%",
+          "desc": "Resonance Skill DMG + 12%"
         },
         "p5": [
           {
-            "label": "冷凝伤害加成",
-            "trigger": "施放共鸣技能时",
-            "excerpt": "释放共鸣技能时，冷凝伤害加成提升22.5%",
-            "desc": "5件：施放共鸣技能时，自身冷凝伤害提升22.5%，持续15秒"
+            "label": "Glacio DMG Bonus",
+            "trigger": "After casting",
+            "excerpt": "Glacio DMG Bonus +22.5%",
+            "desc": "Casting Resonance Skill grants 22.5% Glacio DMG Bonus for 15s and casting Resonance Liberation increases Resonance Skill DMG by 18%, lasting for 5s. This effect stacks up to 2 times."
           },
           {
-            "label": "共鸣技能伤害加成",
-            "trigger": "施放共鸣解放时",
-            "excerpt": "释放共鸣解放时，每层共鸣技能伤害加成提升18%",
-            "desc": "5件：施放共鸣解放时，自身共鸣技能伤害提升18%，持续5秒，可叠加2层（满层 36%）"
+            "label": "Resonance Skill DMG Bonus",
+            "trigger": "After casting",
+            "excerpt": "Resonance Skill DMG Bonus +36% per stack",
+            "desc": "Casting Resonance Skill grants 22.5% Glacio DMG Bonus for 15s and casting Resonance Liberation increases Resonance Skill DMG by 18%, lasting for 5s. This effect stacks up to 2 times."
           }
         ],
         "leads": [
@@ -408,16 +410,16 @@ window.WUWA_LANGUAGES.extend("en-US", {
             "echo": "Sentry Construct",
             "buffs": [
               {
-                "label": "冷凝伤害加成",
-                "trigger": "首位装配时",
-                "excerpt": "首位装配时，冷凝伤害加成提升12%",
-                "desc": "首位·异构武装：在首位装配该声骸技能时，自身获得12.00%冷凝伤害加成提升"
+                "label": "Glacio DMG Bonus",
+                "trigger": "Enabled",
+                "excerpt": "Glacio DMG Bonus +12%",
+                "desc": "Transform into Sentry Construct and attack enemies in front, dealing 405.00% Glacio DMG. Each time the Resonator with this Echo casts Resonance Liberation, it charges the Strike Capacitor.\nOnce Strike Capacitor is at max level, the Echo Skill cooldown will be reset. Use Echo Skill to transform into Sentry Construct and dive into enemies from the air, dealing 405.00% Glacio DMG and freezing the target.\nThe Resonator with this Echo equipped in their main slot gains 12.00% Glacio DMG Bonus and 12.00% Resonance Skill DMG Bonus.\nCD: 25s."
               },
               {
-                "label": "共鸣技能伤害加成",
-                "trigger": "首位装配时",
-                "excerpt": "首位装配时，共鸣技能伤害加成提升12%",
-                "desc": "首位·异构武装：在首位装配该声骸技能时，自身获得12.00%共鸣技能伤害加成提升"
+                "label": "Resonance Skill DMG Bonus",
+                "trigger": "Enabled",
+                "excerpt": "Resonance Skill DMG Bonus +12%",
+                "desc": "Transform into Sentry Construct and attack enemies in front, dealing 405.00% Glacio DMG. Each time the Resonator with this Echo casts Resonance Liberation, it charges the Strike Capacitor.\nOnce Strike Capacitor is at max level, the Echo Skill cooldown will be reset. Use Echo Skill to transform into Sentry Construct and dive into enemies from the air, dealing 405.00% Glacio DMG and freezing the target.\nThe Resonator with this Echo equipped in their main slot gains 12.00% Glacio DMG Bonus and 12.00% Resonance Skill DMG Bonus.\nCD: 25s."
               }
             ]
           },
@@ -425,16 +427,16 @@ window.WUWA_LANGUAGES.extend("en-US", {
             "echo": "Nightmare: Lampylumen Myriad",
             "buffs": [
               {
-                "label": "冷凝伤害加成",
-                "trigger": "首位装配时",
-                "excerpt": "首位装配时，冷凝伤害加成提升12%",
-                "desc": "首位·梦魇·辉萤军势：在首位装配该声骸技能时，自身冷凝伤害加成提升12.00%，协同攻击造成的伤害提升30.00%"
+                "label": "Glacio DMG Bonus",
+                "trigger": "Enabled",
+                "excerpt": "Glacio DMG Bonus +12%",
+                "desc": "Summon Nightmare: Lampylumen Myriad and attack surrounding enemies, dealing 273.60% Glacio DMG.\nThe Resonator with this Echo equipped in their main slot gains 12.00% Glacio DMG Bonus and deals 30.00% more Coordinated Attack DMG.\nCD: 20s."
               },
               {
-                "label": "协同攻击伤害加成",
-                "trigger": "首位装配时",
-                "excerpt": "首位装配时，协同攻击伤害加成提升30%",
-                "desc": "首位·梦魇·辉萤军势：在首位装配该声骸技能时，自身冷凝伤害加成提升12.00%，协同攻击造成的伤害提升30.00%"
+                "label": "Coordinated Attack Bonus",
+                "trigger": "Enabled",
+                "excerpt": "Coordinated Attack Bonus +30%",
+                "desc": "Summon Nightmare: Lampylumen Myriad and attack surrounding enemies, dealing 273.60% Glacio DMG.\nThe Resonator with this Echo equipped in their main slot gains 12.00% Glacio DMG Bonus and deals 30.00% more Coordinated Attack DMG.\nCD: 20s."
               }
             ]
           }
@@ -443,23 +445,23 @@ window.WUWA_LANGUAGES.extend("en-US", {
       "11": {
         "name": "Eternal Radiance",
         "p2": {
-          "label": "衍射伤害加成",
-          "trigger": "默认",
-          "excerpt": "2件套：衍射伤害加成提升10%",
-          "desc": "2件：衍射伤害提升10%"
+          "label": "Spectro DMG Bonus",
+          "trigger": "Default",
+          "excerpt": "Spectro DMG Bonus +10%",
+          "desc": "Spectro DMG + 10%"
         },
         "p5": [
           {
-            "label": "暴击",
-            "trigger": "附加光噪效应后",
-            "excerpt": "附加光噪效应后，暴击提升20%",
-            "desc": "5件：角色为敌人添加光噪效应时，自身暴击提升20%，持续15秒"
+            "label": "Crit. Rate",
+            "trigger": "After casting",
+            "excerpt": "Crit. Rate +20%",
+            "desc": "Inflicting Spectro Frazzle on enemies increases Crit. Rate by 20% for 15s. Attacking enemies inflicted with 10 stacks of Spectro Frazzle grants 15% Spectro DMG Bonus for 15s."
           },
           {
-            "label": "衍射伤害加成",
-            "trigger": "攻击10层光噪目标时",
-            "excerpt": "攻击10层光噪目标时，衍射伤害加成提升15%",
-            "desc": "5件：攻击存在10层光噪效应的敌人时，自身衍射伤害加成提升15%，持续15秒"
+            "label": "Spectro DMG Bonus",
+            "trigger": "After casting",
+            "excerpt": "Spectro DMG Bonus +15%",
+            "desc": "Inflicting Spectro Frazzle on enemies increases Crit. Rate by 20% for 15s. Attacking enemies inflicted with 10 stacks of Spectro Frazzle grants 15% Spectro DMG Bonus for 15s."
           }
         ],
         "leads": [
@@ -467,10 +469,10 @@ window.WUWA_LANGUAGES.extend("en-US", {
             "echo": "Nightmare: Mourning Aix",
             "buffs": [
               {
-                "label": "衍射伤害加成",
-                "trigger": "首位装配时",
-                "excerpt": "首位装配时，衍射伤害加成提升12%",
-                "desc": "首位·梦魇·哀声鸷：召唤梦魇·哀声鸷，对周围敌人造成衍射伤害，对受光噪效应影响的敌人造成更多伤害；在首位装配时，自身衍射伤害加成提升12%"
+                "label": "Spectro DMG Bonus",
+                "trigger": "Enabled",
+                "excerpt": "Spectro DMG Bonus +12%",
+                "desc": "Summon a Nightmare: Mourning Aix to attack surrounding enemies, dealing 273.60% Spectro DMG. DMG dealt to enemies inflicted by Spectro Frazzle is increased by 100.00%.\nThe Resonator with this Echo equipped in their main slot gains 12.00% Spectro DMG Bonus.\nCD: 20s."
               }
             ]
           },
@@ -478,16 +480,16 @@ window.WUWA_LANGUAGES.extend("en-US", {
             "echo": "Capitaneus",
             "buffs": [
               {
-                "label": "衍射伤害加成",
-                "trigger": "首位装配时",
-                "excerpt": "首位装配时，衍射伤害加成提升12%",
-                "desc": "首位·荣光节使：在首位装配该声骸技能时，自身衍射伤害加成提升12.00%，重击伤害加成提升12.00%"
+                "label": "Spectro DMG Bonus",
+                "trigger": "Enabled",
+                "excerpt": "Spectro DMG Bonus +12%",
+                "desc": "Summon a Capitaneus to jump up and smash enemies, dealing 118.80% Spectro DMG. This attack generates 4 extra Merciless Judgements, each dealing 59.40% Spectro DMG.\nThe Resonator with this Echo equipped in their main slot gains 12.00% Spectro DMG Bonus and 12.00% Heavy Attack DMG Bonus.\nCD: 20s."
               },
               {
-                "label": "重击伤害加成",
-                "trigger": "首位装配时",
-                "excerpt": "首位装配时，重击伤害加成提升12%",
-                "desc": "首位·荣光节使：在首位装配该声骸技能时，自身衍射伤害加成提升12.00%，重击伤害加成提升12.00%"
+                "label": "Heavy Attack DMG Bonus",
+                "trigger": "Enabled",
+                "excerpt": "Heavy Attack DMG Bonus +12%",
+                "desc": "Summon a Capitaneus to jump up and smash enemies, dealing 118.80% Spectro DMG. This attack generates 4 extra Merciless Judgements, each dealing 59.40% Spectro DMG.\nThe Resonator with this Echo equipped in their main slot gains 12.00% Spectro DMG Bonus and 12.00% Heavy Attack DMG Bonus.\nCD: 20s."
               }
             ]
           }
@@ -496,23 +498,23 @@ window.WUWA_LANGUAGES.extend("en-US", {
       "12": {
         "name": "Tidebreaking Courage",
         "p2": {
-          "label": "共鸣效率",
-          "trigger": "默认",
-          "excerpt": "2件套：共鸣效率提升10%",
-          "desc": "2件：共鸣效率提升10%"
+          "label": "Energy Regen",
+          "trigger": "Default",
+          "excerpt": "Energy Regen +10%",
+          "desc": "Energy Regen + 10%"
         },
         "p5": [
           {
-            "label": "攻击",
-            "trigger": "默认",
-            "excerpt": "5件套：攻击提升15%",
-            "desc": "5件：角色攻击提升15%"
+            "label": "ATK",
+            "trigger": "Default",
+            "excerpt": "ATK +15%",
+            "desc": "Increase the Resonator's ATK by 15%. Reaching 250% Energy Regen increases all Attribute DMG by 30% for the Resonator."
           },
           {
-            "label": "全属性伤害加成",
-            "trigger": "共鸣效率达到250%后",
-            "excerpt": "共鸣效率达到250%后，全属性伤害加成提升30%",
-            "desc": "5件：共鸣效率达到250%后，当前角色全属性伤害提升30%"
+            "label": "All-Attribute DMG Bonus",
+            "trigger": "Default",
+            "excerpt": "All-Attribute DMG Bonus +30%",
+            "desc": "Increase the Resonator's ATK by 15%. Reaching 250% Energy Regen increases all Attribute DMG by 30% for the Resonator."
           }
         ],
         "leads": [
@@ -520,16 +522,16 @@ window.WUWA_LANGUAGES.extend("en-US", {
             "echo": "Dragon of Dirge",
             "buffs": [
               {
-                "label": "热熔伤害加成",
-                "trigger": "首位装配时",
-                "excerpt": "首位装配时，热熔伤害加成提升12%",
-                "desc": "首位·叹息古龙：在首位装配该声骸技能时，自身热熔伤害加成提升12%"
+                "label": "Fusion DMG Bonus",
+                "trigger": "Enabled",
+                "excerpt": "Fusion DMG Bonus +12%",
+                "desc": "Transform into Dragon of Dirge and summon a Grief Rift lasting for 5s. Periodically deal 36.81% Fusion DMG to enemies within the area of effect.\nThe Resonator with this Echo equipped in the main slot gains 12.00% Fusion DMG Bonus and 12.00% Basic Attack DMG Bonus.\nCD: 25s."
               },
               {
-                "label": "普攻伤害加成",
-                "trigger": "首位装配时",
-                "excerpt": "首位装配时，普攻伤害加成提升12%",
-                "desc": "首位·叹息古龙：在首位装配该声骸技能时，自身普攻伤害加成提升12%"
+                "label": "Basic Attack DMG Bonus",
+                "trigger": "Enabled",
+                "excerpt": "Basic Attack DMG Bonus +12%",
+                "desc": "Transform into Dragon of Dirge and summon a Grief Rift lasting for 5s. Periodically deal 36.81% Fusion DMG to enemies within the area of effect.\nThe Resonator with this Echo equipped in the main slot gains 12.00% Fusion DMG Bonus and 12.00% Basic Attack DMG Bonus.\nCD: 25s."
               }
             ]
           },
@@ -537,16 +539,16 @@ window.WUWA_LANGUAGES.extend("en-US", {
             "echo": "Dreamless",
             "buffs": [
               {
-                "label": "普攻伤害加成",
-                "trigger": "声骸技能造成伤害后",
-                "excerpt": "声骸技能造成伤害后，每层普攻伤害加成提升5%",
-                "desc": "首位·无妄者：声骸技能造成伤害时，附近队伍中所有角色获得5%普攻伤害加成，每1秒最多触发1次，上限25层"
+                "label": "Basic Attack DMG Bonus",
+                "trigger": "After hit",
+                "excerpt": "Basic Attack DMG Bonus +125% per stack",
+                "desc": "Summon Dragon of Dirge to generate a Grief Rift that lasts for 10s, regularly dealing 65.29% Fusion DMG to enemies within the Grief Rift.\nDealing DMG to enemies with this Echo Skill grants a 5.00% Basic and Heavy Attack Bonus to all nearby Resonators in the team, triggered once every second, stacking up to 25 times.\nCD: 35s"
               },
               {
-                "label": "重击伤害加成",
-                "trigger": "声骸技能造成伤害后",
-                "excerpt": "声骸技能造成伤害后，每层重击伤害加成提升5%",
-                "desc": "首位·无妄者：声骸技能造成伤害时，附近队伍中所有角色获得5%重击伤害加成，每1秒最多触发1次，上限25层"
+                "label": "Heavy Attack DMG Bonus",
+                "trigger": "After hit",
+                "excerpt": "Heavy Attack DMG Bonus +125% per stack",
+                "desc": "Summon Dragon of Dirge to generate a Grief Rift that lasts for 10s, regularly dealing 65.29% Fusion DMG to enemies within the Grief Rift.\nDealing DMG to enemies with this Echo Skill grants a 5.00% Basic and Heavy Attack Bonus to all nearby Resonators in the team, triggered once every second, stacking up to 25 times.\nCD: 35s"
               }
             ]
           }
@@ -555,32 +557,32 @@ window.WUWA_LANGUAGES.extend("en-US", {
       "13": {
         "name": "Midnight Veil",
         "p2": {
-          "label": "湮灭伤害加成",
-          "trigger": "默认",
-          "excerpt": "2件套：湮灭伤害加成提升10%",
-          "desc": "2件：湮灭伤害提升10%"
+          "label": "Havoc DMG Bonus",
+          "trigger": "Default",
+          "excerpt": "Havoc DMG Bonus +10%",
+          "desc": "Havoc DMG + 10%"
         },
         "p5": {
-          "label": "湮灭伤害加成",
-          "trigger": "触发延奏离场后",
-          "excerpt": "延奏离场后，下一位登场角色湮灭伤害加成提升15%",
-          "desc": "5件：角色触发延奏技能离场时，额外对周围敌人造成480%的湮灭伤害，该伤害为延奏技能伤害，并使下一个登场角色湮灭伤害加成提升15%，持续15秒"
+          "label": "Havoc DMG Bonus",
+          "trigger": "After casting",
+          "excerpt": "Havoc DMG Bonus +15%",
+          "desc": "When Outro Skill is triggered, deal additional 480% Havoc DMG to surrounding enemies, considered Outro Skill DMG, and grant the incoming Resonator 15% Havoc DMG Bonus for 15s."
         },
         "leads": [
           {
             "echo": "Lorelei",
             "buffs": [
               {
-                "label": "湮灭伤害加成",
-                "trigger": "首位装配时",
-                "excerpt": "首位装配时，湮灭伤害加成提升12%",
-                "desc": "首位·罗蕾莱：在首位装配该声骸技能时，自身湮灭伤害加成提升12%"
+                "label": "Havoc DMG Bonus",
+                "trigger": "Enabled",
+                "excerpt": "Havoc DMG Bonus +12%",
+                "desc": "Transform into Lorelei and attack surrounding enemies, dealing 405.00% Havoc DMG.\nThe Resonator with this Echo equipped in their main slot gains 12.00% Havoc DMG Bonus and 12.00% Basic Attack DMG Bonus.\nCD: 25s."
               },
               {
-                "label": "普攻伤害加成",
-                "trigger": "首位装配时",
-                "excerpt": "首位装配时，普攻伤害加成提升12%",
-                "desc": "首位·罗蕾莱：在首位装配该声骸技能时，自身普攻伤害加成提升12%"
+                "label": "Basic Attack DMG Bonus",
+                "trigger": "Enabled",
+                "excerpt": "Basic Attack DMG Bonus +12%",
+                "desc": "Transform into Lorelei and attack surrounding enemies, dealing 405.00% Havoc DMG.\nThe Resonator with this Echo equipped in their main slot gains 12.00% Havoc DMG Bonus and 12.00% Basic Attack DMG Bonus.\nCD: 25s."
               }
             ]
           },
@@ -588,16 +590,16 @@ window.WUWA_LANGUAGES.extend("en-US", {
             "echo": "Nightmare: Impermanence Heron",
             "buffs": [
               {
-                "label": "湮灭伤害加成",
-                "trigger": "首位装配时",
-                "excerpt": "首位装配时，湮灭伤害加成提升12%",
-                "desc": "首位·梦魇·无常凶鹭：在首位装配该声骸技能时，自身湮灭伤害加成提升12%"
+                "label": "Havoc DMG Bonus",
+                "trigger": "Enabled",
+                "excerpt": "Havoc DMG Bonus +12%",
+                "desc": "Transform into Nightmare: Impermanence Heron and deliver up to 10 consecutive strikes to surrounding enemies, each dealing 40.50% Havoc DMG.\nThe Resonator with this Echo equipped in their main slot gains 12.00% Havoc DMG Bonus and 12.00% Heavy Attack DMG Bonus.\nCD: 25s."
               },
               {
-                "label": "重击伤害加成",
-                "trigger": "首位装配时",
-                "excerpt": "首位装配时，重击伤害加成提升12%",
-                "desc": "首位·梦魇·无常凶鹭：在首位装配该声骸技能时，自身重击伤害加成提升12%"
+                "label": "Heavy Attack DMG Bonus",
+                "trigger": "Enabled",
+                "excerpt": "Heavy Attack DMG Bonus +12%",
+                "desc": "Transform into Nightmare: Impermanence Heron and deliver up to 10 consecutive strikes to surrounding enemies, each dealing 40.50% Havoc DMG.\nThe Resonator with this Echo equipped in their main slot gains 12.00% Havoc DMG Bonus and 12.00% Heavy Attack DMG Bonus.\nCD: 25s."
               }
             ]
           }
@@ -606,23 +608,23 @@ window.WUWA_LANGUAGES.extend("en-US", {
       "14": {
         "name": "Gusts of Welkin",
         "p2": {
-          "label": "气动伤害加成",
-          "trigger": "默认",
-          "excerpt": "2件套：气动伤害加成提升10%",
-          "desc": "2件：气动伤害提升10%"
+          "label": "Aero DMG Bonus",
+          "trigger": "Default",
+          "excerpt": "Aero DMG Bonus +10%",
+          "desc": "Aero DMG + 10%"
         },
         "p5": [
           {
-            "label": "气动伤害加成",
-            "trigger": "附加风蚀效应后",
-            "excerpt": "附加风蚀效应后，队伍气动伤害加成提升15%",
-            "desc": "5件：角色为敌人添加风蚀效应时，队伍中角色气动伤害提升15%，持续20秒"
+            "label": "Aero DMG Bonus",
+            "trigger": "After casting",
+            "excerpt": "Aero DMG Bonus +15%",
+            "desc": "Inflicting Aero Erosion upon enemies increases Aero DMG for all Resonators in the team by 15%, and for the Resonator triggering this effect by an additional 15%, lasting for 20s."
           },
           {
-            "label": "气动伤害加成",
-            "trigger": "附加风蚀效应后",
-            "excerpt": "附加风蚀效应后，自身气动伤害加成额外提升15%",
-            "desc": "5件：角色为敌人添加风蚀效应时，自身气动伤害额外提升15%，持续20秒"
+            "label": "Aero DMG Bonus",
+            "trigger": "After casting",
+            "excerpt": "Aero DMG Bonus +15%",
+            "desc": "Inflicting Aero Erosion upon enemies increases Aero DMG for all Resonators in the team by 15%, and for the Resonator triggering this effect by an additional 15%, lasting for 20s."
           }
         ],
         "leads": [
@@ -630,16 +632,16 @@ window.WUWA_LANGUAGES.extend("en-US", {
             "echo": "Reminiscence: Fleurdelys",
             "buffs": [
               {
-                "label": "气动伤害加成",
-                "trigger": "首位装配时",
-                "excerpt": "首位装配时，气动伤害加成提升10%",
-                "desc": "首位·共鸣回响·芙露德莉斯：在首位装配该声骸技能时，自身气动伤害加成提升10%"
+                "label": "Aero DMG Bonus",
+                "trigger": "Enabled",
+                "excerpt": "Aero DMG Bonus +10%",
+                "desc": "Summon Windcleaver and attack the target, dealing 27.36% Aero DMG 8 times and 136.80% Aero DMG once.\nThe Resonator with this Echo equipped in the main slot gains 10.00% Aero DMG Bonus. When Resonator: Aero or Cartethyia equips this Echo, they gain 10.00% more Aero DMG Bonus.\nCD: 20s."
               },
               {
-                "label": "气动伤害加成",
-                "trigger": "卡提希娅或漂泊者·气动首位装配时",
-                "excerpt": "卡提希娅或漂泊者·气动首位装配时，额外气动伤害加成提升10%",
-                "desc": "首位·共鸣回响·芙露德莉斯：当装配角色为漂泊者·气动或卡提希娅时，自身气动伤害加成额外提升10%"
+                "label": "Aero DMG Bonus",
+                "trigger": "Enabled",
+                "excerpt": "Aero DMG Bonus +10%",
+                "desc": "Summon Windcleaver and attack the target, dealing 27.36% Aero DMG 8 times and 136.80% Aero DMG once.\nThe Resonator with this Echo equipped in the main slot gains 10.00% Aero DMG Bonus. When Resonator: Aero or Cartethyia equips this Echo, they gain 10.00% more Aero DMG Bonus.\nCD: 20s."
               }
             ]
           },
@@ -647,16 +649,16 @@ window.WUWA_LANGUAGES.extend("en-US", {
             "echo": "Nightmare: Kelpie",
             "buffs": [
               {
-                "label": "冷凝伤害加成",
-                "trigger": "首位装配时",
-                "excerpt": "首位装配时，冷凝伤害加成提升12%",
-                "desc": "首位·梦魇·凯尔匹：在首位装配该声骸技能时，自身冷凝伤害加成提升12%"
+                "label": "Glacio DMG Bonus",
+                "trigger": "Enabled",
+                "excerpt": "Glacio DMG Bonus +12%",
+                "desc": "Transform into Nightmare: Kelpie to attack nearby targets, dealing 405.00% Glacio DMG.\nThe Resonator with this Echo equipped in the main slot gains 12.00% Glacio DMG Bonus and 12.00% Aero DMG Bonus. Switching out the Resonator with Outro Skill summons Nightmare: Kelpie to deal 405.00% Aero DMG.\nCD: 25s"
               },
               {
-                "label": "气动伤害加成",
-                "trigger": "首位装配时",
-                "excerpt": "首位装配时，气动伤害加成提升12%",
-                "desc": "首位·梦魇·凯尔匹：在首位装配该声骸技能时，自身气动伤害加成提升12%"
+                "label": "Aero DMG Bonus",
+                "trigger": "Enabled",
+                "excerpt": "Aero DMG Bonus +12%",
+                "desc": "Transform into Nightmare: Kelpie to attack nearby targets, dealing 405.00% Glacio DMG.\nThe Resonator with this Echo equipped in the main slot gains 12.00% Glacio DMG Bonus and 12.00% Aero DMG Bonus. Switching out the Resonator with Outro Skill summons Nightmare: Kelpie to deal 405.00% Aero DMG.\nCD: 25s"
               }
             ]
           }
@@ -665,23 +667,23 @@ window.WUWA_LANGUAGES.extend("en-US", {
       "15": {
         "name": "Empyrean Anthem",
         "p2": {
-          "label": "共鸣效率",
-          "trigger": "默认",
-          "excerpt": "2件套：共鸣效率提升10%",
-          "desc": "2件：共鸣效率提升10%"
+          "label": "Energy Regen",
+          "trigger": "Default",
+          "excerpt": "Energy Regen +10%",
+          "desc": "Energy Regen + 10%"
         },
         "p5": [
           {
-            "label": "协同攻击伤害加成",
-            "trigger": "默认",
-            "excerpt": "5件套：协同攻击伤害加成提升80%",
-            "desc": "5件：当前角色协同攻击造成的伤害提升80%；协同攻击命中敌人且暴击时，队伍中登场角色攻击力提升20%，持续4秒。"
+            "label": "Coordinated Attack Bonus",
+            "trigger": "Default",
+            "excerpt": "Coordinated Attack Bonus +80%",
+            "desc": "Increase the Resonator's Coordinated Attack DMG by 80%. Upon a critical hit of Coordinated Attack, increase the active Resonator's ATK by 20% for 4s."
           },
           {
-            "label": "攻击",
-            "trigger": "协同攻击暴击后",
-            "excerpt": "协同攻击暴击后，登场角色攻击提升20%",
-            "desc": "5件：当前角色协同攻击造成的伤害提升80%；协同攻击命中敌人且暴击时，队伍中登场角色攻击力提升20%，持续4秒。"
+            "label": "ATK",
+            "trigger": "After casting",
+            "excerpt": "ATK +20%",
+            "desc": "Increase the Resonator's Coordinated Attack DMG by 80%. Upon a critical hit of Coordinated Attack, increase the active Resonator's ATK by 20% for 4s."
           }
         ],
         "leads": [
@@ -689,10 +691,10 @@ window.WUWA_LANGUAGES.extend("en-US", {
             "echo": "Hecate",
             "buffs": [
               {
-                "label": "协同攻击伤害加成",
-                "trigger": "首位装配时",
-                "excerpt": "首位装配时，协同攻击伤害加成提升40%",
-                "desc": "首位·赫卡忒：在首位装配该声骸技能时，自身协同攻击造成的伤害提升40.00%"
+                "label": "Coordinated Attack Bonus",
+                "trigger": "Enabled",
+                "excerpt": "Coordinated Attack Bonus +40%",
+                "desc": "Summon 3 twirling Crescent Servants around you. Crescent Servants attack enemies with their spinning blades, dealing 45.59% Havoc DMG. Triggering a Counterattack with the Echo attacks resets the Crescent Servants' duration.\nThe Resonator with this Echo equipped in the main slot has their Coordinated Attack DMG increased by 40.00%.\nCD: 20s."
               }
             ]
           },
@@ -700,16 +702,16 @@ window.WUWA_LANGUAGES.extend("en-US", {
             "echo": "Nightmare: Tempest Mephis",
             "buffs": [
               {
-                "label": "导电伤害加成",
-                "trigger": "首位装配时",
-                "excerpt": "首位装配时，导电伤害加成提升12%",
-                "desc": "首位·梦魇·朔雷之鳞：在首位装配该声骸技能时，自身导电伤害加成提升12.00%，共鸣技能伤害加成提升12.00%"
+                "label": "Electro DMG Bonus",
+                "trigger": "Enabled",
+                "excerpt": "Electro DMG Bonus +12%",
+                "desc": "Transform into Nightmare: Tempest Mephis and attack surrounding enemies, dealing 405.00% Electro DMG.\nThe Resonator with this Echo equipped in their main slot gains 12.00% Electro DMG Bonus and 12.00% Resonance Skill DMG Bonus.\nCD: 25s."
               },
               {
-                "label": "共鸣技能伤害加成",
-                "trigger": "首位装配时",
-                "excerpt": "首位装配时，共鸣技能伤害加成提升12%",
-                "desc": "首位·梦魇·朔雷之鳞：在首位装配该声骸技能时，自身导电伤害加成提升12.00%，共鸣技能伤害加成提升12.00%"
+                "label": "Resonance Skill DMG Bonus",
+                "trigger": "Enabled",
+                "excerpt": "Resonance Skill DMG Bonus +12%",
+                "desc": "Transform into Nightmare: Tempest Mephis and attack surrounding enemies, dealing 405.00% Electro DMG.\nThe Resonator with this Echo equipped in their main slot gains 12.00% Electro DMG Bonus and 12.00% Resonance Skill DMG Bonus.\nCD: 25s."
               }
             ]
           },
@@ -717,16 +719,16 @@ window.WUWA_LANGUAGES.extend("en-US", {
             "echo": "Nightmare: Lampylumen Myriad",
             "buffs": [
               {
-                "label": "冷凝伤害加成",
-                "trigger": "首位装配时",
-                "excerpt": "首位装配时，冷凝伤害加成提升12%",
-                "desc": "首位·梦魇·辉萤军势：在首位装配该声骸技能时，自身冷凝伤害加成提升12.00%，协同攻击造成的伤害提升30.00%"
+                "label": "Glacio DMG Bonus",
+                "trigger": "Enabled",
+                "excerpt": "Glacio DMG Bonus +12%",
+                "desc": "Summon Nightmare: Lampylumen Myriad and attack surrounding enemies, dealing 273.60% Glacio DMG.\nThe Resonator with this Echo equipped in their main slot gains 12.00% Glacio DMG Bonus and deals 30.00% more Coordinated Attack DMG.\nCD: 20s."
               },
               {
-                "label": "协同攻击伤害加成",
-                "trigger": "首位装配时",
-                "excerpt": "首位装配时，协同攻击伤害加成提升30%",
-                "desc": "首位·梦魇·辉萤军势：在首位装配该声骸技能时，自身冷凝伤害加成提升12.00%，协同攻击造成的伤害提升30.00%"
+                "label": "Coordinated Attack Bonus",
+                "trigger": "Enabled",
+                "excerpt": "Coordinated Attack Bonus +30%",
+                "desc": "Summon Nightmare: Lampylumen Myriad and attack surrounding enemies, dealing 273.60% Glacio DMG.\nThe Resonator with this Echo equipped in their main slot gains 12.00% Glacio DMG Bonus and deals 30.00% more Coordinated Attack DMG.\nCD: 20s."
               }
             ]
           }
@@ -735,25 +737,25 @@ window.WUWA_LANGUAGES.extend("en-US", {
       "16": {
         "name": "Moonlit Clouds",
         "p2": {
-          "label": "共鸣效率",
-          "trigger": "默认",
-          "excerpt": "2件套：共鸣效率提升10%",
-          "desc": "2件：共鸣效率提升10%"
+          "label": "Energy Regen",
+          "trigger": "Default",
+          "excerpt": "Energy Regen +10%",
+          "desc": "Energy Regen + 10%."
         },
         "p5": {
-          "label": "攻击",
-          "trigger": "释放延奏技能后",
-          "excerpt": "释放延奏后，下一位登场角色攻击提升22.5%",
-          "desc": "5件：使用延奏技能后，下一个登场的共鸣者攻击提升22.5%，持续15秒"
+          "label": "ATK",
+          "trigger": "After casting",
+          "excerpt": "ATK +22.5%",
+          "desc": "Upon using Outro Skill, increases the ATK of the next Resonator by 22.5% for 15s."
         },
         "lead": {
           "echo": "Impermanence Heron",
           "buffs": [
             {
-              "label": "伤害提升",
-              "trigger": "幻形后首次命中并释放延奏技能",
-              "excerpt": "首次命中后再延奏，下一位变奏登场角色伤害提升12%",
-              "desc": "首位·无常凶鹭：幻形后首次命中敌人，回复自身10点共鸣能量；在此后15秒内，若自身施放延奏技能，则可使下一个变奏登场的角色伤害提升12%，持续15秒。"
+              "label": "Final DMG Bonus",
+              "trigger": "After hit",
+              "excerpt": "Final DMG Bonus +12%",
+              "desc": "Transform into Impermanence Heron to fly up and smack down, dealing 310.56% Havoc DMG.\n\nLong press to stay as Impermanence Heron and continuously spit flames, each attack dealing 55.73% Havoc DMG.\n\nOnce the initial attack lands on any enemy, the current character regains 10 Resonance Energy. If the current character uses their Outro Skill within the next 15s, the next character's damage dealt will be boosted by 12% for 15s.\n\nCD: 20s"
             }
           ]
         }
@@ -761,23 +763,23 @@ window.WUWA_LANGUAGES.extend("en-US", {
       "17": {
         "name": "Windward Pilgrimage",
         "p2": {
-          "label": "气动伤害加成",
-          "trigger": "默认",
-          "excerpt": "2件套：气动伤害加成提升10%",
-          "desc": "2件：气动伤害提升10%"
+          "label": "Aero DMG Bonus",
+          "trigger": "Default",
+          "excerpt": "Aero DMG Bonus +10%",
+          "desc": "Aero DMG + 10%"
         },
         "p5": [
           {
-            "label": "暴击",
-            "trigger": "命中风蚀目标时",
-            "excerpt": "命中风蚀目标时，暴击提升10%",
-            "desc": "5件：攻击命中存在【风蚀效应】的敌人时，自身暴击提升10%，气动伤害提升30%，持续10秒。"
+            "label": "Crit. Rate",
+            "trigger": "After casting",
+            "excerpt": "Crit. Rate +10%",
+            "desc": "Hitting a target with Aero Erosion increases Crit. Rate by 10% and grants 30% Aero DMG Bonus, lasting for 10s."
           },
           {
-            "label": "气动伤害加成",
-            "trigger": "命中风蚀目标时",
-            "excerpt": "命中风蚀目标时，气动伤害加成提升30%",
-            "desc": "5件：攻击命中存在【风蚀效应】的敌人时，自身暴击提升10%，气动伤害提升30%，持续10秒。"
+            "label": "Aero DMG Bonus",
+            "trigger": "After casting",
+            "excerpt": "Aero DMG Bonus +30%",
+            "desc": "Hitting a target with Aero Erosion increases Crit. Rate by 10% and grants 30% Aero DMG Bonus, lasting for 10s."
           }
         ],
         "leads": [
@@ -785,16 +787,16 @@ window.WUWA_LANGUAGES.extend("en-US", {
             "echo": "Reminiscence: Fleurdelys",
             "buffs": [
               {
-                "label": "气动伤害加成",
-                "trigger": "首位装配时",
-                "excerpt": "首位装配时，气动伤害加成提升10%",
-                "desc": "首位·共鸣回响·芙露德莉斯：在首位装配该声骸技能时，自身气动伤害加成提升10.00%"
+                "label": "Aero DMG Bonus",
+                "trigger": "Enabled",
+                "excerpt": "Aero DMG Bonus +10%",
+                "desc": "Summon Windcleaver and attack the target, dealing 27.36% Aero DMG 8 times and 136.80% Aero DMG once.\nThe Resonator with this Echo equipped in the main slot gains 10.00% Aero DMG Bonus. When Resonator: Aero or Cartethyia equips this Echo, they gain 10.00% more Aero DMG Bonus.\nCD: 20s."
               },
               {
-                "label": "气动伤害加成",
-                "trigger": "卡提希娅或漂泊者·气动首位装配时",
-                "excerpt": "卡提希娅或漂泊者·气动首位装配时，额外气动伤害加成提升10%",
-                "desc": "首位·共鸣回响·芙露德莉斯：当装配角色为漂泊者·气动或卡提希娅时，自身气动伤害加成额外提升10.00%"
+                "label": "Aero DMG Bonus",
+                "trigger": "Enabled",
+                "excerpt": "Aero DMG Bonus +10%",
+                "desc": "Summon Windcleaver and attack the target, dealing 27.36% Aero DMG 8 times and 136.80% Aero DMG once.\nThe Resonator with this Echo equipped in the main slot gains 10.00% Aero DMG Bonus. When Resonator: Aero or Cartethyia equips this Echo, they gain 10.00% more Aero DMG Bonus.\nCD: 20s."
               }
             ]
           },
@@ -802,16 +804,16 @@ window.WUWA_LANGUAGES.extend("en-US", {
             "echo": "Nightmare: Kelpie",
             "buffs": [
               {
-                "label": "冷凝伤害加成",
-                "trigger": "首位装配时",
-                "excerpt": "首位装配时，冷凝伤害加成提升12%",
-                "desc": "首位·梦魇·凯尔匹：在首位装配该声骸技能时，自身冷凝伤害加成提升12.00%，气动伤害加成提升12.00%"
+                "label": "Glacio DMG Bonus",
+                "trigger": "Enabled",
+                "excerpt": "Glacio DMG Bonus +12%",
+                "desc": "Transform into Nightmare: Kelpie to attack nearby targets, dealing 405.00% Glacio DMG.\nThe Resonator with this Echo equipped in the main slot gains 12.00% Glacio DMG Bonus and 12.00% Aero DMG Bonus. Switching out the Resonator with Outro Skill summons Nightmare: Kelpie to deal 405.00% Aero DMG.\nCD: 25s"
               },
               {
-                "label": "气动伤害加成",
-                "trigger": "首位装配时",
-                "excerpt": "首位装配时，气动伤害加成提升12%",
-                "desc": "首位·梦魇·凯尔匹：在首位装配该声骸技能时，自身冷凝伤害加成提升12.00%，气动伤害加成提升12.00%"
+                "label": "Aero DMG Bonus",
+                "trigger": "Enabled",
+                "excerpt": "Aero DMG Bonus +12%",
+                "desc": "Transform into Nightmare: Kelpie to attack nearby targets, dealing 405.00% Glacio DMG.\nThe Resonator with this Echo equipped in the main slot gains 12.00% Glacio DMG Bonus and 12.00% Aero DMG Bonus. Switching out the Resonator with Outro Skill summons Nightmare: Kelpie to deal 405.00% Aero DMG.\nCD: 25s"
               }
             ]
           }
@@ -820,23 +822,23 @@ window.WUWA_LANGUAGES.extend("en-US", {
       "18": {
         "name": "Flaming Clawprint",
         "p2": {
-          "label": "热熔伤害加成",
-          "trigger": "默认",
-          "excerpt": "2件套：热熔伤害加成提升10%",
-          "desc": "2件：热熔伤害提升10%"
+          "label": "Fusion DMG Bonus",
+          "trigger": "Default",
+          "excerpt": "Fusion DMG Bonus +10%",
+          "desc": "Fusion DMG + 10%"
         },
         "p5": [
           {
-            "label": "热熔伤害加成",
-            "trigger": "施放共鸣解放时",
-            "excerpt": "释放共鸣解放时，队伍热熔伤害加成提升15%",
-            "desc": "5件：施放共鸣解放时，队伍中角色热熔伤害提升15%，自身共鸣解放伤害提升20%，持续35秒。"
+            "label": "Fusion DMG Bonus",
+            "trigger": "After casting",
+            "excerpt": "Fusion DMG Bonus +15%",
+            "desc": "Casting Resonance Liberation grants all Resonators in the team 15% Fusion DMG Bonus and the caster 20% Resonance Liberation DMG Bonus, lasting for 35s."
           },
           {
-            "label": "共鸣解放伤害加成",
-            "trigger": "施放共鸣解放时",
-            "excerpt": "释放共鸣解放时，共鸣解放伤害加成提升20%",
-            "desc": "5件：施放共鸣解放时，队伍中角色热熔伤害提升15%，自身共鸣解放伤害提升20%，持续35秒。"
+            "label": "Resonance Liberation DMG Bonus",
+            "trigger": "After casting",
+            "excerpt": "Resonance Liberation DMG Bonus +20%",
+            "desc": "Casting Resonance Liberation grants all Resonators in the team 15% Fusion DMG Bonus and the caster 20% Resonance Liberation DMG Bonus, lasting for 35s."
           }
         ],
         "leads": [
@@ -844,16 +846,16 @@ window.WUWA_LANGUAGES.extend("en-US", {
             "echo": "Lioness of Glory",
             "buffs": [
               {
-                "label": "热熔伤害加成",
-                "trigger": "首位装配时",
-                "excerpt": "首位装配时，热熔伤害加成提升12%",
-                "desc": "首位·荣耀狮像：在首位装配该声骸技能时，自身热熔伤害加成提升12.00%，共鸣解放伤害加成提升12.00%"
+                "label": "Fusion DMG Bonus",
+                "trigger": "Enabled",
+                "excerpt": "Fusion DMG Bonus +12%",
+                "desc": "Summon the Halberd of Glory to crush an area, dealing 82.08% Fusion DMG to nearby targets, and then blast off after a short delay, dealing 191.52% Fusion DMG.\nThe Resonator with this Echo equipped in the main slot gains 12.00% Fusion DMG Bonus and 12.00% Resonance Liberation DMG Bonus.\nCD: 20s"
               },
               {
-                "label": "共鸣解放伤害加成",
-                "trigger": "首位装配时",
-                "excerpt": "首位装配时，共鸣解放伤害加成提升12%",
-                "desc": "首位·荣耀狮像：在首位装配该声骸技能时，自身热熔伤害加成提升12.00%，共鸣解放伤害加成提升12.00%"
+                "label": "Resonance Liberation DMG Bonus",
+                "trigger": "Enabled",
+                "excerpt": "Resonance Liberation DMG Bonus +12%",
+                "desc": "Summon the Halberd of Glory to crush an area, dealing 82.08% Fusion DMG to nearby targets, and then blast off after a short delay, dealing 191.52% Fusion DMG.\nThe Resonator with this Echo equipped in the main slot gains 12.00% Fusion DMG Bonus and 12.00% Resonance Liberation DMG Bonus.\nCD: 20s"
               }
             ]
           }
@@ -863,16 +865,16 @@ window.WUWA_LANGUAGES.extend("en-US", {
         "name": "Dream of the Lost",
         "p3": [
           {
-            "label": "暴击",
-            "trigger": "共鸣能量为0时",
-            "excerpt": "共鸣能量为0时，暴击提升20%",
-            "desc": "3件：角色共鸣能量为0时，自身暴击率提升20%，声骸技能伤害加成提升35%。"
+            "label": "Crit. Rate",
+            "trigger": "After casting",
+            "excerpt": "Crit. Rate +20%",
+            "desc": "Holding 0 Resonance Energy increases Crit. Rate by 20% and grants 35% Echo Skill DMG Bonus."
           },
           {
-            "label": "声骸技能伤害加成",
-            "trigger": "共鸣能量为0时",
-            "excerpt": "共鸣能量为0时，声骸技能伤害加成提升35%",
-            "desc": "3件：角色共鸣能量为0时，自身暴击率提升20%，声骸技能伤害加成提升35%。"
+            "label": "Echo Skill DMG Bonus",
+            "trigger": "After casting",
+            "excerpt": "Echo Skill DMG Bonus +35%",
+            "desc": "Echo Skill DMG Bonus +35%"
           }
         ],
         "leads": [
@@ -880,16 +882,16 @@ window.WUWA_LANGUAGES.extend("en-US", {
             "echo": "Nightmare: Hecate",
             "buffs": [
               {
-                "label": "湮灭伤害加成",
-                "trigger": "首位装配时",
-                "excerpt": "首位装配时，湮灭伤害加成提升12%",
-                "desc": "首位·梦魇·赫卡忒：在首位装配该声骸技能时，自身湮灭伤害加成提升12.00%，声骸技能伤害加成提升20.00%"
+                "label": "Havoc DMG Bonus",
+                "trigger": "Enabled",
+                "excerpt": "Havoc DMG Bonus +12%",
+                "desc": "Transform into Nightmare: Hecate. Leap up and smash down, dealing 3 stages of damage, each dealing Havoc DMG equal to 152.39% of her ATK.\nThe Resonator with the Echo equipped in the main slot gains 12.00% Havoc DMG Bonus and 20.00% Echo Skill DMG Bonus.\nCD: 25s"
               },
               {
-                "label": "声骸技能伤害加成",
-                "trigger": "首位装配时",
-                "excerpt": "首位装配时，声骸技能伤害加成提升20%",
-                "desc": "首位·梦魇·赫卡忒：在首位装配该声骸技能时，自身湮灭伤害加成提升12.00%，声骸技能伤害加成提升20.00%"
+                "label": "Echo Skill DMG Bonus",
+                "trigger": "Enabled",
+                "excerpt": "Echo Skill DMG Bonus +20%",
+                "desc": "Transform into Nightmare: Hecate. Leap up and smash down, dealing 3 stages of damage, each dealing Havoc DMG equal to 152.39% of her ATK.\nThe Resonator with the Echo equipped in the main slot gains 12.00% Havoc DMG Bonus and 20.00% Echo Skill DMG Bonus.\nCD: 25s"
               }
             ]
           },
@@ -897,16 +899,16 @@ window.WUWA_LANGUAGES.extend("en-US", {
             "echo": "Reminiscence: Fenrico",
             "buffs": [
               {
-                "label": "气动伤害加成",
-                "trigger": "首位装配时",
-                "excerpt": "首位装配时，气动伤害加成提升12%",
-                "desc": "首位·共鸣回响·芬莱克：在首位装配该声骸技能时，自身气动伤害加成提升12.00%，重击伤害加成提升12.00%"
+                "label": "Aero DMG Bonus",
+                "trigger": "Enabled",
+                "excerpt": "Aero DMG Bonus +12%",
+                "desc": "Summon the Talons of Decree to attack nearby enemies, dealing 273.60% Aero DMG.\nThe Resonator with this Echo equipped in their main slot gains 12.00% Aero DMG Bonus and 12.00% Heavy Attack DMG Bonus.\nCD: 20s."
               },
               {
-                "label": "重击伤害加成",
-                "trigger": "首位装配时",
-                "excerpt": "首位装配时，重击伤害加成提升12%",
-                "desc": "首位·共鸣回响·芬莱克：在首位装配该声骸技能时，自身气动伤害加成提升12.00%，重击伤害加成提升12.00%"
+                "label": "Heavy Attack DMG Bonus",
+                "trigger": "Enabled",
+                "excerpt": "Heavy Attack DMG Bonus +12%",
+                "desc": "Summon the Talons of Decree to attack nearby enemies, dealing 273.60% Aero DMG.\nThe Resonator with this Echo equipped in their main slot gains 12.00% Aero DMG Bonus and 12.00% Heavy Attack DMG Bonus.\nCD: 20s."
               }
             ]
           }
@@ -916,16 +918,16 @@ window.WUWA_LANGUAGES.extend("en-US", {
         "name": "Crown of Valor",
         "p3": [
           {
-            "label": "攻击",
-            "trigger": "获得护盾后",
-            "excerpt": "获得护盾时，每层攻击提升6%",
-            "desc": "3件：角色获得护盾时，自身攻击提升6%，可叠加5层，持续4秒，每0.5秒触发一次（满层 30%）"
+            "label": "ATK",
+            "trigger": "After casting",
+            "excerpt": "ATK +30% per stack",
+            "desc": "Upon gaining a Shield, increase the Resonator's ATK by 6% and Crit. DMG by 4% for 4s. This effect can be triggered once every 0.5s and stacks up to 5 times."
           },
           {
-            "label": "暴击伤害",
-            "trigger": "获得护盾后",
-            "excerpt": "获得护盾时，每层暴击伤害提升4%",
-            "desc": "3件：角色获得护盾时，自身暴击伤害提升4%，可叠加5层，持续4秒，每0.5秒触发一次（满层 20%）"
+            "label": "Crit. DMG",
+            "trigger": "After casting",
+            "excerpt": "Crit. DMG +20% per stack",
+            "desc": "Crit. DMG +20% per stack"
           }
         ],
         "leads": [
@@ -933,16 +935,16 @@ window.WUWA_LANGUAGES.extend("en-US", {
             "echo": "The False Sovereign",
             "buffs": [
               {
-                "label": "导电伤害加成",
-                "trigger": "首位装配时",
-                "excerpt": "首位装配时，导电伤害加成提升12%",
-                "desc": "首位·伪作的神王：在首位装配该声骸技能时，自身导电伤害加成提升12.00%"
+                "label": "Electro DMG Bonus",
+                "trigger": "Enabled",
+                "excerpt": "Electro DMG Bonus +12%",
+                "desc": "Transform into the False Sovereign and dash forward in a spinning strike, dealing 55.35% Electro DMG 4 times.\nThe Resonator with this Echo equipped in the main slot gains 12.00% Electro DMG Bonus and 12.00% Heavy Attack DMG Bonus. Upon casting Intro Skill, the False Sovereign is also summoned to deal 405.00% Electro DMG.\nStart with 2 charges. Gain 1 charge every 8s, up to 2 charges.\nCD: 8s"
               },
               {
-                "label": "重击伤害加成",
-                "trigger": "首位装配时",
-                "excerpt": "首位装配时，重击伤害加成提升12%",
-                "desc": "首位·伪作的神王：在首位装配该声骸技能时，自身重击伤害加成提升12.00%"
+                "label": "Heavy Attack DMG Bonus",
+                "trigger": "Enabled",
+                "excerpt": "Heavy Attack DMG Bonus +12%",
+                "desc": "Transform into the False Sovereign and dash forward in a spinning strike, dealing 55.35% Electro DMG 4 times.\nThe Resonator with this Echo equipped in the main slot gains 12.00% Electro DMG Bonus and 12.00% Heavy Attack DMG Bonus. Upon casting Intro Skill, the False Sovereign is also summoned to deal 405.00% Electro DMG.\nStart with 2 charges. Gain 1 charge every 8s, up to 2 charges.\nCD: 8s"
               }
             ]
           },
@@ -950,16 +952,16 @@ window.WUWA_LANGUAGES.extend("en-US", {
             "echo": "Lady of the Sea",
             "buffs": [
               {
-                "label": "气动伤害加成",
-                "trigger": "首位装配时",
-                "excerpt": "首位装配时，气动伤害加成提升12%",
-                "desc": "首位·海之女：在首位装配该声骸技能时，自身气动伤害加成提升12.00%"
+                "label": "Aero DMG Bonus",
+                "trigger": "Enabled",
+                "excerpt": "Aero DMG Bonus +12%",
+                "desc": "Summon a Tidestorm to deal 13.68% Aero DMG ten times and 164.16% Aero DMG one time to enemies.\nThe Resonator with this Echo equipped in the main slot gains 12.00% Aero DMG Bonus and 12.00% Resonance Liberation DMG Bonus.\nCD: 20s"
               },
               {
-                "label": "共鸣解放伤害加成",
-                "trigger": "首位装配时",
-                "excerpt": "首位装配时，共鸣解放伤害加成提升12%",
-                "desc": "首位·海之女：在首位装配该声骸技能时，自身共鸣解放伤害加成提升12.00%"
+                "label": "Resonance Liberation DMG Bonus",
+                "trigger": "Enabled",
+                "excerpt": "Resonance Liberation DMG Bonus +12%",
+                "desc": "Summon a Tidestorm to deal 13.68% Aero DMG ten times and 164.16% Aero DMG one time to enemies.\nThe Resonator with this Echo equipped in the main slot gains 12.00% Aero DMG Bonus and 12.00% Resonance Liberation DMG Bonus.\nCD: 20s"
               }
             ]
           }
@@ -969,32 +971,32 @@ window.WUWA_LANGUAGES.extend("en-US", {
         "name": "Law of Harmony",
         "p3": [
           {
-            "label": "重击伤害加成",
-            "trigger": "施放声骸技能时",
-            "excerpt": "施放声骸技能时，重击伤害加成提升30%",
-            "desc": "3件：角色施放声骸技能时，自身重击伤害加成提升30%，持续4秒；队伍中角色声骸技能伤害加成提升4%，该效果可叠加4层，持续30秒，同名声骸仅可触发1次该效果，效果消失时重置同名声骸记录，4层时施放声骸技能可刷新持续时间。"
+            "label": "Heavy Attack DMG Bonus",
+            "trigger": "After casting",
+            "excerpt": "Heavy Attack DMG Bonus +30%",
+            "desc": "Casting Echo Skill grants 30% Heavy Attack DMG Bonus to the caster for 4s.\nAdditionally, all Resonators in the team gain 4% Echo Skill DMG Bonus for 30s, stacking up to 4 times. Echoes of the same name can only trigger this effect once. The record of Echo triggering this effect is cleared along with this effect. At 4 stacks, casting Echo Skill again resets the duration of this effect."
           },
           {
-            "label": "声骸技能伤害加成",
-            "trigger": "施放声骸技能时",
-            "excerpt": "施放声骸技能时，每层声骸技能伤害加成提升4%",
-            "desc": "3件：角色施放声骸技能时，自身重击伤害加成提升30%，持续4秒；队伍中角色声骸技能伤害加成提升4%，该效果可叠加4层，持续30秒，同名声骸仅可触发1次该效果，效果消失时重置同名声骸记录，4层时施放声骸技能可刷新持续时间。"
+            "label": "Echo Skill DMG Bonus",
+            "trigger": "After casting",
+            "excerpt": "Echo Skill DMG Bonus +16% per stack",
+            "desc": "Echo Skill DMG Bonus +16% per stack"
           }
         ],
         "lead": {
           "echo": "Reminiscence: Fenrico",
           "buffs": [
             {
-              "label": "气动伤害加成",
-              "trigger": "首位装配时",
-              "excerpt": "首位装配时，气动伤害加成提升12%",
-              "desc": "首位·共鸣回响·芬莱克：在首位装配该声骸技能时，自身气动伤害加成提升12.00%，重击伤害加成提升12.00%"
+              "label": "Aero DMG Bonus",
+              "trigger": "Enabled",
+              "excerpt": "Aero DMG Bonus +12%",
+              "desc": "Summon the Talons of Decree to attack nearby enemies, dealing 273.60% Aero DMG.\nThe Resonator with this Echo equipped in their main slot gains 12.00% Aero DMG Bonus and 12.00% Heavy Attack DMG Bonus.\nCD: 20s."
             },
             {
-              "label": "重击伤害加成",
-              "trigger": "首位装配时",
-              "excerpt": "首位装配时，重击伤害加成提升12%",
-              "desc": "首位·共鸣回响·芬莱克：在首位装配该声骸技能时，自身气动伤害加成提升12.00%，重击伤害加成提升12.00%"
+              "label": "Heavy Attack DMG Bonus",
+              "trigger": "Enabled",
+              "excerpt": "Heavy Attack DMG Bonus +12%",
+              "desc": "Summon the Talons of Decree to attack nearby enemies, dealing 273.60% Aero DMG.\nThe Resonator with this Echo equipped in their main slot gains 12.00% Aero DMG Bonus and 12.00% Heavy Attack DMG Bonus.\nCD: 20s."
             }
           ]
         }
@@ -1003,22 +1005,22 @@ window.WUWA_LANGUAGES.extend("en-US", {
         "name": "Flamewing's Shadow",
         "p3": [
           {
-            "label": "重击暴击",
-            "trigger": "造成声骸技能伤害后",
-            "excerpt": "造成声骸技能伤害后，重击暴击提升20%",
-            "desc": "3件：角色造成声骸技能伤害时，重击伤害的暴击提升20%，持续6秒；造成重击伤害时，声骸技能伤害的暴击提升20%，持续6秒。同时拥有两种效果时，自身热熔伤害提升16%。"
+            "label": "Crit. Rate",
+            "trigger": "After casting",
+            "excerpt": "Crit. Rate +20%",
+            "desc": "Dealing Echo Skill DMG increases Heavy Attack Crit. Rate by 20% for 6s. Dealing Heavy Attack DMG increases Echo Skill Crit. Rate by 20% for 6s. While both effects are active, gain 16% Fusion DMG Bonus."
           },
           {
-            "label": "声骸技能暴击",
-            "trigger": "造成重击伤害后",
-            "excerpt": "造成重击伤害后，声骸技能暴击提升20%",
-            "desc": "3件：角色造成声骸技能伤害时，重击伤害的暴击提升20%，持续6秒；造成重击伤害时，声骸技能伤害的暴击提升20%，持续6秒。同时拥有两种效果时，自身热熔伤害提升16%。"
+            "label": "Crit. Rate",
+            "trigger": "After casting",
+            "excerpt": "Crit. Rate +20%",
+            "desc": "Crit. Rate +20%"
           },
           {
-            "label": "热熔伤害加成",
-            "trigger": "同时拥有重击/声骸技能暴击效果时",
-            "excerpt": "同时拥有两种效果时，热熔伤害加成提升16%",
-            "desc": "3件：角色造成声骸技能伤害时，重击伤害的暴击提升20%，持续6秒；造成重击伤害时，声骸技能伤害的暴击提升20%，持续6秒。同时拥有两种效果时，自身热熔伤害提升16%。"
+            "label": "Fusion DMG Bonus",
+            "trigger": "After casting",
+            "excerpt": "Fusion DMG Bonus +16%",
+            "desc": "Fusion DMG Bonus +16%"
           }
         ],
         "leads": [
@@ -1026,16 +1028,16 @@ window.WUWA_LANGUAGES.extend("en-US", {
             "echo": "Corrosaurus",
             "buffs": [
               {
-                "label": "热熔伤害加成",
-                "trigger": "首位装配时",
-                "excerpt": "首位装配时，热熔伤害加成提升12%",
-                "desc": "首位·蚀脊龙：在首位装配该声骸技能时，自身热熔伤害加成提升12.00%，声骸技能伤害加成提升20.00%"
+                "label": "Fusion DMG Bonus",
+                "trigger": "Enabled",
+                "excerpt": "Fusion DMG Bonus +12%",
+                "desc": "Summon a Corrosaurus to attack enemies, dealing 273.60% Fusion DMG.\nThe Resonator with this Echo equipped in the main slot gains 12.00% Fusion DMG Bonus and 20.00% Echo Skill DMG Bonus.\nCD: 20s"
               },
               {
-                "label": "声骸技能伤害加成",
-                "trigger": "首位装配时",
-                "excerpt": "首位装配时，声骸技能伤害加成提升20%",
-                "desc": "首位·蚀脊龙：在首位装配该声骸技能时，自身热熔伤害加成提升12.00%，声骸技能伤害加成提升20.00%"
+                "label": "Echo Skill DMG Bonus",
+                "trigger": "Enabled",
+                "excerpt": "Echo Skill DMG Bonus +20%",
+                "desc": "Summon a Corrosaurus to attack enemies, dealing 273.60% Fusion DMG.\nThe Resonator with this Echo equipped in the main slot gains 12.00% Fusion DMG Bonus and 20.00% Echo Skill DMG Bonus.\nCD: 20s"
               }
             ]
           },
@@ -1043,16 +1045,16 @@ window.WUWA_LANGUAGES.extend("en-US", {
             "echo": "Reminiscence: Threnodian - Leviathan",
             "buffs": [
               {
-                "label": "湮灭伤害加成",
-                "trigger": "首位装配时",
-                "excerpt": "首位装配时，湮灭伤害加成提升12%",
-                "desc": "首位·共鸣回响·鸣式·利维亚坦：在首位装配该声骸技能时，自身湮灭伤害加成提升12.00%，共鸣解放伤害加成提升12.00%"
+                "label": "Havoc DMG Bonus",
+                "trigger": "Enabled",
+                "excerpt": "Havoc DMG Bonus +12%",
+                "desc": "Summon a Collapsing Horizon, dealing two instances of 131.04% Havoc DMG to the nearby enemies and obtaining the Core of Collapse for 15s.\n\nWhile it lasts, Core of Collapse deals 24.57% Havoc DMG when the active Resonator in the team deals damage. This effect can be triggered once every 0.5s, up to 8 time. Enemies with Havoc Bane take 100% more DMG from this effect.\n\nThe Resonator with this Echo equipped in the main slot gains 12.00% Havoc DMG Bonus and 12.00% Resonance Liberation DMG Bonus.\n\nCD: 25s"
               },
               {
-                "label": "共鸣解放伤害加成",
-                "trigger": "首位装配时",
-                "excerpt": "首位装配时，共鸣解放伤害加成提升12%",
-                "desc": "首位·共鸣回响·鸣式·利维亚坦：在首位装配该声骸技能时，自身湮灭伤害加成提升12.00%，共鸣解放伤害加成提升12.00%"
+                "label": "Resonance Liberation DMG Bonus",
+                "trigger": "Enabled",
+                "excerpt": "Resonance Liberation DMG Bonus +12%",
+                "desc": "Summon a Collapsing Horizon, dealing two instances of 131.04% Havoc DMG to the nearby enemies and obtaining the Core of Collapse for 15s.\n\nWhile it lasts, Core of Collapse deals 24.57% Havoc DMG when the active Resonator in the team deals damage. This effect can be triggered once every 0.5s, up to 8 time. Enemies with Havoc Bane take 100% more DMG from this effect.\n\nThe Resonator with this Echo equipped in the main slot gains 12.00% Havoc DMG Bonus and 12.00% Resonance Liberation DMG Bonus.\n\nCD: 25s"
               }
             ]
           }
@@ -1062,62 +1064,46 @@ window.WUWA_LANGUAGES.extend("en-US", {
         "name": "Thread of Severed Fate",
         "p3": [
           {
-            "source": "命理崩毁之弦",
-            "label": "攻击",
-            "trigger": "附加虚湮效应后",
-            "excerpt": "附加虚湮效应后，攻击提升20%",
-            "desc": "为敌人添加虚湮效应时，自身攻击提升20%，共鸣解放伤害加成提升30%，持续5秒。"
+            "label": "ATK",
+            "trigger": "After casting",
+            "excerpt": "ATK +20%",
+            "desc": "Inflicting Havoc Bane increases the Resonator's ATK by 20% and grants 30% Resonance Liberation DMG Bonus for 5s."
           },
           {
-            "source": "命理崩毁之弦",
-            "label": "共鸣解放伤害加成",
-            "trigger": "附加虚湮效应后",
-            "excerpt": "附加虚湮效应后，共鸣解放伤害加成提升30%",
-            "desc": "为敌人添加虚湮效应时，自身攻击提升20%，共鸣解放伤害加成提升30%，持续5秒。"
+            "label": "Resonance Liberation DMG Bonus",
+            "trigger": "After casting",
+            "excerpt": "Resonance Liberation DMG Bonus +30%",
+            "desc": "Resonance Liberation DMG Bonus +30%"
           }
         ],
         "lead": {
           "echo": "Reminiscence: Threnodian - Leviathan",
           "buffs": [
             {
-              "label": "湮灭伤害加成",
-              "trigger": "首位装配时",
-              "excerpt": "首位装配时，湮灭伤害加成提升12%",
-              "desc": "首位·共鸣回响·鸣式·利维亚坦：在首位装配该声骸技能时，自身湮灭伤害加成提升12%"
+              "label": "Havoc DMG Bonus",
+              "trigger": "Enabled",
+              "excerpt": "Havoc DMG Bonus +12%",
+              "desc": "Summon a Collapsing Horizon, dealing two instances of 131.04% Havoc DMG to the nearby enemies and obtaining the Core of Collapse for 15s.\n\nWhile it lasts, Core of Collapse deals 24.57% Havoc DMG when the active Resonator in the team deals damage. This effect can be triggered once every 0.5s, up to 8 time. Enemies with Havoc Bane take 100% more DMG from this effect.\n\nThe Resonator with this Echo equipped in the main slot gains 12.00% Havoc DMG Bonus and 12.00% Resonance Liberation DMG Bonus.\n\nCD: 25s"
             },
             {
-              "label": "共鸣解放伤害加成",
-              "trigger": "首位装配时",
-              "excerpt": "首位装配时，共鸣解放伤害加成提升12%",
-              "desc": "首位·共鸣回响·鸣式·利维亚坦：在首位装配该声骸技能时，自身共鸣解放伤害加成提升12%"
+              "label": "Resonance Liberation DMG Bonus",
+              "trigger": "Enabled",
+              "excerpt": "Resonance Liberation DMG Bonus +12%",
+              "desc": "Summon a Collapsing Horizon, dealing two instances of 131.04% Havoc DMG to the nearby enemies and obtaining the Core of Collapse for 15s.\n\nWhile it lasts, Core of Collapse deals 24.57% Havoc DMG when the active Resonator in the team deals damage. This effect can be triggered once every 0.5s, up to 8 time. Enemies with Havoc Bane take 100% more DMG from this effect.\n\nThe Resonator with this Echo equipped in the main slot gains 12.00% Havoc DMG Bonus and 12.00% Resonance Liberation DMG Bonus.\n\nCD: 25s"
             }
           ]
         }
       },
       "24": {
         "name": "Shadow of Shattered Dreams",
-        "p1": [
-          {
-            "label": "普攻伤害加成",
-            "trigger": "附加骇破·偏移后",
-            "excerpt": "附加骇破·偏移后，普攻伤害加成提升35%",
-            "desc": "1件：角色为敌人添加【骇破·偏移】时，自身普攻伤害加成提升35%，持续15秒。"
-          },
-          {
-            "label": "重击伤害加成",
-            "trigger": "附加骇破·偏移后",
-            "excerpt": "附加骇破·偏移后，重击伤害加成提升35%",
-            "desc": "1件：角色为敌人添加【骇破·偏移】时，自身重击伤害加成提升35%，持续15秒。"
-          }
-        ],
         "lead": {
           "echo": "Reminiscence - Nightmare: Adam Smasher",
           "buffs": [
             {
-              "label": "暴击",
-              "trigger": "露西或丽贝卡首位装配时",
-              "excerpt": "露西或丽贝卡首位装配时，暴击提升15%",
-              "desc": "首位·共鸣回响·梦魇亚当·重锤：在首位装配该声骸技能时，若装配角色为露西或丽贝卡，则自身暴击提升15%，且声骸技能替换为对应特殊效果。"
+              "label": "Crit. Rate",
+              "trigger": "Enabled",
+              "excerpt": "Crit. Rate +15%",
+              "desc": "Cast Echo Skill to deal 16 instances of Physical DMG equal to 10.26% of ATK to enemies within range.\nWhen Lucy or Rebecca has this Echo equipped in the main slot, their Crit. Rate is increased by 15% and they unlock special Echo Skills.\n\nIf equipped by Lucy:\n- {Cus:Ipt,Touch=Tap PC=Press Gamepad=Press} the Echo Skill button to deal Spectro DMG equal to 273.60% of ATK to nearby enemies.\n- Hold the Echo Skill button to deal Spectro DMG equal to 273.60% of ATK to nearby enemies and enter a special moving state, increasing Lucy's movement speed while slowing nearby enemies.\n\nIf equipped by Rebecca:\n- Cast Echo Skill to fire missiles, dealing 16 instances of Electro DMG equal to 17.10% of ATK to enemies.\nCD: 20s"
             }
           ]
         }
@@ -1125,33 +1111,33 @@ window.WUWA_LANGUAGES.extend("en-US", {
       "25": {
         "name": "Pact of Neonlight Leap",
         "p2": {
-          "label": "衍射伤害加成",
-          "trigger": "默认",
-          "excerpt": "2件套：衍射伤害加成提升10%",
-          "desc": "2件：衍射伤害提升10%"
+          "label": "Spectro DMG Bonus",
+          "trigger": "Default",
+          "excerpt": "Spectro DMG Bonus +10%",
+          "desc": "Spectro DMG + 10%"
         },
         "p5": [
           {
-            "label": "攻击",
-            "trigger": "释放延奏技能后",
-            "excerpt": "释放延奏后，下一位变奏入场角色攻击提升15%",
-            "desc": "5件：角色施放延奏技能后，下一个变奏技能登场的角色攻击提升15%，其每点谐度破坏增幅还会使攻击额外提升0.3%，上限15%，持续15秒，若切换至其他角色则该效果提前结束。"
+            "label": "ATK",
+            "trigger": "After casting",
+            "excerpt": "ATK +15%",
+            "desc": "Casting Outro Skill increases the ATK of the incoming Resonator who casts Intro Skill by 15%. Each point of Tune Break Boost the incoming Resonator has additionally increases their ATK by 0.3%, up to 15%. This effect lasts for 15s, or until the Resonator is switched out."
           },
           {
-            "label": "攻击",
-            "trigger": "释放延奏技能后",
-            "excerpt": "释放延奏后，下一位变奏入场角色按谐度破坏增幅额外提升攻击，上限15%",
-            "desc": "5件：角色施放延奏技能后，下一个变奏技能登场的角色攻击提升15%，其每点谐度破坏增幅还会使攻击额外提升0.3%，上限15%，持续15秒，若切换至其他角色则该效果提前结束。"
+            "label": "ATK",
+            "trigger": "After casting",
+            "excerpt": "ATK based on Tune Break Boost, cap 15%",
+            "desc": "Casting Outro Skill increases the ATK of the incoming Resonator who casts Intro Skill by 15%. Each point of Tune Break Boost the incoming Resonator has additionally increases their ATK by 0.3%, up to 15%. This effect lasts for 15s, or until the Resonator is switched out."
           }
         ],
         "lead": {
           "echo": "Hyvatia",
           "buffs": [
             {
-              "label": "全属性伤害加成",
-              "trigger": "释放海维夏后15秒内释放延奏技能",
-              "excerpt": "释放海维夏后再延奏，下一位变奏入场角色全属性伤害加成提升10%",
-              "desc": "首位·海维夏：使用声骸技能，召唤海维夏，在空中发射激光对敌人造成十段27.36%的衍射伤害。在此后15秒内，若自身施放延奏技能，使下一个变奏技能登场的角色全属性伤害加成提升10.00%，持续15秒。"
+              "label": "All-Attribute DMG Bonus",
+              "trigger": "After hit",
+              "excerpt": "All-Attribute DMG Bonus +10%",
+              "desc": "Summon Hyvatia to fire lasers at enemies from mid-air, dealing 27.36% Spectro DMG 10 times.\n\nCasting Outro Skill within 15s after summoning Hyvatia grants 10.00% All-Attribute DMG Bonus to the next Resonator using Intro Skill for 15s.\n\nCD: 20s."
             }
           ]
         }
@@ -1159,33 +1145,33 @@ window.WUWA_LANGUAGES.extend("en-US", {
       "26": {
         "name": "Rite of Gilded Revelation",
         "p2": {
-          "label": "衍射伤害加成",
-          "trigger": "默认",
-          "excerpt": "2件套：衍射伤害加成提升10%",
-          "desc": "2件：衍射伤害提升10%"
+          "label": "Spectro DMG Bonus",
+          "trigger": "Default",
+          "excerpt": "Spectro DMG Bonus +10%",
+          "desc": "Spectro DMG + 10%"
         },
         "p5": [
           {
-            "label": "衍射伤害加成",
-            "trigger": "造成普攻伤害后",
-            "excerpt": "造成普攻伤害后，每层衍射伤害加成提升10%",
-            "desc": "5件：角色造成普攻伤害时，自身衍射伤害提升10%，该效果可叠加3层，持续5秒。叠至3层时，施放共鸣解放时，普攻伤害加成提升40%。"
+            "label": "Spectro DMG Bonus",
+            "trigger": "After casting",
+            "excerpt": "Spectro DMG Bonus +30% per stack",
+            "desc": "Dealing Basic Attack DMG increases Spectro DMG by 10% for 5s, stacking up to 3 times. With 3 stacks, casting Resonance Liberation grants 40% Basic Attack DMG Bonus."
           },
           {
-            "label": "普攻伤害加成",
-            "trigger": "满3层后施放共鸣解放时",
-            "excerpt": "满3层后释放共鸣解放，普攻伤害加成提升40%",
-            "desc": "5件：角色造成普攻伤害时，自身衍射伤害提升10%，该效果可叠加3层，持续5秒。叠至3层时，施放共鸣解放时，普攻伤害加成提升40%。"
+            "label": "Basic Attack DMG Bonus",
+            "trigger": "After casting",
+            "excerpt": "Basic Attack DMG Bonus +40%",
+            "desc": "Dealing Basic Attack DMG increases Spectro DMG by 10% for 5s, stacking up to 3 times. With 3 stacks, casting Resonance Liberation grants 40% Basic Attack DMG Bonus."
           }
         ],
         "lead": {
           "echo": "Hyvatia",
           "buffs": [
             {
-              "label": "全属性伤害加成",
-              "trigger": "释放海维夏后15秒内释放延奏技能",
-              "excerpt": "释放海维夏后再延奏，下一位变奏入场角色全属性伤害加成提升10%",
-              "desc": "首位·海维夏：使用声骸技能，召唤海维夏，在空中发射激光对敌人造成十段27.36%的衍射伤害。在此后15秒内，若自身施放延奏技能，使下一个变奏技能登场的角色全属性伤害加成提升10.00%，持续15秒。"
+              "label": "All-Attribute DMG Bonus",
+              "trigger": "After hit",
+              "excerpt": "All-Attribute DMG Bonus +10%",
+              "desc": "Summon Hyvatia to fire lasers at enemies from mid-air, dealing 27.36% Spectro DMG 10 times.\n\nCasting Outro Skill within 15s after summoning Hyvatia grants 10.00% All-Attribute DMG Bonus to the next Resonator using Intro Skill for 15s.\n\nCD: 20s."
             }
           ]
         }
@@ -1193,33 +1179,33 @@ window.WUWA_LANGUAGES.extend("en-US", {
       "27": {
         "name": "Trailblazing Star",
         "p2": {
-          "label": "热熔伤害加成",
-          "trigger": "默认",
-          "excerpt": "2件套：热熔伤害加成提升10%",
-          "desc": "2件：热熔伤害提升10%"
+          "label": "Fusion DMG Bonus",
+          "trigger": "Default",
+          "excerpt": "Fusion DMG Bonus +10%",
+          "desc": "Fusion DMG + 10%"
         },
         "p5": [
           {
-            "label": "暴击",
-            "trigger": "附加聚爆或震谐·偏移后",
-            "excerpt": "附加聚爆或震谐·偏移后，暴击提升20%",
-            "desc": "5件：角色为敌人添加【聚爆效应】或【震谐·偏移】时，自身暴击提升20%，热熔伤害提升20%，持续8秒。"
+            "label": "Crit. Rate",
+            "trigger": "After casting",
+            "excerpt": "Crit. Rate +20%",
+            "desc": "Inflicting Fusion Burst or Tune Rupture - Shifting increases the Resonator's Crit. Rate by 20% and grants 20% Fusion DMG Bonus for 8s."
           },
           {
-            "label": "热熔伤害加成",
-            "trigger": "附加聚爆或震谐·偏移后",
-            "excerpt": "附加聚爆或震谐·偏移后，热熔伤害加成提升20%",
-            "desc": "5件：角色为敌人添加【聚爆效应】或【震谐·偏移】时，自身暴击提升20%，热熔伤害提升20%，持续8秒。"
+            "label": "Fusion DMG Bonus",
+            "trigger": "After casting",
+            "excerpt": "Fusion DMG Bonus +20%",
+            "desc": "Inflicting Fusion Burst or Tune Rupture - Shifting increases the Resonator's Crit. Rate by 20% and grants 20% Fusion DMG Bonus for 8s."
           }
         ],
         "lead": {
           "echo": "Sigillum",
           "buffs": [
             {
-              "label": "共鸣解放伤害加成",
-              "trigger": "爱弥斯首位装配时",
-              "excerpt": "爱弥斯首位装配时，共鸣解放伤害加成提升25%",
-              "desc": "首位·辛吉勒姆：在首位装配该声骸技能时，若装配角色为爱弥斯，则自身共鸣解放伤害加成提升25.00%"
+              "label": "Resonance Liberation DMG Bonus",
+              "trigger": "Enabled",
+              "excerpt": "Resonance Liberation DMG Bonus +25%",
+              "desc": "Summon Sigillum to unleash two attacks, dealing 68.40% and 205.20% Fusion DMG respectively.\nWhen equipped in the main slot by Aemeath, it grants 25.00% Resonance Liberation DMG Bonus.\nCD: 20s"
             }
           ]
         }
@@ -1227,33 +1213,33 @@ window.WUWA_LANGUAGES.extend("en-US", {
       "28": {
         "name": "Chromatic Foam",
         "p2": {
-          "label": "热熔伤害加成",
-          "trigger": "默认",
-          "excerpt": "2件套：热熔伤害加成提升10%",
-          "desc": "2件：热熔伤害提升10%"
+          "label": "Fusion DMG Bonus",
+          "trigger": "Default",
+          "excerpt": "Fusion DMG Bonus +10%",
+          "desc": "Fusion DMG + 10%"
         },
         "p5": [
           {
-            "label": "热熔伤害加成",
-            "trigger": "附加聚爆后",
-            "excerpt": "附加聚爆后，热熔伤害加成提升10%",
-            "desc": "5件：角色为敌人添加【聚爆效应】时，自身获得下述效果：热熔伤害提升10%，持续15秒。持续期间内施放延奏技能后，下一个变奏技能登场的角色热熔伤害提升25%，持续15秒。"
+            "label": "Fusion DMG Bonus",
+            "trigger": "After casting",
+            "excerpt": "Fusion DMG Bonus +10%",
+            "desc": "When the Resonator inflicts Fusion Burst on the enemies, they gain the following effects: Gain 10% Fusion DMG Bonus for 15 s. While this effect is active, casting an Outro Skill grants the incoming Resonator 25% Fusion DMG Bonus for 15s."
           },
           {
-            "label": "热熔伤害加成",
-            "trigger": "附加聚爆后的持续期间释放延奏",
-            "excerpt": "附加聚爆后再延奏，下一位变奏入场角色热熔伤害加成提升25%",
-            "desc": "5件：角色为敌人添加【聚爆效应】时，自身获得下述效果：热熔伤害提升10%，持续15秒。持续期间内施放延奏技能后，下一个变奏技能登场的角色热熔伤害提升25%，持续15秒。"
+            "label": "Fusion DMG Bonus",
+            "trigger": "After casting",
+            "excerpt": "Fusion DMG Bonus +25%",
+            "desc": "When the Resonator inflicts Fusion Burst on the enemies, they gain the following effects: Gain 10% Fusion DMG Bonus for 15 s. While this effect is active, casting an Outro Skill grants the incoming Resonator 25% Fusion DMG Bonus for 15s."
           }
         ],
         "lead": {
           "echo": "Reactor Husk",
           "buffs": [
             {
-              "label": "共鸣效率",
-              "trigger": "首位装配时",
-              "excerpt": "首位装配时，共鸣效率提升10%",
-              "desc": "首位·炉芯机骸：在首位装配该声骸技能时，自身共鸣效率提升10.00%"
+              "label": "Energy Regen",
+              "trigger": "Enabled",
+              "excerpt": "Energy Regen +10%",
+              "desc": "Transform into a Reactor Husk, jumping into the air and unleashing a heavy slash that deals 351.00% Fusion DMG to enemies.\n\nThe Resonator with this Echo equipped in their main slot gain 10.00% Energy Regen.\n\n CD: 20s."
             }
           ]
         }
@@ -1261,39 +1247,39 @@ window.WUWA_LANGUAGES.extend("en-US", {
       "29": {
         "name": "Sound of True Name",
         "p2": {
-          "label": "气动伤害加成",
-          "trigger": "默认",
-          "excerpt": "2件套：气动伤害加成提升10%",
-          "desc": "2件：气动伤害提升10%"
+          "label": "Aero DMG Bonus",
+          "trigger": "Default",
+          "excerpt": "Aero DMG Bonus +10%",
+          "desc": "Aero DMG + 10%"
         },
         "p5": [
           {
-            "label": "声骸技能暴击",
-            "trigger": "造成声骸技能伤害后",
-            "excerpt": "造成声骸技能伤害后，声骸技能暴击提升20%",
-            "desc": "5件：角色造成声骸技能伤害时，声骸技能伤害的暴击提升20%，自身气动伤害提升15%，持续5秒。"
+            "label": "Crit. Rate",
+            "trigger": "After casting",
+            "excerpt": "Crit. Rate +20%",
+            "desc": "Dealing Echo Skill DMG to enemies increases the Resonator's Echo Skill Crit. Rate by 20%, and grants 15% Aero DMG Bonus for 5s."
           },
           {
-            "label": "气动伤害加成",
-            "trigger": "造成声骸技能伤害后",
-            "excerpt": "造成声骸技能伤害后，气动伤害加成提升15%",
-            "desc": "5件：角色造成声骸技能伤害时，声骸技能伤害的暴击提升20%，自身气动伤害提升15%，持续5秒。"
+            "label": "Aero DMG Bonus",
+            "trigger": "After casting",
+            "excerpt": "Aero DMG Bonus +15%",
+            "desc": "Dealing Echo Skill DMG to enemies increases the Resonator's Echo Skill Crit. Rate by 20%, and grants 15% Aero DMG Bonus for 5s."
           }
         ],
         "lead": {
           "echo": "Nameless Explorer",
           "buffs": [
             {
-              "label": "气动伤害加成",
-              "trigger": "首位装配时",
-              "excerpt": "首位装配时，气动伤害加成提升12%",
-              "desc": "首位·无铭探索者：在首位装配该声骸技能时，自身气动伤害加成提升12.00%，声骸技能伤害加成提升20.00%"
+              "label": "Aero DMG Bonus",
+              "trigger": "Enabled",
+              "excerpt": "Aero DMG Bonus +12%",
+              "desc": "Summon Nameless Explorer to attack enemies along its path, dealing 273.60% Aero DMG.\nThe Resonator with this Echo equipped in their main slot gains 12.00% Aero DMG Bonus and 20.00% Echo Skill DMG Bonus.\nCD: 20s."
             },
             {
-              "label": "声骸技能伤害加成",
-              "trigger": "首位装配时",
-              "excerpt": "首位装配时，声骸技能伤害加成提升20%",
-              "desc": "首位·无铭探索者：在首位装配该声骸技能时，自身气动伤害加成提升12.00%，声骸技能伤害加成提升20.00%"
+              "label": "Echo Skill DMG Bonus",
+              "trigger": "Enabled",
+              "excerpt": "Echo Skill DMG Bonus +20%",
+              "desc": "Summon Nameless Explorer to attack enemies along its path, dealing 273.60% Aero DMG.\nThe Resonator with this Echo equipped in their main slot gains 12.00% Aero DMG Bonus and 20.00% Echo Skill DMG Bonus.\nCD: 20s."
             }
           ]
         }
@@ -1301,45 +1287,45 @@ window.WUWA_LANGUAGES.extend("en-US", {
       "30": {
         "name": "Wishes of Quiet Snowfall",
         "p2": {
-          "label": "冷凝伤害加成",
-          "trigger": "默认",
-          "excerpt": "2件套：冷凝伤害加成提升10%",
-          "desc": "2件：冷凝伤害提升10%"
+          "label": "Glacio DMG Bonus",
+          "trigger": "Default",
+          "excerpt": "Glacio DMG Bonus +10%",
+          "desc": "Glacio DMG + 10%"
         },
         "p5": [
           {
-            "label": "冷凝伤害加成",
-            "trigger": "附加霜渐后",
-            "excerpt": "附加霜渐后，冷凝伤害加成提升10%",
-            "desc": "5件：角色为敌人添加【霜渐效应】时，冷凝伤害提升10%，持续15秒。自身获得【落雪】效果，持续15秒，该效果每25秒可触发1次。"
+            "label": "Glacio DMG Bonus",
+            "trigger": "After casting",
+            "excerpt": "Glacio DMG Bonus +10%",
+            "desc": "Inflicting Glacio Chafe on enemies increases Glacio DMG dealt by 10% for 15s. The Resonator gains the Snowfall effect for 15s, which can be triggered once every 25s. While Snowfall is active:\n- Dealing Resonance Liberation DMG removes Snowfall and increases the Resonator's Crit. Rate by 25% for 6s. While the effect is active, dealing Resonance Liberation DMG extends its duration by 4s, triggered once every 0.5s, up to 6 times.\n- Casting Outro Skill removes Snowfall and grants 25% Glacio DMG Bonus to the incoming Resonator for 15s.\nWhen Snowfall is removed, only one of the effects above can be triggered."
           },
           {
-            "label": "暴击",
-            "trigger": "落雪期间造成共鸣解放伤害后",
-            "excerpt": "落雪期间造成共鸣解放伤害后，暴击提升25%",
-            "desc": "5件：拥有【落雪】效果时，角色造成共鸣解放伤害将清除【落雪】效果，使自身暴击提升25%，持续6秒；持续期间角色造成共鸣解放伤害时，将延长4秒的持续时间，每0.5秒可触发1次，每次清除【落雪】后该效果至多触发6次。"
+            "label": "Crit. Rate",
+            "trigger": "After casting",
+            "excerpt": "Crit. Rate +25%",
+            "desc": "Inflicting Glacio Chafe on enemies increases Glacio DMG dealt by 10% for 15s. The Resonator gains the Snowfall effect for 15s, which can be triggered once every 25s. While Snowfall is active:\n- Dealing Resonance Liberation DMG removes Snowfall and increases the Resonator's Crit. Rate by 25% for 6s. While the effect is active, dealing Resonance Liberation DMG extends its duration by 4s, triggered once every 0.5s, up to 6 times.\n- Casting Outro Skill removes Snowfall and grants 25% Glacio DMG Bonus to the incoming Resonator for 15s.\nWhen Snowfall is removed, only one of the effects above can be triggered."
           },
           {
-            "label": "冷凝伤害加成",
-            "trigger": "落雪期间释放延奏",
-            "excerpt": "落雪期间释放延奏，下一位变奏入场角色冷凝伤害加成提升25%",
-            "desc": "5件：拥有【落雪】效果时，角色施放延奏技能将清除【落雪】效果，使下一个变奏技能登场的角色冷凝伤害提升25%，持续15秒。每次清除【落雪】效果时，上述效果仅能同时触发一个。"
+            "label": "Glacio DMG Bonus",
+            "trigger": "After casting",
+            "excerpt": "Glacio DMG Bonus +25%",
+            "desc": "Inflicting Glacio Chafe on enemies increases Glacio DMG dealt by 10% for 15s. The Resonator gains the Snowfall effect for 15s, which can be triggered once every 25s. While Snowfall is active:\n- Dealing Resonance Liberation DMG removes Snowfall and increases the Resonator's Crit. Rate by 25% for 6s. While the effect is active, dealing Resonance Liberation DMG extends its duration by 4s, triggered once every 0.5s, up to 6 times.\n- Casting Outro Skill removes Snowfall and grants 25% Glacio DMG Bonus to the incoming Resonator for 15s.\nWhen Snowfall is removed, only one of the effects above can be triggered."
           }
         ],
         "lead": {
           "echo": "Reminiscence: Threnodian - Voidborne Construct",
           "buffs": [
             {
-              "label": "冷凝伤害加成",
-              "trigger": "首位装配时",
-              "excerpt": "首位装配时，冷凝伤害加成提升12%",
-              "desc": "首位·共鸣回响·鸣式·虚造神型：在首位装配该声骸技能时，自身冷凝伤害加成提升12.00%，共鸣解放伤害加成提升12.00%"
+              "label": "Glacio DMG Bonus",
+              "trigger": "Enabled",
+              "excerpt": "Glacio DMG Bonus +12%",
+              "desc": "Summon Aleph-1's Creation to deal 21.88% Glacio DMG 5 times and 164.16% Glacio DMG 1 time to enemies.\nThe Resonator with this Echo equipped in the main slot gains 12.00% Glacio DMG Bonus and 12.00% Resonance Liberation DMG Bonus.\nCD: 20s"
             },
             {
-              "label": "共鸣解放伤害加成",
-              "trigger": "首位装配时",
-              "excerpt": "首位装配时，共鸣解放伤害加成提升12%",
-              "desc": "首位·共鸣回响·鸣式·虚造神型：在首位装配该声骸技能时，自身冷凝伤害加成提升12.00%，共鸣解放伤害加成提升12.00%"
+              "label": "Resonance Liberation DMG Bonus",
+              "trigger": "Enabled",
+              "excerpt": "Resonance Liberation DMG Bonus +12%",
+              "desc": "Summon Aleph-1's Creation to deal 21.88% Glacio DMG 5 times and 164.16% Glacio DMG 1 time to enemies.\nThe Resonator with this Echo equipped in the main slot gains 12.00% Glacio DMG Bonus and 12.00% Resonance Liberation DMG Bonus.\nCD: 20s"
             }
           ]
         }
@@ -1347,31 +1333,31 @@ window.WUWA_LANGUAGES.extend("en-US", {
       "31": {
         "name": "Reel of Spliced Memories",
         "p2": {
-          "label": "攻击",
-          "trigger": "默认",
-          "excerpt": "2件套：攻击提升10%",
-          "desc": "2件：攻击提升10%"
+          "label": "ATK",
+          "trigger": "Default",
+          "excerpt": "ATK +10%",
+          "desc": "ATK + 10%"
         },
         "p5": {
-          "label": "谐度破坏增幅",
-          "trigger": "附加震谐·偏移或集谐·偏移后",
-          "excerpt": "附加震谐·偏移或集谐·偏移后，队伍谐度破坏增幅提升20点",
-          "desc": "5件：角色为敌人添加【震谐·偏移】或【集谐·偏移】时，队伍中角色谐度破坏增幅提升20点，持续30秒，同名效果之间不可叠加。"
+          "label": "Tune Break Boost",
+          "trigger": "After casting",
+          "excerpt": "Tune Break Boost +20%",
+          "desc": "Inflicting Tune Rupture - Shifting or Tune Strain - Shifting on enemies increases the Tune Break Boost of Resonators in the team by 20 for 30s. Effects of the same name do not stack."
         },
         "lead": {
           "echo": "Nameless Explorer",
           "buffs": [
             {
-              "label": "气动伤害加成",
-              "trigger": "首位装配时",
-              "excerpt": "首位装配时，气动伤害加成提升12%",
-              "desc": "首位·无铭探索者：在首位装配该声骸技能时，自身气动伤害加成提升12.00%，声骸技能伤害加成提升20.00%"
+              "label": "Aero DMG Bonus",
+              "trigger": "Enabled",
+              "excerpt": "Aero DMG Bonus +12%",
+              "desc": "Summon Nameless Explorer to attack enemies along its path, dealing 273.60% Aero DMG.\nThe Resonator with this Echo equipped in their main slot gains 12.00% Aero DMG Bonus and 20.00% Echo Skill DMG Bonus.\nCD: 20s."
             },
             {
-              "label": "声骸技能伤害加成",
-              "trigger": "首位装配时",
-              "excerpt": "首位装配时，声骸技能伤害加成提升20%",
-              "desc": "首位·无铭探索者：在首位装配该声骸技能时，自身气动伤害加成提升12.00%，声骸技能伤害加成提升20.00%"
+              "label": "Echo Skill DMG Bonus",
+              "trigger": "Enabled",
+              "excerpt": "Echo Skill DMG Bonus +20%",
+              "desc": "Summon Nameless Explorer to attack enemies along its path, dealing 273.60% Aero DMG.\nThe Resonator with this Echo equipped in their main slot gains 12.00% Aero DMG Bonus and 20.00% Echo Skill DMG Bonus.\nCD: 20s."
             }
           ]
         }
@@ -1379,25 +1365,25 @@ window.WUWA_LANGUAGES.extend("en-US", {
       "33": {
         "name": "Halo of Starry Radiance",
         "p2": {
-          "label": "治疗效果加成",
-          "trigger": "默认",
-          "excerpt": "2件套：治疗效果加成提升10%",
-          "desc": "2件：治疗效果提升10%"
+          "label": "Healing Bonus",
+          "trigger": "Default",
+          "excerpt": "Healing Bonus +10%",
+          "desc": "Healing Bonus + 10%."
         },
         "p5": {
-          "label": "攻击",
-          "trigger": "提供治疗后",
-          "excerpt": "提供治疗时，按自身偏谐值累积效率提升队伍攻击，上限25%",
-          "desc": "5件：为队伍中角色提供治疗时，自身每1%的偏谐值累积效率使队伍中角色攻击提升0.2%，上限25%，持续4秒，同名效果之间不可叠加。"
+          "label": "ATK",
+          "trigger": "After casting",
+          "excerpt": "ATK based on Off-Tune Buildup Efficiency, cap 25%",
+          "desc": "When healing a Resonator in the team, every 1% of Off-Tune Buildup Rate grants a 0.2% ATK increase to all Resonators in the team for 4s, up to 25%. Effects of the same name cannot be stacked."
         },
         "lead": {
           "echo": "Reactor Husk",
           "buffs": [
             {
-              "label": "共鸣效率",
-              "trigger": "首位装配时",
-              "excerpt": "首位装配时，共鸣效率提升10%",
-              "desc": "首位·炉芯机骸：在首位装配该声骸技能时，自身共鸣效率提升10.00%"
+              "label": "Energy Regen",
+              "trigger": "Enabled",
+              "excerpt": "Energy Regen +10%",
+              "desc": "Transform into a Reactor Husk, jumping into the air and unleashing a heavy slash that deals 351.00% Fusion DMG to enemies.\n\nThe Resonator with this Echo equipped in their main slot gain 10.00% Energy Regen.\n\n CD: 20s."
             }
           ]
         }

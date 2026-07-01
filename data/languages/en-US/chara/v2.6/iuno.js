@@ -5,11 +5,6 @@ window.WUWA_LANGUAGES.extend("en-US", {
     "chars": {
       "iuno": {
         "name": "Iuno",
-        "resources": [
-          {
-            "label": "灵性"
-          }
-        ],
         "skills": [
           {
             "name": "Moon Steps - Moonring - Basic Attack 1 DMG"
@@ -64,132 +59,138 @@ window.WUWA_LANGUAGES.extend("en-US", {
           },
           {
             "name": "Ebb and Flow - Enhanced Moonbow - Basic Attack 1 DMG",
-            "requiresResourceLabel": "灵性"
+            "requiresResourceLabel": "Sentience"
           },
           {
             "name": "Ebb and Flow - Enhanced Moonbow - Basic Attack 2 DMG",
-            "requiresResourceLabel": "灵性"
+            "requiresResourceLabel": "Sentience"
           },
           {
             "name": "Ebb and Flow - Enhanced Moonbow - Basic Attack 3 DMG",
-            "requiresResourceLabel": "灵性"
+            "requiresResourceLabel": "Sentience"
           },
           {
             "name": "Ebb and Flow - Enhanced Moonbow - Dodge Counter DMG",
-            "requiresResourceLabel": "灵性"
+            "requiresResourceLabel": "Sentience"
           },
           {
             "name": "Ebb and Flow - Enhanced Arc Beyond the Edge DMG",
-            "requiresResourceLabel": "灵性"
+            "requiresResourceLabel": "Sentience"
           },
           {
             "name": "Ebb and Flow - Absolute Fullness DMG"
           }
         ],
+        "resources": [
+          {
+            "label": "Sentience"
+          }
+        ],
         "combatStates": [
           {
-            "label": "月相状态",
-            "inactiveLabel": "未处于月相流转",
-            "entry": "由共鸣技能·告终的喧响或共鸣解放进入，初始为弦月；重击·流变在弦月/新月间切换。",
+            "label": "Lunar Cycle",
+            "idLabel": "Lunar Cycle",
+            "inactiveLabel": "Not in Lunar Cycle",
+            "entry": "Enter Lunar Cycle - New Moon by casting Heavy Attack - Flux: Moonring.",
+            "effects": "Enter Lunar Cycle - New Moon by casting Heavy Attack - Flux: Moonring.",
             "options": [
               {
-                "label": "弦月",
-                "valueLabel": "月相流转·弦月"
+                "label": "Lunar Cycle - Half Moon",
+                "valueLabel": "Lunar Cycle - Half Moon"
               },
               {
-                "label": "新月",
-                "valueLabel": "月相流转·新月"
+                "label": "Lunar Cycle - New Moon",
+                "valueLabel": "Lunar Cycle - New Moon"
               }
-            ],
-            "idLabel": "月相流转"
+            ]
           },
           {
-            "label": "满月领域",
-            "inactiveLabel": "未处于满月领域",
-            "entry": "尤诺施放变奏技能或共鸣解放可展开满月领域。",
+            "label": "Full Moon Domain",
+            "idLabel": "Full Moon Domain",
+            "inactiveLabel": "Not in Full Moon Domain",
+            "entry": "Full Moon Domain",
+            "effects": "Full Moon Domain",
             "options": [
               {
-                "label": "满月领域",
-                "valueLabel": "满月领域"
+                "label": "Full Moon Domain",
+                "valueLabel": "Full Moon Domain"
               }
-            ],
-            "idLabel": "满月领域"
+            ]
           }
         ],
         "buffs": [
           {
-            "source": "延奏·尤诺",
-            "label": "重击伤害加深",
-            "trigger": "释放延奏技能后",
-            "excerpt": "下一个登场角色重击伤害加深50%",
-            "desc": "攻击目标造成100%的气动伤害，下一个登场角色重击伤害加深50%，持续14秒，若切换至其他角色则该效果提前结束。"
+            "source": "Outro Skill: Iuno",
+            "label": "Heavy Attack DMG Increase",
+            "trigger": "In Full Moon Domain",
+            "excerpt": "Heavy Attack DMG Increase +50%",
+            "desc": "When in this state, Iuno will attack with Moonbow."
           },
           {
-            "source": "共鸣回路·满月领域 / 固有·新衍",
-            "label": "全伤害加深",
-            "trigger": "满月领域中获得护盾/变奏或共鸣解放后",
-            "excerpt": "获得苍白死光的祝颂时，每层全伤害加深4%",
-            "desc": "处于领域中的登场角色获得护盾时，可获得一层苍白死光的祝颂，该效果每0.5秒可触发一次。苍白死光的祝颂：角色全伤害加深4%，持续10秒，可叠加10层，重复添加时刷新持续时间。若切换至其他角色则该效果提前结束。固有·新衍：尤诺施放变奏技能或共鸣解放时，自身可直接获得5层苍白死光的祝颂。"
+            "source": "Forte Circuit: Full Moon Domain / Inherent Skill: Derivation",
+            "label": "DMG Increase",
+            "trigger": "In Full Moon Domain",
+            "excerpt": "DMG Increase +40% per stack",
+            "desc": "DMG Increase +40% per stack"
           }
         ],
         "chain": [
           {
-            "name": "圆与缺，皆替金枝镀色",
-            "desc": "尤诺处于月相流转状态时，攻击提升40%。尤诺处于满月领域中时，自身每秒额外回复1点共鸣能量。共鸣技能·越限的弦引和重击·至臻的完满免疫打断。",
+            "name": "Wax or Wane, All Gild the Bough",
+            "desc": "When Iuno is in Lunar Cycle, her ATK is increased by 40%.\nWhen Iuno is inside the Full Moon Domain, she additionally restores 1 point of Resonance Energy per second.\nResonance Skill - Arc Beyond the Edge and Heavy Attack - Absolute Fullness become immune to interruption.",
             "buffs": [
               {
-                "label": "攻击",
-                "trigger": "处于月相流转状态",
-                "excerpt": "处于月相流转状态时，攻击提升40%"
+                "label": "ATK",
+                "trigger": "In Lunar Cycle",
+                "excerpt": "ATK +40%"
               }
             ]
           },
           {
-            "name": "昼或夜，且以它为永恒",
-            "desc": "队伍中的角色的苍白死光的祝颂叠加至10层时，其额外获得40%全伤害加深。",
+            "name": "Day or Night, Let This Be Eternal",
+            "desc": "Resonators in the team with 10 stacks of Blessing of the Wan Light gain an additional 40% all DMG Amplification.",
             "buffs": [
               {
-                "label": "全伤害加深",
-                "trigger": "苍白死光祝颂满10层",
-                "excerpt": "苍白死光的祝颂满10层时，全伤害加深40%"
+                "label": "DMG Increase",
+                "trigger": "In Full Moon Domain",
+                "excerpt": "DMG Increase +40%"
               }
             ]
           },
           {
-            "name": "我痛饮他者的遗忘",
-            "desc": "尤诺处于月相流转状态时，月弓·普攻、共鸣技能·越限的弦引、月弓·闪避反击造成的伤害加深65%。施放月弓·普攻或月弓·闪避反击后一定时间内，施放共鸣技能·越限的弦引将不会重置月弓·普攻的连段。",
+            "name": "I Drink Deep of Their Forgetting",
+            "desc": "When Iuno is in Lunar Cycle, DMG dealt by Moonbow - Basic Attack, Resonance Skill - Arc Beyond the Edge, and Moonbow - Dodge Counter is Amplified by 65%.\nWithin a certain period after performing Moonbow - Basic Attack or Moonbow - Dodge Counter, casting Resonance Skill - Arc Beyond the Edge does not reset the cycle of Moonbow - Basic Attack.",
             "buffs": [
               {
-                "label": "月弓技能伤害加深",
-                "trigger": "处于月相流转状态",
-                "excerpt": "处于月相流转状态时，月弓技能伤害加深65%"
+                "label": "Moon Steps - Moonbow - Basic Attack 1 DMG Increase",
+                "trigger": "In Lunar Cycle",
+                "excerpt": "Moon Steps - Moonbow - Basic Attack 1 DMG Increase +65%"
               }
             ]
           },
           {
-            "name": "任雨季栖息于眼眸",
-            "desc": "施放重击·至臻的完满时，队伍中的角色获得一个基于尤诺攻击160%的护盾，持续时间30秒，切换至其他角色不会继承该护盾。"
+            "name": "Rainy Season Dwell in My Eyes",
+            "desc": "Casting Heavy Attack - Absolute Fullness grants a Shield equal to 160% of Iuno's ATK to all Resonators in the team for 30s, which cannot be passed on to the incoming Resonator."
           },
           {
-            "name": "万千次虚掷的注视",
-            "desc": "共鸣解放伤害加成提升20%。",
+            "name": "A Thousand Futile Glimpses",
+            "desc": "Iuno gains 20% Resonance Liberation DMG Bonus.",
             "buffs": [
               {
-                "label": "共鸣解放伤害加成",
-                "trigger": "默认",
-                "excerpt": "共鸣解放伤害加成提升20%"
+                "label": "Resonance Liberation DMG Bonus",
+                "trigger": "In Full Moon Domain",
+                "excerpt": "Resonance Liberation DMG Bonus +20%"
               }
             ]
           },
           {
-            "name": "我所在，即为不变的独一",
-            "desc": "重击·至臻的完满伤害倍率增加1600%。尤诺施放重击·至臻的完满时，会再次进入月相流转·新月状态，获得100点【灵性】并重置共鸣技能·越限的弦引的全部冷却。",
+            "name": "I Am the Constant in the Chaos",
+            "desc": "The DMG Multiplier of Heavy Attack - Absolute Fullness is increased by 1600%. Upon casting this skill, Iuno re-enters Lunar Cycle - New Moon, gains 100 points of Sentience, and resets all the cooldown of Resonance Skill - Arc Beyond the Edge.",
             "buffs": [
               {
-                "label": "至臻的完满倍率增加",
-                "trigger": "6链默认",
-                "excerpt": "至臻的完满伤害倍率增加1600%",
-                "desc": "重击·至臻的完满伤害倍率增加1600%（159.05% → 1759.05%）。"
+                "label": "Ebb and Flow - Absolute Fullness DMG Multiplier Increase",
+                "trigger": "In Full Moon Domain",
+                "excerpt": "Ebb and Flow - Absolute Fullness DMG Multiplier Increase +1600%"
               }
             ]
           }

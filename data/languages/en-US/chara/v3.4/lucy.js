@@ -5,14 +5,6 @@ window.WUWA_LANGUAGES.extend("en-US", {
     "chars": {
       "lucy": {
         "name": "Lucy",
-        "resources": [
-          {
-            "label": "根权限"
-          },
-          {
-            "label": "传输协议"
-          }
-        ],
         "skills": [
           {
             "name": "Locked Thread - Basic Attack Stage 1 DMG"
@@ -61,14 +53,15 @@ window.WUWA_LANGUAGES.extend("en-US", {
           },
           {
             "name": "Locked Thread - Heavy Attack - Dual Threading DMG",
-            "requiresResourceLabel": "100点根权限"
+            "requiresResourceLabel": "Root Access at least 100"
           },
           {
             "name": "Locked Thread - Heavy Attack - Multithreading DMG",
-            "requiresResourceLabel": "重击·双线程后"
+            "requiresResourceLabel": "resource_gate_2"
           },
           {
-            "name": "Locked Thread - Heavy Attack: Multithreading DMG (SQL)"
+            "name": "Locked Thread - Heavy Attack: Multithreading DMG (SQL)",
+            "requiresResourceLabel": "SQL"
           },
           {
             "name": "Protocol Breach - Resonance Skill - Payload Charge DMG"
@@ -84,7 +77,7 @@ window.WUWA_LANGUAGES.extend("en-US", {
           },
           {
             "name": "Protocol Breach - Resonance Skill - Deadlock DMG",
-            "requiresResourceLabel": "100点传输协议或算法压缩"
+            "requiresResourceLabel": "TCP at least 100"
           },
           {
             "name": "Netrunner - Resonance Liberation - Netrunner: Override DMG"
@@ -100,7 +93,7 @@ window.WUWA_LANGUAGES.extend("en-US", {
           },
           {
             "name": "Netrunner - Resonance Liberation - Old Net Deep Dive: Override DMG",
-            "requiresResourceLabel": "重击·多线程后"
+            "requiresResourceLabel": "resource_gate_4"
           },
           {
             "name": "Outdated Hallucination - Intro Skill - Outdated Hallucination DMG"
@@ -109,178 +102,188 @@ window.WUWA_LANGUAGES.extend("en-US", {
             "name": "Depths of Blackwall - Hack Response - Data Crash DMG"
           }
         ],
-        "combatStates": [
+        "resources": [
           {
-            "label": "算法压缩状态",
-            "inactiveLabel": "未处于算法压缩状态",
-            "entry": "施放共鸣技能·死锁后进入算法压缩状态，持续8秒；施放共鸣解放·网络行者、共鸣解放·暗网深潜后，或施放重击·多线程后8秒内不施放指定技能时退出。",
-            "options": [
-              {
-                "label": "算法压缩",
-                "valueLabel": "算法压缩"
-              }
-            ],
-            "idLabel": "算法压缩"
+            "label": "Root Access"
           },
           {
-            "label": "目标骇破状态",
-            "inactiveLabel": "目标无骇破状态",
-            "entry": "共鸣技能·有效载荷、共鸣技能·死锁、重击·多线程可附加【骇破·偏移】；队伍角色对偏移目标造成谐度破坏伤害并使其进入【骇破·干涉】时，露西可触发骇破响应·数据崩解。",
+            "label": "TCP"
+          }
+        ],
+        "combatStates": [
+          {
+            "label": "Algorithm Compression State",
+            "idLabel": "Algorithm Compaction",
+            "inactiveLabel": "Not in Algorithm Compaction",
+            "entry": "When in Algorithm Compaction, Lucy's Basic Attack is replaced with Basic Attack - Thread Shredding.",
+            "effects": "When in Algorithm Compaction, Lucy's Basic Attack is replaced with Basic Attack - Thread Shredding.",
             "options": [
               {
-                "label": "骇破·偏移",
-                "valueLabel": "目标骇破·偏移"
+                "label": "Algorithm Compaction",
+                "valueLabel": "Algorithm Compaction"
+              }
+            ]
+          },
+          {
+            "label": "Target Hack State",
+            "idLabel": "Hack Target State",
+            "inactiveLabel": "Not in Hack Target State",
+            "entry": "Select the current Hack Target State.",
+            "effects": "Select the current Hack Target State.",
+            "options": [
+              {
+                "label": "Target Hack · Shifting",
+                "valueLabel": "Target Hack · Shifting"
               },
               {
-                "label": "骇破·干涉",
-                "valueLabel": "目标骇破·干涉"
+                "label": "Target Hack · Interfered",
+                "valueLabel": "Target Hack · Interfered"
               }
-            ],
-            "idLabel": "骇破目标状态"
+            ]
           }
         ],
         "buffs": [
           {
-            "source": "共鸣回路·算法压缩",
-            "label": "衍射伤害加成",
-            "trigger": "处于算法压缩时",
-            "excerpt": "算法压缩期间，衍射伤害加成提升65%",
-            "desc": "施放共鸣技能·死锁后露西进入算法压缩状态，并获得1层SQL。普攻替换为普攻·线程撕裂，重击替换为重击·单线程。自身衍射伤害加成提升65%，持续8秒。"
+            "source": "Forte Circuit: Algorithm Compaction",
+            "label": "Spectro DMG Bonus",
+            "trigger": "In Algorithm Compaction",
+            "excerpt": "Spectro DMG Bonus +65%",
+            "desc": "When in Algorithm Compaction, Lucy's Basic Attack is replaced with Basic Attack - Thread Shredding."
           },
           {
-            "source": "共鸣解放·欺骗程式·义体故障",
-            "label": "受到伤害提升",
-            "trigger": "施放欺骗程式·义体故障后",
-            "excerpt": "义体故障命中标记目标后，目标受到伤害提升5%",
-            "desc": "欺骗程式·义体故障消耗4点Ram。使所有标记目标受到伤害提升5%，持续30秒。"
+            "source": "Resonance Liberation: Spoofing Program",
+            "label": "Vulnerability",
+            "trigger": "In Target Hack · Interfered",
+            "excerpt": "Vulnerability +5%",
+            "desc": "While the Protocol Interface is active, choose up to 7 different Spoofing Program effects, each requiring different RAM costs."
           },
           {
-            "source": "共鸣解放·欺骗程式·突破协议",
-            "label": "减防",
-            "trigger": "施放欺骗程式·突破协议后",
-            "excerpt": "突破协议命中标记目标后，目标防御降低5%",
-            "desc": "欺骗程式·突破协议消耗4点Ram。使所有标记目标降低5%的防御，持续30秒。"
+            "source": "Resonance Liberation: Spoofing Program: Cyberware Malfunction",
+            "label": "DEF Shred",
+            "trigger": "In Target Hack · Interfered",
+            "excerpt": "DEF Shred +5%",
+            "desc": "Spoofing Program: Cyberware Malfunction"
           },
           {
-            "source": "固有·进程破解",
-            "label": "全伤害加深",
-            "trigger": "获得网络后门后",
-            "excerpt": "网络后门每层全伤害加深10%",
-            "desc": "【网络后门】全伤害加深10%，骇破伤害倍率提升10%。效果持续2分钟，最多叠加2层。当叠加至2层时，额外获得全伤害加深5%，骇破伤害倍率提升5%。"
+            "source": "Inherent Skill: Function Cracking",
+            "label": "DMG Increase",
+            "trigger": "In Target Hack · Interfered",
+            "excerpt": "DMG Increase +20% per stack",
+            "desc": "DMG Increase +20% per stack"
           },
           {
-            "source": "固有·进程破解",
-            "label": "骇破伤害倍率提升",
-            "trigger": "获得网络后门后",
-            "excerpt": "网络后门每层骇破伤害倍率提升10%",
-            "desc": "【网络后门】全伤害加深10%，骇破伤害倍率提升10%。效果持续2分钟，最多叠加2层。当叠加至2层时，额外获得全伤害加深5%，骇破伤害倍率提升5%。"
+            "source": "Inherent Skill: Function Cracking",
+            "label": "DMG Multiplier Increase",
+            "trigger": "In Target Hack · Interfered",
+            "excerpt": "DMG Multiplier Increase +20% per stack",
+            "desc": "DMG Multiplier Increase +20% per stack"
           },
           {
-            "source": "固有·进程破解",
-            "label": "全伤害加深",
-            "trigger": "网络后门达到2层后",
-            "excerpt": "网络后门满2层时，全伤害加深额外提升5%",
-            "desc": "当【网络后门】叠加至2层时，额外获得全伤害加深5%，骇破伤害倍率提升5%。"
+            "source": "Inherent Skill: Function Cracking",
+            "label": "DMG Increase",
+            "trigger": "In Target Hack · Interfered",
+            "excerpt": "DMG Increase +5%",
+            "desc": "DMG Increase +5%"
           },
           {
-            "source": "固有·进程破解",
-            "label": "骇破伤害倍率提升",
-            "trigger": "网络后门达到2层后",
-            "excerpt": "网络后门满2层时，骇破伤害倍率额外提升5%",
-            "desc": "当【网络后门】叠加至2层时，额外获得全伤害加深5%，骇破伤害倍率提升5%。"
+            "source": "Inherent Skill: Function Cracking",
+            "label": "DMG Multiplier Increase",
+            "trigger": "In Target Hack · Interfered",
+            "excerpt": "DMG Multiplier Increase +5%",
+            "desc": "DMG Multiplier Increase +5%"
           },
           {
-            "source": "延奏·反制程序",
-            "label": "普攻伤害加深",
-            "trigger": "释放延奏技能后",
-            "excerpt": "下一名登场角色普攻伤害加深25%",
-            "desc": "下一名登场角色普攻伤害加深25%，持续14秒，若切换至其他角色则该效果提前结束。"
+            "source": "Outro Skill: Countermeasure Program",
+            "label": "Basic Attack DMG Increase",
+            "trigger": "In Target Hack · Interfered",
+            "excerpt": "Basic Attack DMG Increase +25%",
+            "desc": "Grants all Resonators in the team Countermeasure Program for 25s."
           },
           {
-            "source": "延奏·反制程序",
-            "label": "全伤害加深",
-            "trigger": "反制程序期间附加骇破·偏移后",
-            "excerpt": "反制程序期间，非露西登场角色附加骇破·偏移后全伤害加深20%",
-            "desc": "队伍中的角色获得反制程序效果，持续25秒。效果持续期间，队伍中除露西以外的登场角色附加【骇破·偏移】时，该角色全伤害加深20%。全伤害加深效果激活后，若切换至其他角色则反制程序效果提前结束。"
+            "source": "Outro Skill: Countermeasure Program",
+            "label": "DMG Increase",
+            "trigger": "In Target Hack · Interfered",
+            "excerpt": "DMG Increase +20%",
+            "desc": "Grants all Resonators in the team Countermeasure Program for 25s."
           }
         ],
         "chain": [
           {
-            "name": "月球、船票与梦想",
-            "desc": "共鸣技能·有效载荷、共鸣技能·脉冲干扰、重击·双线程和重击·多线程免疫打断。施放变奏技能·过时幻觉时攻击提升20%，持续14秒。队伍中的角色直接造成的伤害击败带有欺骗程式效果的目标时，露西记录该效果并激活对应的快捷响应，持续6秒。露西失去意识时，记录效果失效。快捷响应：生效期间，对队伍中登场角色周围一定范围内的所有目标附加记录的欺骗程式效果，对范围内每名目标仅生效一次。可被记录的欺骗程式效果：欺骗程式·义体故障、欺骗程式·突破协议、欺骗程式·运动失能、欺骗程式·武装故障、欺骗程式·赛博精神病。通过快捷响应附加欺骗程式效果时，仅附加可持续生效的状态效果。",
+            "name": "The Moon, a Ticket, and a Dream",
+            "desc": "Lucy is now immune to interruptions during Resonance Skill - Payload, Resonance Skill - Pulse Inteference, Heavy Attack - Dual Threading, and Heavy Attack - Multi-Threading\nCasting Intro Skill - Outdated Hallucination increases ATK by 20% for 14s.\nWhen a Resonator in the team defeats a target affected by Spoofing Program with direct damage, Lucy records the effect triggered and activates the corresponding Quick Action on that Resonator for 6s. The record expires when Lucy is knocked out.\nQuick Action: When activated, inflict the recorded Spoofing Program effects on targets within a certain distance from the active Resonator in the team, effective once only on each target.\nThe following Spoofing Program effects can be recorded: Spoofing Program: Cyberware Malfunction, Spoofing Program: Breach Protocol, Spoofing Program: Cripple Movement, Spoofing Program: Weapon Glitch, and Spoofing Program: Cyberpsychosis. When applying Spoofing Program effects via Quick Action, only the continuous status effects are applied.",
             "buffs": [
               {
-                "label": "攻击",
-                "trigger": "施放变奏技能时",
-                "excerpt": "施放过时幻觉时，攻击提升20%"
+                "label": "ATK",
+                "trigger": "After casting Outdated Hallucination - Intro Skill - Outdated Hallucination DMG",
+                "excerpt": "ATK +20%"
               }
             ]
           },
           {
-            "name": "黑墙、过去与逃离",
-            "desc": "施放共鸣解放·网络行者和共鸣解放·暗网深潜时，初始的Ram点数提升至32点。施放共鸣技能·脉冲干扰后额外造成1次450%的衍射伤害，该次伤害为重击伤害。该次伤害命中目标时，为目标额外附加以下欺骗程式效果：欺骗程式·义体故障、欺骗程式·突破协议、欺骗程式·运动失能、欺骗程式·武装故障、欺骗程式·赛博精神病。通过该方式附加欺骗程式效果时，仅附加可持续生效的状态效果。共鸣回路·黑墙深度效果中：施放重击·多线程时，若自身持有SQL，伤害倍率提升效果由270%提升至560%。",
+            "name": "The Blackwall, the Past, the Escape",
+            "desc": "While casting Resonance Liberation - Netrunner and Resonance Liberation - Old Net Deep Dive, Lucy's starting RAM is increased to 32.\nAfter casting Resonance Skill - Pulse Interference, deal 1 additional instance of Spectro DMG equal to 450% of Lucy's ATK, considered Heavy Attack DMG.\nWhen this instance of damage hits the target, apply all of the following Spoofing Program effects: Spoofing Program: Cyberware Malfunction,\nSpoofing Program: Breach Protocol, Spoofing Program: Cripple Movement, Spoofing Program: Weapon Glitch, and Spoofing Program: Cyberpsychosis. Only the continuous status effects are applied.\nForte Circuit - Depths of Blackwall is enhanced: When casting Heavy Attack - Multi-threading, if Lucy has SQL, the DMG Multiplier increase is raised from 270% to 560%.",
             "buffs": [
               {
-                "label": "SQL倍率增加",
-                "trigger": "持有SQL施放重击·多线程时",
-                "excerpt": "SQL带来的重击·多线程倍率增加额外提升290%"
+                "label": "Locked Thread - Heavy Attack: Multithreading DMG (SQL) DMG Multiplier Increase",
+                "trigger": "In Target Hack · Interfered",
+                "excerpt": "Locked Thread - Heavy Attack: Multithreading DMG (SQL) DMG Multiplier Increase +290%"
               }
             ]
           },
           {
-            "name": "赛博朋克",
-            "desc": "共鸣解放·网络行者和共鸣解放·暗网深潜的覆写篡改的伤害倍率提升50%、暴击伤害提升100%。欺骗程式·运动失能的伤害倍率提升65%。骇破响应·数据崩解的伤害倍率提升65%。",
+            "name": "Cyberpunk",
+            "desc": "The DMG Multiplier of Override from Resonance Liberation - Netrunner and Resonance Liberation - Old Net Deep Dive is increased by 50%, and its Crit. DMG is increased by 100%.\nThe DMG Multiplier of Spoofing Program: Cripple Movement is increased by 65%.\nThe DMG Multiplier of Hack Response - Data Crash is increased by 65%.",
             "buffs": [
               {
-                "label": "覆写篡改倍率提升",
-                "trigger": "默认",
-                "excerpt": "覆写篡改伤害倍率提升50%"
+                "label": "Netrunner - Resonance Liberation - Netrunner: Override DMG Multiplier Increase",
+                "trigger": "In Target Hack · Interfered",
+                "excerpt": "Netrunner - Resonance Liberation - Netrunner: Override DMG Multiplier Increase +50%"
               },
               {
-                "label": "暴击伤害",
-                "trigger": "默认",
-                "excerpt": "覆写篡改暴击伤害提升100%"
+                "label": "Crit. DMG",
+                "trigger": "In Target Hack · Interfered",
+                "excerpt": "Crit. DMG +100%"
               },
               {
-                "label": "运动失能倍率提升",
-                "trigger": "默认",
-                "excerpt": "欺骗程式·运动失能伤害倍率提升65%"
+                "label": "Netrunner - Spoofing Program: Cripple Movement DMG Multiplier Increase",
+                "trigger": "In Target Hack · Interfered",
+                "excerpt": "Netrunner - Spoofing Program: Cripple Movement DMG Multiplier Increase +65%"
               },
               {
-                "label": "数据崩解倍率提升",
-                "trigger": "默认",
-                "excerpt": "骇破响应·数据崩解伤害倍率提升65%"
+                "label": "Depths of Blackwall - Hack Response - Data Crash DMG Multiplier Increase",
+                "trigger": "In Target Hack · Interfered",
+                "excerpt": "Depths of Blackwall - Hack Response - Data Crash DMG Multiplier Increase +65%"
               }
             ]
           },
           {
-            "name": "夜之城没有活着的传奇",
-            "desc": "队伍中的角色附加【骇破·偏移】后，使队伍中的角色全属性伤害加成提升20%，持续20秒。",
+            "name": "No Living Legends in Night City",
+            "desc": "When Resonators in the team inflict Hack - Shifting, Resonators in the team gain 20% All-Attribute DMG Bonus for 20s.",
             "buffs": [
               {
-                "label": "全属性伤害加成",
-                "trigger": "队伍角色附加骇破·偏移后",
-                "excerpt": "队伍角色附加骇破·偏移后，全属性伤害加成提升20%"
+                "label": "All-Attribute DMG Bonus",
+                "trigger": "In Target Hack · Interfered",
+                "excerpt": "All-Attribute DMG Bonus +20%"
               }
             ]
           },
           {
-            "name": "前往地狱的断路",
-            "desc": "固有技能·幽灵义体中获取的光学欺骗层数上限提升至2层。固有技能·幽灵义体获得强化：生命值低于50%时，自身受到攻击后获得1层光学欺骗，该效果有180秒的冷却时间。触发光学欺骗效果时，获得基于露西自身攻击力150%的护盾，持续10秒。"
+            "name": "A Broken Path to Hell",
+            "desc": "The stack limit of Optical Illusion obtainable via Inherent Skill - Ghost Cyberware is increased to 2.\nInherent Skill - Ghost Cyberware is now enhanced: When Lucy's HP falls below 50%, she immediately gains 1 stacks of Optical Illusion upon being hit. This effect has a Cooldown of 180s. When Optical Illusion is triggered, Lucy gains a Shield equal to 150% of ATK for 10s."
           },
           {
             "name": "I Really Want to Stay At Your House",
-            "desc": "拥有【骇破·偏移】效果或处于【骇破·干涉】状态的目标受到露西的重击伤害提升40%。拥有【骇破·偏移】效果或处于【骇破·干涉】状态的目标受到露西的骇破伤害提升60%。骇破响应·数据崩解触发的停滞效果延长至1.5秒。",
+            "desc": "Targets with Hack - Shifting or in the Hack - Interfered state take 40% increased Heavy Attack DMG from Lucy.\nTargets with Hack - Shifting or in the Hack - Interfered state take 60% increased Hack DMG from Lucy.\nThe Stagnation triggered by Hack Response - Data Crash now lasts for 1.5s.",
             "buffs": [
               {
-                "label": "重击易伤",
-                "trigger": "攻击骇破目标时",
-                "excerpt": "骇破目标受到露西重击伤害提升40%"
+                "label": "Vulnerability",
+                "trigger": "In Target Hack · Shifting",
+                "excerpt": "Vulnerability +40%"
               },
               {
-                "label": "骇破伤害易伤",
-                "trigger": "攻击骇破目标时",
-                "excerpt": "骇破目标受到露西骇破伤害提升60%"
+                "label": "Vulnerability",
+                "trigger": "In Target Hack · Shifting",
+                "excerpt": "Vulnerability +60%"
               }
             ]
           }

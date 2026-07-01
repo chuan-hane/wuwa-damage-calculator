@@ -41,93 +41,93 @@ window.WUWA_LANGUAGES.extend("en-US", {
           },
           {
             "name": "Power Shift - Timed Counters Stage 1 DMG",
-            "requiresResourceLabel": "刚柔化势"
+            "requiresResourceLabel": "resource_gate_1"
           },
           {
             "name": "Power Shift - Timed Counters Stage 2 DMG",
-            "requiresResourceLabel": "刚柔化势"
+            "requiresResourceLabel": "resource_gate_1"
           },
           {
             "name": "Power Shift - Timed Counters Stage 3 DMG",
-            "requiresResourceLabel": "刚柔化势"
+            "requiresResourceLabel": "resource_gate_1"
           }
         ],
         "buffs": [
           {
-            "source": "固有·护心",
-            "label": "防御",
-            "trigger": "磐岩护壁持续期间",
-            "excerpt": "磐岩护壁持续期间，防御提升15%",
-            "desc": "共鸣技能磐岩护壁持续期间，角色的防御提升15%。"
+            "source": "Inherent Skill: Steadfast Protection",
+            "label": "DEF",
+            "trigger": "Default",
+            "excerpt": "DEF +15%",
+            "desc": "DEF +15%"
           },
           {
-            "source": "延奏·千钧",
-            "label": "共鸣技能伤害加深",
-            "trigger": "释放延奏技能后",
-            "excerpt": "下一位登场角色共鸣技能伤害加深38%",
-            "desc": "下一位登场角色共鸣技能伤害加深38%，效果持续14秒，若切换至其他角色则该效果提前结束。"
+            "source": "Outro Skill: Iron Will",
+            "label": "Resonance Skill DMG Increase",
+            "trigger": "Default",
+            "excerpt": "Resonance Skill DMG Increase +38%",
+            "desc": "Resonance Skill DMG Increase +38%"
           }
         ],
         "chain": [
           {
-            "name": "怀悠然之心",
-            "desc": "共鸣回路攻防转换获得的护盾量提升40%。"
+            "name": "Essense of Tranquility",
+            "desc": "Forte Circuit Power Shift's Shield is increased by 40%."
           },
           {
-            "name": "假泯于众人",
-            "desc": "共鸣解放不动如山的暴击提升20%，暴击伤害提升20%。",
+            "name": "Silent Strength",
+            "desc": "The Crit. Rate and Crit. DMG of Resonance Liberation Unmovable is increased by 20% and 20%, respectively.",
             "buffs": [
               {
-                "label": "暴击",
-                "trigger": "默认",
-                "excerpt": "不动如山暴击提升20%"
+                "label": "Crit. Rate",
+                "trigger": "Default",
+                "excerpt": "Crit. Rate +20%"
               },
               {
-                "label": "暴击伤害",
-                "trigger": "默认",
-                "excerpt": "不动如山暴击伤害提升20%"
+                "label": "Crit. DMG",
+                "trigger": "Default",
+                "excerpt": "Crit. DMG +20%"
               }
             ]
           },
           {
-            "name": "观万物之细",
-            "desc": "共鸣技能磐岩护壁的持续时间延长至30秒。"
+            "name": "Keen-eyed Observer",
+            "desc": "The duration of Resonance Skill Rocksteady Shield is extended to 30s."
           },
           {
-            "name": "承负重之担",
-            "desc": "成功触发重击后发制人时，回复桃祈25%生命值，同时防御提升50%，持续5秒，每15秒可触发1次。",
+            "name": "Heavylifting Duty",
+            "desc": "When Taoqi successfully triggers Heavy Attack Strategic Parry, she restores 25% HP and increases her DEF by 50% for 5s. This can be triggered once every 15s.",
             "buffs": [
               {
-                "label": "防御",
-                "trigger": "触发后发制人时",
-                "excerpt": "触发后发制人时，防御提升50%"
+                "label": "DEF",
+                "trigger": "After casting Concealed Edge - Strategic Parry Damage",
+                "excerpt": "DEF +50%"
               }
             ]
           },
           {
-            "name": "解市井民忧",
-            "desc": "共鸣回路攻防转换的伤害提升50%，共鸣回路攻防转换命中目标时，回复20点共鸣能量。",
+            "name": "Benevolent Guardian",
+            "desc": "The damage of Forte Circuit Power Shift is increased by 50%. When Forte Circuit Power Shift hits a target, restore 20 Resonance Energy.",
             "buffs": [
               {
-                "label": "御反之隙倍率提升",
-                "trigger": "默认",
-                "excerpt": "攻防转换伤害倍率提升50%"
+                "label": "Power Shift - Timed Counters Stage 1 DMG Multiplier Increase",
+                "trigger": "Default",
+                "excerpt": "Power Shift - Timed Counters Stage 1 DMG Multiplier Increase +50%"
               }
             ]
           },
           {
-            "name": "护城邦安危",
-            "desc": "共鸣技能磐岩护壁获得的护盾持续期间，桃祈普攻和重击的伤害提升40%。",
+            "name": "Defender of Peace",
+            "desc": "The damage of Taoqi's Basic Attack and Heavy Attack is increased by 40% while the Shield granted by Resonance Skill Rocksteady Shield holds.",
             "buffs": [
               {
-                "label": "普攻伤害加成",
-                "trigger": "磐岩护壁护盾期间",
-                "excerpt": "磐岩护壁护盾期间，普攻伤害提升40%"
+                "label": "Basic Attack DMG Bonus",
+                "trigger": "Default",
+                "excerpt": "Basic Attack DMG Bonus +40%"
               },
               {
-                "label": "重击伤害加成",
-                "trigger": "磐岩护壁护盾期间",
-                "excerpt": "磐岩护壁护盾期间，重击伤害提升40%"
+                "label": "Heavy Attack DMG Bonus",
+                "trigger": "Default",
+                "excerpt": "Heavy Attack DMG Bonus +40%"
               }
             ]
           }

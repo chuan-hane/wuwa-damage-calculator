@@ -5,11 +5,6 @@ window.WUWA_LANGUAGES.extend("en-US", {
     "chars": {
       "rover_spectro": {
         "name": "Rover: Spectro",
-        "resources": [
-          {
-            "label": "尘微之声"
-          }
-        ],
         "skills": [
           {
             "name": "Vibration Manifestation - Stage 1 DMG"
@@ -49,94 +44,99 @@ window.WUWA_LANGUAGES.extend("en-US", {
           },
           {
             "name": "World in a Grain of Sand - Resonating Spin DMG",
-            "requiresResourceLabel": "50尘微之声"
+            "requiresResourceLabel": "Diminutive Sound at least 50"
           },
           {
             "name": "World in a Grain of Sand - Resonating Whirl DMG",
-            "requiresResourceLabel": "50尘微之声"
+            "requiresResourceLabel": "Diminutive Sound at least 50"
           },
           {
             "name": "World in a Grain of Sand - Resonating Echoes Stage 1 DMG",
-            "requiresResourceLabel": "浮声千斩·旋音结束后"
+            "requiresResourceLabel": "resource_gate_2"
           },
           {
             "name": "World in a Grain of Sand - Resonating Echoes Stage 2 DMG",
-            "requiresResourceLabel": "浮声千斩·旋音结束后"
+            "requiresResourceLabel": "resource_gate_2"
+          }
+        ],
+        "resources": [
+          {
+            "label": "Diminutive Sound"
           }
         ],
         "buffs": [
           {
-            "source": "固有·屏息",
-            "label": "浮声千斩·回声伤害加深",
-            "trigger": "默认",
-            "excerpt": "浮声千斩·回声造成的伤害提升60%",
-            "desc": "普攻浮声千斩·回声的伤害提升60%。"
+            "source": "Inherent Skill: Reticence",
+            "label": "World in a Grain of Sand - Resonating Echoes Stage 1 DMG Increase",
+            "trigger": "Default",
+            "excerpt": "World in a Grain of Sand - Resonating Echoes Stage 1 DMG Increase +60%",
+            "desc": "World in a Grain of Sand - Resonating Echoes Stage 1 DMG Increase +60%"
           },
           {
-            "source": "固有·静聆",
-            "label": "攻击",
-            "trigger": "施放重击·鸣奏后",
-            "excerpt": "释放重击·鸣奏后，攻击提升15%",
-            "desc": "施放重击鸣奏后，漂泊者的攻击提升15%，持续5秒。"
+            "source": "Inherent Skill: Silent Listener",
+            "label": "ATK",
+            "trigger": "Default",
+            "excerpt": "ATK +15%",
+            "desc": "ATK +15%"
           }
         ],
         "chain": [
           {
-            "name": "始源纪行",
-            "desc": "施放共鸣技能浮声千斩或共鸣技能浮声千斩·旋音时，漂泊者的暴击提升15%，持续7秒。",
+            "name": "Odyssey of Beginnings",
+            "desc": "Rover's Crit. Rate is increased by 15% for 7s when casting Resonance Skill Resonating Slashes or Resonance Skill Resonating Spin.",
             "buffs": [
               {
-                "label": "暴击",
-                "trigger": "施放浮声千斩/浮声千斩·旋音时",
-                "excerpt": "释放浮声千斩或浮声千斩·旋音时，暴击提升15%"
+                "label": "Crit. Rate",
+                "trigger": "After casting Resonating Slashes - Skill DMG / World in a Grain of Sand - Resonating Spin DMG / World in a Grain of Sand - Resonating Whirl DMG",
+                "excerpt": "Crit. Rate +15%"
               }
             ]
           },
           {
-            "name": "微物细语",
-            "desc": "漂泊者的衍射伤害加成提升20%。",
+            "name": "Microcosmic Murmurs",
+            "desc": "Rover's Spectro DMG Bonus is increased by 20%.",
             "buffs": [
               {
-                "label": "衍射伤害加成",
-                "trigger": "默认",
-                "excerpt": "衍射伤害加成提升20%"
+                "label": "Spectro DMG Bonus",
+                "trigger": "Default",
+                "excerpt": "Spectro DMG Bonus +20%"
               }
             ]
           },
           {
-            "name": "尘声百面",
-            "desc": "漂泊者的共鸣效率提升20%。",
+            "name": "Visages of Dust",
+            "desc": "Rover's Energy Regen is increased by 20%.",
             "buffs": [
               {
-                "label": "共鸣效率",
-                "trigger": "默认",
-                "excerpt": "共鸣效率提升20%"
+                "label": "Energy Regen",
+                "trigger": "Default",
+                "excerpt": "Energy Regen +20%"
               }
             ]
           },
           {
-            "name": "连音扫弦",
-            "desc": "施放共鸣解放回响奏鸣时，为队伍中的角色持续回复生命值，每秒回复量相当于自身攻击的20%，持续5秒。"
+            "name": "Resonating Lamella",
+            "desc": "When casting Resonance Liberation Echoing Resonance, Rover continuously restores HP for all team members: HP equal to 20% of Rover's ATK will be restored every second for 5s."
           },
           {
-            "name": "回声流转",
-            "desc": "共鸣解放伤害加成提升40%。",
+            "name": "Temporal Virtuoso",
+            "desc": "Rover's Resonance Liberation DMG Bonus is increased by 40%.",
             "buffs": [
               {
-                "label": "共鸣解放伤害加成",
-                "trigger": "默认",
-                "excerpt": "共鸣解放伤害加成提升40%"
+                "label": "Resonance Liberation DMG Bonus",
+                "trigger": "Default",
+                "excerpt": "Resonance Liberation DMG Bonus +40%"
               }
             ]
           },
           {
-            "name": "长路归鸣",
-            "desc": "共鸣技能浮声千斩或共鸣技能浮声千斩·旋音命中目标时，目标衍射伤害抗性降低10%，持续20秒。",
+            "name": "Echoes of Wanderlust",
+            "desc": "Resonance Skill Resonating Slashes and Resonance Skill Resonating Spin reduces the target's Spectro RES by 10% on hit for 20s.",
             "buffs": [
               {
-                "label": "衍射减抗",
-                "trigger": "浮声千斩/浮声千斩·旋音命中后",
-                "excerpt": "浮声千斩或浮声千斩·旋音命中后，目标衍射抗性降低10%"
+                "label": "RES Shred",
+                "trigger": "Default",
+                "excerpt": "RES Shred +10%"
               }
             ]
           }

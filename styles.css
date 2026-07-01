@@ -1745,6 +1745,9 @@ input:disabled {
 
 .formula-card {
   position: relative;
+  min-width: 0;
+  max-width: 100%;
+  overflow-wrap: anywhere;
 }
 
 .formula-card-tip {
@@ -1926,10 +1929,13 @@ input:disabled {
 .metric-card span,
 .metric-card small {
   display: block;
+  min-width: 0;
+  max-width: 100%;
   color: #706b63;
   font-size: var(--font-sm);
   font-weight: 730;
   line-height: 1.25;
+  overflow-wrap: anywhere;
 }
 
 .metric-card b {

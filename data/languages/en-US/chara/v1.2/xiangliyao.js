@@ -5,14 +5,6 @@ window.WUWA_LANGUAGES.extend("en-US", {
     "chars": {
       "xiangliyao": {
         "name": "Xiangli Yao",
-        "resources": [
-          {
-            "label": "演算效能"
-          },
-          {
-            "label": "超算效能"
-          }
-        ],
         "skills": [
           {
             "name": "Probe - Stage 1 DMG"
@@ -61,113 +53,116 @@ window.WUWA_LANGUAGES.extend("en-US", {
           },
           {
             "name": "Forever Seeking - Decipher DMG",
-            "requiresResourceLabel": "100演算效能"
+            "requiresResourceLabel": "Capacity at least 100"
           },
           {
             "name": "Forever Seeking - Law of Reigns DMG",
-            "requiresResourceLabel": "5超算效能"
+            "requiresResourceLabel": "Performance Capacity at least 5"
           },
           {
             "name": "Forever Seeking - Revamp DMG",
-            "requiresResourceLabel": "应刃或一相万殊后"
+            "requiresResourceLabel": "resource_gate_3"
           },
           {
             "name": "Principle - Skill DMG"
           }
         ],
+        "resources": [
+          {
+            "label": "Capacity"
+          },
+          {
+            "label": "Performance Capacity"
+          }
+        ],
         "combatStates": [
           {
-            "label": "洞见",
-            "inactiveLabel": "未处于洞见",
-            "entry": "施放共鸣解放思维矩阵后进入，持续24秒；获得3个幻方，施放万方法则会消耗1个幻方，幻方耗尽时结束。",
+            "label": "Intuition",
+            "idLabel": "Intuition",
+            "inactiveLabel": "Not in Intuition",
+            "entry": "Enter Intuition.",
+            "effects": "Enter Intuition.",
             "options": [
               {
-                "label": "洞见",
-                "valueLabel": "洞见"
+                "label": "Intuition",
+                "valueLabel": "Intuition"
               }
-            ],
-            "idLabel": "洞见"
+            ]
           }
         ],
         "buffs": [
           {
-            "source": "固有·睿知",
-            "label": "导电伤害加成",
-            "trigger": "施放共鸣技能后",
-            "excerpt": "施放共鸣技能后，每层导电伤害加成提升5%",
-            "desc": "施放共鸣技能时，导电伤害加成提升5%，持续8秒，可叠加4层。"
+            "source": "Inherent Skill: Knowing",
+            "label": "Electro DMG Bonus",
+            "trigger": "In Intuition",
+            "excerpt": "Electro DMG Bonus +20% per stack",
+            "desc": "Electro DMG Bonus +20% per stack"
           }
         ],
         "chain": [
           {
-            "name": "卓异的门生",
-            "desc": "施放共鸣技能万方法则时，额外生成6个衍构模体攻击目标，伤害倍率为共鸣技能万方法则的8%，此次伤害为共鸣解放伤害。",
+            "name": "Prodigy of Protégés",
+            "desc": "Resonance Skill Law of Reigns additionally launches 6 Convolution Matrices at enemies, each dealing Resonance Liberation DMG equal to 8% of the skill's DMG Multiplier.",
             "buffs": [
               {
-                "label": "万方法则追加伤害",
-                "trigger": "施放万方法则时",
-                "excerpt": "释放万方法则时，追加6个衍构模体，合计约万方法则倍率48%",
-                "desc": "施放共鸣技能万方法则时，额外生成6个衍构模体攻击目标，伤害倍率为共鸣技能万方法则的8%，此次伤害为共鸣解放伤害。"
+                "label": "Forever Seeking - Law of Reigns DMG Multiplier Increase",
+                "trigger": "In Intuition",
+                "excerpt": "Forever Seeking - Law of Reigns DMG Multiplier Increase +48%"
               }
             ]
           },
           {
-            "name": "前人的行迹",
-            "desc": "施放共鸣技能或共鸣解放思维矩阵时，自身暴击伤害提升30%，持续8秒。",
+            "name": "Traces of Predecessors",
+            "desc": "Casting Resonance Skill or Resonance Liberation Cogitation Model increases Crit. DMG by 30% for 8s.",
             "buffs": [
               {
-                "label": "暴击伤害",
-                "trigger": "施放共鸣技能/思维矩阵后",
-                "excerpt": "施放共鸣技能或思维矩阵后，暴击伤害提升30%",
-                "desc": "施放共鸣技能或共鸣解放思维矩阵时，自身暴击伤害提升30%，持续8秒。"
+                "label": "Crit. DMG",
+                "trigger": "After casting Cogitation Model - Cogitation Model DMG",
+                "excerpt": "Crit. DMG +30%"
               }
             ]
           },
           {
-            "name": "邃古的遗墟",
-            "desc": "施放共鸣解放思维矩阵后，获得效果：共鸣技能应刃、共鸣技能基本推衍、共鸣技能一相万殊或共鸣技能万方法则伤害提升63%，持续24秒，该效果最多可触发5次。",
+            "name": "Ruins of Ancient",
+            "desc": "Casting Resonance Liberation Cogitation Model increases the DMG of the following Resonance Skill moves by 63% for 24s:\nDecipher, Deduction, Divergence, and Law of Reigns.\nThis effect can be triggered up to 5 times.",
             "buffs": [
               {
-                "label": "指定共鸣技能伤害提升",
-                "trigger": "施放思维矩阵后",
-                "excerpt": "释放思维矩阵后，应刃等共鸣技能伤害提升63%",
-                "desc": "施放共鸣解放思维矩阵后，获得效果：共鸣技能应刃、共鸣技能基本推衍、共鸣技能一相万殊或共鸣技能万方法则伤害提升63%，持续24秒，该效果最多可触发5次。"
+                "label": "Forever Seeking - Decipher DMG Increase",
+                "trigger": "After casting Forever Seeking - Decipher DMG / Deduction - Skill DMG / Cogitation Model - Divergence DMG / Forever Seeking - Law of Reigns DMG",
+                "excerpt": "Forever Seeking - Decipher DMG Increase +63%"
               }
             ]
           },
           {
-            "name": "再塑的躯骸",
-            "desc": "施放共鸣解放思维矩阵时，队伍中的角色共鸣解放伤害加成提升25%，持续30秒。",
+            "name": "Vessel of Rebirth",
+            "desc": "Casting Resonance Liberation Cogitation Model grants a 25% DMG Bonus to all team members' Resonance Liberation for 30s.",
             "buffs": [
               {
-                "label": "共鸣解放伤害加成",
-                "trigger": "施放思维矩阵后",
-                "excerpt": "释放思维矩阵后，队伍中的角色共鸣解放伤害加成提升25%",
-                "desc": "施放共鸣解放思维矩阵时，队伍中的角色共鸣解放伤害加成提升25%，持续30秒。"
+                "label": "Resonance Liberation DMG Bonus",
+                "trigger": "After casting Cogitation Model - Cogitation Model DMG",
+                "excerpt": "Resonance Liberation DMG Bonus +25%"
               }
             ]
           },
           {
-            "name": "群星的止境",
-            "desc": "延奏技能链式伤害倍率增加222%，共鸣解放思维矩阵伤害倍率提升100%。",
+            "name": "End of Stars",
+            "desc": "The DMG Multiplier of Outro Skill Chain Rule is increased by 222%. The DMG Multiplier of Resonance Liberation Cogitation Model is increased by 100%.",
             "buffs": [
               {
-                "label": "思维矩阵倍率提升",
-                "trigger": "默认",
-                "excerpt": "思维矩阵伤害倍率提升100%",
-                "desc": "延奏技能链式伤害倍率增加222%，共鸣解放思维矩阵伤害倍率提升100%。"
+                "label": "Cogitation Model - Cogitation Model DMG Multiplier Increase",
+                "trigger": "In Intuition",
+                "excerpt": "Cogitation Model - Cogitation Model DMG Multiplier Increase +100%"
               }
             ]
           },
           {
-            "name": "坊市的烟火",
-            "desc": "强化施放共鸣解放思维矩阵时获得的幻方，使共鸣技能万方法则伤害倍率提升76%。",
+            "name": "Solace of the Ordinary",
+            "desc": "The Hypercubes obtained from Resonance Liberation Cogitation Model are enhanced, increasing the DMG Multiplier of Resonance Skill Law of Reigns by 76%.",
             "buffs": [
               {
-                "label": "万方法则倍率提升",
-                "trigger": "默认",
-                "excerpt": "万方法则伤害倍率提升76%",
-                "desc": "强化施放共鸣解放思维矩阵时获得的幻方，使共鸣技能万方法则伤害倍率提升76%。"
+                "label": "Forever Seeking - Law of Reigns DMG Multiplier Increase",
+                "trigger": "In Intuition",
+                "excerpt": "Forever Seeking - Law of Reigns DMG Multiplier Increase +76%"
               }
             ]
           }

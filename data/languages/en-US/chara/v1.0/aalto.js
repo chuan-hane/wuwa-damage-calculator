@@ -5,11 +5,6 @@ window.WUWA_LANGUAGES.extend("en-US", {
     "chars": {
       "aalto": {
         "name": "Aalto",
-        "resources": [
-          {
-            "label": "雾滴"
-          }
-        ],
         "skills": [
           {
             "name": "Half Truths - Stage 1 DMG"
@@ -51,129 +46,137 @@ window.WUWA_LANGUAGES.extend("en-US", {
             "name": "Misty Cover - Mist Bullet DMG"
           }
         ],
+        "resources": [
+          {
+            "label": "Mist Drops"
+          }
+        ],
         "combatStates": [
           {
-            "label": "雾气",
-            "inactiveLabel": "本次攻击未穿过雾气",
-            "entry": "普攻第4段会向前扩散雾气；共鸣技能移位戏法也会施放雾气。",
+            "label": "Mist",
+            "idLabel": "Mist",
+            "inactiveLabel": "Not in Mist",
+            "entry": "Basic Attack 4 will spread the Mist forward, which lasts for 1.5s.",
+            "effects": "Basic Attack 4 will spread the Mist forward, which lasts for 1.5s.",
             "options": [
               {
-                "label": "本次普攻/空中攻击穿过雾气",
-                "valueLabel": "雾气"
+                "label": "Mist",
+                "valueLabel": "Mist"
               }
-            ],
-            "idLabel": "雾气"
+            ]
           },
           {
-            "label": "虚实之门",
-            "inactiveLabel": "本次攻击未穿过虚实之门",
-            "entry": "施放共鸣解放雾里观花后在前方生成虚实之门，持续10秒。",
+            "label": "Gate of Quandary",
+            "idLabel": "Gate of Quandary",
+            "inactiveLabel": "Not in Gate of Quandary",
+            "entry": "Generate a Gate of Quandary in front, dealing Aero DMG.",
+            "effects": "Generate a Gate of Quandary in front, dealing Aero DMG.",
             "options": [
               {
-                "label": "本次攻击穿过虚实之门",
-                "valueLabel": "虚实之门"
+                "label": "Gate of Quandary",
+                "valueLabel": "Gate of Quandary"
               }
-            ],
-            "idLabel": "虚实之门"
+            ]
           },
           {
-            "label": "迷雾潜行",
-            "inactiveLabel": "未处于迷雾潜行",
-            "entry": "秋水穿过雾气或虚实之门后进入迷雾潜行。",
+            "label": "Mistcloak Dash",
+            "idLabel": "Mistcloak Dash",
+            "inactiveLabel": "Not in Mistcloak Dash",
+            "entry": "Aalto will continuously recover STA when he is in the Forte Circuit Mistcloak Dash state.",
+            "effects": "Aalto will continuously recover STA when he is in the Forte Circuit Mistcloak Dash state.",
             "options": [
               {
-                "label": "迷雾潜行",
-                "valueLabel": "迷雾潜行"
+                "label": "Mistcloak Dash",
+                "valueLabel": "Mistcloak Dash"
               }
-            ],
-            "idLabel": "迷雾潜行"
+            ]
           }
         ],
         "buffs": [
           {
-            "source": "固有·零失误演绎",
-            "label": "暴击",
-            "trigger": "重击可触发时",
-            "excerpt": "重击可触发时，暴击补足至必定暴击",
-            "desc": "秋水的重击必定暴击，每30秒可触发1次。"
+            "source": "Inherent Skill: Perfect Performance",
+            "label": "Crit. Rate",
+            "trigger": "In Mistcloak Dash",
+            "excerpt": "Crit. Rate +95%",
+            "desc": "Crit. Rate +95%"
           },
           {
-            "source": "共鸣解放·雾里观花",
-            "label": "攻击",
-            "trigger": "攻击穿过虚实之门时",
-            "excerpt": "攻击穿过虚实之门时，攻击提升10%",
-            "desc": "在面前生成〖虚实之门〗，造成气动伤害且当攻击穿过〖虚实之门〗时攻击提升，〖虚实之门〗持续10秒。"
+            "source": "Resonance Liberation: Flower in the Mist",
+            "label": "ATK",
+            "trigger": "In Gate of Quandary",
+            "excerpt": "ATK +10%",
+            "desc": "Resonance Liberation Flower in the Mist now additionally increases Crit."
           },
           {
-            "source": "延奏·雾解",
-            "label": "气动伤害加深",
-            "trigger": "释放延奏技能后",
-            "excerpt": "下一位登场角色气动伤害加深23%",
-            "desc": "下一位登场角色气动伤害加深23%，效果持续14秒，若切换至其他角色则该效果提前结束。"
+            "source": "Outro Skill: Dissolving Mist",
+            "label": "DMG Increase",
+            "trigger": "In Mistcloak Dash",
+            "excerpt": "DMG Increase +23%",
+            "desc": "DMG Increase +23%"
           }
         ],
         "chain": [
           {
-            "name": "恶作剧开场",
-            "desc": "共鸣技能移位戏法的冷却时间减少4秒。"
+            "name": "Trickster's Opening Show",
+            "desc": "The cooldown of Resonance Skill Shift Trick is reduced by 4s."
           },
           {
-            "name": "织雾首秀",
-            "desc": "【雾化分身】继承的生命值提升100%，秋水攻击被分身嘲讽的目标时，攻击提升15%。",
+            "name": "Mistweaver's Debut",
+            "desc": "\"Mist Avatar\" inherits 100% more HP from Aalto. When Aalto attacks targets taunted by the \"Mist Avatar(s)\", his ATK is increased by 15%.",
             "buffs": [
               {
-                "label": "攻击",
-                "trigger": "攻击被分身嘲讽目标时",
-                "excerpt": "攻击被分身嘲讽的目标时，攻击提升15%"
+                "label": "ATK",
+                "trigger": "In Mistcloak Dash",
+                "excerpt": "ATK +15%"
               }
             ]
           },
           {
-            "name": "雾化转场",
-            "desc": "秋水的普攻或空中攻击穿过【雾气】时，会额外生成2颗子弹，共造成普攻或空中攻击的50%伤害。",
+            "name": "Hazey Transition",
+            "desc": "When Aalto's Basic Attack or Mid-air Attack passes through the Mist, 2 more bullets will be generated, dealing 50% of the DMG of Basic Attack or Mid-air Attack.",
             "buffs": [
               {
-                "label": "额外子弹倍率增加",
-                "trigger": "普攻/空中攻击穿过雾气时",
-                "excerpt": "普攻或空中攻击穿过雾气时，额外子弹造成当前倍率50%的伤害"
+                "label": "Half Truths - Stage 1 DMG Extra Multiplier",
+                "trigger": "In Mist",
+                "excerpt": "Half Truths - Stage 1 DMG Extra Multiplier +50%"
               }
             ]
           },
           {
-            "name": "终幕的黑花",
-            "desc": "共鸣技能雾化子弹伤害提升30%，共鸣回路迷雾潜行状态下秋水受到的伤害降低30%。",
+            "name": "Blake Bloom for Finale",
+            "desc": "The damage of Resonance Skill Mist Bullets is increased by 30%; Aalto receives 30% less DMG in his Forte Circuit Mistcloak Dash state.",
             "buffs": [
               {
-                "label": "雾化子弹伤害加成",
-                "trigger": "默认",
-                "excerpt": "雾化子弹伤害加成提升30%"
+                "label": "Resonance Skill DMG Bonus",
+                "trigger": "In Mistcloak Dash",
+                "excerpt": "Resonance Skill DMG Bonus +30%"
               }
             ]
           },
           {
-            "name": "迷途者喝彩",
-            "desc": "处于共鸣回路迷雾潜行时，秋水的气动伤害加成提升25%，效果持续6秒。",
+            "name": "Applause of the Lost",
+            "desc": "In the Forte Circuit Mistcloak Dash state, Aalto's Aero DMG Bonus is increased by 25% for 6s.",
             "buffs": [
               {
-                "label": "气动伤害加成",
-                "trigger": "处于迷雾潜行时",
-                "excerpt": "处于迷雾潜行时，气动伤害加成提升25%"
+                "label": "Aero DMG Bonus",
+                "trigger": "In Mistcloak Dash",
+                "excerpt": "Aero DMG Bonus +25%"
               }
             ]
           },
           {
-            "name": "幕后卖家",
-            "desc": "共鸣解放雾里观花的效果会使暴击额外提升8%，秋水的重击穿过【虚实之门】时，伤害额外提升50%。",
+            "name": "Broker's Secrets",
+            "desc": "Resonance Liberation Flower in the Mist now additionally increases Crit. Rate by 8%. When Aalto's Heavy Attack passes through the Gate of Quandary, the damage dealt is additionally increased by 50%.",
             "buffs": [
               {
-                "label": "暴击",
-                "trigger": "攻击穿过虚实之门时",
-                "excerpt": "攻击穿过虚实之门时，暴击提升8%"
+                "label": "Crit. Rate",
+                "trigger": "In Gate of Quandary",
+                "excerpt": "Crit. Rate +8%"
               },
               {
-                "label": "重击伤害加成",
-                "trigger": "重击穿过虚实之门时",
-                "excerpt": "重击穿过虚实之门时，伤害加成提升50%"
+                "label": "Heavy Attack DMG Bonus",
+                "trigger": "In Gate of Quandary",
+                "excerpt": "Heavy Attack DMG Bonus +50%"
               }
             ]
           }

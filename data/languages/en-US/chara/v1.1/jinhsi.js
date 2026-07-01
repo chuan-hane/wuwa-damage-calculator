@@ -5,11 +5,6 @@ window.WUWA_LANGUAGES.extend("en-US", {
     "chars": {
       "jinhsi": {
         "name": "Jinhsi",
-        "resources": [
-          {
-            "label": "韶光"
-          }
-        ],
         "skills": [
           {
             "name": "Slash of Breaking Dawn - Stage 1 DMG"
@@ -72,84 +67,89 @@ window.WUWA_LANGUAGES.extend("en-US", {
             "name": "Luminal Synthesis - Illuminous Epiphany: Stella Glamor DMG"
           }
         ],
+        "resources": [
+          {
+            "label": "Incandescence"
+          }
+        ],
         "buffs": [
           {
-            "source": "固有·沐光",
-            "label": "衍射伤害加成",
-            "trigger": "默认",
-            "excerpt": "衍射伤害加成提升20%",
-            "desc": "今汐的衍射伤害加成提升20%。"
+            "source": "Inherent Skill: Radiant Surge",
+            "label": "Spectro DMG Bonus",
+            "trigger": "Default",
+            "excerpt": "Spectro DMG Bonus +20%",
+            "desc": "Spectro DMG Bonus +20%"
           },
           {
-            "source": "固有·凝神",
-            "label": "蟠龙清辉倍率提升",
-            "trigger": "默认",
-            "excerpt": "蟠龙清辉伤害倍率提升50%",
-            "desc": "变奏技能蟠龙清辉伤害倍率提升50%。"
+            "source": "Inherent Skill: Converged Flash",
+            "label": "Loong's Halo - Skill DMG Multiplier Increase",
+            "trigger": "Default",
+            "excerpt": "Loong's Halo - Skill DMG Multiplier Increase +50%",
+            "desc": "Loong's Halo - Skill DMG Multiplier Increase +50%"
           }
         ],
         "chain": [
           {
-            "name": "沉海洄天溯",
-            "desc": "今汐施放普攻凌霄·普攻、共鸣技能逐天取月时，获得一层惊蛰效果，可叠加4层，持续6秒。施放共鸣技能惊龙破空时，消耗惊蛰效果的所有层数，每消耗一层，共鸣技能惊龙破空造成的伤害提升20%。",
+            "name": "Abyssal Ascension",
+            "desc": "When casting Basic Attack \"Incarnation - Basic Attack\" or Resonance Skill Crescent Divinity, Jinhsi gains one stack of Herald of Revival, stacking up to 4 times and lasting for 6s. When casting Resonance Skill Illuminous Epiphany, Jinhsi consumes all stacks of Herald of Revival. Each stack increases the damage of Resonance Skill Illuminous Epiphany by 20%.",
             "buffs": [
               {
-                "label": "惊龙破空伤害加深",
-                "trigger": "叠惊蛰后",
-                "excerpt": "惊龙破空消耗惊蛰时，每层伤害加深20%"
+                "label": "Luminal Synthesis - Illuminous Epiphany: Stella Glamor DMG Increase",
+                "trigger": "After casting Luminal Synthesis - Illuminous Epiphany: Stella Glamor DMG",
+                "excerpt": "Luminal Synthesis - Illuminous Epiphany: Stella Glamor DMG Increase +80% per stack"
               }
             ]
           },
           {
-            "name": "绒雪凝屏息",
-            "desc": "今汐处于非战斗状态大于4秒时，回复50点【韶光】，每4秒只生效1次。"
+            "name": "Chronofrost Repose",
+            "desc": "Jinhsi restores 50 Incandescence while staying out of combat for more than 4s. This effect can only be triggered 1 time(s) every 4s."
           },
           {
-            "name": "天定神子身",
-            "desc": "今汐施放变奏技能蟠龙清辉后，获得一层谪仙效果，每层使攻击提升25%，可叠加2层，效果持续20秒。",
+            "name": "Celestial Incarnate",
+            "desc": "Jinhsi gains one stack of Immortal's Descendancy after casting Intro Skill Loong's Halo. Each stack of Immortal's Descendancy increases Jinhsi's ATK by 25%, stacking up to 2 time(s) and lasting for 20s.",
             "buffs": [
               {
-                "label": "攻击",
-                "trigger": "施放变奏技能后",
-                "excerpt": "释放蟠龙清辉后，每层攻击提升25%"
+                "label": "ATK",
+                "trigger": "After casting Loong's Halo - Skill DMG",
+                "excerpt": "ATK +50% per stack"
               }
             ]
           },
           {
-            "name": "自甘佑凡尘",
-            "desc": "今汐施放共鸣解放移岁诛邪或共鸣技能惊龙破空时，附近队伍中所有角色全属性伤害加成提升20%，持续20秒。",
+            "name": "Benevolent Grace",
+            "desc": "When Jinhsi casts Resonance Liberation Purge of Light or Resonance Skill Illuminous Epiphany, all nearby Resonators on the team gain 20% Attribute DMG Bonus for 20s.",
             "buffs": [
               {
-                "label": "全属性伤害加成",
-                "trigger": "施放共鸣解放/惊龙破空后",
-                "excerpt": "释放移岁诛邪或惊龙破空时，全属性伤害加成提升20%"
+                "label": "All-Attribute DMG Bonus",
+                "trigger": "After casting Purge of Light - Skill DMG / Luminal Synthesis - Illuminous Epiphany: Stella Glamor DMG",
+                "excerpt": "All-Attribute DMG Bonus +20%"
               }
             ]
           },
           {
-            "name": "流光化霜雪",
-            "desc": "共鸣解放移岁诛邪伤害倍率提升 120%。",
+            "name": "Frostfire Illumination",
+            "desc": "The DMG Multiplier of Resonance Liberation Purge of Light is increased by 120%.",
             "buffs": [
               {
-                "label": "移岁诛邪倍率提升",
-                "trigger": "默认",
-                "excerpt": "移岁诛邪伤害倍率提升120%"
+                "label": "Purge of Light - Skill DMG Multiplier Increase",
+                "trigger": "Default",
+                "excerpt": "Purge of Light - Skill DMG Multiplier Increase +120%"
               }
             ]
           },
           {
-            "name": "寒尽又逢春",
-            "desc": "共鸣技能惊龙破空伤害倍率提升45%，消耗【韶光】时带来的倍率增加效果额外提升45%。",
+            "name": "Thawing Triumph",
+            "desc": "The DMG Multiplier of Resonance Skill Illuminous Epiphany is increased by 45% and the additional DMG Multiplier gained by consuming Incandescence is increased by 45%.",
             "buffs": [
               {
-                "label": "惊龙破空倍率提升",
-                "trigger": "默认",
-                "excerpt": "惊龙破空伤害倍率提升45%"
+                "label": "Luminal Synthesis - Illuminous Epiphany: Stella Glamor DMG Multiplier Increase",
+                "trigger": "Default",
+                "excerpt": "Luminal Synthesis - Illuminous Epiphany: Stella Glamor DMG Multiplier Increase +45%"
               },
               {
-                "label": "韶光倍率提升",
-                "trigger": "默认",
-                "excerpt": "韶光带来的倍率增加效果额外提升45%"
+                "label": "Luminal Synthesis - Illuminous Epiphany: Stella Glamor DMG Extra Multiplier",
+                "trigger": "Default",
+                "excerpt": "Luminal Synthesis - Illuminous Epiphany: Stella Glamor DMG Extra Multiplier +45%"
               }
             ]
           }

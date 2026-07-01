@@ -28,6 +28,7 @@ window.WUWA_BUFF_VIEW = (() => {
       const start = Math.max(1, Math.round(num(buff.stackStart ?? range[0] ?? 1)));
       const end = Math.max(start, Math.round(num(buff.stackEnd ?? range[1] ?? buff.maxStacks)));
       if (L.isEnglish()) return start === end ? `Stack ${start} each` : `Stacks ${start}-${end} each`;
+      if (L.isKorean()) return start === end ? `${start}번째 스택마다` : `${start}-${end}번째 스택마다`;
       return start === end ? `第 ${start} 层每层` : `第 ${start}-${end} 层每层`;
     }
 
@@ -36,15 +37,16 @@ window.WUWA_BUFF_VIEW = (() => {
       const info = scaleByInfo(slot, buff);
       if (!info || info.cap == null) return "";
       const unit = buff.zone === "attackFlat" ? "" : "%";
+      if (L.isKorean()) return ` (상한 ${tnum(info.cap)}${unit})`;
       return L.isEnglish() ? ` (cap ${tnum(info.cap)}${unit})` : `（上限${tnum(info.cap)}${unit}）`;
     }
 
     function buffFormulaText(slot, buff, idx) {
-      if (buff.multScaleAdd) return `+${tnum(num(buff.multScaleAdd))}%${L.isEnglish() ? " current multiplier" : "当前倍率"}`;
-      if (buff.perStackBonus) return `+${tnum(num(buff.perStackBonus))}%${L.isEnglish() ? " stack multiplier" : "层数倍率"}`;
+      if (buff.multScaleAdd) return `+${tnum(num(buff.multScaleAdd))}%${L.text("当前倍率")}`;
+      if (buff.perStackBonus) return `+${tnum(num(buff.perStackBonus))}%${L.text("层数倍率")}`;
       const v = tnum(buff.multAdd ? num(buff.multAdd) : buffValue(slot, buff, idx));
       const cap = scaleCapText(slot, buff);
-      if (buff.zone === "effectCapBonus") return `+${v} ${L.isEnglish() ? "stacks" : "层"}`;
+      if (buff.zone === "effectCapBonus") return `+${v} ${L.stackUnit()}`;
       if (buff.zone === "resShred" || buff.zone === "defShred" || buff.zone === "defIgnore") return `-${v}%${cap}`;
       if (buff.zone === "attackFlat") return `+${v}${cap}`;
       if (buff.multAdd || !FORMULA_MULTIPLY_ZONES.has(buff.zone)) return `+${v}%${cap}`;
@@ -65,10 +67,10 @@ window.WUWA_BUFF_VIEW = (() => {
       const stackKey = buffStackStorageKey(buff);
       const stackCap = buffStackCap(slot, buff);
       const stackRow = buff.maxStacks
-        ? `<div class="b-stack">${esc(buffStackRangeText(buff))} ${tnum(buff.value / buff.maxStacks)}${buff.zone === "attackFlat" ? "" : "%"} · ${L.isEnglish() ? "Max" : "最高"} ${stackCap} ${L.isEnglish() ? "stacks" : "层"} · ${L.isEnglish() ? "Current" : "当前"} <input type="number" min="0" max="${stackCap}" data-act="stack" data-slot="${idx}" data-buff="${esc(buff.id)}" data-stack-key="${esc(stackKey)}" value="${cur}" ${st.gated ? "disabled" : ""} /> ${L.isEnglish() ? "stacks" : "层"}</div>`
+        ? `<div class="b-stack">${esc(buffStackRangeText(buff))} ${tnum(buff.value / buff.maxStacks)}${buff.zone === "attackFlat" ? "" : "%"} · ${L.text("最高")} ${L.stackText(stackCap)} · ${L.text("当前")} <input type="number" min="0" max="${stackCap}" data-act="stack" data-slot="${idx}" data-buff="${esc(buff.id)}" data-stack-key="${esc(stackKey)}" value="${cur}" ${st.gated ? "disabled" : ""} /> ${L.stackUnit(cur)}</div>`
         : "";
       const control = canConfirm
-        ? `<input type="checkbox" data-act="toggle" data-slot="${idx}" data-buff="${buff.id}" ${checked} aria-label="${esc(L.buffLabel(buff))}${esc(L.isEnglish() ? " prerequisite met" : "前置已满足")}" />`
+        ? `<input type="checkbox" data-act="toggle" data-slot="${idx}" data-buff="${buff.id}" ${checked} aria-label="${esc(L.buffLabel(buff))}${esc(L.text("前置已满足"))}" />`
         : `<input type="checkbox" ${st.applies ? "checked" : ""} disabled aria-label="${esc(st.gated ? L.text(st.gated) : L.text("自动应用"))}" />`;
       const tag = canConfirm ? "label" : "div";
       const detailText = state.showDesc ? buffOriginalText(buff) : buffExcerpt(buff);

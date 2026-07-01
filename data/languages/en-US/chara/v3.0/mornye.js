@@ -5,14 +5,6 @@ window.WUWA_LANGUAGES.extend("en-US", {
     "chars": {
       "mornye": {
         "name": "Mornye",
-        "resources": [
-          {
-            "label": "静质量能"
-          },
-          {
-            "label": "相对动能"
-          }
-        ],
         "skills": [
           {
             "name": "Ground State Calibration - Basic Attack Stage 1 DMG"
@@ -64,196 +56,204 @@ window.WUWA_LANGUAGES.extend("en-US", {
           },
           {
             "name": "Mass-Energy Equivalence - Heavy Attack - Geopotential Shift DMG",
-            "requiresResourceLabel": "静质量能满"
+            "requiresResourceLabel": "Rest Mass Energy full"
           },
           {
             "name": "Mass-Energy Equivalence - Heavy Attack - Inversion DMG",
-            "requiresResourceLabel": "相对动能满"
+            "requiresResourceLabel": "Relative Kinetic Energy full"
           },
           {
             "name": "Mass-Energy Equivalence - Tune Rupture Response - Particle Jet DMG"
           }
         ],
+        "resources": [
+          {
+            "label": "Rest Mass Energy"
+          },
+          {
+            "label": "Relative Kinetic Energy"
+          }
+        ],
         "combatStates": [
           {
-            "label": "广域观测模式",
-            "inactiveLabel": "未处于广域观测模式",
-            "entry": "施放变奏技能·归敛或重击·位势转换后进入，持续30秒；切换角色、落地、耐力耗尽或特定动作会提前退出。",
+            "label": "Wide Field Observation Mode",
+            "idLabel": "Wide Field Observation Mode",
+            "inactiveLabel": "Not in Wide Field Observation Mode",
+            "entry": "Basic Attack - Wide Field Observation Mode",
+            "effects": "Basic Attack - Wide Field Observation Mode",
             "options": [
               {
-                "label": "广域观测模式",
-                "valueLabel": "广域观测模式"
+                "label": "Wide Field Observation Mode",
+                "valueLabel": "Wide Field Observation Mode"
               }
-            ],
-            "idLabel": "广域观测模式"
+            ]
           },
           {
-            "label": "谐振场",
-            "inactiveLabel": "未展开谐振场",
-            "entry": "进入广域观测模式时展开谐振场；若施放临界协议时已存在谐振场，随后摧毁并展开强谐振场。",
+            "label": "Syntony Field",
+            "idLabel": "Syntony Field",
+            "inactiveLabel": "Not in Syntony Field",
+            "entry": "When casting this skill, if a Syntony Field is present, remove it and generate a High Syntony Field.",
+            "effects": "When casting this skill, if a Syntony Field is present, remove it and generate a High Syntony Field.",
             "options": [
               {
-                "label": "谐振场",
-                "valueLabel": "谐振场"
+                "label": "Syntony Field",
+                "valueLabel": "Syntony Field"
               },
               {
-                "label": "强谐振场",
-                "valueLabel": "谐振场·强谐振场"
+                "label": "Syntony Field · High Syntony Field",
+                "valueLabel": "Syntony Field · High Syntony Field"
               }
-            ],
-            "idLabel": "谐振场"
+            ]
           },
           {
-            "label": "目标干涉标记",
-            "inactiveLabel": "目标未拥有干涉标记",
-            "entry": "重击·反演命中附加观测标记；队伍对观测标记目标造成谐度破坏伤害后，莫宁为目标附加干涉标记。1链后莫宁附加观测标记时会同时附加干涉标记。",
+            "label": "Target Interfered Marker",
+            "idLabel": "Interfered Marker",
+            "inactiveLabel": "Not in Interfered Marker",
+            "entry": "When a Resonator in the team deals Tune Break DMG to a target inflicted with Observation Marker, Mornye inflicts an Interfered Marker on the target for 8s.",
+            "effects": "When a Resonator in the team deals Tune Break DMG to a target inflicted with Observation Marker, Mornye inflicts an Interfered Marker on the target for 8s.",
             "options": [
               {
-                "label": "干涉标记",
-                "valueLabel": "干涉标记"
+                "label": "Interfered Marker",
+                "valueLabel": "Interfered Marker"
               }
-            ],
-            "idLabel": "干涉标记"
+            ]
           },
           {
-            "label": "目标谐度干涉",
-            "inactiveLabel": "目标未处于谐度干涉",
-            "entry": "队伍中的角色对目标造成谐度破坏伤害后，使目标进入震谐·干涉或集谐·干涉。",
+            "label": "Target Off-Tune Interference",
+            "idLabel": "Off-Tune Interference",
+            "inactiveLabel": "Not in Off-Tune Interference",
+            "entry": "Select the current Off-Tune Interference.",
+            "effects": "Select the current Off-Tune Interference.",
             "options": [
               {
-                "label": "震谐·干涉",
-                "valueLabel": "谐度干涉·震谐"
+                "label": "Off-Tune Interference · Tune Rupture",
+                "valueLabel": "Off-Tune Interference · Tune Rupture"
               },
               {
-                "label": "集谐·干涉",
-                "valueLabel": "谐度干涉·集谐"
+                "label": "Off-Tune Interference · Tune Strain",
+                "valueLabel": "Off-Tune Interference · Tune Strain"
               }
-            ],
-            "idLabel": "谐度干涉"
+            ]
           }
         ],
         "buffs": [
           {
-            "source": "固有·蓝图",
-            "label": "共鸣效率",
-            "trigger": "默认",
-            "excerpt": "共鸣效率提升10%",
-            "desc": "莫宁的共鸣效率提升10%。"
+            "source": "Inherent Skill: Blueprint",
+            "label": "Energy Regen",
+            "trigger": "In Off-Tune Interference · Tune Strain",
+            "excerpt": "Energy Regen +10%",
+            "desc": "Energy Regen +10%"
           },
           {
-            "source": "共鸣解放·临界协议",
-            "label": "暴击",
-            "trigger": "施放共鸣解放时",
-            "excerpt": "临界协议按超过100%的共鸣效率提升暴击，上限80%",
-            "desc": "莫宁自身共鸣效率大于100%时，每超过1%的共鸣效率使该技能造成伤害的暴击提升0.5%，上限80%。"
+            "source": "Resonance Liberation: Critical Protocol",
+            "label": "Crit. Rate",
+            "trigger": "In Off-Tune Interference · Tune Strain",
+            "excerpt": "Crit. Rate based on Energy Regen, cap 80%",
+            "desc": "The DMG Multiplier of Resonance Liberation - Critical Protocol is increased by 40%."
           },
           {
-            "source": "共鸣解放·临界协议",
-            "label": "暴击伤害",
-            "trigger": "施放共鸣解放时",
-            "excerpt": "临界协议按超过100%的共鸣效率提升暴击伤害，上限160%",
-            "desc": "莫宁自身共鸣效率大于100%时，每超过1%的共鸣效率使该技能造成的暴击伤害提升1%，上限160%。"
+            "source": "Resonance Liberation: Critical Protocol",
+            "label": "Crit. DMG",
+            "trigger": "In Off-Tune Interference · Tune Strain",
+            "excerpt": "Crit. DMG based on Energy Regen, cap 160%",
+            "desc": "The DMG Multiplier of Resonance Liberation - Critical Protocol is increased by 40%."
           },
           {
-            "source": "共鸣回路·谐振场",
-            "label": "偏谐值累积效率",
-            "trigger": "谐振场范围内",
-            "excerpt": "谐振场范围内，偏谐值累积效率提升50%",
-            "desc": "谐振场生效范围内附近队伍中所有角色偏谐值累积效率提升50%。"
+            "source": "Forte Circuit: Syntony Field",
+            "label": "Off-Tune Buildup Efficiency",
+            "trigger": "In Syntony Field",
+            "excerpt": "Off-Tune Buildup Efficiency +50%",
+            "desc": "When casting this skill, if a Syntony Field is present, remove it and generate a High Syntony Field."
           },
           {
-            "source": "共鸣解放·强谐振场",
-            "label": "防御",
-            "trigger": "强谐振场范围内",
-            "excerpt": "强谐振场范围内，防御提升20%",
-            "desc": "强谐振场生效范围内附近队伍中所有角色防御提升20%。"
+            "source": "Resonance Liberation: High Syntony Field",
+            "label": "DEF",
+            "trigger": "In Syntony Field · High Syntony Field",
+            "excerpt": "DEF +20%",
+            "desc": "When casting this skill, if a Syntony Field is present, remove it and generate a High Syntony Field."
           },
           {
-            "source": "共鸣回路·干涉标记",
-            "label": "受到伤害提升",
-            "trigger": "攻击干涉标记目标时",
-            "excerpt": "攻击干涉标记且处于震谐/集谐干涉的目标时，目标受到伤害提升按共鸣效率换算，上限40%",
-            "desc": "若目标处于【震谐·干涉】或【集谐·干涉】状态，则附近队伍中所有角色对其造成的伤害提升：莫宁自身共鸣效率大于100%时，每超过1%的共鸣效率计算为0.25%的伤害提升，上限40%。"
+            "source": "Forte Circuit: Interfered Marker",
+            "label": "Vulnerability",
+            "trigger": "In Interfered Marker",
+            "excerpt": "Vulnerability based on Energy Regen, cap 40%",
+            "desc": "When a Resonator in the team deals Tune Break DMG to a target inflicted with Observation Marker, Mornye inflicts an Interfered Marker on the target for 8s."
           },
           {
-            "source": "谐度破坏·解耦",
-            "label": "最终伤害提升",
-            "trigger": "响应集谐·干涉时",
-            "excerpt": "响应集谐·干涉时，每层按谐度破坏增幅提升最终伤害",
-            "desc": "响应【集谐·干涉】：目标每有一层【集谐·干涉】可使莫宁对其造成的最终伤害提升，莫宁的每点谐度破坏增幅计入0.12%的最终伤害提升。莫宁处于编队中时，目标的【集谐·干涉】层数上限增加1层。"
+            "source": "Tune Break: Decoupling",
+            "label": "Final DMG Bonus",
+            "trigger": "In Off-Tune Interference · Tune Strain",
+            "excerpt": "Final DMG Bonus +0% per stack",
+            "desc": "Final DMG Bonus +0% per stack"
           },
           {
-            "source": "延奏·递归",
-            "label": "全伤害加深",
-            "trigger": "释放延奏技能后",
-            "excerpt": "队伍中的角色全伤害加深25%",
-            "desc": "队伍中的角色全伤害加深25%，持续30秒。"
+            "source": "Outro Skill: Recursion",
+            "label": "DMG Increase",
+            "trigger": "In Off-Tune Interference · Tune Strain",
+            "excerpt": "DMG Increase +25%",
+            "desc": "DMG Increase +25%"
           }
         ],
         "chain": [
           {
-            "name": "缄默的观测者",
-            "desc": "普攻·广域观测模式免疫打断。莫宁为目标附加的干涉标记的持续时间延长150%，且干涉标记的伤害提升效果不再需要目标处于【震谐·干涉】或【集谐·干涉】状态。莫宁为目标附加观测标记时，将同时附加干涉标记。",
+            "name": "The Silent Observer",
+            "desc": "Basic Attack – Wide Field Observation Mode becomes immune to interruption.\nThe duration of Interfered Marker is extended by 150%. Interfered Marker now grants DMG increase even when the target is not affected by Tune Rupture - Interfered or Tune Strain - Interfered. When Mornye applies Observation Marker on a target, she also inflicts Interfered Marker.",
             "buffs": [
               {
-                "label": "全伤害加深",
-                "trigger": "攻击干涉标记目标时",
-                "excerpt": "攻击干涉标记目标时，全伤害加深按共鸣效率换算，上限40%",
-                "desc": "莫宁为目标附加的干涉标记的持续时间延长150%，且干涉标记的伤害提升效果不再需要目标处于【震谐·干涉】或【集谐·干涉】状态。"
+                "label": "DMG Increase",
+                "trigger": "In Interfered Marker",
+                "excerpt": "DMG Increase based on Energy Regen, cap 40%"
               }
             ]
           },
           {
-            "name": "熵增的启明星",
-            "desc": "附近队伍中所有角色对拥有干涉标记的目标造成的暴击伤害提升：莫宁自身共鸣效率大于100%时，每超过1%的共鸣效率计算为0.2%的暴击伤害提升，上限32%。谐振场、强谐振场还会使生效范围内附近队伍中所有角色偏谐值累积效率额外提升20%。",
+            "name": "Morning Star of Entropy",
+            "desc": "All nearby Resonators in the team gain Crit. DMG increase against targets with Interfered Marker: Every 1% of Mornye's Energy Regen over 100% grants 0.2% Crit. DMG increase, up to 32%.\nSyntony Field and High Syntony Field further increase the Off-Tune Buildup Rate of all nearby Resonators in the team by 20%.",
             "buffs": [
               {
-                "label": "暴击伤害",
-                "trigger": "攻击干涉标记目标时",
-                "excerpt": "攻击干涉标记目标时，暴击伤害按共鸣效率换算，上限32%",
-                "desc": "附近队伍中所有角色对拥有干涉标记的目标造成的暴击伤害提升：莫宁自身共鸣效率大于100%时，每超过1%的共鸣效率计算为0.2%的暴击伤害提升，上限32%。"
+                "label": "Crit. DMG",
+                "trigger": "In Interfered Marker",
+                "excerpt": "Crit. DMG based on Energy Regen, cap 32%"
               },
               {
-                "label": "偏谐值累积效率",
-                "trigger": "谐振场范围内",
-                "excerpt": "谐振场范围内，偏谐值累积效率额外提升20%",
-                "desc": "谐振场、强谐振场还会使生效范围内附近队伍中所有角色偏谐值累积效率额外提升20%。"
+                "label": "Off-Tune Buildup Efficiency",
+                "trigger": "In Syntony Field",
+                "excerpt": "Off-Tune Buildup Efficiency +20%"
               }
             ]
           },
           {
-            "name": "递归的蓝图",
-            "desc": "施放共鸣技能·分布式阵列时，额外回复自身25点协奏能量，并回复100点【相对动能】，每25秒可触发1次。"
+            "name": "Blueprint of Recursion",
+            "desc": "Casting Resonance Skill - Distributed Array additionally restores 25 points of Concerto Energy and 100 Relative Momentum, triggered once every 25s."
           },
           {
-            "name": "宇宙的隐变量",
-            "desc": "强谐振场的治疗量提升30%。"
+            "name": "Latent Variables of the Cosmos",
+            "desc": "The healing of High Syntony Field is increased by 30%."
           },
           {
-            "name": "钟慢效应",
-            "desc": "共鸣解放·临界协议伤害倍率提升40%。震谐响应·粒子射流伤害倍率提升160%。",
+            "name": "Time Dilation Effect",
+            "desc": "The DMG Multiplier of Resonance Liberation - Critical Protocol is increased by 40%.\nThe DMG Multiplier of Tune Rupture Response - Particle Jet is increased by 160%.",
             "buffs": [
               {
-                "label": "临界协议倍率提升",
-                "trigger": "默认",
-                "excerpt": "临界协议伤害倍率提升40%"
+                "label": "Critical Protocol - Skill DMG Multiplier Increase",
+                "trigger": "In Off-Tune Interference · Tune Strain",
+                "excerpt": "Critical Protocol - Skill DMG Multiplier Increase +40%"
               },
               {
-                "label": "粒子射流倍率提升",
-                "trigger": "默认",
-                "excerpt": "震谐响应·粒子射流伤害倍率提升160%"
+                "label": "Mass-Energy Equivalence - Tune Rupture Response - Particle Jet DMG Multiplier Increase",
+                "trigger": "In Off-Tune Interference · Tune Strain",
+                "excerpt": "Mass-Energy Equivalence - Tune Rupture Response - Particle Jet DMG Multiplier Increase +160%"
               }
             ]
           },
           {
-            "name": "直到群星的尽头",
-            "desc": "共鸣解放·临界协议造成的伤害提升400%。莫宁处于非战斗状态大于4秒后，每0.2秒回复共鸣能量上限10%的共鸣能量。",
+            "name": "To the Far Shores of the Stars",
+            "desc": "Resonance Liberation - Critical Protocol deals 400% more DMG. If Mornye has not engaged in combat for over 4s, she restores Resonance Energy equal to 10% of her Max Resonance Energy every 0.2s.",
             "buffs": [
               {
-                "label": "临界协议伤害加深",
-                "trigger": "默认",
-                "excerpt": "临界协议造成的伤害加深400%",
-                "desc": "共鸣解放·临界协议造成的伤害提升400%。"
+                "label": "Critical Protocol - Skill DMG Increase",
+                "trigger": "In Off-Tune Interference · Tune Strain",
+                "excerpt": "Critical Protocol - Skill DMG Increase +400%"
               }
             ]
           }

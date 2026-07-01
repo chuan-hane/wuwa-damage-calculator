@@ -5,17 +5,6 @@ window.WUWA_LANGUAGES.extend("en-US", {
     "chars": {
       "augusta": {
         "name": "Augusta",
-        "resources": [
-          {
-            "label": "战势"
-          },
-          {
-            "label": "权炳"
-          },
-          {
-            "label": "威慑"
-          }
-        ],
         "skills": [
           {
             "name": "Hunter's Path - Stage 1 DMG"
@@ -43,23 +32,23 @@ window.WUWA_LANGUAGES.extend("en-US", {
           },
           {
             "name": "Hunter's Path - Heavy Attack - Thunderoar: Backstep DMG",
-            "requiresResourceLabel": "战势满"
+            "requiresResourceLabel": "Prowess full"
           },
           {
             "name": "Hunter's Path - Heavy Attack - Thunderoar: Spinslash DMG",
-            "requiresResourceLabel": "战势满"
+            "requiresResourceLabel": "Prowess full"
           },
           {
             "name": "Hunter's Path - Heavy Attack - Thunderoar: Uppercut DMG",
-            "requiresResourceLabel": "战势满"
+            "requiresResourceLabel": "Prowess full"
           },
           {
             "name": "Hunter's Path - Heavy Attack: Steelclash DMG",
-            "requiresResourceLabel": "战势满"
+            "requiresResourceLabel": "Prowess full"
           },
           {
             "name": "Hunter's Path - Dodge Counter - Thunderoar: Backstep DMG",
-            "requiresResourceLabel": "权炳满"
+            "requiresResourceLabel": "Ascendancy full"
           },
           {
             "name": "Warrior's Blade - Skill DMG"
@@ -69,161 +58,172 @@ window.WUWA_LANGUAGES.extend("en-US", {
           },
           {
             "name": "Sunward Conquest - Sublime is the Sun - Sunborne DMG",
-            "requiresResourceLabel": "2威慑"
+            "requiresResourceLabel": "Majesty at least 2"
           },
           {
             "name": "Sunward Conquest - Sublime is the Sun - Everbright Protector DMG",
-            "requiresResourceLabel": "2威慑"
+            "requiresResourceLabel": "Majesty at least 2"
           },
           {
             "name": "Stride of Goldenflare - Skill DMG"
           },
           {
             "name": "Call Me By the Sun - Resonance Skill - Undying Sunlight: Strike DMG",
-            "requiresResourceLabel": "权炳满"
+            "requiresResourceLabel": "Ascendancy full"
           },
           {
             "name": "Call Me By the Sun - Resonance Skill - Undying Sunlight: Leap DMG",
-            "requiresResourceLabel": "权炳满"
+            "requiresResourceLabel": "Ascendancy full"
           },
           {
             "name": "Call Me By the Sun - Resonance Skill - Undying Sunlight: Plunge DMG",
-            "requiresResourceLabel": "权炳满"
+            "requiresResourceLabel": "Ascendancy full"
           },
           {
             "name": "Call Me By the Sun - Mid-air Dodge Counter: Undying Sunlight Strike DMG",
-            "requiresResourceLabel": "权炳满"
+            "requiresResourceLabel": "Ascendancy full"
           },
           {
             "name": "Engraved in Radiant Light - Thunder Rage DMG"
           }
         ],
-        "combatStates": [
+        "resources": [
           {
-            "label": "俯首之刻",
-            "inactiveLabel": "未处于俯首之刻",
-            "entry": "存在2层威慑时，长按共鸣解放可施放赫日威临并进入俯首之刻，持续7秒；期间仅能施放赫日威临·烈阳、赫日威临·不朽者之肃、闪避和空中攻击。",
-            "options": [
-              {
-                "label": "俯首之刻",
-                "valueLabel": "俯首之刻"
-              }
-            ],
-            "idLabel": "俯首之刻"
+            "label": "Prowess"
           },
           {
-            "label": "王之界域",
-            "inactiveLabel": "未处于王之界域",
-            "entry": "施放共鸣解放·赫日威临时展开，持续30秒。",
+            "label": "Ascendancy"
+          },
+          {
+            "label": "Majesty"
+          }
+        ],
+        "combatStates": [
+          {
+            "label": "Sworn Allegiance",
+            "idLabel": "Sworn Allegiance",
+            "inactiveLabel": "Not in Sworn Allegiance",
+            "entry": "- When casting Resonance Liberation - Sublime is the Sun, Augusta generates the Ruler's Realm and enters the Sworn Allegiance state for 7s.",
+            "effects": "- When casting Resonance Liberation - Sublime is the Sun, Augusta generates the Ruler's Realm and enters the Sworn Allegiance state for 7s.",
             "options": [
               {
-                "label": "王之界域",
-                "valueLabel": "王之界域"
+                "label": "Sworn Allegiance",
+                "valueLabel": "Sworn Allegiance"
               }
-            ],
-            "idLabel": "王之界域"
+            ]
+          },
+          {
+            "label": "Intro Skill",
+            "idLabel": "Intro Skill",
+            "inactiveLabel": "Not in Intro Skill",
+            "entry": "- Prowess is fully restored when casting Intro Skill - Stride of Goldenflare.",
+            "effects": "- Prowess is fully restored when casting Intro Skill - Stride of Goldenflare.",
+            "options": [
+              {
+                "label": "Intro Skill",
+                "valueLabel": "Intro Skill"
+              }
+            ]
           }
         ],
         "buffs": [
           {
-            "source": "共鸣回路·以众愿为冕",
-            "label": "导电伤害加成",
-            "trigger": "拥有以众愿为冕时",
-            "excerpt": "以众愿为冕每层导电伤害加成提升15%",
-            "desc": "以众愿为冕：每层使导电伤害加成提升15%，上限为1层；可由延奏技能、炽盛决意和共鸣链效果获得。共鸣解放·赫日威临·不朽者之肃结束时，清除自身全部的【以众愿为冕】。"
+            "source": "Forte Circuit: Crown of Wills",
+            "label": "Electro DMG Bonus",
+            "trigger": "In Intro Skill",
+            "excerpt": "Electro DMG Bonus +15% per stack",
+            "desc": "Casting Sublime is the Sun - Everbright Protector ends the Sworn Allegiance state and consumes all stacks of Crown of Wills later."
           },
           {
-            "source": "延奏·不屈的战歌",
-            "label": "全伤害加深",
-            "trigger": "释放延奏技能后",
-            "excerpt": "下一位登场角色全伤害加深15%",
-            "desc": "下一位登场角色获得如下效果，持续14秒，若切换至其他角色则如下效果提前结束：全伤害加深15%。"
+            "source": "Outro Skill: Battlesong of the Unyielding",
+            "label": "DMG Increase",
+            "trigger": "In Intro Skill",
+            "excerpt": "DMG Increase +15%",
+            "desc": "- 1 stack of Majesty is obtained when other Resonators in the team cast Outro Skill under the effect of Augusta's Outro Skill - Battlesong of the Unyielding."
           }
         ],
         "chain": [
           {
-            "name": "于焦壤中蒙垢",
-            "desc": "·【以众愿为冕】每层使暴击伤害额外提升15%。·【以众愿为冕】上限提高至2层。·奥古斯塔施放变奏技能·灼金的巡行时，也可以获得1层【以众愿为冕】。·共鸣技能·不败恒阳·迅击、共鸣技能·不败恒阳·跃空、共鸣技能·不败恒阳·落袭免疫打断。",
+            "name": "Stained in Scorched Earth",
+            "desc": "- Each stack of Crown of Wills additionally increases Augusta's Crit. DMG by 15%.\n- The max stack of Crown of Wills is increased to 2.\n- Casting Intro Skill - Stride of Goldenflare now grants 1 stacks of Crown of Wills.\n- Resonance Skill - Undying Sunlight: Strike, Resonance Skill - Undying Sunlight: Leap, and Resonance Skill - Undying Sunlight: Plunge are now immune to interruption.",
             "buffs": [
               {
-                "label": "暴击伤害",
-                "trigger": "拥有以众愿为冕时",
-                "excerpt": "以众愿为冕每层暴击伤害额外提升15%"
+                "label": "Crit. DMG",
+                "trigger": "After casting Stride of Goldenflare - Skill DMG",
+                "excerpt": "Crit. DMG +30% per stack"
               },
               {
-                "label": "导电伤害加成",
-                "trigger": "以众愿为冕达到第2层时",
-                "excerpt": "1链解锁第2层以众愿为冕，导电伤害加成可额外提升15%"
+                "label": "Electro DMG Bonus",
+                "trigger": "After casting Stride of Goldenflare - Skill DMG",
+                "excerpt": "Electro DMG Bonus +15% per stack"
               }
             ]
           },
           {
-            "name": "于血戮中涤尘",
-            "desc": "·【以众愿为冕】获得额外效果：每层使暴击提升20%。·奥古斯塔暴击高于100%时，每多出1%暴击，奥古斯塔暴击伤害提升2%，最高可提升100%暴击伤害。",
+            "name": "Cleansed in Crimson War",
+            "desc": "- Crown of Wills provides additional effects: Each stack increases Augusta's Crit. Rate by 20%.\n- For every 1% of Crit. Rate over 100%, Augusta gains 2% Crit. DMG increase, up to 100%.",
             "buffs": [
               {
-                "label": "暴击",
-                "trigger": "拥有以众愿为冕时",
-                "excerpt": "以众愿为冕每层暴击提升20%"
+                "label": "Crit. Rate",
+                "trigger": "After casting Stride of Goldenflare - Skill DMG",
+                "excerpt": "Crit. Rate +40% per stack"
               },
               {
-                "label": "暴击伤害",
-                "trigger": "暴击高于100%时",
-                "excerpt": "暴击超过100%时转暴击伤害，上限100%",
-                "desc": "奥古斯塔暴击高于100%时，每多出1%暴击，奥古斯塔暴击伤害提升2%，最高可提升100%暴击伤害。"
+                "label": "Crit. DMG",
+                "trigger": "In Intro Skill",
+                "excerpt": "Crit. DMG based on Crit. Rate, cap 100%"
               }
             ]
           },
           {
-            "name": "于朽腐中砺骨",
-            "desc": "以下技能的伤害倍率提升25%：·重击·烁雷·后撤、闪避反击·烁雷·后撤、重击·烁雷·旋切、重击·烁雷·升拳。·共鸣技能·不败恒阳·落袭。·共鸣解放·赫日威临·烈阳、共鸣解放·赫日威临·不朽者之肃。",
+            "name": "Forged in Rot and Ruin",
+            "desc": "The following skills have their DMG Multiplier increased by 25%:\n- Heavy Attack - Thunderoar: Backstep, Dodge Counter - Thunderoar: Backstep, Heavy Attack - Thunderoar: Spinslash, Heavy Attack - Thunderoar: Uppercut.\n- Resonance Skill - Undying Sunlight: Plunge.\n- Resonance Liberation - Sublime is the Sun: Sunborne, Resonance Liberation - Sublime is the Sun: Everbright Protector.",
             "buffs": [
               {
-                "label": "烁雷与赫日威临倍率提升",
-                "trigger": "默认",
-                "excerpt": "烁雷、落袭和赫日威临相关技能伤害倍率提升25%"
+                "label": "Hunter's Path - Heavy Attack - Thunderoar: Backstep DMG Multiplier Increase",
+                "trigger": "In Intro Skill",
+                "excerpt": "Hunter's Path - Heavy Attack - Thunderoar: Backstep DMG Multiplier Increase +25%"
               }
             ]
           },
           {
-            "name": "于荣辉中孤行",
-            "desc": "施放变奏技能·灼金的巡行时，队伍中的角色的攻击提升20%，持续30秒。",
+            "name": "Ascent in Sun and Glory",
+            "desc": "Casting Intro Skill - Stride of Goldenflare increases the ATK of all Resonators in the team by 20% for 30s.",
             "buffs": [
               {
-                "label": "攻击",
-                "trigger": "施放变奏技能时",
-                "excerpt": "释放灼金的巡行时，攻击提升20%"
+                "label": "ATK",
+                "trigger": "After casting Stride of Goldenflare - Skill DMG",
+                "excerpt": "ATK +20%"
               }
             ]
           },
           {
-            "name": "于怒潮中卓立",
-            "desc": "固有技能·荣誉的加护获得护盾量提升50%。"
+            "name": "Unshaken in Wrathful Tides",
+            "desc": "The Shield provided by Inherent Skill - Glory's Favor is increased by 50%."
           },
           {
-            "name": "于耀光中刻名",
-            "desc": "·【以众愿为冕】的上限提升至4层。·奥古斯塔暴击高于150%时，每多出1%暴击，奥古斯塔暴击伤害提升2%，最高可提升50%暴击伤害。·奥古斯塔施放重击·烁雷·旋切、重击·烁雷·升拳时，可以获得2层【以众愿为冕】，每1秒仅可通过于耀光中刻名的效果获得2层【以众愿为冕】。·施放重击·烁雷·旋切、重击·烁雷·升拳过程中，会在原地额外引发【怒霆】，造成两次奥古斯塔攻击100%的导电伤害，此次伤害为重击伤害。",
+            "name": "Engraved in Radiant Light",
+            "desc": "- Augusta can now hold up to 4 stacks of Crown of Wills.\n- For every 1% of Crit. Rate over 150%, Augusta gains 2% Crit. DMG increase, up to 50%.\n- When Augusta performs Heavy Attack - Thunderoar: Spinslash or Heavy Attack - Thunderoar: Uppercut, she obtains 2 stack of Crown of Wills. Augusta can only obtain 2 stacks of Crown of Wills every 1s via Engraved in Radiant Light.\n- While casting Heavy Attack - Thunderoar: Spinslash or Heavy Attack - Thunderoar: Uppercut, Thunder Rage is triggered at the spot, dealing two instances of Electro DMG, with each instance equal to 100% of Augusta's ATK, considered as Heavy Attack DMG.",
             "buffs": [
               {
-                "label": "导电伤害加成",
-                "trigger": "以众愿为冕达到第3-4层时",
-                "excerpt": "6链解锁第3-4层以众愿为冕，导电伤害加成可额外提升30%"
+                "label": "Electro DMG Bonus",
+                "trigger": "After casting Hunter's Path - Heavy Attack - Thunderoar: Spinslash DMG / Hunter's Path - Heavy Attack - Thunderoar: Uppercut DMG",
+                "excerpt": "Electro DMG Bonus +30% per stack"
               },
               {
-                "label": "暴击伤害",
-                "trigger": "以众愿为冕达到第3-4层时",
-                "excerpt": "第3-4层以众愿为冕每层暴击伤害额外提升15%"
+                "label": "Crit. DMG",
+                "trigger": "After casting Hunter's Path - Heavy Attack - Thunderoar: Spinslash DMG / Hunter's Path - Heavy Attack - Thunderoar: Uppercut DMG",
+                "excerpt": "Crit. DMG +30% per stack"
               },
               {
-                "label": "暴击",
-                "trigger": "以众愿为冕达到第3-4层时",
-                "excerpt": "第3-4层以众愿为冕每层暴击提升20%"
+                "label": "Crit. Rate",
+                "trigger": "After casting Hunter's Path - Heavy Attack - Thunderoar: Spinslash DMG / Hunter's Path - Heavy Attack - Thunderoar: Uppercut DMG",
+                "excerpt": "Crit. Rate +40% per stack"
               },
               {
-                "label": "暴击伤害",
-                "trigger": "暴击高于150%时",
-                "excerpt": "暴击超过150%时额外转暴击伤害，上限50%",
-                "desc": "奥古斯塔暴击高于150%时，每多出1%暴击，奥古斯塔暴击伤害提升2%，最高可提升50%暴击伤害。"
+                "label": "Crit. DMG",
+                "trigger": "In Intro Skill",
+                "excerpt": "Crit. DMG based on Crit. Rate, cap 50%"
               }
             ]
           }

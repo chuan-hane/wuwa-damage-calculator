@@ -5,11 +5,6 @@ window.WUWA_LANGUAGES.extend("en-US", {
     "chars": {
       "mortefi": {
         "name": "Mortefi",
-        "resources": [
-          {
-            "label": "怒气值"
-          }
-        ],
         "skills": [
           {
             "name": "Impromptu Show - Stage 1 DMG"
@@ -49,68 +44,73 @@ window.WUWA_LANGUAGES.extend("en-US", {
           },
           {
             "name": "Fury Fugue - Fury Fugue Damage",
-            "requiresResourceLabel": "100怒气值"
+            "requiresResourceLabel": "Annoyance at least 100"
+          }
+        ],
+        "resources": [
+          {
+            "label": "Annoyance"
           }
         ],
         "buffs": [
           {
-            "source": "固有·密接和应",
-            "label": "怒火赋格倍率提升",
-            "trigger": "释放激昂变奏后",
-            "excerpt": "释放激昂变奏后，怒火赋格伤害倍率提升25%",
-            "desc": "施放共鸣技能激昂变奏后8秒内，共鸣技能怒火赋格的伤害提升25%。"
+            "source": "Inherent Skill: Harmonic Control",
+            "label": "Fury Fugue - Fury Fugue Damage DMG Multiplier Increase",
+            "trigger": "After casting Passionate Variation - Skill DMG",
+            "excerpt": "Fury Fugue - Fury Fugue Damage DMG Multiplier Increase +25%",
+            "desc": "Fury Fugue - Fury Fugue Damage DMG Multiplier Increase +25%"
           },
           {
-            "source": "固有·节奏自由",
-            "label": "加强音倍率提升",
-            "trigger": "浮翼狂想期间加强音命中后",
-            "excerpt": "浮翼狂想期间，每层加强音伤害倍率提升1.5%",
-            "desc": "共鸣解放浮翼狂想持续期间，每次共鸣解放加强音命中后，都会使下次的共鸣解放加强音伤害提升1.5%，每0.35秒可触发1次，上限50层。共鸣解放浮翼狂想结束后重置效果层数。"
+            "source": "Inherent Skill: Rhythmic Vibrato",
+            "label": "Violent Finale - Marcato Damage DMG Multiplier Increase",
+            "trigger": "After casting Violent Finale - Marcato Damage",
+            "excerpt": "Violent Finale - Marcato Damage DMG Multiplier Increase +75% per stack",
+            "desc": "Violent Finale - Marcato Damage DMG Multiplier Increase +75% per stack"
           },
           {
-            "source": "延奏·怒意移调",
-            "label": "重击伤害加深",
-            "trigger": "释放延奏技能后",
-            "excerpt": "下一位登场角色重击伤害加深38%",
-            "desc": "下一位登场角色重击伤害加深38%，效果持续14秒，若切换至其他角色则该效果提前结束。"
+            "source": "Outro Skill: Rage Transposition",
+            "label": "Heavy Attack DMG Increase",
+            "trigger": "Default",
+            "excerpt": "Heavy Attack DMG Increase +38%",
+            "desc": "Heavy Attack DMG Increase +38%"
           }
         ],
         "chain": [
           {
-            "name": "孤独的练习曲",
-            "desc": "共鸣解放浮翼狂想持续期间，队伍中登场角色施放共鸣技能时，莫特斐会进行协同攻击，打出2发共鸣解放加强音，造成热熔伤害。"
+            "name": "Solitary Etude",
+            "desc": "During Resonance Liberation Burning Rhapsody, Mortefi launches Coordinated Attacks when the on-field character performs their Resonance Skills, firing 2 Resonance Liberation's Marcato hits, dealing Fusion DMG."
           },
           {
-            "name": "虚伪的赞美诗",
-            "desc": "使用声骸技能后，额外回复10点共鸣能量，每20秒可触发1次。"
+            "name": "Hypocritical Hymn",
+            "desc": "After using the Echo Skill, Mortefi restores an additional 10 Resonance Energy. This can be triggered once every 20 second."
           },
           {
-            "name": "预热的宣叙调",
-            "desc": "共鸣解放浮翼狂想持续期间，共鸣解放加强音的暴击伤害提升30%。",
+            "name": "Flaming Recitativo",
+            "desc": "During Resonance Liberation Burning Rhapsody, the Crit. DMG of Resonance Liberation's Marcato is increased by 30%.",
             "buffs": [
               {
-                "label": "暴击伤害",
-                "trigger": "浮翼狂想期间",
-                "excerpt": "浮翼狂想期间，加强音暴击伤害提升30%"
+                "label": "Crit. DMG",
+                "trigger": "Default",
+                "excerpt": "Crit. DMG +30%"
               }
             ]
           },
           {
-            "name": "宣泄的华尔兹",
-            "desc": "共鸣解放浮翼狂想的持续时间延长7秒。"
+            "name": "Cathartic Waltz",
+            "desc": "The duration of Resonance Liberation Burning Rhapsody is extended by 7s."
           },
           {
-            "name": "葬送的四重奏",
-            "desc": "共鸣技能激昂变奏和共鸣技能怒火赋格命中目标时，进行协同攻击，打出4发共鸣解放加强音，造成热熔伤害，此次共鸣解放加强音伤害降低50%。"
+            "name": "Funerary Quartet",
+            "desc": "When Resonance Skill Passionate Variation or Resonance Skill Fury Fugue hits a target, Coordinated Attacks will be triggered to fire 4 Resonance Liberation's Marcato hit(s), dealing Fusion Damage. DMG of Resonance Liberation's Marcato fired in this way is reduced by 50%."
           },
           {
-            "name": "盛怒的无言歌",
-            "desc": "施放共鸣解放暴烈终曲时，队伍中的角色攻击提升20%，持续20秒。",
+            "name": "Apoplectic Instrumental",
+            "desc": "When Resonance Liberation Violent Finale is cast, ATK of all team members is increased by 20% for 20s.",
             "buffs": [
               {
-                "label": "攻击",
-                "trigger": "释放暴烈终曲时",
-                "excerpt": "释放暴烈终曲时，攻击提升20%"
+                "label": "ATK",
+                "trigger": "After casting Violent Finale - Violent Finale Damage",
+                "excerpt": "ATK +20%"
               }
             ]
           }
