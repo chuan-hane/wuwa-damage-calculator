@@ -39,75 +39,75 @@ window.WUWA_LANGUAGES.extend("en-US", {
         ],
         "buffs": [
           {
-            "source": "固有·泛音区间",
-            "label": "攻击",
-            "trigger": "拾取天籁后",
-            "excerpt": "拾取天籁后，攻击提升15%",
-            "desc": "施放共鸣技能应急预案时，忧昙会留下一片天籁，存在时间15秒。天籁：拾取天籁的角色攻击提升15%，持续20秒。"
+            "source": "Inherent Skill: Harmonic Range",
+            "label": "ATK",
+            "trigger": "Default",
+            "excerpt": "ATK +15%",
+            "desc": "ATK +15%"
           },
           {
-            "source": "延奏·命源输送",
-            "label": "全伤害加深",
-            "trigger": "受到延奏治疗后",
-            "excerpt": "延奏治疗生效时，全伤害加深15%",
-            "desc": "持续为下一位登场角色（或附近队伍中激活延奏技能的角色）回复生命值，每3秒回复白芷1.54%生命上限的生命值，持续30秒。受到此治疗效果时，角色全伤害加深15%，持续6秒。"
+            "source": "Outro Skill: Rejuvinating Flow",
+            "label": "DMG Increase",
+            "trigger": "Default",
+            "excerpt": "DMG Increase +15%",
+            "desc": "DMG Increase +15%"
           }
         ],
         "chain": [
           {
-            "name": "极简与繁复",
-            "desc": "施放共鸣技能应急预案时，每消耗1点【念意】，白芷额外回复2.5点共鸣能量。"
+            "name": "Complex Simplicity",
+            "desc": "Resonance Skill Emergency Plan additionally restores 2.5 Resonance Energy for every 1 Concentration consumed."
           },
           {
-            "name": "沉默的冰原",
-            "desc": "施放共鸣技能应急预案时，若有4点念意，白芷的冷凝伤害加成提升15%，治疗效果加成提升15%，持续12秒。",
+            "name": "Silent Tundra",
+            "desc": "Resonance Skill Emergency Plan increases Baizhi's Glacio DMG Bonus by 15% and her Healing by 15% if she has 4 Concentration. These effects last for 12s.",
             "buffs": [
               {
-                "label": "冷凝伤害加成",
-                "trigger": "4点念意施放应急预案时",
-                "excerpt": "4点念意释放应急预案时，冷凝伤害加成提升15%"
+                "label": "Glacio DMG Bonus",
+                "trigger": "Default",
+                "excerpt": "Glacio DMG Bonus +15%"
               },
               {
-                "label": "治疗效果加成",
-                "trigger": "4点念意施放应急预案时",
-                "excerpt": "4点念意释放应急预案时，治疗效果加成提升15%"
+                "label": "Healing Bonus",
+                "trigger": "Default",
+                "excerpt": "Healing Bonus +15%"
               }
             ]
           },
           {
-            "name": "真理的崇奉",
-            "desc": "施放变奏技能覆雪流盈时，白芷的生命上限提升12%，持续10秒。",
+            "name": "Veritas Lux Mea",
+            "desc": "Intro Skill Overflowing Frost increases Baizhi's Max HP by 12% for 10s.",
             "buffs": [
               {
-                "label": "生命",
-                "trigger": "施放变奏技能时",
-                "excerpt": "释放覆雪流盈时，生命提升12%"
+                "label": "HP",
+                "trigger": "After casting Overflowing Frost - Skill DMG",
+                "excerpt": "HP +12%"
               }
             ]
           },
           {
-            "name": "被追溯的本源",
-            "desc": "施放共鸣解放刹那合弥时，共鸣解放频隙回响获得强化：·频隙回响增加2段；·频隙回响治疗倍率提升20%；·频隙回响额外造成白芷1.20%生命值上限的冷凝伤害。",
+            "name": "Eternal Verity",
+            "desc": "Upon casting Resonance Liberation Momentary Union, Resonance Liberation Remnant Entities gains the following enhancements:\n\n-Remnant Entities can be performed 2 more time(s);\n\n-Healing multiplier of Remnant Entities is increased by 20%;\n\n-Remnant Entities deals additional Glacio DMG equal to 1.20% of Baizhi's Max HP.",
             "buffs": [
               {
-                "label": "频隙回响倍率增加",
-                "trigger": "默认",
-                "excerpt": "频隙回响额外增加1.20%生命倍率"
+                "label": "Momentary Union - Remnant Entities Damage DMG Multiplier Increase",
+                "trigger": "Default",
+                "excerpt": "Momentary Union - Remnant Entities Damage DMG Multiplier Increase +1.2%"
               }
             ]
           },
           {
-            "name": "被回应的祈愿",
-            "desc": "队伍中的白芷存活时，若队伍中的角色（不包含白芷）失去意识，立刻为该角色恢复意识并回复该角色生命上限100%的生命值，该效果每10分钟可触发1次。"
+            "name": "A Wish Answered",
+            "desc": "If a team member is knocked out when Baizhi is alive on the team, immediately revive them and restore 100% of their Max HP. This effect can be triggered once every 10 minute(s)."
           },
           {
-            "name": "闻道者的觉悟",
-            "desc": "角色拾取固有技能天籁时，附近队伍中所有角色的冷凝伤害加成提升12%，持续20秒。",
+            "name": "Seeker's Devotion",
+            "desc": "When Euphonia is picked up, increase the Glacio DMG Bonus of all characters nearby by 12% for 20s.",
             "buffs": [
               {
-                "label": "冷凝伤害加成",
-                "trigger": "拾取天籁后",
-                "excerpt": "拾取天籁后，冷凝伤害加成提升12%"
+                "label": "Glacio DMG Bonus",
+                "trigger": "Default",
+                "excerpt": "Glacio DMG Bonus +12%"
               }
             ]
           }

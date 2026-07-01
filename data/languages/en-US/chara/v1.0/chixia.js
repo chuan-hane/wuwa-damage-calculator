@@ -48,70 +48,70 @@ window.WUWA_LANGUAGES.extend("en-US", {
         ],
         "buffs": [
           {
-            "source": "固有·加麻加辣",
-            "label": "攻击",
-            "trigger": "咔咔压制热压弹命中后",
-            "excerpt": "咔咔压制期间，每发热压弹命中使攻击提升1%",
-            "desc": "共鸣技能咔咔压制持续期间，每发【热压弹】命中可使攻击提升1%，持续10秒，可叠加30层。"
+            "source": "Inherent Skill: Numbingly Spicy!",
+            "label": "ATK",
+            "trigger": "Default",
+            "excerpt": "ATK +30% per stack",
+            "desc": "When the Inherent Skill Numbingly Spicy!"
           },
           {
-            "source": "固有·灼热弹匣",
-            "label": "轰轰伤害加成",
-            "trigger": "默认",
-            "excerpt": "共鸣技能轰轰伤害提升50%",
-            "desc": "【热压弹】容量上限扩充10发，共鸣技能轰轰伤害提升50%。"
+            "source": "Inherent Skill: Scorching Magazine",
+            "label": "Resonance Skill DMG Bonus",
+            "trigger": "Default",
+            "excerpt": "Resonance Skill DMG Bonus +50%",
+            "desc": "Inherent Skill Scorching Magazine increases Max \"Thermobaric Bullets\" by 10."
           }
         ],
         "chain": [
           {
-            "name": "剧院的英雄戏",
-            "desc": "施放共鸣技能轰轰时，必定暴击。",
+            "name": "No.1 Hero Play Fan",
+            "desc": "Resonance Skill Boom Boom hits will always be Critical Hits.",
             "buffs": [
               {
-                "label": "暴击",
-                "trigger": "释放轰轰时",
-                "excerpt": "释放轰轰时，暴击补足至必定暴击"
+                "label": "Crit. Rate",
+                "trigger": "Default",
+                "excerpt": "Crit. Rate +95%"
               }
             ]
           },
           {
-            "name": "跃动的火星",
-            "desc": "施放共鸣解放炽烈焰火期间，每击败1个目标，回复5点共鸣能量，每次最多可回复20点。"
+            "name": "Leaping Sparkles",
+            "desc": "During Resonance Liberation Blazing Flames, for every 1 target defeated, Chixia recovers 5 Resonance Energy, up to 20 each time."
           },
           {
-            "name": "不灭的火把",
-            "desc": "共鸣解放炽烈焰火对生命值低于50%的目标，伤害提升40%。",
+            "name": "Eternal Flames",
+            "desc": "Resonance Liberation Blazing Flames deals 40% more DMG to targets whose HP is below 50%.",
             "buffs": [
               {
-                "label": "炽烈焰火伤害加成",
-                "trigger": "目标生命低于50%时",
-                "excerpt": "目标生命低于50%时，炽烈焰火伤害提升40%"
+                "label": "Resonance Liberation DMG Bonus",
+                "trigger": "After casting Blazing Flames - Skill DMG",
+                "excerpt": "Resonance Liberation DMG Bonus +40%"
               }
             ]
           },
           {
-            "name": "英雄的绝招",
-            "desc": "施放共鸣解放炽烈焰火时，炽霞获得60发【热压弹】，并立即重置一次共鸣技能咻咻斗意的冷却时间。"
+            "name": "Hero’s Ultimate Move",
+            "desc": "Resonance Liberation Blazing Flames grants 60 \"Thermobaric Bullets\" and immediately resets the Cooldown of Resonance Skill Whizzing Fight Spirit."
           },
           {
-            "name": "胜利的枪弹焰火",
-            "desc": "固有技能加麻加辣叠加至满层时，攻击额外提升30%。",
+            "name": "Triumphant Explosions",
+            "desc": "When the Inherent Skill Numbingly Spicy! reaches max stacks, ATK is additionally increased by 30%.",
             "buffs": [
               {
-                "label": "攻击",
-                "trigger": "加麻加辣满层时",
-                "excerpt": "加麻加辣满层时，攻击额外提升30%"
+                "label": "ATK",
+                "trigger": "Default",
+                "excerpt": "ATK +30%"
               }
             ]
           },
           {
-            "name": "剧终的回归彩蛋",
-            "desc": "触发共鸣技能轰轰后，队伍中的角色普攻伤害加成提升25%，持续15秒。",
+            "name": "Easter Egg Performance",
+            "desc": "Resonance Skill Boom Boom increases the Basic Attack DMG Bonus of all team members by 25% for 15s.",
             "buffs": [
               {
-                "label": "普攻伤害加成",
-                "trigger": "触发轰轰后",
-                "excerpt": "触发轰轰后，普攻伤害加成提升25%"
+                "label": "Basic Attack DMG Bonus",
+                "trigger": "After casting Heroic Bullets - Boom Boom Damage",
+                "excerpt": "Basic Attack DMG Bonus +25%"
               }
             ]
           }

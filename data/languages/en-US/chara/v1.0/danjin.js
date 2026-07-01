@@ -5,11 +5,6 @@ window.WUWA_LANGUAGES.extend("en-US", {
     "chars": {
       "danjin": {
         "name": "Danjin",
-        "resources": [
-          {
-            "label": "彤华"
-          }
-        ],
         "skills": [
           {
             "name": "Execution - Stage 1 DMG"
@@ -58,120 +53,125 @@ window.WUWA_LANGUAGES.extend("en-US", {
           },
           {
             "name": "Serene Vigil - Chaoscleave Damage",
-            "requiresResourceLabel": "60彤华"
+            "requiresResourceLabel": "Ruby Blossom at least 60"
           },
           {
             "name": "Serene Vigil - Scatterbloom Damage",
-            "requiresResourceLabel": "已施放重击·缭乱"
+            "requiresResourceLabel": "resource_gate_2"
           },
           {
             "name": "Serene Vigil - Full Energy Chaoscleave Damage",
-            "requiresResourceLabel": "120彤华"
+            "requiresResourceLabel": "Ruby Blossom at least 120"
           },
           {
             "name": "Serene Vigil - Full Energy Scatterbloom Damage",
-            "requiresResourceLabel": "已施放满能重击·缭乱"
+            "requiresResourceLabel": "resource_gate_4"
+          }
+        ],
+        "resources": [
+          {
+            "label": "Ruby Blossom"
           }
         ],
         "buffs": [
           {
-            "source": "共鸣技能·朱蚀之刻",
-            "label": "伤害加深",
-            "trigger": "攻击携带朱蚀之刻的目标时",
-            "excerpt": "攻击携带朱蚀之刻的目标时，伤害加深20%",
-            "desc": "第2段朱蚀命中目标时，对目标附加朱蚀之刻。丹瑾攻击携带朱蚀之刻的目标时，造成的伤害提升20%。"
+            "source": "Resonance Skill: Incinerating Will",
+            "label": "DMG Increase",
+            "trigger": "Default",
+            "excerpt": "DMG Increase +20%",
+            "desc": "When Crimson Erosion 2 hits a target, apply Incinerating Will to it."
           },
           {
-            "source": "固有·盈溢",
-            "label": "重击伤害加成",
-            "trigger": "施放烬灭后",
-            "excerpt": "释放烬灭后，重击伤害加成提升30%",
-            "desc": "施放共鸣技能烬灭后，丹瑾的重击伤害提升30%，效果持续5秒。"
+            "source": "Inherent Skill: Overflow",
+            "label": "Heavy Attack DMG Bonus",
+            "trigger": "After casting Crimson Fragment - Sanguine Pulse Stage 3 DMG",
+            "excerpt": "Heavy Attack DMG Bonus +30%",
+            "desc": "Heavy Attack DMG Bonus +30%"
           },
           {
-            "source": "固有·绯光",
-            "label": "朱蚀伤害加成",
-            "trigger": "以闪避反击·逐影触发朱蚀时",
-            "excerpt": "以闪避反击触发朱蚀时，朱蚀伤害提升20%",
-            "desc": "以闪避反击·逐影触发的共鸣技能朱蚀伤害提升20%，且其消耗的生命值和回复的【彤华】翻倍。"
+            "source": "Inherent Skill: Crimson Light",
+            "label": "Resonance Skill DMG Bonus",
+            "trigger": "After casting Crimson Fragment - Crimson Erosion Stage 1 DMG / Crimson Fragment - Crimson Erosion Stage 2 DMG",
+            "excerpt": "Resonance Skill DMG Bonus +20%",
+            "desc": "Resonance Skill DMG Bonus +20%"
           },
           {
-            "source": "延奏·明晦",
-            "label": "湮灭伤害加深",
-            "trigger": "释放延奏技能后",
-            "excerpt": "下一位登场角色湮灭伤害加深23%",
-            "desc": "下一位登场角色湮灭伤害加深23%，效果持续14秒，若切换至其他角色则该效果提前结束。"
+            "source": "Outro Skill: Duality",
+            "label": "DMG Increase",
+            "trigger": "Default",
+            "excerpt": "DMG Increase +23%",
+            "desc": "DMG Increase +23%"
           }
         ],
         "chain": [
           {
-            "name": "丹心本如鉴",
-            "desc": "丹瑾攻击携带共鸣技能朱蚀之刻的目标时，自身的攻击提升5%，持续6秒，可叠加6层，每次受到伤害时减少1层。",
+            "name": "Crimson Heart of Justice",
+            "desc": "When Danjin attacks a target with Resonance Skill's Incinerating Will, her ATK is increased by 5% for 6s, stacking up to 6 times. Danjin loses 1 stacks of this effect each time she takes damage.",
             "buffs": [
               {
-                "label": "攻击",
-                "trigger": "攻击携带朱蚀之刻的目标时",
-                "excerpt": "攻击携带朱蚀之刻的目标时，每层攻击提升5%"
+                "label": "ATK",
+                "trigger": "Default",
+                "excerpt": "ATK +30% per stack"
               }
             ]
           },
           {
-            "name": "明镜却蒙尘",
-            "desc": "丹瑾攻击携带共鸣技能朱蚀之刻的目标时，造成的伤害额外提升20%。",
+            "name": "Dusted Mirror",
+            "desc": "When Danjin attacks a target with Resonance Skill's Incinerating Will, her damage dealt is increased by 20%.",
             "buffs": [
               {
-                "label": "伤害加深",
-                "trigger": "攻击携带朱蚀之刻的目标时",
-                "excerpt": "攻击携带朱蚀之刻的目标时，伤害额外加深20%"
+                "label": "DMG Increase",
+                "trigger": "Default",
+                "excerpt": "DMG Increase +20%"
               }
             ]
           },
           {
-            "name": "刹那芳华不长久",
-            "desc": "共鸣解放伤害加成提升30%。",
+            "name": "Fleeting Blossom",
+            "desc": "Resonance Liberation DMG Bonus is increased by 30%.",
             "buffs": [
               {
-                "label": "共鸣解放伤害加成",
-                "trigger": "默认",
-                "excerpt": "共鸣解放伤害加成提升30%"
+                "label": "Resonance Liberation DMG Bonus",
+                "trigger": "Default",
+                "excerpt": "Resonance Liberation DMG Bonus +30%"
               }
             ]
           },
           {
-            "name": "孤艳难红",
-            "desc": "【彤华】积攒60点以上时，丹瑾的暴击提升15%。施放重击·缭乱消耗所有【彤华】后，此效果会被延续至重击·纷落结束。",
+            "name": "Solitary Carnation",
+            "desc": "When Danjin has more than 60 \"Ruby Blossom\", her Crit. Rate is increased by 15%.\nThis effect lasts until the end of Heavy Attack: Scatterbloom even after all \"Ruby Blossom\" is consumed when casting Heavy Attack: Chaoscleave.",
             "buffs": [
               {
-                "label": "暴击",
-                "trigger": "彤华达到60点以上时",
-                "excerpt": "彤华达到60点以上时，暴击提升15%"
+                "label": "Crit. Rate",
+                "trigger": "After casting Serene Vigil - Chaoscleave Damage / Serene Vigil - Scatterbloom Damage / Serene Vigil - Full Energy Chaoscleave Damage / Serene Vigil - Full Energy Scatterbloom Damage",
+                "excerpt": "Crit. Rate +15%"
               }
             ]
           },
           {
-            "name": "剑扫春秋",
-            "desc": "丹瑾的湮灭伤害加成提升15%，生命低于60%时湮灭伤害加成额外提升15%。",
+            "name": "Reigning Blade",
+            "desc": "Danjin's Havoc DMG Bonus is increased by 15%, and further increased by another 15% when her HP is lower than 60%.",
             "buffs": [
               {
-                "label": "湮灭伤害加成",
-                "trigger": "默认",
-                "excerpt": "湮灭伤害加成提升15%"
+                "label": "Havoc DMG Bonus",
+                "trigger": "Default",
+                "excerpt": "Havoc DMG Bonus +15%"
               },
               {
-                "label": "湮灭伤害加成",
-                "trigger": "生命低于60%时",
-                "excerpt": "生命低于60%时，湮灭伤害加成额外提升15%"
+                "label": "Havoc DMG Bonus",
+                "trigger": "Default",
+                "excerpt": "Havoc DMG Bonus +15%"
               }
             ]
           },
           {
-            "name": "绯染碧玉岂堪留",
-            "desc": "施放重击缭乱时，队伍中的角色的攻击提升20%，持续20秒。",
+            "name": "Bloodied Jade",
+            "desc": "Heavy Attack Chaoscleave increases the ATK of all team members by 20% for 20s.",
             "buffs": [
               {
-                "label": "攻击",
-                "trigger": "释放重击·缭乱时",
-                "excerpt": "释放重击·缭乱时，攻击提升20%"
+                "label": "ATK",
+                "trigger": "After casting Serene Vigil - Chaoscleave Damage / Serene Vigil - Scatterbloom Damage / Serene Vigil - Full Energy Chaoscleave Damage / Serene Vigil - Full Energy Scatterbloom Damage",
+                "excerpt": "ATK +20%"
               }
             ]
           }

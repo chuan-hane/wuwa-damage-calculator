@@ -5,11 +5,6 @@ window.WUWA_LANGUAGES.extend("en-US", {
     "chars": {
       "jiyan": {
         "name": "Jiyan",
-        "resources": [
-          {
-            "label": "破阵值"
-          }
-        ],
         "skills": [
           {
             "name": "Lone Lance - Stage 1 DMG"
@@ -64,113 +59,119 @@ window.WUWA_LANGUAGES.extend("en-US", {
           },
           {
             "name": "Qingloong at War - Emerald Storm: Finale Damage",
-            "requiresResourceLabel": "30破阵值"
+            "requiresResourceLabel": "Resolve at least 30"
+          }
+        ],
+        "resources": [
+          {
+            "label": "Resolve"
           }
         ],
         "combatStates": [
           {
-            "label": "破阵状态",
-            "inactiveLabel": "未处于破阵状态",
-            "entry": "施放共鸣解放「苍躣八荒·谋定」后进入，持续10秒；若有30点以上破阵值，会先消耗30点施放「苍躣八荒·后动」。",
+            "label": "Qingloong Mode",
+            "idLabel": "Qingloong Mode",
+            "inactiveLabel": "Not in Qingloong Mode",
+            "entry": "After releasing Emerald Storm - Prelude, Jiyan enters Qingloong Mode.",
+            "effects": "After releasing Emerald Storm - Prelude, Jiyan enters Qingloong Mode.",
             "options": [
               {
-                "label": "破阵状态",
-                "valueLabel": "破阵状态"
+                "label": "Qingloong Mode",
+                "valueLabel": "Qingloong Mode"
               }
-            ],
-            "idLabel": "破阵状态"
+            ]
           }
         ],
         "buffs": [
           {
-            "source": "固有·垂天平澜",
-            "label": "攻击",
-            "trigger": "施放变奏技能后",
-            "excerpt": "释放攻其不备后，攻击提升10%",
-            "desc": "施放变奏技能攻其不备后，忌炎的攻击提升10%，持续15秒。"
+            "source": "Inherent Skill: Heavenly Balance",
+            "label": "ATK",
+            "trigger": "After casting Tactical Strike - Skill DMG",
+            "excerpt": "ATK +10%",
+            "desc": "ATK +10%"
           },
           {
-            "source": "固有·蕴风集流",
-            "label": "暴击伤害",
-            "trigger": "攻击命中后",
-            "excerpt": "攻击命中后，暴击伤害提升12%",
-            "desc": "忌炎的攻击命中目标时，暴击伤害提升12%，持续8秒。"
+            "source": "Inherent Skill: Tempest Taming",
+            "label": "Crit. DMG",
+            "trigger": "In Qingloong Mode",
+            "excerpt": "Crit. DMG +12%",
+            "desc": "Crit. DMG +12%"
           },
           {
-            "source": "共鸣回路·苍龙破阵",
-            "label": "枪扫风定伤害加成",
-            "trigger": "消耗破阵值或处于破阵状态时",
-            "excerpt": "消耗30点破阵值或处于破阵状态时，枪扫风定伤害提升20%",
-            "desc": "施放共鸣技能枪扫风定时，若【破阵值】不低于30点，则消耗30点【破阵值】，使此次共鸣技能枪扫风定伤害提升20%。处于破阵状态时，共鸣技能枪扫风定伤害提升20%，且不再消耗【破阵值】。"
+            "source": "Forte Circuit: Qingloong at War",
+            "label": "Resonance Skill DMG Bonus",
+            "trigger": "After casting Windqueller - Skill DMG",
+            "excerpt": "Resonance Skill DMG Bonus +20%",
+            "desc": "Resonance Skill DMG Bonus +20%"
           }
         ],
         "chain": [
           {
-            "name": "济世",
-            "desc": "共鸣技能枪扫风定可使用次数增加1次。施放共鸣技能枪扫风定时，消耗的【破阵值】减少15点。"
+            "name": "Benevolence",
+            "desc": "Resonance Skill Windqueller can be used 1 more time.\n\nWhen casting Resonance Skill Windqueller, the Resolve cost is decreased by 15."
           },
           {
-            "name": "通变",
-            "desc": "施放变奏技能攻其不备后，忌炎积攒30点【破阵值】，忌炎的攻击提升28%，持续15秒，每15秒可触发1次。",
+            "name": "Versatility",
+            "desc": "After casting Intro Skill Tactical Strike, Jiyan gains 30 Resolve and his ATK is increased by 28% for 15s. This can be triggered once every 15s.",
             "buffs": [
               {
-                "label": "攻击",
-                "trigger": "施放变奏技能后",
-                "excerpt": "释放攻其不备后，攻击提升28%"
+                "label": "ATK",
+                "trigger": "After casting Tactical Strike - Skill DMG",
+                "excerpt": "ATK +28%"
               }
             ]
           },
           {
-            "name": "观势",
-            "desc": "施放共鸣技能枪扫风定、共鸣解放苍躣八荒·谋定、共鸣解放苍躣八荒·后动或变奏技能攻其不备时，忌炎的暴击提升16%、暴击伤害提升32%，持续8秒。",
+            "name": "Spectation",
+            "desc": "When casting Resonance Skill Windqueller, Resonance Liberation Emerald Storm: Prelude, Resonance Skill Emerald Storm: Finale or Intro Skill Tactical Strike, Jiyan's Crit. Rate is increased by 16% and Crit. DMG is increased by 32% for 8s.",
             "buffs": [
               {
-                "label": "暴击",
-                "trigger": "施放指定技能后",
-                "excerpt": "释放指定技能后，暴击提升16%"
+                "label": "Crit. Rate",
+                "trigger": "After casting Windqueller - Skill DMG / Qingloong at War - Emerald Storm: Finale Damage / Tactical Strike - Skill DMG",
+                "excerpt": "Crit. Rate +16%"
               },
               {
-                "label": "暴击伤害",
-                "trigger": "施放指定技能后",
-                "excerpt": "释放指定技能后，暴击伤害提升32%"
+                "label": "Crit. DMG",
+                "trigger": "After casting Windqueller - Skill DMG / Qingloong at War - Emerald Storm: Finale Damage / Tactical Strike - Skill DMG",
+                "excerpt": "Crit. DMG +32%"
               }
             ]
           },
           {
-            "name": "奇正",
-            "desc": "施放共鸣解放苍躣八荒·谋定或共鸣解放苍躣八荒·后动时，队伍中的角色重击伤害加成提升25%，效果持续30秒。",
+            "name": "Prudence",
+            "desc": "When casting Resonance Liberation Emerald Storm: Prelude or Resonance Liberation Emerald Storm: Finale, the Heavy Attack DMG Bonus of all team members is increased by 25% for 30s.",
             "buffs": [
               {
-                "label": "重击伤害加成",
-                "trigger": "施放指定共鸣解放后",
-                "excerpt": "释放苍躣八荒后，队伍中角色重击伤害加成提升25%"
+                "label": "Heavy Attack DMG Bonus",
+                "trigger": "After casting Qingloong at War - Emerald Storm: Finale Damage",
+                "excerpt": "Heavy Attack DMG Bonus +25%"
               }
             ]
           },
           {
-            "name": "明断",
-            "desc": "延奏技能克己伤害倍率增加120%。攻击命中目标时，忌炎的攻击提升3%，效果持续8秒，可叠加15层；施放变奏技能攻其不备后叠加至满层。",
+            "name": "Resolution",
+            "desc": "Outro Skill Discipline gains an additional DMG Multiplier of 120%.\nWhen Jiyan's attacks hit a target, his ATK is increased by 3% for 8s, stacking up to 15 times; this effect is immediately maxed after he casts Intro Skill Tactical Strike.",
             "buffs": [
               {
-                "label": "攻击",
-                "trigger": "攻击命中或施放变奏技能后",
-                "excerpt": "攻击命中每层攻击提升3%；释放攻其不备后直接满15层"
+                "label": "ATK",
+                "trigger": "After casting Tactical Strike - Skill DMG",
+                "excerpt": "ATK +45% per stack"
               }
             ]
           },
           {
-            "name": "移山",
-            "desc": "每次使用重击、变奏技能攻其不备或共鸣技能枪扫风定时，获得1层【锐意之势】，最多可叠加2层。施放共鸣解放苍躣八荒·后动会消耗所有【锐意之势】，每层【锐意之势】使共鸣解放苍躣八荒·后动的伤害倍率提升120%。",
+            "name": "Fortitude",
+            "desc": "Every time Heavy Attack, Intro Skill Tactical Strike or Resonance Skill Windqueller is used, Jiyan gains 1 stack(s) of \"Momentum\", stacking up to 2 times.\r\nResonance Liberation Emerald Storm: Finale will consume all \"Momentum\", and each stack consumed increases the DMG multiplier of Resonance Liberation Emerald Storm: Finale by 120%.",
             "buffs": [
               {
-                "label": "苍躣八荒·后动倍率增加",
-                "trigger": "消耗1层锐意之势时",
-                "excerpt": "消耗第1层锐意之势时，苍躣八荒·后动倍率增加120%"
+                "label": "Qingloong at War - Emerald Storm: Finale Damage DMG Multiplier Increase",
+                "trigger": "After casting Qingloong at War - Emerald Storm: Finale Damage",
+                "excerpt": "Qingloong at War - Emerald Storm: Finale Damage DMG Multiplier Increase +120%"
               },
               {
-                "label": "苍躣八荒·后动倍率增加",
-                "trigger": "消耗2层锐意之势时",
-                "excerpt": "消耗第2层锐意之势时，苍躣八荒·后动倍率再增加120%"
+                "label": "Qingloong at War - Emerald Storm: Finale Damage DMG Multiplier Increase",
+                "trigger": "After casting Qingloong at War - Emerald Storm: Finale Damage",
+                "excerpt": "Qingloong at War - Emerald Storm: Finale Damage DMG Multiplier Increase +120%"
               }
             ]
           }

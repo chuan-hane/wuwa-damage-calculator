@@ -5,11 +5,6 @@ window.WUWA_LANGUAGES.extend("en-US", {
     "chars": {
       "roccia": {
         "name": "Roccia",
-        "resources": [
-          {
-            "label": "想象力"
-          }
-        ],
         "skills": [
           {
             "name": "Pero, Easy - Stage 1 DMG"
@@ -43,137 +38,143 @@ window.WUWA_LANGUAGES.extend("en-US", {
           },
           {
             "name": "A Prop Master Prepares - Stage 1 DMG",
-            "requiresResourceLabel": "100想象力"
+            "requiresResourceLabel": "Imagination at least 100"
           },
           {
             "name": "A Prop Master Prepares - Stage 2 DMG",
-            "requiresResourceLabel": "100想象力"
+            "requiresResourceLabel": "Imagination at least 100"
           },
           {
             "name": "A Prop Master Prepares - Stage 3 DMG",
-            "requiresResourceLabel": "100想象力"
+            "requiresResourceLabel": "Imagination at least 100"
           },
           {
             "name": "A Prop Master Prepares - Stage 3 DMG",
-            "requiresResourceLabel": "共鸣解放后12秒内"
+            "requiresResourceLabel": "resource_gate_2"
+          }
+        ],
+        "resources": [
+          {
+            "label": "Imagination"
           }
         ],
         "combatStates": [
           {
-            "label": "飞跃幻想",
-            "inactiveLabel": "未处于飞跃幻想",
-            "entry": "施放共鸣技能高难度设计，或重击命中且想象力至少100点时进入飞跃幻想；第1/2段幻想照进现实落地后若想象力大于100点可再次进入。",
+            "label": "Beyond Imagination",
+            "idLabel": "Beyond Imagination State",
+            "inactiveLabel": "Not in Beyond Imagination State",
+            "entry": "Select the current Beyond Imagination State.",
+            "effects": "Select the current Beyond Imagination State.",
             "options": [
               {
-                "label": "飞跃幻想",
-                "valueLabel": "飞跃幻想状态"
+                "label": "Beyond Imagination State",
+                "valueLabel": "Beyond Imagination State"
               }
-            ],
-            "idLabel": "飞跃幻想状态"
+            ]
           }
         ],
         "buffs": [
           {
-            "source": "固有·沉浸式演出",
-            "label": "攻击",
-            "trigger": "施放共鸣技能或重击时",
-            "excerpt": "释放共鸣技能或重击时，攻击提升20%",
-            "desc": "施放共鸣技能或重击时，洛可可攻击提升20%，持续12秒。"
+            "source": "Inherent Skill: Immersive Performance",
+            "label": "ATK",
+            "trigger": "After casting Pero, Easy - Heavy Attack DMG",
+            "excerpt": "ATK +20%",
+            "desc": "ATK +20%"
           },
           {
-            "source": "共鸣解放·即兴喜剧，开场",
-            "label": "固定攻击",
-            "trigger": "施放即兴喜剧，开场时",
-            "excerpt": "暴击超过50%时，队伍固定攻击提升，上限200",
-            "desc": "洛可可暴击高于50%时，每多出0.1%暴击，施放该技能时，使队伍中的角色攻击提升1点，持续30秒。最高可提升200点。"
+            "source": "Resonance Liberation: Commedia Improvviso!",
+            "label": "Flat ATK",
+            "trigger": "After casting Commedia Improvviso! - Skill DMG",
+            "excerpt": "Flat ATK based on Crit. Rate, cap 200%",
+            "desc": "Increase Resonance Liberation Commedia Improvviso!'s DMG Multiplier by 20% and Heavy Attack's DMG Multiplier by 80%."
           },
           {
-            "source": "延奏·掌声鼓励",
-            "label": "湮灭伤害加深",
-            "trigger": "释放延奏技能后",
-            "excerpt": "下一位登场角色湮灭伤害加深20%",
-            "desc": "下一位登场角色湮灭伤害加深20%，普攻伤害加深25%，效果持续14秒，若切换至其他角色则该效果提前结束。"
+            "source": "Outro Skill: Applause, Please!",
+            "label": "DMG Increase",
+            "trigger": "In Beyond Imagination State",
+            "excerpt": "DMG Increase +20%",
+            "desc": "DMG Increase +20%"
           },
           {
-            "source": "延奏·掌声鼓励",
-            "label": "普攻伤害加深",
-            "trigger": "释放延奏技能后",
-            "excerpt": "下一位登场角色普攻伤害加深25%",
-            "desc": "下一位登场角色湮灭伤害加深20%，普攻伤害加深25%，效果持续14秒，若切换至其他角色则该效果提前结束。"
+            "source": "Outro Skill: Applause, Please!",
+            "label": "Basic Attack DMG Increase",
+            "trigger": "In Beyond Imagination State",
+            "excerpt": "Basic Attack DMG Increase +25%",
+            "desc": "Basic Attack DMG Increase +25%"
           }
         ],
         "chain": [
           {
-            "name": "沉闷的灰暗涌进船舱",
-            "desc": "施放共鸣技能高难度设计时，额外回复100点【想象力】与10点协奏能量。普攻幻想照进现实免疫打断。"
+            "name": "When Shadows Engulf the Hull",
+            "desc": "Casting Resonance Skill Acrobatic Trick grants 100 additional Imagination and 10 Concerto Energy.\nImmune to interruptions when casting Basic Attack Real Fantasy"
           },
           {
-            "name": "海萤石闪烁着微弱光芒",
-            "desc": "施放普攻幻想照进现实时，队伍中的角色湮灭伤害加成提升10%，可叠加3层，持续30秒。满层时，队伍中的角色湮灭伤害加成额外提升10%，持续30秒。",
+            "name": "When the Luceanite Gleams",
+            "desc": "Casting Basic Attack Real Fantasy grants all Resonators in the team 10% Havoc DMG Bonus for 30s, stacking up to 3 time. Upon reaching the max stacks, it grants all Resonators in the team 10% additional Havoc DMG Bonus for 30s.",
             "buffs": [
               {
-                "label": "湮灭伤害加成",
-                "trigger": "施放幻想照进现实时",
-                "excerpt": "幻想照进现实时，每层湮灭伤害加成提升10%"
+                "label": "Havoc DMG Bonus",
+                "trigger": "After casting A Prop Master Prepares - Stage 1 DMG / A Prop Master Prepares - Stage 2 DMG / A Prop Master Prepares - Stage 3 DMG",
+                "excerpt": "Havoc DMG Bonus +30% per stack"
               },
               {
-                "label": "湮灭伤害加成",
-                "trigger": "海萤石满3层时",
-                "excerpt": "海萤石满层时，湮灭伤害加成额外提升10%"
+                "label": "Havoc DMG Bonus",
+                "trigger": "In Beyond Imagination State",
+                "excerpt": "Havoc DMG Bonus +10%"
               }
             ]
           },
           {
-            "name": "用心观察，以手丈量",
-            "desc": "施放变奏技能佩洛，来帮忙时，洛可可暴击提升10%，暴击伤害提升30%，持续15秒。",
+            "name": "When the Heart Sees and Hands Feel",
+            "desc": "Casting Intro Skill Pero, Help increases Roccia's Crit. Rate by 10% and Crit. DMG by 30% for 15s.",
             "buffs": [
               {
-                "label": "暴击",
-                "trigger": "施放佩洛，来帮忙时",
-                "excerpt": "释放佩洛来帮忙时，暴击提升10%"
+                "label": "Crit. Rate",
+                "trigger": "After casting Pero, Help - Skill DMG",
+                "excerpt": "Crit. Rate +10%"
               },
               {
-                "label": "暴击伤害",
-                "trigger": "施放佩洛，来帮忙时",
-                "excerpt": "释放佩洛来帮忙时，暴击伤害提升30%"
+                "label": "Crit. DMG",
+                "trigger": "After casting Pero, Help - Skill DMG",
+                "excerpt": "Crit. DMG +30%"
               }
             ]
           },
           {
-            "name": "千万“奇藏”于箱中汇聚",
-            "desc": "施放共鸣技能高难度设计时，普攻幻想照进现实伤害倍率提升60%，持续12秒。",
+            "name": "When Wonders Gather in the Box",
+            "desc": "Casting Resonance Skill Acrobatic Trick increases Basic Attack Real Fantasy's DMG Multiplier by 60% for 12s.",
             "buffs": [
               {
-                "label": "幻想照进现实倍率提升",
-                "trigger": "施放高难度设计后",
-                "excerpt": "释放高难度设计后，幻想照进现实倍率提升60%"
+                "label": "A Prop Master Prepares - Stage 1 DMG Multiplier Increase",
+                "trigger": "After casting Acrobatic Trick - Skill DMG",
+                "excerpt": "A Prop Master Prepares - Stage 1 DMG Multiplier Increase +60%"
               }
             ]
           },
           {
-            "name": "重建乐土，在舞台上",
-            "desc": "共鸣解放即兴喜剧，开场伤害倍率提升20%，重击伤害倍率提升80%。",
+            "name": "When Dreams Are Reborn on Stage",
+            "desc": "Increase Resonance Liberation Commedia Improvviso!'s DMG Multiplier by 20% and Heavy Attack's DMG Multiplier by 80%.",
             "buffs": [
               {
-                "label": "即兴喜剧倍率提升",
-                "trigger": "默认",
-                "excerpt": "即兴喜剧，开场伤害倍率提升20%"
+                "label": "Commedia Improvviso! - Skill DMG Multiplier Increase",
+                "trigger": "In Beyond Imagination State",
+                "excerpt": "Commedia Improvviso! - Skill DMG Multiplier Increase +20%"
               },
               {
-                "label": "重击倍率提升",
-                "trigger": "默认",
-                "excerpt": "重击伤害倍率提升80%"
+                "label": "Pero, Easy - Heavy Attack DMG Multiplier Increase",
+                "trigger": "In Beyond Imagination State",
+                "excerpt": "Pero, Easy - Heavy Attack DMG Multiplier Increase +80%"
               }
             ]
           },
           {
-            "name": "飞吧，乘着金色的翅膀",
-            "desc": "施放共鸣解放即兴喜剧，开场时，获得如下效果，12秒内：·普攻幻想照进现实攻击目标时，无视对方60%的防御。·普攻幻想照进现实第3段落地后，会将洛可可送上空中，进入飞跃幻想状态，此时短按普攻，将会施放普攻构筑现实，普攻构筑现实免疫打断，造成普攻幻想照进现实第3段100%的伤害，此次伤害为重击伤害。·普攻构筑现实落地后，会将洛可可送上空中，进入飞跃幻想状态。普攻构筑现实需要在处于飞跃幻想状态时才可施放。",
+            "name": "When the Golden Wings Fly",
+            "desc": "Casting Resonance Liberation Commedia Improvviso! grants the following effects for 12s:\n- Basic Attack Real Fantasy ignores enemies' DEF by 60%.\n- When Roccia lands after performing Basic Attack Real Fantasy Stage 3, she is launched into mid-air, activating Beyond Imagination. In this state, Basic Attack becomes Basic Attack Reality Recreation, dealing DMG equal to 100% of Basic Attack Real Fantasy Stage 3 DMG, considered Heavy Attack DMG. Roccia is immune to interruptions while casting Basic Attack Reality Recreation.\n- When Roccia lands after performing Basic Attack Reality Recreation, she is launched into mid-air, activating Beyond Imagination. Basic Attack Reality Recreation is only available in the Beyond Imagination state.",
             "buffs": [
               {
-                "label": "防御无视",
-                "trigger": "释放即兴喜剧，开场后",
-                "excerpt": "解放后12秒内，幻想照进现实无视60%防御"
+                "label": "DEF Ignore",
+                "trigger": "After casting Commedia Improvviso! - Skill DMG",
+                "excerpt": "DEF Ignore +60%"
               }
             ]
           }

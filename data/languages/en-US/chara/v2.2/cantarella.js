@@ -5,11 +5,6 @@ window.WUWA_LANGUAGES.extend("en-US", {
     "chars": {
       "cantarella": {
         "name": "Cantarella",
-        "resources": [
-          {
-            "label": "颤栗"
-          }
-        ],
         "skills": [
           {
             "name": "Illusion Collapse - Stage 1 DMG"
@@ -67,137 +62,144 @@ window.WUWA_LANGUAGES.extend("en-US", {
           },
           {
             "name": "Between Illusion and Reality - Perception Drain DMG",
-            "requiresResourceLabel": "3颤栗"
+            "requiresResourceLabel": "Shiver at least 3"
           },
           {
             "name": "Between Illusion and Reality - Shadowy Sweep DMG"
           }
         ],
+        "resources": [
+          {
+            "label": "Shiver"
+          }
+        ],
         "combatStates": [
           {
-            "label": "蜃境状态",
-            "inactiveLabel": "未处于蜃境",
-            "entry": "拥有迷离时施放重击·浮潜幻海后进入；3链施放共鸣解放·陷溺后也会进入。",
+            "label": "Mirage",
+            "idLabel": "Mirage",
+            "inactiveLabel": "Not in Mirage",
+            "entry": "When Cantarella has Trance, Heavy Attack becomes Delusive Dive, dealing Havoc DMG to the target, and then Cantarella enters Mirage.",
+            "effects": "When Cantarella has Trance, Heavy Attack becomes Delusive Dive, dealing Havoc DMG to the target, and then Cantarella enters Mirage.",
             "options": [
               {
-                "label": "蜃境",
-                "valueLabel": "蜃境"
+                "label": "Mirage",
+                "valueLabel": "Mirage"
               }
-            ],
-            "idLabel": "蜃境"
+            ]
           },
           {
-            "label": "目标迷梦",
-            "inactiveLabel": "目标未处于迷梦",
-            "entry": "斑驳幻梦或感知汲取命中目标后附加；2链后陷溺也可附加。持续6.5秒。",
+            "label": "Target Hazy Dream",
+            "idLabel": "Hazy Dream",
+            "inactiveLabel": "Not in Hazy Dream",
+            "entry": "Attack the target, dealing Havoc DMG, and send them into Hazy Dream.",
+            "effects": "Attack the target, dealing Havoc DMG, and send them into Hazy Dream.",
             "options": [
               {
-                "label": "迷梦",
-                "valueLabel": "迷梦"
+                "label": "Hazy Dream",
+                "valueLabel": "Hazy Dream"
               }
-            ],
-            "idLabel": "迷梦"
+            ]
           }
         ],
         "buffs": [
           {
-            "source": "固有·「药」",
-            "label": "治疗效果加成",
-            "trigger": "默认",
-            "excerpt": "治疗效果加成提升20%",
-            "desc": "治疗效果加成提升20%。"
+            "source": "Inherent Skill: \"Cure\"",
+            "label": "Healing Bonus",
+            "trigger": "In Hazy Dream",
+            "excerpt": "Healing Bonus +20%",
+            "desc": "Healing Bonus +20%"
           },
           {
-            "source": "固有·「毒」",
-            "label": "湮灭伤害加成",
-            "trigger": "施放声骸技能后",
-            "excerpt": "施放声骸技能时，每层湮灭伤害加成提升6%",
-            "desc": "施放声骸技能时，自身的湮灭伤害加成提升6%，持续10秒，可叠加2层。"
+            "source": "Inherent Skill: \"Poison\"",
+            "label": "Havoc DMG Bonus",
+            "trigger": "After casting Echo Skill",
+            "excerpt": "Havoc DMG Bonus +12% per stack",
+            "desc": "Havoc DMG Bonus +12% per stack"
           },
           {
-            "source": "延奏·柔软触手",
-            "label": "湮灭伤害加深",
-            "trigger": "释放延奏技能后",
-            "excerpt": "下一位登场角色湮灭伤害加深20%",
-            "desc": "下一位登场角色湮灭伤害加深20%，共鸣技能伤害加深25%，效果持续14秒，若切换至其他角色则该效果提前结束。"
+            "source": "Outro Skill: Gentle Tentacles",
+            "label": "DMG Increase",
+            "trigger": "In Hazy Dream",
+            "excerpt": "DMG Increase +20%",
+            "desc": "DMG Increase +20%"
           },
           {
-            "source": "延奏·柔软触手",
-            "label": "共鸣技能伤害加深",
-            "trigger": "释放延奏技能后",
-            "excerpt": "下一位登场角色共鸣技能伤害加深25%",
-            "desc": "下一位登场角色湮灭伤害加深20%，共鸣技能伤害加深25%，效果持续14秒，若切换至其他角色则该效果提前结束。"
+            "source": "Outro Skill: Gentle Tentacles",
+            "label": "Resonance Skill DMG Increase",
+            "trigger": "In Hazy Dream",
+            "excerpt": "Resonance Skill DMG Increase +25%",
+            "desc": "Resonance Skill DMG Increase +25%"
           }
         ],
         "chain": [
           {
-            "name": "在无尽展开的波涛里",
-            "desc": "施放共鸣技能时，回复1点【迷离】。共鸣技能翩跹、共鸣技能斑驳幻梦、共鸣回路感知汲取的伤害倍率提升50%。共鸣回路感知汲取免疫打断。",
+            "name": "Embrace the Endless Waves",
+            "desc": "Casting Resonance Skill recovers 1 points of Trance. The DMG Multiplier of Resonance Skill Graceful Step, Resonance Skill Flickering Reverie, and Forte Circuit Perception Drain is increased by 50%. Immune to interruptions while casting Perception Drain.",
             "buffs": [
               {
-                "label": "指定技能倍率提升",
-                "trigger": "默认",
-                "excerpt": "翩跹、斑驳幻梦、感知汲取伤害倍率提升50%"
+                "label": "Dance with Shadows - Graceful Step DMG Multiplier Increase",
+                "trigger": "In Hazy Dream",
+                "excerpt": "Dance with Shadows - Graceful Step DMG Multiplier Increase +50%"
               }
             ]
           },
           {
-            "name": "坠入迷离幻梦",
-            "desc": "共鸣解放陷溺可以使目标进入迷梦，坎特蕾拉触发惊醒的伤害倍率提升245%。",
+            "name": "Surrender to the Illusive Reverie",
+            "desc": "Resonance Liberation Flowing Suffocation now sends the target into Hazy Dream. The DMG Multiplier of Jolt triggered by Cantarella is increased by 245%.",
             "buffs": [
               {
-                "label": "惊醒倍率提升",
-                "trigger": "默认",
-                "excerpt": "坎特蕾拉触发惊醒时，伤害倍率提升245%"
+                "label": "Dance with Shadows - Jolt DMG Multiplier Increase",
+                "trigger": "In Hazy Dream",
+                "excerpt": "Dance with Shadows - Jolt DMG Multiplier Increase +245%"
               }
             ]
           },
           {
-            "name": "凝视着深渊",
-            "desc": "共鸣解放陷溺的伤害倍率提升370%。施放共鸣解放陷溺后，直接进入蜃境状态。若当前已处于蜃境状态，施放共鸣解放陷溺不会重复进入。",
+            "name": "Gaze into the Abyss",
+            "desc": "The DMG Multiplier of Resonance Liberation Flowing Suffocation is increased by 370%. After casting Resonance Liberation Flowing Suffocation, enter into Mirage. If already in Mirage, casting Resonance Liberation Flowing Suffocation does not activate the Mirage state again.",
             "buffs": [
               {
-                "label": "陷溺倍率提升",
-                "trigger": "默认",
-                "excerpt": "陷溺伤害倍率提升370%"
+                "label": "Beneath the Sea - Flowing Suffocation DMG Multiplier Increase",
+                "trigger": "In Hazy Dream",
+                "excerpt": "Beneath the Sea - Flowing Suffocation DMG Multiplier Increase +370%"
               }
             ]
           },
           {
-            "name": "就像凝视自己的灵魂",
-            "desc": "蜃境状态期间，治疗效果加成提升25%。",
+            "name": "Behold Your Own Soul",
+            "desc": "When in Mirage, Healing Bonus is increased by 25%.",
             "buffs": [
               {
-                "label": "治疗效果加成",
-                "trigger": "蜃境状态期间",
-                "excerpt": "蜃境状态期间，治疗效果加成提升25%"
+                "label": "Healing Bonus",
+                "trigger": "In Mirage",
+                "excerpt": "Healing Bonus +25%"
               }
             ]
           },
           {
-            "name": "投到倒影的怀里",
-            "desc": "共鸣解放弥漫的织梦水母的最大召唤数增加5。",
+            "name": "Rest in Your Reflection",
+            "desc": "The maximum number of Dreamweavers Cantarella can summon through Resonance Liberation Diffusion is increased by 5.",
             "buffs": [
               {
-                "label": "弥漫倍率提升",
-                "trigger": "默认",
-                "excerpt": "织梦水母上限从21只提高至26只，弥漫总倍率提升23.81%"
+                "label": "Beneath the Sea - Diffusion DMG Multiplier Increase",
+                "trigger": "In Hazy Dream",
+                "excerpt": "Beneath the Sea - Diffusion DMG Multiplier Increase +23.81%"
               }
             ]
           },
           {
-            "name": "下坠、下坠……坠入更深的幻梦",
-            "desc": "普攻蛰幻的伤害倍率提升80%。施放共鸣解放陷溺时，坎特蕾拉的伤害无视目标30%防御，持续10秒。迷梦的前1.2秒，目标受到伤害时，若此次伤害没有附加迷梦，则目标不会触发惊醒。",
+            "name": "Fall, Fall... and Fall Deeper into the Dream",
+            "desc": "Increase the DMG Multiplier of Basic Attack Phantom Sting by 80%. Casting Resonance Liberation Flowing Suffocation makes Cantarella's DMG ignore 30% of the target's DEF for 10s.\nFor the first 1.2s of Hazy Dream, when the target takes an instance of DMG that does not inflict Hazy Dream, Jolt will not be triggered on the target.",
             "buffs": [
               {
-                "label": "蛰幻倍率提升",
-                "trigger": "默认",
-                "excerpt": "普攻蛰幻伤害倍率提升80%"
+                "label": "Between Illusion and Reality - Phantom Sting Stage 1 DMG Multiplier Increase",
+                "trigger": "In Hazy Dream",
+                "excerpt": "Between Illusion and Reality - Phantom Sting Stage 1 DMG Multiplier Increase +80%"
               },
               {
-                "label": "防御无视",
-                "trigger": "施放陷溺时",
-                "excerpt": "施放陷溺时，坎特蕾拉伤害无视30%防御"
+                "label": "DEF Ignore",
+                "trigger": "After casting Beneath the Sea - Flowing Suffocation DMG",
+                "excerpt": "DEF Ignore +30%"
               }
             ]
           }

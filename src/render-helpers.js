@@ -31,8 +31,10 @@ window.WUWA_RENDER_HELPERS = (() => {
   function skillFormulaText(sk, layers = null) {
     if (!sk) return "0%";
     const text = sk.formula || `${sk.multiplier}%`;
-    if (layers == null || !sk.stackLabel) return text;
-    return text.replace(new RegExp(`(×\\s*)${sk.stackLabel}`, "g"), `$1${sk.stackLabel}(${layers})`);
+    const formula = layers == null || !sk.stackLabel
+      ? text
+      : text.replace(new RegExp(`(×\\s*)${sk.stackLabel}`, "g"), `$1${sk.stackLabel}(${layers})`);
+    return L.text(formula);
   }
   function parseFormulaParts(sk, layers = 0) {
     if (!sk || !sk.formula || !String(sk.formula).includes("+")) return null;
@@ -70,15 +72,15 @@ window.WUWA_RENDER_HELPERS = (() => {
 
   function durationText(buff) {
     const d = num(buff.duration);
-    if (d > 0) return L.isEnglish() ? `${d}s` : `持续 ${d} 秒`;
+    if (d > 0) return L.durationSeconds(d);
     const m = String(buff.desc || "").match(/持续\s*([\d.]+)\s*秒/);
-    if (m) return L.isEnglish() ? `${parseFloat(m[1])}s` : `持续 ${parseFloat(m[1])} 秒`;
+    if (m) return L.durationSeconds(parseFloat(m[1]));
     return buff.skills ? L.text("当前技能有效") : L.text("一直有效");
   }
   function shortDuration(buff) {
     const d = durationText(buff);
-    if (d === "一直有效" || d === "Always active") return L.text("常驻");
-    if (d === "当前技能有效" || d === "Current skill") return L.text("技能内");
+    if (d === L.text("一直有效") || d === "一直有效" || d === "Always active") return L.text("常驻");
+    if (d === L.text("当前技能有效") || d === "当前技能有效" || d === "Current skill") return L.text("技能内");
     return d;
   }
   function buffSourceTitle(buff) {
@@ -115,9 +117,12 @@ window.WUWA_RENDER_HELPERS = (() => {
       [/声骸技能/, "声骸技能"],
       [/谐度破坏技/, "谐度破坏技"],
     ].filter(([re]) => re.test(raw)).map(([, label]) => label);
-    if (actions.length) return L.isEnglish()
-      ? `${[...new Set(actions)].map((label) => L.text(label)).join(" / ")} ${suffix === "后" ? "after" : "when"}`
-      : `释放${[...new Set(actions)].join("、")}${suffix}`;
+    if (actions.length) {
+      const labels = [...new Set(actions)].map((label) => L.text(label));
+      if (L.isEnglish()) return `${labels.join(" / ")} ${suffix === "后" ? "after" : "when"}`;
+      if (L.isKorean()) return `${labels.join(" / ")} ${suffix === "后" ? "후" : "시"}`;
+      return `释放${[...new Set(actions)].join("、")}${suffix}`;
+    }
     const out = raw.replace(/施放|使用/g, "释放").replace(/造成(.+?)伤害/g, "释放$1").replace(/或/g, "、") + suffix;
     return L.text(out);
   }
@@ -143,7 +148,7 @@ window.WUWA_RENDER_HELPERS = (() => {
     const source = buffSourceTitle(buff);
     if (buff.excerpt) {
       const excerpt = L.text(buff.excerpt);
-      return source ? `${source}${L.isEnglish() ? ": " : "："}${excerpt}` : excerpt;
+      return L.sourceJoin(source, excerpt);
     }
     let text = String(buff.desc || "").replace(/\s+/g, " ").trim();
     if (!text) return source;
@@ -157,14 +162,14 @@ window.WUWA_RENDER_HELPERS = (() => {
     const effect = effectExcerpt(chosen, buff) || chosen;
     const excerpt = [trigger, effect].filter(Boolean).join("，");
     const localized = L.text(excerpt);
-    return source ? `${source}${L.isEnglish() ? ": " : "："}${localized}` : localized;
+    return L.sourceJoin(source, localized);
   }
   function buffOriginalText(buff) {
     const source = buffSourceTitle(buff);
     const text = String(buff.desc || "").replace(/\s+/g, " ").trim();
     if (!text) return buffExcerpt(buff);
     const localized = L.text(text);
-    return source ? `${source}${L.isEnglish() ? ": " : "："}${localized}` : localized;
+    return L.sourceJoin(source, localized);
   }
 
   return {

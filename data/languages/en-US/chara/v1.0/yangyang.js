@@ -5,11 +5,6 @@ window.WUWA_LANGUAGES.extend("en-US", {
     "chars": {
       "yangyang": {
         "name": "Yangyang",
-        "resources": [
-          {
-            "label": "声流响"
-          }
-        ],
         "skills": [
           {
             "name": "Feather as Blade - Stage 1 DMG"
@@ -46,79 +41,84 @@ window.WUWA_LANGUAGES.extend("en-US", {
           },
           {
             "name": "Echoing Feathers - Stormy Strike Damage",
-            "requiresResourceLabel": "3声流响"
+            "requiresResourceLabel": "Melodies at least 3"
           },
           {
             "name": "Echoing Feathers - Feather Release Damage",
-            "requiresResourceLabel": "3声流响"
+            "requiresResourceLabel": "Melodies at least 3"
+          }
+        ],
+        "resources": [
+          {
+            "label": "Melodies"
           }
         ],
         "buffs": [
           {
-            "source": "固有·怀悯",
-            "label": "气动伤害加成",
-            "trigger": "施放变奏技能后",
-            "excerpt": "释放湛蓝礼赞后，气动伤害加成提升8%",
-            "desc": "施放变奏技能湛蓝礼赞后，秧秧的气动伤害加成提升8%，效果持续8秒。"
+            "source": "Inherent Skill: Lazuline Mercy",
+            "label": "Aero DMG Bonus",
+            "trigger": "After casting Cerulean Song - Skill DMG",
+            "excerpt": "Aero DMG Bonus +8%",
+            "desc": "Aero DMG Bonus +8%"
           }
         ],
         "chain": [
           {
-            "name": "底色湛蓝如洗",
-            "desc": "施放变奏技能湛蓝礼赞后，秧秧的气动伤害加成额外提升15%，效果持续8秒。",
+            "name": "Sapphire Skies, \nSoaring Sparrows",
+            "desc": "Intro Skill Cerulean Song increases Yangyang's Aero DMG Bonus by an additional 15% for 8s.",
             "buffs": [
               {
-                "label": "气动伤害加成",
-                "trigger": "施放变奏技能后",
-                "excerpt": "释放湛蓝礼赞后，气动伤害加成额外提升15%"
+                "label": "Aero DMG Bonus",
+                "trigger": "After casting Cerulean Song - Skill DMG",
+                "excerpt": "Aero DMG Bonus +15%"
               }
             ]
           },
           {
-            "name": "雀鸟衔枝而行",
-            "desc": "重击命中目标时，秧秧额外回复10点共鸣能量，每20秒可触发1次。"
+            "name": "Nesting Twigs, \nin Beaks They Harrow",
+            "desc": "Heavy Attack recovers an additional 10 Resonance Energy for Yangyang when it hits a target, which can be triggered 1 time every 20s."
           },
           {
-            "name": "流息声声不绝",
-            "desc": "共鸣技能伤害加成提升40%，风场对周围目标的牵引效果增强，牵引范围增加33%。",
+            "name": "Nature Sings in Symphony",
+            "desc": "Resonance Skill DMG Bonus is increased by 40%. The Wind Field's pulling effect on surrounding targets is enhanced, and the pulling range is expanded by 33%.",
             "buffs": [
               {
-                "label": "共鸣技能伤害加成",
-                "trigger": "默认",
-                "excerpt": "共鸣技能伤害加成提升40%"
+                "label": "Resonance Skill DMG Bonus",
+                "trigger": "Default",
+                "excerpt": "Resonance Skill DMG Bonus +40%"
               }
             ]
           },
           {
-            "name": "若可侧耳倾听",
-            "desc": "空中攻击释羽的伤害提升95%。",
+            "name": "Close Your Eyes and Listen in",
+            "desc": "Mid-air Attack Feather Release's damage is increased by 95%.",
             "buffs": [
               {
-                "label": "释羽倍率提升",
-                "trigger": "默认",
-                "excerpt": "空中攻击·释羽伤害倍率提升95%"
+                "label": "Echoing Feathers - Feather Release Damage DMG Multiplier Increase",
+                "trigger": "Default",
+                "excerpt": "Echoing Feathers - Feather Release Damage DMG Multiplier Increase +95%"
               }
             ]
           },
           {
-            "name": "绪风于此响彻",
-            "desc": "共鸣解放朔风旋涌的伤害提升85%。",
+            "name": "Winds Whisper in Harmony",
+            "desc": "Resonance Liberation Wind Spirals's damage is increased by 85%.",
             "buffs": [
               {
-                "label": "朔风旋涌倍率提升",
-                "trigger": "默认",
-                "excerpt": "朔风旋涌伤害倍率提升85%"
+                "label": "Wind Spirals - Skill DMG Multiplier Increase",
+                "trigger": "Default",
+                "excerpt": "Wind Spirals - Skill DMG Multiplier Increase +85%"
               }
             ]
           },
           {
-            "name": "致美好以颂歌",
-            "desc": "施放空中攻击释羽后，队伍中的角色的攻击提升20%，效果持续20秒。",
+            "name": "A Tribute to Life's Sweet Hymn",
+            "desc": "After casting Mid-air Attack Feather Release, the ATK of all team members is increased by 20% for 20s.",
             "buffs": [
               {
-                "label": "攻击",
-                "trigger": "施放空中攻击·释羽后",
-                "excerpt": "释放空中攻击·释羽后，攻击提升20%"
+                "label": "ATK",
+                "trigger": "After casting Echoing Feathers - Feather Release Damage",
+                "excerpt": "ATK +20%"
               }
             ]
           }

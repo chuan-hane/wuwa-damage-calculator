@@ -624,7 +624,7 @@ window.WUWA_SETTLEMENT = (() => {
       const implied = skillImpliesState(slot, stateName);
       const checked = combatStateReady(slot, stateName) ? "checked" : "";
       const disabled = implied ? "disabled" : "";
-      return `<div class="field toggle-field"><label class="buff toggle-card resource-toggle"><input type="checkbox" data-act="state" data-slot="${idx}" data-key="${esc(stateName)}" ${checked} ${disabled} /> ${esc(L.isEnglish() ? `In ${L.text(stateName)}` : `处于${stateName}`)}</label></div>`;
+      return `<div class="field toggle-field"><label class="buff toggle-card resource-toggle"><input type="checkbox" data-act="state" data-slot="${idx}" data-key="${esc(stateName)}" ${checked} ${disabled} /> ${esc(L.inText(L.text(stateName)))}</label></div>`;
     }
 
     function combatStateSelectHTML(slot, idx, def) {

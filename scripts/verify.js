@@ -2,6 +2,7 @@
 
 const fs = require("fs");
 const path = require("path");
+const vm = require("vm");
 
 const root = path.resolve(__dirname, "..");
 const dataDir = path.join(root, "data");
@@ -50,7 +51,8 @@ function languageFiles(lang) {
     .sort((a, b) => a.localeCompare(b, undefined, { numeric: true }));
   return [...known, ...rest].map((file) => path.join(dir, file));
 }
-for (const lang of ["zh-CN", "en-US"]) {
+const SUPPORTED_LANGS = ["zh-CN", "en-US", "ko", "ja-JP"];
+for (const lang of SUPPORTED_LANGS) {
   for (const file of languageFiles(lang)) require(file);
 }
 window.WUWA_LANGUAGES.applyData(window.WUWA, window.WUWA_DATA, window.WUWA_SONATAS);
@@ -195,6 +197,7 @@ function visibleText(html) {
   return String(html)
     .replace(/<script[\s\S]*?<\/script>/g, " ")
     .replace(/<style[\s\S]*?<\/style>/g, " ")
+    .replace(/<\/(option|div|span|label|section|article|li|summary|details|p|h[1-6])>/gi, " | ")
     .replace(/<[^>]+>/g, " ")
     .replace(/&[^;]+;/g, " ")
     .replace(/\s+/g, " ")
@@ -213,7 +216,7 @@ function indexLoadsAllCharacterFiles() {
 }
 
 function languagePacksAreSplit() {
-  for (const lang of ["zh-CN", "en-US"]) {
+  for (const lang of SUPPORTED_LANGS) {
     const dir = path.join(root, "data/languages", lang);
     const files = fs.readdirSync(dir).filter((file) => file.endsWith(".js")).sort();
     assert(!files.includes("index.js"), `${lang} language pack should be split into domain files, not a single index.js`);
@@ -221,7 +224,9 @@ function languagePacksAreSplit() {
     assert(fs.existsSync(path.join(dir, "base.js")), `${lang} language pack should include base.js`);
   }
   const html = fs.readFileSync(path.join(root, "index.html"), "utf8");
-  assert(!html.includes("data/languages/zh-CN/index.js") && !html.includes("data/languages/en-US/index.js"), "index.html should load split language files, not language index.js files");
+  for (const lang of SUPPORTED_LANGS) {
+    assert(!html.includes(`data/languages/${lang}/index.js`), "index.html should load split language files, not language index.js files");
+  }
 }
 
 function coreDataDoesNotContainDisplayTextFields() {
@@ -299,7 +304,7 @@ function initialRenderCompletes() {
   const skillDetailIdx = html.indexOf('<div id="dmg-type"');
   assert(html.includes("stage-shell"), "initial render did not produce the stage shell");
   assert(html.includes("<h1>wuwa伤害计算器</h1>"), "topbar title should stay wuwa damage calculator");
-  assert(html.includes('class="stage-language"') && html.includes('data-act="language"') && html.includes('data-lang="en-US"'), "topbar should render functional language switch controls");
+  assert(html.includes('class="stage-language"') && html.includes('data-act="language"') && html.includes('data-lang="en-US"') && html.includes('data-lang="ko"') && html.includes('data-lang="ja-JP"'), "topbar should render functional language switch controls");
   assert(html.includes('class="stage-github-link"') && html.includes("https://github.com/chuan-hane/wuwa-damage-calculator"), "topbar should link to the GitHub repository");
   assert((html.match(/data-act="echo-detail"/g) || []).length === 3 && html.includes("详细声骸模式"), "team cards should render detailed echo mode switches");
   assert(damageIdx >= 0 && formulaIdx > damageIdx && formulaIdx < lowerIdx, "main damage formula should sit below the large damage number and above lower controls");
@@ -342,7 +347,43 @@ function englishRenderCompletes() {
   assert(html.includes("Final DMG"), "damage stage should use official English DMG wording");
   assert(html.includes("Tune Break DMG"), "offset system should use official Tune Break DMG terminology");
   assert(html.includes("Jinhsi") && html.includes("Ages of Harvest"), "English render should use formal character and weapon names");
-  assert(html.includes('data-lang="zh-CN"') && html.includes('data-lang="en-US"'), "both language buttons should remain available");
+  assert(html.includes('data-lang="zh-CN"') && html.includes('data-lang="en-US"') && html.includes('data-lang="ko"') && html.includes('data-lang="ja-JP"'), "all language buttons should remain available");
+  __T.state.lang = "zh-CN";
+  __T.render();
+}
+
+function koreanRenderCompletes() {
+  __T.state.lang = "ko";
+  __T.render();
+  const html = String(board.innerHTML);
+  assert(document.documentElement.lang === "ko", "Korean render should set html lang=ko");
+  assert(document.title === "명조 피해 계산기", "Korean render should set the document title");
+  assert(html.includes("<h1>명조 피해 계산기</h1>"), "topbar should render the Korean title");
+  assert(html.includes('aria-label="GitHub 저장소 열기"'), "Korean topbar should localize the GitHub repository link label");
+  assert(html.includes("공명자 스탯"), "panel heading should render in Korean");
+  assert(html.includes("이번 공격 버프"), "buff heading should render in Korean");
+  assert(html.includes("최종 피해"), "damage stage should render in Korean");
+  assert(html.includes("조화도 파괴 피해"), "offset system should render in Korean");
+  assert(html.includes("금희") && html.includes("태평성대"), "Korean render should use Korean character and weapon names");
+  assert(html.includes('data-lang="zh-CN"') && html.includes('data-lang="en-US"') && html.includes('data-lang="ko"') && html.includes('data-lang="ja-JP"'), "all language buttons should remain available");
+  __T.state.lang = "zh-CN";
+  __T.render();
+}
+
+function japaneseRenderCompletes() {
+  __T.state.lang = "ja-JP";
+  __T.render();
+  const html = String(board.innerHTML);
+  assert(document.documentElement.lang === "ja", "Japanese render should set html lang=ja");
+  assert(document.title === "鳴潮ダメージ計算機", "Japanese render should set the document title");
+  assert(html.includes("<h1>鳴潮ダメージ計算機</h1>"), "topbar should render the Japanese title");
+  assert(html.includes('aria-label="GitHub リポジトリを開く"'), "Japanese topbar should localize the GitHub repository link label");
+  assert(html.includes("共鳴者ステータス"), "panel heading should render in Japanese");
+  assert(html.includes("今回の攻撃 Buff"), "buff heading should render in Japanese");
+  assert(html.includes("最終ダメージ"), "damage stage should render in Japanese");
+  assert(html.includes("協和破壊ダメージ"), "offset system should render in Japanese");
+  assert(html.includes("今汐") && html.includes("歳華調和"), "Japanese render should use Japanese character and weapon names");
+  assert(html.includes('data-lang="zh-CN"') && html.includes('data-lang="en-US"') && html.includes('data-lang="ko"') && html.includes('data-lang="ja-JP"'), "all language buttons should remain available");
   __T.state.lang = "zh-CN";
   __T.render();
 }
@@ -361,6 +402,131 @@ function englishVisibleTextHasNoChinese() {
   __T.state.lang = "zh-CN";
   __T.render();
   assert(!bad.length, `English visible text should not contain Chinese:\n${bad.join("\n")}`);
+}
+
+function scanStringValues(value, owner, bad, pattern) {
+  if (Array.isArray(value)) {
+    value.forEach((item, idx) => scanStringValues(item, `${owner}[${idx}]`, bad, pattern));
+    return;
+  }
+  if (value && typeof value === "object") {
+    Object.entries(value).forEach(([key, item]) => scanStringValues(item, owner ? `${owner}.${key}` : key, bad, pattern));
+    return;
+  }
+  if (typeof value === "string" && pattern.test(value)) bad.push(`${owner}: ${value.slice(0, 220)}`);
+}
+
+function mergeLanguagePatch(target, source) {
+  for (const [key, value] of Object.entries(source || {})) {
+    if (value && typeof value === "object" && !Array.isArray(value)) target[key] = mergeLanguagePatch(target[key] || {}, value);
+    else target[key] = value;
+  }
+  return target;
+}
+
+function isolatedLanguagePack(lang) {
+  const ctx = {
+    window: {
+      WUWA_LANGUAGES: {
+        packs: {},
+        register(code, pack) {
+          this.packs[code] = { code, ...pack };
+        },
+        extend(code, patch) {
+          this.packs[code] = mergeLanguagePatch(this.packs[code] || { code }, patch);
+        },
+      },
+    },
+  };
+  vm.createContext(ctx);
+  for (const file of languageFiles(lang)) {
+    vm.runInContext(fs.readFileSync(file, "utf8"), ctx, { filename: file });
+  }
+  return ctx.window.WUWA_LANGUAGES.packs[lang];
+}
+
+function targetLanguageFallbackPatterns() {
+  return [
+    ["en-US", /[\u3400-\u9fff]|DMG DMG/],
+    ["ko", /目标|状态|雷之楔|雷池|集谐|震谐|骇破|偏移|干涉|韶光|焰光|黯核|聚爆效应|霜冻效应|红|蕾|模式|该用这个|身相|常世|预求|^효과$|효과 \+0|Effect \+0|jue|DMG Bonus|DMG Increase|DMG Multiplier|피해 피해/],
+    ["ja-JP", /目标|状态|雷之楔|雷池|集谐|震谐|骇破|干涉|焰光|黯核|聚爆效应|霜冻效应|红|模式|该用这个|常世身|预求身|^効果$|効果 \+0|Effect \+0|효과 \+0|jue|DMG Bonus|DMG Increase|DMG Multiplier|ダメージ ダメージ/],
+  ];
+}
+
+function targetLanguageDataHasNoFallbackText() {
+  const bad = [];
+  for (const [lang, pattern] of targetLanguageFallbackPatterns()) {
+    scanStringValues(isolatedLanguagePack(lang), lang, bad, pattern);
+  }
+  assert(!bad.length, `target language data should not contain fallback/generated placeholder text:\n${bad.join("\n")}`);
+}
+
+function targetVisibleTextHasNoFallbackText() {
+  const bad = [];
+  for (const [lang, pattern] of targetLanguageFallbackPatterns().filter(([lang]) => lang !== "en-US")) {
+    for (const id of window.WUWA.order) {
+      resetTeam([id]);
+      __T.state.lang = lang;
+      __T.render();
+      const text = visibleText(board.innerHTML);
+      if (!pattern.test(text)) continue;
+      const match = text.match(new RegExp(`[^\\n。；;]*(${pattern.source})[^\\n。；;]*`));
+      bad.push(`${lang}.${id}: ${(match && match[0].slice(0, 220)) || "fallback text remains"}`);
+    }
+  }
+  __T.state.lang = "zh-CN";
+  __T.render();
+  assert(!bad.length, `target visible text should not contain fallback/generated placeholder text:\n${bad.join("\n")}`);
+}
+
+function targetLanguageDataCompleteness() {
+  const bad = [];
+  const targets = [
+    ["ko", "Korean"],
+    ["ja-JP", "Japanese"],
+  ];
+  for (const [lang, label] of targets) {
+    for (const id of window.WUWA.order) {
+      const c = window.WUWA.chars[id];
+      const pack = window.WUWA_LANGUAGES.localeData(lang, "chars", id);
+      if (!pack?.name) bad.push(`${id}: missing ${label} character name`);
+      (c.skills || []).forEach((sk, idx) => {
+        if (!pack?.skills?.[idx]?.name) bad.push(`${id}.${sk.id}: missing ${label} skill name`);
+      });
+    }
+    for (const w of weapons) {
+      if (!window.WUWA_LANGUAGES.localeData(lang, "weapons", w.id)?.name) bad.push(`weapon ${w.id}: missing ${label} name`);
+    }
+    for (const set of sonatas) {
+      const pack = window.WUWA_LANGUAGES.localeData(lang, "sonatas", set.id);
+      if (!pack?.name) bad.push(`sonata ${set.id}: missing ${label} name`);
+      const leads = [].concat(set.leads || [], set.lead || []);
+      const targetLeads = [].concat(pack?.leads || [], pack?.lead || []);
+      leads.forEach((lead, idx) => {
+        const echo = targetLeads[idx]?.echo;
+        if (!echo) bad.push(`sonata ${set.id}.${lead.id || idx}: missing ${label} lead echo`);
+        else if (echo === lead.id || (lang !== "ja-JP" && echo === lead.echo)) bad.push(`sonata ${set.id}.${lead.id || idx}: ${label} lead echo fell back to core id ${echo}`);
+      });
+    }
+  }
+  assert(!bad.length, bad.join("\n"));
+}
+
+function targetWeaponBuffExcerptsStayConcise() {
+  const bad = [];
+  for (const lang of ["en-US", "ko", "ja-JP"]) {
+    const weaponsPack = isolatedLanguagePack(lang)?.data?.weapons || {};
+    for (const [id, weapon] of Object.entries(weaponsPack)) {
+      (weapon.effects || []).forEach((effect, idx) => {
+        const excerpt = String(effect.excerpt || "").trim();
+        const conditionText = String(effect.conditionText || "").trim();
+        if (!excerpt) bad.push(`${lang}.${id}.effects[${idx}]: missing excerpt`);
+        if (excerpt.length > 120) bad.push(`${lang}.${id}.effects[${idx}]: excerpt too long: ${excerpt.slice(0, 180)}`);
+        if (conditionText.length > 120 && excerpt === conditionText) bad.push(`${lang}.${id}.effects[${idx}]: excerpt duplicates full official text`);
+      });
+    }
+  }
+  assert(!bad.length, `weapon buff default excerpts should stay concise:\n${bad.join("\n")}`);
 }
 
 function sourceTextHasNoEchoTypo() {
@@ -406,6 +572,8 @@ function formulaStripResponsiveCss() {
   assert(metricBaseIdx >= 0, "metric strip base style should exist");
   assert(responsiveIdx > metricBaseIdx, "metric strip responsive rules should follow the base style so they override it");
   assert(css.includes("grid-template-columns: repeat(9, minmax(0, 1fr));"), "main metric formula should keep all cards in one row until the shared narrow breakpoint");
+  assert(css.includes(".formula-card {\n  position: relative;\n  min-width: 0;") && css.includes("max-width: 100%;\n  overflow-wrap: anywhere;"), "formula cards should constrain and wrap long localized text");
+  assert(css.includes(".metric-card span,\n.metric-card small {\n  display: block;\n  min-width: 0;") && css.includes("line-height: 1.25;\n  overflow-wrap: anywhere;"), "metric card labels and notes should wrap inside formula cards");
   assert(css.includes(".metric-card b {\n  display: block;") && css.includes("font-variant-numeric: tabular-nums;\n  overflow-wrap: anywhere;"), "metric card values should wrap internally before the cards wrap");
   assert(css.includes(".effect-mini-strip.formula-strip--multiply {\n    grid-template-columns: repeat(2, minmax(0, 1fr));\n    padding-left: var(--formula-gap);"), "effect and offset formula wraps should reserve room for row-start multiply signs");
   assert(!css.includes("nth-child(4n + 1)::before") && !css.includes("nth-child(odd)::before"), "wrapped formulas should keep row-start multiply signs visible");
@@ -2707,7 +2875,13 @@ const checks = [
   ["state/resource tokens are language-neutral", stateAndResourceTokensAreLanguageNeutral],
   ["initial render completes", initialRenderCompletes],
   ["English render completes", englishRenderCompletes],
+  ["Korean render completes", koreanRenderCompletes],
+  ["Japanese render completes", japaneseRenderCompletes],
   ["English visible text has no Chinese", englishVisibleTextHasNoChinese],
+  ["target language data has no fallback text", targetLanguageDataHasNoFallbackText],
+  ["target visible text has no fallback text", targetVisibleTextHasNoFallbackText],
+  ["target language data completeness", targetLanguageDataCompleteness],
+  ["target weapon buff excerpts stay concise", targetWeaponBuffExcerptsStayConcise],
   ["source text has no echo typo", sourceTextHasNoEchoTypo],
   ["READMEs link live site", readmesLinkLiveSite],
   ["damage metric crit labels", damageMetricCritLabels],

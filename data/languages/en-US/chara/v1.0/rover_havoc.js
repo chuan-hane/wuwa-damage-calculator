@@ -5,11 +5,6 @@ window.WUWA_LANGUAGES.extend("en-US", {
     "chars": {
       "rover_havoc": {
         "name": "Rover: Havoc",
-        "resources": [
-          {
-            "label": "暗流"
-          }
-        ],
         "skills": [
           {
             "name": "Tuneslayer - Stage 1 DMG"
@@ -46,7 +41,7 @@ window.WUWA_LANGUAGES.extend("en-US", {
           },
           {
             "name": "Umbra Eclipse - Devastation Damage",
-            "requiresResourceLabel": "暗流充满"
+            "requiresResourceLabel": "Umbra full"
           },
           {
             "name": "Umbra Eclipse - Umbra: Basic Attack Stage 1 DMG"
@@ -82,79 +77,85 @@ window.WUWA_LANGUAGES.extend("en-US", {
             "name": "Soundweaver"
           }
         ],
+        "resources": [
+          {
+            "label": "Umbra"
+          }
+        ],
         "combatStates": [
           {
-            "label": "暗涌状态",
-            "inactiveLabel": "未处于暗涌",
-            "entry": "【暗流】充满时，长按普攻施放灭音；施放灭音后进入暗涌状态。",
+            "label": "Dark Surge",
+            "idLabel": "Dark Surge",
+            "inactiveLabel": "Not in Dark Surge",
+            "entry": "In the Dark Surge state, gain 20% Havoc DMG Bonus.",
+            "effects": "In the Dark Surge state, gain 20% Havoc DMG Bonus.",
             "options": [
               {
-                "label": "暗涌",
-                "valueLabel": "暗涌状态"
+                "label": "Dark Surge",
+                "valueLabel": "Dark Surge"
               }
-            ],
-            "idLabel": "暗涌状态"
+            ]
           }
         ],
         "buffs": [
           {
-            "source": "固有·变格",
-            "label": "湮灭伤害加成",
-            "trigger": "处于暗涌状态时",
-            "excerpt": "暗涌状态期间，湮灭伤害加成提升20%",
-            "desc": "处于暗涌状态时，湮灭伤害加成提升20%。"
+            "source": "Inherent Skill: Metamorph",
+            "label": "Havoc DMG Bonus",
+            "trigger": "In Dark Surge",
+            "excerpt": "Havoc DMG Bonus +20%",
+            "desc": "Havoc DMG Bonus +20%"
           }
         ],
         "chain": [
           {
-            "name": "弦外知机",
-            "desc": "共鸣技能伤害加成提升30%。",
+            "name": "Cryptic Insight",
+            "desc": "Resonance Skill DMG Bonus is increased by 30%.",
             "buffs": [
               {
-                "label": "共鸣技能伤害加成",
-                "trigger": "默认",
-                "excerpt": "共鸣技能伤害加成提升30%"
+                "label": "Resonance Skill DMG Bonus",
+                "trigger": "In Dark Surge",
+                "excerpt": "Resonance Skill DMG Bonus +30%"
               }
             ]
           },
           {
-            "name": "晦明如朔",
-            "desc": "施放重击灭音进入暗涌状态时，重置共鸣技能的冷却时间。"
+            "name": "Waning Crescent",
+            "desc": "Reset Resonance Skill's Cooldown when Rover enters the Dark Surge state by casting Heavy Attack Devastation."
           },
           {
-            "name": "声息涌动",
-            "desc": "处于暗涌状态时，第5段普攻命中敌人时，可回复已损失生命值10%的生命值。"
+            "name": "Surging Resonance",
+            "desc": "In the Dark Surge state, Basic Attack 5 restores HP equal to 10% of total HP lost on hit."
           },
           {
-            "name": "尘声湮灭",
-            "desc": "重击灭音、共鸣解放临渊死寂命中目标时，目标的湮灭抗性降低10%，持续20秒。",
+            "name": "Annihilated Silence",
+            "desc": "Heavy Attack Devastation and Resonance Liberation Deadening Abyss reduces enemy's Havoc RES by 10% for 20s on hit.",
             "buffs": [
               {
-                "label": "湮灭减抗",
-                "trigger": "灭音/临渊死寂命中后",
-                "excerpt": "灭音或临渊死寂命中后，目标湮灭抗性降低10%"
+                "label": "RES Shred",
+                "trigger": "In Dark Surge",
+                "excerpt": "RES Shred +10%"
               }
             ]
           },
           {
-            "name": "万物寂听",
-            "desc": "处于暗涌状态时第5段普攻可额外造成一次湮灭伤害，此次伤害为第5段普攻伤害的50%。",
+            "name": "Aeon Symphony",
+            "desc": "In the Dark Surge state, Basic Attack 5 deals an additional Havoc DMG equal to 50% of Basic Attack 5 DMG.",
             "buffs": [
               {
-                "label": "第5段普攻额外伤害",
-                "trigger": "暗涌状态期间",
-                "excerpt": "暗涌第5段普攻额外造成当前倍率50%的伤害"
+                "label": "Umbra Eclipse - Umbra: Basic Attack Stage 5 DMG Extra Multiplier",
+                "trigger": "In Dark Surge",
+                "excerpt": "Umbra Eclipse - Umbra: Basic Attack Stage 5 DMG Extra Multiplier +50%"
               }
             ]
           },
           {
-            "name": "暗涌潮升",
-            "desc": "处于暗涌状态时，漂泊者的暴击提升25%。",
+            "name": "Ebbing Undercurrent",
+            "desc": "In the Dark Surge state, Rover's Crit. Rate is increased by 25%.",
             "buffs": [
               {
-                "label": "暴击",
-                "trigger": "暗涌状态期间",
-                "excerpt": "暗涌状态期间，暴击提升25%"
+                "label": "Crit. Rate",
+                "trigger": "In Dark Surge",
+                "excerpt": "Crit. Rate +25%"
               }
             ]
           }

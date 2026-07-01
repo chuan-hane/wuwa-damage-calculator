@@ -5,11 +5,6 @@ window.WUWA_LANGUAGES.extend("en-US", {
     "chars": {
       "rover_aero": {
         "name": "Rover: Aero",
-        "resources": [
-          {
-            "label": "弦风息"
-          }
-        ],
         "skills": [
           {
             "name": "Wind Cutter - Stage 1 DMG"
@@ -55,82 +50,84 @@ window.WUWA_LANGUAGES.extend("en-US", {
           },
           {
             "name": "Cycle of Wind - Unbound Flow Stage 1 DMG",
-            "requiresResourceLabel": "60弦风息"
+            "requiresResourceLabel": "Windstrings at least 60"
           },
           {
             "name": "Cycle of Wind - Unbound Flow Stage 2 DMG",
-            "requiresResourceLabel": "60弦风息"
+            "requiresResourceLabel": "Windstrings at least 60"
+          }
+        ],
+        "resources": [
+          {
+            "label": "Windstrings"
           }
         ],
         "buffs": [
           {
-            "source": "固有·空渡浮尘",
-            "label": "攻击",
-            "trigger": "施放变奏技能后",
-            "excerpt": "释放狂岚未尽时，攻击提升20%",
-            "desc": "施放变奏技能狂岚未尽时，攻击提升20%，持续10秒。"
+            "source": "Inherent Skill: Sand in the Storm",
+            "label": "ATK",
+            "trigger": "After casting Relentless Squall - Skill DMG",
+            "excerpt": "ATK +20%",
+            "desc": "ATK +20%"
           },
           {
-            "source": "延奏·流风回响",
-            "label": "风蚀效应层数上限",
-            "effects": [
-              "windErosion"
-            ],
-            "trigger": "释放延奏技能后且攻击命中后",
-            "excerpt": "释放延奏后，攻击命中使目标风蚀上限提升3层",
-            "desc": "附近队伍中所有角色获得蚀境象，持续30秒。蚀境象状态下：攻击命中后，使目标【风蚀效应】层数上限增加3层，持续10秒。该效果无法叠加。"
+            "source": "Outro Skill: Storm's Echo",
+            "label": " stack cap",
+            "trigger": "After casting Intro Skill",
+            "excerpt": " stack cap +3",
+            "desc": " stack cap +3"
           }
         ],
         "chain": [
           {
-            "name": "风止息于无明界",
-            "desc": "施放空中攻击抃风儛润时，获得抗打断提升效果，持续3秒。"
+            "name": "Storm Subsides in the Void",
+            "desc": "Casting Mid-air Attack Cloudburst Dance enhances Rover's resistance to interruption for 3s."
           },
           {
-            "name": "流光乍隐于长夜",
-            "desc": "施放共鸣技能缥缈无相时，队伍中登场角色获得持续回复生命效果，每3秒回复漂泊者20%攻击的生命值，持续30秒。期间登场角色生命值低于35%时，立即回复登场角色已损失生命值10%的生命值，该效果每10秒可触发1次，且不受治疗效果加成影响。"
+            "name": "Glimmers Fade into the Dark",
+            "desc": "Casting Resonance Skill Unbound Flow continuously restores HP for the Resonator on the field by 20% of Rover's ATK every 3s for 30s. When the Resonator on the field has an HP lower than 35%, immediately restore 10% of their lost HP. This restoration effect can be triggered once every 10s and will not be affected by any Healing Bonus."
           },
           {
-            "name": "虚相陷落于掌中",
-            "desc": "气动伤害加成提升15%。",
+            "name": "Illusions Collapse in a Grip",
+            "desc": "Aero DMG Bonus is increased by 15%.",
             "buffs": [
               {
-                "label": "气动伤害加成",
-                "trigger": "默认",
-                "excerpt": "气动伤害加成提升15%"
+                "label": "Aero DMG Bonus",
+                "trigger": "Default",
+                "excerpt": "Aero DMG Bonus +15%"
               }
             ]
           },
           {
-            "name": "界限崩折于刹那",
-            "desc": "施放空中攻击抃风儛润时，共鸣技能伤害加成提升15%，持续5秒。",
+            "name": "Boundaries Shatter in an Instant",
+            "desc": "Casting Mid-air Attack Cloudburst Dance increases Resonance Skill DMG Bonus by 15% for 5s.",
             "buffs": [
               {
-                "label": "共鸣技能伤害加成",
-                "trigger": "施放抃风儛润时",
-                "excerpt": "释放抃风儛润时，共鸣技能伤害加成提升15%"
+                "label": "Resonance Skill DMG Bonus",
+                "trigger": "After casting Cycle of Wind - Cloudburst Dance Stage 1 DMG / Cycle of Wind - Cloudburst Dance Stage 2 DMG",
+                "excerpt": "Resonance Skill DMG Bonus +15%"
               }
             ]
           },
           {
-            "name": "生灭交错于来路",
-            "desc": "共鸣解放万象归墟伤害倍率提升20%。",
+            "name": "Life and Death Intertwine",
+            "desc": "The DMG Multiplier of Resonance Liberation Omega Storm is increased by 20%.",
             "buffs": [
               {
-                "label": "万象归墟倍率提升",
-                "trigger": "默认",
-                "excerpt": "万象归墟伤害倍率提升20%"
+                "label": "Omega Storm - Skill DMG Multiplier Increase",
+                "trigger": "Default",
+                "excerpt": "Omega Storm - Skill DMG Multiplier Increase +20%"
               }
             ]
           },
           {
-            "name": "万象崩落于风间",
-            "desc": "共鸣技能缥缈无相伤害倍率提升30%。",
+            "name": "All Crumble in the Wind",
+            "desc": "The DMG Multiplier of Resonance Skill Unbound Flow is increased by 30%.",
             "buffs": [
               {
-                "label": "缥缈无相倍率提升",
-                "trigger": "默认",
-                "excerpt": "缥缈无相伤害倍率提升30%"
+                "label": "Cycle of Wind - Unbound Flow Stage 1 DMG Multiplier Increase",
+                "trigger": "Default",
+                "excerpt": "Cycle of Wind - Unbound Flow Stage 1 DMG Multiplier Increase +30%"
               }
             ]
           }

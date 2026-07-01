@@ -5,14 +5,6 @@ window.WUWA_LANGUAGES.extend("en-US", {
     "chars": {
       "lupa": {
         "name": "Lupa",
-        "resources": [
-          {
-            "label": "狼焰"
-          },
-          {
-            "label": "狼魂"
-          }
-        ],
         "skills": [
           {
             "name": "Flaming Star - Stage 1 DMG"
@@ -31,11 +23,11 @@ window.WUWA_LANGUAGES.extend("en-US", {
           },
           {
             "name": "Flaming Star - Heavy Attack - Wolf's Gnawing DMG",
-            "requiresResourceLabel": "50狼焰"
+            "requiresResourceLabel": "Wolflame at least 50"
           },
           {
             "name": "Flaming Star - Heavy Attack - Wolf's Claw DMG",
-            "requiresResourceLabel": "50狼焰+1狼魂"
+            "requiresResourceLabel": "Wolflame at least 50 / Wolfaith at least 1"
           },
           {
             "name": "Flaming Star - Mid-air Attack Stage 1 DMG"
@@ -48,7 +40,7 @@ window.WUWA_LANGUAGES.extend("en-US", {
           },
           {
             "name": "Flaming Star - Mid-air Attack - Firestrike DMG",
-            "requiresResourceLabel": "50狼焰"
+            "requiresResourceLabel": "Wolflame at least 50"
           },
           {
             "name": "Flaming Star - Plunging Attack DMG"
@@ -64,14 +56,14 @@ window.WUWA_LANGUAGES.extend("en-US", {
           },
           {
             "name": "Shewolf's Hunt - Feral Fang DMG",
-            "requiresResourceLabel": "围猎后"
+            "requiresResourceLabel": "resource_gate_3"
           },
           {
             "name": "Fire-Kissed Glory - Skill Damage"
           },
           {
             "name": "Fire-Kissed Glory - Foebreaker DMG",
-            "requiresResourceLabel": "荣光欢酣于火后"
+            "requiresResourceLabel": "resource_gate_4"
           },
           {
             "name": "Try Focusing, Eh? - Skill Damage"
@@ -81,179 +73,189 @@ window.WUWA_LANGUAGES.extend("en-US", {
           },
           {
             "name": "Ignis Lupa - Dance With the Wolf DMG",
-            "requiresResourceLabel": "2狼魂"
+            "requiresResourceLabel": "Wolfaith at least 2"
           },
           {
             "name": "Ignis Lupa - Dance With the Wolf: Climax DMG",
-            "requiresResourceLabel": "2狼魂"
+            "requiresResourceLabel": "Wolfaith at least 2"
           },
           {
             "name": "Ignis Lupa - Dance With the Wolf: Climax DMG",
-            "requiresResourceLabel": "2狼魂"
+            "requiresResourceLabel": "Wolfaith at least 2"
           },
           {
             "name": "Ignis Lupa - Set the Arena Ablaze DMG",
-            "requiresResourceLabel": "狼舞后切人且队友施放共鸣解放"
+            "requiresResourceLabel": "resource_gate_6"
+          }
+        ],
+        "resources": [
+          {
+            "label": "Wolflame"
+          },
+          {
+            "label": "Wolfaith"
           }
         ],
         "combatStates": [
           {
-            "label": "赛点沸腾",
-            "inactiveLabel": "未处于赛点沸腾",
-            "entry": "施放共鸣技能破敌时进入赛点沸腾状态，持续12秒；施放狼舞的决意·极时失去赛点沸腾状态。",
+            "label": "Burning Matchpoint",
+            "idLabel": "Burning Matchpoint",
+            "inactiveLabel": "Not in Burning Matchpoint",
+            "entry": "Consume all Wolflame to perform Foebreaker, dealing Fusion DMG and entering Burning Matchpoint state.",
+            "effects": "Consume all Wolflame to perform Foebreaker, dealing Fusion DMG and entering Burning Matchpoint state.",
             "options": [
               {
-                "label": "赛点沸腾",
-                "valueLabel": "赛点沸腾"
+                "label": "Burning Matchpoint",
+                "valueLabel": "Burning Matchpoint"
               }
-            ],
-            "idLabel": "赛点沸腾"
+            ]
           },
           {
-            "label": "追杀状态",
-            "inactiveLabel": "未处于追杀",
-            "entry": "露帕的追猎攻击提升效果达到上限后，在追猎持续时间内进入追杀状态；同一个追猎仅可进入一次。",
+            "label": "Wild Hunt",
+            "idLabel": "Wild Hunt",
+            "inactiveLabel": "Not in Wild Hunt",
+            "entry": "If Lupa's Pack Hunt reaches its cap within its duration, she enters Wild Hunt and Intro Skill Nowhere to Run!",
+            "effects": "If Lupa's Pack Hunt reaches its cap within its duration, she enters Wild Hunt and Intro Skill Nowhere to Run!",
             "options": [
               {
-                "label": "追杀",
-                "valueLabel": "追杀状态"
+                "label": "Wild Hunt",
+                "valueLabel": "Wild Hunt"
               }
-            ],
-            "idLabel": "追杀状态"
+            ]
           }
         ],
         "buffs": [
           {
-            "source": "共鸣回路·燃旗",
-            "label": "攻击",
-            "trigger": "施放指定技能期间",
-            "excerpt": "施放凶噬、强化重击/空中攻击、共鸣解放或狼舞时，攻击提升12%",
-            "desc": "露帕在进行以下操作时，攻击提升12%，持续8秒。·施放共鸣技能凶噬期间。·施放重击·狼咬、重击·锐爪或空中攻击·焰袭期间。·施放共鸣解放荣光欢酣于火期间。·施放狼舞的决意、狼舞的决意·极期间。"
+            "source": "Forte Circuit: Wildfire Banner",
+            "label": "ATK",
+            "trigger": "In Wild Hunt",
+            "excerpt": "ATK +12%",
+            "desc": "Lupa hurls her Wildfire Banner at the target, dealing Fusion DMG and restoring 15 points of Wolflame."
           },
           {
-            "source": "共鸣技能·围猎",
-            "label": "凶噬倍率提升",
-            "trigger": "攻击围猎标记目标时",
-            "excerpt": "凶噬攻击被围猎标记的目标时，伤害倍率提升50%",
-            "desc": "共鸣技能·凶噬：露帕追击目标，施放期间回复15点【狼焰】，造成热熔伤害，并对标记的目标伤害倍率提升50%。"
+            "source": "Resonance Skill: Shewolf's Hunt",
+            "label": "Shewolf's Hunt - Feral Fang DMG Multiplier Increase",
+            "trigger": "After casting Shewolf's Hunt - Feral Fang DMG",
+            "excerpt": "Shewolf's Hunt - Feral Fang DMG Multiplier Increase +50%",
+            "desc": "- After Dodge Counter, Basic Attack Starfall, Resonance Skill Shewolf's Hunt, or Resonance Skill Feral Fang, press Normal Attack in time to cast Basic Attack Stage 2."
           },
           {
-            "source": "共鸣解放·追猎",
-            "label": "攻击",
-            "trigger": "释放共鸣解放后",
-            "excerpt": "追猎期间攻击提升6%，变奏强化后最多18%",
-            "desc": "追猎：持有追猎的角色攻击提升6%，且攻击怒涛级或海啸级目标时热熔伤害加成提升10%，无法叠加。队伍中登场角色施放变奏技能时，会强化追猎效果，队伍中的角色追猎的攻击提升效果额外增加6%，上限为18%。"
+            "source": "Resonance Liberation: Pack Hunt",
+            "label": "ATK",
+            "trigger": "After casting Fire-Kissed Glory - Skill Damage",
+            "excerpt": "ATK +18% per stack",
+            "desc": "- All Resonators in the team gain Pack Hunt effect."
           },
           {
-            "source": "共鸣解放·追猎",
-            "label": "热熔伤害加成",
-            "trigger": "追猎期间攻击怒涛/海啸级目标",
-            "excerpt": "追猎期间攻击怒涛级或海啸级目标时，热熔伤害加成提升10%",
-            "desc": "追猎：持有追猎的角色攻击提升6%，且攻击怒涛级或海啸级目标时热熔伤害加成提升10%，无法叠加。若队伍中的热熔属性角色达到3名时，攻击怒涛级或海啸级目标时的热熔伤害加成效果额外增加10%。"
+            "source": "Resonance Liberation: Pack Hunt",
+            "label": "Fusion DMG Bonus",
+            "trigger": "In Wild Hunt",
+            "excerpt": "Fusion DMG Bonus +10%",
+            "desc": "- All Resonators in the team gain Pack Hunt effect."
           },
           {
-            "source": "共鸣解放·追猎",
-            "label": "热熔伤害加成",
-            "trigger": "追猎期间三名热熔角色攻击怒涛/海啸级目标",
-            "excerpt": "队伍有3名热熔角色时，追猎的热熔伤害加成额外提升10%",
-            "desc": "追猎：若队伍中的热熔属性角色达到3名时，攻击怒涛级或海啸级目标时的热熔伤害加成效果额外增加10%。"
+            "source": "Resonance Liberation: Pack Hunt",
+            "label": "Fusion DMG Bonus",
+            "trigger": "In Wild Hunt",
+            "excerpt": "Fusion DMG Bonus +10%",
+            "desc": "- All Resonators in the team gain Pack Hunt effect."
           },
           {
-            "source": "固有·共鸣解放·荣光",
-            "label": "热熔抗性无视",
-            "trigger": "释放共鸣解放后",
-            "excerpt": "荣光期间按队伍热熔人数无视热熔抗性，每层3%，满15%",
-            "desc": "施放共鸣解放荣光欢酣于火时，额外获得荣光效果，35秒内：队伍中的角色攻击时无视3%热熔抗性，并且队伍中每有一名除露帕外的热熔属性角色，无视热熔抗性效果增加3%，上限为9%，当队伍中的热熔属性角色达到3名时，无视热熔抗性的效果额外增加6%。"
+            "source": "Inherent Skill: Resonance Liberation - Glory",
+            "label": "RES Shred",
+            "trigger": "After casting Fire-Kissed Glory - Skill Damage",
+            "excerpt": "RES Shred +15% per stack",
+            "desc": "Resonance Liberation - Glory"
           },
           {
-            "source": "延奏·搭档啊，与我并肩",
-            "label": "热熔伤害加深",
-            "trigger": "释放延奏技能后",
-            "excerpt": "下一位登场角色热熔伤害加深20%",
-            "desc": "下一位登场角色热熔伤害加深20%，普攻伤害加深25%，效果持续14秒，若切换至其他角色则该效果提前结束。"
+            "source": "Outro Skill: Stand by Me, Warrior",
+            "label": "DMG Increase",
+            "trigger": "In Wild Hunt",
+            "excerpt": "DMG Increase +20%",
+            "desc": "DMG Increase +20%"
           },
           {
-            "source": "延奏·搭档啊，与我并肩",
-            "label": "普攻伤害加深",
-            "trigger": "释放延奏技能后",
-            "excerpt": "下一位登场角色普攻伤害加深25%",
-            "desc": "下一位登场角色热熔伤害加深20%，普攻伤害加深25%，效果持续14秒，若切换至其他角色则该效果提前结束。"
+            "source": "Outro Skill: Stand by Me, Warrior",
+            "label": "Basic Attack DMG Increase",
+            "trigger": "In Wild Hunt",
+            "excerpt": "Basic Attack DMG Increase +25%",
+            "desc": "Basic Attack DMG Increase +25%"
           }
         ],
         "chain": [
           {
-            "name": "看那无名之人",
-            "desc": "施放共鸣解放荣光欢酣于火时，露帕额外回复10点协奏能量，暴击提升20%，持续10秒。狼舞的决意·极免疫打断。",
+            "name": "Behold the Nameless One",
+            "desc": "Performing Resonance Liberation Fire-Kissed Glory recovers 10 Concerto Energy for Lupa and increases Lupa's Crit. Rate by 20% for 10s.\nGain immunity to interruption when casting Dance With the Wolf: Climax.",
             "buffs": [
               {
-                "label": "暴击",
-                "trigger": "施放共鸣解放时",
-                "excerpt": "释放荣光欢酣于火时，暴击提升20%"
+                "label": "Crit. Rate",
+                "trigger": "After casting Fire-Kissed Glory - Skill Damage",
+                "excerpt": "Crit. Rate +20%"
               }
             ]
           },
           {
-            "name": "所处皆为猎场",
-            "desc": "施放共鸣解放荣光欢酣于火、重击·狼咬、重击·锐爪、空中攻击·焰袭时，队伍中的角色热熔伤害加成提升20%，持续30秒，可叠加2层。",
+            "name": "Every Ground, Her Hunting Field",
+            "desc": "Performing Fire-Kissed Glory, Heavy Attack - Wolf's Gnawing, Heavy Attack - Wolf's Claw, or Mid-air Attack - Firestrike gives 20% Fusion DMG Bonus to all Resonators in the team for 30s, stacking up to 2 times.",
             "buffs": [
               {
-                "label": "热熔伤害加成",
-                "trigger": "施放指定技能时",
-                "excerpt": "释放共鸣解放或指定强化攻击时，每层热熔伤害加成提升20%"
+                "label": "Fusion DMG Bonus",
+                "trigger": "After casting Fire-Kissed Glory - Skill Damage / Flaming Star - Heavy Attack - Wolf's Gnawing DMG / Flaming Star - Heavy Attack - Wolf's Claw DMG / Flaming Star - Mid-air Attack - Firestrike DMG",
+                "excerpt": "Fusion DMG Bonus +40% per stack"
               }
             ]
           },
           {
-            "name": "狼影随焰咆哮",
-            "desc": "·变奏技能你无法逃离！的伤害倍率提升100%。·共鸣解放追猎额外效果不再需要队伍中的热熔属性角色达到3名。·共鸣解放荣光效果替换为：施放共鸣解放荣光欢酣于火时，额外获得荣光效果，35秒内：队伍中的角色攻击时无视15%热熔抗性。",
+            "name": "Wolflame Howls in Her Wake",
+            "desc": "The DMG Multiplier of Intro Skill Nowhere to Run! increases by 100%.\n- The Pack Hunt effect of Resonance Liberation now no longer requires 3 Fusion Resonators.\n- The Glory effect of Resonance Liberation is now modified as:\nCasting Resonance Liberation Fire-Kissed Glory additionally grants Glory: Resonators in the team ignore 15% Fusion RES of targets for 35s.",
             "buffs": [
               {
-                "label": "你无法逃离！倍率提升",
-                "trigger": "默认",
-                "excerpt": "你无法逃离！伤害倍率提升100%"
+                "label": "Try Focusing, Eh? - Nowhere to Run! DMG Multiplier Increase",
+                "trigger": "In Wild Hunt",
+                "excerpt": "Try Focusing, Eh? - Nowhere to Run! DMG Multiplier Increase +100%"
               },
               {
-                "label": "热熔伤害加成",
-                "trigger": "追猎期间攻击怒涛/海啸级目标",
-                "excerpt": "3链后追猎额外热熔伤害加成不再要求3名热熔角色"
+                "label": "Fusion DMG Bonus",
+                "trigger": "In Wild Hunt",
+                "excerpt": "Fusion DMG Bonus +10%"
               },
               {
-                "label": "热熔抗性无视",
-                "trigger": "3链荣光替换后",
-                "excerpt": "3链荣光替换为固定15%热熔抗性无视"
+                "label": "RES Shred",
+                "trigger": "After casting Fire-Kissed Glory - Skill Damage",
+                "excerpt": "RES Shred +15%"
               }
             ]
           },
           {
-            "name": "旗帜于火飞扬",
-            "desc": "狼舞的决意·极的伤害倍率提升125%。",
+            "name": "High and Aflame Is Her Banner",
+            "desc": "The DMG Multiplier of Dance With the Wolf: Climax increases by 125%.",
             "buffs": [
               {
-                "label": "狼舞的决意·极倍率提升",
-                "trigger": "默认",
-                "excerpt": "狼舞的决意·极伤害倍率提升125%"
+                "label": "Ignis Lupa - Dance With the Wolf: Climax DMG Multiplier Increase",
+                "trigger": "In Wild Hunt",
+                "excerpt": "Ignis Lupa - Dance With the Wolf: Climax DMG Multiplier Increase +125%"
               }
             ]
           },
           {
-            "name": "胜利让掌声喝彩",
-            "desc": "施放变奏技能你在看哪里？或你无法逃离！时，共鸣解放伤害加成提升15%，持续10秒。",
+            "name": "Embrace the Thunderous Triumph",
+            "desc": "Performing Intro Skill Try Focusing, Eh? or Nowhere to Run! gives 15% Resonance Liberation DMG Bonus for 10s.",
             "buffs": [
               {
-                "label": "共鸣解放伤害加成",
-                "trigger": "施放变奏技能时",
-                "excerpt": "释放变奏技能时，共鸣解放伤害加成提升15%"
+                "label": "Resonance Liberation DMG Bonus",
+                "trigger": "After casting Try Focusing, Eh? - Skill Damage / Try Focusing, Eh? - Nowhere to Run! DMG",
+                "excerpt": "Resonance Liberation DMG Bonus +15%"
               }
             ]
           },
           {
-            "name": "致那最闪耀的焰星",
-            "desc": "·共鸣回路狼舞的决意·极、共鸣解放荣光欢酣于火、变奏技能你无法逃离！攻击造成伤害时忽视目标30%防御。·施放共鸣技能凶噬命中目标时，回复100点【狼焰】，每20秒可触发一次。·共鸣回路狼舞的决意替换为狼舞的决意·极，施放狼舞的决意·极不需要处于赛点沸腾状态。·施放变奏技能你无法逃离！不再结束追猎和荣光效果。",
+            "name": "To the Brightest Flaming Star",
+            "desc": "- The damage dealt by Forte Circuit Dance With the Wolf: Climax, Resonance Liberation Fire-Kissed Glory, and Intro Skill Nowhere to Run! ignores 30% of the target's DEF.\n- Resonance Skill Feral Fang restores 100 points of Wolflame on hit, triggered once per 20s.\n- Forte Circuit Dance With the Wolf is replaced with Dance With the Wolf: Climax. Dance With the Wolf: Climax can be performed when Lupa is not in Burning Matchpoint state.\n- Casting Intro Skill Nowhere to Run! no longer ends Pack Hunt and Glory.",
             "buffs": [
               {
-                "label": "防御无视",
-                "trigger": "指定技能造成伤害时",
-                "excerpt": "指定核心技能造成伤害时，无视目标30%防御"
+                "label": "DEF Ignore",
+                "trigger": "In Wild Hunt",
+                "excerpt": "DEF Ignore +30%"
               }
             ]
           }

@@ -5,11 +5,6 @@ window.WUWA_LANGUAGES.extend("en-US", {
     "chars": {
       "yuanwu": {
         "name": "Yuanwu",
-        "resources": [
-          {
-            "label": "锋芒"
-          }
-        ],
         "skills": [
           {
             "name": "Leihuangquan - Stage 1 DMG"
@@ -46,7 +41,7 @@ window.WUWA_LANGUAGES.extend("en-US", {
           },
           {
             "name": "Leihuang Master - Rumbling Spark Damage",
-            "requiresResourceLabel": "100锋芒"
+            "requiresResourceLabel": "Readiness at least 100"
           },
           {
             "name": "Blazing Might - Skill DMG"
@@ -56,7 +51,7 @@ window.WUWA_LANGUAGES.extend("en-US", {
           },
           {
             "name": "Unassuming Blade - Thunder Uprising Damage",
-            "requiresResourceLabel": "100锋芒"
+            "requiresResourceLabel": "Readiness at least 100"
           },
           {
             "name": "Unassuming Blade - Lightning Infused Basic Attack Stage 1 DMG"
@@ -83,88 +78,95 @@ window.WUWA_LANGUAGES.extend("en-US", {
             "name": "Unassuming Blade - Lightning Infused Dodge Counter DMG"
           }
         ],
+        "resources": [
+          {
+            "label": "Readiness"
+          }
+        ],
         "combatStates": [
           {
-            "label": "雷厉风行",
-            "inactiveLabel": "未处于雷厉风行",
-            "entry": "锋芒充满后施放万壑雷，或施放共鸣解放寂土重明，会进入雷厉风行状态。",
+            "label": "Lightning Infused",
+            "idLabel": "Lightning Infused",
+            "inactiveLabel": "Not in Lightning Infused",
+            "entry": "Awaken the power of thunder and provide Forte Circuit Lightning Infused status to all characters on a nearby team for 10s, then perform a powerful blow that deals Electro DMG.",
+            "effects": "Awaken the power of thunder and provide Forte Circuit Lightning Infused status to all characters on a nearby team for 10s, then perform a powerful blow that deals Electro DMG.",
             "options": [
               {
-                "label": "处于雷厉风行",
-                "valueLabel": "雷厉风行"
+                "label": "Lightning Infused",
+                "valueLabel": "Lightning Infused"
               }
-            ],
-            "idLabel": "雷厉风行"
+            ]
           },
           {
-            "label": "雷之楔",
-            "inactiveLabel": "雷之楔未在场",
-            "entry": "施放共鸣技能雷之楔后，雷之楔在场并形成雷池。",
+            "label": "Thunder Wedge",
+            "idLabel": "Thunder Wedge Active",
+            "inactiveLabel": "Not in Thunder Wedge Active",
+            "entry": "Select the current Thunder Wedge Active.",
+            "effects": "Select the current Thunder Wedge Active.",
             "options": [
               {
-                "label": "雷之楔在场",
-                "valueLabel": "雷之楔在场"
+                "label": "Thunder Wedge Active",
+                "valueLabel": "Thunder Wedge Active"
               },
               {
-                "label": "处于雷池范围",
-                "valueLabel": "雷之楔在场·雷池范围"
+                "label": "Thunder Wedge Active · Thunder Field Range",
+                "valueLabel": "Thunder Wedge Active · Thunder Field Range"
               }
-            ],
-            "idLabel": "雷之楔在场"
+            ]
           }
         ],
         "buffs": [
           {
-            "source": "固有·决电",
-            "label": "掀雷倍率提升",
-            "trigger": "默认",
-            "excerpt": "掀雷伤害倍率提升40%",
-            "desc": "共鸣技能掀雷的伤害倍率获得提升40%，并且削减怪物共振度的能力提升。"
+            "source": "Inherent Skill: Thunderous Determination",
+            "label": "Unassuming Blade - Thunder Uprising Damage DMG Multiplier Increase",
+            "trigger": "In Thunder Wedge Active · Thunder Field Range",
+            "excerpt": "Unassuming Blade - Thunder Uprising Damage DMG Multiplier Increase +40%",
+            "desc": "Unassuming Blade - Thunder Uprising Damage DMG Multiplier Increase +40%"
           }
         ],
         "chain": [
           {
-            "name": "点一盏清茗",
-            "desc": "渊武处在共鸣回路雷厉风行状态时，自身的普攻攻速提升20%，重击攻速提升20%。"
+            "name": "Steaming Cup of Justice",
+            "desc": "When Yuanwu is in Forte Circuit's Lightning Infused state, his Basic Attack Speed is increased by 20%, and his Heavy Attack Speed is increased by 20%."
           },
           {
-            "name": "敛狂戾之心",
-            "desc": "施放变奏技能轰雷时，渊武额外回复15点共鸣能量。"
+            "name": "Fierce Heart, Serene Mind",
+            "desc": "Intro Skill Thunder Bombardment additionally recovers 15 Resonance Energy for Yuanwu."
           },
           {
-            "name": "正周身之气",
-            "desc": "共鸣技能雷之楔的协同攻击命中目标时，基于渊武20%防御额外提升伤害。",
+            "name": "Upholder of Integrity",
+            "desc": "When the Coordinated Attacks of Resonance Skill's Thunder Wedge hits a target, the damage is additionally increased by 20% of Yuanwu's DEF.",
             "buffs": [
               {
-                "label": "雷之楔协同攻击倍率增加",
-                "trigger": "默认",
-                "excerpt": "雷之楔协同攻击额外增加20%防御倍率"
+                "label": "Leihuang Master - Thunder Wedge Coordinated Attack DMG Multiplier Increase",
+                "trigger": "In Thunder Wedge Active · Thunder Field Range",
+                "excerpt": "Leihuang Master - Thunder Wedge Coordinated Attack DMG Multiplier Increase +20%"
               }
             ]
           },
           {
-            "name": "挥刚猛之拳",
-            "desc": "施放共鸣解放寂土重明时，队伍中在场角色获得渊武自身200%防御的护盾，持续10秒。"
+            "name": "Retributive Knuckles",
+            "desc": "When casting Resonance Liberation Blazing Might, the on-field character will gain a Shield equal to 200% of Yuanwu's DEF for 10s."
           },
           {
-            "name": "顾一方天地",
-            "desc": "共鸣技能雷之楔在场时，渊武的共鸣解放伤害加成提升50%。",
+            "name": "Neighborhood Protector",
+            "desc": "When Resonance Skill Thunder Wedge is on the field, Yuanwu's Resonance Liberation DMG Bonus is increased by 50%.",
             "buffs": [
               {
-                "label": "共鸣解放伤害加成",
-                "trigger": "雷之楔在场时",
-                "excerpt": "雷之楔在场时，共鸣解放伤害加成提升50%"
+                "label": "Resonance Liberation DMG Bonus",
+                "trigger": "In Thunder Wedge Active",
+                "excerpt": "Resonance Liberation DMG Bonus +50%"
               }
             ]
           },
           {
-            "name": "保八方平安",
-            "desc": "处在共鸣技能雷之楔范围内的附近队伍中所有角色将持续获得效果：防御提升32%，该效果持续时间3秒。",
+            "name": "Defender of All Realms",
+            "desc": "All team members nearby within the range of Resonance Skill Thunder Wedge will gain a 32% DEF increase, lasting 3s.",
             "buffs": [
               {
-                "label": "防御",
-                "trigger": "处于雷池范围内",
-                "excerpt": "处于雷池范围内，防御提升32%"
+                "label": "DEF",
+                "trigger": "In Thunder Wedge Active · Thunder Field Range",
+                "excerpt": "DEF +32%"
               }
             ]
           }

@@ -5,11 +5,6 @@ window.WUWA_LANGUAGES.extend("en-US", {
     "chars": {
       "rebecca": {
         "name": "Rebecca",
-        "resources": [
-          {
-            "label": "狂热"
-          }
-        ],
         "skills": [
           {
             "name": "Mix-'n'-Match - Basic Attack - Huntress Stage 1 DMG"
@@ -88,184 +83,191 @@ window.WUWA_LANGUAGES.extend("en-US", {
           },
           {
             "name": "Gloves Are Comin' Off! - Rat-tat-tat!: Huntress DMG",
-            "requiresResourceLabel": "120点狂热"
+            "requiresResourceLabel": "Fervor at least 120"
           },
           {
             "name": "Gloves Are Comin' Off! - Bang-bang-bang!: Guts DMG",
-            "requiresResourceLabel": "120点狂热"
+            "requiresResourceLabel": "Fervor at least 120"
           },
           {
             "name": "Gloves Are Comin' Off! - Hack Response - Meltdown DMG"
           }
         ],
+        "resources": [
+          {
+            "label": "Fervor"
+          }
+        ],
         "combatStates": [
           {
-            "label": "战斗模式",
-            "inactiveLabel": "未确认模式",
-            "entry": "丽贝卡初始处于猎手模式；施放共鸣技能或变奏技能可在猎手与铁胆模式之间切换。",
+            "label": "Combat Mode",
+            "idLabel": "Combat Mode",
+            "inactiveLabel": "Not in Combat Mode",
+            "entry": "Select the current Combat Mode.",
+            "effects": "Select the current Combat Mode.",
             "options": [
               {
-                "label": "猎手",
-                "valueLabel": "模式·猎手"
+                "label": "Huntress Mode",
+                "valueLabel": "Huntress Mode"
               },
               {
-                "label": "铁胆",
-                "valueLabel": "模式·铁胆"
+                "label": "Guts Mode",
+                "valueLabel": "Guts Mode"
               }
-            ],
-            "idLabel": "模式"
+            ]
           },
           {
-            "label": "小孩子才做选择",
-            "inactiveLabel": "未获得小孩子才做选择",
-            "entry": "【手感火热】达到120点时施放变奏技能·呜呼，来发大的！、变奏技能·蠢货，有本事来抓我！、共鸣技能·来发大的！或共鸣技能·有本事来抓我！后获得，持续12秒。",
+            "label": "Why Choose?",
+            "idLabel": "Why Choose?",
+            "inactiveLabel": "Not in Why Choose?",
+            "entry": "Select the current Why Choose?.",
+            "effects": "Select the current Why Choose?.",
             "options": [
               {
-                "label": "已获得",
-                "valueLabel": "小孩子才做选择"
+                "label": "Why Choose?",
+                "valueLabel": "Why Choose?"
               }
-            ],
-            "idLabel": "小孩子才做选择"
+            ]
           },
           {
-            "label": "目标骇破",
-            "inactiveLabel": "目标无骇破·干涉",
-            "entry": "队伍角色对目标造成谐度破坏伤害并使其进入【骇破·干涉】后，丽贝卡可触发骇破响应·熔触。",
+            "label": "Target Hack",
+            "idLabel": "Target Hack",
+            "inactiveLabel": "Not in Target Hack",
+            "entry": "Select the current Target Hack.",
+            "effects": "Select the current Target Hack.",
             "options": [
               {
-                "label": "骇破·干涉",
-                "valueLabel": "目标骇破·干涉"
+                "label": "Target Hack · Interfered",
+                "valueLabel": "Target Hack · Interfered"
               }
-            ],
-            "idLabel": "目标骇破"
+            ]
           }
         ],
         "buffs": [
           {
-            "source": "共鸣回路·该用这个了！",
-            "label": "暴击伤害",
-            "trigger": "处于猎手模式时",
-            "excerpt": "猎手模式下，暴击伤害提升30%",
-            "desc": "处于【猎手】模式时，丽贝卡暴击伤害提升30%。"
+            "source": "Forte Circuit: Gloves Are Comin' Off!",
+            "label": "Crit. DMG",
+            "trigger": "In Huntress Mode",
+            "excerpt": "Crit. DMG +30%",
+            "desc": "Crit. DMG +30%"
           },
           {
-            "source": "共鸣回路·该用这个了！",
-            "label": "防御无视",
-            "trigger": "处于铁胆模式时",
-            "excerpt": "铁胆模式下，造成伤害无视目标15%防御",
-            "desc": "处于【铁胆】模式时，丽贝卡造成伤害无视目标15%防御。"
+            "source": "Forte Circuit: Gloves Are Comin' Off!",
+            "label": "DEF Ignore",
+            "trigger": "In Guts Mode",
+            "excerpt": "DEF Ignore +15%",
+            "desc": "DEF Ignore +15%"
           },
           {
-            "source": "固有·该你了！",
-            "label": "攻击",
-            "trigger": "获得小孩子才做选择或施放强化重击后",
-            "excerpt": "获得小孩子才做选择或施放强化重击时，每层攻击提升10%",
-            "desc": "每次获得小孩子才做选择！效果或者施放重击·哒哒哒！·猎手和重击·砰砰砰！·铁胆时，攻击提升10%，持续12秒，可叠加2层。"
+            "source": "Inherent Skill: Tag, You're It!",
+            "label": "ATK",
+            "trigger": "After casting Gloves Are Comin' Off! - Rat-tat-tat!: Huntress DMG / Gloves Are Comin' Off! - Bang-bang-bang!: Guts DMG",
+            "excerpt": "ATK +20% per stack",
+            "desc": "ATK +20% per stack"
           },
           {
-            "source": "固有·该你了！",
-            "label": "谐度破坏增幅",
-            "trigger": "附加骇破·偏移后",
-            "excerpt": "队伍附加骇破·偏移后，谐度破坏增幅提升30点",
-            "desc": "队伍中的角色附加【骇破·偏移】时，谐度破坏增幅提升30点，持续30秒。"
+            "source": "Inherent Skill: Tag, You're It!",
+            "label": "Tune Break Boost",
+            "trigger": "In Target Hack · Interfered",
+            "excerpt": "Tune Break Boost +30%",
+            "desc": "Tune Break Boost +30%"
           },
           {
-            "source": "固有·有破绽！",
-            "label": "攻击",
-            "trigger": "施放共鸣解放后",
-            "excerpt": "释放狂欢时间！后，队伍攻击提升20%",
-            "desc": "丽贝卡施放共鸣解放·狂欢时间！时，附近队伍中所有角色攻击提升20%，持续30秒。"
+            "source": "Inherent Skill: Left an Opening!",
+            "label": "ATK",
+            "trigger": "In Target Hack · Interfered",
+            "excerpt": "ATK +20%",
+            "desc": "ATK +20%"
           },
           {
-            "source": "延奏·好搭档",
-            "label": "全伤害加深",
-            "trigger": "释放延奏技能后",
-            "excerpt": "下一位登场角色全伤害加深15%",
-            "desc": "下一位登场角色获得浪客羁绊，全伤害加深15%，持续14秒。若切换至其他角色则提前结束浪客羁绊和超限。"
+            "source": "Outro Skill: Preem Choom",
+            "label": "DMG Increase",
+            "trigger": "In Target Hack · Interfered",
+            "excerpt": "DMG Increase +15%",
+            "desc": "DMG Increase +15%"
           },
           {
-            "source": "延奏·好搭档",
-            "label": "重击伤害加深",
-            "trigger": "浪客羁绊期间获得超限后",
-            "excerpt": "浪客羁绊期间，每层超限使重击伤害加深0.5%",
-            "desc": "持有浪客羁绊的角色每0.2秒会获得1层超限，造成重击伤害加深0.5%（若是露西持有浪客羁绊，则直接获得满层），上限为35%。若切换至其他角色则提前结束浪客羁绊和超限。"
+            "source": "Outro Skill: Preem Choom",
+            "label": "Heavy Attack DMG Increase",
+            "trigger": "In Target Hack · Interfered",
+            "excerpt": "Heavy Attack DMG Increase +35% per stack",
+            "desc": "Heavy Attack DMG Increase +35% per stack"
           }
         ],
         "chain": [
           {
-            "name": "请多指教咯~",
-            "desc": "丽贝卡以下技能伤害倍率提升50%：·普攻·猎手、重击·猎手、战术闪避·猎手、闪避反击·猎手。·普攻·铁胆、战术闪避·铁胆、闪避反击·铁胆。丽贝卡获得小孩子才做选择！效果时，额外获得3层街头直觉，持续12秒。施放战术闪避·猎手、战术闪避·铁胆时，若拥有街头直觉则消耗1层街头直觉，回复20点耐力。共鸣解放大烟花！免疫打断。",
+            "name": "Try Not to Get in the Way!",
+            "desc": "The DMG Multipliers of the following skills are increased by 50%:\n- Basic Attack - Huntress, Heavy Attack - Huntress, Tactical Dodge - Huntress, and Dodge Counter - Huntress\n- Basic Attack - Guts, Tactical Dodge - Guts, Dodge Counter - Guts.\nWhen A Girl Gets What She Wants! is triggered, Rebecca gains 3 additional stack of Street Smarts for 12s. Upon performing Tactical Dodge - Huntress or Tactical Dodge - Guts, if Rebecca has sufficient Street Smarts stacks, 1 stack will be consumed to restore 20 STA.\nResonance Liberation BOOM! Fireworks! is immune to interruption.",
             "buffs": [
               {
-                "label": "指定技能倍率提升",
-                "trigger": "默认",
-                "excerpt": "指定猎手/铁胆普攻系技能倍率提升50%"
+                "label": "Mix-'n'-Match - Basic Attack - Huntress Stage 1 DMG Multiplier Increase",
+                "trigger": "In Target Hack · Interfered",
+                "excerpt": "Mix-'n'-Match - Basic Attack - Huntress Stage 1 DMG Multiplier Increase +50%"
               }
             ]
           },
           {
-            "name": "哦，原来是你啊！",
-            "desc": "施放变奏技能呜呼，来发大的！、变奏技能蠢货，有本事来抓我！或共鸣解放狂欢时间！时，队伍中的角色全属性伤害加成提升20%，持续30秒。队伍中的角色附加【骇破·偏移】时，全伤害加深15%，持续30秒。处于非战斗状态时，【手感火热】回复速度翻倍。",
+            "name": "Oh, Hey Choom!",
+            "desc": "Casting Intro Skill - Yo, It's Big Boomin' Time!, Intro Skill - Hey, Leadhead, Come 'n' Get Me!, or Resonance Liberation - Party 'til Dawn! grants 20% All-Attribute DMG Bonus for all Resonators in the team for 30s.\nWhen Resonators in the team inflict Hack - Shifting, they gain 15% All DMG Amplification for 30s.\nHot Hand regenerates twice as fast when Rebecca is out of combat.",
             "buffs": [
               {
-                "label": "全属性伤害加成",
-                "trigger": "施放变奏技能/共鸣解放后",
-                "excerpt": "释放变奏技能或狂欢时间！时，全属性伤害加成提升20%"
+                "label": "All-Attribute DMG Bonus",
+                "trigger": "In Target Hack · Interfered",
+                "excerpt": "All-Attribute DMG Bonus +20%"
               },
               {
-                "label": "全伤害加深",
-                "trigger": "附加骇破·偏移后",
-                "excerpt": "队伍附加骇破·偏移后，全伤害加深15%"
+                "label": "DMG Increase",
+                "trigger": "In Target Hack · Interfered",
+                "excerpt": "DMG Increase +15%"
               }
             ]
           },
           {
-            "name": "背后就交给我吧！",
-            "desc": "丽贝卡共鸣解放狂欢时间！、共鸣解放大烟花！伤害倍率提升60%。丽贝卡共鸣解放狂欢时间！爆炸范围增加30%。施放变奏技能呜呼，来发大的！、变奏技能蠢货，有本事来抓我！时，获得120点【手感火热】。",
+            "name": "Don't Sweat Your Six!",
+            "desc": "Rebecca's Resonance Liberation - Party 'til Dawn!, and Resonance Liberation - BOOM! Fireworks! gain 60% DMG Multiplier increase.\nRebecca's Resonance Liberation - Party 'til Dawn! gains 30% more explosion range.\nCasting Intro Skill - Yo, It's Big Boomin' Time! or Intro Skill - Hey, Leadhead, Come 'n' Get Me! grants 120 points of Hot Hand.",
             "buffs": [
               {
-                "label": "共鸣解放倍率提升",
-                "trigger": "默认",
-                "excerpt": "狂欢时间！和大烟花！倍率提升60%"
+                "label": "Party 'til Dawn! - Mk. 31 HMG DMG Multiplier Increase",
+                "trigger": "In Target Hack · Interfered",
+                "excerpt": "Party 'til Dawn! - Mk. 31 HMG DMG Multiplier Increase +60%"
               }
             ]
           },
           {
-            "name": "我会保护你的！",
-            "desc": "丽贝卡小孩子才做选择！属性加成效果额外提升60%。",
+            "name": "Got Ya Covered!",
+            "desc": "Rebecca gains an additional 60% Stat Bonus increase from the A Girl Gets What She Wants! effect.",
             "buffs": [
               {
-                "label": "暴击伤害",
-                "trigger": "小孩子才做选择期间",
-                "excerpt": "小孩子才做选择期间，猎手暴伤加成额外提升18%"
+                "label": "Crit. DMG",
+                "trigger": "In Why Choose?",
+                "excerpt": "Crit. DMG +18%"
               },
               {
-                "label": "防御无视",
-                "trigger": "小孩子才做选择期间",
-                "excerpt": "小孩子才做选择期间，铁胆防御无视额外提升9%"
+                "label": "DEF Ignore",
+                "trigger": "In Why Choose?",
+                "excerpt": "DEF Ignore +9%"
               }
             ]
           },
           {
-            "name": "边缘幻梦",
-            "desc": "丽贝卡附加【骇破·偏移】时，自身普攻伤害加成提升20%，持续8秒。",
+            "name": "Dreamin' on the Edge",
+            "desc": "Rebecca gains 20% Basic Attack DMG Bonus for 8s when she inflicts Hack - Shifting.",
             "buffs": [
               {
-                "label": "普攻伤害加成",
-                "trigger": "附加骇破·偏移后",
-                "excerpt": "附加骇破·偏移后，普攻伤害加成提升20%"
+                "label": "Basic Attack DMG Bonus",
+                "trigger": "In Target Hack · Interfered",
+                "excerpt": "Basic Attack DMG Bonus +20%"
               }
             ]
           },
           {
-            "name": "也许……",
-            "desc": "丽贝卡从所有来源中获得的普攻伤害加成数值提升40%。丽贝卡施放重击·哒哒哒！·猎手、重击·砰砰砰！·铁胆期间，额外造成一次900%的导电伤害，此次伤害为普攻伤害。丽贝卡施放重击·哒哒哒！·猎手、重击·砰砰砰！·铁胆时，额外回复20点【手感火热】。受到致死伤害时，此次伤害不会使丽贝卡倒下，并且立即回复5次2077点固定生命值，该效果每10分钟可触发1次。处于非战斗状态大于4秒时，丽贝卡回复120点【狂热】，每4秒只生效1次。",
+            "name": "Maybe, Just Maybe...",
+            "desc": "Rebecca's Basic Attack DMG Bonus from every source is increased by 40%.\nDuring Heavy Attack - Rat-tat-tat!: Huntress or Heavy Attack - Bang-bang-bang!: Guts, Rebecca deals an additional instance of Electro DMG equal to 900% of her ATK, considered Basic Attack DMG.\nRebecca recovers an additional 20 points of Hot Hand when she is casting Heavy Attack - Rat-tat-tat!: Huntress or Heavy Attack - Bang-bang-bang!: Guts.\nWhen Rebecca takes a fatal blow, she does not fall to the damage and instead restores fixed 2077 HP for 5 times immediately. This effect is triggered once every 10 min.\nWhen Rebecca stays out of combat for more than 4s, she restores 120 point of Fervor. This effect is triggered once every 4s.",
             "buffs": [
               {
-                "label": "强化重击额外伤害",
-                "trigger": "施放强化重击期间",
-                "excerpt": "强化重击期间，额外造成900%导电普攻伤害",
-                "desc": "丽贝卡施放重击·哒哒哒！·猎手、重击·砰砰砰！·铁胆期间，额外造成一次900%的导电伤害，此次伤害为普攻伤害。"
+                "label": "Gloves Are Comin' Off! - Rat-tat-tat!: Huntress DMG Multiplier Increase",
+                "trigger": "In Target Hack · Interfered",
+                "excerpt": "Gloves Are Comin' Off! - Rat-tat-tat!: Huntress DMG Multiplier Increase +900%"
               }
             ]
           }

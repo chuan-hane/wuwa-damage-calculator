@@ -41,7 +41,9 @@ window.WUWA_LANGUAGES.extend("en-US", {
       normal: "Non-Crit"
     },
     hints: {
-      res: "Open-world enemies usually have 10% base RES to all attributes. If an enemy has a stated attribute RES bonus, add another 30% RES for that attribute."
+      res: "Open-world enemies usually have 10% base RES to all attributes. If an enemy has a stated attribute RES bonus, add another 30% RES for that attribute.",
+      defShred: "This input shows and edits total DEF Shred. Auto sources such as Buffs are included in real time.",
+      defShredWithHavocBane: "This input shows and edits total DEF Shred, including {value}% from Havoc Bane."
     }
   }
 });

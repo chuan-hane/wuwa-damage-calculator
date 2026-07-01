@@ -41,7 +41,9 @@ window.WUWA_LANGUAGES.extend("zh-CN", {
       normal: "非暴"
     },
     hints: {
-      res: "大世界中敌人基础全属性抗性 10%；若有「XX属性抗性提升」标注，则该属性再 +30% 抗性。"
+      res: "大世界中敌人基础全属性抗性 10%；若有「XX属性抗性提升」标注，则该属性再 +30% 抗性。",
+      defShred: "输入框显示并编辑当前总减防；Buff 等自动来源会实时折入。",
+      defShredWithHavocBane: "输入框显示并编辑当前总减防；其中虚湮{value}%。"
     }
   }
 });

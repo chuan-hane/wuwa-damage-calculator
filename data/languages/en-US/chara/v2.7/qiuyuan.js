@@ -5,11 +5,6 @@ window.WUWA_LANGUAGES.extend("en-US", {
     "chars": {
       "qiuyuan": {
         "name": "Qiuyuan",
-        "resources": [
-          {
-            "label": "挑灯问剑"
-          }
-        ],
         "skills": [
           {
             "name": "Inkwash - Stage 1 DMG"
@@ -43,19 +38,19 @@ window.WUWA_LANGUAGES.extend("en-US", {
           },
           {
             "name": "Verdant Edge - Thus Spoke the Blade: Inkwash Stage 1 DMG",
-            "requiresResourceLabel": "200挑灯问剑"
+            "requiresResourceLabel": "Swordster's Soliloquy at least 200"
           },
           {
             "name": "Verdant Edge - Thus Spoke the Blade: Inkwash Stage 2 DMG",
-            "requiresResourceLabel": "200挑灯问剑"
+            "requiresResourceLabel": "Swordster's Soliloquy at least 200"
           },
           {
             "name": "Verdant Edge - Thus Spoke the Blade: Inkwash Stage 3 DMG",
-            "requiresResourceLabel": "200挑灯问剑"
+            "requiresResourceLabel": "Swordster's Soliloquy at least 200"
           },
           {
             "name": "Verdant Edge - Thus Spoke the Blade: Inkwash Stage 4 DMG",
-            "requiresResourceLabel": "200挑灯问剑"
+            "requiresResourceLabel": "Swordster's Soliloquy at least 200"
           },
           {
             "name": "Verdant Edge - Thus Spoke the Blade: To Teach DMG"
@@ -68,145 +63,152 @@ window.WUWA_LANGUAGES.extend("en-US", {
           },
           {
             "name": "Through the Groves - Lotuscloak Emerges",
-            "requiresResourceLabel": "满协奏且未处于淋漓醉墨"
+            "requiresResourceLabel": "resource_gate_2"
           },
           {
             "name": "Verdant Edge - Exit Drunken Ink State DMG",
-            "requiresResourceLabel": "已退出淋漓醉墨且仍为登场角色"
+            "requiresResourceLabel": "resource_gate_3"
+          }
+        ],
+        "resources": [
+          {
+            "label": "Swordster's Soliloquy"
           }
         ],
         "combatStates": [
           {
-            "label": "竹照",
-            "inactiveLabel": "未获得竹照",
-            "entry": "【挑灯问剑】达到400点时获得【竹照】，持续30秒；施放变奏技能可获得400点【挑灯问剑】。",
+            "label": "Bamboo's Shade",
+            "idLabel": "Bamboo's Shade",
+            "inactiveLabel": "Not in Bamboo's Shade",
+            "entry": "Bamboo's Shade",
+            "effects": "Bamboo's Shade",
             "options": [
               {
-                "label": "竹照",
-                "valueLabel": "竹照"
+                "label": "Bamboo's Shade",
+                "valueLabel": "Bamboo's Shade"
               }
-            ],
-            "idLabel": "竹照"
+            ]
           },
           {
-            "label": "淋漓醉墨状态",
-            "inactiveLabel": "未处于淋漓醉墨状态",
-            "entry": "【挑灯问剑】满600点时进入【淋漓醉墨】状态，持续8秒；【挑灯问剑】耗尽或切换角色时提前退出。",
+            "label": "Inksplash of Mind State",
+            "idLabel": "Inksplash of Mind",
+            "inactiveLabel": "Not in Inksplash of Mind",
+            "entry": "Qiuyuan obtains Quietude Within for 10s upon entering the Inksplash of Mind state.",
+            "effects": "Qiuyuan obtains Quietude Within for 10s upon entering the Inksplash of Mind state.",
             "options": [
               {
-                "label": "且从容",
-                "valueLabel": "淋漓醉墨·且从容"
+                "label": "Inksplash of Mind · Quietude Within",
+                "valueLabel": "Inksplash of Mind · Quietude Within"
               }
-            ],
-            "idLabel": "淋漓醉墨"
+            ]
           }
         ],
         "buffs": [
           {
-            "source": "共鸣解放·万钧一断",
-            "label": "暴击伤害",
-            "trigger": "施放共鸣解放时",
-            "excerpt": "释放万钧一断时，按自身超出50%的暴击转暴击伤害，上限30%",
-            "desc": "仇远暴击高于50%时，每多出1%暴击，施放该技能时，附近队伍中的登场角色提升2%暴击伤害，持续30秒。最高可提升30%暴击伤害。"
+            "source": "Resonance Liberation: Sundering Strike",
+            "label": "Crit. DMG",
+            "trigger": "After casting Sundering Strike - Skill DMG",
+            "excerpt": "Crit. DMG based on Crit. Rate, cap 30%",
+            "desc": "The DMG Multiplier of Resonance Liberation Sundering Strike is increased by 500%."
           },
           {
-            "source": "共鸣回路·竹照",
-            "label": "声骸技能伤害加成",
-            "trigger": "挑灯问剑达到400点后",
-            "excerpt": "获得竹照时，声骸技能伤害加成提升30%",
-            "desc": "【挑灯问剑】达到400点时，获得【竹照】效果，附近队伍中的登场角色声骸技能伤害加成提升30%，持续30秒。"
+            "source": "Forte Circuit: Bamboo's Shade",
+            "label": "Echo Skill DMG Bonus",
+            "trigger": "In Bamboo's Shade",
+            "excerpt": "Echo Skill DMG Bonus +30%",
+            "desc": "Bamboo's Shade"
           },
           {
-            "source": "固有·且从容",
-            "label": "答剑伤害易伤",
-            "trigger": "进入淋漓醉墨后",
-            "excerpt": "且从容期间，三段答剑目标受伤提升50%",
-            "desc": "进入【淋漓醉墨】状态时，仇远获得且从容效果，持续10秒，该效果每22秒可触发1次。目标受到重击答剑·弦歌不辍、答剑·割股之心、答剑·忠烈死节的伤害提升50%。"
+            "source": "Inherent Skill: Quietude Within",
+            "label": "Vulnerability",
+            "trigger": "In Inksplash of Mind · Quietude Within",
+            "excerpt": "Vulnerability +50%",
+            "desc": "Qiuyuan obtains Quietude Within for 10s upon entering the Inksplash of Mind state."
           },
           {
-            "source": "固有·与尔同销万古愁",
-            "label": "攻击",
-            "trigger": "施放声骸技能后获得挑灯问剑",
-            "excerpt": "声骸技能蓄能后，下次获得挑灯问剑时攻击提升10%",
-            "desc": "仇远施放声骸技能时，仇远的竹壶会吸收溢散的能量转化为【金药玉馔】。下次获得【挑灯问剑】时，消耗【金药玉馔】，仇远攻击提升10%，持续20秒。"
+            "source": "Inherent Skill: Drink Away Woes Age-Old",
+            "label": "ATK",
+            "trigger": "In Inksplash of Mind · Quietude Within",
+            "excerpt": "ATK +10%",
+            "desc": "ATK +10%"
           },
           {
-            "source": "延奏·出其不趋",
-            "label": "声骸技能伤害加深",
-            "trigger": "释放延奏技能后",
-            "excerpt": "下一位登场角色声骸技能伤害加深50%",
-            "desc": "攻击目标，造成仇远自身100%攻击的气动伤害，此次伤害视为声骸技能伤害。下一个登场角色声骸技能伤害加深50%，持续14秒，若切换至其他角色则该效果提前结束。"
+            "source": "Outro Skill: Strike Before Ready",
+            "label": "Echo Skill DMG Increase",
+            "trigger": "In Inksplash of Mind · Quietude Within",
+            "excerpt": "Echo Skill DMG Increase +50%",
+            "desc": "Echo Skill DMG Increase +50%"
           }
         ],
         "chain": [
           {
-            "name": "如剑不动，相由心生",
-            "desc": "答剑·弦歌不辍、答剑·割股之心、答剑·忠烈死节免疫打断。仇远暴击提升20%。",
+            "name": "Sword Sheathed, Mind Unclouded",
+            "desc": "Thus Spoke the Blade: To Teach, Thus Spoke the Blade: To Save, and Thus Spoke the Blade: To Sacrifice can no longer be interrupted.\nQiuyuan gains 20% Crit. Rate increase.",
             "buffs": [
               {
-                "label": "暴击",
-                "trigger": "默认",
-                "excerpt": "暴击提升20%"
+                "label": "Crit. Rate",
+                "trigger": "In Inksplash of Mind · Quietude Within",
+                "excerpt": "Crit. Rate +20%"
               }
             ]
           },
           {
-            "name": "剑啊，谓我弃绝弦歌不辍",
-            "desc": "【竹照】获得时增加额外效果：附近队伍中的角色声骸技能伤害加深30%。",
+            "name": "O Blade, I, Who Teach No More",
+            "desc": "Bamboo's Shade now grants an additional 30% Echo Skill DMG Amplification to all nearby Resonators in the team.",
             "buffs": [
               {
-                "label": "声骸技能伤害加深",
-                "trigger": "获得竹照时",
-                "excerpt": "获得竹照时，声骸技能伤害加深30%"
+                "label": "Echo Skill DMG Increase",
+                "trigger": "In Bamboo's Shade",
+                "excerpt": "Echo Skill DMG Increase +30%"
               }
             ]
           },
           {
-            "name": "剑啊，谓我弃绝割股之心",
-            "desc": "共鸣解放万钧一断伤害倍率增加500%。协奏能量充满且不处于【淋漓醉墨】状态下时，仇远的共鸣技能替换为共鸣技能荷蓑出林，每20秒可施放1次。施放荷蓑出林时，提前结束且从容效果，消耗60点协奏能量并回复【挑灯问剑】400点，对目标造成仇远自身500%攻击的气动伤害，此次伤害视为声骸技能伤害，下一次常态攻击普攻替换为答剑·质黑相青第三段。施放荷蓑出林后，下次仇远进入【淋漓醉墨】状态时无法获得且从容效果，答剑·弦歌不辍、答剑·割股之心、答剑·忠烈死节伤害倍率增加600%，答剑·忠烈死节命中时额外获得协奏能量30点。施放荷蓑出林后，非联机状态下下次延奏技能替换为延奏技能新筠坠箨，造成仇远自身500%攻击的气动伤害，此次伤害视为声骸技能伤害。",
+            "name": "O Blade, I, Who Save No More",
+            "desc": "The DMG Multiplier of Resonance Liberation Sundering Strike is increased by 500%.\nIf Concerto Energy is full when not in the Inksplash of Mind state, Qiuyuan's Resonance Skill is replaced with Resonance Skill Straw Cape in Drizzly Rain, available once every 20s.\nUpon casting Straw Cape in Drizzly Rain, the Quietude Within effect immediately ends and 60 Concerto Energy is consumed to deal Aero DMG equal to 500% of Qiuyuan's ATK, considered Echo Skill DMG, and restore 400 points of Swordster's Soliloquy. The next Basic Attack is replaced with Thus Spoke the Blade: Inkwash Stage 3.\nUpon casting Straw Cape in Drizzly Rain, Qiuyuan cannot gain the Quietude Within effect the next time he enters Inksplash of Mind. Thus Spoke the Blade: To Teach, Thus Spoke the Blade: To Save, and Thus Spoke the Blade: To Sacrifice gain 600% DMG Multiplier increase and additionally restore 30 point of Concerto Energy on hit.\nWhen not in Co-op mode, upon casting Straw Cape in Drizzly Rain, the next Outro Skill is replaced with Outro Skill Sheath Fallen, New Shoots Revealed, which deals Aero DMG equal to 500% of Qiuyuan's ATK, considered Echo Skill DMG.",
             "buffs": [
               {
-                "label": "万钧一断倍率增加",
-                "trigger": "默认",
-                "excerpt": "万钧一断伤害倍率增加500%"
+                "label": "Sundering Strike - Skill DMG Multiplier Increase",
+                "trigger": "In Inksplash of Mind · Quietude Within",
+                "excerpt": "Sundering Strike - Skill DMG Multiplier Increase +500%"
               },
               {
-                "label": "答剑倍率增加",
-                "trigger": "施放荷蓑出林后",
-                "excerpt": "荷蓑出林后，下次淋漓醉墨三段答剑倍率增加600%"
+                "label": "Verdant Edge - Thus Spoke the Blade: To Teach DMG Multiplier Increase",
+                "trigger": "After casting Verdant Edge - Thus Spoke the Blade: To Teach DMG / Verdant Edge - Thus Spoke the Blade: To Save DMG / Verdant Edge - Thus Spoke the Blade: To Sacrifice DMG",
+                "excerpt": "Verdant Edge - Thus Spoke the Blade: To Teach DMG Multiplier Increase +600%"
               }
             ]
           },
           {
-            "name": "剑啊，谓我弃绝忠烈死节",
-            "desc": "仇远攻击提升20%。",
+            "name": "O Blade, I, Who Sacrifice No More",
+            "desc": "ATK is increased by 20%.",
             "buffs": [
               {
-                "label": "攻击",
-                "trigger": "默认",
-                "excerpt": "攻击提升20%"
+                "label": "ATK",
+                "trigger": "In Inksplash of Mind · Quietude Within",
+                "excerpt": "ATK +20%"
               }
             ]
           },
           {
-            "name": "剑啊，如今我弹铗而歌",
-            "desc": "仇远无视目标15%的防御。",
+            "name": "O Blade, I, Who Await to be Wielded",
+            "desc": "Qiuyuan now ignores 15% of the target's DEF when dealing damage.",
             "buffs": [
               {
-                "label": "防御无视",
-                "trigger": "默认",
-                "excerpt": "无视目标15%防御"
+                "label": "DEF Ignore",
+                "trigger": "In Inksplash of Mind · Quietude Within",
+                "excerpt": "DEF Ignore +15%"
               }
             ]
           },
           {
-            "name": "如是我闻、我见、我言",
-            "desc": "施放重击答剑·忠烈死节时，停滞周围的敌人，持续5秒，该效果联机状态下不会生效。切换至其他角色或目标受到伤害时提前清除停滞效果。退出【淋漓醉墨】状态且为队伍中登场角色时，对范围内敌人造成自身600%攻击的气动伤害，该伤害视为声骸技能伤害。施放共鸣技能荷蓑出林时，仇远暴击伤害增加100%，持续6秒。切换至其他角色时，效果提前结束。",
+            "name": "Thus I Heard, Thus I Saw, Thus I Spoke",
+            "desc": "Casting Heavy Attack Thus Spoke the Blade: To Sacrifice stagnates nearby targets for 5s or until the targets are damaged or until Qiuyuan is switched off the field. This effect is not available in the Co-op Mode.\nWhen Qiuyuan is the active Resonator in the team, upon exiting Inksplash of Mind, he deals Aero DMG equal to 600% of his ATK to all targets within range, considered Echo Skill DMG.\nCasting Resonance Skill Straw Cape in Drizzly Rain increases Qiuyuan's Crit. DMG by 100% for 6s. Switching to another Resonator ends this effect early.",
             "buffs": [
               {
-                "label": "暴击伤害",
-                "trigger": "施放荷蓑出林时",
-                "excerpt": "施放荷蓑出林时，暴击伤害提升100%"
+                "label": "Crit. DMG",
+                "trigger": "After casting Through the Groves - Lotuscloak Emerges",
+                "excerpt": "Crit. DMG +100%"
               }
             ]
           }

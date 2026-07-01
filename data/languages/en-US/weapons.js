@@ -1,1424 +1,1511 @@
+"use strict";
+
 window.WUWA_LANGUAGES.extend("en-US", {
   "data": {
     "weapons": {
       "autumntrace": {
         "name": "Autumntrace",
         "typeName": "Broadblade",
-        "resonanceName": "锋芒所向",
-        "description": "造成普攻或重击伤害时，攻击提升4%/6.2%/8.4%/10.6%/12.8%，可叠加5/5/5/5/5层，持续7/7/7/7/7秒，每1/1/1/1/1秒可触发1/1/1/1/1次。",
+        "resonanceName": "Edge Direction",
+        "description": "Increases ATK by 4%/6.2%/8.4%/10.6%/12.8% upon dealing Basic Attack DMG or Heavy Attack DMG, stacking up to 5/5/5/5/5 time(s). This effect lasts for 7/7/7/7/7s and can be triggered 1/1/1/1/1 time(s) every 1/1/1/1/1s.",
         "effects": [
           {
-            "label": "攻击",
-            "conditionText": "造成普攻或重击伤害时，攻击提升4%/6.2%/8.4%/10.6%/12.8%，可叠加5/5/5/5/5层，持续7/7/7/7/7秒，每1/1/1/1/1秒可触发1/1/1/1/1次"
+            "label": "ATK",
+            "excerpt": "ATK +20% per stack",
+            "conditionText": "Increases ATK by 4%/6.2%/8.4%/10.6%/12.8% upon dealing Basic Attack DMG or Heavy Attack DMG, stacking up to 5/5/5/5/5 time(s). This effect lasts for 7/7/7/7/7s and can be triggered 1/1/1/1/1 time(s) every 1/1/1/1/1s."
           }
         ]
       },
       "lumingloss": {
         "name": "Lumingloss",
         "typeName": "Sword",
-        "resonanceName": "白刃疾风",
-        "description": "施放共鸣技能时，自身普攻和重击伤害加成提升20%/31%/42%/53%/64%，可叠加1/1/1/1/1层，持续10/10/10/10/10秒。每1/1/1/1/1秒可触发1/1/1/1/1次。",
+        "resonanceName": "Pale Gale",
+        "description": "When Resonance Skill is cast, increases Basic Attack DMG Bonus and Heavy Attack DMG Bonus by 20%/31%/42%/53%/64%, stacking up to 1/1/1/1/1 time(s). This effect lasts for 10/10/10/10/10s and can be triggered 1/1/1/1/1 time(s) every 1/1/1/1/1s.",
         "effects": [
           {
-            "label": "重击伤害加成",
-            "conditionText": "施放共鸣技能时，自身普攻和重击伤害加成提升20%/31%/42%/53%/64%，可叠加1/1/1/1/1层，持续10/10/10/10/10秒"
+            "label": "Heavy Attack DMG Bonus",
+            "excerpt": "Heavy Attack DMG Bonus +20%",
+            "conditionText": "When Resonance Skill is cast, increases Basic Attack DMG Bonus and Heavy Attack DMG Bonus by 20%/31%/42%/53%/64%, stacking up to 1/1/1/1/1 time(s). This effect lasts for 10/10/10/10/10s and can be triggered 1/1/1/1/1 time(s) every 1/1/1/1/1s."
           },
           {
-            "label": "普攻伤害加成",
-            "conditionText": "施放共鸣技能时，自身普攻和重击伤害加成提升20%/31%/42%/53%/64%，可叠加1/1/1/1/1层，持续10/10/10/10/10秒"
+            "label": "Basic Attack DMG Bonus",
+            "excerpt": "Basic Attack DMG Bonus +20%",
+            "conditionText": "When Resonance Skill is cast, increases Basic Attack DMG Bonus and Heavy Attack DMG Bonus by 20%/31%/42%/53%/64%, stacking up to 1/1/1/1/1 time(s). This effect lasts for 10/10/10/10/10s and can be triggered 1/1/1/1/1 time(s) every 1/1/1/1/1s."
           }
         ]
       },
       "thunderbolt": {
         "name": "Thunderbolt",
         "typeName": "Pistols",
-        "resonanceName": "锐不可当",
-        "description": "造成普攻或重击伤害时，自身共鸣技能伤害加成提升7%/11%/15%/19%/23%，可叠加3/3/3/3/3层，持续10/10/10/10/10秒。每1/1/1/1/1秒可触发1/1/1/1/1次。",
+        "resonanceName": "Unstoppable",
+        "description": "When hitting a target with Basic Attacks or Heavy Attacks, increases Resonance Skill DMG Bonus by 7%/11%/15%/19%/23%, stacking up to 3/3/3/3/3 time(s). This effect lasts for 10/10/10/10/10s and can be triggered 1/1/1/1/1 time(s) every 1/1/1/1/1s.",
         "effects": [
           {
-            "label": "共鸣技能伤害加成",
-            "conditionText": "造成普攻或重击伤害时，自身共鸣技能伤害加成提升7%/11%/15%/19%/23%，可叠加3/3/3/3/3层，持续10/10/10/10/10秒"
+            "label": "Resonance Skill DMG Bonus",
+            "excerpt": "Resonance Skill DMG Bonus +21% per stack",
+            "conditionText": "When hitting a target with Basic Attacks or Heavy Attacks, increases Resonance Skill DMG Bonus by 7%/11%/15%/19%/23%, stacking up to 3/3/3/3/3 time(s). This effect lasts for 10/10/10/10/10s and can be triggered 1/1/1/1/1 time(s) every 1/1/1/1/1s."
           }
         ]
       },
       "stonard": {
         "name": "Stonard",
         "typeName": "Gauntlets",
-        "resonanceName": "破壁攻坚",
-        "description": "施放共鸣技能时，自身共鸣解放伤害加成提升18%/27%/36%/45%/54%，效果持续15/15/15/15/15秒。",
+        "resonanceName": "Wallbreaker",
+        "description": "Casting Resonance Skill increases the wielder's Resonance Liberation DMG Bonus by 18%/27%/36%/45%/54%, lasting for 15/15/15/15/15s.",
         "effects": [
           {
-            "label": "共鸣解放伤害加成",
-            "conditionText": "施放共鸣技能时，自身共鸣解放伤害加成提升18%/27%/36%/45%/54%，效果持续15/15/15/15/15秒"
+            "label": "Resonance Liberation DMG Bonus",
+            "excerpt": "Resonance Liberation DMG Bonus +18%",
+            "conditionText": "Casting Resonance Skill increases the wielder's Resonance Liberation DMG Bonus by 18%/27%/36%/45%/54%, lasting for 15/15/15/15/15s."
           }
         ]
       },
       "augment": {
         "name": "Augment",
         "typeName": "Rectifier",
-        "resonanceName": "刚柔并出",
-        "description": "施放共鸣解放时，自身攻击提升15%/23.25%/31.5%/39.75%/48%，持续15/15/15/15/15秒。",
+        "resonanceName": "Forgiving Resilience",
+        "description": "Casting Resonance Liberation increases the wielder's ATK by 15%/23.25%/31.5%/39.75%/48%, lasting for 15/15/15/15/15s.",
         "effects": [
           {
-            "label": "攻击",
-            "conditionText": "施放共鸣解放时，自身攻击提升15%/23.25%/31.5%/39.75%/48%，持续15/15/15/15/15秒"
+            "label": "ATK",
+            "excerpt": "ATK +15%",
+            "conditionText": "Casting Resonance Liberation increases the wielder's ATK by 15%/23.25%/31.5%/39.75%/48%, lasting for 15/15/15/15/15s."
           }
         ]
       },
       "discord": {
         "name": "Discord",
         "typeName": "Broadblade",
-        "resonanceName": "咏叹之音",
-        "description": "施放共鸣技能时，回复8/10/12/14/16点协奏能量，每20/20/20/20/20秒可触发1/1/1/1/1次。",
+        "resonanceName": "Ceaseless Aria",
+        "description": "When Resonance Skill is cast, restores 8/10/12/14/16 Concerto Energy. This effect can be triggered 1/1/1/1/1 time(s) every 20/20/20/20/20s.",
         "effects": []
       },
       "overture": {
         "name": "Overture",
         "typeName": "Sword",
-        "resonanceName": "咏叹之音",
-        "description": "施放共鸣技能时，回复8/10/12/14/16点协奏能量，每20/20/20/20/20秒可触发1/1/1/1/1次。",
+        "resonanceName": "Ceaseless Aria",
+        "description": "When Resonance Skill is cast, restores 8/10/12/14/16 Concerto Energy. This effect can be triggered 1/1/1/1/1 time(s) every 20/20/20/20/20s.",
         "effects": []
       },
       "cadenza": {
         "name": "Cadenza",
         "typeName": "Pistols",
-        "resonanceName": "咏叹之音",
-        "description": "施放共鸣技能时，回复8/10/12/14/16点协奏能量，每20/20/20/20/20秒可触发1/1/1/1/1次。",
+        "resonanceName": "Ceaseless Aria",
+        "description": "When Resonance Skill is cast, restores 8/10/12/14/16 Concerto Energy. This effect can be triggered 1/1/1/1/1 times every 20/20/20/20/20s.",
         "effects": []
       },
       "marcato": {
         "name": "Marcato",
         "typeName": "Gauntlets",
-        "resonanceName": "咏叹之音",
-        "description": "施放共鸣技能时，回复8/10/12/14/16点协奏能量，每20/20/20/20/20秒可触发1/1/1/1/1次。",
+        "resonanceName": "Ceaseless Aria",
+        "description": "When Resonance Skill is cast, restores 8/10/12/14/16 Concerto Energy. This effect can be triggered 1/1/1/1/1 times every 20/20/20/20/20s.",
         "effects": []
       },
       "variation": {
         "name": "Variation",
         "typeName": "Rectifier",
-        "resonanceName": "咏叹之音",
-        "description": "施放共鸣技能时，回复8/10/12/14/16点协奏能量，每20/20/20/20/20秒可触发1/1/1/1/1次。",
+        "resonanceName": "Ceaseless Aria",
+        "description": "When Resonance Skill is cast, restores 8/10/12/14/16 Concerto Energy. This effect can be triggered 1/1/1/1/1 times every 20/20/20/20/20s.",
         "effects": []
       },
       "broadblade_41": {
         "name": "Broadblade#41",
         "typeName": "Broadblade",
-        "resonanceName": "兼收并蓄",
-        "description": "生命大于80%/80%/80%/80%/80%时，攻击提升12%/15%/18%/21%/24%。生命低于40%/50%/60%/70%/80%时，造成普攻或重击伤害时回复角色5%/6.25%/7.5%/8.75%/10%生命值，每8/8/8/8/8秒可触发1/1/1/1/1次。",
+        "resonanceName": "Veteran",
+        "description": "When the Resonator's HP is above 80%/80%/80%/80%/80%, increases ATK by 12%/15%/18%/21%/24%. When the Resonator's HP is below 40%/50%/60%/70%/80%, gives 5%/6.25%/7.5%/8.75%/10% healing when dealing Basic Attack DMG or Heavy Attack DMG. This effect can be triggered 1/1/1/1/1 time(s) every 8/8/8/8/8s.",
         "effects": [
           {
-            "label": "攻击",
-            "conditionText": "生命大于80%/80%/80%/80%/80%时，攻击提升12%/15%/18%/21%/24%"
+            "label": "ATK",
+            "excerpt": "ATK +12%",
+            "conditionText": "When the Resonator's HP is above 80%/80%/80%/80%/80%, increases ATK by 12%/15%/18%/21%/24%. When the Resonator's HP is below 40%/50%/60%/70%/80%, gives 5%/6.25%/7.5%/8.75%/10% healing when dealing Basic Attack DMG or Heavy Attack DMG. This effect can be triggered 1/1/1/1/1 time(s) every 8/8/8/8/8s."
           }
         ]
       },
       "sword_18": {
         "name": "Sword#18",
         "typeName": "Sword",
-        "resonanceName": "踔时之进",
-        "description": "生命低于40%/50%/60%/70%/80%时，重击伤害加成提升18%/22.5%/27%/31.5%/36%，造成重击伤害时回复当前角色5%/6.25%/7.5%/8.75%/10%生命值，每8/8/8/8/8秒可触发1/1/1/1/1次。",
+        "resonanceName": "Daybreak",
+        "description": "When the Resonator's HP drops below 40%/50%/60%/70%/80%, increases Heavy Attack DMG Bonus by 18%/22.5%/27%/31.5%/36% and gives 5%/6.25%/7.5%/8.75%/10% healing when dealing Heavy Attack DMG. This effect can be triggered 1/1/1/1/1 time(s) every 8/8/8/8/8s.",
         "effects": [
           {
-            "label": "重击伤害加成",
-            "conditionText": "生命低于40%/50%/60%/70%/80%时，重击伤害加成提升18%/22.5%/27%/31.5%/36%，造成重击伤害时回复当前角色5%/6.25%/7.5%/8.75%/10%生命值，每8/8/8/8/8秒可触发1/1/1/1/1次"
+            "label": "Heavy Attack DMG Bonus",
+            "excerpt": "Heavy Attack DMG Bonus +18%",
+            "conditionText": "When the Resonator's HP drops below 40%/50%/60%/70%/80%, increases Heavy Attack DMG Bonus by 18%/22.5%/27%/31.5%/36% and gives 5%/6.25%/7.5%/8.75%/10% healing when dealing Heavy Attack DMG. This effect can be triggered 1/1/1/1/1 time(s) every 8/8/8/8/8s."
           }
         ]
       },
       "pistols_26": {
         "name": "Pistols#26",
         "typeName": "Pistols",
-        "resonanceName": "穷理洞彻",
-        "description": "角色没有受到伤害时，每5/5/5/5/5秒攻击提升6%/7.5%/9%/10.5%/12%，可叠加2/2/2/2/2层，持续8/8/8/8/8秒。受到伤害时，消耗1/1/1/1/1层状态，并回复角色5%/6.25%/7.5%/8.75%/10%生命。",
+        "resonanceName": "Omniscient",
+        "description": "When the Resonator takes no damage, increases ATK by 6%/7.5%/9%/10.5%/12% every 5/5/5/5/5s, stacking up to 2/2/2/2/2 time(s). This effect lasts for 8/8/8/8/8s. When the Resonator takes damage, loses 1/1/1/1/1 stacks and heals 5%/6.25%/7.5%/8.75%/10% of their Max HP.",
         "effects": [
           {
-            "label": "攻击",
-            "conditionText": "角色没有受到伤害时，每5/5/5/5/5秒攻击提升6%/7.5%/9%/10.5%/12%，可叠加2/2/2/2/2层，持续8/8/8/8/8秒"
+            "label": "ATK",
+            "excerpt": "ATK +12% per stack",
+            "conditionText": "When the Resonator takes no damage, increases ATK by 6%/7.5%/9%/10.5%/12% every 5/5/5/5/5s, stacking up to 2/2/2/2/2 time(s). This effect lasts for 8/8/8/8/8s. When the Resonator takes damage, loses 1/1/1/1/1 stacks and heals 5%/6.25%/7.5%/8.75%/10% of their Max HP."
           }
         ]
       },
       "gauntlets_21d": {
         "name": "Gauntlets#21D",
         "typeName": "Gauntlets",
-        "resonanceName": "谋定入微",
-        "description": "闪避或冲刺时，攻击提升8%/10%/12%/14%/16%，闪避反击造成的伤害提升50%/62.5%/75%/87.5%/100%，持续8/8/8/8/8秒。施放闪避反击时，回复角色5%/6.25%/7.5%/8.75%/10%生命，每6/6/6/6/6秒可触发1/1/1/1/1次。",
+        "resonanceName": "Mastermind",
+        "description": "When the Resonator dashes or dodges, increases ATK by 8%/10%/12%/14%/16%. Increases Dodge Counter DMG by 50%/62.5%/75%/87.5%/100%, lasting for 8/8/8/8/8s. When Dodge Counter is performed, heals 5%/6.25%/7.5%/8.75%/10% of the Resonator's Max HP. This effect can be triggered 1/1/1/1/1 time(s) every 6/6/6/6/6s.",
         "effects": [
           {
-            "label": "攻击",
-            "conditionText": "闪避或冲刺时，攻击提升8%/10%/12%/14%/16%，闪避反击造成的伤害提升50%/62.5%/75%/87.5%/100%，持续8/8/8/8/8秒"
+            "label": "ATK",
+            "excerpt": "ATK +8%",
+            "conditionText": "When the Resonator dashes or dodges, increases ATK by 8%/10%/12%/14%/16%. Increases Dodge Counter DMG by 50%/62.5%/75%/87.5%/100%, lasting for 8/8/8/8/8s. When Dodge Counter is performed, heals 5%/6.25%/7.5%/8.75%/10% of the Resonator's Max HP. This effect can be triggered 1/1/1/1/1 time(s) every 6/6/6/6/6s."
           }
         ]
       },
       "rectifier_25": {
         "name": "Rectifier#25",
         "typeName": "Rectifier",
-        "resonanceName": "创制开先",
-        "description": "施放共鸣技能时，若角色生命低于60%/60%/60%/60%/60%，回复角色5%/6.25%/7.5%/8.75%/10%生命值，每8/8/8/8/8秒可触发1/1/1/1/1次；若角色生命高于60%/60%/60%/60%/60%，则攻击提升12%/15%/18%/21%/24%，持续10/10/10/10/10秒。",
+        "resonanceName": "Dawnbringer",
+        "description": "When Resonance Skill is cast, if the Resonator's HP is below 60%/60%/60%/60%/60%, heals 5%/6.25%/7.5%/8.75%/10% of their Max HP. This effect can be triggered 1/1/1/1/1 time(s) every 8/8/8/8/8s. If the Resonator's HP is above 60%/60%/60%/60%/60%, increases ATK by 12%/15%/18%/21%/24%, lasting for 10/10/10/10/10s.",
         "effects": [
           {
-            "label": "攻击",
-            "conditionText": "若角色生命高于60%/60%/60%/60%/60%，则攻击提升12%/15%/18%/21%/24%，持续10/10/10/10/10秒"
+            "label": "ATK",
+            "excerpt": "ATK +12%",
+            "conditionText": "When Resonance Skill is cast, if the Resonator's HP is below 60%/60%/60%/60%/60%, heals 5%/6.25%/7.5%/8.75%/10% of their Max HP. This effect can be triggered 1/1/1/1/1 time(s) every 8/8/8/8/8s. If the Resonator's HP is above 60%/60%/60%/60%/60%, increases ATK by 12%/15%/18%/21%/24%, lasting for 10/10/10/10/10s."
           }
         ]
       },
       "dauntless_evernight": {
         "name": "Dauntless Evernight",
         "typeName": "Broadblade",
-        "resonanceName": "枕戈待旦",
-        "description": "施放变奏技能时，自身攻击提升8%/10%/12%/14%/16%，防御提升15%/18.75%/22.5%/26.25%/30%，持续15/15/15/15/15秒。",
+        "resonanceName": "Battlebound",
+        "description": "When Intro Skill is cast, increases ATK by 8%/10%/12%/14%/16% and DEF by 15%/18.75%/22.5%/26.25%/30%, lasting for 15/15/15/15/15s.",
         "effects": [
           {
-            "label": "攻击",
-            "conditionText": "施放变奏技能时，自身攻击提升8%/10%/12%/14%/16%，防御提升15%/18.75%/22.5%/26.25%/30%，持续15/15/15/15/15秒"
+            "label": "ATK",
+            "excerpt": "ATK +8%",
+            "conditionText": "When Intro Skill is cast, increases ATK by 8%/10%/12%/14%/16% and DEF by 15%/18.75%/22.5%/26.25%/30%, lasting for 15/15/15/15/15s."
           },
           {
-            "label": "防御",
-            "conditionText": "施放变奏技能时，自身攻击提升8%/10%/12%/14%/16%，防御提升15%/18.75%/22.5%/26.25%/30%，持续15/15/15/15/15秒"
+            "label": "DEF",
+            "excerpt": "DEF +15%",
+            "conditionText": "When Intro Skill is cast, increases ATK by 8%/10%/12%/14%/16% and DEF by 15%/18.75%/22.5%/26.25%/30%, lasting for 15/15/15/15/15s."
           }
         ]
       },
       "commando_of_conviction": {
         "name": "Commando of Conviction",
         "typeName": "Sword",
-        "resonanceName": "一往无前",
-        "description": "施放变奏技能时，自身攻击提升15%/18.75%/22.5%/26.25%/30%。持续15/15/15/15/15秒。",
+        "resonanceName": "Unyielding",
+        "description": "When Intro Skill is cast, increases ATK by 15%/18.75%/22.5%/26.25%/30%, lasting for 15/15/15/15/15s.",
         "effects": [
           {
-            "label": "攻击",
-            "conditionText": "施放变奏技能时，自身攻击提升15%/18.75%/22.5%/26.25%/30%"
+            "label": "ATK",
+            "excerpt": "ATK +15%",
+            "conditionText": "When Intro Skill is cast, increases ATK by 15%/18.75%/22.5%/26.25%/30%, lasting for 15/15/15/15/15s."
           }
         ]
       },
       "undying_flame": {
         "name": "Undying Flame",
         "typeName": "Pistols",
-        "resonanceName": "赤胆丹心",
-        "description": "施放变奏技能时，自身共鸣技能伤害加成提升20%/25%/30%/35%/40%。持续15/15/15/15/15秒。",
+        "resonanceName": "Loyalty",
+        "description": "When Intro Skill is cast, increases Resonance Skill DMG Bonus by 20%/25%/30%/35%/40% for 15/15/15/15/15s.",
         "effects": [
           {
-            "label": "共鸣技能伤害加成",
-            "conditionText": "施放变奏技能时，自身共鸣技能伤害加成提升20%/25%/30%/35%/40%"
+            "label": "Resonance Skill DMG Bonus",
+            "excerpt": "Resonance Skill DMG Bonus +20%",
+            "conditionText": "When Intro Skill is cast, increases Resonance Skill DMG Bonus by 20%/25%/30%/35%/40% for 15/15/15/15/15s."
           }
         ]
       },
       "amity_accord": {
         "name": "Amity Accord",
         "typeName": "Gauntlets",
-        "resonanceName": "无衣长歌",
-        "description": "施放变奏技能时，自身共鸣解放伤害加成提升20%/25%/30%/35%/40%，持续15/15/15/15/15秒。",
+        "resonanceName": "Camaraderie",
+        "description": "When Intro Skill is cast, increases Resonance Liberation DMG Bonus by 20%/25%/30%/35%/40%, lasting for 15/15/15/15/15s.",
         "effects": [
           {
-            "label": "共鸣解放伤害加成",
-            "conditionText": "施放变奏技能时，自身共鸣解放伤害加成提升20%/25%/30%/35%/40%，持续15/15/15/15/15秒"
+            "label": "Resonance Liberation DMG Bonus",
+            "excerpt": "Resonance Liberation DMG Bonus +20%",
+            "conditionText": "When Intro Skill is cast, increases Resonance Liberation DMG Bonus by 20%/25%/30%/35%/40%, lasting for 15/15/15/15/15s."
           }
         ]
       },
       "jinzhou_keeper": {
         "name": "Jinzhou Keeper",
         "typeName": "Rectifier",
-        "resonanceName": "忠诚卫士",
-        "description": "施放变奏技能时，自身攻击提升8%/10%/12%/14%/16%，生命提升10%/12.5%/15%/17.5%/20%，持续15/15/15/15/15秒。",
+        "resonanceName": "Guardian",
+        "description": "Casting Intro Skill increases the wielder's ATK by 8%/10%/12%/14%/16% and HP by 10%/12.5%/15%/17.5%/20%, lasting for 15/15/15/15/15s.",
         "effects": [
           {
-            "label": "攻击",
-            "conditionText": "施放变奏技能时，自身攻击提升8%/10%/12%/14%/16%，生命提升10%/12.5%/15%/17.5%/20%，持续15/15/15/15/15秒"
+            "label": "ATK",
+            "excerpt": "ATK +8%",
+            "conditionText": "Casting Intro Skill increases the wielder's ATK by 8%/10%/12%/14%/16% and HP by 10%/12.5%/15%/17.5%/20%, lasting for 15/15/15/15/15s."
           },
           {
-            "label": "生命",
-            "conditionText": "施放变奏技能时，自身攻击提升8%/10%/12%/14%/16%，生命提升10%/12.5%/15%/17.5%/20%，持续15/15/15/15/15秒"
+            "label": "HP",
+            "excerpt": "HP +10%",
+            "conditionText": "Casting Intro Skill increases the wielder's ATK by 8%/10%/12%/14%/16% and HP by 10%/12.5%/15%/17.5%/20%, lasting for 15/15/15/15/15s."
           }
         ]
       },
       "helios_cleaver": {
         "name": "Helios Cleaver",
         "typeName": "Broadblade",
-        "resonanceName": "潜能蕴蓄",
-        "description": "施放共鸣技能后12/12/12/12/12秒内，每2/2/2/2/2秒攻击提升3%/3.75%/4.5%/5.25%/6%，可叠加4/4/4/4/4层。每12/12/12/12/12秒可触发1/1/1/1/1次。当层数达到4/4/4/4/4层后，6/6/6/6/6秒内重置全部层数。",
+        "resonanceName": "Plasma Recoiler",
+        "description": "Within 12/12/12/12/12s after Resonance Skill is cast, increases ATK by 3%/3.75%/4.5%/5.25%/6% every 2/2/2/2/2s, stacking up to 4/4/4/4/4 time(s). This effect can be triggered 1/1/1/1/1 time(s) every 12/12/12/12/12s. When the number of stacks reaches 4/4/4/4/4, all stacks will be reset within 6/6/6/6/6s.",
         "effects": [
           {
-            "label": "攻击",
-            "conditionText": "施放共鸣技能后12/12/12/12/12秒内，每2/2/2/2/2秒攻击提升3%/3.75%/4.5%/5.25%/6%，可叠加4/4/4/4/4层"
+            "label": "ATK",
+            "excerpt": "ATK +12% per stack",
+            "conditionText": "Within 12/12/12/12/12s after Resonance Skill is cast, increases ATK by 3%/3.75%/4.5%/5.25%/6% every 2/2/2/2/2s, stacking up to 4/4/4/4/4 time(s). This effect can be triggered 1/1/1/1/1 time(s) every 12/12/12/12/12s. When the number of stacks reaches 4/4/4/4/4, all stacks will be reset within 6/6/6/6/6s."
           }
         ]
       },
       "lunar_cutter": {
         "name": "Lunar Cutter",
         "typeName": "Sword",
-        "resonanceName": "天时引动",
-        "description": "角色登场后获得6/6/6/6/6层【守誓】效果，每层使攻击提升2%/2.5%/3%/3.5%/4%，可叠加6/6/6/6/6层，每12/12/12/12/12秒可触发1/1/1/1/1次。每2/2/2/2/2秒该状态减少1/1/1/1/1层，击败目标时，额外获得6/6/6/6/6层【守誓】效果。",
+        "resonanceName": "Preordained",
+        "description": "Equipped Resonator gains 6/6/6/6/6 stack(s) of Oath upon entering the battlefield. Each stack increases ATK by 2%/2.5%/3%/3.5%/4%, up to 6/6/6/6/6 stacks. This effect can be triggered 1/1/1/1/1 time(s) every 12/12/12/12/12s. The equipped Resonator loses 1/1/1/1/1 stack(s) of Oath every 2/2/2/2/2s, and gains 6/6/6/6/6 stack(s) upon defeating an enemy.",
         "effects": [
           {
-            "label": "攻击",
-            "conditionText": "角色登场后获得6/6/6/6/6层【守誓】效果，每层使攻击提升2%/2.5%/3%/3.5%/4%，可叠加6/6/6/6/6层，每12/12/12/12/12秒可触发1/1/1/1/1次"
+            "label": "ATK",
+            "excerpt": "ATK +12% per stack",
+            "conditionText": "Equipped Resonator gains 6/6/6/6/6 stack(s) of Oath upon entering the battlefield. Each stack increases ATK by 2%/2.5%/3%/3.5%/4%, up to 6/6/6/6/6 stacks. This effect can be triggered 1/1/1/1/1 time(s) every 12/12/12/12/12s. The equipped Resonator loses 1/1/1/1/1 stack(s) of Oath every 2/2/2/2/2s, and gains 6/6/6/6/6 stack(s) upon defeating an enemy."
           }
         ]
       },
       "novaburst": {
         "name": "Novaburst",
         "typeName": "Pistols",
-        "resonanceName": "一息万变",
-        "description": "角色冲刺或闪避时，攻击提升4%/5%/6%/7%/8%，持续8/8/8/8/8秒，可叠加3/3/3/3/3层。",
+        "resonanceName": "Ever-changing",
+        "description": "When the Resonator dashes or dodges, increases ATK by 4%/5%/6%/7%/8%, stacking up to 3/3/3/3/3 time(s). This effect lasts for 8/8/8/8/8s.",
         "effects": [
           {
-            "label": "攻击",
-            "conditionText": "角色冲刺或闪避时，攻击提升4%/5%/6%/7%/8%，持续8/8/8/8/8秒，可叠加3/3/3/3/3层"
+            "label": "ATK",
+            "excerpt": "ATK +12% per stack",
+            "conditionText": "When the Resonator dashes or dodges, increases ATK by 4%/5%/6%/7%/8%, stacking up to 3/3/3/3/3 time(s). This effect lasts for 8/8/8/8/8s."
           }
         ]
       },
       "hollow_mirage": {
         "name": "Hollow Mirage",
         "typeName": "Gauntlets",
-        "resonanceName": "旋星相佑",
-        "description": "施放共鸣解放时，获得3/3/3/3/3层【铁甲】效果，每层使攻击和防御提升3%/3.5%/4%/4.5%/5%，可叠加3/3/3/3/3层，每次受到伤害时减少1/1/1/1/1层。",
+        "resonanceName": "Celestial Blessing",
+        "description": "When Resonance Liberation is cast, grants 3/3/3/3/3 stack(s) of Iron Armor. Each stack increases ATK and DEF by 3%/3.5%/4%/4.5%/5%, stacking up to 3/3/3/3/3 time(s). When the Resonator takes damage, reduces the number of stacks by 1/1/1/1/1.",
         "effects": [
           {
-            "label": "攻击",
-            "conditionText": "施放共鸣解放后【铁甲】满3层：攻击提升9%/10.5%/12%/13.5%/15%（每层3%/3.5%/4%/4.5%/5%×3）"
+            "label": "ATK",
+            "excerpt": "ATK +9% per stack",
+            "conditionText": "When Resonance Liberation is cast, grants 3/3/3/3/3 stack(s) of Iron Armor. Each stack increases ATK and DEF by 3%/3.5%/4%/4.5%/5%, stacking up to 3/3/3/3/3 time(s). When the Resonator takes damage, reduces the number of stacks by 1/1/1/1/1."
           },
           {
-            "label": "防御",
-            "conditionText": "施放共鸣解放后【铁甲】满3层：防御提升9%/10.5%/12%/13.5%/15%（每层3%/3.5%/4%/4.5%/5%×3）"
+            "label": "DEF",
+            "excerpt": "DEF +9% per stack",
+            "conditionText": "When Resonance Liberation is cast, grants 3/3/3/3/3 stack(s) of Iron Armor. Each stack increases ATK and DEF by 3%/3.5%/4%/4.5%/5%, stacking up to 3/3/3/3/3 time(s). When the Resonator takes damage, reduces the number of stacks by 1/1/1/1/1."
           }
         ]
       },
       "comet_flare": {
         "name": "Comet Flare",
         "typeName": "Rectifier",
-        "resonanceName": "重光护持",
-        "description": "造成普攻或重击伤害时，治疗效果加成提升3%/3.75%/4.5%/5.25%/6%，持续8/8/8/8/8秒，可叠加3/3/3/3/3层，每0.6/0.6/0.6/0.6/0.6秒可触发1/1/1/1/1次。",
+        "resonanceName": "Luminous Protection",
+        "description": "When dealing Basic Attack DMG or Heavy Attack DMG, increases Healing Bonus by 3%/3.75%/4.5%/5.25%/6%, stacking up to 3/3/3/3/3 time(s). This effect lasts for 8/8/8/8/8s and can be triggered 1/1/1/1/1 time(s) every 0.6/0.6/0.6/0.6/0.6s.",
         "effects": [
           {
-            "label": "治疗效果加成",
-            "conditionText": "普攻/重击命中满3层：治疗效果加成提升9%/11.25%/13.5%/15.75%/18%（每层3%/3.75%/4.5%/5.25%/6%×3）"
+            "label": "Healing Bonus",
+            "excerpt": "Healing Bonus +9% per stack",
+            "conditionText": "When dealing Basic Attack DMG or Heavy Attack DMG, increases Healing Bonus by 3%/3.75%/4.5%/5.25%/6%, stacking up to 3/3/3/3/3 time(s). This effect lasts for 8/8/8/8/8s and can be triggered 1/1/1/1/1 time(s) every 0.6/0.6/0.6/0.6/0.6s."
           }
         ]
       },
       "lustrous_razor": {
         "name": "Lustrous Razor",
         "typeName": "Broadblade",
-        "resonanceName": "扬波无止",
-        "description": "共鸣效率提升12.8%/16%/19.2%/22.4%/25.6%。施放共鸣技能时，共鸣解放伤害加成提升7%/8.75%/10.5%/12.25%/14%，可叠加3/3/3/3/3层，持续12/12/12/12/12秒。",
+        "resonanceName": "Stormy Resolution",
+        "description": "Increases Energy Regen by 12.8%/16%/19.2%/22.4%/25.6%. When Resonance Skill is cast, Resonance Liberation DMG Bonus is increased by 7%/8.75%/10.5%/12.25%/14%, stacking up to 3/3/3/3/3 times. This effect lasts for 12/12/12/12/12s.",
         "effects": [
           {
-            "label": "共鸣解放伤害加成",
-            "conditionText": "施放共鸣技能时，共鸣解放伤害加成提升7%/8.75%/10.5%/12.25%/14%，可叠加3/3/3/3/3层，持续12/12/12/12/12秒"
+            "label": "Resonance Liberation DMG Bonus",
+            "excerpt": "Resonance Liberation DMG Bonus +21% per stack",
+            "conditionText": "Increases Energy Regen by 12.8%/16%/19.2%/22.4%/25.6%. When Resonance Skill is cast, Resonance Liberation DMG Bonus is increased by 7%/8.75%/10.5%/12.25%/14%, stacking up to 3/3/3/3/3 times. This effect lasts for 12/12/12/12/12s."
           }
         ]
       },
       "emerald_of_genesis": {
         "name": "Emerald of Genesis",
         "typeName": "Sword",
-        "resonanceName": "流涡无垠",
-        "description": "共鸣效率提升12.8%/16%/19.2%/22.4%/25.6%。施放共鸣技能时，攻击提升6%/7.5%/9%/10.5%/12%，可叠加2/2/2/2/2层，持续10/10/10/10/10秒。",
+        "resonanceName": "Stormy Resolution",
+        "description": "Increases Energy Regen by 12.8%/16%/19.2%/22.4%/25.6%. When Resonance Skill is cast, increases ATK by 6%/7.5%/9%/10.5%/12%, stacking up to 2/2/2/2/2 time(s). This effect lasts for 10/10/10/10/10s.",
         "effects": [
           {
-            "label": "攻击",
-            "conditionText": "施放共鸣技能时，攻击提升6%/7.5%/9%/10.5%/12%，可叠加2/2/2/2/2层，持续10/10/10/10/10秒"
+            "label": "ATK",
+            "excerpt": "ATK +12% per stack",
+            "conditionText": "Increases Energy Regen by 12.8%/16%/19.2%/22.4%/25.6%. When Resonance Skill is cast, increases ATK by 6%/7.5%/9%/10.5%/12%, stacking up to 2/2/2/2/2 time(s). This effect lasts for 10/10/10/10/10s."
           }
         ]
       },
       "static_mist": {
         "name": "Static Mist",
         "typeName": "Pistols",
-        "resonanceName": "削肉蚀骨",
-        "description": "共鸣效率提升12.8%/16%/19.2%/22.4%/25.6%。施放延奏技能后，入场角色攻击提升10%/12.5%/15%/17.5%/20%，可叠加1/1/1/1/1层，持续14/14/14/14/14秒。",
+        "resonanceName": "Stormy Resolution",
+        "description": "Increases Energy Regen by 12.8%/16%/19.2%/22.4%/25.6%. Incoming Resonator's ATK is increased by 10%/12.5%/15%/17.5%/20% for 14/14/14/14/14s, stackable for up to 1/1/1/1/1 times after the wielder casts Outro Skill.",
         "effects": [
           {
-            "label": "攻击",
-            "conditionText": "施放延奏技能后，入场角色攻击提升10%/12.5%/15%/17.5%/20%，可叠加1/1/1/1/1层，持续14/14/14/14/14秒"
+            "label": "ATK",
+            "excerpt": "ATK +10%",
+            "conditionText": "Increases Energy Regen by 12.8%/16%/19.2%/22.4%/25.6%. Incoming Resonator's ATK is increased by 10%/12.5%/15%/17.5%/20% for 14/14/14/14/14s, stackable for up to 1/1/1/1/1 times after the wielder casts Outro Skill."
           }
         ]
       },
       "abyss_surges": {
         "name": "Abyss Surges",
         "typeName": "Gauntlets",
-        "resonanceName": "噬渊沦亡",
-        "description": "共鸣效率提升12.8%/16%/19.2%/22.4%/25.6%。造成共鸣技能伤害时，普攻伤害加成提升10%/12.5%/15%/17.5%/20%，持续8/8/8/8/8秒。造成普攻伤害时，共鸣技能伤害加成提升10%/12.5%/15%/17.5%/20%，持续8/8/8/8/8秒。",
+        "resonanceName": "Stormy Resolution",
+        "description": "Increases Energy Regen by 12.8%/16%/19.2%/22.4%/25.6%. When hitting a target with Resonance Skill, increases Basic Attack DMG Bonus by 10%/12.5%/15%/17.5%/20%, lasting for 8/8/8/8/8s. When hitting a target with Basic Attacks, increases Resonance Skill DMG Bonus by 10%/12.5%/15%/17.5%/20%, lasting for 8/8/8/8/8s.",
         "effects": [
           {
-            "label": "普攻伤害加成",
-            "conditionText": "造成共鸣技能伤害时，普攻伤害加成提升10%/12.5%/15%/17.5%/20%，持续8/8/8/8/8秒"
+            "label": "Basic Attack DMG Bonus",
+            "excerpt": "Basic Attack DMG Bonus +10%",
+            "conditionText": "Increases Energy Regen by 12.8%/16%/19.2%/22.4%/25.6%. When hitting a target with Resonance Skill, increases Basic Attack DMG Bonus by 10%/12.5%/15%/17.5%/20%, lasting for 8/8/8/8/8s. When hitting a target with Basic Attacks, increases Resonance Skill DMG Bonus by 10%/12.5%/15%/17.5%/20%, lasting for 8/8/8/8/8s."
           },
           {
-            "label": "共鸣技能伤害加成",
-            "conditionText": "造成普攻伤害时，共鸣技能伤害加成提升10%/12.5%/15%/17.5%/20%，持续8/8/8/8/8秒"
+            "label": "Resonance Skill DMG Bonus",
+            "excerpt": "Resonance Skill DMG Bonus +10%",
+            "conditionText": "Increases Energy Regen by 12.8%/16%/19.2%/22.4%/25.6%. When hitting a target with Resonance Skill, increases Basic Attack DMG Bonus by 10%/12.5%/15%/17.5%/20%, lasting for 8/8/8/8/8s. When hitting a target with Basic Attacks, increases Resonance Skill DMG Bonus by 10%/12.5%/15%/17.5%/20%, lasting for 8/8/8/8/8s."
           }
         ]
       },
       "cosmic_ripples": {
         "name": "Cosmic Ripples",
         "typeName": "Rectifier",
-        "resonanceName": "浮波万顷",
-        "description": "共鸣效率提升12.8%/16%/19.2%/22.4%/25.6%。造成普攻伤害时，普攻伤害加成提升3.2%/4%/4.8%/5.6%/6.4%，可叠加5/5/5/5/5层，持续8/8/8/8/8秒，每0.5/0.5/0.5/0.5/0.5秒可触发1/1/1/1/1次。",
+        "resonanceName": "Stormy Resolution",
+        "description": "Increases Energy Regen by 12.8%/16%/19.2%/22.4%/25.6%. When dealing Basic Attack DMG, increases Basic Attack DMG Bonus by 3.2%/4%/4.8%/5.6%/6.4%, stacking up to 5/5/5/5/5 time(s). This effect lasts for 8/8/8/8/8s and can be triggered 1/1/1/1/1 time(s) every 0.5/0.5/0.5/0.5/0.5s.",
         "effects": [
           {
-            "label": "普攻伤害加成",
-            "conditionText": "造成普攻伤害时，普攻伤害加成提升3.2%/4%/4.8%/5.6%/6.4%，可叠加5/5/5/5/5层，持续8/8/8/8/8秒，每0.5/0.5/0.5/0.5/0.5秒可触发1/1/1/1/1次"
+            "label": "Basic Attack DMG Bonus",
+            "excerpt": "Basic Attack DMG Bonus +16% per stack",
+            "conditionText": "Increases Energy Regen by 12.8%/16%/19.2%/22.4%/25.6%. When dealing Basic Attack DMG, increases Basic Attack DMG Bonus by 3.2%/4%/4.8%/5.6%/6.4%, stacking up to 5/5/5/5/5 time(s). This effect lasts for 8/8/8/8/8s and can be triggered 1/1/1/1/1 time(s) every 0.5/0.5/0.5/0.5/0.5s."
           }
         ]
       },
       "verdant_summit": {
         "name": "Verdant Summit",
         "typeName": "Broadblade",
-        "resonanceName": "金戈铁马",
-        "description": "全属性伤害加成提升12%/15%/18%/21%/24%。每次施放变奏技能或共鸣解放时，自身重击伤害加成提升24%/30%/36%/42%/48%，可叠加2/2/2/2/2层，效果持续14/14/14/14/14秒。",
+        "resonanceName": "Swordsworn",
+        "description": "Increases Attribute DMG Bonus by 12%/15%/18%/21%/24%. Every time Intro Skill or Resonance Liberation is cast, increases Heavy Attack DMG Bonus by 24%/30%/36%/42%/48%, stacking up to 2/2/2/2/2 time(s). This effect lasts for 14/14/14/14/14s.",
         "effects": [
           {
-            "label": "全属性伤害加成",
-            "conditionText": "全属性伤害加成提升12%/15%/18%/21%/24%"
+            "label": "All-Attribute DMG Bonus",
+            "excerpt": "All-Attribute DMG Bonus +12%",
+            "conditionText": "Increases Attribute DMG Bonus by 12%/15%/18%/21%/24%. Every time Intro Skill or Resonance Liberation is cast, increases Heavy Attack DMG Bonus by 24%/30%/36%/42%/48%, stacking up to 2/2/2/2/2 time(s). This effect lasts for 14/14/14/14/14s."
           },
           {
-            "label": "重击伤害加成",
-            "conditionText": "每次施放变奏技能或共鸣解放时，自身重击伤害加成提升24%/30%/36%/42%/48%，可叠加2/2/2/2/2层，效果持续14/14/14/14/14秒"
+            "label": "Heavy Attack DMG Bonus",
+            "excerpt": "Heavy Attack DMG Bonus +48% per stack",
+            "conditionText": "Increases Attribute DMG Bonus by 12%/15%/18%/21%/24%. Every time Intro Skill or Resonance Liberation is cast, increases Heavy Attack DMG Bonus by 24%/30%/36%/42%/48%, stacking up to 2/2/2/2/2 time(s). This effect lasts for 14/14/14/14/14s."
           }
         ]
       },
       "stringmaster": {
         "name": "Stringmaster",
         "typeName": "Rectifier",
-        "resonanceName": "密电增幅",
-        "description": "全属性伤害加成提升12%/15%/18%/21%/24%。造成共鸣技能伤害时，自身攻击提升12%/15%/18%/21%/24%，可叠加2/2/2/2/2层，效果持续5/5/5/5/5秒。自身不在场时，该效果攻击额外提升12%/15%/18%/21%/24%。",
+        "resonanceName": "Electric Amplification",
+        "description": "Grants 12%/15%/18%/21%/24% Attribute DMG Bonus. When dealing Resonance Skill DMG, increases ATK by 12%/15%/18%/21%/24%, stacking up to 2/2/2/2/2 times. This effect lasts for 5/5/5/5/5s. When the wielder is not on the field, increases their ATK by an additional 12%/15%/18%/21%/24%.",
         "effects": [
           {
-            "label": "全属性伤害加成",
-            "conditionText": "全属性伤害加成提升12%/15%/18%/21%/24%"
+            "label": "All-Attribute DMG Bonus",
+            "excerpt": "All-Attribute DMG Bonus +12%",
+            "conditionText": "Grants 12%/15%/18%/21%/24% Attribute DMG Bonus. When dealing Resonance Skill DMG, increases ATK by 12%/15%/18%/21%/24%, stacking up to 2/2/2/2/2 times. This effect lasts for 5/5/5/5/5s. When the wielder is not on the field, increases their ATK by an additional 12%/15%/18%/21%/24%."
           },
           {
-            "label": "攻击",
-            "conditionText": "造成共鸣技能伤害时，自身攻击提升12%/15%/18%/21%/24%，可叠加2/2/2/2/2层，效果持续5/5/5/5/5秒"
+            "label": "ATK",
+            "excerpt": "ATK +24% per stack",
+            "conditionText": "Grants 12%/15%/18%/21%/24% Attribute DMG Bonus. When dealing Resonance Skill DMG, increases ATK by 12%/15%/18%/21%/24%, stacking up to 2/2/2/2/2 times. This effect lasts for 5/5/5/5/5s. When the wielder is not on the field, increases their ATK by an additional 12%/15%/18%/21%/24%."
           }
         ]
       },
       "ages_of_harvest": {
         "name": "Ages of Harvest",
         "typeName": "Broadblade",
-        "resonanceName": "承天之祐",
-        "description": "全属性伤害加成提升12%/15%/18%/21%/24%。施放变奏技能时，自身获得【岁蕴】，使共鸣技能伤害加成提升24%/30%/36%/42%/48%，持续12/12/12/12/12秒。施放共鸣技能时，自身获得【福泽】，使共鸣技能伤害加成提升24%/30%/36%/42%/48%，持续12/12/12/12/12秒。",
+        "resonanceName": "Divine Blessing",
+        "description": "Grants 12%/15%/18%/21%/24% Attribute DMG Bonus. Casting Intro Skill gives the equipper Ageless Marking, which grants 24%/30%/36%/42%/48% Resonance Skill DMG Bonus for 12/12/12/12/12s. Casting Resonance Skill gives the equipper Ethereal Endowment, which grants 24%/30%/36%/42%/48% Resonance Skill DMG Bonus for 12/12/12/12/12s.",
         "effects": [
           {
-            "label": "全属性伤害加成",
-            "conditionText": "全属性伤害加成提升12%/15%/18%/21%/24%"
+            "label": "All-Attribute DMG Bonus",
+            "excerpt": "All-Attribute DMG Bonus +12%",
+            "conditionText": "Grants 12%/15%/18%/21%/24% Attribute DMG Bonus. Casting Intro Skill gives the equipper Ageless Marking, which grants 24%/30%/36%/42%/48% Resonance Skill DMG Bonus for 12/12/12/12/12s. Casting Resonance Skill gives the equipper Ethereal Endowment, which grants 24%/30%/36%/42%/48% Resonance Skill DMG Bonus for 12/12/12/12/12s."
           },
           {
-            "label": "共鸣技能伤害加成",
-            "excerpt": "释放变奏技能时，共鸣技能伤害加成提升24%/30%/36%/42%/48%",
-            "conditionText": "施放变奏技能时，自身获得【岁蕴】，使共鸣技能伤害加成提升24%/30%/36%/42%/48%，持续12/12/12/12/12秒"
+            "label": "Resonance Skill DMG Bonus",
+            "excerpt": "Resonance Skill DMG Bonus +24%",
+            "conditionText": "Grants 12%/15%/18%/21%/24% Attribute DMG Bonus. Casting Intro Skill gives the equipper Ageless Marking, which grants 24%/30%/36%/42%/48% Resonance Skill DMG Bonus for 12/12/12/12/12s. Casting Resonance Skill gives the equipper Ethereal Endowment, which grants 24%/30%/36%/42%/48% Resonance Skill DMG Bonus for 12/12/12/12/12s."
           },
           {
-            "label": "共鸣技能伤害加成",
-            "excerpt": "释放共鸣技能时，共鸣技能伤害加成提升24%/30%/36%/42%/48%",
-            "conditionText": "施放共鸣技能时，自身获得【福泽】，使共鸣技能伤害加成提升24%/30%/36%/42%/48%，持续12/12/12/12/12秒"
+            "label": "Resonance Skill DMG Bonus",
+            "excerpt": "Resonance Skill DMG Bonus +24%",
+            "conditionText": "Grants 12%/15%/18%/21%/24% Attribute DMG Bonus. Casting Intro Skill gives the equipper Ageless Marking, which grants 24%/30%/36%/42%/48% Resonance Skill DMG Bonus for 12/12/12/12/12s. Casting Resonance Skill gives the equipper Ethereal Endowment, which grants 24%/30%/36%/42%/48% Resonance Skill DMG Bonus for 12/12/12/12/12s."
           }
         ]
       },
       "blazing_brilliance": {
         "name": "Blazing Brilliance",
         "typeName": "Sword",
-        "resonanceName": "丹煌灼羽",
-        "description": "攻击提升12%/15%/18%/21%/24%。造成伤害时获得1层【灼羽】，每0.5秒可获得1层。施放共鸣技能时额外获得5层。每层【灼羽】使共鸣技能伤害加成提升4%/5%/6%/7%/8%，可叠加14层。【灼羽】达到14层的12/12/12/12/12秒后，清空全部层数。",
+        "resonanceName": "Crimson Phoenix",
+        "description": "ATK increased by 12%/15%/18%/21%/24%. The wielder gains 1 stack of Searing Feather upon dealing damage, which can be triggered once every 0.5s, and gains 5 stacks of the same effect upon casting Resonance Skill. Each stack of Searing Feather gives 4%/5%/6%/7%/8% additional Resonance Skill DMG Bonus for up to 14 stacks. After reaching the max stacks, all stacks will be removed in 12/12/12/12/12s.",
         "effects": [
           {
-            "label": "攻击",
-            "conditionText": "攻击提升12%/15%/18%/21%/24%"
+            "label": "ATK",
+            "excerpt": "ATK +12%",
+            "conditionText": "ATK increased by 12%/15%/18%/21%/24%. The wielder gains 1 stack of Searing Feather upon dealing damage, which can be triggered once every 0.5s, and gains 5 stacks of the same effect upon casting Resonance Skill. Each stack of Searing Feather gives 4%/5%/6%/7%/8% additional Resonance Skill DMG Bonus for up to 14 stacks. After reaching the max stacks, all stacks will be removed in 12/12/12/12/12s."
           },
           {
-            "label": "共鸣技能伤害加成",
-            "conditionText": "每层【灼羽】使共鸣技能伤害加成提升4%/5%/6%/7%/8%，可叠加14层"
+            "label": "Resonance Skill DMG Bonus",
+            "excerpt": "Resonance Skill DMG Bonus +56% per stack",
+            "conditionText": "ATK increased by 12%/15%/18%/21%/24%. The wielder gains 1 stack of Searing Feather upon dealing damage, which can be triggered once every 0.5s, and gains 5 stacks of the same effect upon casting Resonance Skill. Each stack of Searing Feather gives 4%/5%/6%/7%/8% additional Resonance Skill DMG Bonus for up to 14 stacks. After reaching the max stacks, all stacks will be removed in 12/12/12/12/12s."
           }
         ]
       },
       "rime_draped_sprouts": {
         "name": "Rime-Draped Sprouts",
         "typeName": "Rectifier",
-        "resonanceName": "景外之景",
-        "description": "攻击提升12%/15%/18%/21%/24%。施放共鸣技能时，获得效果：自身在场时普攻伤害加成提升12%/15%/18%/21%/24%。该效果可叠加3/3/3/3/3层，持续6/6/6/6/6秒。施放延奏技能时，若已累计3/3/3/3/3层效果，则移除全部层数，使自身不在场时普攻伤害加成提升52%/65%/78%/91%/104%，持续27/27/27/27/27秒。",
+        "resonanceName": "Panorama",
+        "description": "Increase ATK by 12%/15%/18%/21%/24%. While the wielder is on the field, using Resonance Skill grants 12%/15%/18%/21%/24% Basic Attack DMG Bonus, stacking up to 3/3/3/3/3 times for 6/6/6/6/6s. At 3/3/3/3/3 stacks or above, casting Outro Skill consumes all stacks of this effect and grants the wielder 52%/65%/78%/91%/104% Basic Attack DMG Bonus for 27/27/27/27/27s, effective when the wielder is off the field.",
         "effects": [
           {
-            "label": "攻击",
-            "conditionText": "攻击提升12%/15%/18%/21%/24%"
+            "label": "ATK",
+            "excerpt": "ATK +12%",
+            "conditionText": "Increase ATK by 12%/15%/18%/21%/24%. While the wielder is on the field, using Resonance Skill grants 12%/15%/18%/21%/24% Basic Attack DMG Bonus, stacking up to 3/3/3/3/3 times for 6/6/6/6/6s. At 3/3/3/3/3 stacks or above, casting Outro Skill consumes all stacks of this effect and grants the wielder 52%/65%/78%/91%/104% Basic Attack DMG Bonus for 27/27/27/27/27s, effective when the wielder is off the field."
           },
           {
-            "label": "普攻伤害加成",
-            "conditionText": "施放共鸣技能时，获得效果：自身在场时普攻伤害加成提升12%/15%/18%/21%/24%"
+            "label": "Basic Attack DMG Bonus",
+            "excerpt": "Basic Attack DMG Bonus +36% per stack",
+            "conditionText": "Increase ATK by 12%/15%/18%/21%/24%. While the wielder is on the field, using Resonance Skill grants 12%/15%/18%/21%/24% Basic Attack DMG Bonus, stacking up to 3/3/3/3/3 times for 6/6/6/6/6s. At 3/3/3/3/3 stacks or above, casting Outro Skill consumes all stacks of this effect and grants the wielder 52%/65%/78%/91%/104% Basic Attack DMG Bonus for 27/27/27/27/27s, effective when the wielder is off the field."
           },
           {
-            "label": "普攻伤害加成",
-            "conditionText": "施放延奏技能时，若已累计3/3/3/3/3层效果，则移除全部层数，使自身不在场时普攻伤害加成提升52%/65%/78%/91%/104%，持续27/27/27/27/27秒"
+            "label": "Basic Attack DMG Bonus",
+            "excerpt": "Basic Attack DMG Bonus +52%",
+            "conditionText": "Increase ATK by 12%/15%/18%/21%/24%. While the wielder is on the field, using Resonance Skill grants 12%/15%/18%/21%/24% Basic Attack DMG Bonus, stacking up to 3/3/3/3/3 times for 6/6/6/6/6s. At 3/3/3/3/3 stacks or above, casting Outro Skill consumes all stacks of this effect and grants the wielder 52%/65%/78%/91%/104% Basic Attack DMG Bonus for 27/27/27/27/27s, effective when the wielder is off the field."
           }
         ]
       },
       "veritys_handle": {
         "name": "Verity's Handle",
         "typeName": "Gauntlets",
-        "resonanceName": "探源逐本",
-        "description": "全属性伤害加成提升12%/15%/18%/21%/24%。施放共鸣解放时，自身共鸣解放伤害加成提升48%/60%/72%/84%/96%，持续8/8/8/8/8秒；施放共鸣技能时，该效果延长5/5/5/5/5秒，最多可延长3/3/3/3/3次。",
+        "resonanceName": "Ad Veritatem",
+        "description": "Gain 12%/15%/18%/21%/24% Attribute DMG Bonus. When using Resonance Liberation, the wielder gains 48%/60%/72%/84%/96% Resonance Liberation DMG Bonus for 8/8/8/8/8s. This effect can be extended by 5/5/5/5/5s each time Resonance Skills are cast, up to 3/3/3/3/3 times.",
         "effects": [
           {
-            "label": "全属性伤害加成",
-            "conditionText": "全属性伤害加成提升12%/15%/18%/21%/24%"
+            "label": "All-Attribute DMG Bonus",
+            "excerpt": "All-Attribute DMG Bonus +12%",
+            "conditionText": "Gain 12%/15%/18%/21%/24% Attribute DMG Bonus. When using Resonance Liberation, the wielder gains 48%/60%/72%/84%/96% Resonance Liberation DMG Bonus for 8/8/8/8/8s. This effect can be extended by 5/5/5/5/5s each time Resonance Skills are cast, up to 3/3/3/3/3 times."
           },
           {
-            "label": "共鸣解放伤害加成",
-            "conditionText": "施放共鸣解放时，自身共鸣解放伤害加成提升48%/60%/72%/84%/96%，持续8/8/8/8/8秒"
+            "label": "Resonance Liberation DMG Bonus",
+            "excerpt": "Resonance Liberation DMG Bonus +48%",
+            "conditionText": "Gain 12%/15%/18%/21%/24% Attribute DMG Bonus. When using Resonance Liberation, the wielder gains 48%/60%/72%/84%/96% Resonance Liberation DMG Bonus for 8/8/8/8/8s. This effect can be extended by 5/5/5/5/5s each time Resonance Skills are cast, up to 3/3/3/3/3 times."
           }
         ]
       },
       "stellar_symphony": {
         "name": "Stellar Symphony",
         "typeName": "Rectifier",
-        "resonanceName": "群星迭律",
-        "description": "生命提升12%/15%/18%/21%/24%。施放共鸣解放时，回复自身8/10/12/14/16点协奏能量，每20/20/20/20/20秒可触发1/1/1/1/1次。共鸣技能造成治疗时，使附近队伍中所有角色的攻击提升14%/17.5%/21%/24.5%/28%，持续30/30/30/30/30秒，同名效果之间不可叠加。",
+        "resonanceName": "Astral Evolvement",
+        "description": "Increase HP by 12%/15%/18%/21%/24%. Restore 8/10/12/14/16 Concerto Energy when casting Resonance Liberation. This effect can be triggered 1/1/1/1/1 time(s) every 20/20/20/20/20s. When casting Resonance Skill that heals, increase nearby party members' ATK by 14%/17.5%/21%/24.5%/28% for 30/30/30/30/30s. Effects of the same name cannot be stacked.",
         "effects": [
           {
-            "label": "生命",
-            "conditionText": "生命提升12%/15%/18%/21%/24%"
+            "label": "HP",
+            "excerpt": "HP +12%",
+            "conditionText": "Increase HP by 12%/15%/18%/21%/24%. Restore 8/10/12/14/16 Concerto Energy when casting Resonance Liberation. This effect can be triggered 1/1/1/1/1 time(s) every 20/20/20/20/20s. When casting Resonance Skill that heals, increase nearby party members' ATK by 14%/17.5%/21%/24.5%/28% for 30/30/30/30/30s. Effects of the same name cannot be stacked."
           },
           {
-            "label": "攻击",
-            "conditionText": "共鸣技能造成治疗时，使附近队伍中所有角色的攻击提升14%/17.5%/21%/24.5%/28%，持续30/30/30/30/30秒，同名效果之间不可叠加"
+            "label": "ATK",
+            "excerpt": "ATK +14%",
+            "conditionText": "Increase HP by 12%/15%/18%/21%/24%. Restore 8/10/12/14/16 Concerto Energy when casting Resonance Liberation. This effect can be triggered 1/1/1/1/1 time(s) every 20/20/20/20/20s. When casting Resonance Skill that heals, increase nearby party members' ATK by 14%/17.5%/21%/24.5%/28% for 30/30/30/30/30s. Effects of the same name cannot be stacked."
           }
         ]
       },
       "waning_redshift": {
         "name": "Waning Redshift",
         "typeName": "Broadblade",
-        "resonanceName": "彼岸眼瞳",
-        "description": "施放共鸣技能时，获得6/7/8/9/10点共鸣能量，且攻击提升10%/12.5%/15%/17.5%/20%，持续16/16/16/16/16秒。该效果每20/20/20/20/20秒可触发1次。",
+        "resonanceName": "Intergalactic Gaze",
+        "description": "Casting the Resonance Skill grants 6/7/8/9/10 Resonance Energy and increases ATK by 10%/12.5%/15%/17.5%/20%, lasting for 16/16/16/16/16s. This effect can be triggered once every 20/20/20/20/20s.",
         "effects": [
           {
-            "label": "攻击",
-            "conditionText": "施放共鸣技能时，获得6/7/8/9/10点共鸣能量，且攻击提升10%/12.5%/15%/17.5%/20%，持续16/16/16/16/16秒"
+            "label": "ATK",
+            "excerpt": "ATK +10%",
+            "conditionText": "Casting the Resonance Skill grants 6/7/8/9/10 Resonance Energy and increases ATK by 10%/12.5%/15%/17.5%/20%, lasting for 16/16/16/16/16s. This effect can be triggered once every 20/20/20/20/20s."
           }
         ]
       },
       "endless_collapse": {
         "name": "Endless Collapse",
         "typeName": "Sword",
-        "resonanceName": "彼岸眼瞳",
-        "description": "施放共鸣技能时，获得6/7/8/9/10点共鸣能量，且攻击提升10%/12.5%/15%/17.5%/20%，持续16/16/16/16/16秒。该效果每20/20/20/20/20秒可触发1次。",
+        "resonanceName": "Intergalactic Gaze",
+        "description": "Casting the Resonance Skill grants 6/7/8/9/10 Resonance Energy and increases ATK by 10%/12.5%/15%/17.5%/20%, lasting for 16/16/16/16/16s. This effect can be triggered once every 20/20/20/20/20s.",
         "effects": [
           {
-            "label": "攻击",
-            "conditionText": "施放共鸣技能时，获得6/7/8/9/10点共鸣能量，且攻击提升10%/12.5%/15%/17.5%/20%，持续16/16/16/16/16秒"
+            "label": "ATK",
+            "excerpt": "ATK +10%",
+            "conditionText": "Casting the Resonance Skill grants 6/7/8/9/10 Resonance Energy and increases ATK by 10%/12.5%/15%/17.5%/20%, lasting for 16/16/16/16/16s. This effect can be triggered once every 20/20/20/20/20s."
           }
         ]
       },
       "relativistic_jet": {
         "name": "Relativistic Jet",
         "typeName": "Pistols",
-        "resonanceName": "彼岸眼瞳",
-        "description": "施放共鸣技能时，获得6/7/8/9/10点共鸣能量，且攻击提升10%/12.5%/15%/17.5%/20%，持续16/16/16/16/16秒。该效果每20/20/20/20/20秒可触发1次。",
+        "resonanceName": "Intergalactic Gaze",
+        "description": "Casting the Resonance Skill grants 6/7/8/9/10 Resonance Energy and increases ATK by 10%/12.5%/15%/17.5%/20%, lasting for 16/16/16/16/16s. This effect can be triggered once every 20/20/20/20/20s.",
         "effects": [
           {
-            "label": "攻击",
-            "conditionText": "施放共鸣技能时，获得6/7/8/9/10点共鸣能量，且攻击提升10%/12.5%/15%/17.5%/20%，持续16/16/16/16/16秒"
+            "label": "ATK",
+            "excerpt": "ATK +10%",
+            "conditionText": "Casting the Resonance Skill grants 6/7/8/9/10 Resonance Energy and increases ATK by 10%/12.5%/15%/17.5%/20%, lasting for 16/16/16/16/16s. This effect can be triggered once every 20/20/20/20/20s."
           }
         ]
       },
       "celestial_spiral": {
         "name": "Celestial Spiral",
         "typeName": "Gauntlets",
-        "resonanceName": "彼岸眼瞳",
-        "description": "施放共鸣技能时，获得6/7/8/9/10点共鸣能量，且攻击提升10%/12.5%/15%/17.5%/20%，持续16/16/16/16/16秒。该效果每20/20/20/20/20秒可触发1次。",
+        "resonanceName": "Intergalactic Gaze",
+        "description": "Casting the Resonance Skill grants 6/7/8/9/10 Resonance Energy and increases ATK by 10%/12.5%/15%/17.5%/20%, lasting for 16/16/16/16/16s. This effect can be triggered once every 20/20/20/20/20s.",
         "effects": [
           {
-            "label": "攻击",
-            "conditionText": "施放共鸣技能时，获得6/7/8/9/10点共鸣能量，且攻击提升10%/12.5%/15%/17.5%/20%，持续16/16/16/16/16秒"
+            "label": "ATK",
+            "excerpt": "ATK +10%",
+            "conditionText": "Casting the Resonance Skill grants 6/7/8/9/10 Resonance Energy and increases ATK by 10%/12.5%/15%/17.5%/20%, lasting for 16/16/16/16/16s. This effect can be triggered once every 20/20/20/20/20s."
           }
         ]
       },
       "fusion_accretion": {
         "name": "Fusion Accretion",
         "typeName": "Rectifier",
-        "resonanceName": "彼岸眼瞳",
-        "description": "施放共鸣技能时，获得6/7/8/9/10点共鸣能量，且攻击提升10%/12.5%/15%/17.5%/20%，持续16/16/16/16/16秒。该效果每20/20/20/20/20秒可触发1次。",
+        "resonanceName": "Intergalactic Gaze",
+        "description": "Casting the Resonance Skill grants 6/7/8/9/10 Resonance Energy and increases ATK by 10%/12.5%/15%/17.5%/20%, lasting for 16/16/16/16/16s. This effect can be triggered once every 20/20/20/20/20s.",
         "effects": [
           {
-            "label": "攻击",
-            "conditionText": "施放共鸣技能时，获得6/7/8/9/10点共鸣能量，且攻击提升10%/12.5%/15%/17.5%/20%，持续16/16/16/16/16秒"
+            "label": "ATK",
+            "excerpt": "ATK +10%",
+            "conditionText": "Casting the Resonance Skill grants 6/7/8/9/10 Resonance Energy and increases ATK by 10%/12.5%/15%/17.5%/20%, lasting for 16/16/16/16/16s. This effect can be triggered once every 20/20/20/20/20s."
           }
         ]
       },
       "somnoire_anchor": {
         "name": "Somnoire Anchor",
         "typeName": "Sword",
-        "resonanceName": "喵呜！",
-        "description": "在场造成伤害时获得1/1/1/1/1层【凶猛】，每1/1/1/1/1秒可获得1/1/1/1/1层。【凶猛】：每1层使自身攻击提升2%/2.5%/3%/3.5%/4%，持续3/3/3/3/3秒，可叠加10/10/10/10/10层，角色离场时，清除所有层数。【凶猛】为10/10/10/10/10层时，自身暴击提升6%/7.5%/9%/10.5%/12%。",
+        "resonanceName": "Meow!",
+        "description": "Gain 1/1/1/1/1 stack of Hiss when dealing damage to the target, with 1/1/1/1/1 stack generated every 1/1/1/1/1s.\nHiss: each stack increases the wielder's ATK by 2%/2.5%/3%/3.5%/4% for 3/3/3/3/3s, stacking up to 10/10/10/10/10 times. Switching off the wielder clears all stacks. Gaining 10/10/10/10/10 stacks increases the wielder's Crit. Rate by 6%/7.5%/9%/10.5%/12%.",
         "effects": [
           {
-            "label": "攻击",
-            "conditionText": "【凶猛】：每1层使自身攻击提升2%/2.5%/3%/3.5%/4%，持续3/3/3/3/3秒，可叠加10/10/10/10/10层，角色离场时，清除所有层数"
+            "label": "ATK",
+            "excerpt": "ATK +20% per stack",
+            "conditionText": "Gain 1/1/1/1/1 stack of Hiss when dealing damage to the target, with 1/1/1/1/1 stack generated every 1/1/1/1/1s.\nHiss: each stack increases the wielder's ATK by 2%/2.5%/3%/3.5%/4% for 3/3/3/3/3s, stacking up to 10/10/10/10/10 times. Switching off the wielder clears all stacks. Gaining 10/10/10/10/10 stacks increases the wielder's Crit. Rate by 6%/7.5%/9%/10.5%/12%."
           },
           {
-            "label": "暴击",
-            "excerpt": "凶猛满10层时，暴击提升6%/7.5%/9%/10.5%/12%",
-            "conditionText": "【凶猛】为10/10/10/10/10层时，自身暴击提升6%/7.5%/9%/10.5%/12%"
+            "label": "Crit. Rate",
+            "excerpt": "Crit. Rate +6%",
+            "conditionText": "Gain 1/1/1/1/1 stack of Hiss when dealing damage to the target, with 1/1/1/1/1 stack generated every 1/1/1/1/1s.\nHiss: each stack increases the wielder's ATK by 2%/2.5%/3%/3.5%/4% for 3/3/3/3/3s, stacking up to 10/10/10/10/10 times. Switching off the wielder clears all stacks. Gaining 10/10/10/10/10 stacks increases the wielder's Crit. Rate by 6%/7.5%/9%/10.5%/12%."
           }
         ]
       },
       "red_spring": {
         "name": "Red Spring",
         "typeName": "Sword",
-        "resonanceName": "终始之外",
-        "description": "攻击提升12%/15%/18%/21%/24%。造成普攻伤害时，自身普攻伤害加成提升10%/12.5%/15%/17.5%/20%，持续14/14/14/14/14秒，每秒可触发1次，可叠加3/3/3/3/3层；\n自身的协奏能量消耗时，自身普攻伤害加成提升40%/50%/60%/70%/80%，持续10/10/10/10/10秒，每秒可触发1次，若切换至其他角色则该效果提前结束。",
+        "resonanceName": "Beyond the Cycle",
+        "description": "Increase ATK by 12%/15%/18%/21%/24%. When dealing Basic Attack DMG, the wielder gains 10%/12.5%/15%/17.5%/20% Basic Attack DMG Bonus for 14/14/14/14/14s. This effect can be triggered once per second, stacking up to 3/3/3/3/3 times.\nWhen the wielder's Concerto Energy is consumed, gain 40%/50%/60%/70%/80% Basic DMG Bonus for 10/10/10/10/10. This effect can be triggered once per second and ends when the wielder is switched off the field.",
         "effects": [
           {
-            "label": "攻击",
-            "conditionText": "攻击提升12%/15%/18%/21%/24%"
+            "label": "ATK",
+            "excerpt": "ATK +12%",
+            "conditionText": "Increase ATK by 12%/15%/18%/21%/24%. When dealing Basic Attack DMG, the wielder gains 10%/12.5%/15%/17.5%/20% Basic Attack DMG Bonus for 14/14/14/14/14s. This effect can be triggered once per second, stacking up to 3/3/3/3/3 times.\nWhen the wielder's Concerto Energy is consumed, gain 40%/50%/60%/70%/80% Basic DMG Bonus for 10/10/10/10/10. This effect can be triggered once per second and ends when the wielder is switched off the field."
           },
           {
-            "label": "普攻伤害加成",
-            "conditionText": "造成普攻伤害时，自身普攻伤害加成提升10%/12.5%/15%/17.5%/20%，持续14/14/14/14/14秒，每秒可触发1次，可叠加3/3/3/3/3层"
+            "label": "Basic Attack DMG Bonus",
+            "excerpt": "Basic Attack DMG Bonus +30% per stack",
+            "conditionText": "Increase ATK by 12%/15%/18%/21%/24%. When dealing Basic Attack DMG, the wielder gains 10%/12.5%/15%/17.5%/20% Basic Attack DMG Bonus for 14/14/14/14/14s. This effect can be triggered once per second, stacking up to 3/3/3/3/3 times.\nWhen the wielder's Concerto Energy is consumed, gain 40%/50%/60%/70%/80% Basic DMG Bonus for 10/10/10/10/10. This effect can be triggered once per second and ends when the wielder is switched off the field."
           },
           {
-            "label": "普攻伤害加成",
-            "conditionText": "自身的协奏能量消耗时，自身普攻伤害加成提升40%/50%/60%/70%/80%，持续10/10/10/10/10秒，每秒可触发1次，若切换至其他角色则该效果提前结束"
+            "label": "Basic Attack DMG Bonus",
+            "excerpt": "Basic Attack DMG Bonus +40%",
+            "conditionText": "Increase ATK by 12%/15%/18%/21%/24%. When dealing Basic Attack DMG, the wielder gains 10%/12.5%/15%/17.5%/20% Basic Attack DMG Bonus for 14/14/14/14/14s. This effect can be triggered once per second, stacking up to 3/3/3/3/3 times.\nWhen the wielder's Concerto Energy is consumed, gain 40%/50%/60%/70%/80% Basic DMG Bonus for 10/10/10/10/10. This effect can be triggered once per second and ends when the wielder is switched off the field."
           }
         ]
       },
       "call_of_the_abyss": {
         "name": "Call of the Abyss",
         "typeName": "Rectifier",
-        "resonanceName": "天星瞭望",
-        "description": "施放共鸣解放时，自身治疗效果加成提升16%/20%/24%/28%/32%，持续15/15/15/15/15秒。",
+        "resonanceName": "Pole of the Celestial Dome",
+        "description": "Casting Resonance Liberation increases the Resonator's Healing Bonus by 16%/20%/24%/28%/32% for 15/15/15/15/15s.",
         "effects": [
           {
-            "label": "治疗效果加成",
-            "conditionText": "施放共鸣解放时，自身治疗效果加成提升16%/20%/24%/28%/32%，持续15/15/15/15/15秒"
+            "label": "Healing Bonus",
+            "excerpt": "Healing Bonus +16%",
+            "conditionText": "Casting Resonance Liberation increases the Resonator's Healing Bonus by 16%/20%/24%/28%/32% for 15/15/15/15/15s."
           }
         ]
       },
       "meditations_on_mercy": {
         "name": "Meditations on Mercy",
         "typeName": "Broadblade",
-        "resonanceName": "修辞",
-        "description": "对带有【异常效应】的怪物造成伤害时，自身攻击提升4%/5%/6%/7%/8%，持续10/10/10/10/10秒，每秒可触发1次，可叠加4/4/4/4/4层。",
+        "resonanceName": "Rhetoric",
+        "description": "Dealing DMG to enemies with Negative Statuses increases the wielder's ATK by 4%/5%/6%/7%/8% for 10/10/10/10/10s. This effect can be triggered 1 time per second, stackable up to 4/4/4/4/4 times.",
         "effects": [
           {
-            "label": "攻击",
-            "excerpt": "攻击异常效应目标时，攻击提升4%/5%/6%/7%/8%",
-            "conditionText": "对带有【异常效应】的怪物造成伤害时，自身攻击提升4%/5%/6%/7%/8%，持续10/10/10/10/10秒，每秒可触发1次，可叠加4/4/4/4/4层"
+            "label": "ATK",
+            "excerpt": "ATK +16% per stack",
+            "conditionText": "Dealing DMG to enemies with Negative Statuses increases the wielder's ATK by 4%/5%/6%/7%/8% for 10/10/10/10/10s. This effect can be triggered 1 time per second, stackable up to 4/4/4/4/4 times."
           }
         ]
       },
       "fables_of_wisdom": {
         "name": "Fables of Wisdom",
         "typeName": "Sword",
-        "resonanceName": "修辞",
-        "description": "对带有【异常效应】的怪物造成伤害时，自身攻击提升4%/5%/6%/7%/8%，持续10/10/10/10/10秒，每秒可触发1次，可叠加4/4/4/4/4层。",
+        "resonanceName": "Rhetoric",
+        "description": "Dealing DMG to enemies with Negative Statuses increases the wielder's ATK by 4%/5%/6%/7%/8% for 10/10/10/10/10s. This effect can be triggered 1 time per second, stackable up to 4/4/4/4/4 times.",
         "effects": [
           {
-            "label": "攻击",
-            "excerpt": "攻击异常效应目标时，攻击提升4%/5%/6%/7%/8%",
-            "conditionText": "对带有【异常效应】的怪物造成伤害时，自身攻击提升4%/5%/6%/7%/8%，持续10/10/10/10/10秒，每秒可触发1次，可叠加4/4/4/4/4层"
+            "label": "ATK",
+            "excerpt": "ATK +16% per stack",
+            "conditionText": "Dealing DMG to enemies with Negative Statuses increases the wielder's ATK by 4%/5%/6%/7%/8% for 10/10/10/10/10s. This effect can be triggered 1 time per second, stackable up to 4/4/4/4/4 times."
           }
         ]
       },
       "romance_in_farewell": {
         "name": "Romance in Farewell",
         "typeName": "Pistols",
-        "resonanceName": "修辞",
-        "description": "对带有【异常效应】的怪物造成伤害时，自身攻击提升4%/5%/6%/7%/8%，持续10/10/10/10/10秒，每秒可触发1次，可叠加4/4/4/4/4层。",
+        "resonanceName": "Rhetoric",
+        "description": "Dealing DMG to enemies with Negative Statuses increases the wielder's ATK by 4%/5%/6%/7%/8% for 10/10/10/10/10s. This effect can be triggered 1 time per second, stackable up to 4/4/4/4/4 times.",
         "effects": [
           {
-            "label": "攻击",
-            "excerpt": "攻击异常效应目标时，攻击提升4%/5%/6%/7%/8%",
-            "conditionText": "对带有【异常效应】的怪物造成伤害时，自身攻击提升4%/5%/6%/7%/8%，持续10/10/10/10/10秒，每秒可触发1次，可叠加4/4/4/4/4层"
+            "label": "ATK",
+            "excerpt": "ATK +16% per stack",
+            "conditionText": "Dealing DMG to enemies with Negative Statuses increases the wielder's ATK by 4%/5%/6%/7%/8% for 10/10/10/10/10s. This effect can be triggered 1 time per second, stackable up to 4/4/4/4/4 times."
           }
         ]
       },
       "legend_of_drunken_hero": {
         "name": "Legend of Drunken Hero",
         "typeName": "Gauntlets",
-        "resonanceName": "修辞",
-        "description": "对带有【异常效应】的怪物造成伤害时，自身攻击提升4%/5%/6%/7%/8%，持续10/10/10/10/10秒，每秒可触发1次，可叠加4/4/4/4/4层。",
+        "resonanceName": "Rhetoric",
+        "description": "Dealing DMG to enemies with Negative Statuses increases the wielder's ATK by 4%/5%/6%/7%/8% for 10/10/10/10/10s. This effect can be triggered 1 time per second, stackable up to 4/4/4/4/4 times.",
         "effects": [
           {
-            "label": "攻击",
-            "excerpt": "攻击异常效应目标时，攻击提升4%/5%/6%/7%/8%",
-            "conditionText": "对带有【异常效应】的怪物造成伤害时，自身攻击提升4%/5%/6%/7%/8%，持续10/10/10/10/10秒，每秒可触发1次，可叠加4/4/4/4/4层"
+            "label": "ATK",
+            "excerpt": "ATK +16% per stack",
+            "conditionText": "Dealing DMG to enemies with Negative Statuses increases the wielder's ATK by 4%/5%/6%/7%/8% for 10/10/10/10/10s. This effect can be triggered 1 time per second, stackable up to 4/4/4/4/4 times."
           }
         ]
       },
       "waltz_in_masquerade": {
         "name": "Waltz in Masquerade",
         "typeName": "Rectifier",
-        "resonanceName": "修辞",
-        "description": "对带有【异常效应】的怪物造成伤害时，自身攻击提升4%/5%/6%/7%/8%，持续10/10/10/10/10秒，每秒可触发1次，可叠加4/4/4/4/4层。",
+        "resonanceName": "Rhetoric",
+        "description": "Dealing DMG to enemies with Negative Statuses increases the wielder's ATK by 4%/5%/6%/7%/8% for 10/10/10/10/10s. This effect can be triggered 1 time per second, stackable up to 4/4/4/4/4 times.",
         "effects": [
           {
-            "label": "攻击",
-            "excerpt": "攻击异常效应目标时，攻击提升4%/5%/6%/7%/8%",
-            "conditionText": "对带有【异常效应】的怪物造成伤害时，自身攻击提升4%/5%/6%/7%/8%，持续10/10/10/10/10秒，每秒可触发1次，可叠加4/4/4/4/4层"
+            "label": "ATK",
+            "excerpt": "ATK +16% per stack",
+            "conditionText": "Dealing DMG to enemies with Negative Statuses increases the wielder's ATK by 4%/5%/6%/7%/8% for 10/10/10/10/10s. This effect can be triggered 1 time per second, stackable up to 4/4/4/4/4 times."
           }
         ]
       },
       "tragicomedy": {
         "name": "Tragicomedy",
         "typeName": "Gauntlets",
-        "resonanceName": "愚人欢歌",
-        "description": "攻击提升12%/15%/18%/21%/24%。施放普攻或变奏技能时，自身重击伤害加成提升48%/60%/72%/84%/96%，持续3/3/3/3/3秒。",
+        "resonanceName": "Fool's Warble",
+        "description": "Increases ATK by 12%/15%/18%/21%/24%. Every time Basic Attack or Intro Skill is cast, Heavy Attack DMG Bonus increases by 48%/60%/72%/84%/96% for 3/3/3/3/3s.",
         "effects": [
           {
-            "label": "攻击",
-            "conditionText": "攻击提升12%/15%/18%/21%/24%"
+            "label": "ATK",
+            "excerpt": "ATK +12%",
+            "conditionText": "Increases ATK by 12%/15%/18%/21%/24%. Every time Basic Attack or Intro Skill is cast, Heavy Attack DMG Bonus increases by 48%/60%/72%/84%/96% for 3/3/3/3/3s."
           },
           {
-            "label": "重击伤害加成",
-            "conditionText": "施放普攻或变奏技能时，自身重击伤害加成提升48%/60%/72%/84%/96%，持续3/3/3/3/3秒"
+            "label": "Heavy Attack DMG Bonus",
+            "excerpt": "Heavy Attack DMG Bonus +48%",
+            "conditionText": "Increases ATK by 12%/15%/18%/21%/24%. Every time Basic Attack or Intro Skill is cast, Heavy Attack DMG Bonus increases by 48%/60%/72%/84%/96% for 3/3/3/3/3s."
           }
         ]
       },
       "the_last_dance": {
         "name": "The Last Dance",
         "typeName": "Pistols",
-        "resonanceName": "缄默悼词",
-        "description": "攻击提升12%/15%/18%/21%/24%。施放变奏技能或共鸣解放时，自身共鸣技能伤害加成提升48%/60%/72%/84%/96%，持续5/5/5/5/5秒。",
+        "resonanceName": "Silent Eulogy",
+        "description": "Increases ATK by 12%/15%/18%/21%/24%. Every time Intro Skill or Resonance Liberation is cast, Resonance Skill DMG Bonus increases by 48%/60%/72%/84%/96% for 5/5/5/5/5s.",
         "effects": [
           {
-            "label": "攻击",
-            "conditionText": "攻击提升12%/15%/18%/21%/24%"
+            "label": "ATK",
+            "excerpt": "ATK +12%",
+            "conditionText": "Increases ATK by 12%/15%/18%/21%/24%. Every time Intro Skill or Resonance Liberation is cast, Resonance Skill DMG Bonus increases by 48%/60%/72%/84%/96% for 5/5/5/5/5s."
           },
           {
-            "label": "共鸣技能伤害加成",
-            "conditionText": "施放变奏技能或共鸣解放时，自身共鸣技能伤害加成提升48%/60%/72%/84%/96%，持续5/5/5/5/5秒"
+            "label": "Resonance Skill DMG Bonus",
+            "excerpt": "Resonance Skill DMG Bonus +48%",
+            "conditionText": "Increases ATK by 12%/15%/18%/21%/24%. Every time Intro Skill or Resonance Liberation is cast, Resonance Skill DMG Bonus increases by 48%/60%/72%/84%/96% for 5/5/5/5/5s."
           }
         ]
       },
       "unflickering_valor": {
         "name": "Unflickering Valor",
         "typeName": "Sword",
-        "resonanceName": "欢笑海",
-        "description": "暴击提升8%/10%/12%/14%/16%。施放共鸣解放后，普攻伤害加成提高24%/30%/36%/42%/48%，持续10/10/10/10/10秒。造成普攻伤害时，普攻伤害加成提升24%/30%/36%/42%/48%，持续4/4/4/4/4秒。",
+        "resonanceName": "Laughter Prevails",
+        "description": "Increase Crit. Rate by 8%/10%/12%/14%/16%. Casting Resonance Liberation gives 24%/30%/36%/42%/48% Basic Attack DMG Bonus for 10/10/10/10/10s. Dealing Basic Attack DMG gives 24%/30%/36%/42%/48% Basic Attack DMG Bonus for 4/4/4/4/4s.",
         "effects": [
           {
-            "label": "暴击",
-            "conditionText": "暴击提升8%/10%/12%/14%/16%"
+            "label": "Crit. Rate",
+            "excerpt": "Crit. Rate +8%",
+            "conditionText": "Increase Crit. Rate by 8%/10%/12%/14%/16%. Casting Resonance Liberation gives 24%/30%/36%/42%/48% Basic Attack DMG Bonus for 10/10/10/10/10s. Dealing Basic Attack DMG gives 24%/30%/36%/42%/48% Basic Attack DMG Bonus for 4/4/4/4/4s."
           },
           {
-            "label": "普攻伤害加成",
-            "conditionText": "造成普攻伤害时，普攻伤害加成提升24%/30%/36%/42%/48%，持续4/4/4/4/4秒"
+            "label": "Basic Attack DMG Bonus",
+            "excerpt": "Basic Attack DMG Bonus +24%",
+            "conditionText": "Increase Crit. Rate by 8%/10%/12%/14%/16%. Casting Resonance Liberation gives 24%/30%/36%/42%/48% Basic Attack DMG Bonus for 10/10/10/10/10s. Dealing Basic Attack DMG gives 24%/30%/36%/42%/48% Basic Attack DMG Bonus for 4/4/4/4/4s."
           }
         ]
       },
       "luminous_hymn": {
         "name": "Luminous Hymn",
         "typeName": "Rectifier",
-        "resonanceName": "衔枝者赞诗",
-        "description": "攻击提升12%/15%/18%/21%/24%。对附加了【光噪效应】的目标造成伤害时，自身普攻、重击伤害加成提升14%/17.5%/21%/24.5%/28%，可以叠加3/3/3/3/3层，持续6/6/6/6/6秒。施放延奏技能时，使队伍中登场角色周围的目标受到【光噪效应】伤害加深30%/37.5%/45%/52.5%/60%，持续30/30/30/30/30秒，同名效果之间不可叠加。",
+        "resonanceName": "Homebuilder's Anthem",
+        "description": "Increase ATK by 12%/15%/18%/21%/24%. Dealing DMG to targets with Spectro Frazzle grants the wielder 14%/17.5%/21%/24.5%/28% Basic Attack DMG Bonus and 14%/17.5%/21%/24.5%/28% Heavy Attack DMG Bonus, stacking up to 3/3/3/3/3 {Cus:Sap,S=time P=times SapTag=2} for 6/6/6/6/6s. Casting Outro Skill Amplifies the Spectro Frazzle DMG on targets around the active Resonator by 30%/37.5%/45%/52.5%/60% for 30/30/30/30/30s. Effects of the same name cannot be stacked.",
         "effects": [
           {
-            "label": "攻击",
-            "conditionText": "攻击提升12%/15%/18%/21%/24%"
+            "label": "ATK",
+            "excerpt": "ATK +12%",
+            "conditionText": "Increase ATK by 12%/15%/18%/21%/24%. Dealing DMG to targets with Spectro Frazzle grants the wielder 14%/17.5%/21%/24.5%/28% Basic Attack DMG Bonus and 14%/17.5%/21%/24.5%/28% Heavy Attack DMG Bonus, stacking up to 3/3/3/3/3 {Cus:Sap,S=time P=times SapTag=2} for 6/6/6/6/6s. Casting Outro Skill Amplifies the Spectro Frazzle DMG on targets around the active Resonator by 30%/37.5%/45%/52.5%/60% for 30/30/30/30/30s. Effects of the same name cannot be stacked."
           },
           {
-            "label": "重击伤害加成",
-            "excerpt": "攻击光噪效应目标时，重击伤害加成提升14%/17.5%/21%/24.5%/28%",
-            "conditionText": "对附加了【光噪效应】的目标造成伤害时，自身普攻、重击伤害加成提升14%/17.5%/21%/24.5%/28%，可以叠加3/3/3/3/3层，持续6/6/6/6/6秒"
+            "label": "Heavy Attack DMG Bonus",
+            "excerpt": "Heavy Attack DMG Bonus +42% per stack",
+            "conditionText": "Increase ATK by 12%/15%/18%/21%/24%. Dealing DMG to targets with Spectro Frazzle grants the wielder 14%/17.5%/21%/24.5%/28% Basic Attack DMG Bonus and 14%/17.5%/21%/24.5%/28% Heavy Attack DMG Bonus, stacking up to 3/3/3/3/3 {Cus:Sap,S=time P=times SapTag=2} for 6/6/6/6/6s. Casting Outro Skill Amplifies the Spectro Frazzle DMG on targets around the active Resonator by 30%/37.5%/45%/52.5%/60% for 30/30/30/30/30s. Effects of the same name cannot be stacked."
           },
           {
-            "label": "普攻伤害加成",
-            "excerpt": "攻击光噪效应目标时，普攻伤害加成提升14%/17.5%/21%/24.5%/28%",
-            "conditionText": "对附加了【光噪效应】的目标造成伤害时，自身普攻、重击伤害加成提升14%/17.5%/21%/24.5%/28%，可以叠加3/3/3/3/3层，持续6/6/6/6/6秒"
+            "label": "Basic Attack DMG Bonus",
+            "excerpt": "Basic Attack DMG Bonus +42% per stack",
+            "conditionText": "Increase ATK by 12%/15%/18%/21%/24%. Dealing DMG to targets with Spectro Frazzle grants the wielder 14%/17.5%/21%/24.5%/28% Basic Attack DMG Bonus and 14%/17.5%/21%/24.5%/28% Heavy Attack DMG Bonus, stacking up to 3/3/3/3/3 {Cus:Sap,S=time P=times SapTag=2} for 6/6/6/6/6s. Casting Outro Skill Amplifies the Spectro Frazzle DMG on targets around the active Resonator by 30%/37.5%/45%/52.5%/60% for 30/30/30/30/30s. Effects of the same name cannot be stacked."
           },
           {
-            "label": "光噪效应伤害加深",
-            "trigger": "施放延奏技能时",
-            "excerpt": "释放延奏技能时，队伍中登场角色周围目标受到光噪效应伤害加深30%/37.5%/45%/52.5%/60%",
-            "conditionText": "施放延奏技能时，使队伍中登场角色周围的目标受到【光噪效应】伤害加深30%/37.5%/45%/52.5%/60%，持续30/30/30/30/30秒，同名效果之间不可叠加。"
+            "label": "DMG Increase",
+            "excerpt": "DMG Increase +30%",
+            "conditionText": "Increase ATK by 12%/15%/18%/21%/24%. Dealing DMG to targets with Spectro Frazzle grants the wielder 14%/17.5%/21%/24.5%/28% Basic Attack DMG Bonus and 14%/17.5%/21%/24.5%/28% Heavy Attack DMG Bonus, stacking up to 3/3/3/3/3 {Cus:Sap,S=time P=times SapTag=2} for 6/6/6/6/6s. Casting Outro Skill Amplifies the Spectro Frazzle DMG on targets around the active Resonator by 30%/37.5%/45%/52.5%/60% for 30/30/30/30/30s. Effects of the same name cannot be stacked."
           }
         ]
       },
       "oceans_gift": {
         "name": "Ocean's Gift",
         "typeName": "Rectifier",
-        "resonanceName": "渔获",
-        "description": "对带有【光噪效应】的敌人造成伤害时获得效果：自身衍射伤害提升6%/7%/8%/9%/10%，每1秒可获得1层，持续6秒，可叠加4层。",
+        "resonanceName": "Fish Catch",
+        "description": "Dealing DMG to enemies with Spectro Frazzle increases the wielder's Spectro DMG by 6%/7%/8%/9%/10%, gaining 1 stack per second for 6s, stacking up to 4 times.",
         "effects": [
           {
-            "label": "衍射伤害加成",
-            "excerpt": "攻击光噪效应目标满4层时，衍射伤害加成提升24%/28%/32%/36%/40%",
-            "conditionText": "对【光噪效应】敌人造成伤害满4层：衍射伤害提升24%/28%/32%/36%/40%（每层6%/7%/8%/9%/10%×4）"
+            "label": "Spectro DMG Bonus",
+            "excerpt": "Spectro DMG Bonus +24% per stack",
+            "conditionText": "Dealing DMG to enemies with Spectro Frazzle increases the wielder's Spectro DMG by 6%/7%/8%/9%/10%, gaining 1 stack per second for 6s, stacking up to 4 times."
           }
         ]
       },
       "whispers_of_sirens": {
         "name": "Whispers of Sirens",
         "typeName": "Rectifier",
-        "resonanceName": "在海中",
-        "description": "攻击提升12%/15%/18%/21%/24%。施放变奏技能或普攻后10/10/10/10/10秒内，施放声骸技能时，获得1/1/1/1/1层【柔软的梦】，同名声骸只可触发一次，最多可叠加2/2/2/2/2层，持续10/10/10/10/10秒，叠加至2层后施放声骸技能不刷新持续时间。该效果10秒内最多生效1次，若切换至其他角色则该效果提前结束。\n第1/1/1/1/1层：普攻伤害加成提升40%/50%/60%/70%/80%；\n第2/2/2/2/2层：无视目标12%/15%/18%/21%/24%湮灭属性抗性。",
+        "resonanceName": "From the Deep",
+        "description": "Increases ATK by 12%/15%/18%/21%/24%. Casting Echo Skill within 10/10/10/10/10s after casting Intro Skill or Basic Attacks grants 1/1/1/1/1 {Cus:Sap,S=stack P=stacks SapTag=2} of Gentle Dream. Echoes with the same name can only trigger this effect once, stacking up to 2/2/2/2/2 times, lasting for 10/10/10/10/10s. When reaching 2 stacks, casting Echo Skill no longer resets the duration of this effect. This effect activates up to once per 10s. Switching to another Resonator ends this effect early.\nWith 1/1/1/1/1 {Cus:Sap,S=stack P=stacks SapTag=5}: Grants 40%/50%/60%/70%/80% Basic Attack DMG Bonus.\nWith 2/2/2/2/2 {Cus:Sap,S=stack P=stacks SapTag=7}: Ignores 12%/15%/18%/21%/24% of the target's Havoc RES.",
         "effects": [
           {
-            "label": "攻击",
-            "conditionText": "攻击提升12%/15%/18%/21%/24%"
+            "label": "ATK",
+            "excerpt": "ATK +12%",
+            "conditionText": "Increases ATK by 12%/15%/18%/21%/24%. Casting Echo Skill within 10/10/10/10/10s after casting Intro Skill or Basic Attacks grants 1/1/1/1/1 {Cus:Sap,S=stack P=stacks SapTag=2} of Gentle Dream. Echoes with the same name can only trigger this effect once, stacking up to 2/2/2/2/2 times, lasting for 10/10/10/10/10s. When reaching 2 stacks, casting Echo Skill no longer resets the duration of this effect. This effect activates up to once per 10s. Switching to another Resonator ends this effect early.\nWith 1/1/1/1/1 {Cus:Sap,S=stack P=stacks SapTag=5}: Grants 40%/50%/60%/70%/80% Basic Attack DMG Bonus.\nWith 2/2/2/2/2 {Cus:Sap,S=stack P=stacks SapTag=7}: Ignores 12%/15%/18%/21%/24% of the target's Havoc RES."
           },
           {
-            "label": "普攻伤害加成",
-            "conditionText": "第1/1/1/1/1层：普攻伤害加成提升40%/50%/60%/70%/80%"
+            "label": "Basic Attack DMG Bonus",
+            "excerpt": "Basic Attack DMG Bonus +40%",
+            "conditionText": "Increases ATK by 12%/15%/18%/21%/24%. Casting Echo Skill within 10/10/10/10/10s after casting Intro Skill or Basic Attacks grants 1/1/1/1/1 {Cus:Sap,S=stack P=stacks SapTag=2} of Gentle Dream. Echoes with the same name can only trigger this effect once, stacking up to 2/2/2/2/2 times, lasting for 10/10/10/10/10s. When reaching 2 stacks, casting Echo Skill no longer resets the duration of this effect. This effect activates up to once per 10s. Switching to another Resonator ends this effect early.\nWith 1/1/1/1/1 {Cus:Sap,S=stack P=stacks SapTag=5}: Grants 40%/50%/60%/70%/80% Basic Attack DMG Bonus.\nWith 2/2/2/2/2 {Cus:Sap,S=stack P=stacks SapTag=7}: Ignores 12%/15%/18%/21%/24% of the target's Havoc RES."
           },
           {
-            "label": "湮灭减抗",
-            "trigger": "柔软的梦叠加至2层",
-            "excerpt": "柔软的梦第2层时，无视目标12%/15%/18%/21%/24%湮灭抗性",
-            "conditionText": "第2/2/2/2/2层：无视目标12%/15%/18%/21%/24%湮灭属性抗性。"
+            "label": "RES Shred",
+            "excerpt": "RES Shred +12%",
+            "conditionText": "Increases ATK by 12%/15%/18%/21%/24%. Casting Echo Skill within 10/10/10/10/10s after casting Intro Skill or Basic Attacks grants 1/1/1/1/1 {Cus:Sap,S=stack P=stacks SapTag=2} of Gentle Dream. Echoes with the same name can only trigger this effect once, stacking up to 2/2/2/2/2 times, lasting for 10/10/10/10/10s. When reaching 2 stacks, casting Echo Skill no longer resets the duration of this effect. This effect activates up to once per 10s. Switching to another Resonator ends this effect early.\nWith 1/1/1/1/1 {Cus:Sap,S=stack P=stacks SapTag=5}: Grants 40%/50%/60%/70%/80% Basic Attack DMG Bonus.\nWith 2/2/2/2/2 {Cus:Sap,S=stack P=stacks SapTag=7}: Ignores 12%/15%/18%/21%/24% of the target's Havoc RES."
           }
         ]
       },
       "bloodpacts_pledge": {
         "name": "Bloodpact's Pledge",
         "typeName": "Sword",
-        "resonanceName": "和鸣谐振",
-        "description": "造成治疗时，自身共鸣技能伤害提升10%/14%/18%/22%/26%，持续6/6/6/6/6秒。漂泊者·气动施放共鸣技能·缥缈无相时，附近队伍中登场角色气动伤害加深10%/14%/18%/22%/26%，持续30/30/30/30/30秒。",
+        "resonanceName": "Harmonious Vibrancy",
+        "description": "Providing Healing increases Resonance Skill DMG by 10%/14%/18%/22%/26% for 6/6/6/6/6s. When Rover: Aero casts Resonance Skill Unbound Flow, Aero DMG dealt by nearby Resonators on the field is Amplified by 10%/14%/18%/22%/26% for 30/30/30/30/30s.",
         "effects": [
           {
-            "label": "共鸣技能伤害加成",
-            "conditionText": "造成治疗时，自身共鸣技能伤害提升10%/14%/18%/22%/26%，持续6/6/6/6/6秒"
+            "label": "Resonance Skill DMG Bonus",
+            "excerpt": "Resonance Skill DMG Bonus +10%",
+            "conditionText": "Providing Healing increases Resonance Skill DMG by 10%/14%/18%/22%/26% for 6/6/6/6/6s. When Rover: Aero casts Resonance Skill Unbound Flow, Aero DMG dealt by nearby Resonators on the field is Amplified by 10%/14%/18%/22%/26% for 30/30/30/30/30s."
           }
         ]
       },
       "blazing_justice": {
         "name": "Blazing Justice",
         "typeName": "Gauntlets",
-        "resonanceName": "破暗者",
-        "description": "攻击提升12%/15%/18%/21%/24%。施放普攻时，获得以下效果：自身造成伤害无视目标8%/10%/12%/14%/16%防御，同时自身直接造成的【光噪效应】伤害加深50%/62.5%/75%/87.5%/100%，持续6/6/6/6/6秒。重复获得时刷新持续时间。",
+        "resonanceName": "Darkness Breaker",
+        "description": "Increases ATK by 12%/15%/18%/21%/24%. Casting Basic Attack grants the following effects: Dealing damage ignores 8%/10%/12%/14%/16% of the target's DEF and Amplifies Spectro Frazzle DMG dealt by 50%/62.5%/75%/87.5%/100% for 6/6/6/6/6s. Retriggering the effect resets its duration.",
         "effects": [
           {
-            "label": "攻击",
-            "conditionText": "攻击提升12%/15%/18%/21%/24%"
+            "label": "ATK",
+            "excerpt": "ATK +12%",
+            "conditionText": "Increases ATK by 12%/15%/18%/21%/24%. Casting Basic Attack grants the following effects: Dealing damage ignores 8%/10%/12%/14%/16% of the target's DEF and Amplifies Spectro Frazzle DMG dealt by 50%/62.5%/75%/87.5%/100% for 6/6/6/6/6s. Retriggering the effect resets its duration."
           },
           {
-            "label": "防御无视",
-            "trigger": "施放普攻时",
-            "excerpt": "施放普攻时，自身造成伤害无视目标8%/10%/12%/14%/16%防御",
-            "conditionText": "施放普攻时，获得以下效果：自身造成伤害无视目标8%/10%/12%/14%/16%防御，持续6/6/6/6/6秒。重复获得时刷新持续时间。"
+            "label": "DEF Ignore",
+            "excerpt": "DEF Ignore +8%",
+            "conditionText": "Increases ATK by 12%/15%/18%/21%/24%. Casting Basic Attack grants the following effects: Dealing damage ignores 8%/10%/12%/14%/16% of the target's DEF and Amplifies Spectro Frazzle DMG dealt by 50%/62.5%/75%/87.5%/100% for 6/6/6/6/6s. Retriggering the effect resets its duration."
           },
           {
-            "label": "光噪效应伤害加深",
-            "trigger": "施放普攻时",
-            "excerpt": "施放普攻时，自身直接造成的光噪效应伤害加深50%/62.5%/75%/87.5%/100%",
-            "conditionText": "施放普攻时，获得以下效果：自身直接造成的【光噪效应】伤害加深50%/62.5%/75%/87.5%/100%，持续6/6/6/6/6秒。重复获得时刷新持续时间。"
+            "label": "DMG Increase",
+            "excerpt": "DMG Increase +50%",
+            "conditionText": "Increases ATK by 12%/15%/18%/21%/24%. Casting Basic Attack grants the following effects: Dealing damage ignores 8%/10%/12%/14%/16% of the target's DEF and Amplifies Spectro Frazzle DMG dealt by 50%/62.5%/75%/87.5%/100% for 6/6/6/6/6s. Retriggering the effect resets its duration."
           }
         ]
       },
       "woodland_aria": {
         "name": "Woodland Aria",
         "typeName": "Pistols",
-        "resonanceName": "长夏咏颂",
-        "description": "攻击提升12%/15%/18%/21%/24%。为目标添加【风蚀效应】后，自身气动伤害加成提升24%/30%/36%/42%/48%，持续10/10/10/10/10秒。攻击命中带有【风蚀效应】的敌人时，降低对方10%/11.5%/13%/14.5%/16%的气动抗性，持续20/20/20/20/20秒，同名效果之间不可叠加。",
+        "resonanceName": "Lingering Summer Tune",
+        "description": "ATK is increased by 12%/15%/18%/21%/24%. Inflicting Aero Erosion on the target gives 24%/30%/36%/42%/48% Aero DMG Bonus for 10/10/10/10/10s. Hitting targets with Aero Erosion reduces their Aero RES by 10%/11.5%/13%/14.5%/16% for 20/20/20/20/20s. Effects of the same name cannot be stacked.",
         "effects": [
           {
-            "label": "攻击",
-            "conditionText": "攻击提升12%/15%/18%/21%/24%"
+            "label": "ATK",
+            "excerpt": "ATK +12%",
+            "conditionText": "ATK is increased by 12%/15%/18%/21%/24%. Inflicting Aero Erosion on the target gives 24%/30%/36%/42%/48% Aero DMG Bonus for 10/10/10/10/10s. Hitting targets with Aero Erosion reduces their Aero RES by 10%/11.5%/13%/14.5%/16% for 20/20/20/20/20s. Effects of the same name cannot be stacked."
           },
           {
-            "label": "气动伤害加成",
-            "trigger": "为目标添加风蚀效应后",
-            "excerpt": "添加风蚀效应后，气动伤害加成提升24%/30%/36%/42%/48%",
-            "conditionText": "为目标添加【风蚀效应】后，自身气动伤害加成提升24%/30%/36%/42%/48%，持续10/10/10/10/10秒。"
+            "label": "Aero DMG Bonus",
+            "excerpt": "Aero DMG Bonus +24%",
+            "conditionText": "ATK is increased by 12%/15%/18%/21%/24%. Inflicting Aero Erosion on the target gives 24%/30%/36%/42%/48% Aero DMG Bonus for 10/10/10/10/10s. Hitting targets with Aero Erosion reduces their Aero RES by 10%/11.5%/13%/14.5%/16% for 20/20/20/20/20s. Effects of the same name cannot be stacked."
           },
           {
-            "label": "气动减抗",
-            "trigger": "攻击命中风蚀效应目标时",
-            "excerpt": "攻击风蚀效应目标时，降低对方10%/11.5%/13%/14.5%/16%气动抗性",
-            "conditionText": "攻击命中带有【风蚀效应】的敌人时，降低对方10%/11.5%/13%/14.5%/16%的气动抗性，持续20/20/20/20/20秒，同名效果之间不可叠加。"
+            "label": "RES Shred",
+            "excerpt": "RES Shred +10%",
+            "conditionText": "ATK is increased by 12%/15%/18%/21%/24%. Inflicting Aero Erosion on the target gives 24%/30%/36%/42%/48% Aero DMG Bonus for 10/10/10/10/10s. Hitting targets with Aero Erosion reduces their Aero RES by 10%/11.5%/13%/14.5%/16% for 20/20/20/20/20s. Effects of the same name cannot be stacked."
           }
         ]
       },
       "defiers_thorn": {
         "name": "Defier's Thorn",
         "typeName": "Sword",
-        "resonanceName": "自由骑士之舞",
-        "description": "生命提升12%/15%/18%/21%/24%。施放变奏技能或普攻后15/15/15/15/15秒内，自身造成伤害无视目标8%/10%/12%/14%/16%防御，当目标的风蚀效应不少于1层时，对目标造成的伤害加深20%/25%/30%/35%/40%。",
+        "resonanceName": "A Free Knight's Tarantella",
+        "description": "Max HP is increased by 12%/15%/18%/21%/24%. 15/15/15/15/15s after casting Intro Skill or Basic Attacks, ignore 8%/10%/12%/14%/16% of the target's DEF when dealing damage. If the target has at least 1 stack of Aero Erosion, the DMG taken by the target is Amplified by 20%/25%/30%/35%/40%.",
         "effects": [
           {
-            "label": "生命",
-            "conditionText": "生命提升12%/15%/18%/21%/24%"
+            "label": "HP",
+            "excerpt": "HP +12%",
+            "conditionText": "Max HP is increased by 12%/15%/18%/21%/24%. 15/15/15/15/15s after casting Intro Skill or Basic Attacks, ignore 8%/10%/12%/14%/16% of the target's DEF when dealing damage. If the target has at least 1 stack of Aero Erosion, the DMG taken by the target is Amplified by 20%/25%/30%/35%/40%."
           },
           {
-            "label": "防御无视",
-            "conditionText": "施放变奏技能或普攻后15/15/15/15/15秒内，无视目标8%/10%/12%/14%/16%防御"
+            "label": "DEF Ignore",
+            "excerpt": "DEF Ignore +8%",
+            "conditionText": "Max HP is increased by 12%/15%/18%/21%/24%. 15/15/15/15/15s after casting Intro Skill or Basic Attacks, ignore 8%/10%/12%/14%/16% of the target's DEF when dealing damage. If the target has at least 1 stack of Aero Erosion, the DMG taken by the target is Amplified by 20%/25%/30%/35%/40%."
           },
           {
-            "label": "伤害加深",
-            "conditionText": "目标风蚀效应≥1层时，对其造成的伤害加深20%/25%/30%/35%/40%"
+            "label": "DMG Increase",
+            "excerpt": "DMG Increase +20%",
+            "conditionText": "Max HP is increased by 12%/15%/18%/21%/24%. 15/15/15/15/15s after casting Intro Skill or Basic Attacks, ignore 8%/10%/12%/14%/16% of the target's DEF when dealing damage. If the target has at least 1 stack of Aero Erosion, the DMG taken by the target is Amplified by 20%/25%/30%/35%/40%."
           }
         ]
       },
       "wildfire_mark": {
         "name": "Wildfire Mark",
         "typeName": "Broadblade",
-        "resonanceName": "闪耀星火",
-        "description": "攻击提升12%/15%/18%/21%/24%。施放变奏技能或共鸣解放时，共鸣解放伤害提升24%/30%/36%/42%/48%，持续6/6/6/6/6秒；造成重击伤害时，该效果延长4/4/4/4/4秒，最多可延长1/1/1/1/1次。成功延长效果时，使队伍中的角色热熔伤害加成提升24%/30%/36%/42%/48%，持续30/30/30/30/30秒，同名效果之间不可叠加。",
+        "resonanceName": "Blazing Starfire",
+        "description": "Increases ATK by 12%/15%/18%/21%/24%. Performing Intro Skill or Resonance Liberation increases Resonance Liberation DMG by 24%/30%/36%/42%/48% for 6/6/6/6/6s. Dealing Heavy Attack DMG extends this effect by 4/4/4/4/4s, up to 1/1/1/1/1 time. Each successful extension gives 24%/30%/36%/42%/48% Fusion DMG Bonus to all Resonators in the team for 30/30/30/30/30s. Effects of the same name cannot be stacked.",
         "effects": [
           {
-            "label": "攻击",
-            "conditionText": "攻击提升12%/15%/18%/21%/24%"
+            "label": "ATK",
+            "excerpt": "ATK +12%",
+            "conditionText": "Increases ATK by 12%/15%/18%/21%/24%. Performing Intro Skill or Resonance Liberation increases Resonance Liberation DMG by 24%/30%/36%/42%/48% for 6/6/6/6/6s. Dealing Heavy Attack DMG extends this effect by 4/4/4/4/4s, up to 1/1/1/1/1 time. Each successful extension gives 24%/30%/36%/42%/48% Fusion DMG Bonus to all Resonators in the team for 30/30/30/30/30s. Effects of the same name cannot be stacked."
           },
           {
-            "label": "共鸣解放伤害加成",
-            "trigger": "施放变奏技能或共鸣解放时",
-            "excerpt": "施放变奏技能或共鸣解放时，共鸣解放伤害加成提升24%/30%/36%/42%/48%",
-            "conditionText": "施放变奏技能或共鸣解放时，共鸣解放伤害提升24%/30%/36%/42%/48%，持续6/6/6/6/6秒；造成重击伤害时，该效果延长4/4/4/4/4秒，最多可延长1/1/1/1/1次。"
+            "label": "Resonance Liberation DMG Bonus",
+            "excerpt": "Resonance Liberation DMG Bonus +24%",
+            "conditionText": "Increases ATK by 12%/15%/18%/21%/24%. Performing Intro Skill or Resonance Liberation increases Resonance Liberation DMG by 24%/30%/36%/42%/48% for 6/6/6/6/6s. Dealing Heavy Attack DMG extends this effect by 4/4/4/4/4s, up to 1/1/1/1/1 time. Each successful extension gives 24%/30%/36%/42%/48% Fusion DMG Bonus to all Resonators in the team for 30/30/30/30/30s. Effects of the same name cannot be stacked."
           },
           {
-            "label": "热熔伤害加成",
-            "trigger": "成功延长效果时",
-            "excerpt": "成功延长效果时，队伍中的角色热熔伤害加成提升24%/30%/36%/42%/48%",
-            "conditionText": "成功延长效果时，使队伍中的角色热熔伤害加成提升24%/30%/36%/42%/48%，持续30/30/30/30/30秒，同名效果之间不可叠加。"
+            "label": "Fusion DMG Bonus",
+            "excerpt": "Fusion DMG Bonus +24%",
+            "conditionText": "Increases ATK by 12%/15%/18%/21%/24%. Performing Intro Skill or Resonance Liberation increases Resonance Liberation DMG by 24%/30%/36%/42%/48% for 6/6/6/6/6s. Dealing Heavy Attack DMG extends this effect by 4/4/4/4/4s, up to 1/1/1/1/1 time. Each successful extension gives 24%/30%/36%/42%/48% Fusion DMG Bonus to all Resonators in the team for 30/30/30/30/30s. Effects of the same name cannot be stacked."
           }
         ]
       },
       "lethean_elegy": {
         "name": "Lethean Elegy",
         "typeName": "Rectifier",
-        "resonanceName": "安魂曲",
-        "description": "攻击提升12%/15%/18%/21%/24%。造成声骸技能伤害后12/12/12/12/12秒内，共鸣技能伤害加成提升32%/40%/48%/56%/64%，声骸技能伤害加深32%/40%/48%/56%/64%，且造成伤害时无视目标8%/10%/12%/14%/16%防御。",
+        "resonanceName": "Underworld Requiem",
+        "description": "ATK is increased by 12%/15%/18%/21%/24%. Within 12/12/12/12/12s after dealing Echo Skill DMG, gain 32%/40%/48%/56%/64% Resonance Skill DMG Bonus and 32%/40%/48%/56%/64% Echo Skill DMG Amplification, and ignore 8%/10%/12%/14%/16% of the target's DEF when dealing damage.",
         "effects": [
           {
-            "label": "攻击",
-            "conditionText": "攻击提升12%/15%/18%/21%/24%"
+            "label": "ATK",
+            "excerpt": "ATK +12%",
+            "conditionText": "ATK is increased by 12%/15%/18%/21%/24%. Within 12/12/12/12/12s after dealing Echo Skill DMG, gain 32%/40%/48%/56%/64% Resonance Skill DMG Bonus and 32%/40%/48%/56%/64% Echo Skill DMG Amplification, and ignore 8%/10%/12%/14%/16% of the target's DEF when dealing damage."
           },
           {
-            "label": "共鸣技能伤害加成",
-            "excerpt": "造成声骸技能伤害后，共鸣技能伤害加成提升32%/40%/48%/56%/64%",
-            "conditionText": "造成声骸技能伤害后12/12/12/12/12秒内，共鸣技能伤害加成提升32%/40%/48%/56%/64%，声骸技能伤害加深32%/40%/48%/56%/64%，且造成伤害时无视目标8%/10%/12%/14%/16%防御"
+            "label": "Resonance Skill DMG Bonus",
+            "excerpt": "Resonance Skill DMG Bonus +32%",
+            "conditionText": "ATK is increased by 12%/15%/18%/21%/24%. Within 12/12/12/12/12s after dealing Echo Skill DMG, gain 32%/40%/48%/56%/64% Resonance Skill DMG Bonus and 32%/40%/48%/56%/64% Echo Skill DMG Amplification, and ignore 8%/10%/12%/14%/16% of the target's DEF when dealing damage."
           },
           {
-            "label": "声骸技能伤害加深",
-            "excerpt": "造成声骸技能伤害后，声骸技能伤害加深32%/40%/48%/56%/64%",
-            "conditionText": "造成声骸技能伤害后12/12/12/12/12秒内，声骸技能伤害加深32%/40%/48%/56%/64%"
+            "label": "Echo Skill DMG Increase",
+            "excerpt": "Echo Skill DMG Increase +32%",
+            "conditionText": "ATK is increased by 12%/15%/18%/21%/24%. Within 12/12/12/12/12s after dealing Echo Skill DMG, gain 32%/40%/48%/56%/64% Resonance Skill DMG Bonus and 32%/40%/48%/56%/64% Echo Skill DMG Amplification, and ignore 8%/10%/12%/14%/16% of the target's DEF when dealing damage."
           },
           {
-            "label": "防御无视",
-            "excerpt": "造成声骸技能伤害后，无视目标8%/10%/12%/14%/16%防御",
-            "conditionText": "造成声骸技能伤害后12/12/12/12/12秒内，造成伤害时无视目标8%/10%/12%/14%/16%防御"
+            "label": "DEF Ignore",
+            "excerpt": "DEF Ignore +8%",
+            "conditionText": "ATK is increased by 12%/15%/18%/21%/24%. Within 12/12/12/12/12s after dealing Echo Skill DMG, gain 32%/40%/48%/56%/64% Resonance Skill DMG Bonus and 32%/40%/48%/56%/64% Echo Skill DMG Amplification, and ignore 8%/10%/12%/14%/16% of the target's DEF when dealing damage."
           }
         ]
       },
       "moongazers_sigil": {
         "name": "Moongazer's Sigil",
         "typeName": "Gauntlets",
-        "resonanceName": "昼月缀界",
-        "description": "攻击提升12%/15%/18%/21%/24%。 施放变奏技能或共鸣解放时，共鸣解放伤害提升20%/25%/30%/35%/40%，持续15/15/15/15/15秒。 自身获得护盾时：共鸣解放伤害无视目标7.2%/8.4%/9.6%/10.8%/12.0%防御，每0.5/0.5/0.5/0.5/0.5秒可生效1次，可叠加5/5/5/5/5层，持续7/7/7/7/7秒；施放变奏技能时，无视目标防御的效果视为满层，持续3/3/3/3/3秒。",
+        "resonanceName": "Plenilune Radiance",
+        "description": "Increases ATK by 12%/15%/18%/21%/24%. Casting Intro Skill or Resonance Liberation increases Resonance Liberation DMG by 20%/25%/30%/35%/40% for 15/15/15/15/15s. Obtaining Shield allows Resonance Liberation DMG to ignore 7.2%/8.4%/9.6%/10.8%/12.0% of the target's DEF for 7/7/7/7/7s, stacking up to 5/5/5/5/5 times. This effect is triggered once every 0.5/0.5/0.5/0.5/0.5s. Upon casting Intro Skill, this effect reaches max stacks immediately, lasting for 3/3/3/3/3s.",
         "effects": [
           {
-            "label": "攻击",
-            "conditionText": "攻击提升12%/15%/18%/21%/24%"
+            "label": "ATK",
+            "excerpt": "ATK +12%",
+            "conditionText": "Increases ATK by 12%/15%/18%/21%/24%. Casting Intro Skill or Resonance Liberation increases Resonance Liberation DMG by 20%/25%/30%/35%/40% for 15/15/15/15/15s. Obtaining Shield allows Resonance Liberation DMG to ignore 7.2%/8.4%/9.6%/10.8%/12.0% of the target's DEF for 7/7/7/7/7s, stacking up to 5/5/5/5/5 times. This effect is triggered once every 0.5/0.5/0.5/0.5/0.5s. Upon casting Intro Skill, this effect reaches max stacks immediately, lasting for 3/3/3/3/3s."
           },
           {
-            "label": "共鸣解放伤害加成",
-            "conditionText": "施放变奏技能或共鸣解放时，共鸣解放伤害提升20%/25%/30%/35%/40%，持续15/15/15/15/15秒"
+            "label": "Resonance Liberation DMG Bonus",
+            "excerpt": "Resonance Liberation DMG Bonus +20%",
+            "conditionText": "Increases ATK by 12%/15%/18%/21%/24%. Casting Intro Skill or Resonance Liberation increases Resonance Liberation DMG by 20%/25%/30%/35%/40% for 15/15/15/15/15s. Obtaining Shield allows Resonance Liberation DMG to ignore 7.2%/8.4%/9.6%/10.8%/12.0% of the target's DEF for 7/7/7/7/7s, stacking up to 5/5/5/5/5 times. This effect is triggered once every 0.5/0.5/0.5/0.5/0.5s. Upon casting Intro Skill, this effect reaches max stacks immediately, lasting for 3/3/3/3/3s."
           },
           {
-            "label": "共鸣解放防御无视",
-            "excerpt": "获得护盾时，共鸣解放伤害无视36%/42%/48%/54%/60%防御",
-            "conditionText": "自身获得护盾时：共鸣解放伤害无视目标36%/42%/48%/54%/60%防御（每层7.2%/8.4%/9.6%/10.8%/12.0%，最多5层），持续7/7/7/7/7秒；施放变奏技能时，无视目标防御的效果视为满层，持续3/3/3/3/3秒"
+            "label": "DEF Ignore",
+            "excerpt": "DEF Ignore +36% per stack",
+            "conditionText": "Increases ATK by 12%/15%/18%/21%/24%. Casting Intro Skill or Resonance Liberation increases Resonance Liberation DMG by 20%/25%/30%/35%/40% for 15/15/15/15/15s. Obtaining Shield allows Resonance Liberation DMG to ignore 7.2%/8.4%/9.6%/10.8%/12.0% of the target's DEF for 7/7/7/7/7s, stacking up to 5/5/5/5/5 times. This effect is triggered once every 0.5/0.5/0.5/0.5/0.5s. Upon casting Intro Skill, this effect reaches max stacks immediately, lasting for 3/3/3/3/3s."
           }
         ]
       },
       "thunderflare_dominion": {
         "name": "Thunderflare Dominion",
         "typeName": "Broadblade",
-        "resonanceName": "炽烈权霆",
-        "description": "攻击提升12%/15%/18%/21%/24%。施放变奏技能或共鸣技能时，重击伤害提升20%/25%/30%/35%/40%，持续15/15/15/15/15秒；自身获得护盾时，重击伤害无视目标7.2%/8.4%/9.6%/10.8%/12%防御，每0.5秒可生效1次，可叠加5/5/5/5/5层，持续7/7/7/7/7秒。",
+        "resonanceName": "Thunderblaze Eminence",
+        "description": "Increases ATK by 12%/15%/18%/21%/24%. Casting Intro Skill or Resonance Skill increases Heavy Attack DMG by 20%/25%/30%/35%/40% for 15/15/15/15/15s. Obtaining Shield allows Heavy Attack DMG to ignore 7.2%/8.4%/9.6%/10.8%/12% of the target's DEF for 7/7/7/7/7s, stacking up to 5/5/5/5/5 times. This effect is triggered once every 0.5s",
         "effects": [
           {
-            "label": "攻击",
-            "conditionText": "攻击提升12%/15%/18%/21%/24%"
+            "label": "ATK",
+            "excerpt": "ATK +12%",
+            "conditionText": "Increases ATK by 12%/15%/18%/21%/24%. Casting Intro Skill or Resonance Skill increases Heavy Attack DMG by 20%/25%/30%/35%/40% for 15/15/15/15/15s. Obtaining Shield allows Heavy Attack DMG to ignore 7.2%/8.4%/9.6%/10.8%/12% of the target's DEF for 7/7/7/7/7s, stacking up to 5/5/5/5/5 times. This effect is triggered once every 0.5s"
           },
           {
-            "label": "重击伤害加成",
-            "conditionText": "施放变奏技能或共鸣技能时，重击伤害提升20%/25%/30%/35%/40%，持续15/15/15/15/15秒"
+            "label": "Heavy Attack DMG Bonus",
+            "excerpt": "Heavy Attack DMG Bonus +20%",
+            "conditionText": "Increases ATK by 12%/15%/18%/21%/24%. Casting Intro Skill or Resonance Skill increases Heavy Attack DMG by 20%/25%/30%/35%/40% for 15/15/15/15/15s. Obtaining Shield allows Heavy Attack DMG to ignore 7.2%/8.4%/9.6%/10.8%/12% of the target's DEF for 7/7/7/7/7s, stacking up to 5/5/5/5/5 times. This effect is triggered once every 0.5s"
           },
           {
-            "label": "重击防御无视",
-            "conditionText": "自身获得护盾时，重击伤害无视目标36%/42%/48%/54%/60%防御（每层7.2%/8.4%/9.6%/10.8%/12%，最多5层），持续7/7/7/7/7秒"
+            "label": "DEF Ignore",
+            "excerpt": "DEF Ignore +36% per stack",
+            "conditionText": "Increases ATK by 12%/15%/18%/21%/24%. Casting Intro Skill or Resonance Skill increases Heavy Attack DMG by 20%/25%/30%/35%/40% for 15/15/15/15/15s. Obtaining Shield allows Heavy Attack DMG to ignore 7.2%/8.4%/9.6%/10.8%/12% of the target's DEF for 7/7/7/7/7s, stacking up to 5/5/5/5/5 times. This effect is triggered once every 0.5s"
           }
         ]
       },
       "aureate_zenith": {
         "name": "Aureate Zenith",
         "typeName": "Broadblade",
-        "resonanceName": "狩潮之誓",
-        "description": "施放共鸣解放时，攻击提升7.2%/11.1%/15.1%/19%/23%，重击伤害加成提升10.8%/16.7%/22.6%/28.6%/34.5%，持续15/15/15/15/15秒。",
+        "resonanceName": "Oath of Tide Hunters",
+        "description": "Casting Resonance Liberation increases ATK by 7.2%/11.1%/15.1%/19%/23% and grants 10.8%/16.7%/22.6%/28.6%/34.5% Heavy Attack DMG Bonus for 15/15/15/15/15s.",
         "effects": [
           {
-            "label": "重击伤害加成",
-            "conditionText": "施放共鸣解放时，攻击提升7.2%/11.1%/15.1%/19%/23%，重击伤害加成提升10.8%/16.7%/22.6%/28.6%/34.5%，持续15/15/15/15/15秒"
+            "label": "Heavy Attack DMG Bonus",
+            "excerpt": "Heavy Attack DMG Bonus +10.8%",
+            "conditionText": "Casting Resonance Liberation increases ATK by 7.2%/11.1%/15.1%/19%/23% and grants 10.8%/16.7%/22.6%/28.6%/34.5% Heavy Attack DMG Bonus for 15/15/15/15/15s."
           },
           {
-            "label": "攻击",
-            "conditionText": "施放共鸣解放时，攻击提升7.2%/11.1%/15.1%/19%/23%，重击伤害加成提升10.8%/16.7%/22.6%/28.6%/34.5%，持续15/15/15/15/15秒"
+            "label": "ATK",
+            "excerpt": "ATK +7.2%",
+            "conditionText": "Casting Resonance Liberation increases ATK by 7.2%/11.1%/15.1%/19%/23% and grants 10.8%/16.7%/22.6%/28.6%/34.5% Heavy Attack DMG Bonus for 15/15/15/15/15s."
           }
         ]
       },
       "feather_edge": {
         "name": "Feather Edge",
         "typeName": "Sword",
-        "resonanceName": "狩潮之誓",
-        "description": "施放共鸣解放时，攻击提升7.2%/11.1%/15.1%/19%/23%，共鸣解放伤害加成提升10.8%/16.7%/22.6%/28.6%/34.5%，持续15/15/15/15/15秒。",
+        "resonanceName": "Oath of Tide Hunters",
+        "description": "Casting Resonance Liberation increases ATK by 7.2%/11.1%/15.1%/19%/23% and grants 10.8%/16.7%/22.6%/28.6%/34.5% Resonance Liberation DMG Bonus for 15/15/15/15/15s.",
         "effects": [
           {
-            "label": "共鸣解放伤害加成",
-            "conditionText": "施放共鸣解放时，攻击提升7.2%/11.1%/15.1%/19%/23%，共鸣解放伤害加成提升10.8%/16.7%/22.6%/28.6%/34.5%，持续15/15/15/15/15秒"
+            "label": "Resonance Liberation DMG Bonus",
+            "excerpt": "Resonance Liberation DMG Bonus +10.8%",
+            "conditionText": "Casting Resonance Liberation increases ATK by 7.2%/11.1%/15.1%/19%/23% and grants 10.8%/16.7%/22.6%/28.6%/34.5% Resonance Liberation DMG Bonus for 15/15/15/15/15s."
           },
           {
-            "label": "攻击",
-            "conditionText": "施放共鸣解放时，攻击提升7.2%/11.1%/15.1%/19%/23%，共鸣解放伤害加成提升10.8%/16.7%/22.6%/28.6%/34.5%，持续15/15/15/15/15秒"
+            "label": "ATK",
+            "excerpt": "ATK +7.2%",
+            "conditionText": "Casting Resonance Liberation increases ATK by 7.2%/11.1%/15.1%/19%/23% and grants 10.8%/16.7%/22.6%/28.6%/34.5% Resonance Liberation DMG Bonus for 15/15/15/15/15s."
           }
         ]
       },
       "solar_flame": {
         "name": "Solar Flame",
         "typeName": "Pistols",
-        "resonanceName": "狩潮之誓",
-        "description": "造成普攻或重击伤害时，攻击和重击伤害加成提升2.2%/3.4%/4.7%/5.9%/7.2%，可叠加4/4/4/4层，持续7/7/7/7/7秒，每1/1/1/1/1秒可触发1/1/1/1/1次。",
+        "resonanceName": "Oath of Tide Hunters",
+        "description": "Dealing Basic Attack or Heavy Attack DMG increases ATK by 2.2%/3.4%/4.7%/5.9%/7.2% and grants 2.2%/3.4%/4.7%/5.9%/7.2% Heavy Attack DMG Bonus for 7/7/7/7/7s, stacking up to 4/4/4/4 times. This effect can be triggered 1/1/1/1/1 {Cus:Sap,S=time P=times SapTag=4} every 1/1/1/1/1s.",
         "effects": [
           {
-            "label": "重击伤害加成",
-            "conditionText": "造成普攻或重击伤害时，攻击和重击伤害加成提升2.2%/3.4%/4.7%/5.9%/7.2%，可叠加4/4/4/4层，持续7/7/7/7/7秒，每1/1/1/1/1秒可触发1/1/1/1/1次"
+            "label": "Heavy Attack DMG Bonus",
+            "excerpt": "Heavy Attack DMG Bonus +8.8% per stack",
+            "conditionText": "Dealing Basic Attack or Heavy Attack DMG increases ATK by 2.2%/3.4%/4.7%/5.9%/7.2% and grants 2.2%/3.4%/4.7%/5.9%/7.2% Heavy Attack DMG Bonus for 7/7/7/7/7s, stacking up to 4/4/4/4 times. This effect can be triggered 1/1/1/1/1 {Cus:Sap,S=time P=times SapTag=4} every 1/1/1/1/1s."
           },
           {
-            "label": "攻击",
-            "conditionText": "造成普攻或重击伤害时，攻击和重击伤害加成提升2.2%/3.4%/4.7%/5.9%/7.2%，可叠加4/4/4/4层，持续7/7/7/7/7秒，每1/1/1/1/1秒可触发1/1/1/1/1次"
+            "label": "ATK",
+            "excerpt": "ATK +8.8% per stack",
+            "conditionText": "Dealing Basic Attack or Heavy Attack DMG increases ATK by 2.2%/3.4%/4.7%/5.9%/7.2% and grants 2.2%/3.4%/4.7%/5.9%/7.2% Heavy Attack DMG Bonus for 7/7/7/7/7s, stacking up to 4/4/4/4 times. This effect can be triggered 1/1/1/1/1 {Cus:Sap,S=time P=times SapTag=4} every 1/1/1/1/1s."
           }
         ]
       },
       "aether_strike": {
         "name": "Aether Strike",
         "typeName": "Gauntlets",
-        "resonanceName": "狩潮之誓",
-        "description": "施放共鸣解放时，攻击提升7.2%/11.1%/15.1%/19%/23%，共鸣解放伤害加成提升10.8%/16.7%/22.6%/28.6%/34.5%，持续15/15/15/15/15秒。",
+        "resonanceName": "Oath of Tide Hunters",
+        "description": "Casting Resonance Liberation increases ATK by 7.2%/11.1%/15.1%/19%/23% and grants 10.8%/16.7%/22.6%/28.6%/34.5% Resonance Liberation DMG Bonus for 15/15/15/15/15s.",
         "effects": [
           {
-            "label": "共鸣解放伤害加成",
-            "conditionText": "施放共鸣解放时，攻击提升7.2%/11.1%/15.1%/19%/23%，共鸣解放伤害加成提升10.8%/16.7%/22.6%/28.6%/34.5%，持续15/15/15/15/15秒"
+            "label": "Resonance Liberation DMG Bonus",
+            "excerpt": "Resonance Liberation DMG Bonus +10.8%",
+            "conditionText": "Casting Resonance Liberation increases ATK by 7.2%/11.1%/15.1%/19%/23% and grants 10.8%/16.7%/22.6%/28.6%/34.5% Resonance Liberation DMG Bonus for 15/15/15/15/15s."
           },
           {
-            "label": "攻击",
-            "conditionText": "施放共鸣解放时，攻击提升7.2%/11.1%/15.1%/19%/23%，共鸣解放伤害加成提升10.8%/16.7%/22.6%/28.6%/34.5%，持续15/15/15/15/15秒"
+            "label": "ATK",
+            "excerpt": "ATK +7.2%",
+            "conditionText": "Casting Resonance Liberation increases ATK by 7.2%/11.1%/15.1%/19%/23% and grants 10.8%/16.7%/22.6%/28.6%/34.5% Resonance Liberation DMG Bonus for 15/15/15/15/15s."
           }
         ]
       },
       "radiant_dawn": {
         "name": "Radiant Dawn",
         "typeName": "Rectifier",
-        "resonanceName": "狩潮之誓",
-        "description": "施放共鸣技能时，攻击和普攻伤害加成提升9%/13.9%/18.9%/23.8%/28.8%，持续10/10/10/10/10秒。",
+        "resonanceName": "Oath of Tide Hunters",
+        "description": "Casting Resonance Skill increases ATK by 9%/13.9%/18.9%/23.8%/28.8% and grants 9%/13.9%/18.9%/23.8%/28.8% Basic Attack DMG Bonus for 10/10/10/10/10s.",
         "effects": [
           {
-            "label": "普攻伤害加成",
-            "conditionText": "施放共鸣技能时，攻击和普攻伤害加成提升9%/13.9%/18.9%/23.8%/28.8%，持续10/10/10/10/10秒"
+            "label": "Basic Attack DMG Bonus",
+            "excerpt": "Basic Attack DMG Bonus +9%",
+            "conditionText": "Casting Resonance Skill increases ATK by 9%/13.9%/18.9%/23.8%/28.8% and grants 9%/13.9%/18.9%/23.8%/28.8% Basic Attack DMG Bonus for 10/10/10/10/10s."
           },
           {
-            "label": "攻击",
-            "conditionText": "施放共鸣技能时，攻击和普攻伤害加成提升9%/13.9%/18.9%/23.8%/28.8%，持续10/10/10/10/10秒"
+            "label": "ATK",
+            "excerpt": "ATK +9%",
+            "conditionText": "Casting Resonance Skill increases ATK by 9%/13.9%/18.9%/23.8%/28.8% and grants 9%/13.9%/18.9%/23.8%/28.8% Basic Attack DMG Bonus for 10/10/10/10/10s."
           }
         ]
       },
       "lux_and_umbra": {
         "name": "Lux & Umbra",
         "typeName": "Pistols",
-        "resonanceName": "复归于火",
-        "description": "攻击提升12%/15%/18%/21%/24%。造成声骸技能伤害时，重击伤害加深24%/30%/36%/42%/48%，持续6/6/6/6/6秒；造成重击伤害时，声骸技能伤害加深24%/30%/36%/42%/48%，持续6/6/6/6/6秒；单次攻击最多享受24%/30%/36%/42%/48%伤害加深。同时拥有两种效果时，造成伤害时无视目标8%/10%/12%/14%/16%防御。",
+        "resonanceName": "To Fire She Returns",
+        "description": "ATK is increased by 12%/15%/18%/21%/24%. Upon dealing Echo Skill DMG, gain 24%/30%/36%/42%/48% Heavy Attack DMG Amplification for 6/6/6/6/6s. Upon dealing Heavy Attack DMG, gain 24%/30%/36%/42%/48% Echo Skill DMG Amplification for 6/6/6/6/6s. DMG Amplification on each attack is capped at 24%/30%/36%/42%/48%. While both effects are active, dealing damage ignores 8%/10%/12%/14%/16% of the target's DEF.",
         "effects": [
           {
-            "label": "攻击",
-            "conditionText": "攻击提升12%/15%/18%/21%/24%"
+            "label": "ATK",
+            "excerpt": "ATK +12%",
+            "conditionText": "ATK is increased by 12%/15%/18%/21%/24%. Upon dealing Echo Skill DMG, gain 24%/30%/36%/42%/48% Heavy Attack DMG Amplification for 6/6/6/6/6s. Upon dealing Heavy Attack DMG, gain 24%/30%/36%/42%/48% Echo Skill DMG Amplification for 6/6/6/6/6s. DMG Amplification on each attack is capped at 24%/30%/36%/42%/48%. While both effects are active, dealing damage ignores 8%/10%/12%/14%/16% of the target's DEF."
           },
           {
-            "label": "重击伤害加深",
-            "trigger": "造成声骸技能伤害时",
-            "excerpt": "造成声骸技能伤害后，重击伤害加深24%/30%/36%/42%/48%",
-            "conditionText": "造成声骸技能伤害时，重击伤害加深24%/30%/36%/42%/48%，持续6/6/6/6/6秒。"
+            "label": "Heavy Attack DMG Increase",
+            "excerpt": "Heavy Attack DMG Increase +24%",
+            "conditionText": "ATK is increased by 12%/15%/18%/21%/24%. Upon dealing Echo Skill DMG, gain 24%/30%/36%/42%/48% Heavy Attack DMG Amplification for 6/6/6/6/6s. Upon dealing Heavy Attack DMG, gain 24%/30%/36%/42%/48% Echo Skill DMG Amplification for 6/6/6/6/6s. DMG Amplification on each attack is capped at 24%/30%/36%/42%/48%. While both effects are active, dealing damage ignores 8%/10%/12%/14%/16% of the target's DEF."
           },
           {
-            "label": "声骸技能伤害加深",
-            "trigger": "造成重击伤害时",
-            "excerpt": "造成重击伤害后，声骸技能伤害加深24%/30%/36%/42%/48%",
-            "conditionText": "造成重击伤害时，声骸技能伤害加深24%/30%/36%/42%/48%，持续6/6/6/6/6秒。"
+            "label": "Echo Skill DMG Increase",
+            "excerpt": "Echo Skill DMG Increase +24%",
+            "conditionText": "ATK is increased by 12%/15%/18%/21%/24%. Upon dealing Echo Skill DMG, gain 24%/30%/36%/42%/48% Heavy Attack DMG Amplification for 6/6/6/6/6s. Upon dealing Heavy Attack DMG, gain 24%/30%/36%/42%/48% Echo Skill DMG Amplification for 6/6/6/6/6s. DMG Amplification on each attack is capped at 24%/30%/36%/42%/48%. While both effects are active, dealing damage ignores 8%/10%/12%/14%/16% of the target's DEF."
           },
           {
-            "label": "防御无视",
-            "trigger": "同时拥有两种效果时",
-            "excerpt": "同时拥有重击与声骸技能加深效果时，造成伤害无视目标8%/10%/12%/14%/16%防御",
-            "conditionText": "同时拥有两种效果时，造成伤害时无视目标8%/10%/12%/14%/16%防御。"
+            "label": "DEF Ignore",
+            "excerpt": "DEF Ignore +8%",
+            "conditionText": "ATK is increased by 12%/15%/18%/21%/24%. Upon dealing Echo Skill DMG, gain 24%/30%/36%/42%/48% Heavy Attack DMG Amplification for 6/6/6/6/6s. Upon dealing Heavy Attack DMG, gain 24%/30%/36%/42%/48% Echo Skill DMG Amplification for 6/6/6/6/6s. DMG Amplification on each attack is capped at 24%/30%/36%/42%/48%. While both effects are active, dealing damage ignores 8%/10%/12%/14%/16% of the target's DEF."
           }
         ]
       },
       "emerald_sentence": {
         "name": "Emerald Sentence",
         "typeName": "Sword",
-        "resonanceName": "人定",
-        "description": "攻击提升12%/15%/18%/21%/24%。施放变奏技能或普攻后10/10/10/10/10秒内，施放声骸技能时，获得1层【解竹】，重击伤害加成提升30/37.5/45/52.5/60%，同名声骸只可触发一次，最多可叠加2层，持续12/12/12/12/12秒，叠加至2层后施放声骸技能不刷新持续时间。该效果10/10/10/10/10秒内最多生效1次，若切换至其他角色则该效果提前结束。\n施放变奏技能时，队伍中的角色声骸技能伤害加成提升20%/25%/30%/35%/40%，持续30/30/30/30/30秒，同名效果之间不可叠加。",
+        "resonanceName": "When A Heart Settles",
+        "description": "ATK is increased by 12%/15%/18%/21%/24%. Casting Echo Skill within 10/10/10/10/10s after casting Intro Skill or Basic Attack grants 1 stack of Bamboo Cleaver, which grants 30/37.5/45/52.5/60% Heavy Attack DMG Bonus to the wielder. This effect can be triggered by Echoes of the same name once only, stacking up to 2 times, lasting for 12/12/12/12/12s. Casting Echo Skill at max stacks does not reset the duration. This effect can be triggered once every 10/10/10/10/10s and ends early if the wielder is switched off the field.\nCasting Intro Skill grants 20%/25%/30%/35%/40% Echo Skill DMG Bonus to all Resonators in the team for 30/30/30/30/30s. Effects of the same name cannot be stacked.",
         "effects": [
           {
-            "label": "攻击",
-            "conditionText": "攻击提升12%/15%/18%/21%/24%"
+            "label": "ATK",
+            "excerpt": "ATK +12%",
+            "conditionText": "ATK is increased by 12%/15%/18%/21%/24%. Casting Echo Skill within 10/10/10/10/10s after casting Intro Skill or Basic Attack grants 1 stack of Bamboo Cleaver, which grants 30/37.5/45/52.5/60% Heavy Attack DMG Bonus to the wielder. This effect can be triggered by Echoes of the same name once only, stacking up to 2 times, lasting for 12/12/12/12/12s. Casting Echo Skill at max stacks does not reset the duration. This effect can be triggered once every 10/10/10/10/10s and ends early if the wielder is switched off the field.\nCasting Intro Skill grants 20%/25%/30%/35%/40% Echo Skill DMG Bonus to all Resonators in the team for 30/30/30/30/30s. Effects of the same name cannot be stacked."
           },
           {
-            "label": "重击伤害加成",
-            "trigger": "获得解竹时",
-            "excerpt": "获得解竹时，重击伤害加成每层提升30%/37.5%/45%/52.5%/60%",
-            "conditionText": "施放变奏技能或普攻后10/10/10/10/10秒内，施放声骸技能时，获得1层【解竹】，重击伤害加成提升30%/37.5%/45%/52.5%/60%，同名声骸只可触发一次，最多可叠加2层，持续12/12/12/12/12秒，叠加至2层后施放声骸技能不刷新持续时间。"
+            "label": "Heavy Attack DMG Bonus",
+            "excerpt": "Heavy Attack DMG Bonus +60% per stack",
+            "conditionText": "ATK is increased by 12%/15%/18%/21%/24%. Casting Echo Skill within 10/10/10/10/10s after casting Intro Skill or Basic Attack grants 1 stack of Bamboo Cleaver, which grants 30/37.5/45/52.5/60% Heavy Attack DMG Bonus to the wielder. This effect can be triggered by Echoes of the same name once only, stacking up to 2 times, lasting for 12/12/12/12/12s. Casting Echo Skill at max stacks does not reset the duration. This effect can be triggered once every 10/10/10/10/10s and ends early if the wielder is switched off the field.\nCasting Intro Skill grants 20%/25%/30%/35%/40% Echo Skill DMG Bonus to all Resonators in the team for 30/30/30/30/30s. Effects of the same name cannot be stacked."
           },
           {
-            "label": "声骸技能伤害加成",
-            "trigger": "施放变奏技能时",
-            "excerpt": "施放变奏技能时，队伍中的角色声骸技能伤害加成提升20%/25%/30%/35%/40%",
-            "conditionText": "施放变奏技能时，队伍中的角色声骸技能伤害加成提升20%/25%/30%/35%/40%，持续30/30/30/30/30秒，同名效果之间不可叠加。"
+            "label": "Echo Skill DMG Bonus",
+            "excerpt": "Echo Skill DMG Bonus +20%",
+            "conditionText": "ATK is increased by 12%/15%/18%/21%/24%. Casting Echo Skill within 10/10/10/10/10s after casting Intro Skill or Basic Attack grants 1 stack of Bamboo Cleaver, which grants 30/37.5/45/52.5/60% Heavy Attack DMG Bonus to the wielder. This effect can be triggered by Echoes of the same name once only, stacking up to 2 times, lasting for 12/12/12/12/12s. Casting Echo Skill at max stacks does not reset the duration. This effect can be triggered once every 10/10/10/10/10s and ends early if the wielder is switched off the field.\nCasting Intro Skill grants 20%/25%/30%/35%/40% Echo Skill DMG Bonus to all Resonators in the team for 30/30/30/30/30s. Effects of the same name cannot be stacked."
           }
         ]
       },
       "kumokiri": {
         "name": "Kumokiri",
         "typeName": "Broadblade",
-        "resonanceName": "命弦",
-        "description": "攻击提升12%/15%/18%/21%/24%。施放变奏技能或附加【异常效应】时，自身共鸣解放伤害加成提升8%/10%/12%/14%/16%，可叠加3/3/3/3/3层，持续15/15/15/15/15秒。\n该效果叠加至满层时，队伍中的角色附加【异常效应】时，该角色全属性伤害加成提升24%/30%/36%/42%/48%，持续15/15/15/15/15秒，同名效果之间不可叠加。",
+        "resonanceName": "Thread of Fate",
+        "description": "ATK is increased by 12%/15%/18%/21%/24%. When the wielder casts Intro Skill or inflicts Negative Statuses, they gain 8%/10%/12%/14%/16% Resonance Liberation DMG Bonus, stacking up to 3/3/3/3/3 times for 15/15/15/15/15s.\nAt max stacks, when Resonators in the team inflict Negative Statuses, they gain 24%/30%/36%/42%/48% All-Attribute DMG Bonus for 15/15/15/15/15s. Effects of the same name cannot be stacked.",
         "effects": [
           {
-            "label": "攻击",
-            "conditionText": "攻击提升12%/15%/18%/21%/24%"
+            "label": "ATK",
+            "excerpt": "ATK +12%",
+            "conditionText": "ATK is increased by 12%/15%/18%/21%/24%. When the wielder casts Intro Skill or inflicts Negative Statuses, they gain 8%/10%/12%/14%/16% Resonance Liberation DMG Bonus, stacking up to 3/3/3/3/3 times for 15/15/15/15/15s.\nAt max stacks, when Resonators in the team inflict Negative Statuses, they gain 24%/30%/36%/42%/48% All-Attribute DMG Bonus for 15/15/15/15/15s. Effects of the same name cannot be stacked."
           },
           {
-            "label": "共鸣解放伤害加成",
-            "conditionText": "施放变奏技能或附加【异常效应】时，自身共鸣解放伤害加成提升8%/10%/12%/14%/16%，可叠加3/3/3/3/3层，持续15/15/15/15/15秒"
+            "label": "Resonance Liberation DMG Bonus",
+            "excerpt": "Resonance Liberation DMG Bonus +24% per stack",
+            "conditionText": "ATK is increased by 12%/15%/18%/21%/24%. When the wielder casts Intro Skill or inflicts Negative Statuses, they gain 8%/10%/12%/14%/16% Resonance Liberation DMG Bonus, stacking up to 3/3/3/3/3 times for 15/15/15/15/15s.\nAt max stacks, when Resonators in the team inflict Negative Statuses, they gain 24%/30%/36%/42%/48% All-Attribute DMG Bonus for 15/15/15/15/15s. Effects of the same name cannot be stacked."
           },
           {
-            "label": "全属性伤害加成",
-            "conditionText": "该效果叠加至满层时，队伍中的角色附加【异常效应】时，该角色全属性伤害加成提升24%/30%/36%/42%/48%，持续15/15/15/15/15秒，同名效果之间不可叠加"
+            "label": "All-Attribute DMG Bonus",
+            "excerpt": "All-Attribute DMG Bonus +24%",
+            "conditionText": "ATK is increased by 12%/15%/18%/21%/24%. When the wielder casts Intro Skill or inflicts Negative Statuses, they gain 8%/10%/12%/14%/16% Resonance Liberation DMG Bonus, stacking up to 3/3/3/3/3 times for 15/15/15/15/15s.\nAt max stacks, when Resonators in the team inflict Negative Statuses, they gain 24%/30%/36%/42%/48% All-Attribute DMG Bonus for 15/15/15/15/15s. Effects of the same name cannot be stacked."
           }
         ]
       },
       "spectrum_blaster": {
         "name": "Spectrum Blaster",
         "typeName": "Pistols",
-        "resonanceName": "考勤豁免协议",
-        "description": "攻击提升12%/15%/18%/21%/24%。施放变奏技能或普攻伤害命中时，使自身普攻伤害加成提升36%/45%/54%/63%/72%，持续4/4/4/4/4秒。每次自身施放普攻技能期间为目标附加【震谐·偏移】或【集谐·偏移】时，使队伍中的角色造成的伤害提升8%/10%/12%/14%/16%，最多叠加3/3/3/3/3层，持续30/30/30/30/30秒，同名效果之间不可叠加。",
+        "resonanceName": "Attendance Exemption Protocol",
+        "description": "Increases ATK by 12%/15%/18%/21%/24%. Casting Intro Skill or dealing Basic Attack DMG to targets increases the wielder's Basic Attack DMG Bonus by 36%/45%/54%/63%/72% for 4/4/4/4/4s. Each time the wielder inflicts Tune Rupture - Shifting or Tune Strain - Shifting during Basic Attacks, all DMG dealt by Resonators in the team is increased by 8%/10%/12%/14%/16% for 30/30/30/30/30s, up to 3/3/3/3/3 stacks. Effects of the same name cannot be stacked.",
         "effects": [
           {
-            "label": "攻击",
-            "conditionText": "攻击提升12%/15%/18%/21%/24%"
+            "label": "ATK",
+            "excerpt": "ATK +12%",
+            "conditionText": "Increases ATK by 12%/15%/18%/21%/24%. Casting Intro Skill or dealing Basic Attack DMG to targets increases the wielder's Basic Attack DMG Bonus by 36%/45%/54%/63%/72% for 4/4/4/4/4s. Each time the wielder inflicts Tune Rupture - Shifting or Tune Strain - Shifting during Basic Attacks, all DMG dealt by Resonators in the team is increased by 8%/10%/12%/14%/16% for 30/30/30/30/30s, up to 3/3/3/3/3 stacks. Effects of the same name cannot be stacked."
           },
           {
-            "label": "普攻伤害加成",
-            "conditionText": "施放变奏技能或普攻伤害命中时，使自身普攻伤害加成提升36%/45%/54%/63%/72%，持续4/4/4/4/4秒"
+            "label": "Basic Attack DMG Bonus",
+            "excerpt": "Basic Attack DMG Bonus +36%",
+            "conditionText": "Increases ATK by 12%/15%/18%/21%/24%. Casting Intro Skill or dealing Basic Attack DMG to targets increases the wielder's Basic Attack DMG Bonus by 36%/45%/54%/63%/72% for 4/4/4/4/4s. Each time the wielder inflicts Tune Rupture - Shifting or Tune Strain - Shifting during Basic Attacks, all DMG dealt by Resonators in the team is increased by 8%/10%/12%/14%/16% for 30/30/30/30/30s, up to 3/3/3/3/3 stacks. Effects of the same name cannot be stacked."
           },
           {
-            "label": "最终伤害提升",
-            "excerpt": "普攻期间附加震谐或集谐偏移后，队伍造成的伤害提升8%/10%/12%/14%/16%",
-            "conditionText": "每次自身施放普攻技能期间为目标附加【震谐·偏移】或【集谐·偏移】时，使队伍中的角色造成的伤害提升8%/10%/12%/14%/16%，最多叠加3/3/3/3/3层，持续30/30/30/30/30秒，同名效果之间不可叠加"
+            "label": "Final DMG Bonus",
+            "excerpt": "Final DMG Bonus +24% per stack",
+            "conditionText": "Increases ATK by 12%/15%/18%/21%/24%. Casting Intro Skill or dealing Basic Attack DMG to targets increases the wielder's Basic Attack DMG Bonus by 36%/45%/54%/63%/72% for 4/4/4/4/4s. Each time the wielder inflicts Tune Rupture - Shifting or Tune Strain - Shifting during Basic Attacks, all DMG dealt by Resonators in the team is increased by 8%/10%/12%/14%/16% for 30/30/30/30/30s, up to 3/3/3/3/3 stacks. Effects of the same name cannot be stacked."
           }
         ]
       },
       "starfield_calibrator": {
         "name": "Starfield Calibrator",
         "typeName": "Broadblade",
-        "resonanceName": "定解",
-        "description": "防御提升16%/20%/24%/28%/32%。施放共鸣技能时，回复自身8/10/12/14/16点协奏能量，每20/20/20/20/20秒可触发1/1/1/1/1次。造成治疗时，使附近队伍中所有角色的暴击伤害提升20%/25%/30%/35%/40%，持续4/4/4/4/4秒，同名效果之间不可叠加。",
+        "resonanceName": "Definite Solution",
+        "description": "Increases DEF by 16%/20%/24%/28%/32%. Casting Resonance Skill restores 8/10/12/14/16 points of Concerto Energy. This effect can be triggered 1/1/1/1/1 {Cus:Sap,S=time P=times SapTag=3} every 20/20/20/20/20s. When the wielder heals Resonators, increases Crit. DMG of all nearby Resonators in the team by 20%/25%/30%/35%/40% for 4/4/4/4/4s. Effects of the same name cannot be stacked.",
         "effects": [
           {
-            "label": "暴击伤害",
-            "conditionText": "造成治疗时，使附近队伍中所有角色的暴击伤害提升20%/25%/30%/35%/40%，持续4/4/4/4/4秒，同名效果之间不可叠加"
+            "label": "Crit. DMG",
+            "excerpt": "Crit. DMG +20%",
+            "conditionText": "Increases DEF by 16%/20%/24%/28%/32%. Casting Resonance Skill restores 8/10/12/14/16 points of Concerto Energy. This effect can be triggered 1/1/1/1/1 {Cus:Sap,S=time P=times SapTag=3} every 20/20/20/20/20s. When the wielder heals Resonators, increases Crit. DMG of all nearby Resonators in the team by 20%/25%/30%/35%/40% for 4/4/4/4/4s. Effects of the same name cannot be stacked."
           },
           {
-            "label": "防御",
-            "conditionText": "防御提升16%/20%/24%/28%/32%"
+            "label": "DEF",
+            "excerpt": "DEF +16%",
+            "conditionText": "Increases DEF by 16%/20%/24%/28%/32%. Casting Resonance Skill restores 8/10/12/14/16 points of Concerto Energy. This effect can be triggered 1/1/1/1/1 {Cus:Sap,S=time P=times SapTag=3} every 20/20/20/20/20s. When the wielder heals Resonators, increases Crit. DMG of all nearby Resonators in the team by 20%/25%/30%/35%/40% for 4/4/4/4/4s. Effects of the same name cannot be stacked."
           }
         ]
       },
       "radiance_cleaver": {
         "name": "Radiance Cleaver",
         "typeName": "Broadblade",
-        "resonanceName": "拓界者",
-        "description": "攻击提升12%/15%/18%/21%/24%。对处于【集谐·干涉】状态的敌人造成伤害后，共鸣解放伤害加成提升24%/27%/30%/33%/36%，持续3/3/3/3/3秒，重复触发时刷新持续时间。",
+        "resonanceName": "Edge Breaker",
+        "description": "Increases ATK by 12%/15%/18%/21%/24%. Dealing damage to targets under Tune Strain - Interfered grants 24%/27%/30%/33%/36% Resonance Liberation Bonus for 3/3/3/3/3s. Retriggering the effect resets its duration.",
         "effects": [
           {
-            "label": "攻击",
-            "conditionText": "攻击提升12%/15%/18%/21%/24%"
+            "label": "ATK",
+            "excerpt": "ATK +12%",
+            "conditionText": "Increases ATK by 12%/15%/18%/21%/24%. Dealing damage to targets under Tune Strain - Interfered grants 24%/27%/30%/33%/36% Resonance Liberation Bonus for 3/3/3/3/3s. Retriggering the effect resets its duration."
           },
           {
-            "label": "共鸣解放伤害加成",
-            "excerpt": "攻击集谐·干涉目标后，共鸣解放伤害加成提升24%/27%/30%/33%/36%",
-            "conditionText": "对处于【集谐·干涉】状态的敌人造成伤害后，共鸣解放伤害加成提升24%/27%/30%/33%/36%，持续3/3/3/3/3秒，重复触发时刷新持续时间"
+            "label": "Resonance Liberation DMG Bonus",
+            "excerpt": "Resonance Liberation DMG Bonus +24%",
+            "conditionText": "Increases ATK by 12%/15%/18%/21%/24%. Dealing damage to targets under Tune Strain - Interfered grants 24%/27%/30%/33%/36% Resonance Liberation Bonus for 3/3/3/3/3s. Retriggering the effect resets its duration."
           }
         ]
       },
       "laser_shearer": {
         "name": "Laser Shearer",
         "typeName": "Sword",
-        "resonanceName": "先觉者",
-        "description": "攻击提升12%/15%/18%/21%/24%。对处于【集谐·干涉】状态的敌人造成伤害后，共鸣技能伤害加成提升24%/27%/30%/33%/36%，持续3/3/3/3/3秒，重复触发时刷新持续时间。",
+        "resonanceName": "Signal Catcher",
+        "description": "Increases ATK by 12%/15%/18%/21%/24%. Dealing damage to targets under Tune Strain - Interfered grants 24%/27%/30%/33%/36% Resonance Skill Bonus for 3/3/3/3/3s. Retriggering the effect resets its duration.",
         "effects": [
           {
-            "label": "攻击",
-            "conditionText": "攻击提升12%/15%/18%/21%/24%"
+            "label": "ATK",
+            "excerpt": "ATK +12%",
+            "conditionText": "Increases ATK by 12%/15%/18%/21%/24%. Dealing damage to targets under Tune Strain - Interfered grants 24%/27%/30%/33%/36% Resonance Skill Bonus for 3/3/3/3/3s. Retriggering the effect resets its duration."
           },
           {
-            "label": "共鸣技能伤害加成",
-            "excerpt": "攻击集谐·干涉目标后，共鸣技能伤害加成提升24%/27%/30%/33%/36%",
-            "conditionText": "对处于【集谐·干涉】状态的敌人造成伤害后，共鸣技能伤害加成提升24%/27%/30%/33%/36%，持续3/3/3/3/3秒，重复触发时刷新持续时间"
+            "label": "Resonance Skill DMG Bonus",
+            "excerpt": "Resonance Skill DMG Bonus +24%",
+            "conditionText": "Increases ATK by 12%/15%/18%/21%/24%. Dealing damage to targets under Tune Strain - Interfered grants 24%/27%/30%/33%/36% Resonance Skill Bonus for 3/3/3/3/3s. Retriggering the effect resets its duration."
           }
         ]
       },
       "phasic_homogenizer": {
         "name": "Phasic Homogenizer",
         "typeName": "Pistols",
-        "resonanceName": "洞见者",
-        "description": "攻击提升12%/15%/18%/21%/24%。队伍中的角色施放【谐度破坏技】后，自身全属性伤害加成提升20%/22.5%/25%/27.5%/30%，持续14/14/14/14/14秒。",
+        "resonanceName": "Insight Bearer",
+        "description": "Increases ATK by 12%/15%/18%/21%/24%. After a Resonator in the team casts a Tune Break skill, it grants 20%/22.5%/25%/27.5%/30% All-Attribute DMG Bonus to the wielder for 14/14/14/14/14s.",
         "effects": [
           {
-            "label": "攻击",
-            "conditionText": "攻击提升12%/15%/18%/21%/24%"
+            "label": "ATK",
+            "excerpt": "ATK +12%",
+            "conditionText": "Increases ATK by 12%/15%/18%/21%/24%. After a Resonator in the team casts a Tune Break skill, it grants 20%/22.5%/25%/27.5%/30% All-Attribute DMG Bonus to the wielder for 14/14/14/14/14s."
           },
           {
-            "label": "全属性伤害加成",
-            "conditionText": "队伍中的角色施放【谐度破坏技】后，自身全属性伤害加成提升20%/22.5%/25%/27.5%/30%，持续14/14/14/14/14秒"
+            "label": "All-Attribute DMG Bonus",
+            "excerpt": "All-Attribute DMG Bonus +20%",
+            "conditionText": "Increases ATK by 12%/15%/18%/21%/24%. After a Resonator in the team casts a Tune Break skill, it grants 20%/22.5%/25%/27.5%/30% All-Attribute DMG Bonus to the wielder for 14/14/14/14/14s."
           }
         ]
       },
       "pulsation_bracer": {
         "name": "Pulsation Bracer",
         "typeName": "Gauntlets",
-        "resonanceName": "攻关者",
-        "description": "攻击提升12%/15%/18%/21%/24%。对处于【集谐·干涉】状态的敌人造成伤害后，普攻伤害加成提升6%/6.7%/7.5%/8.2%/9%，持续3/3/3/3/3秒，可叠加4/4/4/4/4层，每0.5/0.5/0.5/0.5/0.5秒触发1/1/1/1/1次，重复触发时刷新持续时间。",
+        "resonanceName": "Barrier Breacher",
+        "description": "Increases ATK by 12%/15%/18%/21%/24%. Dealing damage to targets under Tune Strain - Interfered grants 6%/6.7%/7.5%/8.2%/9% Basic Attack DMG Bonus for 3/3/3/3/3s, stacking up to 4/4/4/4/4 times. This effect can be triggered 1/1/1/1/1 {Cus:Sap,S=time P=times SapTag=5} every 0.5/0.5/0.5/0.5/0.5s. Retriggering the effect resets its duration.",
         "effects": [
           {
-            "label": "攻击",
-            "conditionText": "攻击提升12%/15%/18%/21%/24%"
+            "label": "ATK",
+            "excerpt": "ATK +12%",
+            "conditionText": "Increases ATK by 12%/15%/18%/21%/24%. Dealing damage to targets under Tune Strain - Interfered grants 6%/6.7%/7.5%/8.2%/9% Basic Attack DMG Bonus for 3/3/3/3/3s, stacking up to 4/4/4/4/4 times. This effect can be triggered 1/1/1/1/1 {Cus:Sap,S=time P=times SapTag=5} every 0.5/0.5/0.5/0.5/0.5s. Retriggering the effect resets its duration."
           },
           {
-            "label": "普攻伤害加成",
-            "excerpt": "攻击集谐·干涉目标后，普攻伤害加成提升6%/6.7%/7.5%/8.2%/9%",
-            "conditionText": "对处于【集谐·干涉】状态的敌人造成伤害后，普攻伤害加成提升6%/6.7%/7.5%/8.2%/9%，持续3/3/3/3/3秒，可叠加4/4/4/4/4层，每0.5/0.5/0.5/0.5/0.5秒触发1/1/1/1/1次，重复触发时刷新持续时间"
+            "label": "Basic Attack DMG Bonus",
+            "excerpt": "Basic Attack DMG Bonus +24% per stack",
+            "conditionText": "Increases ATK by 12%/15%/18%/21%/24%. Dealing damage to targets under Tune Strain - Interfered grants 6%/6.7%/7.5%/8.2%/9% Basic Attack DMG Bonus for 3/3/3/3/3s, stacking up to 4/4/4/4/4 times. This effect can be triggered 1/1/1/1/1 {Cus:Sap,S=time P=times SapTag=5} every 0.5/0.5/0.5/0.5/0.5s. Retriggering the effect resets its duration."
           }
         ]
       },
       "boson_astrolabe": {
         "name": "Boson Astrolabe",
         "typeName": "Rectifier",
-        "resonanceName": "观测者",
-        "description": "攻击提升12%/15%/18%/21%/24%。队伍中的角色施放【谐度破坏技】后，自身攻击提升12%/13.5%/15%/16.5%/18%，普攻伤害加成提升12%/13.5%/15%/16.5%/18%，持续14/14/14/14/14秒。",
+        "resonanceName": "Path Observer",
+        "description": "Increases ATK by 12%/15%/18%/21%/24%. After a Resonator in the team casts a Tune Break skill, it grants a 12%/13.5%/15%/16.5%/18% ATK increase and 12%/13.5%/15%/16.5%/18% Basic Attack DMG Bonus to the wielder for 14/14/14/14/14s.",
         "effects": [
           {
-            "label": "攻击",
-            "conditionText": "攻击提升12%/15%/18%/21%/24%"
+            "label": "ATK",
+            "excerpt": "ATK +12%",
+            "conditionText": "Increases ATK by 12%/15%/18%/21%/24%. After a Resonator in the team casts a Tune Break skill, it grants a 12%/13.5%/15%/16.5%/18% ATK increase and 12%/13.5%/15%/16.5%/18% Basic Attack DMG Bonus to the wielder for 14/14/14/14/14s."
           },
           {
-            "label": "普攻伤害加成",
-            "conditionText": "队伍中的角色施放【谐度破坏技】后，自身攻击提升12%/13.5%/15%/16.5%/18%，普攻伤害加成提升12%/13.5%/15%/16.5%/18%，持续14/14/14/14/14秒"
+            "label": "Basic Attack DMG Bonus",
+            "excerpt": "Basic Attack DMG Bonus +12%",
+            "conditionText": "Increases ATK by 12%/15%/18%/21%/24%. After a Resonator in the team casts a Tune Break skill, it grants a 12%/13.5%/15%/16.5%/18% ATK increase and 12%/13.5%/15%/16.5%/18% Basic Attack DMG Bonus to the wielder for 14/14/14/14/14s."
           },
           {
-            "label": "攻击",
-            "conditionText": "队伍中的角色施放【谐度破坏技】后，自身攻击提升12%/13.5%/15%/16.5%/18%，普攻伤害加成提升12%/13.5%/15%/16.5%/18%，持续14/14/14/14/14秒"
+            "label": "ATK",
+            "excerpt": "ATK +12%",
+            "conditionText": "Increases ATK by 12%/15%/18%/21%/24%. After a Resonator in the team casts a Tune Break skill, it grants a 12%/13.5%/15%/16.5%/18% ATK increase and 12%/13.5%/15%/16.5%/18% Basic Attack DMG Bonus to the wielder for 14/14/14/14/14s."
           }
         ]
       },
       "everbright_polestar": {
         "name": "Everbright Polestar",
         "typeName": "Sword",
-        "resonanceName": "逐星",
-        "description": "全属性伤害加成提升12%/15%/18%/21%/24%。附加震谐·偏移或聚爆效应时，共鸣解放伤害无视目标32%/40%/48%/56%/64%防御，共鸣解放伤害无视目标10%/15%/20%/25%/30%热熔抗性，持续8/8/8/8/8秒。",
+        "resonanceName": "Starchaser",
+        "description": "Increases All-Attribute DMG Bonus by 12%/15%/18%/21%/24%. When inflicting Tune Rupture - Shifting or Fusion Burst, the wielder's Resonance Liberation DMG ignores 32%/40%/48%/56%/64% DEF and 10%/15%/20%/25%/30% Fusion RES on targets for 8/8/8/8/8s.",
         "effects": [
           {
-            "label": "全属性伤害加成",
-            "conditionText": "全属性伤害加成提升12%/15%/18%/21%/24%"
+            "label": "All-Attribute DMG Bonus",
+            "excerpt": "All-Attribute DMG Bonus +12%",
+            "conditionText": "Increases All-Attribute DMG Bonus by 12%/15%/18%/21%/24%. When inflicting Tune Rupture - Shifting or Fusion Burst, the wielder's Resonance Liberation DMG ignores 32%/40%/48%/56%/64% DEF and 10%/15%/20%/25%/30% Fusion RES on targets for 8/8/8/8/8s."
           },
           {
-            "label": "防御无视",
-            "trigger": "附加震谐·偏移或聚爆效应时",
-            "excerpt": "附加震谐·偏移或聚爆效应时，共鸣解放伤害无视目标32%/40%/48%/56%/64%防御",
-            "conditionText": "附加震谐·偏移或聚爆效应时，共鸣解放伤害无视目标32%/40%/48%/56%/64%防御，持续8/8/8/8/8秒。"
+            "label": "DEF Ignore",
+            "excerpt": "DEF Ignore +32%",
+            "conditionText": "Increases All-Attribute DMG Bonus by 12%/15%/18%/21%/24%. When inflicting Tune Rupture - Shifting or Fusion Burst, the wielder's Resonance Liberation DMG ignores 32%/40%/48%/56%/64% DEF and 10%/15%/20%/25%/30% Fusion RES on targets for 8/8/8/8/8s."
           },
           {
-            "label": "热熔减抗",
-            "trigger": "附加震谐·偏移或聚爆效应时",
-            "excerpt": "附加震谐·偏移或聚爆效应时，共鸣解放伤害无视目标10%/15%/20%/25%/30%热熔抗性",
-            "conditionText": "附加震谐·偏移或聚爆效应时，共鸣解放伤害无视目标10%/15%/20%/25%/30%热熔抗性，持续8/8/8/8/8秒。"
+            "label": "RES Shred",
+            "excerpt": "RES Shred +10%",
+            "conditionText": "Increases All-Attribute DMG Bonus by 12%/15%/18%/21%/24%. When inflicting Tune Rupture - Shifting or Fusion Burst, the wielder's Resonance Liberation DMG ignores 32%/40%/48%/56%/64% DEF and 10%/15%/20%/25%/30% Fusion RES on targets for 8/8/8/8/8s."
           }
         ]
       },
       "daybreakers_spine": {
         "name": "Daybreaker's Spine",
         "typeName": "Gauntlets",
-        "resonanceName": "缝合晨昏",
-        "description": "攻击提升12%/15%/18%/21%/24%。造成普攻伤害后，衍射伤害加成提升20%/25%/30%/35%/40%，持续4/4/4/4/4秒。每次为敌方怪物附加【集谐·偏移】后，普攻伤害加深20%/25%/30%/35%/40%，且普攻伤害能无视目标10%/12.5%/15%/17.5%/20%防御，持续6/6/6/6/6秒。",
+        "resonanceName": "Suturing Dayline",
+        "description": "Increases ATK by 12%/15%/18%/21%/24%. After dealing Basic Attack DMG, the wielder gains 20%/25%/30%/35%/40% Spectro DMG Bonus for 4/4/4/4/4s. Each time after the wielder inflicts Tune Strain - Shifting on the target, they gain 20%/25%/30%/35%/40% Basic Attack DMG Amplification and their Basic Attack DMG ignores 10%/12.5%/15%/17.5%/20% of the target's DEF for 6/6/6/6/6s.",
         "effects": [
           {
-            "label": "攻击",
-            "conditionText": "攻击提升12%/15%/18%/21%/24%"
+            "label": "ATK",
+            "excerpt": "ATK +12%",
+            "conditionText": "Increases ATK by 12%/15%/18%/21%/24%. After dealing Basic Attack DMG, the wielder gains 20%/25%/30%/35%/40% Spectro DMG Bonus for 4/4/4/4/4s. Each time after the wielder inflicts Tune Strain - Shifting on the target, they gain 20%/25%/30%/35%/40% Basic Attack DMG Amplification and their Basic Attack DMG ignores 10%/12.5%/15%/17.5%/20% of the target's DEF for 6/6/6/6/6s."
           },
           {
-            "label": "衍射伤害加成",
-            "trigger": "造成普攻伤害后",
-            "excerpt": "造成普攻伤害后，衍射伤害加成提升20%/25%/30%/35%/40%",
-            "conditionText": "造成普攻伤害后，衍射伤害加成提升20%/25%/30%/35%/40%，持续4/4/4/4/4秒。"
+            "label": "Spectro DMG Bonus",
+            "excerpt": "Spectro DMG Bonus +20%",
+            "conditionText": "Increases ATK by 12%/15%/18%/21%/24%. After dealing Basic Attack DMG, the wielder gains 20%/25%/30%/35%/40% Spectro DMG Bonus for 4/4/4/4/4s. Each time after the wielder inflicts Tune Strain - Shifting on the target, they gain 20%/25%/30%/35%/40% Basic Attack DMG Amplification and their Basic Attack DMG ignores 10%/12.5%/15%/17.5%/20% of the target's DEF for 6/6/6/6/6s."
           },
           {
-            "label": "普攻伤害加深",
-            "trigger": "附加集谐·偏移后",
-            "excerpt": "附加集谐·偏移后，普攻伤害加深20%/25%/30%/35%/40%",
-            "conditionText": "每次为敌方怪物附加【集谐·偏移】后，普攻伤害加深20%/25%/30%/35%/40%，持续6/6/6/6/6秒。"
+            "label": "Basic Attack DMG Increase",
+            "excerpt": "Basic Attack DMG Increase +20%",
+            "conditionText": "Increases ATK by 12%/15%/18%/21%/24%. After dealing Basic Attack DMG, the wielder gains 20%/25%/30%/35%/40% Spectro DMG Bonus for 4/4/4/4/4s. Each time after the wielder inflicts Tune Strain - Shifting on the target, they gain 20%/25%/30%/35%/40% Basic Attack DMG Amplification and their Basic Attack DMG ignores 10%/12.5%/15%/17.5%/20% of the target's DEF for 6/6/6/6/6s."
           },
           {
-            "label": "普攻防御无视",
-            "trigger": "附加集谐·偏移后",
-            "excerpt": "附加集谐·偏移后，普攻伤害无视目标10%/12.5%/15%/17.5%/20%防御",
-            "conditionText": "每次为敌方怪物附加【集谐·偏移】后，普攻伤害能无视目标10%/12.5%/15%/17.5%/20%防御，持续6/6/6/6/6秒。"
+            "label": "DEF Ignore",
+            "excerpt": "DEF Ignore +10%",
+            "conditionText": "Increases ATK by 12%/15%/18%/21%/24%. After dealing Basic Attack DMG, the wielder gains 20%/25%/30%/35%/40% Spectro DMG Bonus for 4/4/4/4/4s. Each time after the wielder inflicts Tune Strain - Shifting on the target, they gain 20%/25%/30%/35%/40% Basic Attack DMG Amplification and their Basic Attack DMG ignores 10%/12.5%/15%/17.5%/20% of the target's DEF for 6/6/6/6/6s."
           }
         ]
       },
       "solsworn_ciphers": {
         "name": "Solsworn Ciphers",
         "typeName": "Gauntlets",
-        "resonanceName": "近日点",
-        "description": "攻击提升12%/15%/18%/21%/24%。施放变奏技能或声骸技能时，声骸技能伤害加深32%/40%/48%/56%/64%，持续15/15/15/15/15秒。造成声骸技能伤害时，气动伤害无视目标10%/12.5%/15%/17.5%/20%防御，持续6/6/6/6/6秒。",
+        "resonanceName": "Sunward",
+        "description": "Increases ATK by 12%/15%/18%/21%/24%. Casting Intro Skill or Echo Skill grants 32%/40%/48%/56%/64% Echo Skill DMG Amplification for 15/15/15/15/15s. When dealing Echo Skill DMG, Aero DMG ignores 10%/12.5%/15%/17.5%/20% of the target's DEF for 6/6/6/6/6s.",
         "effects": [
           {
-            "label": "攻击",
-            "conditionText": "攻击提升12%/15%/18%/21%/24%"
+            "label": "ATK",
+            "excerpt": "ATK +12%",
+            "conditionText": "Increases ATK by 12%/15%/18%/21%/24%. Casting Intro Skill or Echo Skill grants 32%/40%/48%/56%/64% Echo Skill DMG Amplification for 15/15/15/15/15s. When dealing Echo Skill DMG, Aero DMG ignores 10%/12.5%/15%/17.5%/20% of the target's DEF for 6/6/6/6/6s."
           },
           {
-            "label": "声骸技能伤害加深",
-            "trigger": "施放变奏技能或声骸技能时",
-            "excerpt": "施放变奏技能或声骸技能时，声骸技能伤害加深32%/40%/48%/56%/64%",
-            "conditionText": "施放变奏技能或声骸技能时，声骸技能伤害加深32%/40%/48%/56%/64%，持续15/15/15/15/15秒。"
+            "label": "Echo Skill DMG Increase",
+            "excerpt": "Echo Skill DMG Increase +32%",
+            "conditionText": "Increases ATK by 12%/15%/18%/21%/24%. Casting Intro Skill or Echo Skill grants 32%/40%/48%/56%/64% Echo Skill DMG Amplification for 15/15/15/15/15s. When dealing Echo Skill DMG, Aero DMG ignores 10%/12.5%/15%/17.5%/20% of the target's DEF for 6/6/6/6/6s."
           },
           {
-            "label": "气动防御无视",
-            "trigger": "造成声骸技能伤害时",
-            "excerpt": "造成声骸技能伤害后，气动伤害无视目标10%/12.5%/15%/17.5%/20%防御",
-            "conditionText": "造成声骸技能伤害时，气动伤害无视目标10%/12.5%/15%/17.5%/20%防御，持续6/6/6/6/6秒。"
+            "label": "DEF Ignore",
+            "excerpt": "DEF Ignore +10%",
+            "conditionText": "Increases ATK by 12%/15%/18%/21%/24%. Casting Intro Skill or Echo Skill grants 32%/40%/48%/56%/64% Echo Skill DMG Amplification for 15/15/15/15/15s. When dealing Echo Skill DMG, Aero DMG ignores 10%/12.5%/15%/17.5%/20% of the target's DEF for 6/6/6/6/6s."
           }
         ]
       },
       "forged_dwarf_star": {
         "name": "Forged Dwarf Star",
         "typeName": "Rectifier",
-        "resonanceName": "寂静",
-        "description": "攻击提升12%/15%/18%/21%/24%。附加聚爆效应或集谐·偏移后，共鸣解放伤害加成提升36%/45%/54%/63%/72%，持续5/5/5/5/5秒。该效果生效期间，队伍中的角色附加聚爆效应或集谐·偏移后，该角色攻击提升24%/30%/36%/42%/48%，持续15/15/15/15/15秒，同名效果之间不可叠加。",
+        "resonanceName": "Dissolution",
+        "description": "Increases ATK by 12%/15%/18%/21%/24%. After the wielder inflicts Fusion Burst or Tune Strain - Shifting on the target, their Resonance Liberation DMG Bonus is increased by 36%/45%/54%/63%/72% for 5/5/5/5/5s. While this effect lasts, after Resonators in the team inflict Fusion Burst or Tune Strain - Shifting, their ATK is increased by 24%/30%/36%/42%/48% for 15/15/15/15/15s. Effects of the same name cannot be stacked.",
         "effects": [
           {
-            "label": "攻击",
-            "conditionText": "攻击提升12%/15%/18%/21%/24%"
+            "label": "ATK",
+            "excerpt": "ATK +12%",
+            "conditionText": "Increases ATK by 12%/15%/18%/21%/24%. After the wielder inflicts Fusion Burst or Tune Strain - Shifting on the target, their Resonance Liberation DMG Bonus is increased by 36%/45%/54%/63%/72% for 5/5/5/5/5s. While this effect lasts, after Resonators in the team inflict Fusion Burst or Tune Strain - Shifting, their ATK is increased by 24%/30%/36%/42%/48% for 15/15/15/15/15s. Effects of the same name cannot be stacked."
           },
           {
-            "label": "共鸣解放伤害加成",
-            "conditionText": "附加聚爆效应或集谐·偏移后，共鸣解放伤害加成提升36%/45%/54%/63%/72%，持续5/5/5/5/5秒"
+            "label": "Resonance Liberation DMG Bonus",
+            "excerpt": "Resonance Liberation DMG Bonus +36%",
+            "conditionText": "Increases ATK by 12%/15%/18%/21%/24%. After the wielder inflicts Fusion Burst or Tune Strain - Shifting on the target, their Resonance Liberation DMG Bonus is increased by 36%/45%/54%/63%/72% for 5/5/5/5/5s. While this effect lasts, after Resonators in the team inflict Fusion Burst or Tune Strain - Shifting, their ATK is increased by 24%/30%/36%/42%/48% for 15/15/15/15/15s. Effects of the same name cannot be stacked."
           },
           {
-            "label": "攻击",
-            "excerpt": "附加聚爆效应或集谐·偏移后，攻击提升24%/30%/36%/42%/48%",
-            "conditionText": "该效果生效期间，队伍中的角色附加聚爆效应或集谐·偏移后，该角色攻击提升24%/30%/36%/42%/48%，持续15/15/15/15/15秒，同名效果之间不可叠加"
+            "label": "ATK",
+            "excerpt": "ATK +24%",
+            "conditionText": "Increases ATK by 12%/15%/18%/21%/24%. After the wielder inflicts Fusion Burst or Tune Strain - Shifting on the target, their Resonance Liberation DMG Bonus is increased by 36%/45%/54%/63%/72% for 5/5/5/5/5s. While this effect lasts, after Resonators in the team inflict Fusion Burst or Tune Strain - Shifting, their ATK is increased by 24%/30%/36%/42%/48% for 15/15/15/15/15s. Effects of the same name cannot be stacked."
           }
         ]
       },
       "frostburn": {
         "name": "Frostburn",
         "typeName": "Sword",
-        "resonanceName": "再无我",
-        "description": "攻击提升12%/15%/18%/21%/24%。自身附加霜渐效应后，冷凝伤害加深28%/35%/42%/49%/56%，且共鸣解放伤害无视目标10%/12.5%/15%/17.5%/20%的防御，且自身为队伍中登场角色时，一定范围内的目标受到霜渐效应伤害加深20%/25%/30%/35%/40%，持续6/6/6/6/6秒，每0.1/0.1/0.1/0.1/0.1秒可触发1/1/1/1/1次。同名效果之间取最高值。",
+        "resonanceName": "Self No More",
+        "description": "ATK is increased by 12%/15%/18%/21%/24%. After the wielder applies Glacio Chafe, Glacio DMG is Amplified by 28%/35%/42%/49%/56%, and Resonance Liberation DMG ignores 10%/12.5%/15%/17.5%/20% of the target's DEF. If the wielder is the active Resonator in the team, Glacio Chafe DMG dealt to all targets within a certain range is Amplified by 20%/25%/30%/35%/40% for 6/6/6/6/6s. This effect can be triggered up to 1/1/1/1/1 {Cus:Sap,S=time P=times SapTag=6} every 0.1/0.1/0.1/0.1/0.1s. Only the strongest effect of the same name applies.",
         "effects": [
           {
-            "label": "攻击",
-            "conditionText": "攻击提升12%/15%/18%/21%/24%"
+            "label": "ATK",
+            "excerpt": "ATK +12%",
+            "conditionText": "ATK is increased by 12%/15%/18%/21%/24%. After the wielder applies Glacio Chafe, Glacio DMG is Amplified by 28%/35%/42%/49%/56%, and Resonance Liberation DMG ignores 10%/12.5%/15%/17.5%/20% of the target's DEF. If the wielder is the active Resonator in the team, Glacio Chafe DMG dealt to all targets within a certain range is Amplified by 20%/25%/30%/35%/40% for 6/6/6/6/6s. This effect can be triggered up to 1/1/1/1/1 {Cus:Sap,S=time P=times SapTag=6} every 0.1/0.1/0.1/0.1/0.1s. Only the strongest effect of the same name applies."
           },
           {
-            "label": "冷凝伤害加深",
-            "trigger": "自身附加霜渐效应后",
-            "excerpt": "附加霜渐效应后，冷凝伤害加深28%/35%/42%/49%/56%",
-            "conditionText": "自身附加霜渐效应后，冷凝伤害加深28%/35%/42%/49%/56%，持续6/6/6/6/6秒。"
+            "label": "DMG Increase",
+            "excerpt": "DMG Increase +28%",
+            "conditionText": "ATK is increased by 12%/15%/18%/21%/24%. After the wielder applies Glacio Chafe, Glacio DMG is Amplified by 28%/35%/42%/49%/56%, and Resonance Liberation DMG ignores 10%/12.5%/15%/17.5%/20% of the target's DEF. If the wielder is the active Resonator in the team, Glacio Chafe DMG dealt to all targets within a certain range is Amplified by 20%/25%/30%/35%/40% for 6/6/6/6/6s. This effect can be triggered up to 1/1/1/1/1 {Cus:Sap,S=time P=times SapTag=6} every 0.1/0.1/0.1/0.1/0.1s. Only the strongest effect of the same name applies."
           },
           {
-            "label": "防御无视",
-            "trigger": "自身附加霜渐效应后",
-            "excerpt": "附加霜渐效应后，共鸣解放伤害无视目标10%/12.5%/15%/17.5%/20%防御",
-            "conditionText": "自身附加霜渐效应后，共鸣解放伤害无视目标10%/12.5%/15%/17.5%/20%的防御，持续6/6/6/6/6秒。"
+            "label": "DEF Ignore",
+            "excerpt": "DEF Ignore +10%",
+            "conditionText": "ATK is increased by 12%/15%/18%/21%/24%. After the wielder applies Glacio Chafe, Glacio DMG is Amplified by 28%/35%/42%/49%/56%, and Resonance Liberation DMG ignores 10%/12.5%/15%/17.5%/20% of the target's DEF. If the wielder is the active Resonator in the team, Glacio Chafe DMG dealt to all targets within a certain range is Amplified by 20%/25%/30%/35%/40% for 6/6/6/6/6s. This effect can be triggered up to 1/1/1/1/1 {Cus:Sap,S=time P=times SapTag=6} every 0.1/0.1/0.1/0.1/0.1s. Only the strongest effect of the same name applies."
           },
           {
-            "label": "霜渐效应伤害加深",
-            "trigger": "自身附加霜渐效应后",
-            "excerpt": "附加霜渐效应后，目标受到霜渐效应伤害加深20%/25%/30%/35%/40%",
-            "conditionText": "自身附加霜渐效应后，且自身为队伍中登场角色时，一定范围内的目标受到霜渐效应伤害加深20%/25%/30%/35%/40%，持续6/6/6/6/6秒。"
+            "label": "DMG Increase",
+            "excerpt": "DMG Increase +20%",
+            "conditionText": "ATK is increased by 12%/15%/18%/21%/24%. After the wielder applies Glacio Chafe, Glacio DMG is Amplified by 28%/35%/42%/49%/56%, and Resonance Liberation DMG ignores 10%/12.5%/15%/17.5%/20% of the target's DEF. If the wielder is the active Resonator in the team, Glacio Chafe DMG dealt to all targets within a certain range is Amplified by 20%/25%/30%/35%/40% for 6/6/6/6/6s. This effect can be triggered up to 1/1/1/1/1 {Cus:Sap,S=time P=times SapTag=6} every 0.1/0.1/0.1/0.1/0.1s. Only the strongest effect of the same name applies."
           }
         ]
       },
       "spectral_trigger": {
         "name": "Spectral Trigger",
         "typeName": "Pistols",
-        "resonanceName": "沉梦",
-        "description": "攻击提升12%/15%/18%/21%/24%。施放共鸣技能时，自身衍射伤害加成提升20%/25%/30%/35%/40%，最多叠加2/2/2/2/2层，持续14/14/14/14/14秒。每次为敌方怪物附加【骇破·偏移】后，重击伤害加深30%/37.5%/45%/52.5%/60%，且重击伤害能无视目标10/12.5/15/17.5/20%防御，持续14/14/14/14/14秒。",
+        "resonanceName": "Sunken Dream",
+        "description": "Increases ATK by 12%/15%/18%/21%/24%. Casting Resonance Skill grants 20%/25%/30%/35%/40% Spectro DMG Bonus to the wielder for 14/14/14/14/14s, stacking up to 2/2/2/2/2 times. Inflicting Hack - Shifting grants 30%/37.5%/45%/52.5%/60% Heavy Attack DMG Amplification to the wielder for 14/14/14/14/14s, during which Heavy Attack DMG ignores 10/12.5/15/17.5/20% of the target's DEF.",
         "effects": [
           {
-            "label": "攻击",
-            "conditionText": "攻击提升12%/15%/18%/21%/24%"
+            "label": "ATK",
+            "excerpt": "ATK +12%",
+            "conditionText": "Increases ATK by 12%/15%/18%/21%/24%. Casting Resonance Skill grants 20%/25%/30%/35%/40% Spectro DMG Bonus to the wielder for 14/14/14/14/14s, stacking up to 2/2/2/2/2 times. Inflicting Hack - Shifting grants 30%/37.5%/45%/52.5%/60% Heavy Attack DMG Amplification to the wielder for 14/14/14/14/14s, during which Heavy Attack DMG ignores 10/12.5/15/17.5/20% of the target's DEF."
           },
           {
-            "label": "衍射伤害加成",
-            "trigger": "施放共鸣技能时",
-            "excerpt": "施放共鸣技能时，衍射伤害加成提升20%/25%/30%/35%/40%，最多2层",
-            "conditionText": "施放共鸣技能时，自身衍射伤害加成提升20%/25%/30%/35%/40%，最多叠加2/2/2/2/2层，持续14/14/14/14/14秒。"
+            "label": "Spectro DMG Bonus",
+            "excerpt": "Spectro DMG Bonus +40% per stack",
+            "conditionText": "Increases ATK by 12%/15%/18%/21%/24%. Casting Resonance Skill grants 20%/25%/30%/35%/40% Spectro DMG Bonus to the wielder for 14/14/14/14/14s, stacking up to 2/2/2/2/2 times. Inflicting Hack - Shifting grants 30%/37.5%/45%/52.5%/60% Heavy Attack DMG Amplification to the wielder for 14/14/14/14/14s, during which Heavy Attack DMG ignores 10/12.5/15/17.5/20% of the target's DEF."
           },
           {
-            "label": "重击伤害加深",
-            "trigger": "附加骇破·偏移后",
-            "excerpt": "附加骇破·偏移后，重击伤害加深30%/37.5%/45%/52.5%/60%",
-            "conditionText": "每次为敌方怪物附加【骇破·偏移】后，重击伤害加深30%/37.5%/45%/52.5%/60%，持续14/14/14/14/14秒。"
+            "label": "Heavy Attack DMG Increase",
+            "excerpt": "Heavy Attack DMG Increase +30%",
+            "conditionText": "Increases ATK by 12%/15%/18%/21%/24%. Casting Resonance Skill grants 20%/25%/30%/35%/40% Spectro DMG Bonus to the wielder for 14/14/14/14/14s, stacking up to 2/2/2/2/2 times. Inflicting Hack - Shifting grants 30%/37.5%/45%/52.5%/60% Heavy Attack DMG Amplification to the wielder for 14/14/14/14/14s, during which Heavy Attack DMG ignores 10/12.5/15/17.5/20% of the target's DEF."
           },
           {
-            "label": "重击防御无视",
-            "trigger": "附加骇破·偏移后",
-            "excerpt": "附加骇破·偏移后，重击伤害无视目标10%/12.5%/15%/17.5%/20%防御",
-            "conditionText": "每次为敌方怪物附加【骇破·偏移】后，重击伤害能无视目标10%/12.5%/15%/17.5%/20%防御，持续14/14/14/14/14秒。"
+            "label": "DEF Ignore",
+            "excerpt": "DEF Ignore +10%",
+            "conditionText": "Increases ATK by 12%/15%/18%/21%/24%. Casting Resonance Skill grants 20%/25%/30%/35%/40% Spectro DMG Bonus to the wielder for 14/14/14/14/14s, stacking up to 2/2/2/2/2 times. Inflicting Hack - Shifting grants 30%/37.5%/45%/52.5%/60% Heavy Attack DMG Amplification to the wielder for 14/14/14/14/14s, during which Heavy Attack DMG ignores 10/12.5/15/17.5/20% of the target's DEF."
           }
         ]
       },
       "skull_thrasher": {
         "name": "Skull Thrasher",
         "typeName": "Pistols",
-        "resonanceName": "独醒",
-        "description": "攻击提升12%/15%/18%/21%/24%。施放变奏技能时，自身普攻伤害加成提升24%/30%/36%/42%/48%，持续14/14/14/14/14秒。附加【骇破·偏移】时，自身普攻伤害加成提升12%/15%/18%/21%/24%，持续14/14/14/14/14秒，队伍中的角色攻击提升24%/30%/36%/42%/48%，持续30/30/30/30/30秒，同名效果之间不可叠加。",
+        "resonanceName": "Wakeful Loner",
+        "description": "Increases ATK by 12%/15%/18%/21%/24%. Casting Intro Skill grants 24%/30%/36%/42%/48% Basic Attack DMG Bonus to the wielder for 14/14/14/14/14s. Inflicting Hack - Shifting grants 12%/15%/18%/21%/24% Basic Attack DMG Bonus to the wielder for 14/14/14/14/14s, and increases the ATK of Resonators in the team by 24%/30%/36%/42%/48% for 30/30/30/30/30s. Effects of the same name do not stack.",
         "effects": [
           {
-            "label": "攻击",
-            "conditionText": "攻击提升12%/15%/18%/21%/24%"
+            "label": "ATK",
+            "excerpt": "ATK +12%",
+            "conditionText": "Increases ATK by 12%/15%/18%/21%/24%. Casting Intro Skill grants 24%/30%/36%/42%/48% Basic Attack DMG Bonus to the wielder for 14/14/14/14/14s. Inflicting Hack - Shifting grants 12%/15%/18%/21%/24% Basic Attack DMG Bonus to the wielder for 14/14/14/14/14s, and increases the ATK of Resonators in the team by 24%/30%/36%/42%/48% for 30/30/30/30/30s. Effects of the same name do not stack."
           },
           {
-            "label": "普攻伤害加成",
-            "conditionText": "施放变奏技能时，自身普攻伤害加成提升24%/30%/36%/42%/48%，持续14/14/14/14/14秒"
+            "label": "Basic Attack DMG Bonus",
+            "excerpt": "Basic Attack DMG Bonus +24%",
+            "conditionText": "Increases ATK by 12%/15%/18%/21%/24%. Casting Intro Skill grants 24%/30%/36%/42%/48% Basic Attack DMG Bonus to the wielder for 14/14/14/14/14s. Inflicting Hack - Shifting grants 12%/15%/18%/21%/24% Basic Attack DMG Bonus to the wielder for 14/14/14/14/14s, and increases the ATK of Resonators in the team by 24%/30%/36%/42%/48% for 30/30/30/30/30s. Effects of the same name do not stack."
           },
           {
-            "label": "普攻伤害加成",
-            "excerpt": "附加骇破·偏移时，普攻伤害加成提升12%/15%/18%/21%/24%",
-            "conditionText": "附加【骇破·偏移】时，自身普攻伤害加成提升12%/15%/18%/21%/24%，持续14/14/14/14/14秒，队伍中的角色攻击提升24%/30%/36%/42%/48%，持续30/30/30/30/30秒，同名效果之间不可叠加"
+            "label": "Basic Attack DMG Bonus",
+            "excerpt": "Basic Attack DMG Bonus +12%",
+            "conditionText": "Increases ATK by 12%/15%/18%/21%/24%. Casting Intro Skill grants 24%/30%/36%/42%/48% Basic Attack DMG Bonus to the wielder for 14/14/14/14/14s. Inflicting Hack - Shifting grants 12%/15%/18%/21%/24% Basic Attack DMG Bonus to the wielder for 14/14/14/14/14s, and increases the ATK of Resonators in the team by 24%/30%/36%/42%/48% for 30/30/30/30/30s. Effects of the same name do not stack."
           },
           {
-            "label": "攻击",
-            "excerpt": "附加骇破·偏移时，攻击提升24%/30%/36%/42%/48%",
-            "conditionText": "附加【骇破·偏移】时，自身普攻伤害加成提升12%/15%/18%/21%/24%，持续14/14/14/14/14秒，队伍中的角色攻击提升24%/30%/36%/42%/48%，持续30/30/30/30/30秒，同名效果之间不可叠加"
+            "label": "ATK",
+            "excerpt": "ATK +24%",
+            "conditionText": "Increases ATK by 12%/15%/18%/21%/24%. Casting Intro Skill grants 24%/30%/36%/42%/48% Basic Attack DMG Bonus to the wielder for 14/14/14/14/14s. Inflicting Hack - Shifting grants 12%/15%/18%/21%/24% Basic Attack DMG Bonus to the wielder for 14/14/14/14/14s, and increases the ATK of Resonators in the team by 24%/30%/36%/42%/48% for 30/30/30/30/30s. Effects of the same name do not stack."
           }
         ]
       },
       "freeze_frame": {
         "name": "Freeze Frame",
         "typeName": "Rectifier",
-        "resonanceName": "光殉",
-        "description": "攻击提升12%/15%/18%/21%/24%。附加霜渐效应后，自身冷凝伤害加成提升30%/37.5%/45%/52.5%/60%，持续12/12/12/12/12秒；队伍中的角色攻击提升24%/30%/36%/42%/48%，持续30/30/30/30/30秒，同名效果之间不可叠加。",
+        "resonanceName": "Light's Offering",
+        "description": "Increases ATK by 12%/15%/18%/21%/24%. After inflicting Glacio Chafe on the target, the wielder gains 30%/37.5%/45%/52.5%/60% Glacio DMG Bonus for 12/12/12/12/12s, and all Resonators in the team gain 24%/30%/36%/42%/48% ATK increase for 30/30/30/30/30s. Effects of the same name cannot be stacked.",
         "effects": [
           {
-            "label": "攻击",
-            "conditionText": "攻击提升12%/15%/18%/21%/24%"
+            "label": "ATK",
+            "excerpt": "ATK +12%",
+            "conditionText": "Increases ATK by 12%/15%/18%/21%/24%. After inflicting Glacio Chafe on the target, the wielder gains 30%/37.5%/45%/52.5%/60% Glacio DMG Bonus for 12/12/12/12/12s, and all Resonators in the team gain 24%/30%/36%/42%/48% ATK increase for 30/30/30/30/30s. Effects of the same name cannot be stacked."
           },
           {
-            "label": "攻击",
-            "trigger": "附加霜渐效应后",
-            "excerpt": "附加霜渐效应后，队伍中的角色攻击提升24%/30%/36%/42%/48%",
-            "conditionText": "附加霜渐效应后，队伍中的角色攻击提升24%/30%/36%/42%/48%，持续30/30/30/30/30秒，同名效果之间不可叠加"
+            "label": "ATK",
+            "excerpt": "ATK +24%",
+            "conditionText": "Increases ATK by 12%/15%/18%/21%/24%. After inflicting Glacio Chafe on the target, the wielder gains 30%/37.5%/45%/52.5%/60% Glacio DMG Bonus for 12/12/12/12/12s, and all Resonators in the team gain 24%/30%/36%/42%/48% ATK increase for 30/30/30/30/30s. Effects of the same name cannot be stacked."
           },
           {
-            "label": "冷凝伤害加成",
-            "trigger": "附加霜渐效应后",
-            "excerpt": "附加霜渐效应后，自身冷凝伤害加成提升30%/37.5%/45%/52.5%/60%",
-            "conditionText": "附加霜渐效应后，自身冷凝伤害加成提升30%/37.5%/45%/52.5%/60%，持续12/12/12/12/12秒。"
+            "label": "Glacio DMG Bonus",
+            "excerpt": "Glacio DMG Bonus +30%",
+            "conditionText": "Increases ATK by 12%/15%/18%/21%/24%. After inflicting Glacio Chafe on the target, the wielder gains 30%/37.5%/45%/52.5%/60% Glacio DMG Bonus for 12/12/12/12/12s, and all Resonators in the team gain 24%/30%/36%/42%/48% ATK increase for 30/30/30/30/30s. Effects of the same name cannot be stacked."
           }
         ]
       }

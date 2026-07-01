@@ -5,11 +5,6 @@ window.WUWA_LANGUAGES.extend("en-US", {
     "chars": {
       "lumi": {
         "name": "Lumi",
-        "resources": [
-          {
-            "label": "光能"
-          }
-        ],
         "skills": [
           {
             "name": "Navigation Support - Yellow Light: Basic Attack DMG"
@@ -61,123 +56,129 @@ window.WUWA_LANGUAGES.extend("en-US", {
           },
           {
             "name": "Signal Light - Energized Pounce DMG",
-            "requiresResourceLabel": "黄灯光能满"
+            "requiresResourceLabel": "Spark full"
           },
           {
             "name": "Signal Light - Energized Rebound DMG",
-            "requiresResourceLabel": "红灯光能满"
+            "requiresResourceLabel": "Spark full"
           },
           {
             "name": "Signal Light - Single Laser Beam DMG",
-            "requiresResourceLabel": "25以上光能"
+            "requiresResourceLabel": "Spark at least 25"
+          }
+        ],
+        "resources": [
+          {
+            "label": "Spark"
           }
         ],
         "combatStates": [
           {
-            "label": "灯号模式",
-            "inactiveLabel": "未指定灯号模式",
-            "entry": "黄灯期间使用前扑切换红灯；红灯期间使用后撤切换黄灯；满光能强化技能进入对应聚光模式。",
+            "label": "Traffic Light Mode",
+            "idLabel": "Traffic Light Mode",
+            "inactiveLabel": "Not in Traffic Light Mode",
+            "entry": "Select the current Traffic Light Mode.",
+            "effects": "Select the current Traffic Light Mode.",
             "options": [
               {
-                "label": "黄灯模式",
-                "valueLabel": "黄灯模式"
+                "label": "Yellow Light Mode",
+                "valueLabel": "Yellow Light Mode"
               },
               {
-                "label": "红灯模式",
-                "valueLabel": "红灯模式"
+                "label": "Red Light Mode",
+                "valueLabel": "Red Light Mode"
               },
               {
-                "label": "黄灯聚光模式",
-                "valueLabel": "黄灯聚光模式"
+                "label": "Yellow Spotlight Mode",
+                "valueLabel": "Yellow Spotlight Mode"
               },
               {
-                "label": "红灯聚光模式",
-                "valueLabel": "红灯聚光模式"
+                "label": "Red Spotlight Mode",
+                "valueLabel": "Red Spotlight Mode"
               }
-            ],
-            "idLabel": "灯号模式"
+            ]
           }
         ],
         "buffs": [
           {
-            "source": "固有·寻路",
-            "label": "导电伤害加成",
-            "trigger": "红灯模式期间",
-            "excerpt": "红灯模式期间，导电伤害加成提升10%",
-            "desc": "红灯模式期间，灯灯导电伤害加成提升10%。"
+            "source": "Inherent Skill: Pathfinding",
+            "label": "Electro DMG Bonus",
+            "trigger": "In Red Light Mode",
+            "excerpt": "Electro DMG Bonus +10%",
+            "desc": "Electro DMG Bonus +10%"
           },
           {
-            "source": "固有·奔赴",
-            "label": "攻击",
-            "trigger": "释放强化前扑/强化后撤后",
-            "excerpt": "释放强化前扑或强化后撤时，攻击提升10%",
-            "desc": "施放强化·前扑或强化·后撤时，5秒内灯灯攻击力提升10%。"
+            "source": "Inherent Skill: Expediting",
+            "label": "ATK",
+            "trigger": "After casting Signal Light - Energized Pounce DMG / Signal Light - Energized Rebound DMG",
+            "excerpt": "ATK +10%",
+            "desc": "ATK +10%"
           },
           {
-            "source": "延奏·护航",
-            "label": "共鸣技能伤害加深",
-            "trigger": "释放延奏技能后",
-            "excerpt": "下一位登场角色共鸣技能伤害加深38%",
-            "desc": "下一位登场角色共鸣技能伤害加深38%，效果持续10秒，若切换至其他角色则该效果提前结束。"
+            "source": "Outro Skill: Escorting",
+            "label": "Resonance Skill DMG Increase",
+            "trigger": "In Red Spotlight Mode",
+            "excerpt": "Resonance Skill DMG Increase +38%",
+            "desc": "Resonance Skill DMG Increase +38%"
           }
         ],
         "chain": [
           {
-            "name": "包裹正等待揽收",
-            "desc": "施放强化·后撤后3秒内，逐渐回复60点耐力。"
+            "name": "Parcel To Be Delivered",
+            "desc": "After casting Energized Rebound, additionally recovers 60 STA within 3s."
           },
           {
-            "name": "呜呜物流已收件",
-            "desc": "强化·前扑和强化·后撤攻击敌人时，无视对方20%的防御。",
+            "name": "Lollo Logistics, Ready to Help",
+            "desc": "Energized Pounce and Energized Rebound ignore 20% of the target's DEF.",
             "buffs": [
               {
-                "label": "防御无视",
-                "trigger": "默认",
-                "excerpt": "强化前扑和强化后撤无视20%防御"
+                "label": "DEF Ignore",
+                "trigger": "In Red Spotlight Mode",
+                "excerpt": "DEF Ignore +20%"
               }
             ]
           },
           {
-            "name": "特快专递运输中",
-            "desc": "共鸣解放啾啾专送造成的伤害提升30%。",
+            "name": "Priority Parcel In Transit",
+            "desc": "The DMG of Resonance Liberation Squeakie Express is increased by 30%.",
             "buffs": [
               {
-                "label": "啾啾专送倍率提升",
-                "trigger": "默认",
-                "excerpt": "啾啾专送伤害倍率提升30%"
+                "label": "Squeakie Express - Skill DMG Multiplier Increase",
+                "trigger": "In Red Spotlight Mode",
+                "excerpt": "Squeakie Express - Skill DMG Multiplier Increase +30%"
               }
             ]
           },
           {
-            "name": "灯灯正为您派送",
-            "desc": "灯灯普攻伤害加成提升30%。",
+            "name": "Captain Lumi, At Your Service",
+            "desc": "Gain 30% Basic Attack DMG Bonus.",
             "buffs": [
               {
-                "label": "普攻伤害加成",
-                "trigger": "默认",
-                "excerpt": "普攻伤害加成提升30%"
+                "label": "Basic Attack DMG Bonus",
+                "trigger": "In Red Spotlight Mode",
+                "excerpt": "Basic Attack DMG Bonus +30%"
               }
             ]
           },
           {
-            "name": "快件已顺利签收",
-            "desc": "【光能】充满时，强光穿射造成的伤害倍率提升100%。",
+            "name": "Parcel Collected On Time",
+            "desc": "When Spark is fully recovered, Laser DMG Multiplier is increased by 100%.",
             "buffs": [
               {
-                "label": "强光穿射倍率提升",
-                "trigger": "光能充满时",
-                "excerpt": "光能充满时，强光穿射伤害倍率提升100%"
+                "label": "Signal Light - Single Laser Beam DMG Multiplier Increase",
+                "trigger": "After casting Signal Light - Single Laser Beam DMG",
+                "excerpt": "Signal Light - Single Laser Beam DMG Multiplier Increase +100%"
               }
             ]
           },
           {
-            "name": "给个五星好评哦",
-            "desc": "施放共鸣解放啾啾专送时，队伍中的角色的攻击提升20%，持续20秒。",
+            "name": "Give Me A Five-star Rating",
+            "desc": "Casting Resonance Liberation Squeakie Express increases all team members' ATK by 20% for 20s.",
             "buffs": [
               {
-                "label": "攻击",
-                "trigger": "释放啾啾专送时",
-                "excerpt": "释放啾啾专送时，攻击提升20%"
+                "label": "ATK",
+                "trigger": "After casting Squeakie Express - Skill DMG",
+                "excerpt": "ATK +20%"
               }
             ]
           }

@@ -5,14 +5,6 @@ window.WUWA_LANGUAGES.extend("en-US", {
     "chars": {
       "calcharo": {
         "name": "Calcharo",
-        "resources": [
-          {
-            "label": "残忍"
-          },
-          {
-            "label": "杀意"
-          }
-        ],
         "skills": [
           {
             "name": "Gnawing Fangs - Stage 1 DMG"
@@ -76,92 +68,101 @@ window.WUWA_LANGUAGES.extend("en-US", {
           },
           {
             "name": "Hunting Mission - \"Mercy\" Damage",
-            "requiresResourceLabel": "3残忍"
+            "requiresResourceLabel": "Cruelty at least 3"
           },
           {
             "name": "Hunting Mission - \"Death Messenger\" Damage",
-            "requiresResourceLabel": "5杀意"
+            "requiresResourceLabel": "Killing Intent at least 5"
           },
           {
             "name": "The Ultimatum - Phantom Coordinated Attack DMG",
-            "requiresResourceLabel": "重击·死告触发"
+            "requiresResourceLabel": "resource_gate_3"
+          }
+        ],
+        "resources": [
+          {
+            "label": "Cruelty"
+          },
+          {
+            "label": "Killing Intent"
           }
         ],
         "combatStates": [
           {
-            "label": "杀戮武装",
-            "inactiveLabel": "未处于杀戮武装",
-            "entry": "施放共鸣解放幻影蚀刻后进入，持续11秒；状态结束后，下次变奏技能替换为必要的手段。",
+            "label": "Deathblade Gear",
+            "idLabel": "Deathblade Gear",
+            "inactiveLabel": "Not in Deathblade Gear",
+            "entry": "Calcharo attacks the target, dealing Electro DMG and enters Deathblade Gear state.",
+            "effects": "Calcharo attacks the target, dealing Electro DMG and enters Deathblade Gear state.",
             "options": [
               {
-                "label": "杀戮武装",
-                "valueLabel": "杀戮武装"
+                "label": "Deathblade Gear",
+                "valueLabel": "Deathblade Gear"
               }
-            ],
-            "idLabel": "杀戮武装"
+            ]
           }
         ],
         "buffs": [
           {
-            "source": "固有·喋血觉悟",
-            "label": "共鸣解放伤害加成",
-            "trigger": "施放重击·仁慈后",
-            "excerpt": "释放重击·仁慈后，共鸣解放伤害加成提升10%",
-            "desc": "施放重击「仁慈」时，卡卡罗的共鸣解放伤害加成提升10%，持续15秒。"
+            "source": "Inherent Skill: Bloodshed Awaken",
+            "label": "Resonance Liberation DMG Bonus",
+            "trigger": "After casting Hunting Mission - \"Mercy\" Damage",
+            "excerpt": "Resonance Liberation DMG Bonus +10%",
+            "desc": "Resonance Liberation DMG Bonus +10%"
           }
         ],
         "chain": [
           {
-            "name": "隐秘谈判",
-            "desc": "共鸣技能灭杀指令命中目标时，额外回复10点共鸣能量，每20秒可触发1次。"
+            "name": "Covert Negotiation",
+            "desc": "When Resonance Skill Extermination Order hits a target, it additionally recovers 10 Resonance Energy. This can be triggered once every 20s."
           },
           {
-            "name": "零和博弈",
-            "desc": "施放变奏技能全境通缉或变奏技能「必要的手段」后，共鸣技能伤害加成提升30%，持续15秒。",
+            "name": "Zero-Sum Game",
+            "desc": "After Calcharo casts Intro Skill Wanted Criminal or Intro Skill \"Necessary Means\", his Resonance Skill DMG Bonus is increased by 30% for 15s.",
             "buffs": [
               {
-                "label": "共鸣技能伤害加成",
-                "trigger": "施放变奏技能后",
-                "excerpt": "释放全境通缉或必要的手段后，共鸣技能伤害加成提升30%"
+                "label": "Resonance Skill DMG Bonus",
+                "trigger": "After casting Wanted Outlaw - Skill DMG / Phantom Etching - \"Necessary Means\" Damage",
+                "excerpt": "Resonance Skill DMG Bonus +30%"
               }
             ]
           },
           {
-            "name": "铁腕外交",
-            "desc": "共鸣解放杀戮武装状态持续期间，卡卡罗的导电伤害加成提升25%。",
+            "name": "Iron Fist Diplomacy",
+            "desc": "During the Resonance Liberation Deathblade Gear state, Calcharo's Electro DMG Bonus is increased by 25%.",
             "buffs": [
               {
-                "label": "导电伤害加成",
-                "trigger": "处于杀戮武装时",
-                "excerpt": "杀戮武装期间，导电伤害加成提升25%"
+                "label": "Electro DMG Bonus",
+                "trigger": "In Deathblade Gear",
+                "excerpt": "Electro DMG Bonus +25%"
               }
             ]
           },
           {
-            "name": "集群威胁",
-            "desc": "施放延奏技能掠影奇袭时，队伍中的角色导电伤害加成提升20%，持续30秒。",
+            "name": "Dark Alliance",
+            "desc": "After casting Outro Skill Shadowy Raid, Electro DMG Bonus of all team members is increased by 20% for 30s.",
             "buffs": [
               {
-                "label": "导电伤害加成",
-                "trigger": "释放延奏技能后",
-                "excerpt": "释放延奏技能后，队伍中的角色导电伤害加成提升20%"
+                "label": "Electro DMG Bonus",
+                "trigger": "After casting Intro Skill",
+                "excerpt": "Electro DMG Bonus +20%"
               }
             ]
           },
           {
-            "name": "替代协议",
-            "desc": "变奏技能全境通缉及变奏技能「必要的手段」的伤害提升50%。",
+            "name": "Unconventional Compact",
+            "desc": "Intro Skill Wanted Criminal and Intro Skill \"Necessary Means\" deal 50% more DMG.",
             "buffs": [
               {
-                "label": "变奏技能伤害加成",
-                "trigger": "默认",
-                "excerpt": "全境通缉和必要的手段伤害加成提升50%"
+                "label": "Intro Skill DMG Bonus",
+                "trigger": "In Deathblade Gear",
+                "excerpt": "Intro Skill DMG Bonus +50%"
               }
             ]
           },
           {
-            "name": "最后通牒",
-            "desc": "施放重击「死告」时，卡卡罗将会召唤2个猎杀影进行协同攻击，每个猎杀影可造成卡卡罗100.00%攻击的导电伤害，此次伤害为共鸣解放伤害。"
+            "name": "The Ultimatum",
+            "desc": "When casting Resonance Liberation \"Death Messenger\", Calcharo will summon 2 Phantoms to perform Coordinated Attacks. Each Phantom deals Electro DMG equal to 100.00% of Calcharo's ATK, which is considered Resonance Liberation DMG."
           }
         ]
       }

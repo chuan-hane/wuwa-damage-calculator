@@ -65,159 +65,161 @@ window.WUWA_LANGUAGES.extend("en-US", {
           },
           {
             "name": "Vegetative Universe - Ephemeral DMG",
-            "requiresResourceLabel": "协奏能量满且一日花可用"
+            "requiresResourceLabel": "resource_gate_1"
           },
           {
             "name": "Vegetative Universe - Ephemeral DMG",
-            "requiresResourceLabel": "一日花后15秒内协奏能量满且永生花未冷却"
+            "requiresResourceLabel": "resource_gate_2"
           },
           {
             "name": "Twining - Outro Skill DMG"
           },
           {
             "name": "Twining - After Crimson Blossom DMG",
-            "requiresResourceLabel": "一日花后"
+            "requiresResourceLabel": "resource_gate_3"
           }
         ],
         "combatStates": [
           {
-            "label": "盛绽状态",
-            "inactiveLabel": "未处于盛绽",
-            "entry": "施放共鸣技能红椿盛绽后进入盛绽状态；施放黯蕊猎心、控物或旋舞等动作会退出。",
+            "label": "Blossom Mode",
+            "idLabel": "Blossom Mode",
+            "inactiveLabel": "Not in Blossom Mode",
+            "entry": "Attack the target, dealing Havoc DMG (considered Basic Attack DMG), then enter Blossom Mode.",
+            "effects": "Attack the target, dealing Havoc DMG (considered Basic Attack DMG), then enter Blossom Mode.",
             "options": [
               {
-                "label": "盛绽",
-                "valueLabel": "盛绽状态"
+                "label": "Blossom Mode",
+                "valueLabel": "Blossom Mode"
               }
-            ],
-            "idLabel": "盛绽状态"
+            ]
           },
           {
-            "label": "含苞状态",
-            "inactiveLabel": "未处于含苞",
-            "entry": "施放共鸣回路一日花或6链永生花后进入含苞状态，持续15秒。",
+            "label": "Budding Mode",
+            "idLabel": "Budding Mode",
+            "inactiveLabel": "Not in Budding Mode",
+            "entry": "Camellya enters Budding Mode after casting Ephemeral.",
+            "effects": "Camellya enters Budding Mode after casting Ephemeral.",
             "options": [
               {
-                "label": "一日花后",
-                "valueLabel": "含苞状态·一日花"
+                "label": "Budding Mode · Ephemeral",
+                "valueLabel": "Budding Mode · Ephemeral"
               },
               {
-                "label": "永生花后",
-                "valueLabel": "含苞状态·永生花"
+                "label": "Budding Mode · Perennial",
+                "valueLabel": "Budding Mode · Perennial"
               }
-            ],
-            "idLabel": "含苞状态"
+            ]
           }
         ],
         "buffs": [
           {
-            "source": "固有·温床",
-            "label": "湮灭伤害加成",
-            "trigger": "默认",
-            "excerpt": "湮灭伤害加成提升15%",
-            "desc": "湮灭伤害加成提升15%，重击修枝伤害视为普攻伤害。"
+            "source": "Inherent Skill: Seedbed",
+            "label": "Havoc DMG Bonus",
+            "trigger": "In Budding Mode · Perennial",
+            "excerpt": "Havoc DMG Bonus +15%",
+            "desc": "Havoc DMG Bonus +15%"
           },
           {
-            "source": "固有·侵占",
-            "label": "普攻伤害加成",
-            "trigger": "默认",
-            "excerpt": "普攻伤害加成提升15%",
-            "desc": "普攻伤害加成提升15%，普攻和普攻蔓舞、普攻烬华蔓舞的抗打断能力提升。"
+            "source": "Inherent Skill: Epiphyte",
+            "label": "Basic Attack DMG Bonus",
+            "trigger": "In Budding Mode · Perennial",
+            "excerpt": "Basic Attack DMG Bonus +15%",
+            "desc": "Basic Attack DMG Bonus +15%"
           },
           {
-            "source": "共鸣回路·酣梦",
-            "label": "酣梦倍率提升",
-            "trigger": "含苞状态期间",
-            "excerpt": "含苞期间，指定攻击伤害倍率提升50%",
-            "desc": "酣梦：常态攻击、普攻蔓舞、普攻烬华蔓舞、普攻旋舞、闪避反击偿赎、共鸣技能红椿盛绽、共鸣技能黯蕊猎心的伤害倍率提升50%。"
+            "source": "Forte Circuit: Sweet Dream",
+            "label": "Burgeoning - Basic Attack 1 DMG Multiplier Increase",
+            "trigger": "In Budding Mode",
+            "excerpt": "Burgeoning - Basic Attack 1 DMG Multiplier Increase +50%",
+            "desc": "- Sweet Dream: Increase the DMG Multiplier of Normal Attack, Basic Attack Vining Waltz, Basic Attack Blazing Waltz, Basic Attack Vining Ronde, Dodge Counter Atonement, Resonance Skill Crimson Blossom, and Resonance Skill Floral Ravage by 50%."
           },
           {
-            "source": "共鸣回路·红椿·蕾",
-            "label": "酣梦倍率提升",
-            "trigger": "施放一日花时清除红椿·蕾",
-            "excerpt": "每层红椿·蕾使酣梦倍率提升额外+5%",
-            "desc": "施放一日花时，清除所有红椿·蕾，每层红椿·蕾使酣梦的伤害倍率提升效果额外提升5%，最多可额外提升50%。"
+            "source": "Forte Circuit: Crimson Buds",
+            "label": "Burgeoning - Basic Attack 1 DMG Multiplier Increase",
+            "trigger": "After casting Burgeoning - Basic Attack 1 DMG / Burgeoning - Basic Attack 2 DMG / Burgeoning - Basic Attack 3 DMG / Burgeoning - Basic Attack 4 DMG / Burgeoning - Basic Attack 5 DMG / Burgeoning - Heavy Attack DMG / Burgeoning - Mid-air Attack DMG / Burgeoning - Dodge Counter DMG / Valse of Bloom and Blight - Crimson Blossom DMG / Valse of Bloom and Blight - Vining Waltz 1 DMG / Valse of Bloom and Blight - Vining Waltz 2 DMG / Valse of Bloom and Blight - Vining Waltz 3 DMG / Valse of Bloom and Blight - Vining Waltz 4 DMG / Valse of Bloom and Blight - Floral Ravage DMG / Valse of Bloom and Blight - Vining Ronde DMG / Valse of Bloom and Blight - Atonement DMG / Valse of Bloom and Blight - Blazing Waltz DMG",
+            "excerpt": "Burgeoning - Basic Attack 1 DMG Multiplier Increase +50% per stack",
+            "desc": "- Casting Ephemeral consumes all Crimson Buds."
           }
         ],
         "chain": [
           {
-            "name": "在无人知晓的秘密小径",
-            "desc": "施放变奏技能八千春秋时，暴击伤害提升28%，持续18秒，每25秒可触发1次。共鸣回路一日花免疫打断。",
+            "name": "Somewhere No One Travelled",
+            "desc": "Casting Intro Skill Everblooming increases Camellya's Crit. DMG by 28% for 18s. This effect can be triggered once every 25s.\nImmune to interruptions while casting Ephemeral.",
             "buffs": [
               {
-                "label": "暴击伤害",
-                "trigger": "施放八千春秋时",
-                "excerpt": "释放八千春秋时，暴击伤害提升28%"
+                "label": "Crit. DMG",
+                "trigger": "After casting Everblooming - Skill DMG",
+                "excerpt": "Crit. DMG +28%"
               }
             ]
           },
           {
-            "name": "呼唤那沉默之花的芬芳",
-            "desc": "共鸣回路一日花伤害倍率提升120%。",
+            "name": "Calling Upon the Silent Rose",
+            "desc": "The DMG Multiplier of Resonance Skill Ephemeral is increased by 120%.",
             "buffs": [
               {
-                "label": "一日花倍率提升",
-                "trigger": "默认",
-                "excerpt": "一日花伤害倍率提升120%"
+                "label": "Vegetative Universe - Ephemeral DMG Multiplier Increase",
+                "trigger": "In Budding Mode · Perennial",
+                "excerpt": "Vegetative Universe - Ephemeral DMG Multiplier Increase +120%"
               }
             ]
           },
           {
-            "name": "一根荆棘胜过千颗花种",
-            "desc": "共鸣解放芳华绽烬伤害倍率提升50%；含苞状态期间，椿的攻击提升58%。",
+            "name": "A Bud Adorned by Thorns",
+            "desc": "The DMG Multiplier of Resonance Liberation Fervor Efflorescent is increased by 50%. When in Budding Mode, Camellya's ATK is increased by 58%.",
             "buffs": [
               {
-                "label": "芳华绽烬倍率提升",
-                "trigger": "默认",
-                "excerpt": "芳华绽烬伤害倍率提升50%"
+                "label": "Fervor Efflorescent - Skill DMG Multiplier Increase",
+                "trigger": "In Budding Mode · Perennial",
+                "excerpt": "Fervor Efflorescent - Skill DMG Multiplier Increase +50%"
               },
               {
-                "label": "攻击",
-                "trigger": "含苞状态期间",
-                "excerpt": "含苞状态期间，攻击提升58%"
+                "label": "ATK",
+                "trigger": "In Budding Mode",
+                "excerpt": "ATK +58%"
               }
             ]
           },
           {
-            "name": "它的根茎持续到永恒中",
-            "desc": "施放变奏技能八千春秋后，队伍中的角色普攻伤害加成提升25%，持续30秒。",
+            "name": "Roots Set Deep In Eternity",
+            "desc": "Casting Everblooming gives all team members 25% Basic Attack DMG Bonus for 30s.",
             "buffs": [
               {
-                "label": "普攻伤害加成",
-                "trigger": "施放八千春秋后",
-                "excerpt": "释放八千春秋后，队伍普攻伤害加成提升25%"
+                "label": "Basic Attack DMG Bonus",
+                "trigger": "After casting Everblooming - Skill DMG",
+                "excerpt": "Basic Attack DMG Bonus +25%"
               }
             ]
           },
           {
-            "name": "将那无限置于你的手掌",
-            "desc": "变奏技能八千春秋伤害倍率提升303%。延奏技能缠绕伤害倍率提升68%。",
+            "name": "Infinity Held in Your Palm",
+            "desc": "The DMG Multipliers of Intro Skill Everblooming is increased by 303% and Outro Skill Twining is increased by 68%.",
             "buffs": [
               {
-                "label": "八千春秋倍率提升",
-                "trigger": "默认",
-                "excerpt": "八千春秋伤害倍率提升303%"
+                "label": "Everblooming - Skill DMG Multiplier Increase",
+                "trigger": "In Budding Mode · Perennial",
+                "excerpt": "Everblooming - Skill DMG Multiplier Increase +303%"
               },
               {
-                "label": "缠绕倍率提升",
-                "trigger": "默认",
-                "excerpt": "缠绕伤害倍率提升68%"
+                "label": "Twining - Outro Skill DMG Multiplier Increase",
+                "trigger": "In Budding Mode · Perennial",
+                "excerpt": "Twining - Outro Skill DMG Multiplier Increase +68%"
               }
             ]
           },
           {
-            "name": "为你的千千万万次盛放",
-            "desc": "共鸣回路酣梦的伤害倍率提升效果额外提升150%；共鸣回路永生花：施放共鸣回路一日花后15秒内，协奏能量充满时，若永生花不处于冷却状态，共鸣技能替换为永生花。施放永生花时，消耗50点协奏值，回复50点【红椿·蕊】，造成共鸣回路一日花100%的湮灭伤害，此次伤害为普攻伤害，每25秒可施放1次。施放永生花后，进入含苞状态，清除所有红椿·蕾，并将共鸣回路酣梦的伤害倍率提升效果提升至250%。共鸣回路永生花免疫打断。",
+            "name": "Bloom For You Thousand Times Over",
+            "desc": "The DMG Multiplier of Forte Circuit's Sweet Dream is additionally increased by 150%.\nForte Circuit Perennial: Within 15s after casting Ephemeral, if Concerto Energy is full and Perennial is not on cooldown, Resonance Skill is replaced with Perennial.\nCasting Perennial consumes 50 Concerto Energy and recovers 50 Crimson Pistils, dealing Havoc DMG equal to 100% of Ephemeral DMG, considered Basic Attack DMG. This skill can be cast once every 25s.\nCamellya enters Budding Mode after casting Perennial and removes all Crimson Buds. The bonus DMG Multiplier granted by Forte Circuit's Sweet Dream is increased to 250%.\nImmune to interruptions when casting Perennial.",
             "buffs": [
               {
-                "label": "酣梦倍率提升",
-                "trigger": "含苞状态期间",
-                "excerpt": "6链使酣梦倍率提升效果额外提升150%"
+                "label": "Burgeoning - Basic Attack 1 DMG Multiplier Increase",
+                "trigger": "In Budding Mode",
+                "excerpt": "Burgeoning - Basic Attack 1 DMG Multiplier Increase +150%"
               },
               {
-                "label": "永生花酣梦倍率提升",
-                "trigger": "施放永生花后",
-                "excerpt": "永生花后，酣梦倍率提升效果补足至250%"
+                "label": "Burgeoning - Basic Attack 1 DMG Multiplier Increase",
+                "trigger": "In Budding Mode · Perennial",
+                "excerpt": "Burgeoning - Basic Attack 1 DMG Multiplier Increase +50%"
               }
             ]
           }
