@@ -627,12 +627,12 @@ window.WUWA_LANGUAGES = (() => {
   function source(value) {
     const raw = String(value || "");
     if (isKorean()) {
-      const mapped = raw.replace(/^链(\d+)·/, "공명 체인 $1 · ").replace(/^链(\d+).*/, "공명 체인 $1");
+      const mapped = raw.replace(/^链(\d+)·/, "체인$1 · ").replace(/^链(\d+).*/, "체인$1");
       if (/[가-힣]/.test(mapped)) return mapped;
       return text(mapped);
     }
     if (isJapanese()) {
-      const mapped = raw.replace(/^链(\d+)·/, "共鳴チェーン$1・").replace(/^链(\d+).*/, "共鳴チェーン$1");
+      const mapped = raw.replace(/^链(\d+)·/, "チェーン$1・").replace(/^链(\d+).*/, "チェーン$1");
       if (looksLocalizedJapanese(mapped)) return mapped;
       return text(mapped);
     }

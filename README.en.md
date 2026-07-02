@@ -127,6 +127,7 @@ This rounding model is not official and may still differ from the game.
 - In detailed Echo mode, Echo Details decomposes main stats and substats by in-game roll values and sums them live into the Resonator panel. Main stats are limited to valid stats for the selected Cost, and substats can only use fixed roll values.
 - Echo mixed setups follow each Resonator's default configuration and do not provide free Sonata editing. For 3+2 and 1+2+2 setups, the lead Echo can come from any included Sonata set, with the Resonator's matching element preferred by default.
 - Buff damage zones and real prerequisites must be entered from structured skill text. Uncertain prerequisites are not applied automatically by default.
+- Beta Resonators, weapons, 4C lead Echoes, and Sonata sets display a `BetaX.Y.Z` marker on the page. The marker only identifies the data source version and does not change calculation rules.
 - Echo data currently includes 4C Echoes and selected 3C Echoes, such as Capitaneus from Eternal Radiance.
 
 ---

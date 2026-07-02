@@ -40,6 +40,10 @@ window.WUWA_LANGUAGES.extend("zh-CN", {
       expected: "期望",
       normal: "非暴"
     },
+    damageSplit: {
+      damage: "分段伤害：",
+      expected: "期望分段："
+    },
     hints: {
       res: "大世界中敌人基础全属性抗性 10%；若有「XX属性抗性提升」标注，则该属性再 +30% 抗性。",
       defShred: "输入框显示并编辑当前总减防；Buff 等自动来源会实时折入。",

@@ -18,7 +18,7 @@ window.WUWA_LANGUAGES.extend("ko", {
       "signature": "전용",
       "levelShort": "Lv. {value}",
       "rank": "랭크 {value}",
-      "sequence": "공명 체인 {value}",
+      "sequence": "체인{value}",
       "cost": "Cost",
       "custom": "사용자 지정",
       "target": "목표",
@@ -39,6 +39,10 @@ window.WUWA_LANGUAGES.extend("ko", {
       "crit": "크리티컬",
       "expected": "기댓값",
       "normal": "비크리티컬"
+    },
+    "damageSplit": {
+      "damage": "분할 피해: ",
+      "expected": "기댓값 분할: "
     },
     "hints": {
       "res": "오픈월드 적은 보통 모든 속성에 기본 내성 10%를 가집니다. 적에게 특정 속성 내성 보너스가 명시되어 있으면 해당 속성에 내성 30%를 추가합니다.",

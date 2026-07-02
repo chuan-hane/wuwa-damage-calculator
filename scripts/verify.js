@@ -7,6 +7,8 @@ const vm = require("vm");
 const root = path.resolve(__dirname, "..");
 const dataDir = path.join(root, "data");
 const charDir = path.join(dataDir, "core/chara");
+const betaCoreDir = path.join(dataDir, "core/beta");
+const BETA_VERSION_RE = /^Beta\d+\.\d+\.\d+$/;
 
 function jsFilesUnder(dir) {
   if (!fs.existsSync(dir)) return [];
@@ -19,6 +21,7 @@ function jsFilesUnder(dir) {
 }
 
 const charFiles = jsFilesUnder(charDir).sort((a, b) => a.localeCompare(b, undefined, { numeric: true }));
+const betaCoreFiles = jsFilesUnder(betaCoreDir).sort((a, b) => a.localeCompare(b, undefined, { numeric: true }));
 
 let loadingCharFile = null;
 global.window = {};
@@ -34,6 +37,8 @@ global.WUWA = window.WUWA = {
 
 require(path.join(root, "data/core/weapons.js"));
 require(path.join(root, "data/core/sonatas.js"));
+for (const file of betaCoreFiles.filter((file) => /\/weapons\.js$/.test(file))) require(path.join(root, file));
+for (const file of betaCoreFiles.filter((file) => /\/sonatas\.js$/.test(file))) require(path.join(root, file));
 for (const file of charFiles) {
   loadingCharFile = file;
   require(path.join(root, file));
@@ -101,7 +106,7 @@ const validEventKeys = new Set([
   "introEntry", "castBasicAttack", "castResonanceSkill", "castResonanceLiberation",
   "castForteCircuit", "castIntroSkill", "castOutroSkill", "castEchoSkill", "castResonanceChain",
   "shield", "heal", "consumeConcerto",
-  "applyAeroErosion", "applySpectroFrazzle", "applyGlacioChafe", "applyPhotochromicFlux",
+  "applyAeroErosion", "applySpectroFrazzle", "applyGlacioChafe", "applyHavocBane", "applyPhotochromicFlux",
   "applyObservationMark", "enterReincarnation", "gainLesserYang",
 ]);
 const validCharIds = new Set(window.WUWA.order);
@@ -212,6 +217,20 @@ function indexLoadsAllCharacterFiles() {
   const extra = scripts.filter((file) => !charFiles.includes(file));
   assert(!missing.length, `index.html missing character scripts: ${missing.join(", ")}`);
   assert(!extra.length, `index.html has unknown character scripts: ${extra.join(", ")}`);
+}
+
+function indexLoadsAllBetaFiles() {
+  const html = fs.readFileSync(path.join(root, "index.html"), "utf8");
+  const scripts = [...html.matchAll(/<script\s+src="([^"]+\.js)"/g)].map((m) => m[1]);
+  const betaLanguageFiles = jsFilesUnder(path.join(dataDir, "languages"))
+    .filter((file) => file.includes("/beta/") || /\/chara\/Beta\d+\.\d+\.\d+\//.test(file));
+  const betaFiles = [
+    ...betaCoreFiles,
+    ...charFiles.filter((file) => /\/Beta\d+\.\d+\.\d+\//.test(file)),
+    ...betaLanguageFiles,
+  ].sort((a, b) => a.localeCompare(b, undefined, { numeric: true }));
+  const missing = betaFiles.filter((file) => !scripts.includes(file));
+  assert(!missing.length, `index.html missing beta scripts: ${missing.join(", ")}`);
 }
 
 function languagePacksAreSplit() {
@@ -331,6 +350,29 @@ function initialRenderCompletes() {
   assert(offsetHtml.includes("<span>减伤/易伤</span>") && offsetHtml.includes("<span>最终伤害</span>") && offsetHtml.includes("<span>固定系数</span>"), "base Tune Break formula should show every multiplier card");
   assert(!offsetHtml.includes("抗性/固定"), "base Tune Break formula should not imply RES is part of Tune Break damage");
   assert(offsetHtml.includes("effect-mini-strip--formula") && !offsetHtml.includes("<b>×"), "offset formula cards should use outer multiply signs");
+}
+
+function splitDamageRendersUnderMainDamage() {
+  __T.state.lang = "zh-CN";
+  resetTeam(["suisui"]);
+  __T.state.damageMode = "normal";
+  __T.state.slots[0].skill = "skill_zephyr";
+  __T.render();
+  let html = String(board.innerHTML);
+  let damageIdx = html.indexOf('id="out-active"');
+  let splitIdx = html.indexOf('class="damage-split');
+  let metricIdx = html.indexOf('id="metric-strip"');
+  let splitHtml = html.slice(splitIdx, metricIdx);
+  assert(splitIdx > damageIdx && splitIdx < metricIdx, "split damage should render below the large damage number and above metric cards");
+  assert(splitHtml.includes("分段伤害：") && !splitHtml.includes("分段公式：") && !splitHtml.includes("23.86% × 6"), "split damage block should not show the percentage formula row");
+
+  __T.state.lang = "en-US";
+  __T.render();
+  html = String(board.innerHTML);
+  splitIdx = html.indexOf('class="damage-split');
+  metricIdx = html.indexOf('id="metric-strip"');
+  splitHtml = html.slice(splitIdx, metricIdx);
+  assert(splitHtml.includes("Split DMG:") && !splitHtml.includes("Split formula:") && !splitHtml.includes("分段公式"), "split damage labels should stay localized and omit the percentage formula");
 }
 
 function englishRenderCompletes() {
@@ -626,19 +668,175 @@ function topbarSticksToViewportTop() {
   assert(css.includes(".stage-topbar {\n  position: fixed;") && css.includes("border-radius: 0 0 14px 14px;"), "fixed topbar should have square top corners when attached to the viewport top");
 }
 
+function betaVersionBadgesRender() {
+  resetTeam(["jinhsi"]);
+  __T.state.lang = "zh-CN";
+  const slot = __T.state.slots[0];
+  const w = findWeapon(slot.weapon);
+  const set = findSonata(slot.echo.primary);
+  const choices = window.WUWA_EQUIPMENT.leadChoicesForEcho(slot.echo);
+  const choice = choices.find((item) => item.key === slot.echo.lead) || choices[0];
+  const leadIdx = Math.max(0, choices.indexOf(choice));
+  const betaLabel = "Beta3.5.4";
+  const clone = (value) => JSON.parse(JSON.stringify(value || {}));
+  const originalSonataPack = clone(window.WUWA_LANGUAGES.localeData("zh-CN", "sonatas", set.id));
+  const patchedSonataPack = clone(originalSonataPack);
+  patchedSonataPack.betaVersion = betaLabel;
+  patchedSonataPack.leads = patchedSonataPack.leads || [];
+  patchedSonataPack.leads[leadIdx] = { ...(patchedSonataPack.leads[leadIdx] || {}), betaVersion: betaLabel };
+  const restoredSonataPack = { ...originalSonataPack, betaVersion: null };
+  try {
+    window.WUWA_LANGUAGES.extend("zh-CN", {
+      data: {
+        chars: { jinhsi: { betaVersion: betaLabel } },
+        weapons: { [w.id]: { betaVersion: betaLabel } },
+        sonatas: { [set.id]: patchedSonataPack },
+      },
+    });
+    __T.render();
+    let html = String(board.innerHTML);
+    assert((html.match(/class="team-card-beta"/g) || []).length === 1, "collapsed team card should render one card-level beta badge for same-version beta data");
+    assert(html.indexOf("team-card-beta") < html.indexOf("team-card-clear"), "collapsed team card should place the beta badge on the top-left border before the clear button");
+    const cardBeta = html.match(/<div class="team-card-beta">[\s\S]*?<\/div>/)?.[0] || "";
+    assert(cardBeta.includes("Beta3.5.4"), "card-level beta badge should display the exact beta version label");
+    const charButton = html.match(/<div class="combo team-char-combo[\s\S]*?<button[\s\S]*?<\/button>/)?.[0] || "";
+    const weaponButton = html.match(/<div class="combo team-weapon-combo[\s\S]*?<button[\s\S]*?<\/button>/)?.[0] || "";
+    const setIcons = html.match(/<div class="team-gear-set-icons"[\s\S]*?<\/div>/)?.[0] || "";
+    const leadWrap = html.match(/<span class="team-gear-select-wrap">[\s\S]*?<\/span>/)?.[0] || "";
+    assert(!charButton.includes("Beta3.5.4") && !weaponButton.includes("Beta3.5.4") && !setIcons.includes("beta-version-badge") && !leadWrap.includes("Beta3.5.4"), "collapsed team card controls should not repeat beta badges inline");
+    const charOption = html.match(/<li[^>]+data-kind="char"[^>]+data-value="jinhsi"[\s\S]*?<\/li>/)?.[0] || "";
+    assert(charOption.includes("Beta3.5.4"), "character dropdown options should keep beta labels");
+    const weaponOption = html.match(new RegExp(`<li[^>]+data-kind="weapon"[^>]+data-value="${w.id}"[\\s\\S]*?</li>`))?.[0] || "";
+    assert(weaponOption.includes("Beta3.5.4") && !weaponOption.includes("combo-tag-sig"), "beta weapons should not render the signature weapon tag");
+    slot.echo.detailMode = true;
+    __T.render();
+    html = String(board.innerHTML);
+    assert(html.includes("echo-detail-set-select") && html.includes("Beta3.5.4"), "detailed echo selectors should expose beta version labels");
+    const css = fs.readFileSync(path.join(root, "styles.css"), "utf8");
+    assert(css.includes(".beta-version-badge") && css.includes("font-size: var(--font-xs);") && css.includes("left: 16px;") && css.includes("transform: translateY(-50%);"), "beta badges should use the project minimum font size and sit on the top-left card border");
+    assert(!css.includes(".team-card.on::before") && css.includes(".team-card.on {\n  border-color: #20211e;"), "selected team card should highlight the whole border instead of drawing a side bar");
+  } finally {
+    window.WUWA_LANGUAGES.extend("zh-CN", {
+      data: {
+        chars: { jinhsi: { betaVersion: null } },
+        weapons: { [w.id]: { betaVersion: null } },
+        sonatas: { [set.id]: restoredSonataPack },
+      },
+    });
+    window.WUWA_LANGUAGES.applyData(window.WUWA, window.WUWA_DATA, window.WUWA_SONATAS);
+    slot.echo.detailMode = false;
+  }
+}
+
+function teamCardLongNamesWrap() {
+  const css = fs.readFileSync(path.join(root, "styles.css"), "utf8");
+  const rule = (selector) => {
+    const start = css.indexOf(`${selector} {`);
+    if (start < 0) return "";
+    const end = css.indexOf("\n}", start);
+    return end >= 0 ? css.slice(start, end + 2) : "";
+  };
+  const nameRule = rule(".team-char-copy b");
+  const nameLineRule = rule(".team-char-name-line");
+  const metaRule = rule(".team-char-meta");
+  const headRule = rule(".team-card-head");
+  const seqRule = rule(".team-card .team-seq-select");
+  assert(nameRule.includes("overflow-wrap: anywhere;") && nameRule.includes("white-space: normal;"), "team card character names should wrap instead of truncating");
+  assert(nameLineRule.includes("overflow: visible;") && nameLineRule.includes("white-space: normal;"), "team card character name line should not clip wrapped names");
+  assert(metaRule.includes("text-overflow: ellipsis;") && metaRule.includes("white-space: nowrap;"), "team card character meta should remain compact");
+  assert(headRule.includes("grid-template-columns: minmax(0, 1fr);"), "team card character picker should use its own row");
+  assert(seqRule.includes("width: 100%;") && seqRule.includes("justify-self: stretch;"), "team card sequence selector should use a full standalone row");
+}
+
+function teamCardSequenceSelectShowsChainNames() {
+  resetTeam(["jinhsi"]);
+  __T.state.lang = "zh-CN";
+  __T.render();
+  const html = String(board.innerHTML);
+  const select = html.match(/<select class="team-meta-select team-seq-select"[\s\S]*?<\/select>/)?.[0] || "";
+  assert(select.includes("1链 · 沉海洄天溯") && select.includes("6链 · 寒尽又逢春"), "team card sequence selector should show resonance chain names");
+  assert(html.indexOf("team-seq-row") > html.indexOf("team-card-head"), "team card sequence selector should render below the character header");
+
+  __T.state.lang = "ja-JP";
+  __T.render();
+  let localized = String(board.innerHTML);
+  assert(localized.includes("チェーン1") && !localized.includes("共鳴チェーン1"), "Japanese sequence selector should use short chain labels");
+  assert(window.WUWA_LANGUAGES.source("链6·寒尽又逢春").startsWith("チェーン6"), "Japanese chain source labels should omit resonance");
+
+  __T.state.lang = "ko";
+  __T.render();
+  localized = String(board.innerHTML);
+  assert(localized.includes("체인1") && !localized.includes("공명 체인 1"), "Korean sequence selector should use short chain labels");
+  assert(window.WUWA_LANGUAGES.source("链6·寒尽又逢春").startsWith("체인6"), "Korean chain source labels should omit resonance");
+}
+
+function characterPickerSortsNewestFirst() {
+  resetTeam(["jinhsi"]);
+  __T.state.lang = "zh-CN";
+  __T.render();
+  const picked = [];
+  for (const match of String(board.innerHTML).matchAll(/data-act="combo-pick" data-kind="char" data-slot="0" data-value="([^"]+)"/g)) {
+    const id = match[1];
+    if (window.WUWA.chars[id] && !picked.includes(id)) picked.push(id);
+  }
+  const firstTwo = new Set(picked.slice(0, 2));
+  assert(firstTwo.has("yangyang_xuanling") && firstTwo.has("suisui"), `character picker should list the newest beta characters first: ${picked.slice(0, 5).join(", ")}`);
+  assert(Number(window.WUWA.chars[picked[2]]?.debut) <= 3.4, "stable characters should follow Beta3.5.4 characters");
+}
+
+function betaCharacterEntryRegressions() {
+  const betaChars = Object.values(window.WUWA.chars).filter((c) => c.betaVersion === "Beta3.5.4").map((c) => c.id).sort();
+  assert(betaChars.join(",") === "suisui,yangyang_xuanling", `Beta3.5.4 should only include Suisui and Yangyang: Xuanling: ${betaChars.join(", ")}`);
+
+  const y = window.WUWA.chars.yangyang_xuanling;
+  assert(y.effectTypes?.includes("havocBane"), "Yangyang: Xuanling should explicitly provide Havoc Bane");
+  assert(skill(y, "azure_na4").triggerEvents?.includes("applyHavocBane"), "Yangyang: Xuanling azure NA4 should apply Havoc Bane");
+  assert(skill(y, "feather_na4").triggerEvents?.includes("applyHavocBane"), "Yangyang: Xuanling feather NA4 should apply Havoc Bane");
+  assert(allBuffs(y).find((b) => b.id === "c6_heavy_amp")?.zone === "vulnerability", "Yangyang: Xuanling C6 target-takes-damage effect should be vulnerability");
+  assert(!(y.skills || []).some((s) => s.id === "outro"), "Yangyang: Xuanling outro should stay as a buff-only support effect, not a fabricated damage skill");
+  assert(allBuffs(y).some((b) => b.id === "b_outro_havoc_amp" && b.triggerOutro === true), "Yangyang: Xuanling outro support effect should remain confirmable as a buff");
+
+  const s = window.WUWA.chars.suisui;
+  const awakening = skill(s, "skill_awakening");
+  assert(awakening.multiplier === 28.63 && awakening.formula === "28.63%", "Suisui Awakening Spring should use the SkillAttributes lv10 value");
+  assert(awakening.requiresResourceFull === "cloud_breath", "Suisui Awakening Spring should require full Cloud Breath");
+  assert([].concat(awakening.requiresState || []).includes("form_zephyr"), "Suisui Awakening Spring should be available from Zephyr Stance");
+  assert(![].concat(awakening.impliedStates || []).includes("form_drizzle"), "Suisui Awakening Spring should not require already being in Drizzle Stance");
+  assert(skill(s, "intro").multiplier === 28.63 && skill(s, "intro").formula === "28.63%", "Suisui Intro should use the SkillAttributes lv10 value");
+
+  resetTeam(["suisui"]);
+  assert(__T.resolvedSkill(__T.state.slots[0])?.id === "skill_awakening", "Suisui default full-resource state should select Awakening Spring");
+
+  let e = weaponEffect("azure_oath", "e1");
+  assert(e.zone === "amplify" && e.damageType === "heavy" && e.triggerEvents?.includes("applyHavocBane"), "Azure Oath post-Havoc-Bane heavy effect should be damage deepen");
+  e = weaponEffect("azure_oath", "e2");
+  assert(e.zone === "defIgnore" && e.damageType === "heavy" && e.triggerEvents?.includes("applyHavocBane"), "Azure Oath post-Havoc-Bane heavy effect should include defense ignore");
+  e = weaponEffect("firstlights_herald", "e1");
+  assert(e.zone === "attackPercent" && e.scope === "team" && e.defaultActive === false, "Firstlight's Herald conditional team ATK should stay manually confirmed");
+
+  const set = findSonata(350433);
+  assert(set?.betaVersion === "Beta3.5.4" && set.fetterGroupId === 33, "Song of Feathered Trace should keep its Beta3.5.4 FetterGroup link");
+  assert(set.lead?.id === "unknown" && set.lead.cost === 4, "Song of Feathered Trace beta lead should use the current unknown 4C echo");
+  assert(set.p5.every((b) => b.defaultActive === false), "Song of Feathered Trace 5-piece effects should require manual confirmation");
+}
+
 function renderPreservesScroll() {
   const oldScrollX = window.scrollX;
   const oldScrollY = window.scrollY;
   const oldScrollTo = window.scrollTo;
   const oldRaf = window.requestAnimationFrame;
-  let restored = null;
+  const restored = [];
+  let raf = null;
   try {
     window.scrollX = 12;
     window.scrollY = 345;
-    window.scrollTo = (x, y) => { restored = [x, y]; };
-    window.requestAnimationFrame = (fn) => fn();
+    window.scrollTo = (x, y) => { restored.push([x, y]); };
+    window.requestAnimationFrame = (fn) => { raf = fn; };
     __T.render();
-    expectEqual(restored && restored.join(","), "12,345", "render should restore scroll position after full rerender");
+    expectEqual(restored[0] && restored[0].join(","), "12,345", "render should restore scroll position synchronously after full rerender");
+    assert(typeof raf === "function", "render should schedule a second scroll restoration for layout changes");
+    raf();
+    expectEqual(restored[1] && restored[1].join(","), "12,345", "render should restore scroll position again on the next frame");
   } finally {
     window.scrollX = oldScrollX;
     window.scrollY = oldScrollY;
@@ -655,6 +853,8 @@ function buffToggleUsesPartialRefresh() {
   assert(toggleHandler[1].includes("refreshAfterBuffToggle();"), "buff toggle should use partial refresh");
   assert(!toggleHandler[1].includes("render();"), "buff toggle should not full-render the whole board");
   assert(appJs.includes("function replaceOuterHTML") && appJs.includes("bind(targetControls);") && appJs.includes("bind(lower);") && appJs.includes("bind(buffStage);"), "partial buff refresh should replace and bind only local sections");
+  assert(appJs.includes("function withScrollRestore") && /function refreshAfterBuffToggle\(\)\s*\{\s*withScrollRestore/.test(appJs), "partial buff refresh should preserve scroll while replacing sections");
+  assert(appJs.includes("restoreScrollPosition(pos);\n  if (typeof window.requestAnimationFrame"), "scroll restoration should happen immediately and again on the next frame");
   assert(stageJs.includes('id="target-controls"') && stageJs.includes('id="damage-lower"') && stageJs.includes('id="buff-stage"'), "partial buff refresh needs stable target, damage, and buff section ids");
   assert(stageJs.includes("targetControlsHTML, damageLowerHTML, buffStageHTML"), "stage view should export partial section renderers");
 }
@@ -727,8 +927,15 @@ function characterSchemasAreLinked() {
     const resourceKeys = new Set((c.resources || []).flatMap((r) => [r.id, r.label].filter(Boolean)));
     const weaponId = c.defaultWeaponId ?? c.signatureWeaponId;
     if (expectedDebuts[c.id] != null && Number(c.debut) !== expectedDebuts[c.id]) bad.push(`${c.id}: debut ${c.debut} should be ${expectedDebuts[c.id]}`);
-    const expectedDir = `data/core/chara/v${Number(c.debut).toFixed(1)}/`;
+    const betaVersion = validateBetaVersion(`character ${c.id}`, c, bad);
+    const expectedDir = betaVersion ? `data/core/chara/${betaVersion}/` : `data/core/chara/v${Number(c.debut).toFixed(1)}/`;
     if (c.__file && !c.__file.startsWith(expectedDir)) bad.push(`${c.id}: debut ${c.debut} stored in ${c.__file}, expected ${expectedDir}`);
+    if (betaVersion) {
+      for (const lang of SUPPORTED_LANGS) {
+        const expectedLanguageFile = `data/languages/${lang}/chara/${betaVersion}/${c.id}.js`;
+        if (!fs.existsSync(path.join(root, expectedLanguageFile))) bad.push(`${c.id}: beta language file missing ${expectedLanguageFile}`);
+      }
+    }
     if (!skillIds.has(c.defaultSkillId)) bad.push(`${c.id}: defaultSkillId ${c.defaultSkillId} missing`);
     const defaultWeapon = findWeapon(weaponId);
     if (weaponId == null) bad.push(`${c.id}: default/signature weapon missing`);
@@ -811,6 +1018,32 @@ function characterSchemasAreLinked() {
         if (!stateDefFor(c, stateName)) bad.push(`${c.id}.${b.id}: requiresAllStates ${stateName} missing`);
       }
     }
+  }
+  assert(!bad.length, bad.join("\n"));
+}
+
+function validateBetaVersion(owner, item, bad) {
+  if (item?.betaVersion == null) return "";
+  const label = String(item.betaVersion).trim();
+  if (!BETA_VERSION_RE.test(label)) bad.push(`${owner}: betaVersion must look like Beta3.5.4`);
+  return label;
+}
+
+function betaDataFilesUseVersionedPaths() {
+  const bad = [];
+  const coreBetaPattern = /^data\/core\/beta\/Beta\d+\.\d+\.\d+\/(weapons|sonatas)\.js$/;
+  const languageBetaPattern = /^data\/languages\/(zh-CN|en-US|ko|ja-JP)\/beta\/Beta\d+\.\d+\.\d+\/(weapons|sonatas)\.js$/;
+  const betaFiles = [
+    ...jsFilesUnder(path.join(dataDir, "core")).filter((file) => /\/beta\//i.test(file)),
+    ...jsFilesUnder(path.join(dataDir, "languages")).filter((file) => /\/beta\//i.test(file)),
+  ];
+  betaFiles.forEach((file) => {
+    if (file.startsWith("data/core/beta/") && !coreBetaPattern.test(file)) bad.push(`${file}: beta weapon/sonata files must be under data/core/beta/BetaX.Y.Z/`);
+    if (file.startsWith("data/languages/") && file.includes("/beta/") && !languageBetaPattern.test(file)) bad.push(`${file}: beta weapon/sonata language files must be under data/languages/<lang>/beta/BetaX.Y.Z/`);
+  });
+  for (const file of charFiles) {
+    const match = file.match(/^data\/core\/chara\/(Beta[^/]+)\//);
+    if (match && !BETA_VERSION_RE.test(match[1])) bad.push(`${file}: beta character folder must look like Beta3.5.4`);
   }
   assert(!bad.length, bad.join("\n"));
 }
@@ -1111,10 +1344,13 @@ function rawSonataBuffs(set) {
 function equipmentSchemasAreLinked() {
   const bad = [];
   for (const w of weapons) {
+    validateBetaVersion(`weapon ${w.id}`, w, bad);
     const ids = new Set((w.effects || []).map((b) => b.id));
     for (const b of w.effects || []) validateBuffShape(`weapon ${w.id}.${b.id}`, b, ids, bad);
   }
   for (const s of sonatas) {
+    validateBetaVersion(`sonata ${s.id}`, s, bad);
+    for (const lead of [].concat(s.leads || [], s.lead || [])) validateBetaVersion(`sonata ${s.id}.${lead.id || lead.echo}`, lead, bad);
     const buffs = rawSonataBuffs(s);
     const ids = new Set(buffs.map((item) => item.id));
     for (const item of buffs) validateBuffShape(item.owner, item.buff, ids, bad);
@@ -2418,6 +2654,7 @@ function modalEffectAndOffsetControlRegressions() {
   slot.skill = "sc_na4";
   r = __T.compute();
   expectEqual(r.sk.id, "c3_sc_na4_dark_core", "Denia sequence 3 full Dark Core should replace Stagecraft basic attack stage 4");
+  assert(r.sk.formula === "128.00%" && r.multAdd === 1200 && Math.round(r.panel.baseMult * 100) / 100 === 1328, "Denia sequence 3 Dark Core multiplier increase should be modeled as multAdd, not duplicated in the skill formula");
   __T.render();
   assert(String(board.innerHTML).includes("黯核 (0-5)"), "Denia Dark Core cap should rise to 5 at sequence 3");
   slot.resources.darkCore = 4;
@@ -2909,7 +3146,8 @@ function p1WeaponEffectRegressions() {
 function iconAssetsUseSonataSets() {
   const assets = window.WUWA_ICON_ASSETS || {};
   assert(assets.sonatas && !assets.echoes, "icon assets should use sonata set icons, not lead echo icons");
-  const missing = sonatas.filter((set) => !set.icon || assets.sonatas[String(set.id)] !== set.icon).map((set) => set.name);
+  const stableSonatas = sonatas.filter((set) => !set.betaVersion);
+  const missing = stableSonatas.filter((set) => !set.icon || assets.sonatas[String(set.id)] !== set.icon).map((set) => set.name);
   assert(!missing.length, `sonata icons should attach to echo sets: ${missing.join(", ")}`);
   const leadIcons = sonatas.flatMap((set) => [].concat(set.leads || [], set.lead || []).filter((lead) => lead.icon).map((lead) => `${set.name}/${lead.echo}`));
   assert(!leadIcons.length, `lead echoes should not receive set icons: ${leadIcons.join(", ")}`);
@@ -2917,6 +3155,7 @@ function iconAssetsUseSonataSets() {
 
 const checks = [
   ["index loads every character file", indexLoadsAllCharacterFiles],
+  ["index loads every beta file", indexLoadsAllBetaFiles],
   ["language packs are split", languagePacksAreSplit],
   ["core data keeps display text out", coreDataDoesNotContainDisplayTextFields],
   ["state/resource tokens are language-neutral", stateAndResourceTokensAreLanguageNeutral],
@@ -2936,12 +3175,19 @@ const checks = [
   ["damage metric crit labels", damageMetricCritLabels],
   ["formula number formatting floors", formulaNumberFormattingFloors],
   ["formula card tooltips", formulaCardTooltips],
+  ["split damage renders under main damage", splitDamageRendersUnderMainDamage],
   ["intro entry skill-driven events", introEntryIsSkillDriven],
   ["formula strip responsive css", formulaStripResponsiveCss],
   ["topbar sticks to viewport top", topbarSticksToViewportTop],
+  ["beta version badges render", betaVersionBadgesRender],
+  ["team card long names wrap", teamCardLongNamesWrap],
+  ["team card sequence select shows chain names", teamCardSequenceSelectShowsChainNames],
+  ["character picker sorts newest first", characterPickerSortsNewestFirst],
+  ["beta character entry regressions", betaCharacterEntryRegressions],
   ["render preserves scroll", renderPreservesScroll],
   ["buff toggle uses partial refresh", buffToggleUsesPartialRefresh],
   ["weapon picker keeps string ids", weaponPickerKeepsStringIds],
+  ["beta data files use versioned paths", betaDataFilesUseVersionedPaths],
   ["character schema references resolve", characterSchemasAreLinked],
   ["resource fallback skill visibility", resourceFallbackSkillVisibility],
   ["all character resource thresholds are structured", allCharacterResourceThresholdsAreStructured],

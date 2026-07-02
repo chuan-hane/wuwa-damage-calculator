@@ -355,6 +355,7 @@ window.WUWA_SETTLEMENT = (() => {
       applyAeroErosion: "applyAeroErosion", 附加风蚀效应: "applyAeroErosion",
       applySpectroFrazzle: "applySpectroFrazzle", 附加光噪效应: "applySpectroFrazzle",
       applyGlacioChafe: "applyGlacioChafe", 附加霜渐效应: "applyGlacioChafe",
+      applyHavocBane: "applyHavocBane", 附加虚湮效应: "applyHavocBane",
       applyPhotochromicFlux: "applyPhotochromicFlux", 附加光致变染: "applyPhotochromicFlux",
       applyObservationMark: "applyObservationMark", 附加观测标记: "applyObservationMark",
       enterReincarnation: "enterReincarnation", 进入重世状态: "enterReincarnation",

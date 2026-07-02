@@ -18,7 +18,7 @@ window.WUWA_LANGUAGES.extend("ja-JP", {
       signature: "モチーフ",
       levelShort: "Lv.{value}",
       rank: "ランク{value}",
-      sequence: "共鳴チェーン{value}",
+      sequence: "チェーン{value}",
       cost: "Cost",
       custom: "カスタム",
       target: "目標",
@@ -39,6 +39,10 @@ window.WUWA_LANGUAGES.extend("ja-JP", {
       crit: "クリティカル",
       expected: "期待値",
       normal: "非クリティカル"
+    },
+    damageSplit: {
+      damage: "分割ダメージ：",
+      expected: "期待値分割："
     },
     hints: {
       res: "フィールド上の敵は通常、全属性に10%の基礎耐性を持ちます。特定属性耐性が明記されている敵は、その属性にさらに30%耐性を加算します。",

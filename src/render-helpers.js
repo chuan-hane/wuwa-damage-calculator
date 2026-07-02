@@ -13,6 +13,24 @@ window.WUWA_RENDER_HELPERS = (() => {
   const nonEchoEntries = (arr) => arr.filter(([label]) => label !== "声骸");
   const nonEchoSum = (arr) => sum(nonEchoEntries(arr));
   const pct = (v) => `${tnum(v)}%`;
+  const betaVersion = (item) => {
+    const value = typeof item === "string" ? item : item?.betaVersion;
+    return String(value || "").trim();
+  };
+
+  function betaVersionLabel(...items) {
+    return [...new Set(items.map(betaVersion).filter(Boolean))].join(" / ");
+  }
+
+  function betaVersionSuffix(...items) {
+    const label = betaVersionLabel(...items);
+    return label ? ` · ${label}` : "";
+  }
+
+  function betaBadgeHTML(...items) {
+    const label = betaVersionLabel(...items);
+    return label ? `<span class="beta-version-badge">${esc(label)}</span>` : "";
+  }
 
   const RES_HINT = { toString: () => L.t("hints.res") };
   const PROVIDER_META = {
@@ -37,15 +55,16 @@ window.WUWA_RENDER_HELPERS = (() => {
     return L.text(formula);
   }
   function parseFormulaParts(sk, layers = 0) {
-    if (!sk || !sk.formula || !String(sk.formula).includes("+")) return null;
+    if (!sk || !sk.formula) return null;
     const terms = String(sk.formula).split("+").map((p) => p.trim()).filter(Boolean);
     const parsed = terms.map((term) => {
-      const m = term.match(/^([\d.]+)%\s*(?:[×x*]\s*([\d.]+|[\u4e00-\u9fa5A-Za-z_]+))?$/);
+      const m = term.match(/^([\d.]+)%\s*(?:[×x*]\s*(.+))?$/);
       if (!m) return null;
       let count = 1;
-      if (m[2]) count = Number.isFinite(num(m[2], NaN)) ? num(m[2]) : (m[2] === sk.stackLabel ? layers : NaN);
+      const countKey = String(m[2] || "").trim();
+      if (countKey) count = Number.isFinite(num(countKey, NaN)) ? num(countKey) : (countKey === sk.stackLabel ? layers : NaN);
       if (!Number.isFinite(count)) return null;
-      return { percent: num(m[1]), count, stack: m[2] === sk.stackLabel };
+      return { percent: num(m[1]), count, stack: countKey === sk.stackLabel };
     });
     return parsed.every(Boolean) ? parsed : null;
   }
@@ -56,18 +75,20 @@ window.WUWA_RENDER_HELPERS = (() => {
       .map((p) => ({ percent: skillMultValue(p.percent * (p.stack ? 1 + (r.perStackBonus || 0) / 100 : 1), lvRatio), count: p.count }))
       .filter((p) => p.count > 0 && p.percent !== 0);
     if (r.multAdd) splitParts.push({ percent: r.multAdd, count: 1 });
-    return splitParts.length > 1 ? splitParts : [];
+    return splitParts.length > 1 || splitParts.some((part) => part.count !== 1) ? splitParts : [];
   }
   function damageSplitHTML(r, kind, compact = false) {
     const splitParts = multiplierPartsForResult(r);
     if (!splitParts.length) return "";
     const critFactor = kind === "crit" ? r.cd : kind === "expected" ? r.cr * r.cd + (1 - r.cr) : 1;
-    const expr = splitParts.map((part) => {
+    const damageExpr = splitParts.map((part) => {
       const value = Math.floor(r.damageScalar * part.percent * critFactor);
       return `${fmt(value)}${part.count !== 1 ? ` × ${part.count}` : ""}`;
     }).join(" + ");
-    const label = compact ? "" : (kind === "expected" ? L.text("期望分段：") : L.text("分段："));
-    return `<div class="damage-split${compact ? " compact" : ""}">${label}${expr}</div>`;
+    const damageLabel = compact ? "" : `<span>${esc(kind === "expected" ? L.t("damageSplit.expected") : L.t("damageSplit.damage"))}</span>`;
+    return `<div class="damage-split${compact ? " compact" : ""}">
+      <div class="damage-split-row">${damageLabel}<b>${esc(damageExpr)}</b></div>
+    </div>`;
   }
 
   function durationText(buff) {
@@ -174,6 +195,7 @@ window.WUWA_RENDER_HELPERS = (() => {
 
   return {
     fmt, fx, esc, tnum, parts, sum, nonEchoEntries, nonEchoSum, pct,
+    betaVersionLabel, betaVersionSuffix, betaBadgeHTML,
     RES_HINT, PROVIDER_META, PROVIDER_ORDER, DAMAGE_MODES,
     skillFormulaText, parseFormulaParts, multiplierPartsForResult, damageSplitHTML,
     durationText, shortDuration, buffSourceTitle, buffExcerpt, buffOriginalText,

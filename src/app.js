@@ -85,6 +85,25 @@ const {
 // —— 渲染 ——
 const board = document.getElementById("board");
 
+function captureScrollPosition() {
+  if (typeof window === "undefined" || typeof window.scrollTo !== "function") return null;
+  return [window.scrollX || window.pageXOffset || 0, window.scrollY || window.pageYOffset || 0];
+}
+
+function restoreScrollPosition(pos) {
+  if (!pos || typeof window === "undefined" || typeof window.scrollTo !== "function") return;
+  window.scrollTo(pos[0], pos[1]);
+}
+
+function withScrollRestore(update) {
+  const pos = captureScrollPosition();
+  const result = update();
+  if (!pos) return result;
+  restoreScrollPosition(pos);
+  if (typeof window.requestAnimationFrame === "function") window.requestAnimationFrame(() => restoreScrollPosition(pos));
+  return result;
+}
+
 function syncLanguage() {
   L.set(state.lang);
   L.applyData(W, window.WUWA_DATA, window.WUWA_SONATAS);
@@ -95,16 +114,11 @@ function syncLanguage() {
 
 function render() {
   syncLanguage();
-  const keepScroll = typeof window !== "undefined" && typeof window.scrollTo === "function";
-  const scrollX = keepScroll ? (window.scrollX || window.pageXOffset || 0) : 0;
-  const scrollY = keepScroll ? (window.scrollY || window.pageYOffset || 0) : 0;
-  const r = compute();
-  board.innerHTML = stageLayoutHTML(r);
-  bind();
-  if (!keepScroll) return;
-  const restore = () => window.scrollTo(scrollX, scrollY);
-  if (typeof window.requestAnimationFrame === "function") window.requestAnimationFrame(restore);
-  else restore();
+  withScrollRestore(() => {
+    const r = compute();
+    board.innerHTML = stageLayoutHTML(r);
+    bind();
+  });
 }
 function setHTML(id, h) { const el = document.getElementById(id); if (el) el.innerHTML = h; }
 function replaceOuterHTML(id, h) {
@@ -170,22 +184,24 @@ function repaint() {
 }
 
 function refreshAfterBuffToggle() {
-  const r = compute();
-  refreshPanelEntryTotals(r);
-  setHTML("out-exp", fmt(r.expected));
-  setHTML("out-normal", fmt(r.normal));
-  setHTML("out-crit", fmt(r.critHit));
-  const mode = DAMAGE_MODES[activeDamageMode()];
-  setHTML("out-active", fmt(mode.value(r)));
-  setHTML("out-active-split", damageSplitHTML(r, mode.split));
-  setHTML("metric-strip", damageMetricCardsHTML(r));
-  const targetControls = replaceOuterHTML("target-controls", targetControlsHTML(r));
-  const lower = replaceOuterHTML("damage-lower", damageLowerHTML(r));
-  const buffStage = replaceOuterHTML("buff-stage", buffStageHTML());
-  if (!targetControls || !lower || !buffStage) { render(); return; }
-  bind(targetControls);
-  bind(lower);
-  bind(buffStage);
+  withScrollRestore(() => {
+    const r = compute();
+    refreshPanelEntryTotals(r);
+    setHTML("out-exp", fmt(r.expected));
+    setHTML("out-normal", fmt(r.normal));
+    setHTML("out-crit", fmt(r.critHit));
+    const mode = DAMAGE_MODES[activeDamageMode()];
+    setHTML("out-active", fmt(mode.value(r)));
+    setHTML("out-active-split", damageSplitHTML(r, mode.split));
+    setHTML("metric-strip", damageMetricCardsHTML(r));
+    const targetControls = replaceOuterHTML("target-controls", targetControlsHTML(r));
+    const lower = replaceOuterHTML("damage-lower", damageLowerHTML(r));
+    const buffStage = replaceOuterHTML("buff-stage", buffStageHTML());
+    if (!targetControls || !lower || !buffStage) { render(); return; }
+    bind(targetControls);
+    bind(lower);
+    bind(buffStage);
+  });
 }
 
 function updateEnemyInput(el) {

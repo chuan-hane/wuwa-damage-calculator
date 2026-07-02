@@ -5,7 +5,7 @@ window.WUWA_PANEL_VIEW = (() => {
     const {
       STAT_DEF, ELEMENTS, TYPES, TYPE_FIELD_BY_DAMAGE, TYPE_BY_KEY, TYPE_ADD_ORDER, ELEM_ADD_ORDER, num,
     } = window.WUWA_RULES;
-    const { fmt, esc, tnum, parts, sum, nonEchoEntries, nonEchoSum, pct } = window.WUWA_RENDER_HELPERS;
+    const { fmt, esc, tnum, parts, sum, nonEchoEntries, nonEchoSum, pct, betaBadgeHTML } = window.WUWA_RENDER_HELPERS;
     const L = window.WUWA_LANGUAGES;
     const BREAK_AMP_RE = /谐度破坏增幅|谐度破坏|偏谐|失谐|震谐|集谐|骇破|偏移|干涉|Tune|Hack|Mistuned/i;
     const PANEL_BUFF_ROUTE = { attackPercent: "atkPct", hpPercent: "hpPct", defensePercent: "defPct", critRate: "crit", critDamage: "critDmg", energyRegen: "er", healingBonus: "heal", breakAmp: "breakAmp", discordEff: "discordEff" };
@@ -260,7 +260,7 @@ window.WUWA_PANEL_VIEW = (() => {
       const echoRows = rowData.map((row) => `<div class="panel-echo-row">${panelEchoInputsHTML(row, slot, idx, c)}</div>`).join("") + (addOpts.length ? `<div class="panel-echo-row panel-echo-row--add" aria-hidden="true"></div>` : "");
       return `<div class="panel-entry-table" id="panel-entry-table">
     <div class="panel-entry-head">
-      <div class="module-title"><h2>${esc(L.text("角色面板"))} <span class="module-title-name">${esc(L.charName(c))}</span></h2></div>
+      <div class="module-title"><h2>${esc(L.text("角色面板"))} <span class="module-title-name">${esc(L.charName(c))}</span>${betaBadgeHTML(c)}</h2></div>
       <div class="panel-entry-echo-anchor"></div>
       <div></div>
     </div>
