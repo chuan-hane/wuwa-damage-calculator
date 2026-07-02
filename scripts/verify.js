@@ -534,7 +534,7 @@ function sourceTextHasNoEchoTypo() {
     "README.md",
     "README.en.md",
     "README.ko.md",
-    "README.ja-JP.md",
+    "README.ja.md",
     "scripts/verify.js",
     ...jsFilesUnder(path.join(root, "src")),
     ...jsFilesUnder(path.join(root, "data/languages")),
@@ -549,7 +549,7 @@ function readmesLinkLiveSite() {
     ["README.md", "Chinese"],
     ["README.en.md", "English"],
     ["README.ko.md", "Korean"],
-    ["README.ja-JP.md", "Japanese"],
+    ["README.ja.md", "Japanese"],
   ];
   for (const [file, label] of readmes) {
     assert(fs.readFileSync(path.join(root, file), "utf8").includes(url), `${label} README should link to the live site`);
@@ -558,15 +558,31 @@ function readmesLinkLiveSite() {
 
 function readmeLanguageNavUsesCodes() {
   const navs = [
-    ["README.md", "### ZH | [EN](README.en.md) | [KO](README.ko.md) | [JA](README.ja-JP.md)"],
-    ["README.en.md", "### [ZH](README.md) | EN | [KO](README.ko.md) | [JA](README.ja-JP.md)"],
-    ["README.ko.md", "### [ZH](README.md) | [EN](README.en.md) | KO | [JA](README.ja-JP.md)"],
-    ["README.ja-JP.md", "### [ZH](README.md) | [EN](README.en.md) | [KO](README.ko.md) | JA"],
+    ["README.md", "### ZH | [EN](README.en.md) | [KO](README.ko.md) | [JA](README.ja.md)"],
+    ["README.en.md", "### [ZH](README.md) | EN | [KO](README.ko.md) | [JA](README.ja.md)"],
+    ["README.ko.md", "### [ZH](README.md) | [EN](README.en.md) | KO | [JA](README.ja.md)"],
+    ["README.ja.md", "### [ZH](README.md) | [EN](README.en.md) | [KO](README.ko.md) | JA"],
   ];
   for (const [file, expected] of navs) {
     const firstLine = fs.readFileSync(path.join(root, file), "utf8").split(/\r?\n/, 1)[0];
     assert(firstLine === expected, `${file} should use language-code navigation`);
   }
+}
+
+function localizedReadmesUseReviewedTerminology() {
+  const checks = [
+    ["README.en.md", [/is aims/i, /Stat Bonus nodes/, /damage taken zone/, /final DMG increase/, /\sx\s/]],
+    ["README.ko.md", [/Buff/, /고정 스탯 보너스 노드/, /받는 피해 구역/, /\sx\s/]],
+    ["README.ja.md", [/固定ステータスボーナスノード/, /\sx\s/]],
+  ];
+  const bad = [];
+  for (const [file, patterns] of checks) {
+    const text = fs.readFileSync(path.join(root, file), "utf8");
+    for (const pattern of patterns) {
+      if (pattern.test(text)) bad.push(`${file}: ${pattern}`);
+    }
+  }
+  assert(!bad.length, `localized README terminology should stay reviewed:\n${bad.join("\n")}`);
 }
 
 function damageMetricCritLabels() {
@@ -2907,6 +2923,7 @@ const checks = [
   ["source text has no echo typo", sourceTextHasNoEchoTypo],
   ["READMEs link live site", readmesLinkLiveSite],
   ["README language nav uses codes", readmeLanguageNavUsesCodes],
+  ["localized READMEs use reviewed terminology", localizedReadmesUseReviewedTerminology],
   ["damage metric crit labels", damageMetricCritLabels],
   ["formula number formatting floors", formulaNumberFormattingFloors],
   ["formula card tooltips", formulaCardTooltips],
