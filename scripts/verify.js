@@ -374,8 +374,8 @@ function japaneseRenderCompletes() {
   __T.render();
   const html = String(board.innerHTML);
   assert(document.documentElement.lang === "ja", "Japanese render should set html lang=ja");
-  assert(document.title === "鳴潮ダメージ計算機", "Japanese render should set the document title");
-  assert(html.includes("<h1>鳴潮ダメージ計算機</h1>"), "topbar should render the Japanese title");
+  assert(document.title === "鳴潮 / Wuthering Waves Damage Calculator", "Japanese render should set the document title");
+  assert(html.includes("<h1>鳴潮 / Wuthering Waves Damage Calculator</h1>"), "topbar should render the Japanese title with the full English calculator name");
   assert(html.includes('aria-label="GitHub リポジトリを開く"'), "Japanese topbar should localize the GitHub repository link label");
   assert(html.includes("共鳴者ステータス"), "panel heading should render in Japanese");
   assert(html.includes("今回の攻撃 Buff"), "buff heading should render in Japanese");
@@ -615,6 +615,15 @@ function formulaStripResponsiveCss() {
   assert(css.includes(".metric-card b {\n  display: block;") && css.includes("font-variant-numeric: tabular-nums;\n  overflow-wrap: anywhere;"), "metric card values should wrap internally before the cards wrap");
   assert(css.includes(".effect-mini-strip.formula-strip--multiply {\n    grid-template-columns: repeat(2, minmax(0, 1fr));\n    padding-left: var(--formula-gap);"), "effect and offset formula wraps should reserve room for row-start multiply signs");
   assert(!css.includes("nth-child(4n + 1)::before") && !css.includes("nth-child(odd)::before"), "wrapped formulas should keep row-start multiply signs visible");
+}
+
+function topbarSticksToViewportTop() {
+  const css = fs.readFileSync(path.join(root, "styles.css"), "utf8");
+  assert(css.includes("--topbar-y-pad: 0px;"), "fixed topbar should sit flush with the viewport top");
+  assert(css.includes("--font-page-title: 22px;"), "fixed topbar title should stay visually prominent");
+  assert(css.includes("--topbar-h: 68px;"), "stage shell should reserve enough space for the larger fixed topbar");
+  assert(css.includes("padding: 0 var(--page-x-pad) var(--page-y-pad);"), "stage page padding should not reintroduce a top gap above the fixed topbar");
+  assert(css.includes(".stage-topbar {\n  position: fixed;") && css.includes("border-radius: 0 0 14px 14px;"), "fixed topbar should have square top corners when attached to the viewport top");
 }
 
 function renderPreservesScroll() {
@@ -2929,6 +2938,7 @@ const checks = [
   ["formula card tooltips", formulaCardTooltips],
   ["intro entry skill-driven events", introEntryIsSkillDriven],
   ["formula strip responsive css", formulaStripResponsiveCss],
+  ["topbar sticks to viewport top", topbarSticksToViewportTop],
   ["render preserves scroll", renderPreservesScroll],
   ["buff toggle uses partial refresh", buffToggleUsesPartialRefresh],
   ["weapon picker keeps string ids", weaponPickerKeepsStringIds],
