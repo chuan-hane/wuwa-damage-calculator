@@ -1,4 +1,4 @@
-### [中文](README.md) | [EN](README.en.md) | [KO](README.ko.md) | JA
+### [ZH](README.md) | [EN](README.en.md) | [KO](README.ko.md) | JA
 
 # 鳴潮ダメージ計算機
 

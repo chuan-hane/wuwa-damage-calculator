@@ -201,7 +201,6 @@ function visibleText(html) {
     .replace(/<[^>]+>/g, " ")
     .replace(/&[^;]+;/g, " ")
     .replace(/\s+/g, " ")
-    .replace(/中文/g, "")
     .trim();
 }
 
@@ -304,7 +303,7 @@ function initialRenderCompletes() {
   const skillDetailIdx = html.indexOf('<div id="dmg-type"');
   assert(html.includes("stage-shell"), "initial render did not produce the stage shell");
   assert(html.includes("<h1>wuwa伤害计算器</h1>"), "topbar title should stay wuwa damage calculator");
-  assert(html.includes('class="stage-language"') && html.includes('data-act="language"') && html.includes('data-lang="en-US"') && html.includes('data-lang="ko"') && html.includes('data-lang="ja-JP"'), "topbar should render functional language switch controls");
+  assert(html.includes('class="stage-language"') && html.includes('data-act="language"') && html.includes('data-lang="zh-CN"') && html.includes(">ZH</button>") && html.includes('data-lang="en-US"') && html.includes('data-lang="ko"') && html.includes('data-lang="ja-JP"'), "topbar should render functional language switch controls");
   assert(html.includes('class="stage-github-link"') && html.includes("https://github.com/chuan-hane/wuwa-damage-calculator"), "topbar should link to the GitHub repository");
   assert((html.match(/data-act="echo-detail"/g) || []).length === 3 && html.includes("详细声骸模式"), "team cards should render detailed echo mode switches");
   assert(damageIdx >= 0 && formulaIdx > damageIdx && formulaIdx < lowerIdx, "main damage formula should sit below the large damage number and above lower controls");
@@ -554,6 +553,19 @@ function readmesLinkLiveSite() {
   ];
   for (const [file, label] of readmes) {
     assert(fs.readFileSync(path.join(root, file), "utf8").includes(url), `${label} README should link to the live site`);
+  }
+}
+
+function readmeLanguageNavUsesCodes() {
+  const navs = [
+    ["README.md", "### ZH | [EN](README.en.md) | [KO](README.ko.md) | [JA](README.ja-JP.md)"],
+    ["README.en.md", "### [ZH](README.md) | EN | [KO](README.ko.md) | [JA](README.ja-JP.md)"],
+    ["README.ko.md", "### [ZH](README.md) | [EN](README.en.md) | KO | [JA](README.ja-JP.md)"],
+    ["README.ja-JP.md", "### [ZH](README.md) | [EN](README.en.md) | [KO](README.ko.md) | JA"],
+  ];
+  for (const [file, expected] of navs) {
+    const firstLine = fs.readFileSync(path.join(root, file), "utf8").split(/\r?\n/, 1)[0];
+    assert(firstLine === expected, `${file} should use language-code navigation`);
   }
 }
 
@@ -2894,6 +2906,7 @@ const checks = [
   ["target weapon buff excerpts stay concise", targetWeaponBuffExcerptsStayConcise],
   ["source text has no echo typo", sourceTextHasNoEchoTypo],
   ["READMEs link live site", readmesLinkLiveSite],
+  ["README language nav uses codes", readmeLanguageNavUsesCodes],
   ["damage metric crit labels", damageMetricCritLabels],
   ["formula number formatting floors", formulaNumberFormattingFloors],
   ["formula card tooltips", formulaCardTooltips],

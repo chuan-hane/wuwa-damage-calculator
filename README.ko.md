@@ -1,4 +1,4 @@
-### [中文](README.md) | [EN](README.en.md) | KO | [JA](README.ja-JP.md)
+### [ZH](README.md) | [EN](README.en.md) | KO | [JA](README.ja-JP.md)
 
 # 명조 피해 계산기
 
