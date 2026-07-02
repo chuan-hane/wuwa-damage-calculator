@@ -62,34 +62,35 @@ window.WUWA_RULES = (() => {
     none: { key: "none", label: "不计算", kind: "none" },
     electro: {
       key: "electro", label: "电磁效应", shortLabel: "电磁", element: "electro", kind: "attack",
-      defaultStacks: 10, baseCap: 10, maxStacks: 13, supportsCapBonus: true,
+      defaultStacks: 10, baseCap: 10, maxStacks: 16, supportsCapBonus: true,
       rates: { 1: 50, 2: 90.65, 3: 131.3, 4: 171.95, 5: 212.6, 6: 253.25, 7: 293.9, 8: 334.55, 9: 375.2, 10: 415.85, 11: 554.47, 12: 693.08, 13: 831.7 },
       rageLabel: "电磁爆发", rageRates: "same",
-      note: "电磁爆发是独立溢出层数，触发时与电磁效应各自查同一张层数倍率表后相加。",
+      note: "电磁爆发是独立溢出层数，触发时与电磁效应各自查同一张层数倍率表后相加；14-16层倍率待查证。",
     },
     frost: {
       key: "frost", label: "霜渐效应", shortLabel: "霜渐", element: "glacio", kind: "attack",
-      defaultStacks: 10, baseCap: 10, maxStacks: 13, supportsCapBonus: true,
+      defaultStacks: 10, baseCap: 10, maxStacks: 16, supportsCapBonus: true,
       rates: { 1: 24.5, 2: 44.42, 3: 64.34, 4: 84.26, 5: 104.17, 6: 124.09, 7: 144.01, 8: 163.93, 9: 183.85, 10: 203.77, 11: 271.69, 12: 339.61, 13: 407.53 },
+      note: "14-16层倍率待查证。",
     },
     fusion: {
       key: "fusion", label: "聚爆效应", shortLabel: "聚爆", element: "fusion", kind: "attack",
-      defaultStacks: 10, baseCap: 10, maxStacks: 13, supportsCapBonus: true,
+      defaultStacks: 10, baseCap: 10, maxStacks: 16, supportsCapBonus: true,
       allowedStacks: [10, 13], rates: { 10: 698.63, 13: 1397.26 },
-      note: "聚爆按满层结算，当前只录入 10 层与上限+3后的 13 层。",
+      note: "聚爆按满层结算，当前只录入 10 层与上限+3后的 13 层；16层倍率待查证。",
     },
     lightNoise: {
       key: "lightNoise", label: "光噪效应", shortLabel: "光噪", element: "spectro", kind: "fixed",
-      defaultStacks: 10, baseCap: 10, maxStacks: 13, supportsCapBonus: true, fixedFormula: "lightNoise",
+      defaultStacks: 10, baseCap: 10, maxStacks: 16, supportsCapBonus: true, fixedFormula: "lightNoise",
       note: "光噪按当前层数单次基础值计算；消耗式累计结算另算。",
     },
     windErosion: {
       key: "windErosion", label: "风蚀效应", shortLabel: "风蚀", element: "aero", kind: "fixed",
-      defaultStacks: 3, baseCap: 6, maxStacks: 9, supportsCapBonus: true, fixedFormula: "windErosion",
+      defaultStacks: 3, baseCap: 6, maxStacks: 12, supportsCapBonus: true, fixedFormula: "windErosion",
     },
     havocBane: {
       key: "havocBane", label: "虚湮效应", shortLabel: "虚湮", element: "havoc", kind: "defShred",
-      defaultStacks: 3, baseCap: 3, maxStacks: 6, valuePerStack: 2, supportsCapBonus: true,
+      defaultStacks: 3, baseCap: 3, maxStacks: 9, valuePerStack: 2, supportsCapBonus: true,
       note: "虚湮不是伤害，按每层降低防御显示。",
     },
   };

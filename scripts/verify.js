@@ -2511,6 +2511,21 @@ function effectDamageModel() {
   assert(r.effect.damage > baseDamage, "13-stack electro effect should exceed 10-stack damage");
   delete window.WUWA.chars.verina.effectCapBonus;
 
+  resetTeam(["buling", "rover_aero"]);
+  __T.setBuffToggle(__T.state.slots[1], 1, "b_outro_cap", true);
+  __T.state.effectCalc = { key: "electro", stacks: 13, electroRageStacks: 13, deepen: 0 };
+  r = __T.compute();
+  expectEqual(r.effect.cap, 10, "Aero Rover outro cap bonus should only target wind erosion");
+  expectEqual(r.effect.stacks, 10, "Aero Rover outro should not raise electro stacks");
+
+  resetTeam(["buling", "cartethyia"]);
+  __T.state.slots[1].seq = 2;
+  __T.state.slots[1].toggles[__T.stateChoiceKey("形态")] = "芙露德莉斯";
+  __T.state.effectCalc = { key: "electro", stacks: 13, electroRageStacks: 13, deepen: 0 };
+  r = __T.compute();
+  expectEqual(r.effect.cap, 10, "Cartethyia sequence 2 cap bonus should only target wind erosion");
+  expectEqual(r.effect.stacks, 10, "Cartethyia sequence 2 should not raise electro stacks");
+
   resetTeam(["jinhsi", "chisa"]);
   __T.state.effectCalc = { key: "havocBane", providerIdx: 1, stacks: 6, deepen: 0 };
   r = __T.compute();
@@ -2531,20 +2546,62 @@ function effectDamageModel() {
   assert(r.defFactor > noHavocDefFactor, "havoc bane defense shred should affect normal damage defense factor");
   assert(r.effect.damage == null, "havoc bane should not produce damage");
 
+  resetTeam(["yangyang_xuanling", "chisa"]);
+  __T.state.slots[0].skill = "intro";
+  __T.state.slots[0].seq = 3;
+  __T.setBuffToggle(__T.state.slots[1], 1, "b_outro_effect_cap", true);
+  __T.state.effectCalc = { key: "havocBane", providerIdx: 0, stacks: 9, deepen: 0 };
+  r = __T.compute();
+  expectEqual(r.effect.cap, 9, "Yangyang Xuanling sequence 3 and Chisa outro cap bonuses should stack up to 9 Havoc Bane stacks");
+  expectEqual(r.effect.stacks, 9, "Yangyang Xuanling should allow 9 Havoc Bane stacks when both cap bonuses are active");
+  expectEqual(r.effect.defShred, 18, "havoc bane should display 9-stack defense shred when both cap bonuses are active");
+
   resetTeam(["zani", "chisa"]);
   __T.setBuffToggle(__T.state.slots[1], 1, "b_outro_effect_cap", true);
   __T.state.effectCalc = { key: "lightNoise", stacks: 13, deepen: 0 };
   r = __T.compute();
   expectEqual(r.effect.stacks, 13, "light noise should allow 13 with Chisa outro cap");
+
+  resetTeam(["zani", "suisui", "chisa"]);
+  __T.state.slots[1].toggles[__T.stateChoiceKey("ceaseless_landscape")] = "ceaseless_landscape_active";
+  __T.setBuffToggle(__T.state.slots[1], 1, "b_landscape_effect_cap", true);
+  __T.setBuffToggle(__T.state.slots[2], 2, "b_outro_effect_cap", true);
+  __T.state.effectCalc = { key: "lightNoise", stacks: 16, deepen: 0 };
+  r = __T.compute();
+  expectEqual(r.effect.cap, 16, "Suisui field and Chisa outro cap bonuses should stack light noise up to 16");
+  expectEqual(r.effect.stacks, 16, "light noise should allow 16 stacks when both cap bonuses are active");
+  assert(r.effect.valid, "light noise 16-stack fixed formula should remain valid");
   __T.state.effectCalc.stacks = 0;
   r = __T.compute();
   expectEqual(r.effect.damage, 0, "zero-stack light noise should deal zero effect damage");
+
+  resetTeam(["buling", "suisui", "chisa"]);
+  __T.state.slots[1].toggles[__T.stateChoiceKey("ceaseless_landscape")] = "ceaseless_landscape_active";
+  __T.setBuffToggle(__T.state.slots[1], 1, "b_landscape_effect_cap", true);
+  __T.setBuffToggle(__T.state.slots[2], 2, "b_outro_effect_cap", true);
+  __T.state.effectCalc = { key: "electro", stacks: 16, electroRageStacks: 16, deepen: 0 };
+  r = __T.compute();
+  expectEqual(r.effect.cap, 16, "Suisui field and Chisa outro cap bonuses should stack electro up to 16");
+  expectEqual(r.effect.stacks, 16, "electro should keep the 16-stack input even while its 16-stack rate is unrecorded");
+  expectEqual(r.effect.rageStacks, 16, "electro rage should share the 16-stack cap");
+  assert(!r.effect.valid, "electro 16-stack damage should not be calculated until 14-16 rates are recorded");
 
   resetTeam(["ciaccona", "chisa"]);
   __T.setBuffToggle(__T.state.slots[1], 1, "b_outro_effect_cap", true);
   __T.state.effectCalc = { key: "windErosion", stacks: 9, deepen: 0 };
   r = __T.compute();
   expectEqual(r.effect.stacks, 9, "wind erosion should allow 9 with Chisa outro cap");
+
+  resetTeam(["cartethyia", "suisui", "chisa"]);
+  __T.state.slots[0].seq = 2;
+  __T.state.slots[0].toggles[__T.stateChoiceKey("form_1")] = "form_1_option_2";
+  __T.state.slots[1].toggles[__T.stateChoiceKey("ceaseless_landscape")] = "ceaseless_landscape_active";
+  __T.setBuffToggle(__T.state.slots[1], 1, "b_landscape_effect_cap", true);
+  __T.setBuffToggle(__T.state.slots[2], 2, "b_outro_effect_cap", true);
+  __T.state.effectCalc = { key: "windErosion", providerIdx: 0, stacks: 12, deepen: 0 };
+  r = __T.compute();
+  expectEqual(r.effect.cap, 12, "Cartethyia sequence 2, Suisui field, and Chisa outro cap bonuses should stack wind erosion up to 12");
+  expectEqual(r.effect.stacks, 12, "wind erosion should allow 12 stacks when three cap bonuses are active");
 
   resetTeam(["cartethyia", "chisa"]);
   __T.state.slots[0].seq = 2;
@@ -2621,6 +2678,43 @@ function effectPanelVisibility() {
   __T.state.effectCalc.stacks = 9;
   __T.render();
   assert(String(board.innerHTML).includes("上限=3层+卡提希娅2链3层+千咲延奏3层=9层"), "multiple cap bonuses should render as an additive cap equation");
+
+  resetTeam(["cartethyia", "suisui", "chisa"]);
+  __T.state.slots[0].seq = 2;
+  __T.state.slots[0].toggles[__T.stateChoiceKey("form_1")] = "form_1_option_2";
+  __T.state.slots[1].toggles[__T.stateChoiceKey("ceaseless_landscape")] = "ceaseless_landscape_active";
+  __T.setBuffToggle(__T.state.slots[1], 1, "b_landscape_effect_cap", true);
+  __T.setBuffToggle(__T.state.slots[2], 2, "b_outro_effect_cap", true);
+  __T.state.effectCalc = { key: "windErosion", providerIdx: 0, stacks: 12, deepen: 0 };
+  __T.render();
+  const windCapHTML = String(board.innerHTML);
+  assert(windCapHTML.includes("上限=3层+卡提希娅2链3层+穗穗·共鸣解放·康衢之谣3层+千咲延奏3层=12层"), "three wind erosion cap bonuses should render together");
+
+  resetTeam(["zani", "suisui", "chisa"]);
+  __T.state.slots[1].toggles[__T.stateChoiceKey("ceaseless_landscape")] = "ceaseless_landscape_active";
+  __T.setBuffToggle(__T.state.slots[1], 1, "b_landscape_effect_cap", true);
+  __T.setBuffToggle(__T.state.slots[2], 2, "b_outro_effect_cap", true);
+  __T.state.effectCalc = { key: "lightNoise", stacks: 16, deepen: 0 };
+  __T.render();
+  assert(String(board.innerHTML).includes("上限=10层+穗穗·共鸣解放·康衢之谣3层+千咲延奏3层=16层"), "Suisui and Chisa cap bonuses should render together for light noise");
+
+  resetTeam(["buling", "suisui", "chisa"]);
+  __T.state.slots[1].toggles[__T.stateChoiceKey("ceaseless_landscape")] = "ceaseless_landscape_active";
+  __T.setBuffToggle(__T.state.slots[1], 1, "b_landscape_effect_cap", true);
+  __T.setBuffToggle(__T.state.slots[2], 2, "b_outro_effect_cap", true);
+  __T.state.effectCalc = { key: "electro", stacks: 16, electroRageStacks: 16, deepen: 0 };
+  __T.render();
+  const electroCapHTML = String(board.innerHTML);
+  assert(electroCapHTML.includes("效应/爆发上限=10层+穗穗·共鸣解放·康衢之谣3层+千咲延奏3层=16层"), "Suisui and Chisa cap bonuses should render together for electro");
+  assert(electroCapHTML.includes("当前只录入1/2/3/4/5/6/7/8/9/10/11/12/13层倍率"), "missing 16-stack electro rates should show recorded stack list");
+
+  resetTeam(["yangyang_xuanling", "chisa"]);
+  __T.state.slots[0].skill = "intro";
+  __T.state.slots[0].seq = 3;
+  __T.setBuffToggle(__T.state.slots[1], 1, "b_outro_effect_cap", true);
+  __T.state.effectCalc = { key: "havocBane", providerIdx: 0, stacks: 9, deepen: 0 };
+  __T.render();
+  assert(String(board.innerHTML).includes("上限=3层+秧秧·玄翎3链3层+千咲延奏3层=9层"), "Havoc Bane cap bonuses from Yangyang Xuanling chain 3 and Chisa outro should both render");
 }
 
 function modalEffectAndOffsetControlRegressions() {
