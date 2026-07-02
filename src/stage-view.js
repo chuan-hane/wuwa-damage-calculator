@@ -11,12 +11,14 @@ window.WUWA_STAGE_VIEW = (() => {
     const L = window.WUWA_LANGUAGES;
     const {
       fmt, fx, esc, tnum, RES_HINT, DAMAGE_MODES, skillFormulaText, damageSplitHTML,
+      betaVersionLabel, betaVersionSuffix, betaBadgeHTML,
     } = window.WUWA_RENDER_HELPERS;
     const asList = (v) => Array.isArray(v) ? v : (v ? [v] : []);
     const STATE_SKILL_FILTER_KINDS = new Set(["mode", "form", "phase"]);
     const SONATA_DISPLAY_ORDER = new Map([
       1, 2, 3, 4, 5, 6, 7, 16, 8, 10, 11, 13, 15, 12, 14, 17, 18, 19, 20, 21, 22, 23, 25, 33, 26, 27, 28, 29, 30, 31, 24,
     ].map((id, idx) => [id, idx]));
+    const charSortValue = (c) => Number(c?.debut ?? -Infinity);
 
     function skillStatKey(stat) {
       if (stat === "生命" || stat === "hp") return "hp";
@@ -30,9 +32,9 @@ window.WUWA_STAGE_VIEW = (() => {
       if (kind === "char") {
         const cur = ch(slot.char);
         curLabel = cur ? L.charName(cur) : L.t("common.empty"); ph = L.t("common.searchCharacter");
-        opts = W.order.map(ch).slice().sort((a, b) => (a.debut ?? 99) - (b.debut ?? 99)).map((c) => ({
-          v: c.id, sel: c.id === slot.char, icon: c.portrait, label: L.charName(c),
-          search: (c.name + " " + L.officialName("chars", c.id) + " " + (c.aliases || []).join(" ")).toLowerCase(),
+        opts = W.order.map(ch).slice().sort((a, b) => charSortValue(b) - charSortValue(a)).map((c) => ({
+          v: c.id, sel: c.id === slot.char, icon: c.portrait, label: L.charName(c), betaVersion: c.betaVersion,
+          search: (c.name + " " + L.officialName("chars", c.id) + " " + (c.aliases || []).join(" ") + " " + betaVersionLabel(c)).toLowerCase(),
         }));
         if (idx !== state.outputIdx) opts.unshift({ v: "", sel: !slot.char, icon: "", label: L.t("common.empty"), search: "空 none empty kong 不带人" });
       } else {
@@ -40,13 +42,13 @@ window.WUWA_STAGE_VIEW = (() => {
         curLabel = cur ? L.weaponName(cur) : L.t("common.none"); ph = L.t("common.searchWeapon");
         opts = WEAPONS.filter((w) => w.type === ch(slot.char).weaponType)
           .slice().sort((a, b) => b.quality - a.quality || (b.id === sig) - (a.id === sig) || L.weaponName(a).localeCompare(L.weaponName(b), L.compareLocale()))
-          .map((w) => ({ v: w.id, sel: w.id === slot.weapon, icon: w.icon, label: L.weaponName(w), sub: `${w.quality}★`, sig: w.id === sig, search: `${w.name} ${L.officialName("weapons", w.id)}`.toLowerCase() }));
+          .map((w) => ({ v: w.id, sel: w.id === slot.weapon, icon: w.icon, label: L.weaponName(w), sub: `${w.quality}★`, sig: w.id === sig && !w.betaVersion, betaVersion: w.betaVersion, search: `${w.name} ${L.officialName("weapons", w.id)} ${betaVersionLabel(w)}`.toLowerCase() }));
       }
       const curIcon = kind === "weapon" ? comboIconHTML({ icon: wp(slot.weapon)?.icon, label: curLabel, sub: "" }, kind) : "";
       const comboClass = kind === "weapon" ? " team-weapon-combo" : "";
       const items = opts.map((o) => `<li class="combo-opt${o.sel ? " sel" : ""}" data-act="combo-pick" data-kind="${kind}" data-slot="${idx}" data-value="${o.v}" data-search="${esc(o.search)}">
       ${comboIconHTML(o, kind)}
-      <span class="combo-opt-lbl">${esc(o.label)}</span>${o.sig ? `<span class="combo-tag-sig">${esc(L.t("common.signature"))}</span>` : ""}${o.sub ? `<span class="combo-opt-sub">${o.sub}</span>` : ""}
+      <span class="combo-opt-lbl">${esc(o.label)}</span>${betaBadgeHTML(o.betaVersion)}${o.sig ? `<span class="combo-tag-sig">${esc(L.t("common.signature"))}</span>` : ""}${o.sub ? `<span class="combo-opt-sub">${o.sub}</span>` : ""}
     </li>`).join("");
       return `<div class="combo${comboClass}" data-kind="${kind}">
     <button type="button" class="combo-btn" data-act="combo-toggle">${curIcon}<span class="combo-lbl">${esc(curLabel)}</span><span class="combo-caret">▾</span></button>
@@ -84,7 +86,7 @@ window.WUWA_STAGE_VIEW = (() => {
       return SONATAS.filter((s) => !filter || filter(s))
         .slice()
         .sort((a, b) => sonataSortValue(a) - sonataSortValue(b))
-        .map((s) => `<option value="${s.id}" ${s.id === sel ? "selected" : ""}>${esc(L.sonataName(s))}</option>`)
+        .map((s) => `<option value="${s.id}" ${s.id === sel ? "selected" : ""}>${esc(L.sonataName(s) + betaVersionSuffix(s))}</option>`)
         .join("");
     }
 
@@ -92,8 +94,13 @@ window.WUWA_STAGE_VIEW = (() => {
       return SONATAS.find((s) => s.id === id);
     }
 
-    function sonataName(id) {
-      return L.sonataName(sonataById(id));
+    function sonataDisplayName(id) {
+      const set = sonataById(id);
+      return set ? L.sonataName(set) + betaVersionSuffix(set) : L.t("common.unselected");
+    }
+
+    function leadEchoDisplayName(choice) {
+      return choice ? L.leadEchoName(choice.lead) : L.t("common.unselectedLead");
     }
 
     function sonataIconHTML(set) {
@@ -141,9 +148,9 @@ window.WUWA_STAGE_VIEW = (() => {
     }
 
     function echoSetIconGroupHTML(ids) {
-      const names = ids.map(sonataName);
+      const names = ids.map(sonataDisplayName);
       return `<div class="team-gear-set-icons" title="${esc(names.join(" + "))}">${ids.map((id, i) => {
-        const name = sonataName(id);
+        const name = sonataDisplayName(id);
         const sep = i ? `<span class="echo-set-plus">+</span>` : "";
         return `${sep}<span class="echo-set-chip" tabindex="0" role="img" aria-label="${esc(name)}" title="${esc(name)}" data-tip="${esc(name)}">${sonataIconHTML(sonataById(id))}</span>`;
       }).join("")}</div>`;
@@ -251,13 +258,13 @@ window.WUWA_STAGE_VIEW = (() => {
     }
 
     function charPickerComboHTML(idx, triggerHTML, extraClass) {
-      const opts = W.order.map(ch).slice().sort((a, b) => (a.debut ?? 99) - (b.debut ?? 99)).map((c) => ({
-        v: c.id, icon: c.portrait, label: L.charName(c),
-        search: (c.name + " " + L.officialName("chars", c.id) + " " + (c.aliases || []).join(" ")).toLowerCase(),
+      const opts = W.order.map(ch).slice().sort((a, b) => charSortValue(b) - charSortValue(a)).map((c) => ({
+        v: c.id, icon: c.portrait, label: L.charName(c), betaVersion: c.betaVersion,
+        search: (c.name + " " + L.officialName("chars", c.id) + " " + (c.aliases || []).join(" ") + " " + betaVersionLabel(c)).toLowerCase(),
       }));
       const items = opts.map((o) => `<li class="combo-opt" data-act="combo-pick" data-kind="char" data-slot="${idx}" data-value="${o.v}" data-search="${esc(o.search)}">
       ${comboIconHTML(o, "char")}
-      <span class="combo-opt-lbl">${esc(o.label)}</span>
+      <span class="combo-opt-lbl">${esc(o.label)}</span>${betaBadgeHTML(o.betaVersion)}
     </li>`).join("");
       const cls = extraClass ? ` ${extraClass}` : "";
       return `<div class="combo${cls}" data-kind="char">
@@ -270,8 +277,15 @@ window.WUWA_STAGE_VIEW = (() => {
       return `<select class="team-meta-select" data-act="rank-set" data-slot="${idx}" aria-label="${esc(L.text("武器阶级"))}">${[1, 2, 3, 4, 5].map((v) => `<option value="${v}" ${slot.rank === v ? "selected" : ""}>${esc(L.t("common.rank", { value: v }))}</option>`).join("")}</select>`;
     }
 
+    function seqOptionLabel(slot, value) {
+      const seqText = L.t("common.sequence", { value });
+      if (!value) return seqText;
+      const node = asList(ch(slot.char)?.chain).find((item, index) => num(item.seq ?? index + 1) === value);
+      return node?.name ? `${seqText} · ${L.text(node.name)}` : seqText;
+    }
+
     function seqSelectHTML(slot, idx) {
-      return `<select class="team-meta-select" data-act="seq-set" data-slot="${idx}" aria-label="${esc(L.provider("共鸣链"))}">${[0, 1, 2, 3, 4, 5, 6].map((v) => `<option value="${v}" ${slot.seq === v ? "selected" : ""}>${esc(L.t("common.sequence", { value: v }))}</option>`).join("")}</select>`;
+      return `<select class="team-meta-select team-seq-select" data-act="seq-set" data-slot="${idx}" aria-label="${esc(L.provider("共鸣链"))}">${[0, 1, 2, 3, 4, 5, 6].map((v) => `<option value="${v}" ${slot.seq === v ? "selected" : ""}>${esc(seqOptionLabel(slot, v))}</option>`).join("")}</select>`;
     }
 
     function echoCardPickerHTML(slot, idx) {
@@ -287,31 +301,35 @@ window.WUWA_STAGE_VIEW = (() => {
     }
 
     function teamEchoSetIconHTML(slot) {
+      return echoSetIconGroupHTML(teamEchoSetIds(slot));
+    }
+
+    function teamEchoSetIds(slot) {
       const e = slot?.echo;
       if (e?.detailMode) {
         const ids = [];
         (ensureEchoDetail(slot, ch(slot.char))?.echoes || []).forEach((item) => {
           if (item.set && !ids.includes(item.set)) ids.push(item.set);
         });
-        return echoSetIconGroupHTML(ids.length ? ids : [e.primary]);
+        return ids.length ? ids : [e.primary];
       }
-      if (!e || e.combo === "single5") return echoSetIconGroupHTML([e?.primary]);
-      if (e.combo === "split32") return echoSetIconGroupHTML([e.primary, e.secondary]);
-      if (e.combo === "split122") return echoSetIconGroupHTML([e.primary, e.secondary, e.tertiary]);
-      return echoSetIconGroupHTML([e.primary]);
+      if (!e || e.combo === "single5") return [e?.primary];
+      if (e.combo === "split32") return [e.primary, e.secondary];
+      if (e.combo === "split122") return [e.primary, e.secondary, e.tertiary];
+      return [e.primary];
     }
 
     function teamLeadEchoPickerHTML(e, idx) {
       syncEchoLead(e);
       const choices = leadChoicesForEcho(e);
       if (!choices.length) return `<div class="team-gear-summary team-gear-summary--muted">${esc(L.text("未录首位单体"))}</div>`;
+      const current = choices.find((choice) => choice.key === e.lead);
       if (e.detailMode) {
-        const current = choices.find((choice) => choice.key === e.lead);
-        return `<div class="team-gear-summary">${esc(current ? L.leadEchoName(current.lead) : L.t("common.unselectedLead"))}</div>`;
+        return `<div class="team-gear-summary"><span class="team-gear-label">${esc(leadEchoDisplayName(current))}</span></div>`;
       }
-      return `<select class="team-gear-select" data-act="elead" data-slot="${idx}" aria-label="${esc(L.text("首位声骸"))}">
-      ${choices.map((choice) => `<option value="${choice.key}" ${choice.key === e.lead ? "selected" : ""}>${esc(L.leadEchoName(choice.lead))}</option>`).join("")}
-    </select>`;
+      return `<span class="team-gear-select-wrap"><select class="team-gear-select" data-act="elead" data-slot="${idx}" aria-label="${esc(L.text("首位声骸"))}">
+      ${choices.map((choice) => `<option value="${choice.key}" ${choice.key === e.lead ? "selected" : ""}>${esc(leadEchoDisplayName(choice))}</option>`).join("")}
+    </select></span>`;
     }
 
     function teamCardHTML(idx) {
@@ -328,13 +346,16 @@ window.WUWA_STAGE_VIEW = (() => {
         ? `<img class="team-avatar" src="${esc(c.portrait)}" alt="" onerror="this.style.display='none'" />`
         : `<span class="team-avatar team-avatar-fallback">${esc(c.name.slice(0, 1))}</span>`;
       const avatar = `<span class="team-avatar-wrap">${avatarCore}<span class="team-avatar-level">${esc(L.t("common.levelShort", { value: 90 }))}</span></span>`;
-      const charTrigger = `${avatar}<span class="team-char-copy"><b>${esc(L.charName(c))}</b><span>${esc(L.element(c.element))}</span></span><span class="combo-caret">▾</span>`;
+      const charTrigger = `${avatar}<span class="team-char-copy"><span class="team-char-name-line"><b>${esc(L.charName(c))}</b></span><span class="team-char-meta">${esc(L.element(c.element))}</span></span><span class="combo-caret">▾</span>`;
+      const currentLead = leadChoicesForEcho(e).find((choice) => choice.key === e.lead);
+      const cardBeta = betaBadgeHTML(c, wp(slot.weapon), ...teamEchoSetIds(slot).map(sonataById), currentLead?.lead);
       return `<div class="team-card${idx === state.outputIdx ? " on" : ""}" data-act="output" data-slot="${idx}">
+      ${cardBeta ? `<div class="team-card-beta">${cardBeta}</div>` : ""}
       <button type="button" class="team-card-clear" data-act="clear-slot" data-slot="${idx}" aria-label="${esc(L.text("删除"))} ${esc(L.charName(c))}">✕</button>
       <div class="team-card-head">
         ${charPickerComboHTML(idx, charTrigger, "team-char-combo")}
-        ${seqSelectHTML(slot, idx)}
       </div>
+      <div class="team-seq-row">${seqSelectHTML(slot, idx)}</div>
       <div class="team-weapon-row">
         ${comboHTML("weapon", idx)}
         ${rankSelectHTML(slot, idx)}
@@ -355,7 +376,7 @@ window.WUWA_STAGE_VIEW = (() => {
     function detailSetOptions(selected) {
       return SONATAS.slice()
         .sort((a, b) => sonataSortValue(a) - sonataSortValue(b))
-        .map((set) => `<option value="${set.id}" ${set.id === selected ? "selected" : ""}>${esc(L.sonataName(set))}</option>`)
+        .map((set) => `<option value="${set.id}" ${set.id === selected ? "selected" : ""}>${esc(L.sonataName(set) + betaVersionSuffix(set))}</option>`)
         .join("");
     }
 
@@ -374,7 +395,7 @@ window.WUWA_STAGE_VIEW = (() => {
     function detailLeadOptions(slot, item) {
       const choices = leadChoicesForEcho({ detailMode: true, detail: { echoes: [{ set: item.set }] } });
       if (!choices.length) return `<option value="">${esc(L.t("common.unselected"))} · ${num(item.cost) || 4}c</option>`;
-      return choices.map((choice) => `<option value="${esc(choice.key)}" ${choice.key === slot.echo.lead ? "selected" : ""}>${esc(L.leadEchoName(choice.lead))} · ${choice.cost}c</option>`).join("");
+      return choices.map((choice) => `<option value="${esc(choice.key)}" ${choice.key === slot.echo.lead ? "selected" : ""}>${esc(leadEchoDisplayName(choice))} · ${choice.cost}c</option>`).join("");
     }
 
     function detailSubRows(slot, idx, echoIdx, item, c) {
@@ -398,7 +419,7 @@ window.WUWA_STAGE_VIEW = (() => {
       const set = sonataById(item.set);
       return `<label class="echo-detail-field echo-detail-field--set">
       <span>${esc(L.text("套装"))}</span>
-      <span class="echo-detail-set-select">${sonataIconHTML(set)}<select data-act="detail-echo-set" data-slot="${idx}" data-echo-index="${echoIdx}" aria-label="${esc(L.text("声骸套装"))}">${detailSetOptions(item.set)}</select></span>
+      <span class="echo-detail-set-select">${sonataIconHTML(set)}<select data-act="detail-echo-set" data-slot="${idx}" data-echo-index="${echoIdx}" aria-label="${esc(L.text("声骸套装"))}">${detailSetOptions(item.set)}</select>${betaBadgeHTML(set)}</span>
     </label>`;
     }
 
@@ -442,7 +463,7 @@ window.WUWA_STAGE_VIEW = (() => {
       const echoes = detail?.echoes || [];
       return `<div class="echo-detail-panel">
       <div class="stage-card-head module-head">
-        <div class="module-title"><h2>${esc(L.text("声骸详情"))} <span class="module-title-name">${esc(L.charName(c))}</span></h2></div>
+        <div class="module-title"><h2>${esc(L.text("声骸详情"))} <span class="module-title-name">${esc(L.charName(c))}</span>${betaBadgeHTML(c)}</h2></div>
       </div>
       <div class="echo-detail-grid">
         ${echoDetailSummaryHTML(slot, c)}

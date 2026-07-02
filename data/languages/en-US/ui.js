@@ -40,6 +40,10 @@ window.WUWA_LANGUAGES.extend("en-US", {
       expected: "Expected",
       normal: "Non-Crit"
     },
+    damageSplit: {
+      damage: "Split DMG: ",
+      expected: "Expected split: "
+    },
     hints: {
       res: "Open-world enemies usually have 10% base RES to all attributes. If an enemy has a stated attribute RES bonus, add another 30% RES for that attribute.",
       defShred: "This input shows and edits total DEF Shred. Auto sources such as Buffs are included in real time.",
