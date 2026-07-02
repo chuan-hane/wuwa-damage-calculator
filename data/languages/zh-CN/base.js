@@ -1,7 +1,7 @@
 "use strict";
 
 window.WUWA_LANGUAGES.register("zh-CN", {
-  label: "中文",
-  shortLabel: "中文",
+  label: "ZH",
+  shortLabel: "ZH",
   htmlLang: "zh-CN"
 });
