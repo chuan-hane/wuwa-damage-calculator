@@ -3,7 +3,7 @@
 window.WUWA_LANGUAGES.extend("ja-JP", {
   strings: {
     app: {
-      title: "鳴潮ダメージ計算機",
+      title: "鳴潮 / Wuthering Waves Damage Calculator",
       subtitle: "共鳴者ステータス・独立乗区・実戦条件判定"
     },
     common: {

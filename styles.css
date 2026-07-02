@@ -26,7 +26,7 @@
   --font-control: 14px;
   --font-base: 14px;
   --font-title: 16px;
-  --font-page-title: 18px;
+  --font-page-title: 22px;
   --font-metric: 20px;
   --font-damage: 72px;
   --control-h: 32px;
@@ -979,10 +979,11 @@ input:disabled {
 /* Stage layout: design-oriented dashboard shell */
 .app-main {
   --page-x-pad: 15vw;
-  --topbar-y-pad: 14px;
-  --topbar-h: 58px;
+  --page-y-pad: 14px;
+  --topbar-y-pad: 0px;
+  --topbar-h: 68px;
   --stage-gap: 18px;
-  padding: 14px var(--page-x-pad);
+  padding: 0 var(--page-x-pad) var(--page-y-pad);
   background: #efeee9;
 }
 
@@ -1018,6 +1019,7 @@ input:disabled {
   align-items: center;
   gap: 14px;
   padding: 10px 16px;
+  border-radius: 0 0 14px 14px;
 }
 
 .stage-brand {
@@ -1113,7 +1115,7 @@ input:disabled {
   .app-main {
     --page-x-pad: 14px;
     --stage-gap: 14px;
-    padding: 14px;
+    padding: 0 var(--page-x-pad) var(--page-y-pad);
   }
 }
 
