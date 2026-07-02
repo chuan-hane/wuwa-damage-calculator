@@ -1,4 +1,4 @@
-### [ZH](README.md) | EN | [KO](README.ko.md) | [JA](README.ja-JP.md)
+### [ZH](README.md) | EN | [KO](README.ko.md) | [JA](README.ja.md)
 
 # Wuthering Waves Damage Calculator
 
@@ -6,20 +6,20 @@
 
 Live site: [wuwa-damage-calculator.chuan-hane.workers.dev](https://wuwa-damage-calculator.chuan-hane.workers.dev)
 
-This project is aims to model real in-game damage resolution as closely as possible: base Resonator stats, fixed Stat Bonus nodes, weapons, Echoes, Resonance Chains, and buffs are stored as structured data. The calculation view then determines what the current hit can benefit from based on the selected skill, team, chain level, Outro Skill state, resources, combat states, and other prerequisites.
+This project aims to model real in-game damage resolution as closely as possible: Resonator base stats, fixed Skill Tree bonuses, weapons, Echoes, Resonance Chains, and buffs are stored as structured data. The calculation view then determines what the current hit can benefit from based on the selected skill, team, Resonance Chain level, Outro Skill, resources, combat states, and other prerequisites.
 
 ---
 
 ## Features
 
-- **Resonator stat panel wiring**: base ATK/HP/DEF, Crit. Rate, Crit. DMG, fixed Stat Bonus nodes, and weapon stats come from structured data. Echo stats can be entered from the in-game aggregate Echo stat panel, or automatically summed in detailed Echo mode.
+- **Resonator stat panel wiring**: base ATK/HP/DEF, Crit. Rate, Crit. DMG, fixed Skill Tree bonuses, and weapon stats come from structured data. Echo stats can be entered from the in-game aggregate Echo stat panel, or automatically summed in detailed Echo mode.
 - **Real prerequisite checks**: buffs are not enabled just because the Resonator owns them. A buff only applies automatically when the current skill, state, resource, stack count, team position, Outro Skill, trigger action, and other prerequisites are satisfied.
-- **Automatic buff resolution**: buffs that the current hit can use are shown in the calculation area by provider. Confirmable prerequisites can be toggled manually, while unmet buffs are folded into the inactive section.
-- **Branch isolation**: dual-mode, form-based, or phase-based Resonators follow the current selection. Skills, buffs, and Off-Tune/Effect entries only show the active branch plus shared entries.
+- **Automatic Buff resolution**: buffs that the current hit can use are shown in the calculation area by provider. Confirmable prerequisites can be toggled manually, while unmet buffs are folded into the inactive section.
+- **Branch isolation**: dual-mode, form-based, or phase-based Resonators follow the current selection. Skills, buffs, and Off-Tune/Effect-related entries only show the active branch plus shared entries.
 - **Independent Effect calculation**: the Effect area can choose the Effect provider. ATK-scaling Effects use the provider's panel ATK; Havoc Bane is handled as DEF reduction and feeds into the normal damage DEF coefficient.
 - **Variable buff values**: stack-based buffs are supported, as are buffs that scale from the provider's own stats, such as The Shorekeeper converting her own Energy Regen into team Crit. Rate and Crit. DMG.
-- **Strict damage-zone separation**: DMG Bonus, DMG Amplification, skill multiplier increase, direct multiplier addition, Crit, DEF, RES, and final DMG increase are calculated separately.
-- **Multi-hit skill display**: skill multipliers and damage can be shown as `xxx + xxx x N`. Final damage and multi-hit damage are displayed with floor rounding.
+- **Strict multiplier separation**: DMG Bonus, DMG Amplification, DMG Multiplier Increase, direct multiplier additions, Crit, DEF, RES, and Final DMG Bonus are calculated separately.
+- **Multi-hit skill display**: skill multipliers and damage can be shown as `xxx + xxx × N`. Final damage and multi-hit damage are displayed with floor rounding.
 - **Equipment system**: all 5-star and 4-star weapons support Syntonization Rank 1-5 and weapon effects. Resonance Chains support 0-6. Echoes use each Resonator's default Sonata setup, including 5-piece, 3+2, 1+2+2, lead Echo, and Sonata/individual Echo effects.
 - **Detailed Echo mode**: team cards can enable detailed Echo mode. Once enabled, Echo stat inputs in the Resonator panel become read-only and are summed live from the separate Echo Details card, including main stat, substat roll, Sonata, and lead Echo effects.
 
@@ -30,12 +30,12 @@ This project is aims to model real in-game damage resolution as closely as possi
 ATK, HP, and DEF are first calculated as panel stats, then used for damage:
 
 ```text
-ATK = (Resonator ATK + weapon ATK) x (1 + total ATK%) + flat Echo ATK
-HP  = Resonator HP x (1 + total HP%) + flat Echo HP
-DEF = Resonator DEF x (1 + total DEF%) + flat Echo DEF
+ATK = (Resonator ATK + weapon ATK) × (1 + total ATK%) + flat Echo ATK
+HP  = Resonator HP × (1 + total HP%) + flat Echo HP
+DEF = Resonator DEF × (1 + total DEF%) + flat Echo DEF
 ```
 
-ATK%, HP%, and DEF% include fixed Stat Bonus nodes, weapons, buffs, and Echo percentage stats. Flat Echo values are added outside the percentage multiplication.
+ATK%, HP%, and DEF% include fixed Skill Tree bonuses, weapons, buffs, and Echo percentage stats. Flat Echo values are added outside the percentage multiplication.
 
 Echo stats can be entered in two ways:
 
@@ -46,13 +46,13 @@ Echo stats can be entered in two ways:
 
 ```text
 Final damage =
-  stat base x skill multiplier
-  x (1 + DMG Bonus zone)
-  x (1 + DMG Amplification zone)
-  x damage reduction / damage taken zone
-  x DEF coefficient
-  x RES coefficient
-  x (1 + final DMG increase)
+  stat base × skill multiplier
+  × (1 + DMG Bonus zone)
+  × (1 + DMG Amplification zone)
+  × DMG Reduction / Vulnerability zone
+  × DEF coefficient
+  × RES coefficient
+  × (1 + Final DMG Bonus)
 ```
 
 ### Effect DMG
@@ -60,18 +60,18 @@ Final damage =
 ```text
 Class A flat-value Effect DMG =
   base value by stack count
-  x (1 + Effect DMG Amplification)
-  x DEF coefficient
-  x RES coefficient
+  × (1 + Effect DMG Amplification)
+  × DEF coefficient
+  × RES coefficient
 
 Class B ATK-scaling Effect DMG =
-  Effect provider ATK x stack multiplier
-  x (1 + Effect DMG Amplification)
-  x DEF coefficient
-  x RES coefficient
+  Effect provider ATK × stack multiplier
+  × (1 + Effect DMG Amplification)
+  × DEF coefficient
+  × RES coefficient
 ```
 
-Effect DMG does not benefit from Crit. Rate, Crit. DMG, Attribute DMG Bonus, Type DMG Bonus, normal DMG Amplification, or final DMG increase. Havoc Bane is not standalone damage; it reduces DEF by stack count and is included in the normal damage DEF coefficient when selected.
+Effect DMG does not benefit from Crit. Rate, Crit. DMG, Attribute DMG Bonus, Type DMG Bonus, normal DMG Amplification, or Final DMG Bonus. Havoc Bane is not standalone damage; it reduces DEF based on stack count and is included in the normal damage DEF coefficient when selected.
 
 ### Off-Tune System
 
@@ -79,23 +79,23 @@ The Off-Tune system selects a Tune base value by target Cost: `1C=716`, `3C=2149
 
 ```text
 Tune Break DMG =
-  Tune base value x 1600%
-  x (1 + Tune Break Boost)
-  x DEF coefficient
-  x damage reduction / damage taken zone
-  x (1 + final DMG increase)
-  x 0.8
+  Tune base value × 1600%
+  × (1 + Tune Break Boost)
+  × DEF coefficient
+  × DMG Reduction / Vulnerability zone
+  × (1 + Final DMG Bonus)
+  × 0.8
 
 Hack DMG / Tune Rupture DMG =
-  Tune base value x Hack multiplier / Tune Rupture multiplier
-  x (1 + Tune Break Boost)
-  x DEF coefficient
-  x RES coefficient
-  x damage reduction / damage taken zone
-  x (1 + final DMG increase)
+  Tune base value × Hack multiplier / Tune Rupture multiplier
+  × (1 + Tune Break Boost)
+  × DEF coefficient
+  × RES coefficient
+  × DMG Reduction / Vulnerability zone
+  × (1 + Final DMG Bonus)
 
 Tune Strain - Interfered benefit =
-  stacks x Tune Break Boost x 0.12%
+  stacks × Tune Break Boost × 0.12%
 ```
 
 Rounding rules:
@@ -111,11 +111,11 @@ Example:
 
 ```text
 Base values (Resonator + weapon): 412 + 587 = 999
-Final ATK panel with ATK bonuses: (412 + 587) x (1 + 12% + 88.1%) + 440 = 2438.999
+Final ATK panel with ATK bonuses: (412 + 587) × (1 + 12% + 88.1%) + 440 = 2438.999
 Displayed in-game value after flooring: floor(2438.999) = 2438
 
 Damage uses 2438.999, and final damage is floored:
-floor(2438.999 x 0.4865 x 1.964 x 0.5107526882 x 0.9 x 2.588) = floor(2772.38405782) = 2772
+floor(2438.999 × 0.4865 × 1.964 × 0.5107526882 × 0.9 × 2.588) = floor(2772.38405782) = 2772
 Notes: own Resonator Lv. 90 | enemy Lv. 83 | enemy RES 10% | DMG Bonus 96.4% | Crit. DMG 258.8% | skill multiplier 48.65%
 ```
 

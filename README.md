@@ -1,4 +1,4 @@
-### ZH | [EN](README.en.md) | [KO](README.ko.md) | [JA](README.ja-JP.md)
+### ZH | [EN](README.en.md) | [KO](README.ko.md) | [JA](README.ja.md)
 
 # 鸣潮伤害计算器
 
