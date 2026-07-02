@@ -735,11 +735,17 @@ window.WUWA_STAGE_VIEW = (() => {
       }).filter(Boolean);
     }
 
+    function knownEffectStacksText(def) {
+      const stacks = (def.allowedStacks || Object.keys(def.rates || {}).map((key) => Number(key)).filter(Number.isFinite))
+        .sort((a, b) => a - b);
+      return stacks.length ? stacks.join("/") : L.text("已知");
+    }
+
     function effectFormulaHTML(r, availableKeys = teamEffectKeys()) {
       const e = visibleEffectResult(r, availableKeys);
       if (!e.enabled) return L.text("效应伤害独立结算，不进入上方普通伤害。");
       if (e.kind === "defShred") return `<div class="effect-equation">${esc(L.effect(e.def))}: ${L.stackText(e.stacks)} × ${tnum(e.def.valuePerStack)}% = <b>${tnum(e.defShred)}%</b> ${L.text("减防")}，${L.text("已计入上方防御系数")}</div>`;
-      if (!e.valid) return `${esc(L.effect(e.def))}${L.text("当前只录入")}${(e.def.allowedStacks || []).join("/")}${L.text("层倍率。")}`;
+      if (!e.valid) return `${esc(L.effect(e.def))}${L.text("当前只录入")}${knownEffectStacksText(e.def)}${L.text("层倍率。")}`;
       const baseValue = e.kind === "attack" ? tnum(e.attack) : tnum(e.base);
       const multValue = e.kind === "attack" ? `${tnum(e.rate)}%` : L.text("层数基础");
       const rateParts = e.kind === "attack" ? [`${esc(L.effectShort(e.def))} ${L.stackText(e.stacks)} ${tnum(e.baseRate)}%`] : [];

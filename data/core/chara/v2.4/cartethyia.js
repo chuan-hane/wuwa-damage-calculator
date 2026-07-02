@@ -586,6 +586,9 @@ WUWA.register({
         {
           "id": "k2_cap",
           "zone": "effectCapBonus",
+          "effects": [
+            "windErosion"
+          ],
           "value": 3,
           "scope": "team",
           "requiresState": "form_1_option_2"
