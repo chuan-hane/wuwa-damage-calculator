@@ -677,7 +677,7 @@ function betaVersionBadgesRender() {
   const choices = window.WUWA_EQUIPMENT.leadChoicesForEcho(slot.echo);
   const choice = choices.find((item) => item.key === slot.echo.lead) || choices[0];
   const leadIdx = Math.max(0, choices.indexOf(choice));
-  const betaLabel = "Beta3.5.4";
+  const betaLabel = "Beta3.5.6";
   const clone = (value) => JSON.parse(JSON.stringify(value || {}));
   const originalSonataPack = clone(window.WUWA_LANGUAGES.localeData("zh-CN", "sonatas", set.id));
   const patchedSonataPack = clone(originalSonataPack);
@@ -698,20 +698,20 @@ function betaVersionBadgesRender() {
     assert((html.match(/class="team-card-beta"/g) || []).length === 1, "collapsed team card should render one card-level beta badge for same-version beta data");
     assert(html.indexOf("team-card-beta") < html.indexOf("team-card-clear"), "collapsed team card should place the beta badge on the top-left border before the clear button");
     const cardBeta = html.match(/<div class="team-card-beta">[\s\S]*?<\/div>/)?.[0] || "";
-    assert(cardBeta.includes("Beta3.5.4"), "card-level beta badge should display the exact beta version label");
+    assert(cardBeta.includes(betaLabel), "card-level beta badge should display the exact beta version label");
     const charButton = html.match(/<div class="combo team-char-combo[\s\S]*?<button[\s\S]*?<\/button>/)?.[0] || "";
     const weaponButton = html.match(/<div class="combo team-weapon-combo[\s\S]*?<button[\s\S]*?<\/button>/)?.[0] || "";
     const setIcons = html.match(/<div class="team-gear-set-icons"[\s\S]*?<\/div>/)?.[0] || "";
     const leadWrap = html.match(/<span class="team-gear-select-wrap">[\s\S]*?<\/span>/)?.[0] || "";
-    assert(!charButton.includes("Beta3.5.4") && !weaponButton.includes("Beta3.5.4") && !setIcons.includes("beta-version-badge") && !leadWrap.includes("Beta3.5.4"), "collapsed team card controls should not repeat beta badges inline");
+    assert(!charButton.includes(betaLabel) && !weaponButton.includes(betaLabel) && !setIcons.includes("beta-version-badge") && !leadWrap.includes(betaLabel), "collapsed team card controls should not repeat beta badges inline");
     const charOption = html.match(/<li[^>]+data-kind="char"[^>]+data-value="jinhsi"[\s\S]*?<\/li>/)?.[0] || "";
-    assert(charOption.includes("Beta3.5.4"), "character dropdown options should keep beta labels");
+    assert(charOption.includes(betaLabel), "character dropdown options should keep beta labels");
     const weaponOption = html.match(new RegExp(`<li[^>]+data-kind="weapon"[^>]+data-value="${w.id}"[\\s\\S]*?</li>`))?.[0] || "";
-    assert(weaponOption.includes("Beta3.5.4") && !weaponOption.includes("combo-tag-sig"), "beta weapons should not render the signature weapon tag");
+    assert(weaponOption.includes(betaLabel) && !weaponOption.includes("combo-tag-sig"), "beta weapons should not render the signature weapon tag");
     slot.echo.detailMode = true;
     __T.render();
     html = String(board.innerHTML);
-    assert(html.includes("echo-detail-set-select") && html.includes("Beta3.5.4"), "detailed echo selectors should expose beta version labels");
+    assert(html.includes("echo-detail-set-select") && html.includes(betaLabel), "detailed echo selectors should expose beta version labels");
     const css = fs.readFileSync(path.join(root, "styles.css"), "utf8");
     assert(css.includes(".beta-version-badge") && css.includes("font-size: var(--font-xs);") && css.includes("left: 16px;") && css.includes("transform: translateY(-50%);"), "beta badges should use the project minimum font size and sit on the top-left card border");
     assert(!css.includes(".team-card.on::before") && css.includes(".team-card.on {\n  border-color: #20211e;"), "selected team card should highlight the whole border instead of drawing a side bar");
@@ -781,22 +781,28 @@ function characterPickerSortsNewestFirst() {
   }
   const firstTwo = new Set(picked.slice(0, 2));
   assert(firstTwo.has("yangyang_xuanling") && firstTwo.has("suisui"), `character picker should list the newest beta characters first: ${picked.slice(0, 5).join(", ")}`);
-  assert(Number(window.WUWA.chars[picked[2]]?.debut) <= 3.4, "stable characters should follow Beta3.5.4 characters");
+  assert(Number(window.WUWA.chars[picked[2]]?.debut) <= 3.4, "stable characters should follow Beta3.5.6 characters");
 }
 
 function betaCharacterEntryRegressions() {
-  const betaChars = Object.values(window.WUWA.chars).filter((c) => c.betaVersion === "Beta3.5.4").map((c) => c.id).sort();
-  assert(betaChars.join(",") === "suisui,yangyang_xuanling", `Beta3.5.4 should only include Suisui and Yangyang: Xuanling: ${betaChars.join(", ")}`);
+  const betaChars = Object.values(window.WUWA.chars).filter((c) => c.betaVersion === "Beta3.5.6").map((c) => c.id).sort();
+  assert(betaChars.join(",") === "suisui,yangyang_xuanling", `Beta3.5.6 should only include Suisui and Yangyang: Xuanling: ${betaChars.join(", ")}`);
 
   const y = window.WUWA.chars.yangyang_xuanling;
   assert(y.effectTypes?.includes("havocBane"), "Yangyang: Xuanling should explicitly provide Havoc Bane");
   assert(skill(y, "azure_na4").triggerEvents?.includes("applyHavocBane"), "Yangyang: Xuanling azure NA4 should apply Havoc Bane");
   assert(skill(y, "feather_na4").triggerEvents?.includes("applyHavocBane"), "Yangyang: Xuanling feather NA4 should apply Havoc Bane");
-  assert(allBuffs(y).find((b) => b.id === "c6_heavy_amp")?.zone === "vulnerability", "Yangyang: Xuanling C6 target-takes-damage effect should be vulnerability");
-  assert(!(y.skills || []).some((s) => s.id === "outro"), "Yangyang: Xuanling outro should stay as a buff-only support effect, not a fabricated damage skill");
-  assert(allBuffs(y).some((b) => b.id === "b_outro_havoc_amp" && b.triggerOutro === true), "Yangyang: Xuanling outro support effect should remain confirmable as a buff");
+  const yangyangC6Heavy = allBuffs(y).find((b) => b.id === "c6_heavy_amp");
+  assert(yangyangC6Heavy?.zone === "vulnerability" && yangyangC6Heavy.defaultActive === false && !yangyangC6Heavy.triggerEvents?.includes("applyHavocBane"), "Yangyang: Xuanling C6 target-takes-damage effect should be a manually confirmed vulnerability after Havoc Bane is inflicted");
+  assert(skill(y, "outro").category === "outroSkill" && skill(y, "outro").multiplier === 300 && skill(y, "outro").formula === "300.00%", "Yangyang: Xuanling Outro should keep its real 300% damage entry");
+  const yangyangOutro = allBuffs(y).find((b) => b.id === "b_outro_havoc_amp");
+  assert(yangyangOutro?.triggerOutro === true && yangyangOutro.requiresEffectStacks?.effect === "havocBane", "Yangyang: Xuanling outro support effect should require Havoc Bane after Outro confirmation");
 
   const s = window.WUWA.chars.suisui;
+  assert(skill(s, "air").multiplier === 70.72 && skill(s, "air").formula === "70.72%", "Suisui Zephyr mid-air attack should use the Beta3.5.6 lv10 value");
+  assert(skill(s, "drizzle_na2").multiplier === 159.07 && skill(s, "drizzle_na2").formula === "31.81% + 15.91% × 2 + 15.91% × 2 + 31.81% + 31.81%", "Suisui Drizzle NA2 should use the Beta3.5.6 multi-hit formula");
+  assert(skill(s, "drizzle_na3").multiplier === 165.12 && skill(s, "drizzle_na3").formula === "13.76% × 3 + 13.76% × 3 + 13.76% × 3 + 13.76% × 3", "Suisui Drizzle NA3 should use the Beta3.5.6 multi-hit formula");
+  assert(skill(s, "drizzle_na4").multiplier === 159.05 && skill(s, "drizzle_na4").formula === "159.05%", "Suisui Drizzle NA4 should use the Beta3.5.6 single-hit value");
   const awakening = skill(s, "skill_awakening");
   assert(awakening.multiplier === 28.63 && awakening.formula === "28.63%", "Suisui Awakening Spring should use the SkillAttributes lv10 value");
   assert(awakening.requiresResourceFull === "cloud_breath", "Suisui Awakening Spring should require full Cloud Breath");
@@ -813,9 +819,11 @@ function betaCharacterEntryRegressions() {
   assert(e.zone === "defIgnore" && e.damageType === "heavy" && e.triggerEvents?.includes("applyHavocBane"), "Azure Oath post-Havoc-Bane heavy effect should include defense ignore");
   e = weaponEffect("firstlights_herald", "e1");
   assert(e.zone === "attackPercent" && e.scope === "team" && e.defaultActive === false, "Firstlight's Herald conditional team ATK should stay manually confirmed");
+  assert(allBuffs(s).find((b) => b.id === "b_outro_flower_atk")?.requiresAnyEffectStacks?.stacks === 1, "Suisui Smoked Haze ATK buff should require a current abnormal-effect stack");
+  assert(allBuffs(s).find((b) => b.id === "c2_effect_cd")?.requiresAnyEffectStacks?.stacks === 1, "Suisui C2 Crit. DMG should require an abnormal-effect trigger");
 
   const set = findSonata(350433);
-  assert(set?.betaVersion === "Beta3.5.4" && set.fetterGroupId === 33, "Song of Feathered Trace should keep its Beta3.5.4 FetterGroup link");
+  assert(set?.betaVersion === "Beta3.5.6" && set.fetterGroupId === 33, "Song of Feathered Trace should keep its Beta3.5.6 FetterGroup link");
   assert(set.lead?.id === "unknown" && set.lead.cost === 4, "Song of Feathered Trace beta lead should use the current unknown 4C echo");
   assert(set.p5.every((b) => b.defaultActive === false), "Song of Feathered Trace 5-piece effects should require manual confirmation");
 }
@@ -1025,7 +1033,7 @@ function characterSchemasAreLinked() {
 function validateBetaVersion(owner, item, bad) {
   if (item?.betaVersion == null) return "";
   const label = String(item.betaVersion).trim();
-  if (!BETA_VERSION_RE.test(label)) bad.push(`${owner}: betaVersion must look like Beta3.5.4`);
+  if (!BETA_VERSION_RE.test(label)) bad.push(`${owner}: betaVersion must look like BetaX.Y.Z`);
   return label;
 }
 
@@ -1043,7 +1051,7 @@ function betaDataFilesUseVersionedPaths() {
   });
   for (const file of charFiles) {
     const match = file.match(/^data\/core\/chara\/(Beta[^/]+)\//);
-    if (match && !BETA_VERSION_RE.test(match[1])) bad.push(`${file}: beta character folder must look like Beta3.5.4`);
+    if (match && !BETA_VERSION_RE.test(match[1])) bad.push(`${file}: beta character folder must look like BetaX.Y.Z`);
   }
   assert(!bad.length, bad.join("\n"));
 }

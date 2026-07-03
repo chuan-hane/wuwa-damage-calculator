@@ -6,7 +6,7 @@ window.WUWA_DATA.weapons = window.WUWA_DATA.weapons || [];
 window.WUWA_DATA.weapons.push(
   {
     "id": "azure_oath",
-    "betaVersion": "Beta3.5.4",
+    "betaVersion": "Beta3.5.6",
     "type": 2,
     "quality": 5,
     "icon": "",
@@ -69,7 +69,7 @@ window.WUWA_DATA.weapons.push(
   },
   {
     "id": "firstlights_herald",
-    "betaVersion": "Beta3.5.4",
+    "betaVersion": "Beta3.5.6",
     "type": 5,
     "quality": 5,
     "icon": "",
