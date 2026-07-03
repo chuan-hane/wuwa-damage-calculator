@@ -5,7 +5,7 @@ window.WUWA_SONATAS = window.WUWA_SONATAS || [];
 window.WUWA_SONATAS.push({
   "id": 350433,
   "fetterGroupId": 33,
-  "betaVersion": "Beta3.5.4",
+  "betaVersion": "Beta3.5.6",
   "element": "havoc",
   "p2": {
     "id": "song_of_feathered_trace_er",
@@ -46,7 +46,7 @@ window.WUWA_SONATAS.push({
   ],
   "lead": {
     "id": "unknown",
-    "betaVersion": "Beta3.5.4",
+    "betaVersion": "Beta3.5.6",
     "cost": 4,
     "buffs": [
       {

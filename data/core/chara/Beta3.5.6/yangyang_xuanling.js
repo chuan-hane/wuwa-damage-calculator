@@ -4,7 +4,7 @@ WUWA.register({
   "id": "yangyang_xuanling",
   "aliases": [],
   "debut": 3.5,
-  "betaVersion": "Beta3.5.4",
+  "betaVersion": "Beta3.5.6",
   "element": "havoc",
   "weaponType": 2,
   "quality": 5,
@@ -221,6 +221,13 @@ WUWA.register({
         "introEntry",
         "applyHavocBane"
       ]
+    },
+    {
+      "id": "outro",
+      "category": "outroSkill",
+      "damageType": "outroSkill",
+      "multiplier": 300,
+      "formula": "300.00%"
     },
     {
       "id": "flow_azure",
@@ -484,6 +491,10 @@ WUWA.register({
       "scope": "team",
       "defaultActive": false,
       "triggerOutro": true,
+      "requiresEffectStacks": {
+        "effect": "havocBane",
+        "stacks": 1
+      },
       "duration": 20
     }
   ],
@@ -576,9 +587,6 @@ WUWA.register({
           "value": 40,
           "scope": "self",
           "defaultActive": false,
-          "triggerEvents": [
-            "applyHavocBane"
-          ],
           "duration": 30
         },
         {

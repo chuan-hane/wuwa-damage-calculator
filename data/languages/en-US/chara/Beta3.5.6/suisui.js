@@ -82,14 +82,14 @@ window.WUWA_LANGUAGES.extend("en-US", {
             "label": "Havoc DEF Ignore",
             "trigger": "After consuming Havoc Bane stacks inside Ceaseless Landscape",
             "excerpt": "After consuming Havoc Bane stacks, Havoc DMG ignores 6% DEF",
-            "desc": "When a skill hit consumes Havoc Bane stacks on a target, the Resonator's Havoc DMG ignores 6% DEF for 30s."
+            "desc": "Inside Ceaseless Landscape, after nearby team members consume Havoc Bane stacks on a target, their Havoc DMG ignores 6% DEF for 30s."
           },
           {
             "source": "Resonance Liberation: Song of Thoroughfare",
             "label": "Havoc RES Shred",
             "trigger": "After consuming Havoc Bane stacks inside Ceaseless Landscape",
             "excerpt": "After consuming Havoc Bane stacks, Havoc RES is reduced by 12%",
-            "desc": "When a skill hit consumes Havoc Bane stacks on a target, the Resonator's Havoc DMG ignores 12% Havoc RES for 30s."
+            "desc": "Inside Ceaseless Landscape, after nearby team members consume Havoc Bane stacks on a target, their Havoc DMG ignores 12% Havoc RES for 30s."
           },
           {
             "source": "Outro Skill: Rippling Waters",
@@ -109,18 +109,18 @@ window.WUWA_LANGUAGES.extend("en-US", {
             "source": "Outro Skill: Rippling Waters",
             "label": "ATK",
             "trigger": "After consuming at least 600 Floral Epistle",
-            "excerpt": "Consuming Negative Status stacks grants ATK based on Suisui's Energy Regen above 200%, cap 50%",
-            "desc": "After consuming at least 600 Floral Epistle, the next Resonator gains ATK when consuming enemy Negative Status stacks with skill hits. The value scales with Suisui's Energy Regen above 200%, up to 50%, lasting 6s."
+            "excerpt": "A Smoked-Haze holder gains ATK after consuming Negative Status stacks, cap 50%",
+            "desc": "After consuming at least 600 Floral Epistle, the first Plume Step lets an active Resonator inside Ceaseless Landscape grant Smoked Haze to the next Resonator after casting Outro Skill. Smoked Haze lasts 14s. When the Smoked-Haze holder consumes Negative Status or Electro Burst stacks on a target, ATK increases based on Suisui's Energy Regen above 200%, up to 50%, for 6s."
           }
         ],
         "chain": [
           {
             "name": "Mountains Washed Into Paintings",
-            "desc": "The ATK bonus effect gained by consuming at least 600 points of Floral Epistle while casting Rippling Waters can also be triggered by inflicting Negative Status or dealing Negative Status DMG."
+            "desc": "A Resonator with Smoked Haze can also trigger the ATK increase after inflicting Negative Status or dealing Negative Status DMG. The Reflecting Shadows gained from the third Plume Step lasts 100% longer. Basic Attack - Drizzle Stance, Heavy Attack - Drizzle Stance, and the enhanced plunging attack cannot be interrupted."
           },
           {
             "name": "Clouds Pour Like Molten Gold",
-            "desc": "Inside Ceaseless Landscape, when nearby Resonators trigger Negative Status, Negative Status DMG, or consume Havoc Bane stacks, the triggering Resonator gains 50% Crit. DMG for 30s.",
+            "desc": "Inside Ceaseless Landscape, after nearby team members inflict Negative Status, deal corresponding Negative Status DMG, or consume Havoc Bane stacks on a target, the triggering Resonator gains 50% Crit. DMG for 30s. The effect is temporarily disabled when the active Resonator is outside Ceaseless Landscape.",
             "buffs": [
               {
                 "label": "Crit. DMG",

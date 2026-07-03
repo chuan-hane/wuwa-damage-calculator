@@ -27,6 +27,7 @@ window.WUWA_LANGUAGES.extend("en-US", {
           { "name": "Hush of a Thousand Voices DMG" },
           { "name": "Shadow of Xuanling DMG" },
           { "name": "Skybound Feather DMG" },
+          { "name": "As the Wind Wills DMG" },
           { "name": "Resonance Skill - Sword Stance Flow: Azure DMG" },
           { "name": "Resonance Skill - Sword Stance Flow: Feather DMG" },
           { "name": "Heavy Attack - Azure Sword Stance DMG" },
@@ -108,9 +109,9 @@ window.WUWA_LANGUAGES.extend("en-US", {
           {
             "source": "Outro Skill: As the Wind Wills",
             "label": "Havoc DMG Amplification",
-            "trigger": "After casting Outro Skill",
-            "excerpt": "When a non-Xuanling teammate inflicts Havoc Bane, their Havoc DMG is amplified by 20%",
-            "desc": "For 20s after Outro Skill, when a Resonator other than Yangyang: Xuanling inflicts Havoc Bane on a target, that Resonator's Havoc DMG is amplified by 20% for 20s."
+            "trigger": "After inflicting Havoc Bane during Palace Shift",
+            "excerpt": "Non-Xuanling teammates amplify Havoc DMG by 20% after inflicting Havoc Bane",
+            "desc": "Resonators in the team other than Yangyang: Xuanling gain Palace Shift for 20s. During Palace Shift, after they inflict Havoc Bane on a target, their Havoc DMG is amplified by 20%. Casting this skill resets the effect."
           }
         ],
         "chain": [

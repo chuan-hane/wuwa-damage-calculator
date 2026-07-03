@@ -4,7 +4,7 @@ WUWA.register({
   "id": "suisui",
   "aliases": [],
   "debut": 3.5,
-  "betaVersion": "Beta3.5.4",
+  "betaVersion": "Beta3.5.6",
   "element": "glacio",
   "weaponType": 5,
   "quality": 5,
@@ -84,8 +84,8 @@ WUWA.register({
       "id": "air",
       "category": "basicAttack",
       "damageType": "basic",
-      "multiplier": 90.76,
-      "formula": "90.76%",
+      "multiplier": 70.72,
+      "formula": "70.72%",
       "impliedStates": [
         "form_zephyr"
       ]
@@ -168,8 +168,8 @@ WUWA.register({
       "id": "drizzle_na2",
       "category": "forteCircuit",
       "damageType": "basic",
-      "multiplier": 122,
-      "formula": "61.00% + 61.00%",
+      "multiplier": 159.07,
+      "formula": "31.81% + 15.91% × 2 + 15.91% × 2 + 31.81% + 31.81%",
       "impliedStates": [
         "form_drizzle"
       ]
@@ -178,8 +178,8 @@ WUWA.register({
       "id": "drizzle_na3",
       "category": "forteCircuit",
       "damageType": "basic",
-      "multiplier": 139.34,
-      "formula": "41.80% + 41.80% + 55.74%",
+      "multiplier": 165.12,
+      "formula": "13.76% × 3 + 13.76% × 3 + 13.76% × 3 + 13.76% × 3",
       "impliedStates": [
         "form_drizzle"
       ]
@@ -188,8 +188,8 @@ WUWA.register({
       "id": "drizzle_na4",
       "category": "forteCircuit",
       "damageType": "basic",
-      "multiplier": 159.08,
-      "formula": "79.53% + 15.91% × 5",
+      "multiplier": 159.05,
+      "formula": "159.05%",
       "impliedStates": [
         "form_drizzle"
       ],
@@ -362,6 +362,9 @@ WUWA.register({
       "requiresState": "ceaseless_landscape_active",
       "defaultActive": false,
       "duration": 6,
+      "requiresAnyEffectStacks": {
+        "stacks": 1
+      },
       "scaleBy": {
         "stat": "energyRegen",
         "statBonus": -200,
@@ -385,6 +388,9 @@ WUWA.register({
           "scope": "team",
           "requiresState": "ceaseless_landscape_active",
           "defaultActive": false,
+          "requiresAnyEffectStacks": {
+            "stacks": 1
+          },
           "duration": 30
         }
       ]
