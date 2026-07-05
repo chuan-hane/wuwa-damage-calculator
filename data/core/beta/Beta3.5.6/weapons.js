@@ -41,9 +41,6 @@ window.WUWA_DATA.weapons.push(
         ],
         "scope": "self",
         "defaultActive": false,
-        "triggerEvents": [
-          "applyHavocBane"
-        ],
         "duration": 8
       },
       {
@@ -60,9 +57,6 @@ window.WUWA_DATA.weapons.push(
         ],
         "scope": "self",
         "defaultActive": false,
-        "triggerEvents": [
-          "applyHavocBane"
-        ],
         "duration": 8
       }
     ]

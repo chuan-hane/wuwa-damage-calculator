@@ -965,8 +965,6 @@ window.WUWA_SETTLEMENT = (() => {
       if (checked && buff && supportStateNeedsConfirmation(slot, idx, buff)) {
         activateBuffStateRequirements(slot, buff);
         syncEffectStackRequirement(buff);
-        delete slot.toggles[buffId];
-        return;
       }
       if (checked && buff && buff.exclusiveGroup) {
         slotBuffs(slot).forEach((other) => {
@@ -1221,7 +1219,7 @@ window.WUWA_SETTLEMENT = (() => {
       const c = ch(slot.char);
       if (!c) return 0;
       const tree = c.base.tree || {};
-      let total = (c.base.breakAmp ?? 0) + (tree.breakAmp || 0);
+      let total = (c.base.breakAmp ?? 0) + (tree.breakAmp || 0) + num(echoStats(slot).breakAmp);
       state.slots.forEach((providerSlot, providerIdx) => {
         slotBuffs(providerSlot).forEach((buff) => {
           if (buff.zone !== "breakAmp") return;

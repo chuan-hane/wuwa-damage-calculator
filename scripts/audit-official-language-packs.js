@@ -33,6 +33,7 @@ function cleanHtml(value) {
     .replace(/<[^>]+>/g, "")
     .replace(/&nbsp;/g, " ")
     .replace(/&amp;/g, "&")
+    .replace(/orAero/g, "or Aero")
     .replace(/（/g, "(")
     .replace(/）/g, ")")
     .replace(/[ \t]+\n/g, "\n")
@@ -124,6 +125,9 @@ function loadRepoData() {
   };
   require(path.join(root, "data/core/weapons.js"));
   require(path.join(root, "data/core/sonatas.js"));
+  for (const file of jsFilesUnder(path.join(root, "data/core/beta")).sort((a, b) => a.localeCompare(b, undefined, { numeric: true }))) {
+    require(file);
+  }
   for (const file of jsFilesUnder(path.join(root, "data/core/chara")).sort((a, b) => a.localeCompare(b, undefined, { numeric: true }))) {
     require(file);
   }
@@ -139,6 +143,8 @@ function loadRepoData() {
 
 async function auditCharacters(bad, stats) {
   console.error("Auditing official character names, skill names, and chain text...");
+  const officialCharIds = window.WUWA.order.filter((id) => !window.WUWA.chars[id]?.betaVersion);
+  stats.skippedBetaCharacters = window.WUWA.order.length - officialCharIds.length;
   const roleList = (await getJson(`${API_BASE}/en/character`)).roleList;
   const roleCandidates = new Map();
   roleList.forEach((role) => {
@@ -149,7 +155,7 @@ async function auditCharacters(bad, stats) {
     return getJson(`${API_BASE}/${api}/character/${id}`);
   }
   const charApiIds = new Map();
-  for (const id of window.WUWA.order) {
+  for (const id of officialCharIds) {
     const enPack = window.WUWA_LANGUAGES.localeData("en-US", "chars", id);
     const candidates = roleCandidates.get(normName(enPack?.name)) || [];
     if (!candidates.length) {
@@ -168,7 +174,7 @@ async function auditCharacters(bad, stats) {
     charApiIds.set(id, best.Id);
   }
   let done = 0;
-  await mapConcurrent(window.WUWA.order, FETCH_CONCURRENCY, async (id) => {
+  await mapConcurrent(officialCharIds, FETCH_CONCURRENCY, async (id) => {
     const apiId = charApiIds.get(id);
     const enDetail = await charDetail("en", apiId);
     const enAttrs = new Map(apiSkillAttributes(enDetail).map((attr) => [normName(attr.fullName), attr]));
@@ -197,16 +203,18 @@ async function auditCharacters(bad, stats) {
       });
     }
     done += 1;
-    if (done % 10 === 0 || done === window.WUWA.order.length) console.error(`Audited characters ${done}/${window.WUWA.order.length}`);
+    if (done % 10 === 0 || done === officialCharIds.length) console.error(`Audited characters ${done}/${officialCharIds.length}`);
   });
 }
 
-async function auditWeapons(bad) {
+async function auditWeapons(bad, stats) {
   console.error("Auditing official weapon names and descriptions...");
+  const officialWeapons = window.WUWA_DATA.weapons.filter((weapon) => !weapon.betaVersion);
+  stats.skippedBetaWeapons = window.WUWA_DATA.weapons.length - officialWeapons.length;
   const enWeapons = (await getJson(`${API_BASE}/en/weapon`)).weapons;
   const weaponByName = new Map(enWeapons.map((weapon) => [normName(weapon.Name), weapon]));
   let done = 0;
-  await mapConcurrent(window.WUWA_DATA.weapons, FETCH_CONCURRENCY, async (weapon) => {
+  await mapConcurrent(officialWeapons, FETCH_CONCURRENCY, async (weapon) => {
     const enPack = window.WUWA_LANGUAGES.localeData("en-US", "weapons", weapon.id);
     const apiWeapon = weaponByName.get(normName(enPack?.name));
     if (!apiWeapon) {
@@ -222,12 +230,14 @@ async function auditWeapons(bad) {
       if (cleanHtml(pack?.description) !== cleanHtml(detail.Desc)) bad.push(`${code}.weapon.${weapon.id}.description`);
     }
     done += 1;
-    if (done % 20 === 0 || done === window.WUWA_DATA.weapons.length) console.error(`Audited weapons ${done}/${window.WUWA_DATA.weapons.length}`);
+    if (done % 20 === 0 || done === officialWeapons.length) console.error(`Audited weapons ${done}/${officialWeapons.length}`);
   });
 }
 
-async function auditSonatas(bad) {
+async function auditSonatas(bad, stats) {
   console.error("Auditing official sonata and lead echo names...");
+  const officialSonatas = window.WUWA_SONATAS.filter((set) => !set.betaVersion);
+  stats.skippedBetaSonatas = window.WUWA_SONATAS.length - officialSonatas.length;
   const enEchoList = (await getJson(`${API_BASE}/en/echo`)).Echo;
   const echoLists = { "en-US": enEchoList };
   for (const { code, api } of TARGET_LANGS) {
@@ -236,7 +246,7 @@ async function auditSonatas(bad) {
   const echoByEnSlug = new Map(enEchoList.map((echo) => [slug(echo.Name), echo]));
   for (const { code } of TARGET_LANGS) {
     const targetById = new Map(echoLists[code].map((echo) => [echo.Id, echo]));
-    for (const set of window.WUWA_SONATAS) {
+    for (const set of officialSonatas) {
       const enPack = window.WUWA_LANGUAGES.localeData("en-US", "sonatas", set.id) || {};
       const sampleEcho = enEchoList.find((echo) => (echo.FetterGroups || []).some((group) => normName(group.Name) === normName(enPack.name)))
         || enEchoList.find((echo) => (echo.FetterGroups || []).some((group) => String(group.Id) === String(set.id)));
@@ -265,16 +275,16 @@ async function auditSonatas(bad) {
 async function main() {
   loadRepoData();
   const bad = [];
-  const stats = { derivedSkillEntries: 0 };
+  const stats = { derivedSkillEntries: 0, skippedBetaCharacters: 0, skippedBetaWeapons: 0, skippedBetaSonatas: 0 };
   await auditCharacters(bad, stats);
-  await auditWeapons(bad);
-  await auditSonatas(bad);
+  await auditWeapons(bad, stats);
+  await auditSonatas(bad, stats);
   if (bad.length) {
     console.error(`OFFICIAL_AUDIT_FAIL ${bad.length}`);
     console.error(bad.slice(0, 120).join("\n"));
     process.exit(1);
   }
-  console.log(`OFFICIAL_AUDIT_OK chars=${window.WUWA.order.length} weapons=${window.WUWA_DATA.weapons.length} sonatas=${window.WUWA_SONATAS.length} derivedSkillEntries=${stats.derivedSkillEntries} langs=${TARGET_LANGS.map((item) => item.code).join(",")}`);
+  console.log(`OFFICIAL_AUDIT_OK chars=${window.WUWA.order.length - stats.skippedBetaCharacters}/${window.WUWA.order.length} weapons=${window.WUWA_DATA.weapons.length - stats.skippedBetaWeapons}/${window.WUWA_DATA.weapons.length} sonatas=${window.WUWA_SONATAS.length - stats.skippedBetaSonatas}/${window.WUWA_SONATAS.length} skippedBeta=${stats.skippedBetaCharacters + stats.skippedBetaWeapons + stats.skippedBetaSonatas} derivedSkillEntries=${stats.derivedSkillEntries} langs=${TARGET_LANGS.map((item) => item.code).join(",")}`);
 }
 
 main().catch((error) => {

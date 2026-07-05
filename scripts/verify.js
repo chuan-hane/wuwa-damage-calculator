@@ -814,9 +814,16 @@ function betaCharacterEntryRegressions() {
   assert(__T.resolvedSkill(__T.state.slots[0])?.id === "skill_awakening", "Suisui default full-resource state should select Awakening Spring");
 
   let e = weaponEffect("azure_oath", "e1");
-  assert(e.zone === "amplify" && e.damageType === "heavy" && e.triggerEvents?.includes("applyHavocBane"), "Azure Oath post-Havoc-Bane heavy effect should be damage deepen");
+  assert(e.zone === "amplify" && e.damageType === "heavy" && e.defaultActive === false && !e.triggerEvents, "Azure Oath post-Havoc-Bane heavy effect should be manually confirmed after the attachment hit");
   e = weaponEffect("azure_oath", "e2");
-  assert(e.zone === "defIgnore" && e.damageType === "heavy" && e.triggerEvents?.includes("applyHavocBane"), "Azure Oath post-Havoc-Bane heavy effect should include defense ignore");
+  assert(e.zone === "defIgnore" && e.damageType === "heavy" && e.defaultActive === false && !e.triggerEvents, "Azure Oath post-Havoc-Bane heavy effect should include manually confirmed defense ignore");
+  resetTeam(["yangyang_xuanling"]);
+  const ySlot = __T.state.slots[0];
+  ySlot.weapon = "azure_oath";
+  ySlot.skill = "azure_heavy";
+  assert(__T.resolvedSkill(ySlot)?.triggerEvents?.includes("applyHavocBane"), "Yangyang: Xuanling Azure Heavy should still attach Havoc Bane");
+  assert(!__T.buffStatus(ySlot, 0, buff(ySlot, "w_e1")).applies, "Azure Oath heavy deepen should not apply to the same heavy hit that attaches Havoc Bane");
+  assert(!__T.buffStatus(ySlot, 0, buff(ySlot, "w_e2")).applies, "Azure Oath defense ignore should not apply to the same heavy hit that attaches Havoc Bane");
   e = weaponEffect("firstlights_herald", "e1");
   assert(e.zone === "attackPercent" && e.scope === "team" && e.defaultActive === false, "Firstlight's Herald conditional team ATK should stay manually confirmed");
   assert(allBuffs(s).find((b) => b.id === "b_outro_flower_atk")?.requiresAnyEffectStacks?.stacks === 1, "Suisui Smoked Haze ATK buff should require a current abnormal-effect stack");
@@ -1639,6 +1646,7 @@ function supportTeamBuffConfirmationWritesProviderState() {
   assert(__T.buffStatus(slot, 1, cr).precondition, "CR should need support-state confirmation before state is selected");
   __T.setBuffToggle(slot, 1, "b_field_cr", true);
   assert(slot.toggles[key] === deepenValue, `CR confirmation should set Deepen field, got ${slot.toggles[key]}`);
+  assert(__T.buffStatus(slot, 1, cr).applies, "CR should apply immediately after support-state confirmation");
 
   __T.state.outputIdx = 1;
   assert(__T.buffStatus(slot, 1, cr).applies, "CR should still apply after switching back to provider");
@@ -1647,6 +1655,7 @@ function supportTeamBuffConfirmationWritesProviderState() {
   assert(__T.buffStatus(slot, 1, cd).precondition, "CD should still need a higher field state");
   __T.setBuffToggle(slot, 1, "b_field_cd", true);
   assert(slot.toggles[key] === releasedValue, `CD confirmation should upgrade to Released field, got ${slot.toggles[key]}`);
+  assert(__T.buffStatus(slot, 1, cd).applies, "CD should apply immediately after support-state confirmation");
 
   __T.state.outputIdx = 1;
   assert(__T.buffStatus(slot, 1, cd).applies, "CD should still apply after switching back to provider");
@@ -2968,7 +2977,7 @@ function lynaeCharacterRegressions() {
   expectEqual(__T.state.offsetCalc.skillId, "tune_rupture_response_spectral", "Selecting Tune Rupture Interference should sync Spectral Analysis as the offset entry");
   __T.render();
   assert(String(board.innerHTML).includes("谐度破坏增幅"), "Lynae panel should always show Tune Break Boost");
-  assert(!String(board.innerHTML).includes('data-key="breakAmp"'), "Tune Break Boost panel row should not render an echo input");
+  assert(String(board.innerHTML).includes('data-key="breakAmp"'), "Tune Break Boost panel row should render an echo input");
 
   slot.skill = "tune_rupture_response_spectral_analysis";
   slot.toggles[__T.stateChoiceKey("目标震谐状态")] = "目标震谐·干涉";
@@ -2977,6 +2986,12 @@ function lynaeCharacterRegressions() {
   r = __T.compute();
   expectEqual(r.damageModel, "harmonyResponse", "Lynae Tune Rupture Response - Spectral Analysis should use the harmony-response formula branch");
   expectEqual(r.breakAmp, 10, "Lynae should have 10 base Tune Break Boost");
+  slot.echo.fields.breakAmp = 20;
+  r = __T.compute();
+  expectEqual(r.breakAmp, 30, "Lynae Tune Break Boost should include echo fields");
+  slot.echo.fields.breakAmp = 0;
+  r = __T.compute();
+  expectEqual(r.breakAmp, 10, "Lynae Tune Break Boost should return to base after clearing echo fields");
   expectEqual(r.normal, r.critHit, "Lynae Tune Rupture Response - Spectral Analysis should not crit");
   expectEqual(r.normal, r.expected, "Lynae Tune Rupture Response - Spectral Analysis expected damage should equal non-crit damage");
   expectEqual(__T.buffStatus(slot, 0, buff(slot, "b_liberation_final")).gated, "需明确作用于谐度响应伤害", "Lynae generic final damage buff should not apply to Tune Rupture Response - Spectral Analysis");

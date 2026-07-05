@@ -56,7 +56,7 @@ window.WUWA_PANEL_VIEW = (() => {
       pushEcho("atkPct", es.attackPercent); pushEcho("hpPct", es.hpPercent); pushEcho("defPct", es.defensePercent);
       pushEcho("crit", es.critRate); pushEcho("critDmg", es.critDamage);
       pushEcho("er", es.energyRegen); pushEcho("heal", es.healingBonus);
-      pushEcho("discordEff", es.discordEff);
+      pushEcho("breakAmp", es.breakAmp); pushEcho("discordEff", es.discordEff);
       ELEMENTS.forEach((el) => { if (es.elem[el]) D.elem[el].push(["声骸", es.elem[el]]); });
       TYPES.forEach((t) => { if (es.type[t]) D.type[t].push(["声骸", es.type[t]]); });
       if (es.flatAtk) D.atkAdd.push(["声骸固定", es.flatAtk]);
@@ -124,7 +124,7 @@ window.WUWA_PANEL_VIEW = (() => {
     }
 
     function breakAmpRow(D, id = "breakAmp", removeKey = null) {
-      return { id, label: "谐度破坏增幅", total: tnum(sum(D.breakAmp)), formula: "谐度破坏增幅 = ", title: parts(D.breakAmp), fields: [], removeKey };
+      return { id, label: "谐度破坏增幅", total: tnum(sum(D.breakAmp)), formula: `谐度破坏增幅 = ${parts(D.breakAmp)}`, title: parts(D.breakAmp), fields: [{ key: "breakAmp" }], removeKey };
     }
 
     function extraPanelRow(key, c, b, D) {
@@ -140,6 +140,7 @@ window.WUWA_PANEL_VIEW = (() => {
       if (slot.echo?.detailMode) return [];
       const shown = new Set(slot.extraPanelRows || []);
       const out = [];
+      if (!shown.has("breakAmp") && !charBreakAmpRelevant(c)) out.push(["breakAmp", "谐度破坏增幅"]);
       if (!shown.has("discordEff")) out.push(["discordEff", "偏谐值累积效率"]);
       const ptType = TYPE_BY_KEY[primaryTypeKey(c)];
       TYPE_ADD_ORDER.filter((t) => t !== ptType).forEach((t) => {
