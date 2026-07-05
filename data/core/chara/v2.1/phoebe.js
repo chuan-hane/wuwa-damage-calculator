@@ -325,7 +325,7 @@ WUWA.register({
     {
       "id": "b_outro_lightnoise",
       "zone": "amplify",
-      "effect": "光噪效应",
+      "effect": "lightNoise",
       "value": 100,
       "scope": "team",
       "requiresState": "mode_1_option_2",
@@ -366,7 +366,7 @@ WUWA.register({
         {
           "id": "k2_lightnoise",
           "zone": "amplify",
-          "effect": "光噪效应",
+          "effect": "lightNoise",
           "value": 120,
           "scope": "team",
           "requiresState": "mode_1_option_2",

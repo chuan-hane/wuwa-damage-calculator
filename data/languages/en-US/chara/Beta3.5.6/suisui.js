@@ -89,7 +89,7 @@ window.WUWA_LANGUAGES.extend("en-US", {
             "label": "Havoc RES Shred",
             "trigger": "After consuming Havoc Bane stacks inside Ceaseless Landscape",
             "excerpt": "After consuming Havoc Bane stacks, Havoc RES is reduced by 12%",
-            "desc": "Inside Ceaseless Landscape, after nearby team members consume Havoc Bane stacks on a target, their Havoc DMG ignores 12% Havoc RES for 30s."
+            "desc": "Inside Ceaseless Landscape, after nearby team members consume Havoc Bane stacks on a target, the target's Havoc RES is reduced by 12% for 30s."
           },
           {
             "source": "Outro Skill: Rippling Waters",

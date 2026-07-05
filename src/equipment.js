@@ -31,6 +31,7 @@ window.WUWA_EQUIPMENT = (() => {
     critRate: [6.3, 6.9, 7.5, 8.1, 8.7, 9.3, 9.9, 10.5],
     critDamage: [12.6, 13.8, 15, 16.2, 17.4, 18.6, 19.8, 21],
     energyRegen: [6.8, 7.6, 8.4, 9.2, 10, 10.8, 11.6, 12.4],
+    breakAmp: [6.4, 7.1, 7.9, 8.6, 9.4, 10.1, 10.9, 11.6],
     basicDmg: [6.4, 7.1, 7.9, 8.6, 9.4, 10.1, 10.9, 11.6],
     heavyDmg: [6.4, 7.1, 7.9, 8.6, 9.4, 10.1, 10.9, 11.6],
     skillDmg: [6.4, 7.1, 7.9, 8.6, 9.4, 10.1, 10.9, 11.6],
@@ -353,7 +354,6 @@ window.WUWA_EQUIPMENT = (() => {
       if (def.elem) { addKnown(out.elem, charElem, v); return; }
       if (def.flat) { out[def.flat] += v; return; }
       if (def.zone === "typeBonus") { addKnown(out.type, def.type, v); return; }
-      if (def.zone === "breakAmp") return;
       out[def.zone] += v;
     });
     return out;

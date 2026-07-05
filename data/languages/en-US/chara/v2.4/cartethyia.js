@@ -262,7 +262,7 @@ window.WUWA_LANGUAGES.extend("en-US", {
           },
           {
             "name": "Sacrifice Made for Salvation",
-            "desc": "After Resonators in the team inflict Havoc Bane, Fusion Burst, Spectro Frazzle, Electro Flare, Glacio Chafe, orAero Erosion, all Resonators in the team gain 20% DMG Bonus for all Attributes for 20s.",
+            "desc": "After Resonators in the team inflict Havoc Bane, Fusion Burst, Spectro Frazzle, Electro Flare, Glacio Chafe, or Aero Erosion, all Resonators in the team gain 20% DMG Bonus for all Attributes for 20s.",
             "buffs": [
               {
                 "label": "All-Attribute DMG Bonus",
