@@ -74,7 +74,7 @@ global.document = { getElementById: () => board, onclick: null, documentElement:
 
 const app = fs.readFileSync(path.join(root, "src/app.js"), "utf8").replace(
   /\nrender\(\);\s*$/,
-  "\nglobalThis.__T = { state, pickCharacter, compute, slotBuffs, availableSkills, resourceKey, resourceControlsForSlot, resolvedSkill, buffStatus, setBuffToggle, stateChoiceKey, stateControlsHTML, buffFormulaText, render, syncOffsetFromStateChoice };",
+  "\nglobalThis.__T = { state, pickCharacter, compute, slotBuffs, availableSkills, resourceKey, resourceControlsForSlot, resolvedSkill, buffStatus, setBuffToggle, buffStackCount, stateChoiceKey, stateControlsHTML, buffFormulaText, render, syncOffsetFromStateChoice };",
 );
 eval(app);
 
@@ -191,7 +191,19 @@ function resetTeam(chars = ["jinhsi", "zhezhi", "verina"]) {
   __T.state.showDesc = false;
   __T.state.showTargetExtras = false;
   __T.state.damageMode = "expected";
+  __T.state.effectCalc = { key: "none", providerIdx: null, stacks: 10, electroRageStacks: 0, deepen: 0 };
   __T.state.offsetCalc = { key: "tuneBreak", providerIdx: null, skillId: null, stateId: null, stateValue: null, stacks: 3, deepen: 0 };
+}
+
+function disableDefaultConfirmedBuffs(indices = null) {
+  const allowed = indices == null ? null : new Set([].concat(indices));
+  __T.state.slots.forEach((slot, idx) => {
+    if (allowed && !allowed.has(idx)) return;
+    for (const b of __T.slotBuffs(slot)) {
+      const st = __T.buffStatus(slot, idx, b);
+      if (st.precondition && !st.gated) __T.setBuffToggle(slot, idx, b.id, false);
+    }
+  });
 }
 
 function expectEqual(actual, expected, label) {
@@ -822,8 +834,12 @@ function betaCharacterEntryRegressions() {
   ySlot.weapon = "azure_oath";
   ySlot.skill = "azure_heavy";
   assert(__T.resolvedSkill(ySlot)?.triggerEvents?.includes("applyHavocBane"), "Yangyang: Xuanling Azure Heavy should still attach Havoc Bane");
-  assert(!__T.buffStatus(ySlot, 0, buff(ySlot, "w_e1")).applies, "Azure Oath heavy deepen should not apply to the same heavy hit that attaches Havoc Bane");
-  assert(!__T.buffStatus(ySlot, 0, buff(ySlot, "w_e2")).applies, "Azure Oath defense ignore should not apply to the same heavy hit that attaches Havoc Bane");
+  assert(__T.buffStatus(ySlot, 0, buff(ySlot, "w_e1")).applies, "Azure Oath heavy deepen should default to confirmed in lazy buff mode");
+  assert(__T.buffStatus(ySlot, 0, buff(ySlot, "w_e2")).applies, "Azure Oath defense ignore should default to confirmed in lazy buff mode");
+  __T.setBuffToggle(ySlot, 0, "w_e1", false);
+  __T.setBuffToggle(ySlot, 0, "w_e2", false);
+  assert(!__T.buffStatus(ySlot, 0, buff(ySlot, "w_e1")).applies, "Azure Oath heavy deepen should remain user-disableable");
+  assert(!__T.buffStatus(ySlot, 0, buff(ySlot, "w_e2")).applies, "Azure Oath defense ignore should remain user-disableable");
   e = weaponEffect("firstlights_herald", "e1");
   assert(e.zone === "attackPercent" && e.scope === "team" && e.defaultActive === false, "Firstlight's Herald conditional team ATK should stay manually confirmed");
   assert(allBuffs(s).find((b) => b.id === "b_outro_flower_atk")?.requiresAnyEffectStacks?.stacks === 1, "Suisui Smoked Haze ATK buff should require a current abnormal-effect stack");
@@ -1494,9 +1510,9 @@ function sonataEffectAttachmentBuffsAreManual() {
   slot.echo.combo = "single5";
   slot.echo.primary = 14;
   const selfBuff = buff(slot, "son_14_gusts_of_welkin_self_aero");
-  assert(!__T.buffStatus(slot, 0, selfBuff).applies, "Gusts of Welkin 5pc should not apply to the same hit that attaches Wind Erosion");
-  __T.setBuffToggle(slot, 0, "son_14_gusts_of_welkin_self_aero", true);
-  assert(__T.buffStatus(slot, 0, selfBuff).applies, "Gusts of Welkin 5pc should apply after the post-attachment window is manually confirmed");
+  assert(__T.buffStatus(slot, 0, selfBuff).applies, "Gusts of Welkin 5pc should default to confirmed in lazy buff mode");
+  __T.setBuffToggle(slot, 0, "son_14_gusts_of_welkin_self_aero", false);
+  assert(!__T.buffStatus(slot, 0, selfBuff).applies, "Gusts of Welkin 5pc should remain user-disableable");
 }
 
 function buffHasTriggerPrecondition(b) {
@@ -1663,6 +1679,7 @@ function supportTeamBuffConfirmationWritesProviderState() {
 
 function baselineA() {
   resetTeam();
+  disableDefaultConfirmedBuffs();
   let r = __T.compute();
   expectEqual(r.expected, 80890, "baseline A 0-chain expected");
   expectEqual(r.panel.displayAtk, 2118, "baseline A 0-chain displayed attack before outro");
@@ -1670,10 +1687,12 @@ function baselineA() {
   expectEqual(r.panel.critDamage, 270, "baseline A crit damage");
 
   __T.state.slots[0].seq = 6;
+  disableDefaultConfirmedBuffs([0]);
   r = __T.compute();
   expectEqual(r.expected, 185889, "baseline A 6-chain expected");
 
   resetTeam();
+  disableDefaultConfirmedBuffs();
   __T.setBuffToggle(__T.state.slots[1], 1, "b3", true);
   __T.setBuffToggle(__T.state.slots[1], 1, "b4", true);
   __T.setBuffToggle(__T.state.slots[2], 2, "b1", true);
@@ -1683,12 +1702,14 @@ function baselineA() {
   expectEqual(r.panel.displayAtk, 2318, "baseline A displayed attack after Verina attack buff");
 
   __T.state.slots[0].seq = 6;
+  disableDefaultConfirmedBuffs([0]);
   r = __T.compute();
   expectEqual(r.expected, 284785, "baseline A 6-chain outro-confirmed expected");
 }
 
 function baselineB() {
   resetTeam();
+  disableDefaultConfirmedBuffs();
   const slot = __T.state.slots[0];
   slot.skill = "a1";
   slot.skillLevels = { "常态攻击": 6 };
@@ -1723,10 +1744,46 @@ function formulaNumberFormattingFloors() {
   __T.state.enemy.enemyLevel = 83;
   __T.state.lang = "zh-CN";
   __T.render();
+  const displayAtk = __T.compute().panel.displayAtk.toLocaleString("en-US");
   const html = String(board.innerHTML);
   const metricHtml = html.slice(html.indexOf('id="metric-strip"'), html.indexOf('class="damage-lower'));
-  assert(metricHtml.includes("<b>2,438</b>"), "main formula stat base should display floored panel value");
-  assert(!metricHtml.includes("<b>2,439</b>"), "main formula stat base should not round panel value up");
+  assert(metricHtml.includes(`<b>${displayAtk}</b>`), "main formula stat base should display floored panel value");
+  assert(!metricHtml.includes("<b>2,439</b>"), "main formula stat base should not round the old baseline panel value up");
+}
+
+function preconditionBuffsDefaultOn() {
+  resetTeam(["chixia"]);
+  const slot = __T.state.slots[0];
+  const manual = buff(slot, "b1");
+  let st = __T.buffStatus(slot, 0, manual);
+  assert(st.precondition && st.toggleOn && st.applies, "manual precondition buffs should default to confirmed and applied");
+  expectEqual(__T.buffStackCount(slot, manual, 0), 30, "manual precondition stacks should default to the current cap");
+  __T.setBuffToggle(slot, 0, manual.id, false);
+  st = __T.buffStatus(slot, 0, manual);
+  assert(st.precondition && !st.toggleOn && !st.applies, "manual precondition buffs should remain user-disableable");
+
+  resetTeam(["jinhsi"]);
+  const alwaysOnSlot = __T.state.slots[0];
+  const alwaysOn = buff(alwaysOnSlot, "b1");
+  st = __T.buffStatus(alwaysOnSlot, 0, alwaysOn);
+  assert(!st.precondition && st.applies, "always-on buffs should stay applied without a confirmation state");
+  __T.setBuffToggle(alwaysOnSlot, 0, alwaysOn.id, false);
+  assert(__T.buffStatus(alwaysOnSlot, 0, alwaysOn).applies, "always-on buffs should ignore manual toggle changes");
+
+  resetTeam(["sigrika"]);
+  const exclusiveSlot = __T.state.slots[0];
+  exclusiveSlot.resources.hopeRune = 1;
+  exclusiveSlot.resources.answerRune = 1;
+  exclusiveSlot.skill = "rune_outburst";
+  const highEnergy = buff(exclusiveSlot, "b_soliskin_mult");
+  const lowEnergy = buff(exclusiveSlot, "b_soliskin_amp");
+  assert(__T.buffStatus(exclusiveSlot, 0, highEnergy).applies, "exclusive buff groups should default to the first available branch");
+  assert(!__T.buffStatus(exclusiveSlot, 0, lowEnergy).applies, "exclusive buff groups should not default-enable multiple branches");
+  __T.setBuffToggle(exclusiveSlot, 0, highEnergy.id, false);
+  assert(!__T.buffStatus(exclusiveSlot, 0, highEnergy).applies, "exclusive default branch should remain user-disableable");
+  assert(!__T.buffStatus(exclusiveSlot, 0, lowEnergy).applies, "exclusive groups should not auto-switch branches after the default is disabled");
+  __T.setBuffToggle(exclusiveSlot, 0, lowEnergy.id, true);
+  assert(__T.buffStatus(exclusiveSlot, 0, lowEnergy).applies && !__T.buffStatus(exclusiveSlot, 0, highEnergy).applies, "exclusive groups should still honor explicit branch selection");
 }
 
 function formulaCardTooltips() {
@@ -1762,7 +1819,9 @@ function introEntryIsSkillDriven() {
   let b = buff(slot, "b1");
   __T.render();
   assert(!String(board.innerHTML).includes('data-act="intro-entry"'), "intro-entry control should stay removed for intro-triggered buffs");
-  assert(__T.buffStatus(slot, 0, b).precondition && !__T.buffStatus(slot, 0, b).applies, "intro-triggered buff should wait until an intro skill is selected");
+  assert(__T.buffStatus(slot, 0, b).precondition && __T.buffStatus(slot, 0, b).applies, "intro-triggered buff should default to confirmed before an intro skill is selected");
+  __T.setBuffToggle(slot, 0, b.id, false);
+  assert(!__T.buffStatus(slot, 0, b).applies, "intro-triggered buff should stay user-disableable before an intro skill is selected");
   slot.skill = "intro";
   assert(__T.buffStatus(slot, 0, b).applies, "intro skill should automatically provide intro-entry events");
 }
@@ -1851,11 +1910,11 @@ function reportedCharacterFixes() {
   slot = __T.state.slots[0];
   slot.skill = "skill_targeted";
   b = buff(slot, "son_11_eternal_radiance_crit");
-  assert(!__T.buffStatus(slot, 0, b).applies && __T.buffStatus(slot, 0, b).precondition, "Zani light-noise skill should not consume Eternal Radiance post-attachment crit on the same hit");
-  __T.setBuffToggle(slot, 0, "son_11_eternal_radiance_crit", true);
-  assert(__T.buffStatus(slot, 0, b).applies, "Eternal Radiance crit should apply after the post-attachment window is manually confirmed");
+  assert(__T.buffStatus(slot, 0, b).applies && __T.buffStatus(slot, 0, b).precondition, "Zani Eternal Radiance crit should default to confirmed in lazy buff mode");
+  __T.setBuffToggle(slot, 0, "son_11_eternal_radiance_crit", false);
+  assert(!__T.buffStatus(slot, 0, b).applies, "Eternal Radiance crit should remain user-disableable");
   b = buff(slot, "son_11_eternal_radiance_spectro");
-  assert(__T.buffStatus(slot, 0, b).precondition, "Eternal Radiance Spectro bonus should require confirming 10 Light Noise stacks");
+  assert(__T.buffStatus(slot, 0, b).precondition && __T.buffStatus(slot, 0, b).applies, "Eternal Radiance Spectro bonus should default to confirmed at full Light Noise stacks");
   __T.setBuffToggle(slot, 0, "son_11_eternal_radiance_spectro", true);
   expectEqual(__T.state.effectCalc.key, "lightNoise", "confirming 10-stack Light Noise bonus should select Light Noise effect");
   expectEqual(__T.state.effectCalc.stacks, 10, "confirming 10-stack Light Noise bonus should set effect stacks to 10");
@@ -1904,12 +1963,16 @@ function reportedCharacterFixes() {
   slot = __T.state.slots[0];
   slot.skill = "burst";
   b = buff(slot, "b_glory_res");
-  expectEqual(__T.buffFormulaText(slot, b, 0), "-3%", "Lupa Glory should grant one res-ignore layer in a one-Fusion team");
+  expectEqual(__T.buffFormulaText(slot, b, 0), "-15%", "Lupa Glory should default to full res-ignore stacks in lazy buff mode");
+  slot.toggles.stk_b_glory_res = 1;
+  expectEqual(__T.buffFormulaText(slot, b, 0), "-3%", "Lupa Glory should still allow one manually selected res-ignore layer");
   resetTeam(["lupa", "changli", "verina"]);
   slot = __T.state.slots[0];
   slot.skill = "burst";
   b = buff(slot, "b_glory_res");
-  expectEqual(__T.buffFormulaText(slot, b, 0), "-6%", "Lupa Glory should count one other Fusion teammate");
+  expectEqual(__T.buffFormulaText(slot, b, 0), "-15%", "Lupa Glory should default to full stacks with one other Fusion teammate");
+  slot.toggles.stk_b_glory_res = 2;
+  expectEqual(__T.buffFormulaText(slot, b, 0), "-6%", "Lupa Glory should still allow two manually selected layers");
   resetTeam(["lupa", "changli", "brant"]);
   slot = __T.state.slots[0];
   slot.skill = "burst";
@@ -1921,7 +1984,9 @@ function reportedCharacterFixes() {
   slot.seq = 6;
   slot.skill = "thunder_spin";
   b = buff(slot, "k6_crown_cr_extra");
-  assert(__T.buffStatus(slot, 0, b).gated === "需层数达到第3-4层", "Augusta third/fourth crown layer buff should not show as applied at two layers");
+  assert(__T.buffStatus(slot, 0, b).applies, "Augusta third/fourth crown layer buff should default to full stacks in lazy buff mode");
+  slot.toggles.stk_augusta_crown = 2;
+  assert(__T.buffStatus(slot, 0, b).gated === "需层数达到第3-4层", "Augusta third/fourth crown layer buff should still be gated after manually lowering stacks to two");
   slot.toggles.stk_augusta_crown = 4;
   b = buff(slot, "k2_overcap_cd");
   expectEqual(__T.buffFormulaText(slot, b, 0), "+90.3%（上限100%）", "Augusta overcap conversion should not double-count weapon secondary crit");
@@ -1941,11 +2006,15 @@ function reportedCharacterFixes() {
   slot.seq = 4;
   slot.skill = "na4";
   b = buff(slot, "k4_all");
-  assert(__T.buffStatus(slot, 0, b).precondition && !__T.buffStatus(slot, 0, b).applies, "Cartethyia chain 4 post-effect buff should not apply to the same hit that attaches erosion");
+  assert(__T.buffStatus(slot, 0, b).precondition && __T.buffStatus(slot, 0, b).applies, "Cartethyia chain 4 post-effect buff should default to confirmed in lazy buff mode");
+  __T.setBuffToggle(slot, 0, b.id, false);
+  assert(!__T.buffStatus(slot, 0, b).applies, "Cartethyia chain 4 post-effect buff should remain user-disableable");
   slot.toggles[__T.stateChoiceKey("形态")] = "芙露德莉斯";
   slot.skill = "lib_tideblade";
   b = buff(slot, "w_e1");
-  assert(!__T.buffStatus(slot, 0, b).applies, "Cartethyia signature weapon defense ignore should not trigger from Liberation damage");
+  assert(__T.buffStatus(slot, 0, b).applies, "Cartethyia signature weapon defense ignore should default to confirmed for later damage in lazy buff mode");
+  __T.setBuffToggle(slot, 0, b.id, false);
+  assert(!__T.buffStatus(slot, 0, b).applies, "Cartethyia signature weapon defense ignore should remain user-disableable");
   slot.toggles[__T.stateChoiceKey("形态")] = "卡提希娅";
   slot.skill = "na1";
   assert(__T.buffStatus(slot, 0, b).applies, "Cartethyia signature weapon defense ignore should trigger from basic damage");
@@ -2006,11 +2075,19 @@ function reportedCharacterFixes() {
     .reduce((sum, ctrl) => sum + ctrl.value, 0);
   assert(sigrikaRuneSum <= 2, "Sigrika Hope/Answer runes should share a total cap of 2");
   b = buff(slot, "b_blessing_aero");
-  assert(!__T.buffStatus(slot, 0, b).applies, "Sigrika Echo Skill DMG should not be treated as casting an Echo Skill");
-  assert(__T.buffStatus(slot, 0, b).precondition, "Sigrika Semantic Blessing should require manual confirmation/stacks");
+  assert(__T.buffStatus(slot, 0, b).precondition && __T.buffStatus(slot, 0, b).applies, "Sigrika Semantic Blessing should default to confirmed at full stacks");
+  expectEqual(__T.buffStackCount(slot, b, 0), 6, "Sigrika Semantic Blessing should default to max stacks");
+  __T.setBuffToggle(slot, 0, b.id, false);
+  assert(!__T.buffStatus(slot, 0, b).applies, "Sigrika Semantic Blessing should remain user-disableable");
   assert(!__T.buffStatus(slot, 0, buff(slot, "b_er_echo")).applies, "Sigrika ER conversion should not apply below 125% energy regen");
-  assert(!__T.buffStatus(slot, 0, buff(slot, "son_29_sound_of_true_name_echo_crit")).applies, "Sound of True Name 5-piece Echo Skill crit should require a prior Echo Skill hit window");
-  assert(!__T.buffStatus(slot, 0, buff(slot, "son_29_sound_of_true_name_aero")).applies, "Sound of True Name 5-piece Aero bonus should require a prior Echo Skill hit window");
+  const trueNameCrit = buff(slot, "son_29_sound_of_true_name_echo_crit");
+  assert(__T.buffStatus(slot, 0, trueNameCrit).applies, "Sound of True Name 5-piece Echo Skill crit should default to confirmed in lazy buff mode");
+  __T.setBuffToggle(slot, 0, trueNameCrit.id, false);
+  assert(!__T.buffStatus(slot, 0, trueNameCrit).applies, "Sound of True Name 5-piece Echo Skill crit should remain user-disableable");
+  const trueNameAero = buff(slot, "son_29_sound_of_true_name_aero");
+  assert(__T.buffStatus(slot, 0, trueNameAero).applies, "Sound of True Name 5-piece Aero bonus should default to confirmed in lazy buff mode");
+  __T.setBuffToggle(slot, 0, trueNameAero.id, false);
+  assert(!__T.buffStatus(slot, 0, trueNameAero).applies, "Sound of True Name 5-piece Aero bonus should remain user-disableable");
   slot.resources.hopeRune = 1;
   slot.resources.answerRune = 1;
   slot.skill = "rune_outburst";
@@ -2036,7 +2113,9 @@ function reportedCharacterFixes() {
   slot.seq = 4;
   slot.skill = "a10";
   b = buff(slot, "k4");
-  assert(!__T.buffStatus(slot, 0, b).applies, "Zhezhi chain 4 should not auto-trigger from Mohe coordinated attacks");
+  assert(__T.buffStatus(slot, 0, b).applies, "Zhezhi chain 4 should default to confirmed in lazy buff mode");
+  __T.setBuffToggle(slot, 0, b.id, false);
+  assert(!__T.buffStatus(slot, 0, b).applies, "Zhezhi chain 4 should remain user-disableable");
 
   resetTeam(["taoqi"]);
   slot = __T.state.slots[0];
@@ -2141,6 +2220,7 @@ function reportedCharacterFixes() {
   slot.seq = 3;
   slot.skill = "lib";
   slot.toggles[__T.stateChoiceKey("杀戮武装")] = "杀戮武装";
+  disableDefaultConfirmedBuffs([0]);
   b = buff(slot, "k3");
   assert(!b.skills, "Calcharo chain 3 Electro bonus should not be narrowed by a skill whitelist");
   assert(__T.buffStatus(slot, 0, b).applies, "Calcharo chain 3 Electro bonus should apply to Electro damage while Armed for Kill is confirmed");
@@ -2148,11 +2228,13 @@ function reportedCharacterFixes() {
   expectEqual(r.totals.damageBonus, 35, "Calcharo chain 3 should stack with the default Electro sonata bonus");
   slot.seq = 5;
   slot.skill = "lib_necessary";
+  disableDefaultConfirmedBuffs([0]);
   r = __T.compute();
   expectEqual(r.sk.category, "introSkill", "Calcharo Necessary Means should be modeled as an intro skill");
   expectEqual(r.totals.typeBonus, 50, "Calcharo chain 5 should be a damage bonus, not a skill multiplier");
   slot.seq = 6;
   slot.skill = "k6_hunting_shadow";
+  disableDefaultConfirmedBuffs([0]);
   r = __T.compute();
   expectEqual(r.sk.damageType, "resonanceLiberation", "Calcharo chain 6 Hunting Shadow should count as Resonance Liberation damage");
   assert((r.sk.damageTags || []).includes("coordinated"), "Calcharo chain 6 Hunting Shadow should carry coordinated tag");
@@ -2188,6 +2270,7 @@ function reportedCharacterFixes() {
   slot.seq = 6;
   slot.skill = "a7";
   slot.toggles[__T.stateChoiceKey("虚实之门")] = "虚实之门";
+  disableDefaultConfirmedBuffs([0]);
   r = __T.compute();
   expectEqual(r.totals.typeBonus, 50, "Aalto chain 6 heavy bonus should be type bonus");
 
@@ -2199,9 +2282,9 @@ function reportedCharacterFixes() {
   slot = __T.state.slots[0];
   slot.skill = "skill_windqueller";
   b = buff(slot, "b3");
-  assert(!__T.buffStatus(slot, 0, b).applies, "Jiyan Windqueller bonus should need Formation state or Resolve");
-  __T.setBuffToggle(slot, 0, "b3", true);
-  assert(__T.buffStatus(slot, 0, b).applies, "Jiyan Windqueller bonus should be confirmable when Resolve is at least 30");
+  assert(__T.buffStatus(slot, 0, b).applies, "Jiyan Windqueller bonus should default to confirmed in lazy buff mode");
+  __T.setBuffToggle(slot, 0, "b3", false);
+  assert(!__T.buffStatus(slot, 0, b).applies, "Jiyan Windqueller bonus should remain user-disableable");
   slot.toggles = {};
   slot.toggles[__T.stateChoiceKey("破阵状态")] = "破阵状态";
   assert(__T.buffStatus(slot, 0, b).applies, "Jiyan Windqueller bonus should apply in Qingloong Mode");
@@ -2232,14 +2315,14 @@ function reportedCharacterFixes() {
   resetTeam(["jinhsi", "chisa"]);
   const chisaSupport = __T.state.slots[1];
   b = buff(chisaSupport, "b_thread_def");
-  assert(!__T.buffStatus(chisaSupport, 1, b).applies, "Chisa Thread defense ignore should not apply before confirmation");
-  __T.setBuffToggle(chisaSupport, 1, "b_thread_def", true);
-  assert(__T.buffStatus(chisaSupport, 1, b).applies, "Chisa Thread defense ignore should apply after confirmation");
+  assert(__T.buffStatus(chisaSupport, 1, b).applies, "Chisa Thread defense ignore should default to confirmed in lazy buff mode");
+  __T.setBuffToggle(chisaSupport, 1, "b_thread_def", false);
+  assert(!__T.buffStatus(chisaSupport, 1, b).applies, "Chisa Thread defense ignore should remain user-disableable");
   chisaSupport.seq = 2;
   b = buff(chisaSupport, "c2_dmg");
-  assert(!__T.buffStatus(chisaSupport, 1, b).applies, "Chisa chain 2 Thread bonus should not apply before confirmation");
-  __T.setBuffToggle(chisaSupport, 1, "c2_dmg", true);
-  assert(__T.buffStatus(chisaSupport, 1, b).applies, "Chisa chain 2 Thread bonus should apply after confirmation");
+  assert(__T.buffStatus(chisaSupport, 1, b).applies, "Chisa chain 2 Thread bonus should default to confirmed in lazy buff mode");
+  __T.setBuffToggle(chisaSupport, 1, "c2_dmg", false);
+  assert(!__T.buffStatus(chisaSupport, 1, b).applies, "Chisa chain 2 Thread bonus should remain user-disableable");
 
   resetTeam(["buling", "chisa"]);
   __T.state.effectCalc = { key: "electro", providerIdx: 0, stacks: 10, electroRageStacks: 0, deepen: 0 };
@@ -2331,7 +2414,9 @@ function reportedCharacterFixes() {
   slot.skill = "skill_deduction";
   b = buff(slot, "b1");
   assert(__T.buffStatus(slot, 0, b).applies, "Xiangli Yao inherent should auto-trigger on Resonance Skill");
-  expectEqual(__T.buffFormulaText(slot, b, 0), "+5%", "Xiangli Yao inherent should grant one stack on current Resonance Skill");
+  expectEqual(__T.buffFormulaText(slot, b, 0), "+20%", "Xiangli Yao inherent should default to full stacks in lazy buff mode");
+  slot.toggles.stk_b1 = 1;
+  expectEqual(__T.buffFormulaText(slot, b, 0), "+5%", "Xiangli Yao inherent should still allow one manually selected stack");
   slot.seq = 2;
   b = buff(slot, "k2");
   assert(__T.buffStatus(slot, 0, b).applies, "Xiangli Yao chain 2 should auto-trigger on Resonance Skill");
@@ -2439,13 +2524,16 @@ function reportedCharacterFixes() {
   assert(html.includes("灵性 (0-100)"), "Iuno New Moon should keep the Spirituality resource visible at zero");
   slot.skill = "rs_chuyin";
   b = buff(slot, "b2");
-  assert(!__T.buffStatus(slot, 0, b).applies, "Iuno shield should not grant Pale Light stacks outside Full Moon Domain");
+  assert(__T.buffStatus(slot, 0, b).applies, "Iuno Pale Light stacks should default to confirmed in lazy buff mode");
+  expectEqual(__T.buffFormulaText(slot, b, 0), "×(1+40%)", "Iuno Pale Light should default to full stacks");
   slot.toggles[__T.stateChoiceKey("满月领域")] = "满月领域";
   assert(__T.buffStatus(slot, 0, b).applies, "Iuno shield should grant Pale Light stacks inside Full Moon Domain");
+  slot.toggles.stk_b2 = 1;
   expectEqual(__T.buffFormulaText(slot, b, 0), "×(1+4%)", "Iuno Full Moon shield should grant one Pale Light stack");
   slot.skill = "intro";
   slot.toggles[__T.stateChoiceKey("满月领域")] = "满月领域";
   assert(__T.buffStatus(slot, 0, b).applies, "Iuno intro should grant Pale Light stacks directly");
+  slot.toggles.stk_b2 = 5;
   expectEqual(__T.buffFormulaText(slot, b, 0), "×(1+20%)", "Iuno intro should grant five Pale Light stacks even inside Full Moon Domain");
 }
 
@@ -2544,6 +2632,7 @@ function effectDamageModel() {
   expectEqual(r.effect.stacks, 10, "Cartethyia sequence 2 should not raise electro stacks");
 
   resetTeam(["jinhsi", "chisa"]);
+  __T.setBuffToggle(__T.state.slots[1], 1, "b_outro_effect_cap", false);
   __T.state.effectCalc = { key: "havocBane", providerIdx: 1, stacks: 6, deepen: 0 };
   r = __T.compute();
   expectEqual(r.effect.stacks, 3, "havoc bane should clamp to 3 without Chisa outro cap");
@@ -2907,6 +2996,7 @@ function cyberpunkCharacterRegressions() {
   assert(!__T.slotBuffs(slot).some((b) => b.id === "k6_basic_bonus"), "Rebecca chain 6 source-value amplification should not be modeled as flat +40% Basic DMG Bonus");
   slot.skill = "hack_meltdown";
   slot.toggles[__T.stateChoiceKey("目标骇破")] = "目标骇破·干涉";
+  __T.setBuffToggle(slot, 0, "b_hack_break_amp", false);
   r = __T.compute();
   expectEqual(r.sk.damageType, "hackDmg", "Rebecca hack response should use the unified hack-break damage type");
   expectEqual(r.damageModel, "harmonyResponse", "Rebecca hack response should use the harmony-response formula branch");
@@ -2983,6 +3073,7 @@ function lynaeCharacterRegressions() {
   slot.toggles[__T.stateChoiceKey("目标震谐状态")] = "目标震谐·干涉";
   skillIds = new Set(__T.availableSkills(slot).map((s) => s.id));
   assert(skillIds.has("tune_rupture_response_spectral"), "Lynae Tune Rupture response skill should be selectable after target state confirmation");
+  disableDefaultConfirmedBuffs([0]);
   r = __T.compute();
   expectEqual(r.damageModel, "harmonyResponse", "Lynae Tune Rupture Response - Spectral Analysis should use the harmony-response formula branch");
   expectEqual(r.breakAmp, 10, "Lynae should have 10 base Tune Break Boost");
@@ -3045,8 +3136,8 @@ function lynaeCharacterRegressions() {
   assert(!skillIds.has("tune_rupture_response_spectral"), "Lynae Tune Strain mode should hide Tune Rupture response skill");
   slot.toggles[__T.stateChoiceKey(lynaeStrainState.id)] = lynaeStrainInterfered;
   const strainBuff = buff(slot, "b_tune_strain_response");
-  delete slot.toggles[`stk_${strainBuff.stackGroup}`];
-  delete slot.toggles.b_tune_strain_response;
+  slot.toggles[`stk_${strainBuff.stackGroup}`] = 0;
+  slot.toggles.b_tune_strain_response = false;
   __T.state.offsetCalc = { key: "state", providerIdx: 0, skillId: null, stateId: lynaeStrainState.id, stateValue: lynaeStrainInterfered, stacks: 0, deepen: 0 };
   const noInterferenceDamage = __T.compute().expected;
   __T.state.offsetCalc.stacks = 3;
@@ -3059,6 +3150,8 @@ function lynaeCharacterRegressions() {
   assert(r.expected > noInterferenceDamage, "Increasing Tune Strain Interfered stacks should increase the main selected damage");
   slot.toggles[`stk_${strainBuff.stackGroup}`] = 3;
   slot.toggles.b_tune_strain_response = true;
+  slot.toggles.b_liberation_final = false;
+  slot.toggles.w_e2 = false;
   r = __T.compute();
   assert(__T.buffStatus(slot, 0, strainBuff).applies, "Lynae Tune Strain - Interfered final damage buff should apply after target state confirmation");
   assert(__T.buffFormulaText(slot, strainBuff, 0).includes("+18%"), "Lynae Tune Strain - Interfered should scale 3 stacks from active Tune Break Boost");
@@ -3074,6 +3167,7 @@ function lynaeCharacterRegressions() {
   const p5Base = buff(support, "son_25_pact_of_neonlight_leap_atk_base");
   const p5Dynamic = buff(support, "son_25_pact_of_neonlight_leap_atk_break_amp");
   support.toggles[p5Base.id] = true;
+  support.toggles[p5Dynamic.id] = false;
   let withoutDynamic = __T.compute();
   support.toggles[p5Dynamic.id] = true;
   let withDynamic = __T.compute();
@@ -3111,7 +3205,9 @@ function hiyukiCharacterRegressions() {
   const frostWeapon = buff(slot, "w_e3");
   assert(frostWeapon.effect === "frost", "Hiyuki signature weapon effect damage deepen should target Frost effect damage");
   let st = __T.buffStatus(slot, 0, frostWeapon);
-  assert(st.precondition && !st.gated && !st.applies, "Hiyuki signature effect deepen should require manual post-attachment confirmation");
+  assert(st.precondition && !st.gated && st.applies, "Hiyuki signature effect deepen should default to confirmed in lazy buff mode");
+  __T.setBuffToggle(slot, 0, frostWeapon.id, false);
+  assert(!__T.buffStatus(slot, 0, frostWeapon).applies, "Hiyuki signature effect deepen should remain user-disableable");
   __T.setBuffToggle(slot, 0, frostWeapon.id, true);
   r = __T.compute();
   assert(r.effect.buffDeepen >= 80, "Confirmed Hiyuki signature effect deepen should feed the Frost effect calculation");
@@ -3119,7 +3215,9 @@ function hiyukiCharacterRegressions() {
   resetTeam(["hiyuki"]);
   const snowCrit = buff(__T.state.slots[0], "son_30_wishes_of_quiet_snowfall_crit");
   st = __T.buffStatus(__T.state.slots[0], 0, snowCrit);
-  assert(st.precondition && !st.applies, "Wishes of Quiet Snowfall crit should not auto-apply to the Resonance Liberation hit that creates it");
+  assert(st.precondition && st.applies, "Wishes of Quiet Snowfall crit should default to confirmed in lazy buff mode");
+  __T.setBuffToggle(__T.state.slots[0], 0, snowCrit.id, false);
+  assert(!__T.buffStatus(__T.state.slots[0], 0, snowCrit).applies, "Wishes of Quiet Snowfall crit should remain user-disableable");
 }
 
 function newCharacterWeaponRegressions() {
@@ -3131,7 +3229,9 @@ function newCharacterWeaponRegressions() {
   assert(defIgnore && defIgnore.zone === "defIgnore" && defIgnore.value === 32 && defIgnore.damageType === "resonanceLiberation", "Aemeath signature weapon should include Liberation defense ignore");
   assert(resIgnore && resIgnore.zone === "resShred" && resIgnore.value === 10 && resIgnore.element === "fusion", "Aemeath signature weapon should include Fusion resistance ignore");
   let st = __T.buffStatus(slot, 0, defIgnore);
-  assert(st.precondition && !st.applies, "Aemeath signature post-offset defense ignore should require manual confirmation");
+  assert(st.precondition && st.applies, "Aemeath signature post-offset defense ignore should default to confirmed in lazy buff mode");
+  __T.setBuffToggle(slot, 0, defIgnore.id, false);
+  assert(!__T.buffStatus(slot, 0, defIgnore).applies, "Aemeath signature post-offset defense ignore should remain user-disableable");
   __T.setBuffToggle(slot, 0, defIgnore.id, true);
   __T.setBuffToggle(slot, 0, resIgnore.id, true);
   let r = __T.compute();
@@ -3160,7 +3260,8 @@ function newCharacterWeaponRegressions() {
   const glacio = buff(slot, "w_e2");
   assert(glacio && glacio.zone === "damageBonus" && glacio.value === 30 && glacio.element === "glacio", "Lucilla signature weapon should include post-Frost Glacio damage bonus");
   st = __T.buffStatus(slot, 0, glacio);
-  assert(st.precondition && !st.applies, "Lucilla signature post-Frost Glacio bonus should require manual confirmation");
+  assert(st.precondition && st.applies, "Lucilla signature post-Frost Glacio bonus should default to confirmed in lazy buff mode");
+  __T.setBuffToggle(slot, 0, glacio.id, false);
   const beforeGlacio = __T.compute().rawTotals.damageBonus;
   __T.setBuffToggle(slot, 0, glacio.id, true);
   r = __T.compute();
@@ -3303,6 +3404,7 @@ const checks = [
   ["beta character entry regressions", betaCharacterEntryRegressions],
   ["render preserves scroll", renderPreservesScroll],
   ["buff toggle uses partial refresh", buffToggleUsesPartialRefresh],
+  ["precondition buffs default on", preconditionBuffsDefaultOn],
   ["weapon picker keeps string ids", weaponPickerKeepsStringIds],
   ["beta data files use versioned paths", betaDataFilesUseVersionedPaths],
   ["character schema references resolve", characterSchemasAreLinked],
