@@ -4,7 +4,7 @@
 
 > 독립적인 《명조》 피해 계산기입니다. 순수 프론트엔드 정적 페이지라 브라우저에서 바로 열어 사용할 수 있으며, 빌드 단계와 백엔드가 필요하지 않습니다.
 
-온라인 사용: [wuwa-damage-calculator.chuan-hane.workers.dev](https://wuwa-damage-calculator.chuan-hane.workers.dev)
+온라인 사용: [GitHub Pages](https://chuan-hane.github.io/wuwa-damage-calculator/) / [Cloudflare Workers](https://wuwa-damage-calculator.chuan-hane.workers.dev)
 
 이 프로젝트는 실제 게임 피해 계산을 최대한 가깝게 모델링합니다. 공명자 기본 스탯, 스킬 트리 고정 보너스, 무기, 에코, 공명 체인, 버프를 구조화 데이터로 보관하고, 계산 화면은 현재 스킬, 파티, 공명 체인 단계, 반주 스킬, 자원, 전투 상태와 기타 선행 조건에 따라 이번 공격이 받을 수 있는 효과를 판정합니다.
 

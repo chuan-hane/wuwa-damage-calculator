@@ -4,7 +4,7 @@
 
 > 独立した『鳴潮』ダメージ計算機です。純粋なフロントエンドの静的ページで、ブラウザでそのまま開いて使えます。ビルド手順もバックエンドも不要です。
 
-オンライン版: [wuwa-damage-calculator.chuan-hane.workers.dev](https://wuwa-damage-calculator.chuan-hane.workers.dev)
+オンライン版: [GitHub Pages](https://chuan-hane.github.io/wuwa-damage-calculator/) / [Cloudflare Workers](https://wuwa-damage-calculator.chuan-hane.workers.dev)
 
 このプロジェクトは実際のゲーム内ダメージ計算にできるだけ近い形を目指しています。共鳴者の基礎ステータス、スキルツリー固定ボーナス、武器、音骸、共鳴チェーン、Buffを構造化データとして保持し、計算画面では現在のスキル、チーム、共鳴チェーン段階、終奏スキル、リソース、戦闘状態、その他の前提条件から、今回の攻撃に適用できる効果を判定します。
 

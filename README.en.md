@@ -4,7 +4,7 @@
 
 > An independent Wuthering Waves damage calculator. It is a static frontend page: open it in a browser and use it directly, with no build step and no backend.
 
-Live site: [wuwa-damage-calculator.chuan-hane.workers.dev](https://wuwa-damage-calculator.chuan-hane.workers.dev)
+Live site: [GitHub Pages](https://chuan-hane.github.io/wuwa-damage-calculator/) / [Cloudflare Workers](https://wuwa-damage-calculator.chuan-hane.workers.dev)
 
 This project aims to model real in-game damage resolution as closely as possible: Resonator base stats, fixed Skill Tree bonuses, weapons, Echoes, Resonance Chains, and buffs are stored as structured data. The calculation view then determines what the current hit can benefit from based on the selected skill, team, Resonance Chain level, Outro Skill, resources, combat states, and other prerequisites.
 

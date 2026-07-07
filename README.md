@@ -4,7 +4,7 @@
 
 > 独立的《鸣潮》(Wuthering Waves) 伤害计算器。纯前端静态页面，浏览器打开即用，无需构建、无后端。
 
-在线使用：[wuwa-damage-calculator.chuan-hane.workers.dev](https://wuwa-damage-calculator.chuan-hane.workers.dev)
+在线使用：[GitHub Pages](https://chuan-hane.github.io/wuwa-damage-calculator/) / [Cloudflare Workers](https://wuwa-damage-calculator.chuan-hane.workers.dev)
 
 项目尽可能模拟真实游戏结算：角色基础面板、属性树、武器、声骸、共鸣链和 Buff 都结构化录入，结算页按当前技能、队伍、链数、延奏、资源、状态和前置自动判断本次攻击能吃到什么。
 
