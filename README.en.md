@@ -6,7 +6,7 @@
 
 Live site: [GitHub Pages](https://chuan-hane.github.io/wuwa-damage-calculator/) / [Cloudflare Workers](https://wuwa-damage-calculator.chuan-hane.workers.dev)
 
-This project aims to model real in-game damage resolution as closely as possible: Resonator base stats, fixed Skill Tree bonuses, weapons, Echoes, Resonance Chains, and buffs are stored as structured data. The calculation view then determines what the current hit can benefit from based on the selected skill, team, Resonance Chain level, Outro Skill, resources, combat states, and other prerequisites.
+**Core focus**: This project models Wuthering Waves combat resolution around the current hit: Resonator panel stats, weapons, Echoes, Resonance Chains, and teammate buffs all feed into the checks, and the calculator resolves the bonuses that actually apply to the selected skill.
 
 ---
 
