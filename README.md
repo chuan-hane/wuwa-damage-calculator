@@ -6,7 +6,7 @@
 
 在线使用：[GitHub Pages](https://chuan-hane.github.io/wuwa-damage-calculator/) / [Cloudflare Workers](https://wuwa-damage-calculator.chuan-hane.workers.dev)
 
-项目尽可能模拟真实游戏结算：角色基础面板、属性树、武器、声骸、共鸣链和 Buff 都结构化录入，结算页按当前技能、队伍、链数、延奏、资源、状态和前置自动判断本次攻击能吃到什么。
+**核心定位**：本项目以“本次攻击”为核心还原《鸣潮》实战结算：角色面板、武器、声骸、共鸣链与队友 Buff 全部参与判定，自动计算当前技能实际生效的增益。
 
 ---
 
