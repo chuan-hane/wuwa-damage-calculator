@@ -4,7 +4,6 @@ WUWA.register({
   "id": "yangyang_xuanling",
   "aliases": [],
   "debut": 3.5,
-  "betaVersion": "Beta3.5.6",
   "element": "havoc",
   "weaponType": 2,
   "quality": 5,
@@ -172,9 +171,12 @@ WUWA.register({
       "damageType": "heavy",
       "multiplier": 100.68,
       "formula": "33.56% × 3",
-      "impliedStates": [
-        "sword_stance_feather"
-      ],
+      "requiresState": "sword_stance_azure",
+      "requiresResourceAtLeast": {
+        "id": "melody",
+        "value": 1
+      },
+      "fallbackSkillId": "flow_feather",
       "triggerEvents": [
         "castResonanceSkill"
       ]
@@ -185,9 +187,12 @@ WUWA.register({
       "damageType": "heavy",
       "multiplier": 116.6,
       "formula": "69.95% + 15.55% × 3",
-      "impliedStates": [
-        "sword_stance_azure"
-      ],
+      "requiresState": "sword_stance_feather",
+      "requiresResourceAtLeast": {
+        "id": "melody",
+        "value": 1
+      },
+      "fallbackSkillId": "flow_azure",
       "triggerEvents": [
         "castResonanceSkill"
       ]
@@ -235,9 +240,7 @@ WUWA.register({
       "damageType": "heavy",
       "multiplier": 116.6,
       "formula": "69.95% + 15.55% × 3",
-      "impliedStates": [
-        "sword_stance_azure"
-      ],
+      "requiresState": "sword_stance_feather",
       "triggerEvents": [
         "castResonanceSkill"
       ]
@@ -248,9 +251,7 @@ WUWA.register({
       "damageType": "heavy",
       "multiplier": 100.68,
       "formula": "33.56% × 3",
-      "impliedStates": [
-        "sword_stance_feather"
-      ],
+      "requiresState": "sword_stance_azure",
       "triggerEvents": [
         "castResonanceSkill"
       ]
@@ -405,28 +406,64 @@ WUWA.register({
   ],
   "buffs": [
     {
-      "id": "b_unbroken_vow_low",
+      "id": "b_unbroken_vow_stack_1",
       "zone": "amplify",
       "value": 10,
       "scope": "self",
       "requiresEffectStacks": {
         "effect": "havocBane",
         "stacks": 1
-      },
-      "maxStacks": 3,
-      "defaultStacks": 3
+      }
     },
     {
-      "id": "b_unbroken_vow_high",
+      "id": "b_unbroken_vow_stack_2",
+      "zone": "amplify",
+      "value": 10,
+      "scope": "self",
+      "requiresEffectStacks": {
+        "effect": "havocBane",
+        "stacks": 2
+      }
+    },
+    {
+      "id": "b_unbroken_vow_stack_3",
+      "zone": "amplify",
+      "value": 10,
+      "scope": "self",
+      "requiresEffectStacks": {
+        "effect": "havocBane",
+        "stacks": 3
+      }
+    },
+    {
+      "id": "b_unbroken_vow_stack_4",
       "zone": "amplify",
       "value": 12,
       "scope": "self",
       "requiresEffectStacks": {
         "effect": "havocBane",
         "stacks": 4
-      },
-      "maxStacks": 3,
-      "defaultStacks": 3
+      }
+    },
+    {
+      "id": "b_unbroken_vow_stack_5",
+      "zone": "amplify",
+      "value": 12,
+      "scope": "self",
+      "requiresEffectStacks": {
+        "effect": "havocBane",
+        "stacks": 5
+      }
+    },
+    {
+      "id": "b_unbroken_vow_stack_6",
+      "zone": "amplify",
+      "value": 12,
+      "scope": "self",
+      "requiresEffectStacks": {
+        "effect": "havocBane",
+        "stacks": 6
+      }
     },
     {
       "id": "b_desperate_breath_azure",
@@ -465,7 +502,7 @@ WUWA.register({
     {
       "id": "b_windbound_heavy_cd",
       "zone": "critDamage",
-      "value": 25,
+      "value": 150,
       "scope": "self",
       "maxStacks": 6,
       "defaultStacks": 0,
@@ -609,6 +646,6 @@ WUWA.register({
     "heavyDmg"
   ],
   "echoSet": 350433,
-  "echoLead": "350433:unknown",
+  "echoLead": "350433:thousand_puppet_pavilion",
   "modes": null
 });

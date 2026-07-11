@@ -182,7 +182,7 @@ window.WUWA_LANGUAGES.extend("en-US", {
           },
           {
             "name": "Slumbering Moonlight",
-            "desc": "While casting Resonance Liberation - Clear As Day, Lucilla grants the following enhancements based on her Resonance Mode:\n- When in Resonance Mode - Glacio Chafe, Glacio Chafe DMG against targets within a certain range around the active Resonator is Amplified by 80%.\n- When in Resonance Mode - Echo, grant 40% Echo Skill DMG Amplification to Resonators in the team.\nThese enhancements last as long as Reminiscence is active and remain effective for 30s after Reminiscence ends.\nThese effects end when Lucilla switches Resonance Modes.",
+            "desc": "While casting Resonance Liberation - Clear As Day, Lucilla grants the following enhancements based on her Resonance Mode:\n- When in Resonance Mode - Glacio Chafe, Glacio Chafe DMG against targets within a certain range around the active Resonator is Amplified by 80%.\n- When in Resonance Mode - Echo, grant 40% Echo Skill DMG Bonus to Resonators in the team.\nThese enhancements last as long as Reminiscence is active and remain effective for 30s after Reminiscence ends.\nThese effects end when Lucilla switches Resonance Modes.",
             "buffs": [
               {
                 "label": "DMG Increase",

@@ -232,6 +232,15 @@ window.WUWA_SETTLEMENT = (() => {
       return characterResourceValue(slot, resource.id) >= resourceRequirementValue(slot, resource, req);
     }
 
+    function buffResourceGateReason(slot, buff) {
+      const req = buff.requiresResourceAtLeast;
+      if (!req || resourceRequirementReady(slot, req)) return null;
+      const resource = characterResourceDef(slot, req.id || req.label);
+      const label = resource?.label || req.label || req.id;
+      const threshold = resource ? resourceRequirementValue(slot, resource, req) : num(req.value);
+      return `需${label}达到${threshold}`;
+    }
+
     function characterResourceControlsForSlot(slot) {
       const values = normalizedCharacterResourceValues(slot);
       return characterResourceDefs(slot).map((resource) => ({
@@ -765,6 +774,7 @@ window.WUWA_SETTLEMENT = (() => {
     function defaultBuffToggleOn(slot, buff) {
       const own = explicitBuffToggle(slot, buff);
       if (own != null) return own === true;
+      if (buff.defaultActive === false) return false;
       if (!buff.exclusiveGroup) return true;
       const group = exclusiveBuffGroup(slot, buff);
       const selected = group.find((other) => explicitBuffToggle(slot, other) === true);
@@ -859,32 +869,8 @@ window.WUWA_SETTLEMENT = (() => {
       return activeEffectStacks(req.key) >= req.stacks;
     }
 
-    function staticEffectCapBonus(def) {
-      if (!def.supportsCapBonus) return 0;
-      return state.slots.reduce((total, slot) => {
-        const bonus = ch(slot.char)?.effectCapBonus;
-        if (!bonus || !effectCapTargetMatches(bonus.effects, def)) return total;
-        return total + num(bonus.value);
-      }, 0);
-    }
-
-    function staticEffectCapValue(def, providerIdx) {
-      const base = providerEffectBaseCap(def, providerIdx);
-      const value = base + staticEffectCapBonus(def);
-      return Math.min(def.maxStacks ?? value, value);
-    }
-
-    function teamCanProvideEffectStacks(effectKey, stacks) {
-      const def = EFFECT_DEFS[effectKey] || EFFECT_DEFS.none;
-      return state.slots.some((slot, idx) => slotProvidesEffect(slot, effectKey) && staticEffectCapValue(def, idx) >= stacks);
-    }
-
-    function effectStackRequirementReadyForBuff(slot, buff) {
-      const req = effectStackRequirement(buff);
-      if (!req) return true;
-      if (effectStackRequirementReady(buff)) return true;
-      if (effectKeyOf(state.effectCalc?.key) === req.key) return false;
-      return defaultBuffToggleOn(slot, buff) && teamCanProvideEffectStacks(req.key, req.stacks);
+    function effectStackRequirementReadyForBuff(buff) {
+      return effectStackRequirementReady(buff);
     }
 
     function effectStackRequirementLabel(rawReq) {
@@ -964,14 +950,8 @@ window.WUWA_SETTLEMENT = (() => {
       return key !== "none" && activeEffectStacks(key) >= Math.max(0, Math.round(num(req.stacks ?? req.min ?? 1)));
     }
 
-    function anyEffectStackRequirementReadyForBuff(slot, buff) {
-      if (anyEffectStackRequirementReady(buff)) return true;
-      if (!defaultBuffToggleOn(slot, buff)) return false;
-      if (effectKeyOf(state.effectCalc?.key) !== "none") return false;
-      const stacks = Math.max(0, Math.round(num(buff.requiresAnyEffectStacks?.stacks ?? buff.requiresAnyEffectStacks?.min ?? 1)));
-      const keys = new Set();
-      state.slots.forEach((teamSlot) => explicitEffectKeysForSlot(teamSlot).forEach((key) => keys.add(key)));
-      return [...keys].some((key) => teamCanProvideEffectStacks(key, stacks));
+    function anyEffectStackRequirementReadyForBuff(buff) {
+      return anyEffectStackRequirementReady(buff);
     }
 
     function anyEffectStackRequirementLabel(rawReq) {
@@ -999,11 +979,13 @@ window.WUWA_SETTLEMENT = (() => {
       if (buff.seq && slot.seq < buff.seq) return `需 ${buff.seq} 链`;
       if (buff.maxSeq != null && slot.seq > buff.maxSeq) return `已被高链效果替换`;
       if (!buffStateRequirementsReady(slot, buff) && !supportStateNeedsConfirmation(slot, idx, buff, outputIdx)) return `需处于${buffStateRequirementLabelForSlot(slot, buff)}`;
+      const resourceGate = buffResourceGateReason(slot, buff);
+      if (resourceGate) return resourceGate;
       if (!sourceStatRequirementReady(slot, buff)) return `需${sourceStatRequirementLabel(buff.requiresSourceStat)}`;
       if (!sourceCharRequirementReady(slot, buff)) return `需${sourceCharRequirementLabel(buff)}`;
       if (buff.maxStacks && (buff.stackStart != null || buff.stackEnd != null || buff.stackRange) && buffTriggerSatisfied(slot, idx, buff, outputIdx, ctx) && buffStackContribution(slot, buff, idx, outputIdx, ctx) <= 0) return buffStackRangeLabel(buff);
-      if (buff.requiresEffectStacks && !effectStackRequirementReadyForBuff(slot, buff) && defaultBuffToggleOn(slot, buff)) return `需${effectStackRequirementLabel(buff.requiresEffectStacks)}`;
-      if (buff.requiresAnyEffectStacks && !anyEffectStackRequirementReadyForBuff(slot, buff) && defaultBuffToggleOn(slot, buff)) return `需${anyEffectStackRequirementLabel(buff.requiresAnyEffectStacks)}`;
+      if (buff.requiresEffectStacks && !effectStackRequirementReadyForBuff(buff) && explicitBuffToggle(slot, buff) === true) return `需${effectStackRequirementLabel(buff.requiresEffectStacks)}`;
+      if (buff.requiresAnyEffectStacks && !anyEffectStackRequirementReadyForBuff(buff) && explicitBuffToggle(slot, buff) === true) return `需${anyEffectStackRequirementLabel(buff.requiresAnyEffectStacks)}`;
       if (buffClearedByCurrentSkill(slot, buff, ctx)) return "被当前技能清除";
       if (!isDps && buff.scope !== "team") return "仅自身输出时生效";
       if (isDps && (String(buff.source).startsWith("延奏") || buff.triggerOutro === true)) return "延奏不给自己";
@@ -1019,7 +1001,7 @@ window.WUWA_SETTLEMENT = (() => {
       const isDps = idx === outputIdx;
       const gated = buffGateReason(slot, idx, buff, seen, outputIdx, ctx, isDps);
       const precondition = buffNeedsPrecondition(slot, idx, buff, outputIdx, ctx);
-      const toggleOn = precondition ? defaultBuffToggleOn(slot, buff) : true;
+      const toggleOn = precondition ? explicitBuffToggle(slot, buff) === true : true;
       return { gated, precondition, toggleOn, applies: !gated && toggleOn };
     }
 
@@ -1465,7 +1447,7 @@ window.WUWA_SETTLEMENT = (() => {
         if (!ref || !refStatus || !refStatus.applies || stacks < req.stacks) gated = `需${req.label || req.id}${req.stacks}层`;
       }
       const precondition = buffNeedsPrecondition(slot, idx, buff, outputIdx);
-      const toggleOn = precondition ? defaultBuffToggleOn(slot, buff) : true;
+      const toggleOn = precondition ? explicitBuffToggle(slot, buff) === true : true;
       return { gated, precondition, toggleOn, applies: !gated && toggleOn };
     }
 

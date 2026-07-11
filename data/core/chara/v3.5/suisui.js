@@ -4,7 +4,6 @@ WUWA.register({
   "id": "suisui",
   "aliases": [],
   "debut": 3.5,
-  "betaVersion": "Beta3.5.6",
   "element": "glacio",
   "weaponType": 5,
   "quality": 5,
@@ -124,6 +123,7 @@ WUWA.register({
       "requiresState": [
         "form_zephyr"
       ],
+      "fallbackSkillId": "skill_zephyr",
       "triggerEvents": [
         "castResonanceSkill",
         "applyGlacioChafe"
@@ -308,6 +308,7 @@ WUWA.register({
       "value": 3,
       "scope": "team",
       "requiresState": "ceaseless_landscape_active",
+      "defaultActive": false,
       "duration": 15
     },
     {
@@ -343,10 +344,16 @@ WUWA.register({
       "id": "b_outro_reflecting_final",
       "zone": "finalDmg",
       "scope": "team",
-      "requiresState": [
+      "requiresAllStates": [
         "ceaseless_landscape_active",
         "reflecting_shadows_active"
       ],
+      "defaultActive": false,
+      "triggerOutro": true,
+      "requiresResourceAtLeast": {
+        "id": "floral_epistle",
+        "value": 400
+      },
       "scaleBy": {
         "stat": "energyRegen",
         "statBonus": -200,
@@ -361,14 +368,16 @@ WUWA.register({
       "scope": "team",
       "requiresState": "ceaseless_landscape_active",
       "defaultActive": false,
-      "duration": 6,
-      "requiresAnyEffectStacks": {
-        "stacks": 1
+      "triggerOutro": true,
+      "requiresResourceAtLeast": {
+        "id": "floral_epistle",
+        "value": 600
       },
+      "duration": 6,
       "scaleBy": {
         "stat": "energyRegen",
         "statBonus": -200,
-        "rate": 0.833333,
+        "rate": 0.8333333333333334,
         "min": 0,
         "cap": 50
       }
@@ -388,9 +397,6 @@ WUWA.register({
           "scope": "team",
           "requiresState": "ceaseless_landscape_active",
           "defaultActive": false,
-          "requiresAnyEffectStacks": {
-            "stacks": 1
-          },
           "duration": 30
         }
       ]
@@ -444,6 +450,6 @@ WUWA.register({
     "skillDmg"
   ],
   "echoSet": 350433,
-  "echoLead": "350433:unknown",
+  "echoLead": "350433:thousand_puppet_pavilion",
   "modes": null
 });

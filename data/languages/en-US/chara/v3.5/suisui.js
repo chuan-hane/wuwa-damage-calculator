@@ -108,19 +108,19 @@ window.WUWA_LANGUAGES.extend("en-US", {
           {
             "source": "Outro Skill: Rippling Waters",
             "label": "ATK",
-            "trigger": "After consuming at least 600 Floral Epistle",
-            "excerpt": "A Smoked-Haze holder gains ATK after consuming Negative Status stacks, cap 50%",
-            "desc": "After consuming at least 600 Floral Epistle, the first Plume Step lets an active Resonator inside Ceaseless Landscape grant Smoked Haze to the next Resonator after casting Outro Skill. Smoked Haze lasts 14s. When the Smoked-Haze holder consumes Negative Status or Electro Burst stacks on a target, ATK increases based on Suisui's Energy Regen above 200%, up to 50%, for 6s."
+            "trigger": "At least 600 Floral Epistle consumed and first Plume Step performed",
+            "excerpt": "After the first Plume Step, the next Outro grants the incoming Resonator Undulating Mist; consuming Negative Status stacks raises ATK, cap 50%",
+            "desc": "After at least 600 Floral Epistle is consumed, when Suisui performs the first Plume Step, all nearby active Resonators in the team within Ceaseless Landscape gain the following effect for the duration of this Roaming Transcendent state: When they cast Outro Skill, Suisui grants the incoming Resonator Undulating Mist. When Resonators with Undulating Mist consume Negative Status or Electro Rage stacks on the target, they gain an ATK increase: For every 0.12% of Suisui's Energy Regen over 200%, the Resonator's ATK is increased by 0.1% for 6s, up to 50%. Undulating Mist lasts for 14s or until the Resonator is switched off the field. When Undulating Mist is removed, the ATK increase effect is also removed."
           }
         ],
         "chain": [
           {
             "name": "Mountains Washed Into Paintings",
-            "desc": "A Resonator with Smoked Haze can also trigger the ATK increase after inflicting Negative Status or dealing Negative Status DMG. The Reflecting Shadows gained from the third Plume Step lasts 100% longer. Basic Attack - Drizzle Stance, Heavy Attack - Drizzle Stance, and the enhanced plunging attack cannot be interrupted."
+            "desc": "Resonators with Undulating Mist also gain ATK increase after inflicting Negative Status or dealing Negative Status DMG.\nThe duration of Reflecting Shadows obtained through the third Plume Step is extended by 100%.\nBasic Attack - Drizzle Stance, Heavy Attack - Drizzle Stance, Plunging Attack - Illuminating Dew and Plunging Attack - Swallow's Cut are immune to interruption."
           },
           {
             "name": "Clouds Pour Like Molten Gold",
-            "desc": "Inside Ceaseless Landscape, after nearby team members inflict Negative Status, deal corresponding Negative Status DMG, or consume Havoc Bane stacks on a target, the triggering Resonator gains 50% Crit. DMG for 30s. The effect is temporarily disabled when the active Resonator is outside Ceaseless Landscape.",
+            "desc": "All nearby Resonators in the team within the Ceaseless Landscape have their Crit. DMG increased by 50% for 30s after performing the following actions:\n- Inflicting Spectro Frazzle, Fusion Burst, Glacio Chafe, Aero Erosion, and Electro Flare, or dealing the corresponding Negative Status DMG.\n- Consuming Havoc Bane stacks on the target.\nWhen the active Resonator is not in the Ceaseless Landscape, this Crit. DMG bonus effect is disabled.",
             "buffs": [
               {
                 "label": "Crit. DMG",
@@ -131,15 +131,15 @@ window.WUWA_LANGUAGES.extend("en-US", {
           },
           {
             "name": "Sparse Curtains Invite Evening Glow",
-            "desc": "After casting Resonance Skill - Drizzle Stance, Basic Attack - Drizzle Stance Stage 4 can be cast. Consuming Kingfisher restores Concerto Energy and Floral Epistle."
+            "desc": "Press Normal Attack shortly after casting Resonance Skill - Drizzle Stance to cast Basic Attack - Drizzle Stance Stage 4.\n\nCasting Resonance Skill - Drizzle Stance grants Kingfisher. Switching to another Resonator ends this effect. Casting Basic Attack - Drizzle Stance Stage 4 consumes Kingfisher to restore 20 points of Concerto Energy and 350 points of Floral Epistle. Kingfisher can be consumed up to once every 25s."
           },
           {
             "name": "Autumn Mountains in Choir Sing",
-            "desc": "Enrichment and Spring's Birth healing is increased by 50%."
+            "desc": "Healing provided by Enrichment and  Spring's Birth are increased by 50%."
           },
           {
             "name": "I Long To Ride The Eastern Wind",
-            "desc": "Basic Attack - Drizzle Stance and Heavy Attack - Drizzle Stance DMG Multipliers are increased by 100%.",
+            "desc": "The DMG Multipliers of Basic Attack - Drizzle Stance and Heavy Attack - Drizzle Stance are increased by 100%.",
             "buffs": [
               {
                 "label": "DMG Multiplier Increase",
@@ -150,7 +150,7 @@ window.WUWA_LANGUAGES.extend("en-US", {
           },
           {
             "name": "Staying True To This Splendid Realm",
-            "desc": "Tinkling Jade and Awakening Spring Crit. DMG is increased by 500%.",
+            "desc": "The Crit. DMG of Intro Skill - Tinkling Jade and Resonance Skill - Awakening Spring is increased by 500%.",
             "buffs": [
               {
                 "label": "Crit. DMG",
