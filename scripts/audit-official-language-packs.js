@@ -71,10 +71,24 @@ function apiSkillAttributes(apiChar) {
   const attrs = [];
   for (const skill of apiChar.Skills || []) {
     for (const attr of Object.values(skill.SkillAttributes || {})) {
-      attrs.push({ id: attr.attributeId, fullName: `${skill.SkillName} - ${attr.attributeName}` });
+      attrs.push({
+        id: attr.attributeId,
+        attributeName: attr.attributeName,
+        fullName: `${skill.SkillName} - ${attr.attributeName}`,
+      });
     }
   }
   return attrs;
+}
+
+function uniqueNameIndex(items, field) {
+  const grouped = new Map();
+  items.forEach((item) => {
+    const key = normName(item[field]);
+    if (!key) return;
+    grouped.set(key, [...(grouped.get(key) || []), item]);
+  });
+  return new Map([...grouped].map(([key, values]) => [key, values.length === 1 ? values[0] : null]));
 }
 
 const fetchCache = new Map();
@@ -177,16 +191,27 @@ async function auditCharacters(bad, stats) {
   await mapConcurrent(officialCharIds, FETCH_CONCURRENCY, async (id) => {
     const apiId = charApiIds.get(id);
     const enDetail = await charDetail("en", apiId);
-    const enAttrs = new Map(apiSkillAttributes(enDetail).map((attr) => [normName(attr.fullName), attr]));
+    const enSkillAttrs = apiSkillAttributes(enDetail);
+    const enFullAttrs = uniqueNameIndex(enSkillAttrs, "fullName");
+    const enAttributeAttrs = uniqueNameIndex(enSkillAttrs, "attributeName");
+    const enPack = window.WUWA_LANGUAGES.localeData("en-US", "chars", id);
+    const skillMatches = (window.WUWA.chars[id].skills || []).map((sk, idx) => {
+      const localName = normName(enPack?.skills?.[idx]?.name);
+      const fullMatch = enFullAttrs.get(localName);
+      const attr = fullMatch || enAttributeAttrs.get(localName);
+      return attr ? { attr, field: fullMatch ? "fullName" : "attributeName" } : null;
+    });
+    const matchedSkills = skillMatches.filter(Boolean).length;
+    stats.matchedSkillEntries += matchedSkills;
+    if (!matchedSkills) bad.push(`character ${id}: no local skill names matched official English attributes`);
     for (const { code, api } of TARGET_LANGS) {
       const pack = window.WUWA_LANGUAGES.localeData(code, "chars", id);
       const detail = await charDetail(api, apiId);
       if (pack?.name !== detail.Name?.Content) bad.push(`${code}.char.${id}.name: ${pack?.name} != ${detail.Name?.Content}`);
       const targetAttrs = new Map(apiSkillAttributes(detail).map((attr) => [attr.id, attr]));
-      const enPack = window.WUWA_LANGUAGES.localeData("en-US", "chars", id);
       (window.WUWA.chars[id].skills || []).forEach((sk, idx) => {
-        const enAttr = enAttrs.get(normName(enPack?.skills?.[idx]?.name));
-        const official = enAttr ? targetAttrs.get(enAttr.id)?.fullName : null;
+        const match = skillMatches[idx];
+        const official = match ? targetAttrs.get(match.attr.id)?.[match.field] : null;
         if (!official) {
           stats.derivedSkillEntries += 1;
           if (!pack?.skills?.[idx]?.name) bad.push(`${code}.char.${id}.${sk.id}: missing derived skill name`);
@@ -275,7 +300,7 @@ async function auditSonatas(bad, stats) {
 async function main() {
   loadRepoData();
   const bad = [];
-  const stats = { derivedSkillEntries: 0, skippedBetaCharacters: 0, skippedBetaWeapons: 0, skippedBetaSonatas: 0 };
+  const stats = { matchedSkillEntries: 0, derivedSkillEntries: 0, skippedBetaCharacters: 0, skippedBetaWeapons: 0, skippedBetaSonatas: 0 };
   await auditCharacters(bad, stats);
   await auditWeapons(bad, stats);
   await auditSonatas(bad, stats);
@@ -284,7 +309,7 @@ async function main() {
     console.error(bad.slice(0, 120).join("\n"));
     process.exit(1);
   }
-  console.log(`OFFICIAL_AUDIT_OK chars=${window.WUWA.order.length - stats.skippedBetaCharacters}/${window.WUWA.order.length} weapons=${window.WUWA_DATA.weapons.length - stats.skippedBetaWeapons}/${window.WUWA_DATA.weapons.length} sonatas=${window.WUWA_SONATAS.length - stats.skippedBetaSonatas}/${window.WUWA_SONATAS.length} skippedBeta=${stats.skippedBetaCharacters + stats.skippedBetaWeapons + stats.skippedBetaSonatas} derivedSkillEntries=${stats.derivedSkillEntries} langs=${TARGET_LANGS.map((item) => item.code).join(",")}`);
+  console.log(`OFFICIAL_AUDIT_OK chars=${window.WUWA.order.length - stats.skippedBetaCharacters}/${window.WUWA.order.length} weapons=${window.WUWA_DATA.weapons.length - stats.skippedBetaWeapons}/${window.WUWA_DATA.weapons.length} sonatas=${window.WUWA_SONATAS.length - stats.skippedBetaSonatas}/${window.WUWA_SONATAS.length} skippedBeta=${stats.skippedBetaCharacters + stats.skippedBetaWeapons + stats.skippedBetaSonatas} matchedSkillEntries=${stats.matchedSkillEntries} derivedSkillEntries=${stats.derivedSkillEntries} langs=${TARGET_LANGS.map((item) => item.code).join(",")}`);
 }
 
 main().catch((error) => {

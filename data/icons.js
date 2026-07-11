@@ -174,7 +174,8 @@ window.WUWA_ICON_ASSETS = {
     "29": "assets/icons/sonatas/sound_of_true_name.webp",
     "30": "assets/icons/sonatas/wishes_of_quiet_snowfall.webp",
     "31": "assets/icons/sonatas/reel_of_spliced_memories.webp",
-    "33": "assets/icons/sonatas/halo_of_starry_radiance.webp"
+    "33": "assets/icons/sonatas/halo_of_starry_radiance.webp",
+    "350433": "assets/icons/sonatas/song_of_feathered_trace.webp"
   },
   "elements": {
     "glacio": "assets/icons/elements/glacio.webp",
