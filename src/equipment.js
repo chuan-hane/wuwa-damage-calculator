@@ -45,11 +45,18 @@ window.WUWA_EQUIPMENT = (() => {
     return L.stat(STAT_DEF[key]?.label || key);
   }
 
+  function characterDamageElements(c) {
+    if (!c) return [];
+    const used = new Set([c.element, ...asList(c.skills).map((skill) => skill.element)].filter((element) => ELEMENTS.includes(element)));
+    return [c.element, ...ELEMENTS.filter((element) => element !== c.element && used.has(element))].filter((element, idx, list) => element && list.indexOf(element) === idx);
+  }
+
   function echoMainOptions(cost, c) {
     const values = ECHO_MAIN_VALUES[cost] || ECHO_MAIN_VALUES[1];
     const out = Object.keys(values).map((key) => ({ key, label: statLabel(key, c), value: values[key] }));
-    if (cost === 3 && c?.element) out.unshift({ key: `elem:${c.element}`, label: statLabel(`elem:${c.element}`, c), value: 30 });
-    return out;
+    if (cost !== 3) return out;
+    const elements = characterDamageElements(c).map((element) => ({ key: `elem:${element}`, label: statLabel(`elem:${element}`, c), value: 30 }));
+    return [...elements, ...out];
   }
 
   function echoSubOptions(c) {
@@ -189,7 +196,7 @@ window.WUWA_EQUIPMENT = (() => {
 
   function echoDetailSummary(slot, c) {
     const detail = ensureEchoDetail(slot, c);
-    const useful = new Set(["atkFlat", "critRate", "critDamage", "elem", `elem:${c?.element}`, ...(c?.validSubs || [])]);
+    const useful = new Set(["atkFlat", "critRate", "critDamage", "elem", ...characterDamageElements(c).map((element) => `elem:${element}`), ...(c?.validSubs || [])]);
     let selectedSubs = 0;
     let hitSubs = 0;
     let totalCost = 0;

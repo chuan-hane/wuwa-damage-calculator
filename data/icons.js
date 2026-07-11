@@ -52,7 +52,10 @@ window.WUWA_ICON_ASSETS = {
     "hiyuki": "assets/icons/characters/hiyuki.webp",
     "lucilla": "assets/icons/characters/lucilla.webp",
     "lucy": "assets/icons/characters/lucy.webp",
-    "rebecca": "assets/icons/characters/rebecca.webp"
+    "rebecca": "assets/icons/characters/rebecca.webp",
+    "rover_electro": "assets/icons/characters/rover_electro.webp",
+    "suisui": "assets/icons/characters/suisui.webp",
+    "yangyang_xuanling": "assets/icons/characters/yangyang_xuanling.webp"
   },
   "weapons": {
     "autumntrace": "assets/icons/weapons/autumntrace.webp",
@@ -141,7 +144,9 @@ window.WUWA_ICON_ASSETS = {
     "frostburn": "assets/icons/weapons/frostburn.webp",
     "spectral_trigger": "assets/icons/weapons/spectral_trigger.webp",
     "skull_thrasher": "assets/icons/weapons/skull_thrasher.webp",
-    "freeze_frame": "assets/icons/weapons/freeze_frame.webp"
+    "freeze_frame": "assets/icons/weapons/freeze_frame.webp",
+    "azure_oath": "assets/icons/weapons/azure_oath.webp",
+    "firstlights_herald": "assets/icons/weapons/firstlights_herald.webp"
   },
   "sonatas": {
     "1": "assets/icons/sonatas/freezing_frost.webp",

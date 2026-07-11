@@ -49,7 +49,7 @@ const state = {
   damageMode: "crit", // 顶部伤害显示：crit / expected / normal
   showDesc: false, // buff 第二行默认显示短摘；由 Buff 区「原文」开关切到完整文本
   showTargetExtras: false, // 目标参数行额外乘区默认折叠，只在有生效来源或用户展开时显示
-  effectCalc: { key: "none", providerIdx: null, stacks: 10, electroRageStacks: 0, deepen: 0 }, // 大伤害数字下方：独立效应伤害结算
+  effectCalc: { key: "none", providerIdx: null, stacks: 10, stackMode: "auto", electroRageStacks: 0, deepen: 0 }, // 大伤害数字下方：独立效应伤害结算
   offsetCalc: { key: "tuneBreak", providerIdx: null, skillId: null, stateId: null, stateValue: null, stacks: 3, deepen: 0 }, // 偏移/谐度破坏体系独立结算
   slots: [
     initialSlot("jinhsi", "ages_of_harvest", "forte_illuminous_epiphany_stella"),
@@ -392,7 +392,10 @@ function firstEffectProviderIdx(key) {
 
 function updateEffectInput(el) {
   const key = el.dataset.act;
-  if (key === "effect-stacks") state.effectCalc.stacks = clampNumberInput(el, state.effectCalc.stacks || 0);
+  if (key === "effect-stacks") {
+    state.effectCalc.stacks = clampNumberInput(el, state.effectCalc.stacks || 0);
+    state.effectCalc.stackMode = "manual";
+  }
   if (key === "effect-rage-stacks") state.effectCalc.electroRageStacks = clampNumberInput(el, state.effectCalc.electroRageStacks || 0);
   if (key === "effect-deepen") state.effectCalc.deepen = num(el.value);
   repaint();
@@ -523,6 +526,7 @@ const ACTIONS = {
     state.effectCalc.key = def.key;
     state.effectCalc.providerIdx = firstEffectProviderIdx(def.key);
     state.effectCalc.stacks = def.defaultStacks || 0;
+    state.effectCalc.stackMode = "auto";
     state.effectCalc.electroRageStacks = 0;
     render();
   }; },

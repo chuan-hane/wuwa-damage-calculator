@@ -19,6 +19,13 @@ window.WUWA_SETTLEMENT = (() => {
     const OFFSET_STATE_KINDS = new Set(["target"]);
     const OFFSET_STATE_RE = /偏移|震谐.*干涉|干涉.*震谐|集谐.*干涉|干涉.*集谐|骇破.*干涉|干涉.*骇破|谐度.*干涉|干涉.*谐度|Off-?Tune|Interference|Interfered|Shifting|Hack|Tune Strain|Tune Rupture|Offset/i;
     const TUNE_BREAK_LEVEL_RATE = 1600;
+    const EFFECT_EVENT_BY_KEY = {
+      electro: "applyElectroFlare",
+      frost: "applyGlacioChafe",
+      lightNoise: "applySpectroFrazzle",
+      windErosion: "applyAeroErosion",
+      havocBane: "applyHavocBane",
+    };
 
     function slotBuffs(slot) {
       const c = ch(slot.char);
@@ -364,6 +371,7 @@ window.WUWA_SETTLEMENT = (() => {
       applyAeroErosion: "applyAeroErosion", 附加风蚀效应: "applyAeroErosion",
       applySpectroFrazzle: "applySpectroFrazzle", 附加光噪效应: "applySpectroFrazzle",
       applyGlacioChafe: "applyGlacioChafe", 附加霜渐效应: "applyGlacioChafe",
+      applyElectroFlare: "applyElectroFlare", 附加电磁效应: "applyElectroFlare",
       applyHavocBane: "applyHavocBane", 附加虚湮效应: "applyHavocBane",
       applyPhotochromicFlux: "applyPhotochromicFlux", 附加光致变染: "applyPhotochromicFlux",
       applyObservationMark: "applyObservationMark", 附加观测标记: "applyObservationMark",
@@ -407,7 +415,7 @@ window.WUWA_SETTLEMENT = (() => {
       const events = [];
       asList(c.skillEvents).forEach((eventDef) => pushEvent(events, skillEventNameForSlot(slot, sk, eventDef)));
       asList(sk?.triggerEvents).forEach((eventName) => pushEvent(events, eventName));
-      if (sk?.category) pushEvent(events, CATEGORY_EVENT[sk.category] || ("cast:" + sk.category));
+      if (sk?.category && !sk.triggeredDamage) pushEvent(events, CATEGORY_EVENT[sk.category] || ("cast:" + sk.category));
       if (isIntroSkill(sk)) {
         ["introEntry", "castIntroSkill"].forEach((eventName) => pushEvent(events, eventName));
       }
@@ -421,6 +429,22 @@ window.WUWA_SETTLEMENT = (() => {
       if (eventDef.skills && !skillRefsMatch(sk, eventDef.skills)) return null;
       if (eventDef.damageTypes && !asList(eventDef.damageTypes).some((type) => damageTypesForSkill(sk).includes(type))) return null;
       return eventDef.event || eventDef.name || eventDef.value || null;
+    }
+
+    function currentActionEffectStacks(effectKey, outputIdx = state.outputIdx) {
+      const key = effectKeyOf(effectKey);
+      const expectedEvent = EFFECT_EVENT_BY_KEY[key];
+      const slot = state.slots[outputIdx];
+      const c = ch(slot?.char);
+      const sk = slot && resolvedSkill(slot);
+      if (!expectedEvent || !c || !sk) return null;
+      const values = asList(c.skillEvents).flatMap((eventDef) => {
+        if (!eventDef || typeof eventDef !== "object") return [];
+        if (skillEventNameForSlot(slot, sk, eventDef) !== expectedEvent) return [];
+        const stacks = num(eventDef.stacks, NaN);
+        return Number.isFinite(stacks) ? [stacks] : [];
+      });
+      return values.length ? Math.max(...values) : null;
     }
 
     function skillImpliesState(slot, stateName) {
@@ -714,7 +738,7 @@ window.WUWA_SETTLEMENT = (() => {
       const s1 = state.slots[outputIdx];
       const c = ch(s1.char);
       const sk = skillOverride || resolvedSkill(s1);
-      return { element: c?.element, damageType: sk ? sk.damageType : null, damageTypes: damageTypesForSkill(sk), skillName: sk ? sk.name : null, skillId: sk ? sk.id : null, skill: sk };
+      return { element: sk?.element || c?.element, damageType: sk ? sk.damageType : null, damageTypes: damageTypesForSkill(sk), skillName: sk ? sk.name : null, skillId: sk ? sk.id : null, skill: sk };
     }
 
     function currentSkillTriggersBuff(slot, idx, buff, outputIdx = state.outputIdx, ctxOverride = null) {
@@ -886,6 +910,7 @@ window.WUWA_SETTLEMENT = (() => {
       const previousKey = effectKeyOf(state.effectCalc.key);
       state.effectCalc.key = req.key;
       state.effectCalc.stacks = previousKey === req.key ? Math.max(num(state.effectCalc.stacks), req.stacks) : req.stacks;
+      state.effectCalc.stackMode = "manual";
       const currentProvider = Math.round(num(state.effectCalc.providerIdx, -1));
       if (state.slots[currentProvider] && slotProvidesEffect(state.slots[currentProvider], req.key)) return;
       const found = state.slots.findIndex((slot) => slotProvidesEffect(slot, req.key));
@@ -1379,7 +1404,10 @@ window.WUWA_SETTLEMENT = (() => {
       const def = EFFECT_DEFS[key] || EFFECT_DEFS.none;
       const providerIdx = effectProviderIndex(key);
       const cap = effectCap(def, providerIdx).value;
-      return clampStacks(calc.stacks, def, cap);
+      const actionStacks = providerIdx === state.outputIdx && calc.stackMode !== "manual"
+        ? currentActionEffectStacks(key, providerIdx)
+        : null;
+      return clampStacks(actionStacks ?? calc.stacks, def, cap);
     }
 
     function clampStacks(value, def, cap, fallbackOverride) {
@@ -1497,12 +1525,15 @@ window.WUWA_SETTLEMENT = (() => {
       const effectAtk = attackForSlot(providerIdx);
       const capInfo = effectCap(def, providerIdx);
       const cap = capInfo.value;
-      const stacks = clampStacks(calc.stacks, def, cap);
+      const actionStacks = providerIdx === state.outputIdx && calc.stackMode !== "manual"
+        ? currentActionEffectStacks(key, providerIdx)
+        : null;
+      const stacks = clampStacks(actionStacks ?? calc.stacks, def, cap);
       const rageStacks = def.rageRates ? clampStacks(calc.electroRageStacks, def, cap, 0) : 0;
       if (def.kind === "defShred") {
         return {
           enabled: true, key, def, kind: def.kind, providerIdx, providerName: providerChar ? providerChar.name : "",
-          stacks, cap, capBase: capInfo.base, capBonus: capInfo.bonus, defShred: stacks * num(def.valuePerStack), note: def.note,
+          stacks, actionStacks, cap, capBase: capInfo.base, capBonus: capInfo.bonus, defShred: stacks * num(def.valuePerStack), note: def.note,
         };
       }
       const b = effectAggregate(key, def, providerIdx);
@@ -1519,7 +1550,7 @@ window.WUWA_SETTLEMENT = (() => {
       const raw = baseInfo.valid ? baseInfo.base * deepenFactor * defFactor * resFactor * finalDmgFactor : null;
       return {
         enabled: true, key, def, kind: def.kind, providerIdx, providerName: providerChar ? providerChar.name : "",
-        stacks, cap, capBase: capInfo.base, capBonus: capInfo.bonus,
+        stacks, actionStacks, cap, capBase: capInfo.base, capBonus: capInfo.bonus,
         rageStacks, rageCap: def.rageRates ? cap : null,
         base: baseInfo.base ?? null, rate: baseInfo.rate, baseRate: baseInfo.baseRate,
         rageRate: baseInfo.rageRate, extraRate: baseInfo.extraRate || 0, attack: baseInfo.attack,
@@ -1835,7 +1866,9 @@ window.WUWA_SETTLEMENT = (() => {
       const skillMult = (baseMult * (1 + skillMultBonus / 100)) / 100;
 
       const skType = sk ? sk.damageType : null;
-      const echoBonus = (tree.elemBonus || 0) + (es.elem[c.element] || 0) + (skType ? es.type[skType] || 0 : 0);
+      const damageElement = sk?.element || c.element;
+      const treeElemBonus = damageElement === c.element ? tree.elemBonus || 0 : 0;
+      const echoBonus = treeElemBonus + (es.elem[damageElement] || 0) + (skType ? es.type[skType] || 0 : 0);
       const bonus = isHarmonyResponse ? 1 : 1 + (b.damageBonus + b.typeBonus + echoBonus) / 100;
       const amplify = isHarmonyResponse ? Math.max(0, 1 + formulaTotals.amplify / 100) : 1 + b.amplify / 100;
       const vuln = isHarmonyResponse
@@ -1877,7 +1910,7 @@ window.WUWA_SETTLEMENT = (() => {
           buffDefIgnore: formulaTotals.defIgnore,
           totalDefIgnore,
         },
-        damageModel: isHarmonyResponse ? "harmonyResponse" : "normal", breakAmp, breakAmpFactor, harmonyBase,
+        damageModel: isHarmonyResponse ? "harmonyResponse" : "normal", damageElement, breakAmp, breakAmpFactor, harmonyBase,
         normal, expected, critHit, sk, selectedSk, layers, skLevel, perStackBonus, multAdd, resourceReady, resourceBlocked, damageScalar, effect, offset,
       };
     }
