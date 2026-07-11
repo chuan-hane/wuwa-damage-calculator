@@ -23,6 +23,11 @@ WUWA.register({
   },
   "resources": [
     {
+      "id": "afterflame",
+      "max": 40,
+      "defaultValue": "max"
+    },
+    {
       "id": "sinflame",
       "max": 100,
       "defaultValue": "max"
@@ -313,7 +318,7 @@ WUWA.register({
       ],
       "maxStacks": 40,
       "defaultStacks": 0,
-      "defaultActive": false,
+      "stackResource": "afterflame",
       "stackGroup": "afterflame"
     },
     {
@@ -380,7 +385,7 @@ WUWA.register({
           ],
           "maxStacks": 40,
           "defaultStacks": 0,
-          "defaultActive": false,
+          "stackResource": "afterflame",
           "stackGroup": "afterflame"
         }
       ]
@@ -497,7 +502,7 @@ WUWA.register({
           ],
           "maxStacks": 40,
           "defaultStacks": 0,
-          "defaultActive": false,
+          "stackResource": "afterflame",
           "stackGroup": "afterflame"
         }
       ]

@@ -5,6 +5,7 @@ window.WUWA_LANGUAGES.extend("en-US", {
     "chars": {
       "taoqi": {
         "name": "Taoqi",
+        "resources": [{ "label": "Resolving Caliber" }],
         "skills": [
           {
             "name": "Concealed Edge - Stage 1 DMG"

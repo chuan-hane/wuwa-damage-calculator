@@ -12,9 +12,15 @@ WUWA.register({
   "portrait": "",
   "resources": [
     {
-      "id": "resource_1",
+      "id": "blaze",
       "min": 0,
-      "max": 40,
+      "max": 100,
+      "maxByState": [
+        {
+          "state": "form_1_option_1",
+          "max": 150
+        }
+      ],
       "defaultValue": "max"
     },
     {
@@ -198,7 +204,7 @@ WUWA.register({
       "formula": "198.81%",
       "requiresResource": "resource_gate_2",
       "requiresResourceAtLeast": {
-        "id": "resource_1",
+        "id": "blaze",
         "value": 30
       },
       "impliedStates": [
@@ -234,8 +240,9 @@ WUWA.register({
       ],
       "multiplier": 397.63,
       "perStack": 9.95,
-      "stackResource": "resource_1",
-      "stackLabel": "resource_1",
+      "stackResource": "blaze",
+      "stackMax": 40,
+      "stackLabel": "blaze",
       "formula": "135.20% + 262.43% + 9.95% × 焰光",
       "impliedStates": [
         "form_1_option_1"
@@ -255,7 +262,7 @@ WUWA.register({
       "formula": "424.07%",
       "requiresResource": "resource_gate_2",
       "requiresResourceAtLeast": {
-        "id": "resource_1",
+        "id": "blaze",
         "value": 30
       },
       "impliedStates": [
@@ -271,7 +278,6 @@ WUWA.register({
     {
       "id": "form_1",
       "kind": "form",
-      "required": true,
       "options": [
         {
           "value": "form_1_option_1"
@@ -394,13 +400,16 @@ WUWA.register({
       "buffs": [
         {
           "id": "k3_last",
-          "multAdd": 1200,
+          "multAddByResource": {
+            "id": "blaze",
+            "rate": 8,
+            "cap": 1200
+          },
           "scope": "self",
           "skills": [
             "lib_last"
           ],
-          "requiresState": "form_1_option_1",
-          "defaultActive": false
+          "requiresState": "form_1_option_1"
         }
       ]
     },

@@ -5,6 +5,7 @@ window.WUWA_LANGUAGES.extend("ko", {
     "chars": {
       "chixia": {
         "name": "치샤",
+        "resources": [{ "label": "열압탄" }, { "label": "「쾅쾅」 중 발사한 열압탄" }],
         "skills": [
           {
             "name": "펑펑 - 1단 피해"
@@ -43,7 +44,8 @@ window.WUWA_LANGUAGES.extend("ko", {
             "name": "영웅의 불길 - 열압탄 피해"
           },
           {
-            "name": "영웅의 불길 - 폭격의 천둥소리 피해"
+            "name": "영웅의 불길 - 폭격의 천둥소리 피해",
+            "requiresResourceLabel": "「쾅쾅」 중 열압탄 30발 발사"
           }
         ],
         "buffs": [
@@ -51,7 +53,7 @@ window.WUWA_LANGUAGES.extend("ko", {
             "source": "고유 스킬 · 극도로 매운맛",
             "label": "공격력",
             "trigger": "기본",
-            "excerpt": "공격력 스택당 +30%",
+            "excerpt": "공격력 스택당 +1%",
             "desc": "고유 스킬 극도로 매운맛이 스택 최대치까지 중첩 시 공격력이 추가로 30% 증가한다"
           },
           {

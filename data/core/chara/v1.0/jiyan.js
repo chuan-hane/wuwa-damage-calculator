@@ -24,7 +24,7 @@ WUWA.register({
   "resources": [
     {
       "id": "resolve",
-      "max": 30,
+      "max": 60,
       "defaultValue": "max"
     }
   ],
@@ -185,6 +185,7 @@ WUWA.register({
   "combatStates": [
     {
       "id": "state_1",
+      "kind": "form",
       "options": [
         {
           "value": "state_1_option_1"

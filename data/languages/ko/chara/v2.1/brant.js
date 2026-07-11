@@ -147,7 +147,7 @@ window.WUWA_LANGUAGES.extend("ko", {
               {
                 "label": "피해 증가",
                 "trigger": "솟구치는 불꽃 상태 상태",
-                "excerpt": "피해 증가 스택당 +60%"
+                "excerpt": "피해 증가 스택당 +20%"
               }
             ]
           },

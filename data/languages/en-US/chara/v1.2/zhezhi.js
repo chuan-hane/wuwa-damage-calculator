@@ -5,6 +5,7 @@ window.WUWA_LANGUAGES.extend("en-US", {
     "chars": {
       "zhezhi": {
         "name": "Zhezhi",
+        "resources": [{ "label": "Afflatus" }, { "label": "Painter's Delight" }],
         "skills": [
           {
             "name": "Dimming Brush - Stage 1 DMG"
@@ -57,13 +58,22 @@ window.WUWA_LANGUAGES.extend("en-US", {
             "requiresResourceLabel": "resource_gate_2"
           }
         ],
+        "combatStates": [
+          {
+            "label": "Phantasmic Imprint",
+            "inactiveLabel": "No nearby Phantasmic Imprint",
+            "entry": "Stroke of Genius and Creation's Zenith require a nearby Phantasmic Imprint.",
+            "options": [{ "label": "Phantasmic Imprint nearby", "valueLabel": "Phantasmic Imprint nearby" }],
+            "idLabel": "Phantasmic Imprint"
+          }
+        ],
         "buffs": [
           {
             "source": "Inherent Skill: Calligrapher's Touch",
             "label": "ATK",
             "trigger": "After casting Ink and Wash - Stroke of Genius DMG / Ink and Wash - Creation's Zenith DMG",
-            "excerpt": "ATK +18% per stack",
-            "desc": "ATK +18% per stack"
+            "excerpt": "ATK +6% per stack",
+            "desc": "ATK +6% per stack"
           },
           {
             "source": "Forte Circuit: Ink and Wash",
@@ -110,7 +120,7 @@ window.WUWA_LANGUAGES.extend("en-US", {
               {
                 "label": "ATK",
                 "trigger": "After casting Manifestation - Press DMG / Manifestation - Hold DMG / Manifestation - Mid-air Press DMG / Ink and Wash - Stroke of Genius DMG / Ink and Wash - Creation's Zenith DMG",
-                "excerpt": "ATK +45% per stack"
+                "excerpt": "ATK +15% per stack"
               }
             ]
           },

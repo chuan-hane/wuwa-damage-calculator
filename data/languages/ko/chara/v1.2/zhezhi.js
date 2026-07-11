@@ -5,6 +5,7 @@ window.WUWA_LANGUAGES.extend("ko", {
     "chars": {
       "zhezhi": {
         "name": "절지",
+        "resources": [{ "label": "영감" }, { "label": "궁극" }],
         "skills": [
           {
             "name": "수묵담채화 - 1단 피해"
@@ -57,13 +58,22 @@ window.WUWA_LANGUAGES.extend("ko", {
             "requiresResourceLabel": "resource_gate_2"
           }
         ],
+        "combatStates": [
+          {
+            "label": "두루미의 그림자",
+            "inactiveLabel": "주변에 두루미의 그림자 없음",
+            "entry": "천재의 붓놀림과 궁극 · 천재의 붓놀림은 주변에 두루미의 그림자가 있어야 한다.",
+            "options": [{ "label": "주변에 두루미의 그림자 있음", "valueLabel": "주변에 두루미의 그림자 있음" }],
+            "idLabel": "두루미의 그림자"
+          }
+        ],
         "buffs": [
           {
             "source": "고유 스킬 · 일필휘지",
             "label": "공격력",
             "trigger": "명작의 탄생 - 천재의 붓놀림 피해 / 명작의 탄생 - 궁극 · 천재의 붓놀림 피해 발동 후",
-            "excerpt": "공격력 스택당 +18%",
-            "desc": "공격력 스택당 +18%"
+            "excerpt": "공격력 스택당 +6%",
+            "desc": "공격력 스택당 +6%"
           },
           {
             "source": "공명 회로 · 명작의 탄생",
@@ -110,7 +120,7 @@ window.WUWA_LANGUAGES.extend("ko", {
               {
                 "label": "공격력",
                 "trigger": "무형의 형상화 - 짧게 누르기 스킬 피해 / 무형의 형상화 - 길게 누르기 스킬 피해 / 무형의 형상화 - 공중에서 짧게 누르기 피해 / 명작의 탄생 - 천재의 붓놀림 피해 / 명작의 탄생 - 궁극 · 천재의 붓놀림 피해 발동 후",
-                "excerpt": "공격력 스택당 +45%"
+                "excerpt": "공격력 스택당 +15%"
               }
             ]
           },

@@ -210,7 +210,7 @@ window.WUWA_LANGUAGES.extend("en-US", {
             "source": "Tune Break: Spectral Analysis",
             "label": "Final DMG Bonus",
             "trigger": "In Resonance Mode - Tune Strain",
-            "excerpt": "Final DMG Bonus +0% per stack",
+            "excerpt": "Each Tune Strain - Interfered stack converts Tune Break Boost into Final DMG Bonus",
             "desc": "Tune Rupture Response - Spectral Analysis"
           },
           {
@@ -268,7 +268,7 @@ window.WUWA_LANGUAGES.extend("en-US", {
               {
                 "label": "Spectro DMG Bonus",
                 "trigger": "After casting Lynae-Style Palettes - Additive Color DMG",
-                "excerpt": "Spectro DMG Bonus +1375% per stack"
+                "excerpt": "Spectro DMG Bonus +55% per stack"
               }
             ]
           },
@@ -301,7 +301,7 @@ window.WUWA_LANGUAGES.extend("en-US", {
               {
                 "label": "Vulnerability",
                 "trigger": "After casting Chromaticity Modeling - Basic Attack - Iridescent Splash DMG / Chromaticity Modeling - Basic Attack - Visual Impact DMG",
-                "excerpt": "Vulnerability +90% per stack"
+                "excerpt": "Vulnerability +30% per stack"
               }
             ]
           }

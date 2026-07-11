@@ -191,6 +191,26 @@ WUWA.register({
     }
   ],
   "defaultSkillId": "lib_improv",
+  "skillEvents": [
+    {
+      "skills": [
+        "na4",
+        "skill",
+        "lib_tonic_green",
+        "intro",
+        "forte_downbeat"
+      ],
+      "event": "applyAeroErosion",
+      "stacks": 1
+    },
+    {
+      "skills": [
+        "lib_tonic_yellow"
+      ],
+      "event": "applySpectroFrazzle",
+      "stacks": 1
+    }
+  ],
   "validSubs": [
     "atkFlat",
     "critRate",

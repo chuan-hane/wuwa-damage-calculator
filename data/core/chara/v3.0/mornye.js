@@ -39,28 +39,40 @@ WUWA.register({
       "category": "basicAttack",
       "damageType": "basic",
       "multiplier": 55.69,
-      "formula": "22.27% + 16.71% × 2"
+      "formula": "22.27% + 16.71% × 2",
+      "impliedStates": [
+        "mode_1_option_0"
+      ]
     },
     {
       "id": "na2",
       "category": "basicAttack",
       "damageType": "basic",
       "multiplier": 119.32,
-      "formula": "23.86% + 23.86% + 17.90% × 4"
+      "formula": "23.86% + 23.86% + 17.90% × 4",
+      "impliedStates": [
+        "mode_1_option_0"
+      ]
     },
     {
       "id": "na3",
       "category": "basicAttack",
       "damageType": "basic",
       "multiplier": 103.4,
-      "formula": "41.36% + 10.34% × 6"
+      "formula": "41.36% + 10.34% × 6",
+      "impliedStates": [
+        "mode_1_option_0"
+      ]
     },
     {
       "id": "na4",
       "category": "basicAttack",
       "damageType": "basic",
       "multiplier": 135.2,
-      "formula": "135.20%"
+      "formula": "135.20%",
+      "impliedStates": [
+        "mode_1_option_0"
+      ]
     },
     {
       "id": "wide_na1",
@@ -97,21 +109,30 @@ WUWA.register({
       "category": "basicAttack",
       "damageType": "heavy",
       "multiplier": 37,
-      "formula": "11.10% + 11.10% + 14.80%"
+      "formula": "11.10% + 11.10% + 14.80%",
+      "impliedStates": [
+        "mode_1_option_0"
+      ]
     },
     {
       "id": "air",
       "category": "basicAttack",
       "damageType": "basic",
       "multiplier": 98.61,
-      "formula": "98.61%"
+      "formula": "98.61%",
+      "impliedStates": [
+        "mode_1_option_0"
+      ]
     },
     {
       "id": "dodge",
       "category": "basicAttack",
       "damageType": "basic",
       "multiplier": 162.23,
-      "formula": "162.23%"
+      "formula": "162.23%",
+      "impliedStates": [
+        "mode_1_option_0"
+      ]
     },
     {
       "id": "wide_dodge",
@@ -128,7 +149,10 @@ WUWA.register({
       "category": "resonanceSkill",
       "damageType": "resonanceSkill",
       "multiplier": 179.73,
-      "formula": "179.73%"
+      "formula": "179.73%",
+      "impliedStates": [
+        "mode_1_option_0"
+      ]
     },
     {
       "id": "skill_array",
@@ -183,6 +207,9 @@ WUWA.register({
       "damageType": "heavy",
       "multiplier": 143.16,
       "formula": "44.14% + 99.02%",
+      "impliedStates": [
+        "mode_1_option_0"
+      ],
       "requiresResource": "resource_gate_1",
       "requiresResourceFull": "staticMassEnergy",
       "fallbackSkillId": "heavy"
@@ -228,7 +255,12 @@ WUWA.register({
     {
       "id": "mode_1",
       "kind": "mode",
+      "required": true,
+      "defaultValue": "mode_1_option_0",
       "options": [
+        {
+          "value": "mode_1_option_0"
+        },
         {
           "value": "mode_1_option_1"
         }
@@ -374,7 +406,7 @@ WUWA.register({
       "buffs": [
         {
           "id": "k1_amp",
-          "zone": "amplify",
+          "zone": "vulnerability",
           "value": 0,
           "scope": "team",
           "requiresState": "target_1_option_1",

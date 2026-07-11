@@ -5,6 +5,7 @@ window.WUWA_LANGUAGES.extend("zh-CN", {
     "chars": {
       "chixia": {
         "name": "炽霞",
+        "resources": [{ "label": "热压弹" }, { "label": "咔咔压制已发射热压弹" }],
         "skills": [
           {
             "name": "第一段"
@@ -43,7 +44,8 @@ window.WUWA_LANGUAGES.extend("zh-CN", {
             "name": "热压弹"
           },
           {
-            "name": "轰轰"
+            "name": "轰轰",
+            "requiresResourceLabel": "咔咔压制期间已连续射击30发热压弹"
           }
         ],
         "buffs": [

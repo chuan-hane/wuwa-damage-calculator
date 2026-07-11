@@ -24,7 +24,7 @@ WUWA.register({
   },
   "resources": [
     {
-      "id": "dissonance",
+      "id": "mayhem",
       "max": 100,
       "defaultValue": "max"
     }
@@ -248,7 +248,7 @@ WUWA.register({
       "formula": "334.00%",
       "requiresResource": "resource_gate_1",
       "requiresResourceAtLeast": {
-        "id": "dissonance",
+        "id": "mayhem",
         "value": 100
       },
       "fallbackSkillId": "heavy"
@@ -264,7 +264,7 @@ WUWA.register({
       "formula": "46.42% × 6 + 495.21%",
       "requiresResource": "resource_gate_1",
       "requiresResourceAtLeast": {
-        "id": "dissonance",
+        "id": "mayhem",
         "value": 100
       },
       "fallbackSkillId": "heavy_2",
@@ -285,6 +285,7 @@ WUWA.register({
   "combatStates": [
     {
       "id": "state_1",
+      "kind": "form",
       "options": [
         {
           "value": "state_1_option_1"

@@ -27,8 +27,8 @@ WUWA.register({
   },
   "resources": [
     {
-      "id": "soundOfLight",
-      "max": 50,
+      "id": "diminutiveSound",
+      "max": 100,
       "defaultValue": "max"
     }
   ],
@@ -128,7 +128,7 @@ WUWA.register({
       "formula": "129.08% × 2",
       "requiresResource": "resource_gate_1",
       "requiresResourceAtLeast": {
-        "id": "soundOfLight",
+        "id": "diminutiveSound",
         "value": 50
       },
       "fallbackSkillId": "skill",
@@ -144,7 +144,7 @@ WUWA.register({
       "formula": "39.77%",
       "requiresResource": "resource_gate_1",
       "requiresResourceAtLeast": {
-        "id": "soundOfLight",
+        "id": "diminutiveSound",
         "value": 50
       },
       "triggerEvents": [

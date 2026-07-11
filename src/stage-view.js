@@ -235,6 +235,17 @@ window.WUWA_STAGE_VIEW = (() => {
       const lv = r.skLevel || 10;
       const statName = L.stat(skillStatKey(sk.stat));
       const isHarmonyResponse = r.damageModel === "harmonyResponse";
+      const isFixedDamage = r.damageModel === "fixed";
+      if (isFixedDamage) {
+        const floorNote = sk.fixedDamageHpFloorPct == null
+          ? ""
+          : `<div>${esc(L.text("实际伤害受目标生命下限限制"))}: ${esc(tnum(sk.fixedDamageHpFloorPct))}%</div>`;
+        return (
+          `<div class="dmg-type"><div>${esc(L.text("本次"))}: <b>${esc(L.skillName(selectedSk))}</b> (${esc(L.category(selectedSk.category))})</div>` +
+          `<div>${esc(L.text("此次伤害视为"))} "<span class="dt">${esc(L.damageType(sk.damageType))}</span>" · ${elementBadgeHTML(sk.element || c.element)} · ${esc(L.text("固定"))}</div>` +
+          `<div class="formula">${esc(L.text("固定"))} ${esc(fmt(r.fixedDamage))}</div>${floorNote}</div>`
+        );
+      }
       const baseName = isHarmonyResponse ? L.text("谐度基础值") : statName;
       const expr = skillFormulaText(sk, r.layers);
       const stackMult = sk.perStack ? sk.perStack * r.layers : 0;
@@ -492,6 +503,17 @@ window.WUWA_STAGE_VIEW = (() => {
 
     function damageMetricCardsHTML(r) {
       const isHarmonyResponse = r.damageModel === "harmonyResponse";
+      if (r.damageModel === "fixed") {
+        const floorNote = r.sk?.fixedDamageHpFloorPct == null
+          ? ""
+          : `\n${L.text("实际伤害受目标生命下限限制")} ${tnum(r.sk.fixedDamageHpFloorPct)}%`;
+        return metricFormulaCardHTML({
+          k: L.text("固定"),
+          v: `<b>${esc(fmt(r.fixedDamage))}</b>`,
+          sub: L.text("不受伤害加成影响"),
+          tip: `${L.text("固定")} = ${fmt(r.fixedDamage)}${floorNote}`,
+        });
+      }
       const s1 = state.slots[state.outputIdx];
       const c = ch(s1.char);
       const tree = c?.base?.tree || {};
@@ -502,7 +524,8 @@ window.WUWA_STAGE_VIEW = (() => {
       const effectiveRes = num(state.enemy.res) - totalResShred;
       const resSub = `${L.text("抗")}${tnum(state.enemy.res)}% + ${L.text("减抗")}${tnum(totalResShred)}%`;
       const damageMode = activeDamageMode();
-      const critMul = isHarmonyResponse ? 1 : damageMode === "expected" ? 1 + r.cr * (r.cd - 1) : damageMode === "crit" ? r.cd : 1;
+      const responseCanCrit = isHarmonyResponse && r.totals?.fixedCritRate != null;
+      const critMul = isHarmonyResponse && !responseCanCrit ? 1 : damageMode === "expected" ? 1 + r.cr * (r.cd - 1) : damageMode === "crit" ? r.cd : 1;
       const lvRatio = r.sk ? skillLevelRatio(r.skLevel) : 1;
       const rawSkillMult = r.sk ? num(r.sk.multiplier) : 0;
       const stackMult = r.sk?.perStack ? num(r.sk.perStack) * num(r.layers) * (1 + num(r.perStackBonus) / 100) : 0;
@@ -530,26 +553,28 @@ window.WUWA_STAGE_VIEW = (() => {
       const skillTip = `${L.text("技能倍率")} = (((${L.text("基础倍率")} ${tnum(rawSkillMult)}%${stackPart}) × ${L.text("等级系数")} ${tnum(lvRatio)}) + ${L.text("倍率增加")} ${tnum(r.multAdd)}%) × (1 + ${L.text("技能倍率提升")} ${tnum(skillMultBonus)}%) = ${tnum(r.panel.skillMult * 100)}%\n${L.text("等级")} ${tnum(r.skLevel)}`;
       const bonusCard = isHarmonyResponse
         ? { k: L.text("谐度增幅"), v: `<b>${esc(fx(r.breakAmpFactor))}</b>`, sub: L.pointText(esc(tnum(r.breakAmp))), tip: `${L.text("谐度增幅")} = 1 + ${L.text("谐度破坏增幅")} ${tnum(r.breakAmp)} / 100 = ${fx(r.breakAmpFactor)}` }
-        : { k: L.text("加成区"), v: `<b>${esc(tnum(r.bonus))}</b>`, sub: `+${esc(tnum((r.bonus - 1) * 100))}% · ${L.text("属性+类型")}`, tip: `${L.text("加成区")} = 1 + (${formulaSources(normalBonusParts, "0%")}) / 100 = ${tnum(r.bonus)}` };
+        : { k: L.text("加成区"), v: `<b>${esc(tnum(r.bonus))}</b>`, sub: `+${esc(tnum((r.bonus - 1) * 100))}% · ${L.text("属性+类型")}`, tip: `${L.text("加成区")} = 1 + (${formulaSources(normalBonusParts, "0%")} + ${L.text("类型加成来源")} ${tnum(r.typeBonus)}% × ${L.text("来源提升")} ${tnum(r.rawTotals?.typeBonusScale)}%) / 100 = ${tnum(r.bonus)}` };
       const amplifyCard = isHarmonyResponse
         ? { k: L.text("响应增伤"), v: `<b>${esc(tnum(r.amplify * r.vuln))}</b>`, sub: L.text("谐度响应专属加深/易伤"), tip: `${L.text("响应增伤")} = (1 + ${tnum(r.totals.amplify)}%) × (1 + ${tnum(r.totals.vulnerability)}%) = ${tnum(r.amplify * r.vuln)}` }
         : { k: L.text("加深区"), v: `<b>${esc(tnum(r.amplify))}</b>`, sub: `+${esc(tnum((r.amplify - 1) * 100))}% · ${L.text("独立乘区")}`, tip: `${L.text("加深区")} = 1 + ${L.text("伤害加深 Buff")} ${tnum(r.rawTotals.amplify)}% / 100 = ${tnum(r.amplify)}` };
       const vulnBuff = num(r.rawTotals?.vulnerability);
       const vulnCard = { k: L.text("减伤/易伤"), v: `<b>${esc(tnum(r.vuln))}</b>`, sub: `${L.text("易伤")}${esc(tnum(state.enemy.vulnerability))}% · ${L.text("减伤")}${esc(tnum(state.enemy.dmgReduction))}%`, tip: `${L.text("减伤/易伤")} = max(0, 1 - ${L.text("受到伤害减少")} ${tnum(state.enemy.dmgReduction)}% + ${L.text("易伤")} ${tnum(state.enemy.vulnerability)}% + ${L.text("易伤 Buff")} ${tnum(vulnBuff)}%) = ${tnum(r.vuln)}` };
       let critCard = { k: L.text("不可暴击"), v: "<b>1</b>", sub: L.text("谐度响应") };
-      if (!isHarmonyResponse) {
+      const shownCritRate = responseCanCrit ? r.totals.fixedCritRate : r.panel.critRate;
+      const shownCritDamage = responseCanCrit ? r.totals.fixedCritDamage : r.panel.critDamage;
+      if (!isHarmonyResponse || responseCanCrit) {
         switch (damageMode) {
           case "expected":
-            critCard = { k: L.text("期望修正"), v: `<b>${esc(tnum(critMul))}</b>`, sub: `${L.stat("暴击率")} ${esc(tnum(r.panel.critRate))}%`, tip: `${L.text("期望修正")} = ${L.stat("暴击率")} ${tnum(r.panel.critRate)}% × ${L.stat("暴击伤害")} ${tnum(r.panel.critDamage)}% + (1 - ${L.stat("暴击率")}) = ${tnum(critMul)}` };
+            critCard = { k: L.text("期望修正"), v: `<b>${esc(tnum(critMul))}</b>`, sub: `${L.stat("暴击率")} ${esc(tnum(shownCritRate))}%`, tip: `${L.text("期望修正")} = ${L.stat("暴击率")} ${tnum(shownCritRate)}% × ${L.stat("暴击伤害")} ${tnum(shownCritDamage)}% + (1 - ${L.stat("暴击率")}) = ${tnum(critMul)}` };
             break;
           case "crit":
-            critCard = { k: L.text("暴击伤害"), v: `<b>${esc(tnum(critMul))}</b>`, sub: `${L.stat("暴击伤害")} ${esc(tnum(r.panel.critDamage))}%`, tip: `${L.text("暴击伤害")} = ${tnum(r.panel.critDamage)}% / 100 = ${tnum(critMul)}` };
+            critCard = { k: L.text("暴击伤害"), v: `<b>${esc(tnum(critMul))}</b>`, sub: `${L.stat("暴击伤害")} ${esc(tnum(shownCritDamage))}%`, tip: `${L.text("暴击伤害")} = ${tnum(shownCritDamage)}% / 100 = ${tnum(critMul)}` };
             break;
           default:
             critCard = { k: L.text("非暴伤害"), v: "<b>1</b>", sub: L.text("不计算暴击"), tip: `${L.text("非暴伤害")} = 1` };
         }
       }
-      if (isHarmonyResponse) critCard.tip = `${L.text("不可暴击")} = 1`;
+      if (isHarmonyResponse && !responseCanCrit) critCard.tip = `${L.text("不可暴击")} = 1`;
       const totalDefShred = num(r.defense?.totalDefShred);
       const totalDefIgnore = num(r.defense?.totalDefIgnore);
       const levelTerm = 800 + 8 * num(state.enemy.charLevel);
@@ -707,7 +732,8 @@ window.WUWA_STAGE_VIEW = (() => {
       if (!e.enabled) return L.t("common.unselected");
       if (e.kind === "defShred") return `-${tnum(e.defShred)}% ${L.stat("防御")}`;
       if (!e.valid) return "—";
-      return fmt(e.damage);
+      const value = activeDamageMode() === "crit" ? e.critHit : activeDamageMode() === "normal" ? e.normal : e.expected;
+      return fmt(value);
     }
 
     function effectCapTextHTML(r, availableKeys = teamEffectKeys()) {
@@ -772,6 +798,11 @@ window.WUWA_STAGE_VIEW = (() => {
       const enemyLevelText = `${L.text("敌方等级")}${tnum(e.enemyLevel)}`;
       const defTip = `${L.text("防御系数")} = (800 + 8 × ${charLevelText}) / ((800 + 8 × ${charLevelText}) + (8 × ${enemyLevelText} + 792) × (1 - ${L.text("减防")} ${tnum(effectDefShred)}%) × (1 - ${L.text("防御无视")} ${tnum(effectDefIgnore)}%)) = ${fx(e.defFactor)}\n${tnum(effectLevelTerm)} / (${tnum(effectLevelTerm)} + ${tnum(effectEnemyDefTerm)} × (1 - ${tnum(effectDefShred)}%) × (1 - ${tnum(effectDefIgnore)}%))`;
       const resTip = `${L.text("抗性系数")} = f(${tnum(e.res)}%) = ${fx(e.resFactor)}\n${L.text("抗性")} ${tnum(e.manualRes)}% - ${L.text("减抗")} ${tnum(e.manualResShred)}% - Buff ${tnum(e.buffResShred)}%`;
+      const critCard = e.fixedCritRate == null ? "" : miniCardHTML(
+        activeDamageMode() === "crit" ? "暴击伤害" : activeDamageMode() === "normal" ? "非暴伤害" : "期望修正",
+        activeDamageMode() === "crit" ? fx(e.cd) : activeDamageMode() === "normal" ? "1" : fx(1 + e.cr * (e.cd - 1)),
+        `${L.stat("暴击率")} ${tnum(e.fixedCritRate)}% · ${L.stat("暴击伤害")} ${tnum(e.fixedCritDamage)}%`
+      );
       return `<div class="effect-mini-strip effect-mini-strip--formula formula-strip formula-strip--multiply">
         ${miniCardHTML("效应基础值", baseValue, e.kind === "attack" ? provider : L.effect(e.def), baseTip)}
         ${miniCardHTML("效应倍率", multValue, multDetail, multTip)}
@@ -779,6 +810,7 @@ window.WUWA_STAGE_VIEW = (() => {
         ${miniCardHTML("最终伤害", fx(e.finalDmgFactor || 1), `Buff ${tnum(e.buffFinalDmg || 0)}%`, finalTip)}
         ${miniCardHTML("防御系数", fx(e.defFactor), `${L.text("我")}${tnum(e.charLevel)} / ${L.text("敌")}${tnum(e.enemyLevel)}`, defTip)}
         ${miniCardHTML("抗性系数", fx(e.resFactor), `${L.text("抗性")} ${tnum(e.res)}%`, resTip)}
+        ${critCard}
       </div>`;
     }
 
@@ -850,7 +882,9 @@ window.WUWA_STAGE_VIEW = (() => {
       if (o.kind === "state" && o.formulaKind === "coherenceInterference" && o.valid) return `+${tnum(o.finalDmgGain)}%`;
       if (o.kind === "state") return L.text(o.status || "未确认");
       if (!o.valid) return L.text("需状态");
-      return fmt(o.damage);
+      if (o.kind !== "response") return fmt(o.damage);
+      const value = activeDamageMode() === "crit" ? o.critHit : activeDamageMode() === "normal" ? o.normal : o.expected;
+      return fmt(value);
     }
 
     function offsetCapTextHTML(r) {
@@ -999,6 +1033,11 @@ window.WUWA_STAGE_VIEW = (() => {
       }
       const stateHint = o.valid ? "" : `<div class="effect-equation">${L.text("需先确认目标处于")}${esc(L.text(o.requiredState || "对应干涉状态"))}${L.text("，才结算该响应伤害。")}</div>`;
       const labels = offsetResponseLabels(o);
+      const critCard = o.fixedCritRate == null ? "" : miniCardHTML(
+        activeDamageMode() === "crit" ? "暴击伤害" : activeDamageMode() === "normal" ? "非暴伤害" : "期望修正",
+        activeDamageMode() === "crit" ? fx(o.cd) : activeDamageMode() === "normal" ? "1" : fx(1 + o.cr * (o.cd - 1)),
+        `${L.stat("暴击率")} ${tnum(o.fixedCritRate)}% · ${L.stat("暴击伤害")} ${tnum(o.fixedCritDamage)}%`
+      );
       return `<div class="effect-mini-strip effect-mini-strip--formula formula-strip formula-strip--multiply">
         ${miniCardHTML("谐度基础值", esc(fmt(o.harmonyBase)), esc(offsetCostLabel(o.harmonyBase)), offsetHarmonyBaseTip(o))}
         ${miniCardHTML(labels.multiplier, esc(`${tnum(o.multiplier)}%`), `${esc(o.label || L.text("响应技能"))} ${esc(L.t("common.levelShort", { value: o.skLevel || 10 }))}`, offsetResponseMultiplierTip(o, labels))}
@@ -1007,6 +1046,7 @@ window.WUWA_STAGE_VIEW = (() => {
         ${miniCardHTML("防御系数", esc(fx(o.defFactor)), offsetDefenseSub(o), offsetDefenseTip(o))}
         ${miniCardHTML("抗性系数", esc(fx(o.resFactor)), `${L.text("抗性")}${tnum(o.res)}%`, offsetResTip(o))}
         ${miniCardHTML("最终伤害", esc(tnum(o.finalDmg)), `+${tnum((num(o.finalDmg) - 1) * 100)}%`, offsetFinalTip(o))}
+        ${critCard}
       </div><div class="effect-equation">${esc(labels.damage)} = ${L.text("谐度基础值")} × ${esc(labels.multiplier)} × ${L.text("谐度增幅")} × ${L.text("防御系数")} × ${L.text("抗性系数")} × ${L.text("减伤/易伤")} × ${L.text("最终伤害")}</div>${stateHint}`;
     }
 

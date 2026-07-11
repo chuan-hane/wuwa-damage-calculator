@@ -7,6 +7,9 @@ window.WUWA_LANGUAGES.extend("zh-CN", {
         "name": "嘉贝莉娜",
         "resources": [
           {
+            "label": "余火"
+          },
+          {
             "label": "罪火"
           }
         ],

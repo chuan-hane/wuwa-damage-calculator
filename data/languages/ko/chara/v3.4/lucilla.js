@@ -83,6 +83,12 @@ window.WUWA_LANGUAGES.extend("ko", {
         "resources": [
           {
             "label": "사진"
+          },
+          {
+            "label": "인상"
+          },
+          {
+            "label": "필름"
           }
         ],
         "combatStates": [
@@ -150,7 +156,7 @@ window.WUWA_LANGUAGES.extend("ko", {
             "source": "공명 회로 · 줌",
             "label": "크리티컬 피해",
             "trigger": "생생한 기억 - 생생한 기억 피해 / 기억 궁전 - 망각 피해 발동 후",
-            "excerpt": "크리티컬 피해 스택당 +40%",
+            "excerpt": "크리티컬 피해 스택당 +10%",
             "desc": "필름의 중첩 가능한 스택 최대치가 10스택까지 증가되고, 줌의 중첩 가능한 스택 최대치가 4스택까지 증가된다."
           },
           {
@@ -214,7 +220,7 @@ window.WUWA_LANGUAGES.extend("ko", {
               {
                 "label": "공격력",
                 "trigger": "기억 궁전 - 망각 피해 / 기억 궁전 - 망각 피해 발동 후",
-                "excerpt": "공격력 스택당 +30%"
+                "excerpt": "공격력 스택당 +10%"
               }
             ]
           },
@@ -236,7 +242,7 @@ window.WUWA_LANGUAGES.extend("ko", {
               {
                 "label": "생생한 기억 - 내려놓기 피해 증가",
                 "trigger": "기억 궁전 - 망각 피해 / 기억 궁전 - 망각 피해 발동 후",
-                "excerpt": "생생한 기억 - 내려놓기 피해 증가 스택당 +600%"
+                "excerpt": "생생한 기억 - 내려놓기 피해 증가 스택당 +200%"
               }
             ]
           }

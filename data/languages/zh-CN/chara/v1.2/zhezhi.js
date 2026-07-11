@@ -5,6 +5,7 @@ window.WUWA_LANGUAGES.extend("zh-CN", {
     "chars": {
       "zhezhi": {
         "name": "折枝",
+        "resources": [{ "label": "灵韵" }, { "label": "极意" }],
         "skills": [
           {
             "name": "第一段"
@@ -55,6 +56,15 @@ window.WUWA_LANGUAGES.extend("zh-CN", {
           {
             "name": "白鹤",
             "requiresResourceLabel": "神来之笔触发"
+          }
+        ],
+        "combatStates": [
+          {
+            "label": "鹤影",
+            "inactiveLabel": "附近无鹤影",
+            "entry": "神来之笔与极意·神来之笔需附近存在鹤影。",
+            "options": [{ "label": "附近存在鹤影", "valueLabel": "附近存在鹤影" }],
+            "idLabel": "鹤影"
           }
         ],
         "buffs": [

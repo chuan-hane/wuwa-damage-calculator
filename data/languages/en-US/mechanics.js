@@ -88,6 +88,8 @@ window.WUWA_LANGUAGES.extend("en-US", {
     "副词条": "Substat",
     "副词条数值": "Substat Value",
     "固定": "Fixed",
+    "不受伤害加成影响": "Unaffected by DMG Bonus",
+    "实际伤害受目标生命下限限制": "Actual damage is limited by the target HP floor",
     "声骸 1": "Echo 1",
     "声骸 2": "Echo 2",
     "声骸 3": "Echo 3",

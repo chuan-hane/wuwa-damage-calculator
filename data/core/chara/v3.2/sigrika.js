@@ -29,18 +29,38 @@ WUWA.register({
       "defaultValue": "max"
     },
     {
+      "id": "soliskinVitality",
+      "min": 0,
+      "max": 60,
+      "defaultValue": "max"
+    },
+    {
       "id": "hopeRune",
       "min": 0,
       "max": 2,
       "group": "sigrikaRune",
-      "groupMax": 2
+      "groupMax": 2,
+      "groupMaxByResource": [
+        {
+          "id": "period",
+          "min": 50,
+          "max": 4
+        }
+      ]
     },
     {
       "id": "answerRune",
       "min": 0,
       "max": 2,
       "group": "sigrikaRune",
-      "groupMax": 2
+      "groupMax": 2,
+      "groupMaxByResource": [
+        {
+          "id": "period",
+          "min": 50,
+          "max": 4
+        }
+      ]
     }
   ],
   "skills": [
@@ -245,6 +265,7 @@ WUWA.register({
   "combatStates": [
     {
       "id": "state_1",
+      "kind": "status",
       "options": [
         {
           "value": "state_1_option_1"
@@ -324,9 +345,10 @@ WUWA.register({
         "rune_chain",
         "rune_soliskin"
       ],
-      "requiresResource": "resource_gate_7",
-      "exclusiveGroup": "sigrika_soliskin_energy",
-      "defaultActive": false
+      "requiresResourceAtLeast": {
+        "id": "soliskinVitality",
+        "value": 30
+      }
     },
     {
       "id": "b_soliskin_amp",
@@ -338,11 +360,18 @@ WUWA.register({
         "rune_chain",
         "rune_soliskin"
       ],
-      "requiresResource": "resource_gate_8",
-      "exclusiveGroup": "sigrika_soliskin_energy",
+      "requiresResourceAtLeast": {
+        "id": "soliskinVitality",
+        "value": 10
+      },
+      "requiresResourceBelow": {
+        "id": "soliskinVitality",
+        "value": 30
+      },
+      "stackResource": "soliskinVitality",
+      "stackResourceStep": 10,
       "maxStacks": 2,
-      "defaultStacks": 0,
-      "defaultActive": false
+      "defaultStacks": 0
     },
     {
       "id": "b_innate_gift",

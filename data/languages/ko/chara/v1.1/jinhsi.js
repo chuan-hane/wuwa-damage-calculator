@@ -72,6 +72,25 @@ window.WUWA_LANGUAGES.extend("ko", {
             "label": "봄의 빛"
           }
         ],
+        "combatStates": [
+          {
+            "label": "현재 단계",
+            "idLabel": "현재 단계",
+            "entry": "용을 타고 하늘로 향해와 용의 광휘는 금희가 사용할 수 있는 공격을 교체한다.",
+            "options": [
+              { "label": "일반", "valueLabel": "일반" },
+              { "label": "용을 타고 하늘로 향해", "valueLabel": "용을 타고 하늘로 향해" },
+              { "label": "용의 광휘", "valueLabel": "용의 광휘" }
+            ]
+          },
+          {
+            "label": "창공의 무지개",
+            "idLabel": "창공의 무지개",
+            "inactiveLabel": "창공의 무지개 사용 불가",
+            "entry": "일반 공격 4단 또는 용을 타고 하늘로 향해 상태가 아닐 때 변주 스킬 발동 후 5초간 사용할 수 있다.",
+            "options": [{ "label": "창공의 무지개 사용 가능", "valueLabel": "창공의 무지개 사용 가능" }]
+          }
+        ],
         "buffs": [
           {
             "source": "고유 스킬 · 수호신의 빛",
@@ -96,7 +115,7 @@ window.WUWA_LANGUAGES.extend("ko", {
               {
                 "label": "만물합일 - 승천하는 용 · 별빛 피해 증가",
                 "trigger": "만물합일 - 승천하는 용 · 별빛 피해 발동 후",
-                "excerpt": "만물합일 - 승천하는 용 · 별빛 피해 증가 스택당 +80%"
+                "excerpt": "만물합일 - 승천하는 용 · 별빛 피해 증가 스택당 +20%"
               }
             ]
           },
@@ -111,7 +130,7 @@ window.WUWA_LANGUAGES.extend("ko", {
               {
                 "label": "공격력",
                 "trigger": "반룡의 빛 - 스킬 피해 발동 후",
-                "excerpt": "공격력 스택당 +50%"
+                "excerpt": "공격력 스택당 +25%"
               }
             ]
           },

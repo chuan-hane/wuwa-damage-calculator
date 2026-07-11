@@ -23,7 +23,7 @@ WUWA.register({
   },
   "resources": [
     {
-      "id": "judgment",
+      "id": "judgmentPoints",
       "max": 100,
       "defaultValue": "max"
     }
@@ -161,7 +161,7 @@ WUWA.register({
       "formula": "178.93% × 2",
       "requiresResource": "resource_gate_1",
       "requiresResourceAtLeast": {
-        "id": "judgment",
+        "id": "judgmentPoints",
         "value": 100
       },
       "fallbackSkillId": "heavy"
@@ -218,7 +218,7 @@ WUWA.register({
       "zone": "critRate",
       "value": 15,
       "scope": "self",
-      "defaultActive": false,
+      "requiresState": "state_1_option_1",
       "duration": 5
     },
     {

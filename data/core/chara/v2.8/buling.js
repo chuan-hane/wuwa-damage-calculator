@@ -27,6 +27,20 @@ WUWA.register({
   },
   "resources": [
     {
+      "id": "trigramMountain",
+      "max": 4,
+      "group": "bulingTrigram",
+      "groupMax": 4,
+      "defaultValue": "max"
+    },
+    {
+      "id": "trigramThunder",
+      "max": 4,
+      "group": "bulingTrigram",
+      "groupMax": 4,
+      "defaultValue": 0
+    },
+    {
       "id": "shaoyin",
       "max": 1,
       "defaultValue": "max"
@@ -72,6 +86,16 @@ WUWA.register({
       "damageType": "heavy",
       "multiplier": 178.93,
       "formula": "178.93%",
+      "requiresAllResourcesAtLeast": [
+        {
+          "id": "trigramMountain",
+          "value": 1
+        },
+        {
+          "id": "trigramThunder",
+          "value": 1
+        }
+      ],
       "triggerEvents": [
         "gainLesserYang"
       ]
@@ -82,6 +106,16 @@ WUWA.register({
       "damageType": "heavy",
       "multiplier": 89.47,
       "formula": "89.47%",
+      "requiresAllResourcesAtLeast": [
+        {
+          "id": "trigramMountain",
+          "value": 1
+        },
+        {
+          "id": "trigramThunder",
+          "value": 1
+        }
+      ],
       "triggerEvents": [
         "gainLesserYang"
       ]
@@ -129,6 +163,7 @@ WUWA.register({
       "formula": "131.10%",
       "triggerEvents": [
         "introEntry",
+        "applyElectroFlare",
         "heal"
       ]
     },
@@ -157,10 +192,33 @@ WUWA.register({
       "damageType": "resonanceLiberation",
       "multiplier": 19.89,
       "formula": "19.89%",
-      "requiresResource": "resource_gate_2"
+      "requiresState": [
+        "field_1_option_1",
+        "field_1_option_2",
+        "field_1_option_3"
+      ],
+      "triggerEvents": [
+        "applyElectroFlare"
+      ]
     }
   ],
   "defaultSkillId": "forte_lib",
+  "skillEvents": [
+    {
+      "skills": [
+        "intro"
+      ],
+      "event": "applyElectroFlare",
+      "stacks": 4
+    },
+    {
+      "skills": [
+        "field_tick"
+      ],
+      "event": "applyElectroFlare",
+      "stacks": 2
+    }
+  ],
   "validSubs": [
     "atkFlat",
     "critRate",

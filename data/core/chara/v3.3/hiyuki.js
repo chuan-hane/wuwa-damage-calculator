@@ -42,6 +42,18 @@ WUWA.register({
       "min": 0,
       "max": 100,
       "defaultValue": "max"
+    },
+    {
+      "id": "frosthardenIai",
+      "min": 0,
+      "max": 3,
+      "defaultValue": "max"
+    },
+    {
+      "id": "snowforgedBlade",
+      "min": 0,
+      "max": 3,
+      "defaultValue": "max"
     }
   ],
   "skills": [
@@ -283,7 +295,7 @@ WUWA.register({
       "multiplier": 994.05,
       "perStack": 795.24,
       "stackMax": 3,
-      "defaultLayers": 3,
+      "stackResource": "snowforgedBlade",
       "stackLabel": "锻雪·归刃",
       "formula": "198.81% + 795.24% + 795.24% × 锻雪·归刃",
       "impliedStates": [
@@ -318,6 +330,51 @@ WUWA.register({
     }
   ],
   "defaultSkillId": "lib_blade",
+  "skillEvents": [
+    {
+      "skills": [
+        "present_na3",
+        "present_heavy_frost_splinter",
+        "fore_na3",
+        "fore_na4",
+        "fore_na5",
+        "fore_heavy_bitterfrost",
+        "fore_air2",
+        "fore_plunge",
+        "intro"
+      ],
+      "event": "applyGlacioChafe",
+      "stacks": 1
+    },
+    {
+      "skills": [
+        "lib_inward"
+      ],
+      "event": "applyGlacioChafe",
+      "stacks": 4
+    },
+    {
+      "skills": [
+        "forte_iai"
+      ],
+      "event": "applyGlacioChafe",
+      "stacks": 3,
+      "requiresResourceAtLeast": {
+        "id": "frosthardenIai",
+        "value": 1
+      }
+    },
+    {
+      "seq": 1,
+      "skills": [
+        "fore_na1",
+        "fore_na2"
+      ],
+      "event": "applyGlacioChafe",
+      "stacks": 1,
+      "requiresState": "c1_inward_enhanced"
+    }
+  ],
   "validSubs": [
     "atkFlat",
     "critRate",
@@ -347,6 +404,16 @@ WUWA.register({
       "options": [
         {
           "value": "mechanic_1_option_1"
+        }
+      ]
+    },
+    {
+      "id": "c1_inward_enhancement",
+      "kind": "buff",
+      "seq": 1,
+      "options": [
+        {
+          "value": "c1_inward_enhanced"
         }
       ]
     }

@@ -214,7 +214,8 @@ WUWA.register({
       "damageType": "heavy",
       "multiplier": 337.98,
       "formula": "337.98%",
-      "requiresState": "voice_upon_voice_active"
+      "requiresState": "voice_upon_voice_active",
+      "triggeredDamage": true
     },
     {
       "id": "intro",
@@ -350,7 +351,8 @@ WUWA.register({
       "category": "resonanceChain",
       "damageType": "heavy",
       "multiplier": 337.98,
-      "formula": "337.98%"
+      "formula": "337.98%",
+      "triggeredDamage": true
     },
     {
       "id": "c2_shadow",
@@ -358,18 +360,80 @@ WUWA.register({
       "category": "resonanceChain",
       "damageType": "heavy",
       "multiplier": 337.98,
-      "formula": "337.98%"
+      "formula": "337.98%",
+      "triggeredDamage": true
     },
     {
       "id": "c6_shadow",
       "seq": 6,
       "category": "resonanceChain",
       "damageType": "heavy",
-      "multiplier": 337.98,
-      "formula": "337.98%"
+      "multiplier": 0,
+      "formula": "337.98% × 触发次数",
+      "perStack": 337.98,
+      "stackMax": 5,
+      "defaultLayers": 1,
+      "requiresResource": "still_as_withered_wood_ready",
+      "defaultResourceActive": false,
+      "triggeredDamage": true
+    },
+    {
+      "id": "wraith_of_sound",
+      "category": "forteCircuit",
+      "damageType": "basic",
+      "element": "havoc",
+      "multiplier": 0,
+      "formula": "523",
+      "fixedDamage": 523,
+      "requiresResource": "wraith_of_sound_triggered",
+      "defaultResourceActive": false,
+      "triggeredDamage": true
     }
   ],
   "defaultSkillId": "azure_heavy",
+  "skillEvents": [
+    {
+      "skills": [
+        "azure_na4",
+        "feather_na4"
+      ],
+      "event": "applyHavocBane",
+      "stacks": 1
+    },
+    {
+      "skills": [
+        "azure_heavy",
+        "feather_heavy"
+      ],
+      "event": "applyHavocBane",
+      "stacks": 2
+    },
+    {
+      "skills": [
+        "intro"
+      ],
+      "event": "applyHavocBane",
+      "stacks": 1
+    },
+    {
+      "skills": [
+        "lib"
+      ],
+      "event": "applyHavocBane",
+      "stacks": "max"
+    },
+    {
+      "seq": 3,
+      "skills": [
+        "azure_na4",
+        "feather_na4",
+        "azure_heavy",
+        "feather_heavy"
+      ],
+      "event": "applyHavocBane",
+      "stacks": 1
+    }
+  ],
   "combatStates": [
     {
       "id": "sword_stance",
@@ -471,9 +535,6 @@ WUWA.register({
       "value": 160,
       "scope": "self",
       "defaultActive": false,
-      "triggerSkills": [
-        "azure_heavy"
-      ],
       "skills": [
         "azure_heavy"
       ]
@@ -484,9 +545,6 @@ WUWA.register({
       "value": 160,
       "scope": "self",
       "defaultActive": false,
-      "triggerSkills": [
-        "feather_heavy"
-      ],
       "skills": [
         "feather_heavy",
         "feather_fall",

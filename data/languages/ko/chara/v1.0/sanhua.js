@@ -131,7 +131,7 @@ window.WUWA_LANGUAGES.extend("ko", {
               {
                 "label": "공격력",
                 "trigger": "기본",
-                "excerpt": "공격력 스택당 +20%"
+                "excerpt": "공격력 스택당 +10%"
               }
             ]
           }

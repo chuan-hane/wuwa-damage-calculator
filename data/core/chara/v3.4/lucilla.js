@@ -33,6 +33,24 @@ WUWA.register({
       "min": 0,
       "max": 3,
       "defaultValue": "max"
+    },
+    {
+      "id": "trace",
+      "min": 0,
+      "max": 150,
+      "defaultValue": "max"
+    },
+    {
+      "id": "filmRoll",
+      "min": 0,
+      "max": 4,
+      "maxBySeq": [
+        {
+          "seq": 2,
+          "max": 10
+        }
+      ],
+      "defaultValue": "max"
     }
   ],
   "skills": [
@@ -284,6 +302,18 @@ WUWA.register({
     }
   ],
   "defaultSkillId": "letting_go_frost",
+  "skillEvents": [
+    {
+      "skills": [
+        "spotlight_frost",
+        "intro",
+        "intro_hard_cut",
+        "oblivion_frost"
+      ],
+      "event": "applyGlacioChafe",
+      "stacks": 1
+    }
+  ],
   "validSubs": [
     "atkFlat",
     "critRate",
@@ -379,6 +409,13 @@ WUWA.register({
       "scope": "team",
       "requiresState": "mode_1_option_2",
       "maxStacks": 4,
+      "stackMax": 1,
+      "stackMaxBySeq": [
+        {
+          "seq": 2,
+          "max": 4
+        }
+      ],
       "defaultStacks": 0,
       "defaultActive": false,
       "stackGroup": "stack_group_1",

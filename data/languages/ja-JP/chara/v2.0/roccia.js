@@ -49,8 +49,8 @@ window.WUWA_LANGUAGES.extend("ja-JP", {
             "requiresResourceLabel": "想像力100以上"
           },
           {
-            "name": "道具係の修業 - 3段目ダメージ",
-            "requiresResourceLabel": "resource_gate_2"
+            "name": "現実構築",
+            "requiresResourceLabel": "共鳴解放発動後12秒以内"
           }
         ],
         "resources": [
@@ -115,7 +115,7 @@ window.WUWA_LANGUAGES.extend("ja-JP", {
               {
                 "label": "消滅ダメージアップ",
                 "trigger": "道具係の修業 - 1段目ダメージ / 道具係の修業 - 2段目ダメージ / 道具係の修業 - 3段目ダメージ発動後",
-                "excerpt": "消滅ダメージアップ 1スタックにつき+30%"
+                "excerpt": "消滅ダメージアップ 1スタックにつき+10%"
               },
               {
                 "label": "消滅ダメージアップ",

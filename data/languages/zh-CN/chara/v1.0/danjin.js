@@ -73,6 +73,15 @@ window.WUWA_LANGUAGES.extend("zh-CN", {
             "requiresResourceLabel": "已施放满能重击·缭乱"
           }
         ],
+        "combatStates": [
+          {
+            "label": "目标朱蚀之刻",
+            "idLabel": "朱蚀之刻",
+            "inactiveLabel": "目标无朱蚀之刻",
+            "entry": "第2段朱蚀命中目标后附加。",
+            "options": [{ "label": "目标携带朱蚀之刻", "valueLabel": "朱蚀之刻" }]
+          }
+        ],
         "buffs": [
           {
             "source": "共鸣技能·朱蚀之刻",

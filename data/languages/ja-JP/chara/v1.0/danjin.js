@@ -73,6 +73,15 @@ window.WUWA_LANGUAGES.extend("ja-JP", {
             "label": "心紅"
           }
         ],
+        "combatStates": [
+          {
+            "label": "敵の朱蝕の刻印",
+            "idLabel": "朱蝕の刻印",
+            "inactiveLabel": "敵に朱蝕の刻印なし",
+            "entry": "朱蝕の2段目が命中すると付与。",
+            "options": [{ "label": "敵に朱蝕の刻印あり", "valueLabel": "朱蝕の刻印" }]
+          }
+        ],
         "buffs": [
           {
             "source": "共鳴スキル・朱蝕の刻印",
@@ -111,7 +120,7 @@ window.WUWA_LANGUAGES.extend("ja-JP", {
               {
                 "label": "攻撃力",
                 "trigger": "デフォルト",
-                "excerpt": "攻撃力 1スタックにつき+30%"
+                "excerpt": "攻撃力 1スタックにつき+5%"
               }
             ]
           },

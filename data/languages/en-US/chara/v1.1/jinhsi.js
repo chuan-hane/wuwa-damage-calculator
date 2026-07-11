@@ -72,6 +72,25 @@ window.WUWA_LANGUAGES.extend("en-US", {
             "label": "Incandescence"
           }
         ],
+        "combatStates": [
+          {
+            "label": "Current Phase",
+            "idLabel": "Current Phase",
+            "entry": "Incarnation and Ordination Glow replace Jinhsi's available attacks.",
+            "options": [
+              { "label": "Normal", "valueLabel": "Normal" },
+              { "label": "Incarnation", "valueLabel": "Incarnation" },
+              { "label": "Ordination Glow", "valueLabel": "Ordination Glow" }
+            ]
+          },
+          {
+            "label": "Overflowing Radiance",
+            "idLabel": "Overflowing Radiance",
+            "inactiveLabel": "Overflowing Radiance unavailable",
+            "entry": "Overflowing Radiance is available for 5s after Basic Attack Stage 4 or Intro Skill Loong's Halo while outside Incarnation.",
+            "options": [{ "label": "Overflowing Radiance available", "valueLabel": "Overflowing Radiance available" }]
+          }
+        ],
         "buffs": [
           {
             "source": "Inherent Skill: Radiant Surge",
@@ -96,7 +115,7 @@ window.WUWA_LANGUAGES.extend("en-US", {
               {
                 "label": "Luminal Synthesis - Illuminous Epiphany: Stella Glamor DMG Increase",
                 "trigger": "After casting Luminal Synthesis - Illuminous Epiphany: Stella Glamor DMG",
-                "excerpt": "Luminal Synthesis - Illuminous Epiphany: Stella Glamor DMG Increase +80% per stack"
+                "excerpt": "Luminal Synthesis - Illuminous Epiphany: Stella Glamor DMG Increase +20% per stack"
               }
             ]
           },
@@ -111,7 +130,7 @@ window.WUWA_LANGUAGES.extend("en-US", {
               {
                 "label": "ATK",
                 "trigger": "After casting Loong's Halo - Skill DMG",
-                "excerpt": "ATK +50% per stack"
+                "excerpt": "ATK +25% per stack"
               }
             ]
           },

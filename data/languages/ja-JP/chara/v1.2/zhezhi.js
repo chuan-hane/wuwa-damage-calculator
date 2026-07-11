@@ -5,6 +5,7 @@ window.WUWA_LANGUAGES.extend("ja-JP", {
     "chars": {
       "zhezhi": {
         "name": "折枝",
+        "resources": [{ "label": "神韻" }, { "label": "極意" }],
         "skills": [
           {
             "name": "軽雲淡墨 - 1段目ダメージ"
@@ -57,13 +58,22 @@ window.WUWA_LANGUAGES.extend("ja-JP", {
             "requiresResourceLabel": "resource_gate_2"
           }
         ],
+        "combatStates": [
+          {
+            "label": "鶴影",
+            "inactiveLabel": "付近に鶴影なし",
+            "entry": "神の宿りし筆と極意・神の宿りし筆には、付近の鶴影が必要。",
+            "options": [{ "label": "付近に鶴影あり", "valueLabel": "付近に鶴影あり" }],
+            "idLabel": "鶴影"
+          }
+        ],
         "buffs": [
           {
             "source": "固有スキル・揮毫",
             "label": "攻撃力",
             "trigger": "丹青の妙筆 - 神の宿りし筆ダメージ / 丹青の妙筆 - 極意·神の宿りし筆ダメージ発動後",
-            "excerpt": "攻撃力 1スタックにつき+18%",
-            "desc": "攻撃力 1スタックにつき+18%"
+            "excerpt": "攻撃力 1スタックにつき+6%",
+            "desc": "攻撃力 1スタックにつき+6%"
           },
           {
             "source": "共鳴回路・丹青の妙筆",
@@ -110,7 +120,7 @@ window.WUWA_LANGUAGES.extend("ja-JP", {
               {
                 "label": "攻撃力",
                 "trigger": "形を以て韻を為す - 短押しスキルダメージ / 形を以て韻を為す - 長押しスキルダメージ / 形を以て韻を為す - 空中短押しダメージ / 丹青の妙筆 - 神の宿りし筆ダメージ / 丹青の妙筆 - 極意·神の宿りし筆ダメージ発動後",
-                "excerpt": "攻撃力 1スタックにつき+45%"
+                "excerpt": "攻撃力 1スタックにつき+15%"
               }
             ]
           },

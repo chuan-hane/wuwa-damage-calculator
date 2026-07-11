@@ -224,7 +224,7 @@ window.WUWA_LANGUAGES.extend("ko", {
               {
                 "label": "크리티컬 피해",
                 "trigger": "플뢰르 드 리스 상태",
-                "excerpt": "크리티컬 피해 스택당 +100%"
+                "excerpt": "크리티컬 피해 스택당 +25%"
               }
             ]
           },

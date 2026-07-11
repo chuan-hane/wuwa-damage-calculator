@@ -155,7 +155,7 @@ window.WUWA_LANGUAGES.extend("en-US", {
               {
                 "label": "ATK",
                 "trigger": "After casting Tactical Strike - Skill DMG",
-                "excerpt": "ATK +45% per stack"
+                "excerpt": "ATK +3% per stack"
               }
             ]
           },

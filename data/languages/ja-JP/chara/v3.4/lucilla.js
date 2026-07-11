@@ -83,6 +83,12 @@ window.WUWA_LANGUAGES.extend("ja-JP", {
         "resources": [
           {
             "label": "写真"
+          },
+          {
+            "label": "印象"
+          },
+          {
+            "label": "フィルム"
           }
         ],
         "combatStates": [
@@ -150,7 +156,7 @@ window.WUWA_LANGUAGES.extend("ja-JP", {
             "source": "共鳴回路・ズーム",
             "label": "クリティカルダメージ",
             "trigger": "鮮やかな追憶 - 鮮やかな追憶ダメージ / メモリーパレス - 忘却ダメージ発動後",
-            "excerpt": "クリティカルダメージ 1スタックにつき+40%",
+            "excerpt": "クリティカルダメージ 1スタックにつき+10%",
             "desc": "フィルムのスタック上限が10になり、ズームのスタック上限が4になる。"
           },
           {
@@ -214,7 +220,7 @@ window.WUWA_LANGUAGES.extend("ja-JP", {
               {
                 "label": "攻撃力",
                 "trigger": "メモリーパレス - 忘却ダメージ / メモリーパレス - 忘却ダメージ発動後",
-                "excerpt": "攻撃力 1スタックにつき+30%"
+                "excerpt": "攻撃力 1スタックにつき+10%"
               }
             ]
           },
@@ -236,7 +242,7 @@ window.WUWA_LANGUAGES.extend("ja-JP", {
               {
                 "label": "鮮やかな追憶 - 断捨離ダメージブースト",
                 "trigger": "メモリーパレス - 忘却ダメージ / メモリーパレス - 忘却ダメージ発動後",
-                "excerpt": "鮮やかな追憶 - 断捨離ダメージブースト 1スタックにつき+600%"
+                "excerpt": "鮮やかな追憶 - 断捨離ダメージブースト 1スタックにつき+200%"
               }
             ]
           }

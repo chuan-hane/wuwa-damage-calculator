@@ -113,7 +113,7 @@ window.WUWA_LANGUAGES.extend("ko", {
               {
                 "label": "용융 피해 보너스",
                 "trigger": "그늘이의 대폭주 상태",
-                "excerpt": "용융 피해 보너스 스택당 +12%"
+                "excerpt": "용융 피해 보너스 스택당 +3%"
               }
             ]
           },
@@ -161,7 +161,7 @@ window.WUWA_LANGUAGES.extend("ko", {
               {
                 "label": "공격력",
                 "trigger": "그늘이의 대폭주 상태",
-                "excerpt": "공격력 스택당 +25%"
+                "excerpt": "공격력 스택당 +5%"
               }
             ]
           }

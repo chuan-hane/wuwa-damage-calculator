@@ -243,7 +243,7 @@ window.WUWA_LANGUAGES.extend("en-US", {
             "source": "Inherent Skill: Between the Stars",
             "label": "Crit. DMG",
             "trigger": "In Resonance Mode - Tune Rupture",
-            "excerpt": "Crit. DMG +60% per stack",
+            "excerpt": "Crit. DMG +20% per stack",
             "desc": "Inherent Skill Between the Stars is replaced with the following effects:"
           },
           {
@@ -257,7 +257,7 @@ window.WUWA_LANGUAGES.extend("en-US", {
             "source": "Inherent Skill: Between the Stars",
             "label": "Crit. DMG",
             "trigger": "In Resonance Mode - Fusion Burst",
-            "excerpt": "Crit. DMG +60% per stack",
+            "excerpt": "Crit. DMG +30% per stack",
             "desc": "Inherent Skill Between the Stars is replaced with the following effects:"
           },
           {
@@ -271,14 +271,14 @@ window.WUWA_LANGUAGES.extend("en-US", {
             "source": "Forte Circuit: Seraphic Duet",
             "label": "To Sculpt the Silence - Seraphic Duet Bonus DMG (Per Instance) DMG Multiplier Increase",
             "trigger": "After casting To Sculpt the Silence - Seraphic Duet Bonus DMG (Per Instance)",
-            "excerpt": "To Sculpt the Silence - Seraphic Duet Bonus DMG (Per Instance) DMG Multiplier Increase +120% per stack",
+            "excerpt": "To Sculpt the Silence - Seraphic Duet Bonus DMG (Per Instance) DMG Multiplier Increase +4% per stack",
             "desc": "The next Seraphic Duet cast within 30s after casting this skill doesn't consume Rupturous Trail/Fusion Trail."
           },
           {
             "source": "Forte Circuit: Seraphic Duet",
             "label": "Fusion Burst Extra Multiplier",
             "trigger": "In Resonance Mode - Fusion Burst",
-            "excerpt": "Fusion Burst Extra Multiplier +300% per stack",
+            "excerpt": "Fusion Burst Extra Multiplier +10% per stack",
             "desc": "The next Seraphic Duet cast within 30s after casting this skill doesn't consume Rupturous Trail/Fusion Trail."
           },
           {
@@ -341,7 +341,7 @@ window.WUWA_LANGUAGES.extend("en-US", {
               {
                 "label": "To Sculpt the Silence - Seraphic Duet Bonus DMG (Per Instance) DMG Multiplier Increase",
                 "trigger": "After casting To Sculpt the Silence - Seraphic Duet Bonus DMG (Per Instance)",
-                "excerpt": "To Sculpt the Silence - Seraphic Duet Bonus DMG (Per Instance) DMG Multiplier Increase +100% per stack"
+                "excerpt": "To Sculpt the Silence - Seraphic Duet Bonus DMG (Per Instance) DMG Multiplier Increase +20% per stack"
               },
               {
                 "label": "Fusion Burst Extra Multiplier",
@@ -351,7 +351,7 @@ window.WUWA_LANGUAGES.extend("en-US", {
               {
                 "label": "Fusion Burst Extra Multiplier",
                 "trigger": "In Resonance Mode - Fusion Burst",
-                "excerpt": "Fusion Burst Extra Multiplier +150% per stack"
+                "excerpt": "Fusion Burst Extra Multiplier +5% per stack"
               }
             ]
           },
@@ -414,6 +414,16 @@ window.WUWA_LANGUAGES.extend("en-US", {
                 "label": "Vulnerability",
                 "trigger": "In Target Fusion Burst Trace",
                 "excerpt": "Vulnerability +40%"
+              },
+              {
+                "label": "Fixed Tune Rupture Crit.",
+                "trigger": "In Resonance Mode - Tune Rupture",
+                "excerpt": "Tune Rupture DMG has fixed 80% Crit. Rate and 275% Crit. DMG"
+              },
+              {
+                "label": "Fixed Fusion Burst Crit.",
+                "trigger": "In Resonance Mode - Fusion Burst and in combat",
+                "excerpt": "Fusion Burst DMG has fixed 80% Crit. Rate and 275% Crit. DMG"
               }
             ]
           }

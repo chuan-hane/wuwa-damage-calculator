@@ -7,7 +7,7 @@ window.WUWA_LANGUAGES.extend("zh-CN", {
         "name": "守岸人",
         "resources": [
           {
-            "label": "实证数据"
+            "label": "实论数据"
           }
         ],
         "skills": [

@@ -143,7 +143,7 @@ window.WUWA_LANGUAGES.extend("en-US", {
             "source": "Resonance Liberation: Pack Hunt",
             "label": "ATK",
             "trigger": "After casting Fire-Kissed Glory - Skill Damage",
-            "excerpt": "ATK +18% per stack",
+            "excerpt": "ATK +6% per stack",
             "desc": "- All Resonators in the team gain Pack Hunt effect."
           },
           {
@@ -164,7 +164,7 @@ window.WUWA_LANGUAGES.extend("en-US", {
             "source": "Inherent Skill: Resonance Liberation - Glory",
             "label": "RES Shred",
             "trigger": "After casting Fire-Kissed Glory - Skill Damage",
-            "excerpt": "RES Shred +15% per stack",
+            "excerpt": "RES Shred +3% per stack",
             "desc": "Resonance Liberation - Glory"
           },
           {
@@ -201,7 +201,7 @@ window.WUWA_LANGUAGES.extend("en-US", {
               {
                 "label": "Fusion DMG Bonus",
                 "trigger": "After casting Fire-Kissed Glory - Skill Damage / Flaming Star - Heavy Attack - Wolf's Gnawing DMG / Flaming Star - Heavy Attack - Wolf's Claw DMG / Flaming Star - Mid-air Attack - Firestrike DMG",
-                "excerpt": "Fusion DMG Bonus +40% per stack"
+                "excerpt": "Fusion DMG Bonus +20% per stack"
               }
             ]
           },

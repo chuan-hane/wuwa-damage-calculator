@@ -24,7 +24,7 @@ WUWA.register({
   },
   "resources": [
     {
-      "id": "photosynthesis",
+      "id": "photosynthesisEnergy",
       "max": 4,
       "defaultValue": "max"
     }
@@ -158,7 +158,10 @@ WUWA.register({
       "category": "resonanceLiberation",
       "damageType": "resonanceLiberation",
       "multiplier": 198.81,
-      "formula": "198.81%"
+      "formula": "198.81%",
+      "triggerEvents": [
+        "heal"
+      ]
     },
     {
       "id": "lib_coordinated",
@@ -171,7 +174,10 @@ WUWA.register({
         "coordinated"
       ],
       "multiplier": 9.95,
-      "formula": "9.95%"
+      "formula": "9.95%",
+      "triggerEvents": [
+        "heal"
+      ]
     },
     {
       "id": "intro",
@@ -192,8 +198,11 @@ WUWA.register({
       "damageType": "heavy",
       "multiplier": 162.37,
       "formula": "64.95% + 97.42%",
-      "requiresResource": "photosynthesis",
-      "fallbackSkillId": "heavy"
+      "requiresResource": "photosynthesisEnergy",
+      "fallbackSkillId": "heavy",
+      "triggerEvents": [
+        "heal"
+      ]
     },
     {
       "id": "air1",
@@ -204,8 +213,11 @@ WUWA.register({
       "damageType": "basic",
       "multiplier": 67.64,
       "formula": "67.64%",
-      "requiresResource": "photosynthesis",
-      "fallbackSkillId": "na1_2"
+      "requiresResource": "photosynthesisEnergy",
+      "fallbackSkillId": "na1_2",
+      "triggerEvents": [
+        "heal"
+      ]
     },
     {
       "id": "air2",
@@ -216,8 +228,11 @@ WUWA.register({
       "damageType": "basic",
       "multiplier": 63.82,
       "formula": "63.82%",
-      "requiresResource": "photosynthesis",
-      "fallbackSkillId": "na2_2"
+      "requiresResource": "photosynthesisEnergy",
+      "fallbackSkillId": "na2_2",
+      "triggerEvents": [
+        "heal"
+      ]
     },
     {
       "id": "air3",
@@ -228,8 +243,11 @@ WUWA.register({
       "damageType": "basic",
       "multiplier": 91.5,
       "formula": "30.50% × 3",
-      "requiresResource": "photosynthesis",
-      "fallbackSkillId": "na3_2"
+      "requiresResource": "photosynthesisEnergy",
+      "fallbackSkillId": "na3_2",
+      "triggerEvents": [
+        "heal"
+      ]
     }
   ],
   "defaultSkillId": "lib",

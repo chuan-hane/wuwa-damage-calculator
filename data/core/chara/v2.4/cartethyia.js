@@ -393,14 +393,16 @@ WUWA.register({
         "fl_heavy_plus",
         "fl_skill_break"
       ],
-      "event": "applyAeroErosion"
+      "event": "applyAeroErosion",
+      "stacks": 2
     },
     {
       "seq": 6,
       "skills": [
         "lib_tideblade"
       ],
-      "event": "applyAeroErosion"
+      "event": "applyAeroErosion",
+      "stacks": "max"
     }
   ],
   "combatStates": [
@@ -575,7 +577,8 @@ WUWA.register({
           "requiresState": "form_1_option_2",
           "maxStacks": 4,
           "defaultStacks": 0,
-          "defaultActive": false,
+          "stackResource": "resolve",
+          "stackResourceStep": 30,
           "duration": 15
         }
       ]
@@ -648,6 +651,13 @@ WUWA.register({
           "value": 20,
           "scope": "team",
           "defaultActive": false,
+          "triggerEvents": [
+            "applyHavocBane",
+            "applySpectroFrazzle",
+            "applyElectroFlare",
+            "applyGlacioChafe",
+            "applyAeroErosion"
+          ],
           "duration": 20
         }
       ]

@@ -8,6 +8,9 @@ window.WUWA_LANGUAGES.extend("zh-CN", {
         "resources": [
           {
             "label": "锯环残响"
+          },
+          {
+            "label": "命弦·本流"
           }
         ],
         "skills": [
@@ -93,6 +96,10 @@ window.WUWA_LANGUAGES.extend("zh-CN", {
           },
           {
             "name": "锯环·终结"
+          },
+          {
+            "name": "穿行于荒芜长廊·固定湮灭伤害",
+            "requiresResourceLabel": "同一目标尚未触发固定伤害"
           }
         ],
         "combatStates": [
@@ -101,6 +108,10 @@ window.WUWA_LANGUAGES.extend("zh-CN", {
             "inactiveLabel": "未处于电锯模式",
             "entry": "施放齿轨轮回后进入；锯环·终结后退出。",
             "options": [
+              {
+                "label": "非电锯模式",
+                "valueLabel": "非电锯模式"
+              },
               {
                 "label": "电锯模式",
                 "valueLabel": "电锯模式"

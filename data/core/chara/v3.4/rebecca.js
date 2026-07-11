@@ -313,6 +313,19 @@ WUWA.register({
       "multiplier": 2358.89,
       "formula": "2358.89%",
       "requiresState": "target_1_option_1"
+    },
+    {
+      "id": "c6_extra_hit",
+      "seq": 6,
+      "category": "resonanceChain",
+      "damageType": "basic",
+      "multiplier": 900,
+      "formula": "900%",
+      "triggeredDamage": true,
+      "requiresResourceAtLeast": {
+        "id": "fervor",
+        "value": 120
+      }
     }
   ],
   "defaultSkillId": "big_fireworks",
@@ -542,13 +555,11 @@ WUWA.register({
       "seq": 6,
       "buffs": [
         {
-          "id": "k6_extra_hit",
-          "multAdd": 900,
-          "scope": "self",
-          "skills": [
-            "fervor_hunt",
-            "fervor_guts"
-          ]
+          "id": "k6_basic_bonus_scale",
+          "zone": "typeBonusScale",
+          "damageType": "basic",
+          "value": 40,
+          "scope": "self"
         }
       ]
     }

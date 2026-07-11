@@ -5,6 +5,7 @@ window.WUWA_LANGUAGES.extend("en-US", {
     "chars": {
       "baizhi": {
         "name": "Baizhi",
+        "resources": [{ "label": "Concentration" }],
         "skills": [
           {
             "name": "Destined Promise - Stage 1 DMG"

@@ -7,6 +7,9 @@ window.WUWA_LANGUAGES.extend("zh-CN", {
         "name": "珂莱塔",
         "resources": [
           {
+            "label": "可塑晶质"
+          },
+          {
             "label": "灵萃"
           }
         ],

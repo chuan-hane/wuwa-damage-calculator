@@ -224,7 +224,7 @@ window.WUWA_LANGUAGES.extend("ja-JP", {
               {
                 "label": "クリティカルダメージ",
                 "trigger": "フルールドリス状態",
-                "excerpt": "クリティカルダメージ 1スタックにつき+100%"
+                "excerpt": "クリティカルダメージ 1スタックにつき+25%"
               }
             ]
           },

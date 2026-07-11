@@ -92,6 +92,12 @@ window.WUWA_LANGUAGES.extend("ko", {
           },
           {
             "label": "한기"
+          },
+          {
+            "label": "서리의 힘 · 거합"
+          },
+          {
+            "label": "서리 단조 · 납도"
           }
         ],
         "combatStates": [
@@ -122,6 +128,19 @@ window.WUWA_LANGUAGES.extend("ko", {
               {
                 "label": "거합 자세",
                 "valueLabel": "거합 자세"
+              }
+            ]
+          },
+          {
+            "label": "독심 강화",
+            "idLabel": "독심 강화",
+            "inactiveLabel": "강화 없음",
+            "entry": "공명 체인 1 해금 후 끌어온 내 가능성 · 독심을 발동하면 다음 선견력 일반 공격 1, 2단이 서리 효과를 1스택 부여한다.",
+            "effects": "다음 선견력 일반 공격 1, 2단이 서리 효과를 1스택 부여한다.",
+            "options": [
+              {
+                "label": "강화됨",
+                "valueLabel": "독심 강화"
               }
             ]
           }

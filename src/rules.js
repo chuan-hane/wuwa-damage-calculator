@@ -4,14 +4,14 @@ window.WUWA_RULES = (() => {
   const ZONES = [
     "attackPercent", "attackFlat", "hpPercent", "defensePercent",
     "critRate", "critDamage",
-    "damageBonus", "typeBonus", "amplify", "vulnerability", "skillMultBonus", "finalDmg",
+    "damageBonus", "typeBonus", "typeBonusScale", "amplify", "vulnerability", "skillMultBonus", "finalDmg", "fixedCrit",
     "resShred", "defShred", "defIgnore",
   ];
   const ZONE_LABEL = {
     attackPercent: "攻击%", attackFlat: "固定攻击", hpPercent: "生命%", defensePercent: "防御%",
     critRate: "暴击", critDamage: "暴击伤害",
-    damageBonus: "属性/全加成", typeBonus: "类型加成", amplify: "伤害加深",
-    vulnerability: "易伤", skillMultBonus: "技能倍率提升", finalDmg: "最终伤害提升",
+    damageBonus: "属性/全加成", typeBonus: "类型加成", typeBonusScale: "类型加成来源提升", amplify: "伤害加深",
+    vulnerability: "易伤", skillMultBonus: "技能倍率提升", finalDmg: "最终伤害提升", fixedCrit: "固定双暴",
     resShred: "减抗", defShred: "减防", defIgnore: "防御无视",
     energyRegen: "共鸣效率", healingBonus: "治疗效果加成",
     breakAmp: "谐度破坏增幅", discordEff: "偏谐值累积效率",

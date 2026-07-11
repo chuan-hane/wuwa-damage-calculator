@@ -197,7 +197,10 @@ WUWA.register({
         "id": "rubyBlossom",
         "value": 60
       },
-      "fallbackSkillId": "heavy"
+      "fallbackSkillId": "heavy",
+      "triggerEvents": [
+        "heal"
+      ]
     },
     {
       "id": "heavy_3",
@@ -224,7 +227,10 @@ WUWA.register({
         "id": "rubyBlossom",
         "value": 120
       },
-      "fallbackSkillId": "heavy_2"
+      "fallbackSkillId": "heavy_2",
+      "triggerEvents": [
+        "heal"
+      ]
     },
     {
       "id": "heavy_5",
@@ -248,13 +254,22 @@ WUWA.register({
     "heavyDmg"
   ],
   "echoSet": 6,
+  "combatStates": [
+    {
+      "id": "target_1",
+      "kind": "target",
+      "options": [
+        { "value": "target_1_option_1" }
+      ]
+    }
+  ],
   "buffs": [
     {
       "id": "b1",
       "zone": "amplify",
       "value": 20,
       "scope": "self",
-      "defaultActive": false
+      "requiresState": "target_1_option_1"
     },
     {
       "id": "b2",
@@ -301,6 +316,7 @@ WUWA.register({
           "maxStacks": 6,
           "defaultStacks": 0,
           "defaultActive": false,
+          "requiresState": "target_1_option_1",
           "duration": 6
         }
       ]
@@ -313,7 +329,7 @@ WUWA.register({
           "zone": "amplify",
           "value": 20,
           "scope": "self",
-          "defaultActive": false
+          "requiresState": "target_1_option_1"
         }
       ]
     },

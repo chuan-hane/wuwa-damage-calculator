@@ -53,7 +53,7 @@ window.WUWA_LANGUAGES.extend("en-US", {
         ],
         "resources": [
           {
-            "label": "Actual Data"
+            "label": "Empirical Data"
           }
         ],
         "combatStates": [

@@ -155,7 +155,7 @@ window.WUWA_LANGUAGES.extend("ja-JP", {
               {
                 "label": "攻撃力",
                 "trigger": "不意打 - スキルダメージ発動後",
-                "excerpt": "攻撃力 1スタックにつき+45%"
+                "excerpt": "攻撃力 1スタックにつき+3%"
               }
             ]
           },

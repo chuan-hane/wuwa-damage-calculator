@@ -69,7 +69,7 @@ window.WUWA_LANGUAGES.extend("ko", {
         ],
         "resources": [
           {
-            "label": "불빛 에너지"
+            "label": "빛 에너지"
           }
         ],
         "combatStates": [

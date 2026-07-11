@@ -10,6 +10,9 @@ window.WUWA_LANGUAGES.extend("zh-CN", {
             "label": "句点"
           },
           {
+            "label": "日灵能量"
+          },
+          {
             "label": "符文·期望"
           },
           {

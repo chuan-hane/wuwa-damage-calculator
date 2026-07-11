@@ -5,6 +5,7 @@ window.WUWA_LANGUAGES.extend("ja-JP", {
     "chars": {
       "taoqi": {
         "name": "桃祈",
+        "resources": [{ "label": "剛柔の守備" }],
         "skills": [
           {
             "name": "巨刃の鋒隠れ - 1段目ダメージ"

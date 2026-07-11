@@ -41,7 +41,8 @@ window.WUWA_LANGUAGES.extend("en-US", {
           { "name": "Dodge Counter - Havoc in Bloom Stage 3 DMG" },
           { "name": "Shadow of Xuanling: Unfaltering DMG" },
           { "name": "Shadow of Xuanling: Strung Notes DMG" },
-          { "name": "Shadow of Xuanling: Still as Withered Wood DMG" }
+          { "name": "Shadow of Xuanling: Still as Withered Wood DMG", "requiresResourceLabel": "Still as Withered Wood triggered" },
+          { "name": "Wraith of Sound DMG", "requiresResourceLabel": "Sword Stance Flow reset the Basic Attack cycle" }
         ],
         "combatStates": [
           {
@@ -116,16 +117,16 @@ window.WUWA_LANGUAGES.extend("en-US", {
           {
             "source": "Forte Circuit: The Way of Ten Thousand Voices",
             "label": "Crit. DMG",
-            "trigger": "Casting Heavy Attack - Azure Sword Stance",
-            "excerpt": "Heavy Attack - Azure Sword Stance Crit. DMG +160%",
-            "desc": "When casting Heavy Attack - Azure Sword Stance, Yangyang: Xuanling gains Bated Breath. If she is the active Resonator, this Heavy Attack gains 160% Crit. DMG."
+            "trigger": "Cast Heavy Attack - Azure Sword Stance when Bated Breath is off Cooldown",
+            "excerpt": "When ready, Heavy Attack - Azure Sword Stance gains 160% Crit. DMG",
+            "desc": "When casting Heavy Attack - Azure Sword Stance, Yangyang: Xuanling gains Bated Breath. If she is the active Resonator, this Heavy Attack gains 160% Crit. DMG. Bated Breath can be gained once every 25s and is removed when Heavy Attack - Azure Sword Stance ends."
           },
           {
             "source": "Forte Circuit: The Way of Ten Thousand Voices",
             "label": "Crit. DMG",
-            "trigger": "Casting Heavy Attack - Feather Sword Stance",
-            "excerpt": "Feather heavy attacks and Havoc in Bloom gain 160% Crit. DMG",
-            "desc": "When casting Heavy Attack - Feather Sword Stance, Yangyang: Xuanling gains Streaming Storm for 15s. Heavy Attack - Feather Sword Stance, Feather Fall, Havoc in Bloom, and Dodge Counter - Havoc in Bloom gain 160% Crit. DMG."
+            "trigger": "Cast Heavy Attack - Feather Sword Stance when Streaming Storm is off Cooldown",
+            "excerpt": "When ready, Feather heavy attacks and Havoc in Bloom gain 160% Crit. DMG",
+            "desc": "When casting Heavy Attack - Feather Sword Stance, Yangyang: Xuanling gains Streaming Storm for 15s. Heavy Attack - Feather Sword Stance, Feather Fall, Havoc in Bloom, and Dodge Counter - Havoc in Bloom gain 160% Crit. DMG. Streaming Storm can be gained once every 25s."
           },
           {
             "source": "Forte Circuit: Feathered Oath",

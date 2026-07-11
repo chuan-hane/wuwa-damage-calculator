@@ -78,6 +78,9 @@ window.WUWA_LANGUAGES.extend("en-US", {
             "label": "Full Stop"
           },
           {
+            "label": "Soliskin Vitality"
+          },
+          {
             "label": "Rune: Trust"
           },
           {
@@ -104,15 +107,15 @@ window.WUWA_LANGUAGES.extend("en-US", {
             "source": "Inherent Skill: True Names Aligned",
             "label": "Aero DMG Bonus",
             "trigger": "In Decipher",
-            "excerpt": "Aero DMG Bonus +18% per stack",
-            "desc": "Aero DMG Bonus +18% per stack"
+            "excerpt": "Aero DMG Bonus +3% per stack",
+            "desc": "Aero DMG Bonus +3% per stack"
           },
           {
             "source": "Inherent Skill: True Names Aligned",
             "label": "Echo Skill DMG Bonus",
             "trigger": "In Decipher",
-            "excerpt": "Echo Skill DMG Bonus +18% per stack",
-            "desc": "Echo Skill DMG Bonus +18% per stack"
+            "excerpt": "Echo Skill DMG Bonus +3% per stack",
+            "desc": "Echo Skill DMG Bonus +3% per stack"
           },
           {
             "source": "Inherent Skill: True Names Aligned",
@@ -146,15 +149,15 @@ window.WUWA_LANGUAGES.extend("en-US", {
             "source": "Forte Circuit: Within Infinity's Embrace",
             "label": "Within Infinity's Embrace - Runic Outburst DMG Increase",
             "trigger": "After casting Within Infinity's Embrace - Runic Outburst DMG / Within Infinity's Embrace - Runic Chain Whip DMG / Within Infinity's Embrace - Runic Soliskin DMG",
-            "excerpt": "Within Infinity's Embrace - Runic Outburst DMG Increase +30% per stack",
-            "desc": "Within Infinity's Embrace - Runic Outburst DMG Increase +30% per stack"
+            "excerpt": "Within Infinity's Embrace - Runic Outburst DMG Increase +15% per stack",
+            "desc": "Within Infinity's Embrace - Runic Outburst DMG Increase +15% per stack"
           },
           {
             "source": "Forte Circuit: Within Infinity's Embrace",
             "label": "Within Infinity's Embrace - Runic Outburst DMG Increase",
             "trigger": "After casting Within Infinity's Embrace - Runic Outburst DMG / Within Infinity's Embrace - Runic Chain Whip DMG / Within Infinity's Embrace - Runic Soliskin DMG / Within Infinity's Embrace - Forte Circuit - Learn My True Name DMG",
-            "excerpt": "Within Infinity's Embrace - Runic Outburst DMG Increase +60% per stack",
-            "desc": "Within Infinity's Embrace - Runic Outburst DMG Increase +60% per stack"
+            "excerpt": "Within Infinity's Embrace - Runic Outburst DMG Increase +30% per stack",
+            "desc": "Within Infinity's Embrace - Runic Outburst DMG Increase +30% per stack"
           }
         ],
         "chain": [
@@ -218,12 +221,12 @@ window.WUWA_LANGUAGES.extend("en-US", {
               {
                 "label": "Within Infinity's Embrace - Runic Outburst DMG Increase",
                 "trigger": "After casting Within Infinity's Embrace - Runic Outburst DMG / Within Infinity's Embrace - Runic Chain Whip DMG / Within Infinity's Embrace - Runic Soliskin DMG / Within Infinity's Embrace - Forte Circuit - Learn My True Name DMG",
-                "excerpt": "Within Infinity's Embrace - Runic Outburst DMG Increase +60% per stack"
+                "excerpt": "Within Infinity's Embrace - Runic Outburst DMG Increase +15% per stack"
               },
               {
                 "label": "DEF Ignore",
                 "trigger": "After casting Within Infinity's Embrace - Runic Outburst DMG / Within Infinity's Embrace - Runic Chain Whip DMG / Within Infinity's Embrace - Runic Soliskin DMG / Within Infinity's Embrace - Forte Circuit - Learn My True Name DMG",
-                "excerpt": "DEF Ignore +30% per stack"
+                "excerpt": "DEF Ignore +7.5% per stack"
               }
             ]
           }

@@ -8,6 +8,12 @@ window.WUWA_LANGUAGES.extend("zh-CN", {
         "resources": [
           {
             "label": "照片"
+          },
+          {
+            "label": "印象"
+          },
+          {
+            "label": "胶卷"
           }
         ],
         "skills": [

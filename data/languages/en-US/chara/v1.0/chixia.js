@@ -5,6 +5,7 @@ window.WUWA_LANGUAGES.extend("en-US", {
     "chars": {
       "chixia": {
         "name": "Chixia",
+        "resources": [{ "label": "Thermobaric Bullets" }, { "label": "Thermobaric Bullets fired during DAKA DAKA!" }],
         "skills": [
           {
             "name": "POW POW - Stage 1 DMG"
@@ -43,7 +44,8 @@ window.WUWA_LANGUAGES.extend("en-US", {
             "name": "Heroic Bullets - Thermobaric Bullets Damage"
           },
           {
-            "name": "Heroic Bullets - Boom Boom Damage"
+            "name": "Heroic Bullets - Boom Boom Damage",
+            "requiresResourceLabel": "30 Thermobaric Bullets fired during DAKA DAKA!"
           }
         ],
         "buffs": [
@@ -51,7 +53,7 @@ window.WUWA_LANGUAGES.extend("en-US", {
             "source": "Inherent Skill: Numbingly Spicy!",
             "label": "ATK",
             "trigger": "Default",
-            "excerpt": "ATK +30% per stack",
+            "excerpt": "ATK +1% per stack",
             "desc": "When the Inherent Skill Numbingly Spicy!"
           },
           {

@@ -62,6 +62,9 @@ window.WUWA_LANGUAGES.extend("en-US", {
         ],
         "resources": [
           {
+            "label": "Moldable Crystals"
+          },
+          {
             "label": "Substance"
           }
         ],

@@ -210,7 +210,7 @@ window.WUWA_LANGUAGES.extend("ko", {
             "source": "조화도 파괴 · 스펙트럼 분석",
             "label": "최종 피해 보너스",
             "trigger": "공명 모드 · 조화 밀집 상태",
-            "excerpt": "최종 피해 보너스 스택당 +0%",
+            "excerpt": "조화 밀집 · 간섭 스택마다 조화 파괴 부스트를 최종 피해 보너스로 전환",
             "desc": "조화 파동 대응 · 스펙트럼 분석"
           },
           {
@@ -268,7 +268,7 @@ window.WUWA_LANGUAGES.extend("ko", {
               {
                 "label": "회절 피해 보너스",
                 "trigger": "린네식 아이디어 - 색 더하기 피해 발동 후",
-                "excerpt": "회절 피해 보너스 스택당 +1375%"
+                "excerpt": "회절 피해 보너스 스택당 +55%"
               }
             ]
           },
@@ -301,7 +301,7 @@ window.WUWA_LANGUAGES.extend("ko", {
               {
                 "label": "받는 피해 증가",
                 "trigger": "색과 빛의 혼합률 - 일반 공격 · 레인보우 스플래시 피해 / 색과 빛의 혼합률 - 일반 공격 · 시각적 충격 피해 발동 후",
-                "excerpt": "받는 피해 증가 스택당 +90%"
+                "excerpt": "받는 피해 증가 스택당 +30%"
               }
             ]
           }

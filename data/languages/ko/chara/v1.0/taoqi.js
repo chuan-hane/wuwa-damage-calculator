@@ -5,6 +5,7 @@ window.WUWA_LANGUAGES.extend("ko", {
     "chars": {
       "taoqi": {
         "name": "도기",
+        "resources": [{ "label": "내유외강" }],
         "skills": [
           {
             "name": "숨기는 칼날 - 1단 피해"

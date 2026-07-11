@@ -92,6 +92,12 @@ window.WUWA_LANGUAGES.extend("ja-JP", {
           },
           {
             "label": "冷気"
+          },
+          {
+            "label": "霜纏い・居合"
+          },
+          {
+            "label": "雪打ち・回帰"
           }
         ],
         "combatStates": [
@@ -122,6 +128,19 @@ window.WUWA_LANGUAGES.extend("ja-JP", {
               {
                 "label": "居合の構え",
                 "valueLabel": "居合の構え"
+              }
+            ]
+          },
+          {
+            "label": "観見二眼強化",
+            "idLabel": "観見二眼強化",
+            "inactiveLabel": "強化なし",
+            "entry": "共鳴チェーン1解放後、我が身に集え・観見二眼を発動すると、次の予求の御身通常攻撃1、2段目が結霜効果を1スタック付与する。",
+            "effects": "次の予求の御身通常攻撃1、2段目が結霜効果を1スタック付与する。",
+            "options": [
+              {
+                "label": "強化済み",
+                "valueLabel": "観見二眼強化"
               }
             ]
           }

@@ -62,6 +62,9 @@ window.WUWA_LANGUAGES.extend("ko", {
         ],
         "resources": [
           {
+            "label": "가소성 결정체"
+          },
+          {
             "label": "영민"
           }
         ],

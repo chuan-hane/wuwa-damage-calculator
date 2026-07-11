@@ -83,6 +83,12 @@ window.WUWA_LANGUAGES.extend("en-US", {
         "resources": [
           {
             "label": "Photo"
+          },
+          {
+            "label": "Trace"
+          },
+          {
+            "label": "Film Roll"
           }
         ],
         "combatStates": [
@@ -150,7 +156,7 @@ window.WUWA_LANGUAGES.extend("en-US", {
             "source": "Forte Circuit: Zoom",
             "label": "Crit. DMG",
             "trigger": "After casting Clear As Day - Clear As Day DMG / Memory Palace - Oblivion DMG",
-            "excerpt": "Crit. DMG +40% per stack",
+            "excerpt": "Crit. DMG +10% per stack",
             "desc": "Film Roll can now be stacked up to 10 stacks, and Zoom up to 4 stacks."
           },
           {
@@ -214,7 +220,7 @@ window.WUWA_LANGUAGES.extend("en-US", {
               {
                 "label": "ATK",
                 "trigger": "After casting Memory Palace - Oblivion DMG / Memory Palace - Oblivion DMG",
-                "excerpt": "ATK +30% per stack"
+                "excerpt": "ATK +10% per stack"
               }
             ]
           },
@@ -236,7 +242,7 @@ window.WUWA_LANGUAGES.extend("en-US", {
               {
                 "label": "Clear As Day - Letting It Go DMG Increase",
                 "trigger": "After casting Memory Palace - Oblivion DMG / Memory Palace - Oblivion DMG",
-                "excerpt": "Clear As Day - Letting It Go DMG Increase +600% per stack"
+                "excerpt": "Clear As Day - Letting It Go DMG Increase +200% per stack"
               }
             ]
           }

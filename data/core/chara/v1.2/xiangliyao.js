@@ -23,12 +23,12 @@ WUWA.register({
   },
   "resources": [
     {
-      "id": "performanceCapacity",
+      "id": "capacity",
       "max": 100,
       "defaultValue": "max"
     },
     {
-      "id": "supercomputingCapacity",
+      "id": "performanceCapacity",
       "max": 5,
       "defaultValue": "max"
     }
@@ -189,7 +189,7 @@ WUWA.register({
       "formula": "397.82%",
       "requiresResource": "resource_gate_1",
       "requiresResourceAtLeast": {
-        "id": "performanceCapacity",
+        "id": "capacity",
         "value": 100
       },
       "fallbackSkillId": "skill_deduction",
@@ -205,7 +205,7 @@ WUWA.register({
       "formula": "95.73% × 4 + 255.28%",
       "requiresResource": "resource_gate_2",
       "requiresResourceAtLeast": {
-        "id": "supercomputingCapacity",
+        "id": "performanceCapacity",
         "value": 5
       },
       "fallbackSkillId": "lib_divergence",
@@ -248,7 +248,7 @@ WUWA.register({
   "combatStates": [
     {
       "id": "buff_1",
-      "kind": "buff",
+      "kind": "form",
       "options": [
         {
           "value": "buff_1_option_1"

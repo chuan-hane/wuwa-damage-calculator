@@ -7,6 +7,12 @@ window.WUWA_LANGUAGES.extend("zh-CN", {
         "name": "卜灵",
         "resources": [
           {
+            "label": "卦象·艮"
+          },
+          {
+            "label": "卦象·震"
+          },
+          {
             "label": "少阴"
           },
           {

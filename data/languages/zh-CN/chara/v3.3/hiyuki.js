@@ -14,6 +14,12 @@ window.WUWA_LANGUAGES.extend("zh-CN", {
           },
           {
             "label": "寒意"
+          },
+          {
+            "label": "武霜·居合"
+          },
+          {
+            "label": "锻雪·归刃"
           }
         ],
         "skills": [
@@ -122,6 +128,18 @@ window.WUWA_LANGUAGES.extend("zh-CN", {
               }
             ],
             "idLabel": "居合架势"
+          },
+          {
+            "label": "见心强化",
+            "inactiveLabel": "未获得见心强化",
+            "entry": "1链后施放预求我身·见心，使下一次预求身普攻第1、2段附加1层霜渐效应。",
+            "options": [
+              {
+                "label": "已强化",
+                "valueLabel": "见心强化"
+              }
+            ],
+            "idLabel": "见心强化"
           }
         ],
         "buffs": [

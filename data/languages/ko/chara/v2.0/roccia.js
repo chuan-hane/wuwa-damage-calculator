@@ -49,8 +49,8 @@ window.WUWA_LANGUAGES.extend("ko", {
             "requiresResourceLabel": "상상력 100 이상"
           },
           {
-            "name": "소품 담당자의 자체 수양 - 3단 피해",
-            "requiresResourceLabel": "resource_gate_2"
+            "name": "현실 구축",
+            "requiresResourceLabel": "공명 해방 발동 후 12초 이내"
           }
         ],
         "resources": [
@@ -115,7 +115,7 @@ window.WUWA_LANGUAGES.extend("ko", {
               {
                 "label": "인멸 피해 보너스",
                 "trigger": "소품 담당자의 자체 수양 - 1단 피해 / 소품 담당자의 자체 수양 - 2단 피해 / 소품 담당자의 자체 수양 - 3단 피해 발동 후",
-                "excerpt": "인멸 피해 보너스 스택당 +30%"
+                "excerpt": "인멸 피해 보너스 스택당 +10%"
               },
               {
                 "label": "인멸 피해 보너스",

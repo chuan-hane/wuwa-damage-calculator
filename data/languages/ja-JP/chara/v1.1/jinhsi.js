@@ -72,6 +72,25 @@ window.WUWA_LANGUAGES.extend("ja-JP", {
             "label": "韶光"
           }
         ],
+        "combatStates": [
+          {
+            "label": "現在の段階",
+            "idLabel": "現在の段階",
+            "entry": "龍憑の天舞と廻る龍光は、今汐の発動可能な攻撃を切り替える。",
+            "options": [
+              { "label": "通常", "valueLabel": "通常" },
+              { "label": "龍憑の天舞", "valueLabel": "龍憑の天舞" },
+              { "label": "廻る龍光", "valueLabel": "廻る龍光" }
+            ]
+          },
+          {
+            "label": "遍く照らす神光",
+            "idLabel": "遍く照らす神光",
+            "inactiveLabel": "遍く照らす神光発動不可",
+            "entry": "通常攻撃4段目、または龍憑の天舞以外で変奏スキル発動後、5秒間発動可能。",
+            "options": [{ "label": "遍く照らす神光発動可能", "valueLabel": "遍く照らす神光発動可能" }]
+          }
+        ],
         "buffs": [
           {
             "source": "固有スキル・光纏の御身",
@@ -96,7 +115,7 @@ window.WUWA_LANGUAGES.extend("ja-JP", {
               {
                 "label": "万物一心 - 天幕を突き破る驚龍・煌く星ダメージブースト",
                 "trigger": "万物一心 - 天幕を突き破る驚龍・煌く星ダメージ発動後",
-                "excerpt": "万物一心 - 天幕を突き破る驚龍・煌く星ダメージブースト 1スタックにつき+80%"
+                "excerpt": "万物一心 - 天幕を突き破る驚龍・煌く星ダメージブースト 1スタックにつき+20%"
               }
             ]
           },
@@ -111,7 +130,7 @@ window.WUWA_LANGUAGES.extend("ja-JP", {
               {
                 "label": "攻撃力",
                 "trigger": "蟠龍の輝き - スキルダメージ発動後",
-                "excerpt": "攻撃力 1スタックにつき+50%"
+                "excerpt": "攻撃力 1スタックにつき+25%"
               }
             ]
           },

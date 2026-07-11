@@ -131,7 +131,7 @@ window.WUWA_LANGUAGES.extend("ja-JP", {
               {
                 "label": "攻撃力",
                 "trigger": "デフォルト",
-                "excerpt": "攻撃力 1スタックにつき+20%"
+                "excerpt": "攻撃力 1スタックにつき+10%"
               }
             ]
           }
