@@ -53,6 +53,12 @@ window.WUWA_LANGUAGES.extend("en-US", {
         ],
         "resources": [
           {
+            "label": "Trigram - Mountain"
+          },
+          {
+            "label": "Trigram - Thunder"
+          },
+          {
             "label": "Minor Yin"
           },
           {

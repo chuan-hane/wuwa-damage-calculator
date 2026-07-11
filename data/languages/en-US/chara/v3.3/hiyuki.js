@@ -92,6 +92,12 @@ window.WUWA_LANGUAGES.extend("en-US", {
           },
           {
             "label": "Frostheart"
+          },
+          {
+            "label": "Frostharden Iai"
+          },
+          {
+            "label": "Snowforged Blade"
           }
         ],
         "combatStates": [
@@ -122,6 +128,19 @@ window.WUWA_LANGUAGES.extend("en-US", {
               {
                 "label": "Iai Stance",
                 "valueLabel": "Iai Stance"
+              }
+            ]
+          },
+          {
+            "label": "Inward Vision Enhancement",
+            "idLabel": "Inward Vision Enhancement",
+            "inactiveLabel": "Enhancement inactive",
+            "entry": "At Sequence 1, casting Foreclaiming: Inward Vision enhances the next Foreclaimed Self Basic Attack Stages 1 and 2 to inflict 1 stack of Glacio Chafe.",
+            "effects": "The next Foreclaimed Self Basic Attack Stages 1 and 2 inflict 1 stack of Glacio Chafe.",
+            "options": [
+              {
+                "label": "Enhanced",
+                "valueLabel": "Inward Vision Enhancement"
               }
             ]
           }

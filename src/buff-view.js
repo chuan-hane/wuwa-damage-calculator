@@ -44,6 +44,8 @@ window.WUWA_BUFF_VIEW = (() => {
     function buffFormulaText(slot, buff, idx) {
       if (buff.multScaleAdd) return `+${tnum(num(buff.multScaleAdd))}%${L.text("当前倍率")}`;
       if (buff.perStackBonus) return `+${tnum(num(buff.perStackBonus))}%${L.text("层数倍率")}`;
+      if (buff.zone === "fixedCrit") return `CR ${tnum(num(buff.critRate))}% · CD ${tnum(num(buff.critDamage))}%`;
+      if (buff.zone === "typeBonusScale") return `×${tnum(1 + num(buff.value) / 100)}`;
       const v = tnum(buff.multAdd ? num(buff.multAdd) : buffValue(slot, buff, idx));
       const cap = scaleCapText(slot, buff);
       if (buff.zone === "effectCapBonus") return `+${v} ${L.stackUnit()}`;

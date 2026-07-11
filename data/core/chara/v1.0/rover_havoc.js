@@ -312,6 +312,7 @@ WUWA.register({
   "combatStates": [
     {
       "id": "state_1",
+      "kind": "form",
       "options": [
         {
           "value": "state_1_option_1"

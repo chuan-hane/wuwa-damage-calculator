@@ -130,8 +130,8 @@ window.WUWA_LANGUAGES.extend("en-US", {
             "source": "Forte Circuit: Full Moon Domain / Inherent Skill: Derivation",
             "label": "DMG Increase",
             "trigger": "In Full Moon Domain",
-            "excerpt": "DMG Increase +40% per stack",
-            "desc": "DMG Increase +40% per stack"
+            "excerpt": "DMG Increase +4% per stack",
+            "desc": "DMG Increase +4% per stack"
           }
         ],
         "chain": [

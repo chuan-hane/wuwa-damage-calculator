@@ -22,6 +22,13 @@ WUWA.register({
       "healingBonus": 12
     }
   },
+  "resources": [
+    {
+      "id": "concentration",
+      "max": 4,
+      "defaultValue": "max"
+    }
+  ],
   "skills": [
     {
       "id": "na1",
@@ -71,7 +78,10 @@ WUWA.register({
       "category": "basicAttack",
       "damageType": "heavy",
       "multiplier": 48.86,
-      "formula": "48.86%"
+      "formula": "48.86%",
+      "triggerEvents": [
+        "heal"
+      ]
     },
     {
       "id": "air",
@@ -102,7 +112,10 @@ WUWA.register({
       "damageType": "resonanceSkill",
       "stat": "hp",
       "multiplier": 15.94,
-      "formula": "15.94%"
+      "formula": "15.94%",
+      "triggerEvents": [
+        "heal"
+      ]
     },
     {
       "id": "lib_remnant_entities",
@@ -113,7 +126,10 @@ WUWA.register({
       "damageType": "resonanceLiberation",
       "stat": "hp",
       "multiplier": 4.07,
-      "formula": "4.07%"
+      "formula": "4.07%",
+      "triggerEvents": [
+        "heal"
+      ]
     },
     {
       "id": "intro",
@@ -123,7 +139,11 @@ WUWA.register({
       "category": "introSkill",
       "damageType": "introSkill",
       "multiplier": 79.53,
-      "formula": "79.53%"
+      "formula": "79.53%",
+      "triggerEvents": [
+        "introEntry",
+        "heal"
+      ]
     }
   ],
   "defaultSkillId": "skill",
@@ -168,6 +188,10 @@ WUWA.register({
           "value": 15,
           "scope": "self",
           "defaultActive": false,
+          "requiresResourceAtLeast": {
+            "id": "concentration",
+            "value": 4
+          },
           "duration": 12
         },
         {
@@ -176,6 +200,10 @@ WUWA.register({
           "value": 15,
           "scope": "self",
           "defaultActive": false,
+          "requiresResourceAtLeast": {
+            "id": "concentration",
+            "value": 4
+          },
           "duration": 12
         }
       ]

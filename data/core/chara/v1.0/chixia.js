@@ -22,6 +22,18 @@ WUWA.register({
       "elemBonus": 12
     }
   },
+  "resources": [
+    {
+      "id": "thermobaricBullets",
+      "max": 70,
+      "defaultValue": "max"
+    },
+    {
+      "id": "dakaDakaShots",
+      "max": 30,
+      "defaultValue": "max"
+    }
+  ],
   "skills": [
     {
       "id": "na1",
@@ -141,7 +153,11 @@ WUWA.register({
       "category": "forteCircuit",
       "damageType": "resonanceSkill",
       "multiplier": 19.89,
-      "formula": "19.89%"
+      "formula": "19.89%",
+      "requiresResourceAtLeast": {
+        "id": "thermobaricBullets",
+        "value": 1
+      }
     },
     {
       "id": "forte_boom_boom",
@@ -151,7 +167,11 @@ WUWA.register({
       "category": "forteCircuit",
       "damageType": "resonanceSkill",
       "multiplier": 437.39,
-      "formula": "437.39%"
+      "formula": "437.39%",
+      "requiresResourceAtLeast": {
+        "id": "dakaDakaShots",
+        "value": 30
+      }
     }
   ],
   "defaultSkillId": "lib",
@@ -171,7 +191,7 @@ WUWA.register({
       "scope": "self",
       "maxStacks": 30,
       "defaultStacks": 0,
-      "defaultActive": false,
+      "stackResource": "dakaDakaShots",
       "duration": 10
     },
     {

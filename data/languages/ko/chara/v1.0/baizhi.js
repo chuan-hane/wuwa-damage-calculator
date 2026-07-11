@@ -5,6 +5,7 @@ window.WUWA_LANGUAGES.extend("ko", {
     "chars": {
       "baizhi": {
         "name": "설지",
+        "resources": [{ "label": "염원" }],
         "skills": [
           {
             "name": "승낙 - 1단 피해"

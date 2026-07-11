@@ -73,6 +73,15 @@ window.WUWA_LANGUAGES.extend("zh-CN", {
           {
             "name": "判决大地裂响",
             "requiresResourceLabel": "斩杀日冕·曜后"
+          },
+          {
+            "name": "自霜中诞生的火光 - 日髓碎刃伤害（每0.15秒）",
+            "requiresResourceLabel": "日髓碎刃持续命中"
+          }
+        ],
+        "resources": [
+          {
+            "label": "日髓能流"
           }
         ],
         "combatStates": [

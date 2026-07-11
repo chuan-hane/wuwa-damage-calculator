@@ -113,8 +113,8 @@ window.WUWA_LANGUAGES.extend("ko", {
             "source": "고유 스킬 · 「독」",
             "label": "인멸 피해 보너스",
             "trigger": "에코 어빌리티 발동 후",
-            "excerpt": "인멸 피해 보너스 스택당 +12%",
-            "desc": "인멸 피해 보너스 스택당 +12%"
+            "excerpt": "인멸 피해 보너스 스택당 +6%",
+            "desc": "인멸 피해 보너스 스택당 +6%"
           },
           {
             "source": "반주 스킬 · 부드러운 촉수",

@@ -277,8 +277,8 @@ window.WUWA_LANGUAGES.extend("en-US", {
             "source": "Tune Break: Shattered Hours",
             "label": "Final DMG Bonus",
             "trigger": "In Resonance Mode - Tune Strain",
-            "excerpt": "Final DMG Bonus +0% per stack",
-            "desc": "Final DMG Bonus +0% per stack"
+            "excerpt": "Each Tune Strain - Interfered stack converts Tune Break Boost into Final DMG Bonus",
+            "desc": "Each Tune Strain - Interfered stack converts Tune Break Boost into Final DMG Bonus."
           },
           {
             "source": "Outro Skill: Unfinished Lies",
@@ -326,7 +326,7 @@ window.WUWA_LANGUAGES.extend("en-US", {
               {
                 "label": "RES Shred",
                 "trigger": "In Resonance Mode - Fusion Burst",
-                "excerpt": "RES Shred +10% per stack"
+                "excerpt": "RES Shred +1% per stack"
               },
               {
                 "label": "Tune Break Boost",

@@ -53,7 +53,7 @@ window.WUWA_LANGUAGES.extend("ja-JP", {
         ],
         "resources": [
           {
-            "label": "演算データ"
+            "label": "実論データ"
           }
         ],
         "combatStates": [

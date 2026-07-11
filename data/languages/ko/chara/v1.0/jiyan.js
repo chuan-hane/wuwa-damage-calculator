@@ -155,7 +155,7 @@ window.WUWA_LANGUAGES.extend("ko", {
               {
                 "label": "공격력",
                 "trigger": "청룡의 습격 - 스킬 피해 발동 후",
-                "excerpt": "공격력 스택당 +45%"
+                "excerpt": "공격력 스택당 +3%"
               }
             ]
           },

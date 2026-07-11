@@ -95,8 +95,8 @@ window.WUWA_LANGUAGES.extend("ko", {
             "source": "고유 스킬 · 예지",
             "label": "전도 피해 보너스",
             "trigger": "통찰 상태",
-            "excerpt": "전도 피해 보너스 스택당 +20%",
-            "desc": "전도 피해 보너스 스택당 +20%"
+            "excerpt": "전도 피해 보너스 스택당 +5%",
+            "desc": "전도 피해 보너스 스택당 +5%"
           }
         ],
         "chain": [

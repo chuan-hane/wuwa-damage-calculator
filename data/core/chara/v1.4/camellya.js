@@ -21,6 +21,13 @@ WUWA.register({
       "attackPct": 12
     }
   },
+  "resources": [
+    {
+      "id": "crimsonPistil",
+      "max": 100,
+      "defaultValue": "max"
+    }
+  ],
   "skills": [
     {
       "id": "na1",
@@ -261,7 +268,7 @@ WUWA.register({
       "category": "forteCircuit",
       "damageType": "basic",
       "multiplier": 1262.45,
-      "formula": "一日花100%",
+      "formula": "1262.45%",
       "seq": 6,
       "requiresResource": "resource_gate_2",
       "triggerEvents": [
@@ -302,6 +309,7 @@ WUWA.register({
   "combatStates": [
     {
       "id": "state_1",
+      "kind": "form",
       "options": [
         {
           "value": "state_1_option_1"

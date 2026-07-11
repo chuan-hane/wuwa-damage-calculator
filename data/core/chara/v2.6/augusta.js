@@ -270,7 +270,6 @@ WUWA.register({
     {
       "id": "phase_1",
       "kind": "phase",
-      "required": true,
       "options": [
         {
           "value": "phase_1_option_1"

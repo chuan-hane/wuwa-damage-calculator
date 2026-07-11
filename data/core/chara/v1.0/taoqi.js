@@ -22,6 +22,13 @@ WUWA.register({
       "elemBonus": 12
     }
   },
+  "resources": [
+    {
+      "id": "resolvingCaliber",
+      "max": 3,
+      "defaultValue": "max"
+    }
+  ],
   "skills": [
     {
       "id": "na1",
@@ -114,7 +121,8 @@ WUWA.register({
       "multiplier": 134.92,
       "formula": "134.92%",
       "triggerEvents": [
-        "shield"
+        "shield",
+        "heal"
       ]
     },
     {
@@ -151,7 +159,13 @@ WUWA.register({
       "stat": "defense",
       "multiplier": 86.2,
       "formula": "86.20%",
-      "requiresResource": "resource_gate_1"
+      "requiresResourceAtLeast": {
+        "id": "resolvingCaliber",
+        "value": 1
+      },
+      "triggerEvents": [
+        "shield"
+      ]
     },
     {
       "id": "forte_timed_counters_2",
@@ -163,7 +177,13 @@ WUWA.register({
       "stat": "defense",
       "multiplier": 110.93,
       "formula": "110.93%",
-      "requiresResource": "resource_gate_1"
+      "requiresResourceAtLeast": {
+        "id": "resolvingCaliber",
+        "value": 2
+      },
+      "triggerEvents": [
+        "shield"
+      ]
     },
     {
       "id": "forte_timed_counters_3",
@@ -175,7 +195,13 @@ WUWA.register({
       "stat": "defense",
       "multiplier": 145.41,
       "formula": "145.41%",
-      "requiresResource": "resource_gate_1"
+      "requiresResourceAtLeast": {
+        "id": "resolvingCaliber",
+        "value": 3
+      },
+      "triggerEvents": [
+        "shield"
+      ]
     }
   ],
   "defaultSkillId": "lib",

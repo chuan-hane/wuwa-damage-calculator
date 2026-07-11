@@ -229,6 +229,17 @@ WUWA.register({
     }
   ],
   "defaultSkillId": "skill_awakening",
+  "skillEvents": [
+    {
+      "skills": [
+        "skill_awakening",
+        "intro",
+        "drizzle_na4"
+      ],
+      "event": "applyGlacioChafe",
+      "stacks": 1
+    }
+  ],
   "combatStates": [
     {
       "id": "form",

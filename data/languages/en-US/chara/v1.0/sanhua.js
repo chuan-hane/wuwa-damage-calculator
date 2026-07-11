@@ -131,7 +131,7 @@ window.WUWA_LANGUAGES.extend("en-US", {
               {
                 "label": "ATK",
                 "trigger": "Default",
-                "excerpt": "ATK +20% per stack"
+                "excerpt": "ATK +10% per stack"
               }
             ]
           }

@@ -53,6 +53,12 @@ window.WUWA_LANGUAGES.extend("ko", {
         ],
         "resources": [
           {
+            "label": "괘상 · 간(艮)"
+          },
+          {
+            "label": "괘상 · 진(震)"
+          },
+          {
             "label": "소음(少陰)"
           },
           {

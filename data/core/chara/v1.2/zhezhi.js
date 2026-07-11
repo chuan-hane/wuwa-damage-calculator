@@ -21,6 +21,18 @@ WUWA.register({
       "attackPct": 12
     }
   },
+  "resources": [
+    {
+      "id": "afflatus",
+      "max": 90,
+      "defaultValue": "max"
+    },
+    {
+      "id": "painterDelight",
+      "max": 2,
+      "defaultValue": "max"
+    }
+  ],
   "skills": [
     {
       "id": "na1",
@@ -153,7 +165,8 @@ WUWA.register({
       "category": "forteCircuit",
       "damageType": "basic",
       "multiplier": 298.22,
-      "formula": "298.22%"
+      "formula": "298.22%",
+      "requiresState": "mechanic_1_option_1"
     },
     {
       "id": "forte_creations_zenith",
@@ -163,7 +176,9 @@ WUWA.register({
       "category": "forteCircuit",
       "damageType": "basic",
       "multiplier": 357.87,
-      "formula": "119.29% × 3"
+      "formula": "119.29% × 3",
+      "requiresState": "mechanic_1_option_1",
+      "requiresResourceFull": "painterDelight"
     },
     {
       "id": "k5_extra_mohe",
@@ -181,8 +196,8 @@ WUWA.register({
       "id": "k6_white_crane",
       "category": "forteCircuit",
       "damageType": "basic",
-      "multiplier": 357.86,
-      "formula": "298.22% × 120%",
+      "multiplier": 357.87,
+      "formula": "119.29% × 3",
       "seq": 6,
       "requiresResource": "resource_gate_2"
     }
@@ -196,6 +211,17 @@ WUWA.register({
     "basicDmg"
   ],
   "echoSet": 1,
+  "combatStates": [
+    {
+      "id": "mechanic_1",
+      "kind": "mechanic",
+      "options": [
+        {
+          "value": "mechanic_1_option_1"
+        }
+      ]
+    }
+  ],
   "buffs": [
     {
       "id": "b1",

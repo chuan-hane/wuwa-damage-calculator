@@ -305,6 +305,7 @@ function stateAndResourceTokensAreLanguageNeutral() {
       const owner = `${c.id}.${sk.id}`;
       check(owner, "requiresState", sk.requiresState);
       check(owner, "requiresAllStates", sk.requiresAllStates);
+      check(owner, "excludesState", sk.excludesState);
       check(owner, "impliedStates", sk.impliedStates);
       check(owner, "requiresResource", sk.requiresResource);
       check(owner, "requiresResourceFull", sk.requiresResourceFull);
@@ -319,6 +320,7 @@ function stateAndResourceTokensAreLanguageNeutral() {
       check(owner, "requiresAllStates", b.requiresAllStates);
       check(owner, "requiresResource", b.requiresResource);
       check(owner, "stackGroup", b.stackGroup);
+      checkResourceRequirement(owner, "multAddByResource", b.multAddByResource);
     }
   }
   assert(!bad.length, `state/resource tokens must be language-neutral:\n${bad.join("\n")}`);
@@ -818,7 +820,7 @@ function v35CharacterEntryRegressions() {
   vowSlot.skill = "intro";
   assert(vowBuffs.every((item) => !__T.buffStatus(vowSlot, 0, buff(vowSlot, item.id)).applies), "Yangyang: Xuanling Unbroken Vow should require actual Havoc Bane stacks");
   [10, 20, 30, 42, 54, 66].forEach((expected, idx) => {
-    __T.state.effectCalc = { key: "havocBane", providerIdx: 0, stacks: idx + 1, deepen: 0 };
+    __T.state.effectCalc = { key: "havocBane", providerIdx: 0, stacks: idx + 1, stackMode: "manual", deepen: 0 };
     const total = vowBuffs.reduce((sum, item) => sum + (__T.buffStatus(vowSlot, 0, buff(vowSlot, item.id)).applies ? item.value : 0), 0);
     expectEqual(total, expected, `Yangyang: Xuanling Unbroken Vow should total ${expected}% at ${idx + 1} Havoc Bane stacks`);
   });
@@ -1171,6 +1173,12 @@ function characterSchemasAreLinked() {
     for (const key of [].concat(c.effectTypes || [])) {
       if (!validEffectKeys.has(key)) bad.push(`${c.id}: effectTypes ${key} unsupported`);
     }
+    for (const [idx, resource] of (c.resources || []).entries()) {
+      for (const rule of [].concat(resource.maxByState || resource.capByState || [])) {
+        const stateName = rule.state || rule.requiresState;
+        if (!stateName || !stateDefFor(c, stateName)) bad.push(`${c.id}.resources.${idx}: maxByState ${stateName || "missing"} missing`);
+      }
+    }
 
     for (const [idx, sk] of (c.skills || []).entries()) {
       if (!window.WUWA_LANGUAGES.localeData("en-US", "chars", c.id)?.skills?.[idx]?.name) bad.push(`${c.id}.${sk.id}: missing official English skill name`);
@@ -1223,15 +1231,24 @@ function characterSchemasAreLinked() {
       for (const stateName of [].concat(sk.requiresAllStates || [])) {
         if (!stateDefFor(c, stateName)) bad.push(`${c.id}.${sk.id}: requiresAllStates ${stateName} missing`);
       }
+      for (const stateName of [].concat(sk.excludesState || [])) {
+        if (!stateDefFor(c, stateName)) bad.push(`${c.id}.${sk.id}: excludesState ${stateName} missing`);
+      }
     }
     for (const [idx, eventDef] of [].concat(c.skillEvents || []).entries()) {
       const eventName = typeof eventDef === "string" ? eventDef : eventDef?.event || eventDef?.name || eventDef?.value;
       validateEvents(`${c.id}.skillEvents.${idx}`, eventName, bad);
-      if (eventDef?.stacks != null && (!Number.isInteger(Number(eventDef.stacks)) || Number(eventDef.stacks) <= 0)) {
-        bad.push(`${c.id}.skillEvents.${idx}: stacks must be a positive integer`);
+      if (eventDef?.stacks != null && eventDef.stacks !== "max" && (!Number.isInteger(Number(eventDef.stacks)) || Number(eventDef.stacks) <= 0)) {
+        bad.push(`${c.id}.skillEvents.${idx}: stacks must be a positive integer or max`);
       }
       for (const skillRef of [].concat(eventDef?.skills || [])) {
         if (!skillIds.has(skillRef)) bad.push(`${c.id}.skillEvents.${idx}: skill reference ${skillRef} missing`);
+      }
+      if (eventDef?.requiresResourceAtLeast && !resourceKeys.has(eventDef.requiresResourceAtLeast.id || eventDef.requiresResourceAtLeast.label)) {
+        bad.push(`${c.id}.skillEvents.${idx}: requiresResourceAtLeast ${(eventDef.requiresResourceAtLeast.id || eventDef.requiresResourceAtLeast.label)} missing`);
+      }
+      for (const stateName of [].concat(eventDef?.requiresState || [], eventDef?.requiresAllStates || [])) {
+        if (!stateDefFor(c, stateName)) bad.push(`${c.id}.skillEvents.${idx}: state ${stateName} missing`);
       }
     }
 
@@ -1256,6 +1273,13 @@ function characterSchemasAreLinked() {
           if (!stateDefFor(c, stateName)) bad.push(`${c.id}.${b.id}: requiresResourceAtLeast alternateState ${stateName} missing`);
         });
       }
+      if (b.requiresResourceBelow) {
+        const req = b.requiresResourceBelow;
+        if (!resourceKeys.has(req.id || req.label)) bad.push(`${c.id}.${b.id}: requiresResourceBelow ${(req.id || req.label)} missing`);
+        if (req.value == null && req.fractionOfCap == null) bad.push(`${c.id}.${b.id}: requiresResourceBelow missing value`);
+      }
+      if (b.stackResource && !resourceKeys.has(b.stackResource)) bad.push(`${c.id}.${b.id}: stackResource ${b.stackResource} missing`);
+      if (b.multAddByResource && !resourceKeys.has(b.multAddByResource.id || b.multAddByResource.resource)) bad.push(`${c.id}.${b.id}: multAddByResource ${(b.multAddByResource.id || b.multAddByResource.resource)} missing`);
     }
   }
   assert(!bad.length, bad.join("\n"));
@@ -1385,9 +1409,6 @@ function allPlainResourceGatesAreReviewed() {
     "jianxin.skill_special_chi",
     "rover_spectro.forte_echo1",
     "rover_spectro.forte_echo2",
-    "taoqi.forte_timed_counters_1",
-    "taoqi.forte_timed_counters_2",
-    "taoqi.forte_timed_counters_3",
     "xiangliyao.forte_revamp",
     "zhezhi.k5_extra_mohe",
     "zhezhi.k6_white_crane",
@@ -1409,10 +1430,14 @@ function allPlainResourceGatesAreReviewed() {
     "lynae.to_a_vivid_tomorrow",
     "luukherssen.ichor_deposit",
     "luukherssen.forte_gavel",
+    "luukherssen.ichor_blade",
     "hiyuki.lib_inward",
     "lucy.heavy_multithread",
     "lucy.heavy_multithread_sql",
     "lucy.burst_darknet",
+    "chisa.c1_fixed_havoc",
+    "yangyang_xuanling.c6_shadow",
+    "yangyang_xuanling.wraith_of_sound",
   ]);
   const bad = [];
   for (const c of Object.values(window.WUWA.chars)) {
@@ -1887,6 +1912,8 @@ function supportTeamBuffConfirmationWritesProviderState() {
 
 function baselineA() {
   resetTeam();
+  __T.state.slots[0].toggles[__T.stateChoiceKey("form_1")] = "form_1_option_2";
+  __T.state.slots[0].skill = "forte_illuminous_epiphany_stella";
   disableDefaultConfirmedBuffs();
   let r = __T.compute();
   expectEqual(r.expected, 80890, "baseline A 0-chain expected");
@@ -1900,6 +1927,8 @@ function baselineA() {
   expectEqual(r.expected, 185889, "baseline A 6-chain expected");
 
   resetTeam();
+  __T.state.slots[0].toggles[__T.stateChoiceKey("form_1")] = "form_1_option_2";
+  __T.state.slots[0].skill = "forte_illuminous_epiphany_stella";
   disableDefaultConfirmedBuffs();
   __T.setBuffToggle(__T.state.slots[1], 1, "b3", true);
   __T.setBuffToggle(__T.state.slots[1], 1, "b4", true);
@@ -1962,17 +1991,16 @@ function formulaNumberFormattingFloors() {
 function preconditionBuffsRequireConfirmation() {
   resetTeam(["chixia"]);
   const slot = __T.state.slots[0];
-  const manual = buff(slot, "b1");
-  let st = __T.buffStatus(slot, 0, manual);
-  assert(st.precondition && !st.toggleOn && !st.applies, "manual precondition buffs should wait for explicit confirmation");
-  expectEqual(__T.buffStackCount(slot, manual, 0), 0, "unconfirmed manual stacks should keep their configured zero default");
-  __T.setBuffToggle(slot, 0, manual.id, true);
-  st = __T.buffStatus(slot, 0, manual);
-  assert(st.precondition && st.toggleOn && st.applies, "manual precondition buffs should apply after confirmation");
-  expectEqual(__T.buffStackCount(slot, manual, 0), 30, "confirmed manual stacks should use the current cap");
-  __T.setBuffToggle(slot, 0, manual.id, false);
-  st = __T.buffStatus(slot, 0, manual);
-  assert(st.precondition && !st.toggleOn && !st.applies, "manual precondition buffs should be clearable again");
+  const firedBullets = buff(slot, "b1");
+  let st = __T.buffStatus(slot, 0, firedBullets);
+  assert(!st.precondition && st.applies, "Chixia fired-bullet ATK should follow its structured action counter");
+  expectEqual(__T.buffStackCount(slot, firedBullets, 0), 30, "Chixia should default to the 30-shot Boom Boom threshold");
+  slot.resources.dakaDakaShots = 12;
+  expectEqual(__T.buffStackCount(slot, firedBullets, 0), 12, "Chixia ATK stacks should follow fired Thermobaric Bullets");
+  slot.skill = "forte_boom_boom";
+  assert(__T.compute().resourceBlocked, "Chixia Boom Boom should require 30 fired Thermobaric Bullets");
+  slot.resources.dakaDakaShots = 30;
+  assert(!__T.compute().resourceBlocked, "Chixia Boom Boom should unlock at 30 fired Thermobaric Bullets");
 
   resetTeam(["jinhsi"]);
   const alwaysOnSlot = __T.state.slots[0];
@@ -1989,16 +2017,17 @@ function preconditionBuffsRequireConfirmation() {
   exclusiveSlot.skill = "rune_outburst";
   const highEnergy = buff(exclusiveSlot, "b_soliskin_mult");
   const lowEnergy = buff(exclusiveSlot, "b_soliskin_amp");
-  assert(!__T.buffStatus(exclusiveSlot, 0, highEnergy).applies && !__T.buffStatus(exclusiveSlot, 0, lowEnergy).applies, "exclusive manual branches should wait for an explicit selection");
-  __T.setBuffToggle(exclusiveSlot, 0, highEnergy.id, true);
-  assert(__T.buffStatus(exclusiveSlot, 0, highEnergy).applies && !__T.buffStatus(exclusiveSlot, 0, lowEnergy).applies, "exclusive groups should apply the explicitly selected first branch only");
-  __T.setBuffToggle(exclusiveSlot, 0, lowEnergy.id, true);
-  assert(__T.buffStatus(exclusiveSlot, 0, lowEnergy).applies && !__T.buffStatus(exclusiveSlot, 0, highEnergy).applies, "exclusive groups should still honor explicit branch selection");
+  assert(__T.buffStatus(exclusiveSlot, 0, highEnergy).applies && !__T.buffStatus(exclusiveSlot, 0, lowEnergy).applies, "Sigrika should automatically use the 30-or-more Soliskin Vitality branch");
+  exclusiveSlot.resources.soliskinVitality = 20;
+  assert(!__T.buffStatus(exclusiveSlot, 0, highEnergy).applies && __T.buffStatus(exclusiveSlot, 0, lowEnergy).applies, "Sigrika should automatically use the below-30 Soliskin Vitality branch");
+  expectEqual(__T.buffStackCount(exclusiveSlot, lowEnergy, 0), 2, "Sigrika low-energy branch should gain one stack per 10 Soliskin Vitality");
 }
 
 function formulaCardTooltips() {
   resetTeam();
   const slot = __T.state.slots[0];
+  slot.toggles[__T.stateChoiceKey("form_1")] = "form_1_option_2";
+  slot.skill = "forte_illuminous_epiphany_stella";
   slot.echo.fields = { elem: 30, skillDmg: 57 };
   __T.state.enemy.vulnerability = 12;
   __T.state.enemy.dmgReduction = 5;
@@ -2131,9 +2160,9 @@ function reportedCharacterFixes() {
   assert(__T.buffStatus(slot, 0, b).applies, "Eternal Radiance Spectro bonus should apply after syncing Light Noise stacks");
   __T.state.effectCalc.stacks = 9;
   assert(!__T.buffStatus(slot, 0, b).applies, "Eternal Radiance Spectro bonus should stop applying below 10 Light Noise stacks");
+  slot.toggles[__T.stateChoiceKey("form_1")] = "form_1_option_1";
   slot.skill = "forte_nightfall";
-  slot.layers = 0;
-  slot.toggles["res_焰光"] = false;
+  slot.resources.blaze = 0;
   r = __T.compute();
   assert(r.sk && r.sk.id === "forte_nightfall", `Zani Nightfall should stay selected at zero Blaze, got ${r.sk && r.sk.id}`);
   assert(r.normal > 0 && !r.resourceBlocked, "Zani Nightfall zero Blaze should not calculate as zero damage");
@@ -2214,7 +2243,7 @@ function reportedCharacterFixes() {
   resetTeam(["cartethyia"]);
   slot = __T.state.slots[0];
   slot.seq = 4;
-  slot.skill = "na4";
+  slot.skill = "heavy";
   b = buff(slot, "k4_all");
   assert(__T.buffStatus(slot, 0, b).precondition && !__T.buffStatus(slot, 0, b).applies, "Cartethyia chain 4 post-effect buff should wait for confirmation");
   __T.setBuffToggle(slot, 0, b.id, true);
@@ -2275,13 +2304,21 @@ function reportedCharacterFixes() {
   let sigrikaResources = __T.resourceControlsForSlot(slot);
   assert(sigrikaResources.every((ctrl) => ctrl.kind === "value"), "Sigrika structured resources should not create legacy checkbox controls");
   assert(!sigrikaResources.some((ctrl) => ctrl.label === "符文"), "Sigrika total Rune should be derived from Rune types, not manually entered");
+  slot.resources.period = 0;
   slot.resources.hopeRune = 2;
   slot.resources.answerRune = 2;
   sigrikaResources = __T.resourceControlsForSlot(slot);
-  const sigrikaRuneSum = sigrikaResources
+  let sigrikaRuneSum = sigrikaResources
     .filter((ctrl) => ctrl.id === "hopeRune" || ctrl.id === "answerRune")
     .reduce((sum, ctrl) => sum + ctrl.value, 0);
-  assert(sigrikaRuneSum <= 2, "Sigrika Hope/Answer runes should share a total cap of 2");
+  assert(sigrikaRuneSum <= 2, "Sigrika Hope/Answer runes should share a total cap of 2 below 50 Full Stop");
+  slot.resources.period = 50;
+  sigrikaResources = __T.resourceControlsForSlot(slot);
+  sigrikaRuneSum = sigrikaResources
+    .filter((ctrl) => ctrl.id === "hopeRune" || ctrl.id === "answerRune")
+    .reduce((sum, ctrl) => sum + ctrl.value, 0);
+  expectEqual(sigrikaRuneSum, 4, "Sigrika should hold 2 additional runes at 50 Full Stop");
+  slot.resources.period = 100;
   b = buff(slot, "b_blessing_aero");
   assert(__T.buffStatus(slot, 0, b).precondition && !__T.buffStatus(slot, 0, b).applies, "Sigrika Semantic Blessing should wait for confirmation");
   expectEqual(__T.buffStackCount(slot, b, 0), 0, "Sigrika Semantic Blessing should stay at zero stacks before confirmation");
@@ -2301,12 +2338,13 @@ function reportedCharacterFixes() {
   slot.resources.answerRune = 1;
   slot.skill = "rune_outburst";
   assert(__T.resolvedSkill(slot)?.id === "rune_outburst", "Sigrika Runic Outburst should require both Hope and Answer runes");
-  __T.setBuffToggle(slot, 0, "b_soliskin_mult", true);
-  assert(__T.buffStatus(slot, 0, buff(slot, "b_soliskin_mult")).applies, "Sigrika high Soliskin energy branch should apply when selected");
-  assert(!__T.buffStatus(slot, 0, buff(slot, "b_soliskin_amp")).applies, "Sigrika low Soliskin energy branch should be gated by high branch selection");
-  __T.setBuffToggle(slot, 0, "b_soliskin_amp", true);
-  assert(!__T.buffStatus(slot, 0, buff(slot, "b_soliskin_mult")).applies, "Sigrika high Soliskin energy branch should be gated by low branch selection");
-  assert(__T.buffStatus(slot, 0, buff(slot, "b_soliskin_amp")).applies, "Sigrika low Soliskin energy branch should apply when selected");
+  slot.resources.soliskinVitality = 60;
+  assert(__T.buffStatus(slot, 0, buff(slot, "b_soliskin_mult")).applies, "Sigrika high Soliskin energy branch should apply automatically at 30 or more");
+  assert(!__T.buffStatus(slot, 0, buff(slot, "b_soliskin_amp")).applies, "Sigrika low Soliskin energy branch should be gated at 30 or more");
+  slot.resources.soliskinVitality = 10;
+  assert(!__T.buffStatus(slot, 0, buff(slot, "b_soliskin_mult")).applies, "Sigrika high Soliskin energy branch should be gated below 30");
+  assert(__T.buffStatus(slot, 0, buff(slot, "b_soliskin_amp")).applies, "Sigrika low Soliskin energy branch should apply automatically below 30");
+  expectEqual(__T.buffStackCount(slot, buff(slot, "b_soliskin_amp"), 0), 1, "Sigrika should gain 15% amplification per 10 Soliskin Vitality");
 
   resetTeam(["verina"]);
   slot = __T.state.slots[0];
@@ -2400,6 +2438,7 @@ function reportedCharacterFixes() {
   slot.skill = "a13";
   r = __T.compute();
   assert(!hasThunderUprising(r.sk), "Yuanwu Liberation entry should not imply Thunder Uprising state");
+  slot.toggles[__T.stateChoiceKey(stateDefFor(yuanwu, "雷厉风行").id)] = thunderUprising;
   slot.skill = "a16";
   r = __T.compute();
   assert(hasThunderUprising(r.sk), "Yuanwu Thunder Uprising attacks should still imply Thunder Uprising state");
@@ -2417,6 +2456,7 @@ function reportedCharacterFixes() {
 
   resetTeam(["lingyang"]);
   slot = __T.state.slots[0];
+  slot.toggles[__T.stateChoiceKey("status_1")] = "status_1_option_1";
   slot.skill = "a19";
   slot.toggles["res_狮魂低于10"] = false;
   r = __T.compute();
@@ -2456,7 +2496,7 @@ function reportedCharacterFixes() {
   slot = __T.state.slots[0];
   slot.skill = "k5_extra_mohe";
   r = __T.compute();
-  expectEqual(r.selectedSk.id, "forte_creations_zenith", "Zhezhi chain 5 extra crane should be hidden before chain 5");
+  assert(r.selectedSk.id !== "k5_extra_mohe", "Zhezhi chain 5 extra crane should be hidden before chain 5");
   slot.seq = 5;
   r = __T.compute();
   expectEqual(r.selectedSk.id, "k5_extra_mohe", "Zhezhi chain 5 extra crane should unlock at chain 5");
@@ -2465,7 +2505,7 @@ function reportedCharacterFixes() {
   slot.skill = "k6_white_crane";
   r = __T.compute();
   expectEqual(r.selectedSk.id, "k6_white_crane", "Zhezhi chain 6 white crane should unlock at chain 6");
-  expectEqual(r.sk.multiplier, 357.86, "Zhezhi chain 6 white crane multiplier");
+  expectEqual(r.sk.multiplier, 357.87, "Zhezhi chain 6 white crane multiplier");
 
   resetTeam(["aalto"]);
   slot = __T.state.slots[0];
@@ -2546,6 +2586,7 @@ function reportedCharacterFixes() {
   resetTeam(["jinhsi"]);
   slot = __T.state.slots[0];
   slot.seq = 6;
+  slot.toggles[__T.stateChoiceKey("form_1")] = "form_1_option_2";
   slot.skill = "a20";
   __T.render();
   assert(String(board.innerHTML).includes('data-key="incandescence"') && String(board.innerHTML).includes("韶光 (0-50)"), "Jinhsi Incandescence should render as a persistent character resource control");
@@ -2581,7 +2622,7 @@ function reportedCharacterFixes() {
   slot.toggles[__T.stateChoiceKey("灼焰形态")] = "灼焰形态";
   slot.skill = "forte_nightfall";
   __T.render();
-  assert(String(board.innerHTML).includes(`data-key="${zaniBlaze}"`) && String(board.innerHTML).includes("焰光 (0-40)"), "Zani Blaze should render as a persistent character resource control");
+  assert(String(board.innerHTML).includes(`data-key="${zaniBlaze}"`) && String(board.innerHTML).includes("焰光 (0-150)"), "Zani Blaze should render its Blazing Form cap as a persistent character resource control");
   r = __T.compute();
   expectEqual(r.layers, 40, "Zani Nightfall should default to full Blaze");
   expectEqual(r.panel.baseMult, 795.63, "Zani Nightfall should scale from full Blaze");
@@ -2608,6 +2649,7 @@ function reportedCharacterFixes() {
   r = __T.compute();
   expectEqual(r.layers, 25, "Chisa Sawring End should read Sawring Reverberation from the character resource");
   expectEqual(r.panel.baseMult, 322.42, "Chisa Sawring End should update when Sawring Reverberation changes");
+  slot.toggles[__T.stateChoiceKey("mode_1")] = "mode_1_option_0";
   slot.skill = "skill_cycle";
   slot.resources[chisaSawring] = 99;
   r = __T.compute();
@@ -2660,10 +2702,10 @@ function reportedCharacterFixes() {
   slot = __T.state.slots[0];
   slot.skill = "heavy_2";
   assert(__T.resourceControlsForSlot(slot).some((control) => control.kind === "value" && control.label === "光合能量"), "Verina should expose Photosynthesis Energy as a numeric character resource");
-  slot.resources.photosynthesis = 0;
+  slot.resources.photosynthesisEnergy = 0;
   r = __T.compute();
   expectEqual(r.sk.id, "heavy", "Verina Starflower Blooms should fall back when Photosynthesis Energy is zero");
-  slot.resources.photosynthesis = 1;
+  slot.resources.photosynthesisEnergy = 1;
   r = __T.compute();
   expectEqual(r.sk.id, "heavy_2", "Verina Starflower Blooms should calculate when Photosynthesis Energy is available");
 
@@ -2863,7 +2905,7 @@ function effectDamageModel() {
   __T.state.slots[0].skill = "intro";
   __T.state.slots[0].seq = 3;
   __T.setBuffToggle(__T.state.slots[1], 1, "b_outro_effect_cap", true);
-  __T.state.effectCalc = { key: "havocBane", providerIdx: 0, stacks: 9, deepen: 0 };
+  __T.state.effectCalc = { key: "havocBane", providerIdx: 0, stacks: 9, stackMode: "manual", deepen: 0 };
   r = __T.compute();
   expectEqual(r.effect.cap, 9, "Yangyang Xuanling sequence 3 and Chisa outro cap bonuses should stack up to 9 Havoc Bane stacks");
   expectEqual(r.effect.stacks, 9, "Yangyang Xuanling should allow 9 Havoc Bane stacks when both cap bonuses are active");
@@ -3563,6 +3605,443 @@ function p1WeaponEffectRegressions() {
   assert(__T.buffStatus(slot, 0, b).applies, "Mornye signature static defense percent should apply by default");
 }
 
+function sixCharacterAuditRegressions() {
+  const chisa = window.WUWA.chars.chisa;
+  resetTeam(["chisa"]);
+  let slot = __T.state.slots[0];
+  let ids = new Set(__T.availableSkills(slot).map((item) => item.id));
+  assert(ids.has("na1") && !ids.has("sawring_1"), "Chisa default non-Chainsaw mode should hide Chainsaw-only attacks");
+  slot.toggles[__T.stateChoiceKey("mode_1")] = "mode_1_option_1";
+  ids = new Set(__T.availableSkills(slot).map((item) => item.id));
+  assert(ids.has("sawring_1") && !ids.has("na1") && ids.has("lib_return"), "Chisa Chainsaw mode should replace normal attacks while keeping common actions");
+  assert(skill(chisa, "chain_clamp").triggerEvents?.includes("heal") && skill(chisa, "chain_clamp_extra").triggerEvents?.includes("heal"), "Chisa Death Snip variants should emit healing events");
+  assert(skill(chisa, "lib_return").triggerEvents?.includes("heal"), "Chisa Resonance Liberation should emit its healing event");
+
+  slot.seq = 1;
+  slot.toggles[__T.stateChoiceKey("mode_1")] = "mode_1_option_0";
+  slot.toggles[__T.stateChoiceKey("target_1")] = "target_1_option_1";
+  slot.skill = "c1_fixed_havoc";
+  let r = __T.compute();
+  assert(r.resourceBlocked, "Chisa C1 fixed damage should require one-time target confirmation");
+  slot.toggles[__T.resourceKey("c1_fixed_damage_available")] = true;
+  __T.state.enemy.vulnerability = 999;
+  __T.state.enemy.res = 99;
+  r = __T.compute();
+  expectEqual(r.damageModel, "fixed", "Chisa C1 should use the fixed-damage settlement branch");
+  expectEqual(r.normal, 61803, "Chisa C1 fixed damage should remain 61803 through other multiplier changes");
+  expectEqual(r.critHit, 61803, "Chisa C1 fixed damage should not crit");
+  expectEqual(skill(chisa, "c1_fixed_havoc").fixedDamageHpFloorPct, 61.8, "Chisa C1 should preserve its target HP floor");
+
+  const mornye = window.WUWA.chars.mornye;
+  resetTeam(["mornye"]);
+  slot = __T.state.slots[0];
+  ids = new Set(__T.availableSkills(slot).map((item) => item.id));
+  assert(ids.has("na1") && !ids.has("wide_na1"), "Mornye default mode should hide Wide Field Observation attacks");
+  slot.toggles[__T.stateChoiceKey("mode_1")] = "mode_1_option_1";
+  ids = new Set(__T.availableSkills(slot).map((item) => item.id));
+  assert(ids.has("wide_na1") && !ids.has("na1") && ids.has("lib"), "Mornye Wide Field Observation mode should replace normal attacks while keeping common actions");
+  expectEqual(allBuffs(mornye).find((item) => item.id === "k1_amp")?.zone, "vulnerability", "Mornye C1 target-takes-damage effect should use vulnerability");
+
+  const yangyang = window.WUWA.chars.yangyang_xuanling;
+  resetTeam(["yangyang_xuanling"]);
+  slot = __T.state.slots[0];
+  __T.state.effectCalc = { key: "havocBane", providerIdx: 0, stacks: 0, stackMode: "action", deepen: 0 };
+  slot.skill = "azure_na4";
+  expectEqual(__T.compute().effect.actionStacks, 1, "Yangyang: Xuanling basic stage 4 should apply 1 Havoc Bane stack");
+  slot.seq = 3;
+  slot.skill = "azure_heavy";
+  expectEqual(__T.compute().effect.actionStacks, 3, "Yangyang: Xuanling C3 Azure heavy should apply 2 base plus 1 extra Havoc Bane stacks");
+  slot.skill = "lib";
+  expectEqual(__T.compute().effect.actionStacks, 3, "Yangyang: Xuanling Liberation should set Havoc Bane to the current cap");
+  const azureBreath = buff(slot, "b_desperate_breath_azure");
+  slot.skill = "azure_heavy";
+  assert(!azureBreath.triggerSkills && __T.buffStatus(slot, 0, azureBreath).precondition && !__T.buffStatus(slot, 0, azureBreath).applies, "Yangyang: Xuanling Bated Breath should require cooldown confirmation instead of auto-triggering on every heavy attack");
+  ["lib_shadow", "c1_shadow", "c2_shadow", "c6_shadow", "wraith_of_sound"].forEach((id) => {
+    assert(skill(yangyang, id).triggeredDamage === true, `Yangyang: Xuanling ${id} should be modeled as triggered damage`);
+  });
+  slot.seq = 6;
+  slot.skill = "c6_shadow";
+  r = __T.compute();
+  assert(r.resourceBlocked, "Yangyang: Xuanling C6 shadow should require Still as Withered Wood trigger confirmation");
+  slot.toggles[__T.resourceKey("still_as_withered_wood_ready")] = true;
+  slot.layers = 5;
+  r = __T.compute();
+  expectEqual(r.panel.baseMult, 1689.9, "Yangyang: Xuanling C6 shadow should support up to five summons");
+  assert(r.panel.critRate >= 100, "Yangyang: Xuanling C6 shadow should remain guaranteed to crit");
+  slot.skill = "wraith_of_sound";
+  delete slot.toggles[__T.resourceKey("wraith_of_sound_triggered")];
+  r = __T.compute();
+  assert(r.resourceBlocked, "Yangyang: Xuanling Wraith of Sound should require cycle-reset confirmation");
+  slot.toggles[__T.resourceKey("wraith_of_sound_triggered")] = true;
+  r = __T.compute();
+  expectEqual(r.damageModel, "fixed", "Yangyang: Xuanling Wraith of Sound should use the fixed-damage settlement branch");
+  expectEqual(r.normal, 523, "Yangyang: Xuanling Wraith of Sound should deal fixed 523 damage");
+  expectEqual(r.critHit, 523, "Yangyang: Xuanling Wraith of Sound should not crit");
+
+  resetTeam(["suisui"]);
+  slot = __T.state.slots[0];
+  __T.state.effectCalc = { key: "frost", providerIdx: 0, stacks: 0, stackMode: "action", deepen: 0 };
+  slot.skill = "skill_awakening";
+  expectEqual(__T.compute().effect.actionStacks, 1, "Suisui Awakening Spring should apply 1 Glacio Chafe stack");
+  slot.toggles[__T.stateChoiceKey("form")] = "form_drizzle";
+  slot.skill = "drizzle_na4";
+  expectEqual(__T.compute().effect.actionStacks, 1, "Suisui Drizzle basic stage 4 should apply 1 Glacio Chafe stack");
+}
+
+function v3FullAuditRegressions() {
+  resetTeam(["aemeath"]);
+  let slot = __T.state.slots[0];
+  slot.seq = 6;
+  slot.skill = "duet_tune_bonus";
+  slot.toggles[__T.stateChoiceKey("mode_1")] = "mode_1_option_1";
+  slot.toggles[__T.stateChoiceKey("target_2")] = "target_2_option_1";
+  let r = __T.compute();
+  expectEqual(r.totals.fixedCritRate, 80, "Aemeath C6 Tune Rupture should use fixed 80% Crit. Rate");
+  expectEqual(r.totals.fixedCritDamage, 275, "Aemeath C6 Tune Rupture should use fixed 275% Crit. DMG");
+  assert(r.normal < r.expected && r.expected < r.critHit, "Aemeath C6 Tune Rupture should expose non-crit, expected, and crit results");
+  expectEqual(__T.buffStackCount(slot, buff(slot, "b_duet_tune_trail"), 0), 10, "Aemeath C6 Seraphic Duet should automatically inflict 10 Rupturous Trail stacks");
+  slot.skill = "duet_overture";
+  slot.toggles[__T.stateChoiceKey("mode_1")] = "mode_1_option_2";
+  slot.toggles[__T.stateChoiceKey("target_3")] = "target_3_option_1";
+  slot.toggles[__T.stateChoiceKey("status_1")] = "status_1_option_1";
+  __T.state.effectCalc = { key: "fusion", providerIdx: 0, stacks: 10, stackMode: "manual", deepen: 0 };
+  r = __T.compute();
+  expectEqual(r.sk?.id, "duet_overture", "Aemeath Fusion Burst audit should keep Seraphic Duet selected");
+  expectEqual(r.effect.fixedCritRate, 80, "Aemeath C6 Fusion Burst should use fixed 80% Crit. Rate");
+  expectEqual(r.effect.fixedCritDamage, 275, "Aemeath C6 Fusion Burst should use fixed 275% Crit. DMG");
+  expectEqual(__T.buffStackCount(slot, buff(slot, "b_fusion_trail_extra"), 0), 10, "Aemeath C6 Seraphic Duet should automatically inflict 10 Fusion Trail stacks");
+
+  resetTeam(["luukherssen"]);
+  slot = __T.state.slots[0];
+  slot.skill = "ichor_blade";
+  slot.toggles[__T.resourceKey("ichor_blade_active")] = true;
+  r = __T.compute();
+  expectEqual(r.damageModel, "fixed", "Luuk Herssen Ichor Blade should use fixed damage");
+  expectEqual(r.normal, 10, "Luuk Herssen Ichor Blade should deal 10 fixed damage per 0.15s");
+  assert(__T.resourceControlsForSlot(slot).some((ctrl) => ctrl.id === "ichorFlow" && ctrl.max === 300), "Luuk Herssen should expose 300 Ichor Flow");
+
+  resetTeam(["denia"]);
+  slot = __T.state.slots[0];
+  slot.seq = 6;
+  slot.toggles[__T.stateChoiceKey("mode_1")] = "mode_1_option_1";
+  __T.state.effectCalc = { key: "fusion", providerIdx: 0, stacks: 10, stackMode: "manual", deepen: 0 };
+  slot.skill = "erosion_field";
+  expectEqual(__T.compute().effect.extraRate, 200, "Denia C6 Fusion Burst extra multiplier should apply to Erosion Field");
+  slot.skill = "sc_lib";
+  expectEqual(__T.compute().effect.extraRate, 0, "Denia C6 Fusion Burst extra multiplier should not apply to unrelated Fusion Burst triggers");
+
+  resetTeam(["hiyuki"]);
+  slot = __T.state.slots[0];
+  __T.state.effectCalc = { key: "frost", providerIdx: 0, stacks: 0, stackMode: "action", deepen: 0 };
+  slot.toggles[__T.stateChoiceKey("form_1")] = "form_1_option_1";
+  slot.toggles[__T.resourceKey("resource_gate_3")] = true;
+  slot.skill = "lib_inward";
+  expectEqual(__T.compute().effect.actionStacks, 4, "Hiyuki Inward Vision should apply 4 Glacio Chafe stacks");
+  slot.toggles[__T.stateChoiceKey("form_1")] = "form_1_option_2";
+  slot.toggles[__T.stateChoiceKey("mechanic_1")] = "mechanic_1_option_1";
+  slot.toggles[__T.resourceKey("resource_gate_4")] = true;
+  slot.skill = "forte_iai";
+  expectEqual(__T.compute().effect.actionStacks, 3, "Hiyuki Iai should apply 3 Glacio Chafe stacks with Frostharden Iai");
+  slot.resources.frosthardenIai = 0;
+  expectEqual(__T.compute().effect.actionStacks, null, "Hiyuki Iai should not apply Glacio Chafe without Frostharden Iai");
+  slot.skill = "lib_blade";
+  slot.resources.snowforgedBlade = 2;
+  expectEqual(__T.compute().layers, 2, "Hiyuki Blade Liberation should read Snowforged Blade from the shared resource");
+
+  resetTeam(["lucilla"]);
+  slot = __T.state.slots[0];
+  __T.state.effectCalc = { key: "frost", providerIdx: 0, stacks: 0, stackMode: "action", deepen: 0 };
+  slot.skill = "spotlight_frost";
+  expectEqual(__T.compute().effect.actionStacks, 1, "Lucilla Spotlight should apply 1 Glacio Chafe stack");
+  slot.toggles[__T.stateChoiceKey("mode_1")] = "mode_1_option_2";
+  let zoom = buff(slot, "b_zoom");
+  __T.setBuffToggle(slot, 0, zoom.id, true);
+  expectEqual(__T.buffStackCount(slot, zoom, 0), 1, "Lucilla Zoom should cap at 1 stack before Sequence 2");
+  resetTeam(["lucilla"]);
+  slot = __T.state.slots[0];
+  slot.seq = 2;
+  slot.toggles[__T.stateChoiceKey("mode_1")] = "mode_1_option_2";
+  zoom = buff(slot, "b_zoom");
+  __T.setBuffToggle(slot, 0, zoom.id, true);
+  expectEqual(__T.buffStackCount(slot, zoom, 0), 4, "Lucilla Zoom should cap at 4 stacks from Sequence 2");
+  assert(__T.resourceControlsForSlot(slot).some((ctrl) => ctrl.id === "filmRoll" && ctrl.max === 10), "Lucilla Sequence 2 should expose 10 Film Roll stacks");
+
+  resetTeam(["rebecca"]);
+  slot = __T.state.slots[0];
+  slot.seq = 6;
+  slot.skill = "hunt_na1";
+  slot.echo.fields.basicDmg = 50;
+  r = __T.compute();
+  expectEqual(r.scaledTypeBonus, r.typeBonus * 1.4, "Rebecca C6 should increase Basic Attack DMG Bonus from every source by 40%");
+  expectEqual(skill(window.WUWA.chars.rebecca, "c6_extra_hit").multiplier, 900, "Rebecca C6 additional hit should be a separate 900% Basic Attack damage entry");
+  assert(!allBuffs(window.WUWA.chars.rebecca).some((item) => item.id === "k6_extra_hit" || item.multAdd === 900), "Rebecca C6 additional hit should not be merged into the triggering skill multiplier");
+}
+
+function v2FullAuditRegressions() {
+  resetTeam(["carlotta"]);
+  let slot = __T.state.slots[0];
+  let controls = __T.resourceControlsForSlot(slot);
+  assert(controls.some((ctrl) => ctrl.id === "moldableCrystals" && ctrl.max === 6), "Carlotta should expose 6 Moldable Crystals");
+  assert(controls.some((ctrl) => ctrl.id === "substance" && ctrl.max === 120), "Carlotta should expose 120 Substance");
+  slot.resources.substance = 119;
+  slot.skill = "heavy_limit";
+  let r = __T.compute();
+  assert(!__T.availableSkills(slot).some((item) => item.id === "heavy_limit") && r.sk.id === "heavy", "Carlotta Containment Tactics should fall back below full Substance");
+  slot.resources.substance = 120;
+  r = __T.compute();
+  assert(__T.availableSkills(slot).some((item) => item.id === "heavy_limit") && r.sk.id === "heavy_limit", "Carlotta Containment Tactics should unlock at 120 Substance");
+
+  resetTeam(["roccia"]);
+  slot = __T.state.slots[0];
+  controls = __T.resourceControlsForSlot(slot);
+  assert(controls.some((ctrl) => ctrl.id === "imagination" && ctrl.max === 300), "Roccia should expose 300 Imagination");
+  expectEqual(skill(window.WUWA.chars.roccia, "forte_3_2").formula, "357.86%", "Roccia Reality Recreation should use Real Fantasy Stage 3 multiplier");
+  expectEqual(window.WUWA_LANGUAGES.localeData("en-US", "chars", "roccia").skills.at(-1).name, "Reality Recreation", "Roccia derived skill should use its official English name");
+  assert(!buff(slot, "k5_heavy").skills.includes("lib"), "Roccia Sequence 5 Heavy Attack multiplier should not leak into Resonance Liberation");
+
+  assert(skill(window.WUWA.chars.rover_aero, "skill_sever").triggerEvents.includes("applyAeroErosion"), "Rover: Aero Skyfall Severance should emit Aero Erosion application event");
+
+  resetTeam(["phoebe"]);
+  slot = __T.state.slots[0];
+  controls = __T.resourceControlsForSlot(slot);
+  assert(controls.some((ctrl) => ctrl.id === "gospel" && ctrl.max === 60), "Phoebe should expose 60 Divine Voice");
+  assert(controls.some((ctrl) => ctrl.id === "prayer" && ctrl.max === 120), "Phoebe should expose 120 Prayer");
+  __T.state.effectCalc = { key: "lightNoise", providerIdx: 0, stacks: 0, stackMode: "action", deepen: 0 };
+  slot.toggles[__T.stateChoiceKey("mode_1")] = "mode_1_option_2";
+  assert(!__T.availableSkills(slot).some((item) => item.id === "burst"), "Phoebe base Liberation should be hidden while a mode-specific Liberation is active");
+  slot.skill = "burst_confession";
+  expectEqual(__T.compute().effect.actionStacks, 8, "Phoebe Confession Liberation should apply 8 Spectro Frazzle stacks");
+  slot.seq = 1;
+  expectEqual(__T.compute().effect.actionStacks, 10, "Phoebe Sequence 1 Confession Liberation should fill Spectro Frazzle to its cap");
+  slot.skill = "starflash_confession";
+  slot.resources.gospel = 29;
+  assert(!__T.availableSkills(slot).some((item) => item.id === "starflash_confession") && __T.compute().sk.id === "heavy", "Phoebe Confession Starflash should fall back below 30 Divine Voice");
+  slot.resources.gospel = 30;
+  assert(__T.availableSkills(slot).some((item) => item.id === "starflash_confession") && __T.compute().sk.id === "starflash_confession", "Phoebe Confession Starflash should unlock at 30 Divine Voice");
+  slot.seq = 4;
+  slot.skill = "na1";
+  assert(__T.buffStatus(slot, 0, buff(slot, "k4_res")).applies, "Phoebe Sequence 4 Spectro RES reduction should auto-trigger on Basic Attack");
+  slot.skill = "heavy";
+  assert(!__T.buffStatus(slot, 0, buff(slot, "k4_res")).applies, "Phoebe Sequence 4 Spectro RES reduction should not auto-trigger on Heavy Attack");
+  slot.seq = 0;
+  slot.skill = "starflash_absolution";
+  slot.toggles[__T.stateChoiceKey("mode_1")] = "mode_1_option_1";
+  __T.state.effectCalc = { key: "lightNoise", providerIdx: 0, stacks: 1, stackMode: "manual", deepen: 0 };
+  assert(__T.buffStatus(slot, 0, buff(slot, "b_starflash_absolution")).applies, "Phoebe Absolution Starflash amplification should require an existing Spectro Frazzle stack");
+
+  resetTeam(["ciaccona"]);
+  slot = __T.state.slots[0];
+  __T.state.effectCalc = { key: "windErosion", providerIdx: 0, stacks: 0, stackMode: "action", deepen: 0 };
+  slot.skill = "na4";
+  expectEqual(__T.compute().effect.actionStacks, 1, "Ciaccona Basic Attack Stage 4 should apply 1 Aero Erosion stack");
+  __T.state.effectCalc = { key: "lightNoise", providerIdx: 0, stacks: 0, stackMode: "action", deepen: 0 };
+  slot.skill = "lib_tonic_yellow";
+  expectEqual(__T.compute().effect.actionStacks, 1, "Ciaccona yellow Tonic should apply 1 Spectro Frazzle stack");
+
+  resetTeam(["zani"]);
+  slot = __T.state.slots[0];
+  slot.skill = "na1";
+  controls = __T.resourceControlsForSlot(slot);
+  assert(controls.some((ctrl) => ctrl.id === "blaze" && ctrl.max === 100), "Zani should expose 100 Blaze outside Blazing Form");
+  slot.toggles[__T.stateChoiceKey("form_1")] = "form_1_option_1";
+  slot.skill = "forte_nightfall";
+  controls = __T.resourceControlsForSlot(slot);
+  assert(controls.some((ctrl) => ctrl.id === "blaze" && ctrl.max === 150), "Zani should expose 150 Blaze in Blazing Form");
+  slot.resources.blaze = 150;
+  r = __T.compute();
+  expectEqual(r.layers, 40, "Zani Nightfall should consume at most 40 Blaze for multiplier scaling");
+  slot.seq = 3;
+  slot.skill = "lib_last";
+  slot.resources.blaze = 60;
+  r = __T.compute();
+  expectEqual(r.multAdd, 480, "Zani Sequence 3 Final Advent should add 8% multiplier per Blaze consumed");
+  expectEqual(r.panel.baseMult, 1754.08, "Zani Sequence 3 Final Advent should add the current Blaze-scaled multiplier");
+
+  resetTeam(["cartethyia"]);
+  slot = __T.state.slots[0];
+  __T.state.effectCalc = { key: "windErosion", providerIdx: 0, stacks: 0, stackMode: "action", deepen: 0 };
+  slot.toggles[__T.stateChoiceKey("form_1")] = "form_1_option_2";
+  slot.seq = 3;
+  slot.skill = "fl_na5";
+  expectEqual(__T.compute().effect.actionStacks, 2, "Cartethyia Sequence 3 Fleurdelys Basic Attack Stage 5 should apply 2 Aero Erosion stacks");
+  expectEqual(__T.buffStackCount(slot, buff(slot, "k1_cd"), 0), 4, "Cartethyia Sequence 1 Conviction Crit. DMG should follow 120 Resolve");
+  slot.resources.resolve = 60;
+  expectEqual(__T.buffStackCount(slot, buff(slot, "k1_cd"), 0), 2, "Cartethyia Sequence 1 Conviction Crit. DMG should update every 30 Resolve");
+  slot.resources.resolve = 120;
+  slot.seq = 6;
+  slot.skill = "lib_tideblade";
+  expectEqual(__T.compute().effect.actionStacks, 6, "Cartethyia Sequence 6 Tideblade should fill Aero Erosion to the current cap");
+  slot.seq = 4;
+  slot.skill = "fl_na5";
+  assert(__T.buffStatus(slot, 0, buff(slot, "k4_all")).applies, "Cartethyia Sequence 4 all-Attribute bonus should auto-trigger when the current skill applies an abnormal effect");
+
+  resetTeam(["galbrena"]);
+  slot = __T.state.slots[0];
+  controls = __T.resourceControlsForSlot(slot);
+  assert(controls.some((ctrl) => ctrl.id === "afterflame" && ctrl.max === 40), "Galbrena should expose 40 Afterflame");
+  slot.toggles[__T.stateChoiceKey("state_1")] = "state_1_option_1";
+  slot.skill = "seraphic_1";
+  expectEqual(__T.compute().rawTotals.vulnerability, 60, "Galbrena full Afterflame should amplify Hypostasis attacks by 60%");
+  slot.resources.afterflame = 20;
+  expectEqual(__T.compute().rawTotals.vulnerability, 30, "Galbrena Afterflame amplification should follow the resource value");
+
+  resetTeam(["augusta"]);
+  slot = __T.state.slots[0];
+  assert(!__T.availableSkills(slot).some((item) => item.id === "lib_immortal"), "Augusta Undying Sun should stay hidden outside Wealward of Freyja");
+  slot.toggles[__T.stateChoiceKey("phase_1")] = "phase_1_option_1";
+  assert(__T.availableSkills(slot).some((item) => item.id === "lib_immortal"), "Augusta Undying Sun should become available in Wealward of Freyja");
+
+  resetTeam(["buling"]);
+  slot = __T.state.slots[0];
+  controls = __T.resourceControlsForSlot(slot);
+  assert(controls.some((ctrl) => ctrl.id === "trigramMountain") && controls.some((ctrl) => ctrl.id === "trigramThunder"), "Buling should expose Mountain and Thunder Trigrams");
+  slot.resources.trigramMountain = 1;
+  slot.resources.trigramThunder = 1;
+  slot.skill = "heavy_yi";
+  assert(!__T.compute().resourceBlocked, "Buling Mountain Over Thunder should require one Trigram of each type");
+  __T.state.effectCalc = { key: "electro", providerIdx: 0, stacks: 0, stackMode: "action", deepen: 0 };
+  slot.skill = "intro";
+  expectEqual(__T.compute().effect.actionStacks, 4, "Buling Intro should apply 4 Electro Flare stacks");
+  slot.toggles[__T.stateChoiceKey("field_1")] = "field_1_option_1";
+  slot.skill = "field_tick";
+  expectEqual(__T.compute().effect.actionStacks, 2, "Buling Five Thunders Spell Array should apply 2 Electro Flare stacks per tick");
+
+  resetTeam(["chisa"]);
+  slot = __T.state.slots[0];
+  controls = __T.resourceControlsForSlot(slot);
+  assert(controls.some((ctrl) => ctrl.id === "lifethreadJetstream" && ctrl.max === 100), "Chisa should expose 100 Lifethread - Jetstream");
+  __T.state.effectCalc = { key: "havocBane", providerIdx: 0, stacks: 0, stackMode: "action", deepen: 0 };
+  slot.toggles[__T.stateChoiceKey("target_1")] = "target_1_option_1";
+  slot.skill = "na1";
+  expectEqual(__T.compute().effect.actionStacks, 1, "Chisa direct damage to an Unseen Snare target should apply 1 Havoc Bane stack");
+}
+
+function v1FullAuditRegressions() {
+  const resourceCases = [
+    ["baizhi", "concentration", 4],
+    ["chixia", "thermobaricBullets", 70],
+    ["chixia", "dakaDakaShots", 30],
+    ["jiyan", "resolve", 60],
+    ["rover_spectro", "diminutiveSound", 100],
+    ["taoqi", "resolvingCaliber", 3],
+    ["zhezhi", "afflatus", 90],
+    ["zhezhi", "painterDelight", 2],
+    ["camellya", "crimsonPistil", 100],
+  ];
+  resourceCases.forEach(([charId, resourceId, max]) => {
+    resetTeam([charId]);
+    const control = __T.resourceControlsForSlot(__T.state.slots[0]).find((item) => item.id === resourceId);
+    assert(control?.max === max, `${charId} should expose ${resourceId} with cap ${max}`);
+  });
+
+  resetTeam(["baizhi"]);
+  let slot = __T.state.slots[0];
+  slot.seq = 2;
+  slot.resources.concentration = 3;
+  assert(__T.buffStatus(slot, 0, buff(slot, "k2_glacio")).gated?.includes("念意达到4"), "Baizhi Sequence 2 should require all 4 Concentration");
+
+  const formalResourceIds = {
+    encore: "mayhem",
+    mortefi: "annoyance",
+    rover_spectro: "diminutiveSound",
+    verina: "photosynthesisEnergy",
+    yinlin: "judgmentPoints",
+    xiangliyao: "capacity",
+  };
+  Object.entries(formalResourceIds).forEach(([charId, resourceId]) => {
+    assert((window.WUWA.chars[charId].resources || []).some((item) => item.id === resourceId), `${charId} should use official resource id ${resourceId}`);
+  });
+
+  assert(skill(window.WUWA.chars.baizhi, "skill").triggerEvents.includes("heal"), "Baizhi Emergency Plan should emit heal");
+  assert(skill(window.WUWA.chars.verina, "lib_coordinated").triggerEvents.includes("heal"), "Verina coordinated attack should emit heal");
+  assert(skill(window.WUWA.chars.danjin, "heavy_2").triggerEvents.includes("heal"), "Danjin Chaoscleave should emit heal");
+  assert(!skill(window.WUWA.chars.danjin, "heavy_3").triggerEvents?.includes("heal"), "Danjin Scatterbloom should not emit heal");
+  assert(skill(window.WUWA.chars.jianxin, "forte_channel").triggerEvents.includes("shield"), "Jianxin Zhoutian channel should emit shield");
+  assert(skill(window.WUWA.chars.taoqi, "forte_timed_counters_3").triggerEvents.includes("shield"), "Taoqi Timed Counters should emit shield");
+
+  resetTeam(["danjin"]);
+  slot = __T.state.slots[0];
+  assert(!__T.buffStatus(slot, 0, buff(slot, "b1")).applies, "Danjin Incinerating Will amplification should require the target mark");
+  slot.toggles[__T.stateChoiceKey("target_1")] = "target_1_option_1";
+  assert(__T.buffStatus(slot, 0, buff(slot, "b1")).applies, "Danjin Incinerating Will amplification should apply to a marked target");
+
+  resetTeam(["yinlin"]);
+  slot = __T.state.slots[0];
+  slot.skill = "skill_lightning_execution";
+  assert(__T.buffStatus(slot, 0, buff(slot, "b1")).applies, "Yinlin Magnetic State Crit. Rate should follow Lightning Execution's implied state");
+
+  const formCases = [
+    ["calcharo", "state_1", "state_1_option_1", "lib_hounds_1"],
+    ["encore", "state_1", "state_1_option_1", "lib_cosmos_frolicking_1"],
+    ["jiyan", "state_1", "state_1_option_1", "lib_lance1"],
+    ["lingyang", "status_1", "status_1_option_1", "forte_feral_gyrate_1"],
+    ["rover_havoc", "state_1", "state_1_option_1", "umbra_na1"],
+    ["yuanwu", "state_1", "state_1_option_1", "na1_2"],
+    ["xiangliyao", "buff_1", "buff_1_option_1", "lib_pivot_1"],
+    ["camellya", "state_1", "state_1_option_1", "skill_vining_waltz_1"],
+  ];
+  formCases.forEach(([charId, stateId, stateValue, skillId]) => {
+    resetTeam([charId]);
+    const slot = __T.state.slots[0];
+    assert(!__T.availableSkills(slot).some((item) => item.id === skillId), `${charId}.${skillId} should stay hidden outside its form`);
+    slot.toggles[__T.stateChoiceKey(stateId)] = stateValue;
+    assert(__T.availableSkills(slot).some((item) => item.id === skillId), `${charId}.${skillId} should appear inside its form`);
+  });
+
+  resetTeam(["jinhsi"]);
+  slot = __T.state.slots[0];
+  assert(!__T.availableSkills(slot).some((item) => item.id === "loong_na1"), "Jinhsi Incarnation attacks should stay hidden in normal phase");
+  assert(!__T.availableSkills(slot).some((item) => item.id === "skill_overflowing_radiance"), "Jinhsi Overflowing Radiance should require its 5-second window");
+  slot.toggles[__T.stateChoiceKey("mechanic_1")] = "mechanic_1_option_1";
+  assert(__T.availableSkills(slot).some((item) => item.id === "skill_overflowing_radiance"), "Jinhsi Overflowing Radiance should appear in its trigger window");
+  slot.toggles[__T.stateChoiceKey("form_1")] = "form_1_option_1";
+  assert(__T.availableSkills(slot).some((item) => item.id === "loong_na1"), "Jinhsi Incarnation attacks should appear in Incarnation");
+  slot.toggles[__T.stateChoiceKey("form_1")] = "form_1_option_2";
+  assert(__T.availableSkills(slot).some((item) => item.id === "forte_illuminous_epiphany_stella"), "Jinhsi Illuminous Epiphany should appear in Ordination Glow");
+
+  resetTeam(["zhezhi"]);
+  slot = __T.state.slots[0];
+  assert(!__T.availableSkills(slot).some((item) => item.id === "forte_stroke_genius"), "Zhezhi Stroke of Genius should require a nearby Phantasmic Imprint");
+  slot.toggles[__T.stateChoiceKey("mechanic_1")] = "mechanic_1_option_1";
+  assert(__T.availableSkills(slot).some((item) => item.id === "forte_stroke_genius"), "Zhezhi Stroke of Genius should appear near a Phantasmic Imprint");
+  slot.skill = "forte_creations_zenith";
+  slot.resources.painterDelight = 1;
+  assert(__T.compute().resourceBlocked, "Zhezhi Creation's Zenith should require 2 Painter's Delight stacks");
+  slot.resources.painterDelight = 2;
+  assert(!__T.compute().resourceBlocked, "Zhezhi Creation's Zenith should unlock at 2 Painter's Delight stacks");
+
+  expectEqual(skill(window.WUWA.chars.zhezhi, "k6_white_crane").formula, "119.29% × 3", "Zhezhi Sequence 6 White Crane should use the official formula");
+  expectEqual(skill(window.WUWA.chars.camellya, "forte_ephemeral_2").formula, "1262.45%", "Camellya Perennial should expose Ephemeral's numeric multiplier");
+  expectEqual(window.WUWA_LANGUAGES.localeData("en-US", "chars", "shorekeeper").resources[0].label, "Empirical Data", "Shorekeeper resource should use the official English name");
+}
+
+function perStackLocalizationValuesMatch() {
+  const patterns = {
+    "zh-CN": /每(?:1)?层[^%]{0,50}?([\d.]+)%/,
+    "en-US": /\+([\d.]+)% per stack/i,
+    "ja-JP": /1スタックにつき\+([\d.]+)%/,
+    ko: /스택당 \+([\d.]+)%/,
+  };
+  const bad = [];
+  Object.entries(patterns).forEach(([locale, pattern]) => {
+    Object.values(window.WUWA.chars).forEach((c) => {
+      const pack = window.WUWA_LANGUAGES.localeData(locale, "chars", c.id) || {};
+      const groups = [[c.buffs || [], pack.buffs || [], "base"]];
+      (c.chain || []).forEach((node, index) => groups.push([node.buffs || [], pack.chain?.[index]?.buffs || [], `C${node.seq}`]));
+      groups.forEach(([buffs, texts, group]) => buffs.forEach((item, index) => {
+        if (!item.maxStacks || item.value == null) return;
+        const text = [texts[index]?.excerpt, texts[index]?.desc].filter(Boolean).join(" ");
+        const match = text.match(pattern);
+        if (!match) return;
+        const shown = Number(match[1]);
+        const expected = item.value / item.maxStacks;
+        if (Math.abs(shown - expected) > 0.001) bad.push(`${locale} ${c.id}.${group}.${item.id}: ${shown} != ${expected}`);
+      }));
+    });
+  });
+  assert(!bad.length, `localized per-stack values should use per-stack amounts, not full-stack totals:\n${bad.join("\n")}`);
+}
+
 function iconAssetsUseSonataSets() {
   const assets = window.WUWA_ICON_ASSETS || {};
   assert(assets.sonatas && !assets.echoes, "icon assets should use sonata set icons, not lead echo icons");
@@ -3645,6 +4124,11 @@ const checks = [
   ["new character weapon regressions", newCharacterWeaponRegressions],
   ["modern echo default regressions", modernEchoDefaultRegressions],
   ["P1 weapon effect regressions", p1WeaponEffectRegressions],
+  ["six-character audit regressions", sixCharacterAuditRegressions],
+  ["v3 full audit regressions", v3FullAuditRegressions],
+  ["v2 full audit regressions", v2FullAuditRegressions],
+  ["v1 full audit regressions", v1FullAuditRegressions],
+  ["per-stack localization values", perStackLocalizationValuesMatch],
   ["icon assets use sonata sets", iconAssetsUseSonataSets],
 ];
 

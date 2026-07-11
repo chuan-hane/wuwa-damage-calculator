@@ -24,7 +24,7 @@ WUWA.register({
   },
   "resources": [
     {
-      "id": "anger",
+      "id": "annoyance",
       "max": 100,
       "defaultValue": "max"
     }
@@ -167,7 +167,7 @@ WUWA.register({
       "formula": "326.05%",
       "requiresResource": "resource_gate_1",
       "requiresResourceAtLeast": {
-        "id": "anger",
+        "id": "annoyance",
         "value": 100
       },
       "fallbackSkillId": "skill"

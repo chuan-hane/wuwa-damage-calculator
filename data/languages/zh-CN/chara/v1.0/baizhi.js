@@ -5,6 +5,7 @@ window.WUWA_LANGUAGES.extend("zh-CN", {
     "chars": {
       "baizhi": {
         "name": "白芷",
+        "resources": [{ "label": "念意" }],
         "skills": [
           {
             "name": "第一段"

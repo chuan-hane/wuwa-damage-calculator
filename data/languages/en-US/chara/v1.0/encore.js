@@ -113,7 +113,7 @@ window.WUWA_LANGUAGES.extend("en-US", {
               {
                 "label": "Fusion DMG Bonus",
                 "trigger": "In Cosmos Rave",
-                "excerpt": "Fusion DMG Bonus +12% per stack"
+                "excerpt": "Fusion DMG Bonus +3% per stack"
               }
             ]
           },
@@ -161,7 +161,7 @@ window.WUWA_LANGUAGES.extend("en-US", {
               {
                 "label": "ATK",
                 "trigger": "In Cosmos Rave",
-                "excerpt": "ATK +25% per stack"
+                "excerpt": "ATK +5% per stack"
               }
             ]
           }

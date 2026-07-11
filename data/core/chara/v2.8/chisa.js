@@ -16,6 +16,12 @@ WUWA.register({
       "min": 0,
       "max": 100,
       "defaultValue": "max"
+    },
+    {
+      "id": "lifethreadJetstream",
+      "min": 0,
+      "max": 100,
+      "defaultValue": "max"
     }
   ],
   "base": {
@@ -47,91 +53,136 @@ WUWA.register({
       "category": "basicAttack",
       "damageType": "basic",
       "multiplier": 33.42,
-      "formula": "16.71% × 2"
+      "formula": "16.71% × 2",
+      "impliedStates": [
+        "mode_1_option_0"
+      ]
     },
     {
       "id": "na2",
       "category": "basicAttack",
       "damageType": "basic",
       "multiplier": 95.45,
-      "formula": "9.55% + 19.09% + 66.81%"
+      "formula": "9.55% + 19.09% + 66.81%",
+      "impliedStates": [
+        "mode_1_option_0"
+      ]
     },
     {
       "id": "chain_clamp",
       "category": "basicAttack",
       "damageType": "resonanceLiberation",
       "multiplier": 149.06,
-      "formula": "29.81% + 14.91% + 104.34%"
+      "formula": "29.81% + 14.91% + 104.34%",
+      "impliedStates": [
+        "mode_1_option_0"
+      ],
+      "triggerEvents": [
+        "heal"
+      ]
     },
     {
       "id": "chain_clamp_extra",
       "category": "basicAttack",
       "damageType": "resonanceLiberation",
       "multiplier": 47.78,
-      "formula": "47.78%"
+      "formula": "47.78%",
+      "impliedStates": [
+        "mode_1_option_0"
+      ],
+      "triggerEvents": [
+        "heal"
+      ]
     },
     {
       "id": "withdraw",
       "category": "basicAttack",
       "damageType": "basic",
       "multiplier": 67.65,
-      "formula": "10.15% × 2 + 47.35%"
+      "formula": "10.15% × 2 + 47.35%",
+      "impliedStates": [
+        "mode_1_option_0"
+      ]
     },
     {
       "id": "pierce",
       "category": "basicAttack",
       "damageType": "basic",
       "multiplier": 151.1,
-      "formula": "15.11% × 4 + 90.66%"
+      "formula": "15.11% × 4 + 90.66%",
+      "impliedStates": [
+        "mode_1_option_0"
+      ]
     },
     {
       "id": "heavy",
       "category": "basicAttack",
       "damageType": "heavy",
       "multiplier": 71.58,
-      "formula": "35.79% × 2"
+      "formula": "35.79% × 2",
+      "impliedStates": [
+        "mode_1_option_0"
+      ]
     },
     {
       "id": "air",
       "category": "basicAttack",
       "damageType": "basic",
       "multiplier": 73.96,
-      "formula": "73.96%"
+      "formula": "73.96%",
+      "impliedStates": [
+        "mode_1_option_0"
+      ]
     },
     {
       "id": "crack_slice",
       "category": "basicAttack",
       "damageType": "heavy",
       "multiplier": 89.48,
-      "formula": "44.74% × 2"
+      "formula": "44.74% × 2",
+      "impliedStates": [
+        "mode_1_option_0"
+      ]
     },
     {
       "id": "falling_end",
       "category": "basicAttack",
       "damageType": "basic",
       "multiplier": 119.3,
-      "formula": "11.93% + 23.86% × 2 + 59.65%"
+      "formula": "11.93% + 23.86% × 2 + 59.65%",
+      "impliedStates": [
+        "mode_1_option_0"
+      ]
     },
     {
       "id": "dodge_counter",
       "category": "basicAttack",
       "damageType": "basic",
       "multiplier": 238.59,
-      "formula": "23.86% + 47.72% + 167.01%"
+      "formula": "23.86% + 47.72% + 167.01%",
+      "impliedStates": [
+        "mode_1_option_0"
+      ]
     },
     {
       "id": "eye_close",
       "category": "basicAttack",
       "damageType": "basic",
       "multiplier": 178.93,
-      "formula": "178.93%"
+      "formula": "178.93%",
+      "impliedStates": [
+        "mode_1_option_0"
+      ]
     },
     {
       "id": "skill_eye",
       "category": "resonanceSkill",
       "damageType": "resonanceSkill",
       "multiplier": 35.79,
-      "formula": "35.79%"
+      "formula": "35.79%",
+      "impliedStates": [
+        "mode_1_option_0"
+      ]
     },
     {
       "id": "skill_cycle",
@@ -139,6 +190,9 @@ WUWA.register({
       "damageType": "resonanceSkill",
       "multiplier": 139.6,
       "formula": "17.45% × 8",
+      "impliedStates": [
+        "mode_1_option_0"
+      ],
       "requiresResource": "resource_gate_1",
       "requiresResourceFull": "resource_1",
       "fallbackSkillId": "skill_eye"
@@ -149,6 +203,9 @@ WUWA.register({
       "damageType": "resonanceSkill",
       "multiplier": 119.36,
       "formula": "7.46% × 16",
+      "impliedStates": [
+        "mode_1_option_0"
+      ],
       "requiresResource": "resource_gate_1",
       "requiresResourceFull": "resource_1",
       "fallbackSkillId": "skill_eye"
@@ -160,7 +217,8 @@ WUWA.register({
       "multiplier": 954.29,
       "formula": "954.29%",
       "triggerEvents": [
-        "castResonanceLiberation"
+        "castResonanceLiberation",
+        "heal"
       ]
     },
     {
@@ -278,15 +336,44 @@ WUWA.register({
       "triggerEvents": [
         "shield"
       ]
+    },
+    {
+      "id": "c1_fixed_havoc",
+      "seq": 1,
+      "category": "resonanceChain",
+      "damageType": "basic",
+      "element": "havoc",
+      "multiplier": 0,
+      "formula": "61803",
+      "fixedDamage": 61803,
+      "fixedDamageHpFloorPct": 61.8,
+      "requiresState": [
+        "target_1_option_1",
+        "target_1_option_2"
+      ],
+      "requiresResource": "c1_fixed_damage_available",
+      "defaultResourceActive": false,
+      "triggeredDamage": true
     }
   ],
   "defaultSkillId": "sawring_end",
+  "skillEvents": [
+    {
+      "event": "applyHavocBane",
+      "stacks": 1,
+      "requiresState": "target_1_option_1"
+    }
+  ],
   "combatStates": [
     {
       "id": "mode_1",
       "kind": "mode",
       "required": true,
+      "defaultValue": "mode_1_option_0",
       "options": [
+        {
+          "value": "mode_1_option_0"
+        },
         {
           "value": "mode_1_option_1"
         }

@@ -73,6 +73,15 @@ window.WUWA_LANGUAGES.extend("en-US", {
           {
             "name": "Spark from the Frost - Gavel of Earthshaker DMG",
             "requiresResourceLabel": "resource_gate_2"
+          },
+          {
+            "name": "Spark from the Frost - Ichor Blade DMG (per 0.15s)",
+            "requiresResourceLabel": "Ichor Blade active"
+          }
+        ],
+        "resources": [
+          {
+            "label": "Ichor Flow"
           }
         ],
         "combatStates": [
@@ -108,15 +117,15 @@ window.WUWA_LANGUAGES.extend("en-US", {
             "source": "Resonance Skill: Endnotes on the Endgame",
             "label": "Rewritten in Winter's Margins - Skill DMG Multiplier Increase",
             "trigger": "After casting Rewritten in Winter's Margins - Skill DMG",
-            "excerpt": "Rewritten in Winter's Margins - Skill DMG Multiplier Increase +75% per stack",
+            "excerpt": "Rewritten in Winter's Margins - Skill DMG Multiplier Increase +25% per stack",
             "desc": "Casting any form of Aureole of Execution grants 1 stacks of Endnotes on the Endgame and switches Aureole of Execution to the next form in sequence."
           },
           {
             "source": "Tune Break: Silent Debate of Light",
             "label": "Final DMG Bonus",
             "trigger": "In Target Tune Strain · Interfered",
-            "excerpt": "Final DMG Bonus +0% per stack",
-            "desc": "Final DMG Bonus +0% per stack"
+            "excerpt": "Each Tune Strain - Interfered stack converts Tune Break Boost into Final DMG Bonus",
+            "desc": "Each Tune Strain - Interfered stack converts Tune Break Boost into Final DMG Bonus."
           },
           {
             "source": "Inherent Skill: Uncaused Diagnosis",
@@ -230,7 +239,7 @@ window.WUWA_LANGUAGES.extend("en-US", {
               {
                 "label": "DMG Bonus",
                 "trigger": "After casting Rewritten in Winter's Margins - Skill DMG",
-                "excerpt": "DMG Bonus +120% per stack"
+                "excerpt": "DMG Bonus +40% per stack"
               }
             ]
           }

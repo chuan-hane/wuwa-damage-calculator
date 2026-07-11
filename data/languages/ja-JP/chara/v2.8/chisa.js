@@ -88,11 +88,18 @@ window.WUWA_LANGUAGES.extend("ja-JP", {
           },
           {
             "name": "解弦の視界・解体される万物 - 切り裂き・終結ダメージ"
+          },
+          {
+            "name": "荒れ果てた回廊を行く・固定消滅ダメージ",
+            "requiresResourceLabel": "同じ目標への固定ダメージが未発動"
           }
         ],
         "resources": [
           {
             "label": "切り裂きの残響"
+          },
+          {
+            "label": "命の弦・本流"
           }
         ],
         "combatStates": [
@@ -103,6 +110,10 @@ window.WUWA_LANGUAGES.extend("ja-JP", {
             "entry": "チェンソーモード中は、このスキルを発動できない。",
             "effects": "チェンソーモード中は、このスキルを発動できない。",
             "options": [
+              {
+                "label": "チェンソーモード以外",
+                "valueLabel": "チェンソーモード以外"
+              },
               {
                 "label": "チェンソーモード",
                 "valueLabel": "チェンソーモード"

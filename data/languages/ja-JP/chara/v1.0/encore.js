@@ -113,7 +113,7 @@ window.WUWA_LANGUAGES.extend("ja-JP", {
               {
                 "label": "焦熱ダメージアップ",
                 "trigger": "黒メェ大暴走状態",
-                "excerpt": "焦熱ダメージアップ 1スタックにつき+12%"
+                "excerpt": "焦熱ダメージアップ 1スタックにつき+3%"
               }
             ]
           },
@@ -161,7 +161,7 @@ window.WUWA_LANGUAGES.extend("ja-JP", {
               {
                 "label": "攻撃力",
                 "trigger": "黒メェ大暴走状態",
-                "excerpt": "攻撃力 1スタックにつき+25%"
+                "excerpt": "攻撃力 1スタックにつき+5%"
               }
             ]
           }

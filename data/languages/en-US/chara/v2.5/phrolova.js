@@ -150,15 +150,15 @@ window.WUWA_LANGUAGES.extend("en-US", {
             "source": "Inherent Skill: Octet",
             "label": "Crit. DMG",
             "trigger": "In Composition Active",
-            "excerpt": "Crit. DMG +60% per stack",
-            "desc": "Crit. DMG +60% per stack"
+            "excerpt": "Crit. DMG +2.5% per stack",
+            "desc": "Crit. DMG +2.5% per stack"
           },
           {
             "source": "Inherent Skill: Octet",
             "label": "Crit. DMG",
             "trigger": "In Composition Active",
-            "excerpt": "Crit. DMG +100% per stack",
-            "desc": "Crit. DMG +100% per stack"
+            "excerpt": "Crit. DMG +1% per stack",
+            "desc": "Crit. DMG +1% per stack"
           },
           {
             "source": "Resonance Liberation: Waltz of Forsaken Depths",

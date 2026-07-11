@@ -5,6 +5,7 @@ window.WUWA_LANGUAGES.extend("zh-CN", {
     "chars": {
       "taoqi": {
         "name": "桃祈",
+        "resources": [{ "label": "刚柔化势" }],
         "skills": [
           {
             "name": "第一段"

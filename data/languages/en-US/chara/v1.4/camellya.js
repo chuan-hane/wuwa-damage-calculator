@@ -5,6 +5,7 @@ window.WUWA_LANGUAGES.extend("en-US", {
     "chars": {
       "camellya": {
         "name": "Camellya",
+        "resources": [{ "label": "Crimson Pistil" }],
         "skills": [
           {
             "name": "Burgeoning - Basic Attack 1 DMG"
@@ -137,7 +138,7 @@ window.WUWA_LANGUAGES.extend("en-US", {
             "source": "Forte Circuit: Crimson Buds",
             "label": "Burgeoning - Basic Attack 1 DMG Multiplier Increase",
             "trigger": "After casting Burgeoning - Basic Attack 1 DMG / Burgeoning - Basic Attack 2 DMG / Burgeoning - Basic Attack 3 DMG / Burgeoning - Basic Attack 4 DMG / Burgeoning - Basic Attack 5 DMG / Burgeoning - Heavy Attack DMG / Burgeoning - Mid-air Attack DMG / Burgeoning - Dodge Counter DMG / Valse of Bloom and Blight - Crimson Blossom DMG / Valse of Bloom and Blight - Vining Waltz 1 DMG / Valse of Bloom and Blight - Vining Waltz 2 DMG / Valse of Bloom and Blight - Vining Waltz 3 DMG / Valse of Bloom and Blight - Vining Waltz 4 DMG / Valse of Bloom and Blight - Floral Ravage DMG / Valse of Bloom and Blight - Vining Ronde DMG / Valse of Bloom and Blight - Atonement DMG / Valse of Bloom and Blight - Blazing Waltz DMG",
-            "excerpt": "Burgeoning - Basic Attack 1 DMG Multiplier Increase +50% per stack",
+            "excerpt": "Burgeoning - Basic Attack 1 DMG Multiplier Increase +5% per stack",
             "desc": "- Casting Ephemeral consumes all Crimson Buds."
           }
         ],

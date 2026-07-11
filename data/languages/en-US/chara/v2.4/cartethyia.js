@@ -224,7 +224,7 @@ window.WUWA_LANGUAGES.extend("en-US", {
               {
                 "label": "Crit. DMG",
                 "trigger": "In Fleurdelys",
-                "excerpt": "Crit. DMG +100% per stack"
+                "excerpt": "Crit. DMG +25% per stack"
               }
             ]
           },

@@ -820,7 +820,9 @@ WUWA.register({
           "value": 200,
           "scope": "self",
           "requiresState": "mode_1_option_1",
-          "defaultActive": false
+          "skills": [
+            "erosion_field"
+          ]
         },
         {
           "id": "k6_tune_extra_stack",

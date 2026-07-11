@@ -72,6 +72,25 @@ window.WUWA_LANGUAGES.extend("zh-CN", {
             "name": "惊龙破空"
           }
         ],
+        "combatStates": [
+          {
+            "label": "当前阶段",
+            "idLabel": "当前阶段",
+            "entry": "乘岁凌霄与游龙廻光会替换今汐的可用攻击。",
+            "options": [
+              { "label": "常态", "valueLabel": "常态" },
+              { "label": "乘岁凌霄", "valueLabel": "乘岁凌霄" },
+              { "label": "游龙廻光", "valueLabel": "游龙廻光" }
+            ]
+          },
+          {
+            "label": "流光夕影",
+            "idLabel": "流光夕影",
+            "inactiveLabel": "流光夕影不可用",
+            "entry": "普攻第4段后，或未处于乘岁凌霄时施放变奏技能后，流光夕影可用5秒。",
+            "options": [{ "label": "流光夕影可用", "valueLabel": "流光夕影可用" }]
+          }
+        ],
         "buffs": [
           {
             "source": "固有·沐光",

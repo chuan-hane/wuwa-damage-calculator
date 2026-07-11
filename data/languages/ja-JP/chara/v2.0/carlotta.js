@@ -62,6 +62,9 @@ window.WUWA_LANGUAGES.extend("ja-JP", {
         ],
         "resources": [
           {
+            "label": "可塑性結晶"
+          },
+          {
             "label": "サブスタンス"
           }
         ],

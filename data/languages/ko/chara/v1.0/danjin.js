@@ -73,6 +73,15 @@ window.WUWA_LANGUAGES.extend("ko", {
             "label": "단화"
           }
         ],
+        "combatStates": [
+          {
+            "label": "목표의 주식의 각인",
+            "idLabel": "주식의 각인",
+            "inactiveLabel": "목표에게 주식의 각인 없음",
+            "entry": "2단 주식이 목표에 명중하면 부여된다.",
+            "options": [{ "label": "목표에게 주식의 각인 있음", "valueLabel": "주식의 각인" }]
+          }
+        ],
         "buffs": [
           {
             "source": "공명 스킬 · 주식의 각인",
@@ -111,7 +120,7 @@ window.WUWA_LANGUAGES.extend("ko", {
               {
                 "label": "공격력",
                 "trigger": "기본",
-                "excerpt": "공격력 스택당 +30%"
+                "excerpt": "공격력 스택당 +5%"
               }
             ]
           },

@@ -130,8 +130,8 @@ window.WUWA_LANGUAGES.extend("ko", {
             "source": "공명 회로 · 보름달 영역 / 고유 스킬 · 새로운 탄생",
             "label": "피해 증가",
             "trigger": "보름달 영역 상태",
-            "excerpt": "피해 증가 스택당 +40%",
-            "desc": "피해 증가 스택당 +40%"
+            "excerpt": "피해 증가 스택당 +4%",
+            "desc": "피해 증가 스택당 +4%"
           }
         ],
         "chain": [

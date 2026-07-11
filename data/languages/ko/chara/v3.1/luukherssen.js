@@ -73,6 +73,15 @@ window.WUWA_LANGUAGES.extend("ko", {
           {
             "name": "서리 속에서 태어난 불빛 - 대지를 가르는 판결 피해",
             "requiresResourceLabel": "resource_gate_2"
+          },
+          {
+            "name": "서리 속에서 태어난 불빛 - 부서진 이코르의 칼날 피해 (0.15초당)",
+            "requiresResourceLabel": "이코르 블레이드 활성화"
+          }
+        ],
+        "resources": [
+          {
+            "label": "이코르 흐름"
           }
         ],
         "combatStates": [
@@ -108,15 +117,15 @@ window.WUWA_LANGUAGES.extend("ko", {
             "source": "공명 스킬 · 최후의 해석",
             "label": "얼음 속의 의미 - 스킬 피해 배율 상승",
             "trigger": "얼음 속의 의미 - 스킬 피해 발동 후",
-            "excerpt": "얼음 속의 의미 - 스킬 피해 배율 상승 스택당 +75%",
+            "excerpt": "얼음 속의 의미 - 스킬 피해 배율 상승 스택당 +25%",
             "desc": "임의의 형태의 햇무리 참살 발동 시, 1스택의 「최후의 해석」을 획득하고, 다음번 발동하는 햇무리 참살은 다음 형태로 변한다."
           },
           {
             "source": "조화도 파괴 · 빛에 대한 무언의 논쟁",
             "label": "최종 피해 보너스",
             "trigger": "목표 조화 밀집 · 간섭 상태",
-            "excerpt": "최종 피해 보너스 스택당 +0%",
-            "desc": "최종 피해 보너스 스택당 +0%"
+            "excerpt": "조화 밀집 · 간섭 스택마다 조화 파괴 부스트를 최종 피해 보너스로 전환",
+            "desc": "조화 밀집 · 간섭 스택마다 조화 파괴 부스트를 최종 피해 보너스로 전환한다."
           },
           {
             "source": "고유 스킬 · 이유 없이 찾아온 치유의 계시",
@@ -230,7 +239,7 @@ window.WUWA_LANGUAGES.extend("ko", {
               {
                 "label": "피해 보너스",
                 "trigger": "얼음 속의 의미 - 스킬 피해 발동 후",
-                "excerpt": "피해 보너스 스택당 +120%"
+                "excerpt": "피해 보너스 스택당 +40%"
               }
             ]
           }

@@ -65,6 +65,7 @@ window.WUWA_SETTLEMENT = (() => {
     function skillMatchesSelectedCombatStates(slot, sk) {
       if (!manualStateRequirementReady(slot, sk?.requiresState)) return false;
       if (!manualAllStateRequirementsReady(slot, sk?.requiresAllStates)) return false;
+      if (asList(sk?.excludesState).some((stateName) => manuallySelectedStateReady(slot, stateName))) return false;
       return asList(sk?.impliedStates).every((stateName) => {
         const def = combatStateDefFor(slot, stateName);
         if (!def) return true;
@@ -144,7 +145,11 @@ window.WUWA_SETTLEMENT = (() => {
     function manualResourceReady(slot, item) {
       const id = typeof item === "string" ? item : item?.requiresResource || item?.id;
       const labels = typeof item === "string" ? [] : [item?.requiresResourceLabel, item?.resourceLabel, item?.label];
-      return [id, ...labels].filter(Boolean).every((key) => slot.toggles[resourceKey(key)] !== false);
+      const explicit = [id, ...labels].filter(Boolean)
+        .map((key) => slot.toggles[resourceKey(key)])
+        .find((value) => typeof value === "boolean");
+      if (explicit != null) return explicit;
+      return typeof item === "object" ? item.defaultResourceActive !== false : true;
     }
 
     function characterResourceDefs(slot) {
@@ -159,6 +164,9 @@ window.WUWA_SETTLEMENT = (() => {
       let cap = num(resource.max ?? resource.cap ?? 0);
       asList(resource.maxBySeq || resource.capBySeq).forEach((rule) => {
         if (num(slot.seq) >= num(rule.seq)) cap = num(rule.max ?? rule.cap);
+      });
+      asList(resource.maxByState || resource.capByState).forEach((rule) => {
+        if (stateRequirementReady(slot, rule.state || rule.requiresState)) cap = num(rule.max ?? rule.cap);
       });
       return cap;
     }
@@ -184,9 +192,18 @@ window.WUWA_SETTLEMENT = (() => {
       return Math.min(Math.max(value, min), cap);
     }
 
-    function characterResourceGroupMax(resource) {
+    function characterResourceGroupMax(slot, resource) {
       if (!resource?.group) return null;
-      return num(resource.groupMax ?? resource.sharedMax ?? resource.max);
+      let max = num(resource.groupMax ?? resource.sharedMax ?? resource.max);
+      asList(resource.groupMaxByResource).forEach((rule) => {
+        const source = characterResourceDef(slot, rule.id || rule.resource);
+        if (!source) return;
+        const value = characterResourceRawValue(slot, source);
+        if (rule.min != null && value < num(rule.min)) return;
+        if (rule.maxExclusive != null && value >= num(rule.maxExclusive)) return;
+        max = num(rule.groupMax ?? rule.max ?? rule.value, max);
+      });
+      return max;
     }
 
     function normalizedCharacterResourceValues(slot) {
@@ -198,7 +215,7 @@ window.WUWA_SETTLEMENT = (() => {
           values[resource.id] = raw;
           return;
         }
-        if (remaining[resource.group] == null) remaining[resource.group] = characterResourceGroupMax(resource);
+        if (remaining[resource.group] == null) remaining[resource.group] = characterResourceGroupMax(slot, resource);
         const value = Math.min(raw, Math.max(0, remaining[resource.group]));
         values[resource.id] = value;
         remaining[resource.group] -= value;
@@ -218,7 +235,7 @@ window.WUWA_SETTLEMENT = (() => {
       const groupUsedByOthers = characterResourceDefs(slot)
         .filter((other) => other.group === resource.group && other.id !== resource.id)
         .reduce((total, other) => total + num(values[other.id]), 0);
-      return Math.min(cap, Math.max(characterResourceMin(resource), characterResourceGroupMax(resource) - groupUsedByOthers));
+      return Math.min(cap, Math.max(characterResourceMin(resource), characterResourceGroupMax(slot, resource) - groupUsedByOthers));
     }
 
     function resourceRequirementValue(slot, resource, req) {
@@ -239,13 +256,26 @@ window.WUWA_SETTLEMENT = (() => {
       return characterResourceValue(slot, resource.id) >= resourceRequirementValue(slot, resource, req);
     }
 
+    function resourceBelowRequirementReady(slot, req) {
+      const resource = characterResourceDef(slot, req?.id || req?.label);
+      if (!resource) return false;
+      return characterResourceValue(slot, resource.id) < resourceRequirementValue(slot, resource, req);
+    }
+
     function buffResourceGateReason(slot, buff) {
       const req = buff.requiresResourceAtLeast;
-      if (!req || resourceRequirementReady(slot, req)) return null;
-      const resource = characterResourceDef(slot, req.id || req.label);
-      const label = resource?.label || req.label || req.id;
-      const threshold = resource ? resourceRequirementValue(slot, resource, req) : num(req.value);
-      return `需${label}达到${threshold}`;
+      if (req && !resourceRequirementReady(slot, req)) {
+        const resource = characterResourceDef(slot, req.id || req.label);
+        const label = resource?.label || req.label || req.id;
+        const threshold = resource ? resourceRequirementValue(slot, resource, req) : num(req.value);
+        return `需${label}达到${threshold}`;
+      }
+      const below = buff.requiresResourceBelow;
+      if (!below || resourceBelowRequirementReady(slot, below)) return null;
+      const resource = characterResourceDef(slot, below.id || below.label);
+      const label = resource?.label || below.label || below.id;
+      const threshold = resource ? resourceRequirementValue(slot, resource, below) : num(below.value);
+      return `需${label}低于${threshold}`;
     }
 
     function characterResourceControlsForSlot(slot) {
@@ -318,18 +348,20 @@ window.WUWA_SETTLEMENT = (() => {
     function resourceControlsForSlot(slot) {
       const controls = characterResourceControlsForSlot(slot);
       const seen = new Set();
-      const add = (id, label) => {
+      const add = (item) => {
+        const id = item?.requiresResource || item?.id;
+        const label = manualResourceLabel(item);
         if (!id || seen.has(id)) return;
         if (characterResourceDef(slot, id)) return;
         seen.add(id);
-        controls.push({ kind: "manual", id, label: label || id, ready: manualResourceReady(slot, { id, label }) });
+        controls.push({ kind: "manual", id, label: label || id, ready: manualResourceReady(slot, item) });
       };
       const skills = stateCompatibleSkills(slot);
       skills.forEach((sk) => {
-        if (!sk.requiresResourceFull && !sk.requiresResourceAtLeast && !sk.requiresAllResourcesAtLeast && !sk.requiresResourceSumAtLeast && sk.requiresResource && fallbackSkillInState(sk, skills)) add(sk.requiresResource, manualResourceLabel(sk));
+        if (!sk.requiresResourceFull && !sk.requiresResourceAtLeast && !sk.requiresAllResourcesAtLeast && !sk.requiresResourceSumAtLeast && sk.requiresResource && fallbackSkillInState(sk, skills)) add(sk);
       });
       const selected = selectedSkill(slot);
-      if (selected?.requiresResource && !selected.requiresResourceFull && !selected.requiresResourceAtLeast && !selected.requiresAllResourcesAtLeast && !selected.requiresResourceSumAtLeast) add(selected.requiresResource, manualResourceLabel(selected));
+      if (selected?.requiresResource && !selected.requiresResourceFull && !selected.requiresResourceAtLeast && !selected.requiresAllResourcesAtLeast && !selected.requiresResourceSumAtLeast) add(selected);
       return controls;
     }
 
@@ -428,23 +460,35 @@ window.WUWA_SETTLEMENT = (() => {
       if (eventDef.seq && num(slot.seq) < num(eventDef.seq)) return null;
       if (eventDef.skills && !skillRefsMatch(sk, eventDef.skills)) return null;
       if (eventDef.damageTypes && !asList(eventDef.damageTypes).some((type) => damageTypesForSkill(sk).includes(type))) return null;
+      if (!stateRequirementReady(slot, eventDef.requiresState)) return null;
+      if (!allStateRequirementsReady(slot, eventDef.requiresAllStates)) return null;
+      if (eventDef.requiresResourceAtLeast && !resourceRequirementReady(slot, eventDef.requiresResourceAtLeast)) return null;
       return eventDef.event || eventDef.name || eventDef.value || null;
     }
 
-    function currentActionEffectStacks(effectKey, outputIdx = state.outputIdx) {
+    function currentActionEffectStacks(effectKey, outputIdx = state.outputIdx, cap = null) {
       const key = effectKeyOf(effectKey);
       const expectedEvent = EFFECT_EVENT_BY_KEY[key];
       const slot = state.slots[outputIdx];
       const c = ch(slot?.char);
       const sk = slot && resolvedSkill(slot);
       if (!expectedEvent || !c || !sk) return null;
-      const values = asList(c.skillEvents).flatMap((eventDef) => {
-        if (!eventDef || typeof eventDef !== "object") return [];
-        if (skillEventNameForSlot(slot, sk, eventDef) !== expectedEvent) return [];
+      let total = 0;
+      let matched = false;
+      let setToCap = false;
+      asList(c.skillEvents).forEach((eventDef) => {
+        if (!eventDef || typeof eventDef !== "object") return;
+        if (skillEventNameForSlot(slot, sk, eventDef) !== expectedEvent) return;
+        matched = true;
+        if (eventDef.stacks === "max") {
+          setToCap = true;
+          return;
+        }
         const stacks = num(eventDef.stacks, NaN);
-        return Number.isFinite(stacks) ? [stacks] : [];
+        if (Number.isFinite(stacks)) total += stacks;
       });
-      return values.length ? Math.max(...values) : null;
+      if (!matched) return null;
+      return setToCap && cap != null ? cap : total;
     }
 
     function skillImpliesState(slot, stateName) {
@@ -491,6 +535,7 @@ window.WUWA_SETTLEMENT = (() => {
     }
 
     function combatStateDefAvailable(slot, def) {
+      if (def.seq && num(slot.seq) < num(def.seq)) return false;
       return manualStateRequirementReady(slot, def.requiresState) && manualAllStateRequirementsReady(slot, def.requiresAllStates);
     }
 
@@ -819,7 +864,15 @@ window.WUWA_SETTLEMENT = (() => {
         || currentSkillTriggersBuff(slot, idx, buff, outputIdx, ctxOverride)
         || currentDamageTypeTriggersBuff(slot, idx, buff, outputIdx, ctxOverride)
         || currentEventTriggersBuff(slot, idx, buff, outputIdx);
-      return { triggered, stacks: rule?.stacks ?? triggerStacksByTeamElement(slot, buff) ?? buff.triggerStacks };
+      return { triggered, stacks: rule?.stacks ?? triggerStacksByTeamElement(slot, buff) ?? triggerStacksBySeq(slot, buff) };
+    }
+
+    function triggerStacksBySeq(slot, buff) {
+      let stacks = buff.triggerStacks;
+      asList(buff.triggerStacksBySeq).forEach((rule) => {
+        if (num(slot.seq) >= num(rule.seq)) stacks = rule.stacks ?? rule.value;
+      });
+      return stacks;
     }
 
     function triggerStacksByTeamElement(slot, buff) {
@@ -931,9 +984,13 @@ window.WUWA_SETTLEMENT = (() => {
 
     function buffOwnStackFallback(slot, buff, idx, outputIdx, ctxOverride = null) {
       let fallback = buff.defaultStacks ?? buff.maxStacks;
+      if (buff.stackResource) {
+        const value = characterResourceValue(slot, buff.stackResource);
+        fallback = value == null ? fallback : Math.floor(value / Math.max(1, num(buff.stackResourceStep, 1)));
+      }
       const info = directTriggerInfo(slot, idx, buff, outputIdx, ctxOverride);
       if (info.triggered && info.stacks != null) fallback = info.stacks;
-      if (buff.maxStacks && defaultBuffToggleOn(slot, buff)) fallback = buffStackCap(slot, buff) || buff.maxStacks;
+      if (buff.maxStacks && !buff.stackResource && defaultBuffToggleOn(slot, buff)) fallback = buffStackCap(slot, buff) || buff.maxStacks;
       return num(fallback);
     }
 
@@ -1257,6 +1314,12 @@ window.WUWA_SETTLEMENT = (() => {
 
     function buffValue(slot, buff, idx = state.slots.indexOf(slot), outputIdx = state.outputIdx, ctxOverride = null) {
       let v = num(buff.value);
+      if (buff.multAddByResource) {
+        const scale = buff.multAddByResource;
+        const value = characterResourceValue(slot, scale.id || scale.resource);
+        v = num(value) * num(scale.rate ?? scale.perPoint);
+        if (scale.cap != null) v = Math.min(v, num(scale.cap));
+      }
       if (buff.scaleBy) {
         const info = scaleByInfo(slot, buff, outputIdx);
         v = info.raw;
@@ -1301,11 +1364,16 @@ window.WUWA_SETTLEMENT = (() => {
     }
 
     function harmonyResponseAggregate(outputIdx = state.outputIdx, ctxOverride = null) {
-      const t = { breakAmp: outputBreakAmp(outputIdx), skillMultBonus: 0, amplify: 0, vulnerability: 0, finalDmg: 0, resShred: 0, defShred: 0, defIgnore: 0 };
+      const t = { breakAmp: outputBreakAmp(outputIdx), skillMultBonus: 0, amplify: 0, vulnerability: 0, finalDmg: 0, resShred: 0, defShred: 0, defIgnore: 0, fixedCritRate: null, fixedCritDamage: null };
       const ctx = ctxOverride || dpsContext(outputIdx);
       state.slots.forEach((slot, idx) => {
         slotBuffs(slot).forEach((buff) => {
           if (!buffStatus(slot, idx, buff, new Set(), outputIdx, ctx).applies) return;
+          if (buff.zone === "fixedCrit" && buffExplicitlyTargetsCurrentSkill(buff, ctx)) {
+            t.fixedCritRate = Math.max(num(t.fixedCritRate), num(buff.critRate));
+            t.fixedCritDamage = Math.max(num(t.fixedCritDamage), num(buff.critDamage));
+            return;
+          }
           const v = buffValue(slot, buff, idx, outputIdx, ctx);
           if (HARMONY_RESPONSE_DEFENSE_ZONES.has(buff.zone)) t[buff.zone] += v;
           if (HARMONY_RESPONSE_EXPLICIT_ZONES.has(buff.zone) && buffExplicitlyTargetsCurrentSkill(buff, ctx)) t[buff.zone] += v;
@@ -1405,7 +1473,7 @@ window.WUWA_SETTLEMENT = (() => {
       const providerIdx = effectProviderIndex(key);
       const cap = effectCap(def, providerIdx).value;
       const actionStacks = providerIdx === state.outputIdx && calc.stackMode !== "manual"
-        ? currentActionEffectStacks(key, providerIdx)
+        ? currentActionEffectStacks(key, providerIdx, cap)
         : null;
       return clampStacks(actionStacks ?? calc.stacks, def, cap);
     }
@@ -1484,6 +1552,7 @@ window.WUWA_SETTLEMENT = (() => {
         deepen: num(state.effectCalc?.deepen), manualDeepen: num(state.effectCalc?.deepen), buffDeepen: 0,
         finalDmg: 0, buffFinalDmg: 0, extraRate: 0,
         resShred: 0, defShred: 0, defIgnore: 0,
+        fixedCritRate: null, fixedCritDamage: null,
       };
       state.slots.forEach((slot, idx) => {
         slotBuffs(slot).forEach((buff) => {
@@ -1507,6 +1576,11 @@ window.WUWA_SETTLEMENT = (() => {
             t.extraRate += v;
             return;
           }
+          if (effectSpecific && buff.zone === "fixedCrit") {
+            t.fixedCritRate = Math.max(num(t.fixedCritRate), num(buff.critRate));
+            t.fixedCritDamage = Math.max(num(t.fixedCritDamage), num(buff.critDamage));
+            return;
+          }
           if (EFFECT_DEFENSE_ZONES.has(buff.zone)) t[buff.zone] += v;
         });
       });
@@ -1526,7 +1600,7 @@ window.WUWA_SETTLEMENT = (() => {
       const capInfo = effectCap(def, providerIdx);
       const cap = capInfo.value;
       const actionStacks = providerIdx === state.outputIdx && calc.stackMode !== "manual"
-        ? currentActionEffectStacks(key, providerIdx)
+        ? currentActionEffectStacks(key, providerIdx, cap)
         : null;
       const stacks = clampStacks(actionStacks ?? calc.stacks, def, cap);
       const rageStacks = def.rageRates ? clampStacks(calc.electroRageStacks, def, cap, 0) : 0;
@@ -1548,6 +1622,11 @@ window.WUWA_SETTLEMENT = (() => {
       const deepenFactor = Math.max(0, 1 + b.deepen / 100);
       const finalDmgFactor = Math.max(0, 1 + b.finalDmg / 100);
       const raw = baseInfo.valid ? baseInfo.base * deepenFactor * defFactor * resFactor * finalDmgFactor : null;
+      const cr = b.fixedCritRate == null ? 0 : Math.min(Math.max(num(b.fixedCritRate) / 100, 0), 1);
+      const cd = b.fixedCritDamage == null ? 1 : Math.max(num(b.fixedCritDamage) / 100, 1);
+      const normal = raw == null ? null : Math.floor(raw);
+      const critHit = raw == null ? null : Math.floor(raw * cd);
+      const expected = raw == null ? null : Math.floor(raw * (cr * cd + (1 - cr)));
       return {
         enabled: true, key, def, kind: def.kind, providerIdx, providerName: providerChar ? providerChar.name : "",
         stacks, actionStacks, cap, capBase: capInfo.base, capBonus: capInfo.bonus,
@@ -1556,7 +1635,8 @@ window.WUWA_SETTLEMENT = (() => {
         rageRate: baseInfo.rageRate, extraRate: baseInfo.extraRate || 0, attack: baseInfo.attack,
         valid: baseInfo.valid, deepen: b.deepen, manualDeepen: b.manualDeepen, buffDeepen: b.buffDeepen,
         finalDmg: b.finalDmg, buffFinalDmg: b.buffFinalDmg, finalDmgFactor,
-        defFactor, resFactor, res, raw, damage: raw == null ? null : Math.floor(raw), note: def.note,
+        defFactor, resFactor, res, raw, normal, critHit, expected, damage: expected,
+        fixedCritRate: b.fixedCritRate, fixedCritDamage: b.fixedCritDamage, cr, cd, note: def.note,
         charLevel: state.enemy.charLevel, enemyLevel: state.enemy.enemyLevel,
         manualDefShred: state.enemy.defShred, buffDefShred: b.defShred,
         manualDefIgnore: state.enemy.defIgnore, buffDefIgnore: b.defIgnore,
@@ -1760,13 +1840,19 @@ window.WUWA_SETTLEMENT = (() => {
       const raw = stateReady
         ? harmonyBase * multiplier / 100 * breakAmpFactor * deepenFactor * factors.defFactor * factors.resFactor * finalDmg
         : null;
+      const cr = harmony.fixedCritRate == null ? 0 : Math.min(Math.max(num(harmony.fixedCritRate) / 100, 0), 1);
+      const cd = harmony.fixedCritDamage == null ? 1 : Math.max(num(harmony.fixedCritDamage) / 100, 1);
+      const normal = raw == null ? null : Math.floor(raw);
+      const critHit = raw == null ? null : Math.floor(raw * cd);
+      const expected = raw == null ? null : Math.floor(raw * (cr * cd + (1 - cr)));
       return {
         available: true, enabled: true, valid: !!stateReady, kind: "response", key: "response", formulaKind,
         entries, providers, providerIdx, providerName: providerChar?.name || "", label: sk?.name || entry.label,
         skill: sk, damageType: sk?.damageType || entry.damageType, skLevel, harmonyBase, baseMult, multiplier,
         skillMultBonus, breakAmp, breakAmpFactor, buffDeepen: harmony.amplify + harmony.vulnerability,
         enemyVulnerability: state.enemy.vulnerability, enemyDmgReduction: state.enemy.dmgReduction,
-        deepen, deepenFactor, finalDmg, raw, damage: raw == null ? null : Math.floor(raw), ...factors,
+        deepen, deepenFactor, finalDmg, raw, normal, critHit, expected, damage: expected,
+        fixedCritRate: harmony.fixedCritRate, fixedCritDamage: harmony.fixedCritDamage, cr, cd, ...factors,
         requiredState: sk ? buffStateRequirementLabelForSlot(providerSlot, sk) : "",
       };
     }
@@ -1855,10 +1941,12 @@ window.WUWA_SETTLEMENT = (() => {
       state.slots.forEach((slot, idx) => slotBuffs(slot).forEach((buff) => {
         if (!buffStatus(slot, idx, buff).applies) return;
         if (buff.multAdd) multAdd += num(buff.multAdd);
+        if (buff.multAddByResource) multAdd += buffValue(slot, buff, idx);
         if (buff.multScaleAdd) multAdd += skillMultValue(levelMult * num(buff.multScaleAdd) / 100, 1);
       }));
       const baseMult = levelMult + multAdd;
       const isHarmonyResponse = sk ? isHarmonyResponseContext({ damageType: sk.damageType, damageTypes: damageTypesForSkill(sk) }) : false;
+      const isFixedDamage = Number.isFinite(Number(sk?.fixedDamage));
       const harmony = isHarmonyResponse ? harmonyResponseAggregate(state.outputIdx) : null;
       const normalTotals = offsetFinalDmg ? { ...b, finalDmg: b.finalDmg - coherenceBuffFinalDmg + offsetFinalDmg } : b;
       const formulaTotals = isHarmonyResponse ? { ...b, ...harmony, damageBonus: 0, typeBonus: 0, critRate: 0, critDamage: 0 } : normalTotals;
@@ -1868,8 +1956,10 @@ window.WUWA_SETTLEMENT = (() => {
       const skType = sk ? sk.damageType : null;
       const damageElement = sk?.element || c.element;
       const treeElemBonus = damageElement === c.element ? tree.elemBonus || 0 : 0;
-      const echoBonus = treeElemBonus + (es.elem[damageElement] || 0) + (skType ? es.type[skType] || 0 : 0);
-      const bonus = isHarmonyResponse ? 1 : 1 + (b.damageBonus + b.typeBonus + echoBonus) / 100;
+      const typeBonus = b.typeBonus + (skType ? es.type[skType] || 0 : 0);
+      const scaledTypeBonus = typeBonus * (1 + num(b.typeBonusScale) / 100);
+      const echoBonus = treeElemBonus + (es.elem[damageElement] || 0);
+      const bonus = isHarmonyResponse ? 1 : 1 + (b.damageBonus + scaledTypeBonus + echoBonus) / 100;
       const amplify = isHarmonyResponse ? Math.max(0, 1 + formulaTotals.amplify / 100) : 1 + b.amplify / 100;
       const vuln = isHarmonyResponse
         ? Math.max(0, 1 + formulaTotals.vulnerability / 100)
@@ -1886,21 +1976,28 @@ window.WUWA_SETTLEMENT = (() => {
       const defFactor = levelTerm / (levelTerm + enemyDef * (1 - defIgnore));
       const resFactor = resistanceFactor(res);
 
-      const cr = isHarmonyResponse ? 0 : Math.min(Math.max(critRate / 100, 0), 1);
-      const cd = isHarmonyResponse ? 1 : Math.max(critDamage / 100, 1);
+      const fixedCritRate = isHarmonyResponse ? formulaTotals.fixedCritRate : null;
+      const fixedCritDamage = isHarmonyResponse ? formulaTotals.fixedCritDamage : null;
+      const cr = isFixedDamage ? 0 : fixedCritRate == null
+        ? (isHarmonyResponse ? 0 : Math.min(Math.max(critRate / 100, 0), 1))
+        : Math.min(Math.max(num(fixedCritRate) / 100, 0), 1);
+      const cd = isFixedDamage ? 1 : fixedCritDamage == null
+        ? (isHarmonyResponse ? 1 : Math.max(critDamage / 100, 1))
+        : Math.max(num(fixedCritDamage) / 100, 1);
       const finalDmg = isHarmonyResponse ? Math.max(0, 1 + formulaTotals.finalDmg / 100) : 1 + (state.enemy.finalDmg + formulaTotals.finalDmg) / 100;
       const breakAmp = isHarmonyResponse ? formulaTotals.breakAmp : 0;
       const breakAmpFactor = isHarmonyResponse ? Math.max(0, 1 + breakAmp / 100) : 1;
       const formulaBase = isHarmonyResponse ? harmonyBase : statBase;
       const damageScalar = formulaBase * bonus * amplify * vuln * breakAmpFactor * defFactor * resFactor * finalDmg * (1 + skillMultBonus / 100) / 100;
       const base = damageScalar * baseMult;
-      const normal = Math.floor(base);
-      const critHit = Math.floor(base * cd);
-      const expected = Math.floor(base * (cr * cd + (1 - cr)));
+      const fixedDamage = isFixedDamage ? Math.max(0, num(sk.fixedDamage)) : null;
+      const normal = Math.floor(isFixedDamage ? fixedDamage : base);
+      const critHit = Math.floor(isFixedDamage ? fixedDamage : base * cd);
+      const expected = Math.floor(isFixedDamage ? fixedDamage : base * (cr * cd + (1 - cr)));
 
       return {
         panel: { stat, totalAtk, totalHp, totalDef, displayAtk, displayHp, displayDef, critRate, critDamage, baseMult, skillMult },
-        totals: formulaTotals, rawTotals: b, offsetFinalDmg, coherenceBuffFinalDmg, es, defFactor, resFactor, bonus, amplify, vuln, finalDmg, cr, cd,
+        totals: formulaTotals, rawTotals: b, offsetFinalDmg, coherenceBuffFinalDmg, es, defFactor, resFactor, bonus, typeBonus, scaledTypeBonus, amplify, vuln, finalDmg, cr, cd,
         defense: {
           manualDefShred: state.enemy.defShred,
           buffDefShred: formulaTotals.defShred,
@@ -1910,7 +2007,7 @@ window.WUWA_SETTLEMENT = (() => {
           buffDefIgnore: formulaTotals.defIgnore,
           totalDefIgnore,
         },
-        damageModel: isHarmonyResponse ? "harmonyResponse" : "normal", damageElement, breakAmp, breakAmpFactor, harmonyBase,
+        damageModel: isFixedDamage ? "fixed" : isHarmonyResponse ? "harmonyResponse" : "normal", damageElement, breakAmp, breakAmpFactor, harmonyBase, fixedDamage,
         normal, expected, critHit, sk, selectedSk, layers, skLevel, perStackBonus, multAdd, resourceReady, resourceBlocked, damageScalar, effect, offset,
       };
     }
@@ -1919,7 +2016,7 @@ window.WUWA_SETTLEMENT = (() => {
       if (!sk) return 0;
       if (sk.stackResource) {
         const value = characterResourceValue(slot, sk.stackResource);
-        if (value != null) return value;
+        if (value != null) return sk.stackMax == null ? value : Math.min(value, num(sk.stackMax));
       }
       let layers = sk.defaultLayers ?? sk.stackMax ?? 0;
       asList(sk.defaultLayersBySeq).forEach((rule) => {

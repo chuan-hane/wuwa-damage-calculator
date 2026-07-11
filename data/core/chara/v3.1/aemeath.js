@@ -542,6 +542,15 @@ WUWA.register({
       "defaultStacks": 0,
       "defaultActive": false,
       "stackGroup": "stack_group_3",
+      "triggerSkills": [
+        "duet_tune_bonus"
+      ],
+      "triggerStacksBySeq": [
+        {
+          "seq": 6,
+          "stacks": 10
+        }
+      ],
       "requiresAllStates": [
         "mode_1_option_1",
         "target_2_option_1"
@@ -563,6 +572,20 @@ WUWA.register({
       "defaultStacks": 0,
       "defaultActive": false,
       "stackGroup": "stack_group_4",
+      "skills": [
+        "duet_overture",
+        "duet_encore"
+      ],
+      "triggerSkills": [
+        "duet_overture",
+        "duet_encore"
+      ],
+      "triggerStacksBySeq": [
+        {
+          "seq": 6,
+          "stacks": 10
+        }
+      ],
       "requiresAllStates": [
         "mode_1_option_2",
         "target_3_option_1"
@@ -574,6 +597,10 @@ WUWA.register({
       "effect": "fusion",
       "value": 200,
       "scope": "self",
+      "skills": [
+        "duet_overture",
+        "duet_encore"
+      ],
       "requiresAllStates": [
         "mode_1_option_2",
         "status_2_option_1"
@@ -672,6 +699,10 @@ WUWA.register({
           "effect": "fusion",
           "value": 200,
           "scope": "self",
+          "skills": [
+            "duet_overture",
+            "duet_encore"
+          ],
           "requiresAllStates": [
             "mode_1_option_2",
             "status_2_option_1"
@@ -693,6 +724,10 @@ WUWA.register({
           "defaultStacks": 0,
           "defaultActive": false,
           "stackGroup": "stack_group_4",
+          "skills": [
+            "duet_overture",
+            "duet_encore"
+          ],
           "requiresAllStates": [
             "mode_1_option_2",
             "target_3_option_1"
@@ -807,6 +842,27 @@ WUWA.register({
           "damageType": "resonanceLiberation",
           "value": 40,
           "scope": "self"
+        },
+        {
+          "id": "k6_tune_fixed_crit",
+          "zone": "fixedCrit",
+          "damageType": [
+            "tuneRupture",
+            "tuneRuptureDmg"
+          ],
+          "critRate": 80,
+          "critDamage": 275,
+          "scope": "self",
+          "requiresState": "mode_1_option_1"
+        },
+        {
+          "id": "k6_fusion_fixed_crit",
+          "zone": "fixedCrit",
+          "effect": "fusion",
+          "critRate": 80,
+          "critDamage": 275,
+          "scope": "self",
+          "requiresState": "mode_1_option_2"
         }
       ]
     }

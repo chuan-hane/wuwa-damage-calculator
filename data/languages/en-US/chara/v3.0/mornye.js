@@ -83,6 +83,10 @@ window.WUWA_LANGUAGES.extend("en-US", {
             "effects": "Basic Attack - Wide Field Observation Mode",
             "options": [
               {
+                "label": "Not in Wide Field Observation Mode",
+                "valueLabel": "Not in Wide Field Observation Mode"
+              },
+              {
                 "label": "Wide Field Observation Mode",
                 "valueLabel": "Wide Field Observation Mode"
               }
@@ -183,8 +187,8 @@ window.WUWA_LANGUAGES.extend("en-US", {
             "source": "Tune Break: Decoupling",
             "label": "Final DMG Bonus",
             "trigger": "In Off-Tune Interference · Tune Strain",
-            "excerpt": "Final DMG Bonus +0% per stack",
-            "desc": "Final DMG Bonus +0% per stack"
+            "excerpt": "Each Tune Strain - Interfered stack converts Tune Break Boost into Final DMG Bonus",
+            "desc": "Each Tune Strain - Interfered stack converts Tune Break Boost into Final DMG Bonus."
           },
           {
             "source": "Outro Skill: Recursion",

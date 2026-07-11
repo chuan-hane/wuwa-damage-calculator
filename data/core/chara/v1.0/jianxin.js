@@ -122,7 +122,10 @@ WUWA.register({
       "requiresResourceAtLeast": {
         "id": "chi",
         "value": 120
-      }
+      },
+      "triggerEvents": [
+        "shield"
+      ]
     },
     {
       "id": "forte_small",

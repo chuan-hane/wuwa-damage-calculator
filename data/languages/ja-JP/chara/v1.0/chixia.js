@@ -5,6 +5,7 @@ window.WUWA_LANGUAGES.extend("ja-JP", {
     "chars": {
       "chixia": {
         "name": "熾霞",
+        "resources": [{ "label": "熾炎弾" }, { "label": "「ダダダ！」中に発射した熾炎弾" }],
         "skills": [
           {
             "name": "ババン！ - 1段目ダメージ"
@@ -43,7 +44,8 @@ window.WUWA_LANGUAGES.extend("ja-JP", {
             "name": "流れる烈火の英魂 - 熾炎弾ダメージ"
           },
           {
-            "name": "流れる烈火の英魂 - ドカン！ダメージ"
+            "name": "流れる烈火の英魂 - ドカン！ダメージ",
+            "requiresResourceLabel": "「ダダダ！」中に熾炎弾を30発発射"
           }
         ],
         "buffs": [
@@ -51,7 +53,7 @@ window.WUWA_LANGUAGES.extend("ja-JP", {
             "source": "固有スキル・辛さ増し増し",
             "label": "攻撃力",
             "trigger": "デフォルト",
-            "excerpt": "攻撃力 1スタックにつき+30%",
+            "excerpt": "攻撃力 1スタックにつき+1%",
             "desc": "固有スキル辛さ増し増しが最大スタックになった時、攻撃力が追加で30%アップ。"
           },
           {

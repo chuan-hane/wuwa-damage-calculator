@@ -113,8 +113,8 @@ window.WUWA_LANGUAGES.extend("en-US", {
             "source": "Inherent Skill: \"Poison\"",
             "label": "Havoc DMG Bonus",
             "trigger": "After casting Echo Skill",
-            "excerpt": "Havoc DMG Bonus +12% per stack",
-            "desc": "Havoc DMG Bonus +12% per stack"
+            "excerpt": "Havoc DMG Bonus +6% per stack",
+            "desc": "Havoc DMG Bonus +6% per stack"
           },
           {
             "source": "Outro Skill: Gentle Tentacles",

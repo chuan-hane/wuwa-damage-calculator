@@ -88,11 +88,18 @@ window.WUWA_LANGUAGES.extend("ko", {
           },
           {
             "name": "현을 꿰뚫는 시야 ·  모든 건 먼지로 - 톱니바퀴 · 종결 피해"
+          },
+          {
+            "name": "황폐한 회랑을 거닐며 · 고정 인멸 피해",
+            "requiresResourceLabel": "같은 대상에게 고정 피해 미발동"
           }
         ],
         "resources": [
           {
             "label": "톱니바퀴의 잔향"
+          },
+          {
+            "label": "생명의 현 · 본류"
           }
         ],
         "combatStates": [
@@ -103,6 +110,10 @@ window.WUWA_LANGUAGES.extend("ko", {
             "entry": "전기톱 모드에 있을 시, 해당 스킬은 발동이 불가하다.",
             "effects": "전기톱 모드에 있을 시, 해당 스킬은 발동이 불가하다.",
             "options": [
+              {
+                "label": "전기톱 모드 아님",
+                "valueLabel": "전기톱 모드 아님"
+              },
               {
                 "label": "전기톱 모드",
                 "valueLabel": "전기톱 모드"

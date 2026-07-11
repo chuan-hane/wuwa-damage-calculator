@@ -88,6 +88,9 @@ window.WUWA_LANGUAGES.extend("en-US", {
         ],
         "resources": [
           {
+            "label": "Afterflame"
+          },
+          {
             "label": "Sinflame"
           }
         ],
@@ -111,14 +114,14 @@ window.WUWA_LANGUAGES.extend("en-US", {
             "source": "Inherent Skill: Oathbound Hunt",
             "label": "DMG Increase",
             "trigger": "In Demon Hypostasis",
-            "excerpt": "DMG Increase +20% per stack",
-            "desc": "DMG Increase +20% per stack"
+            "excerpt": "DMG Increase +5% per stack",
+            "desc": "DMG Increase +5% per stack"
           },
           {
             "source": "Forte Circuit: Demon Hypostasis",
             "label": "Vulnerability",
             "trigger": "After casting Beyond Threshold - Basic Attack - Seraphic Execution Stage 1 DMG / Beyond Threshold - Basic Attack - Seraphic Execution Stage 2 DMG / Beyond Threshold - Basic Attack - Seraphic Execution Stage 3 DMG / Beyond Threshold - Basic Attack - Seraphic Execution Stage 4 DMG / Beyond Threshold - Basic Attack - Seraphic Execution Stage 5 DMG / Beyond Threshold - Heavy Attack - Flamewing Verdict Stage 1 DMG / Beyond Threshold - Heavy Attack - Flamewing Verdict Stage 2 DMG / Beyond Threshold - Heavy Attack - Flamewing Verdict Stage 3 DMG / Beyond Threshold - Mid-air Attack - Hellsent Barrage Plunging Attack DMG / Beyond Threshold - Mid-air Attack - Hellsent Barrage Sustained Fire DMG / Beyond Threshold - Resonance Skill - Ravage DMG / Beyond Threshold - Dodge Counter - Purgatory Scourge",
-            "excerpt": "Vulnerability +60% per stack",
+            "excerpt": "Vulnerability +1.5% per stack",
             "desc": "- Galbrena enters Demon Hypostasis."
           },
           {
@@ -144,7 +147,7 @@ window.WUWA_LANGUAGES.extend("en-US", {
               {
                 "label": "Crit. DMG",
                 "trigger": "After casting Beyond Threshold - Basic Attack - Seraphic Execution Stage 1 DMG / Beyond Threshold - Basic Attack - Seraphic Execution Stage 2 DMG / Beyond Threshold - Basic Attack - Seraphic Execution Stage 3 DMG / Beyond Threshold - Basic Attack - Seraphic Execution Stage 4 DMG / Beyond Threshold - Basic Attack - Seraphic Execution Stage 5 DMG / Beyond Threshold - Heavy Attack - Flamewing Verdict Stage 1 DMG / Beyond Threshold - Heavy Attack - Flamewing Verdict Stage 2 DMG / Beyond Threshold - Heavy Attack - Flamewing Verdict Stage 3 DMG / Beyond Threshold - Mid-air Attack - Hellsent Barrage Plunging Attack DMG / Beyond Threshold - Mid-air Attack - Hellsent Barrage Sustained Fire DMG / Beyond Threshold - Resonance Skill - Ravage DMG / Beyond Threshold - Dodge Counter - Purgatory Scourge",
-                "excerpt": "Crit. DMG +80% per stack"
+                "excerpt": "Crit. DMG +2% per stack"
               }
             ]
           },
@@ -204,7 +207,7 @@ window.WUWA_LANGUAGES.extend("en-US", {
               {
                 "label": "Beyond Threshold - Basic Attack - Seraphic Execution Stage 1 DMG Increase",
                 "trigger": "After casting Beyond Threshold - Basic Attack - Seraphic Execution Stage 1 DMG / Beyond Threshold - Basic Attack - Seraphic Execution Stage 2 DMG / Beyond Threshold - Basic Attack - Seraphic Execution Stage 3 DMG / Beyond Threshold - Basic Attack - Seraphic Execution Stage 4 DMG / Beyond Threshold - Basic Attack - Seraphic Execution Stage 5 DMG / Beyond Threshold - Heavy Attack - Flamewing Verdict Stage 1 DMG / Beyond Threshold - Heavy Attack - Flamewing Verdict Stage 2 DMG / Beyond Threshold - Heavy Attack - Flamewing Verdict Stage 3 DMG / Beyond Threshold - Mid-air Attack - Hellsent Barrage Plunging Attack DMG / Beyond Threshold - Mid-air Attack - Hellsent Barrage Sustained Fire DMG / Beyond Threshold - Resonance Skill - Ravage DMG / Beyond Threshold - Dodge Counter - Purgatory Scourge",
-                "excerpt": "Beyond Threshold - Basic Attack - Seraphic Execution Stage 1 DMG Increase +35% per stack"
+                "excerpt": "Fusion DMG Amplification +0.875% per stack"
               }
             ]
           }

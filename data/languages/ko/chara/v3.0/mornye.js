@@ -83,6 +83,10 @@ window.WUWA_LANGUAGES.extend("ko", {
             "effects": "일반 공격 · 광역 관측 모드",
             "options": [
               {
+                "label": "광역 관측 모드 아님",
+                "valueLabel": "광역 관측 모드 아님"
+              },
+              {
                 "label": "광역 관측 모드",
                 "valueLabel": "광역 관측 모드"
               }
@@ -183,8 +187,8 @@ window.WUWA_LANGUAGES.extend("ko", {
             "source": "조화도 파괴 · 디커플링",
             "label": "최종 피해 보너스",
             "trigger": "조화도 간섭 · 조화 밀집 상태",
-            "excerpt": "최종 피해 보너스 스택당 +0%",
-            "desc": "최종 피해 보너스 스택당 +0%"
+            "excerpt": "조화 밀집 · 간섭 스택마다 조화 파괴 부스트를 최종 피해 보너스로 전환",
+            "desc": "조화 밀집 · 간섭 스택마다 조화 파괴 부스트를 최종 피해 보너스로 전환한다."
           },
           {
             "source": "반주 스킬 · 리커젼",

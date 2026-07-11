@@ -21,6 +21,14 @@ WUWA.register({
       "attackPct": 12
     }
   },
+  "resources": [
+    {
+      "id": "ichorFlow",
+      "min": 0,
+      "max": 300,
+      "defaultValue": "max"
+    }
+  ],
   "skills": [
     {
       "id": "na1",
@@ -180,6 +188,18 @@ WUWA.register({
       "multiplier": 306.9,
       "formula": "306.90%",
       "requiresResource": "resource_gate_2"
+    },
+    {
+      "id": "ichor_blade",
+      "category": "forteCircuit",
+      "damageType": "basic",
+      "element": "spectro",
+      "multiplier": 0,
+      "formula": "10",
+      "fixedDamage": 10,
+      "triggeredDamage": true,
+      "requiresResource": "ichor_blade_active",
+      "defaultResourceActive": false
     }
   ],
   "defaultSkillId": "forte_gavel",

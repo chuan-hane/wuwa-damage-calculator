@@ -267,7 +267,7 @@ WUWA.register({
   "combatStates": [
     {
       "id": "status_1",
-      "kind": "status",
+      "kind": "form",
       "options": [
         {
           "value": "status_1_option_1"

@@ -147,7 +147,7 @@ window.WUWA_LANGUAGES.extend("en-US", {
               {
                 "label": "DMG Increase",
                 "trigger": "In Aflame State",
-                "excerpt": "DMG Increase +60% per stack"
+                "excerpt": "DMG Increase +20% per stack"
               }
             ]
           },

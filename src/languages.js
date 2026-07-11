@@ -666,7 +666,7 @@ window.WUWA_LANGUAGES = (() => {
         return multiplierIncreaseLabel(label);
       }
       if (buff.zone === "effectCapBonus") return `${effect(buff.effect || "")} 상한`;
-      if (buff.multAdd || buff.perStackBonus) {
+      if (buff.multAdd || buff.multAddByResource || buff.perStackBonus) {
         const label = stripKnownSuffix(text(buff.label), ["피해 배율 증가", "피해 배율 상승", "배율 증가", "배율 상승"]);
         return multiplierIncreaseLabel(label);
       }
@@ -688,7 +688,7 @@ window.WUWA_LANGUAGES = (() => {
         return multiplierIncreaseLabel(label);
       }
       if (buff.zone === "effectCapBonus") return `${effect(buff.effect || "")}上限`;
-      if (buff.multAdd || buff.perStackBonus) {
+      if (buff.multAdd || buff.multAddByResource || buff.perStackBonus) {
         const label = stripKnownSuffix(text(buff.label), ["ダメージ倍率アップ", "倍率アップ"]);
         return multiplierIncreaseLabel(label);
       }
@@ -710,7 +710,7 @@ window.WUWA_LANGUAGES = (() => {
       return multiplierIncreaseLabel(label);
     }
     if (buff.zone === "effectCapBonus") return `${effect(buff.effect || "")} Max Stacks`;
-    if (buff.multAdd || buff.perStackBonus) {
+    if (buff.multAdd || buff.multAddByResource || buff.perStackBonus) {
       const label = stripKnownSuffix(text(buff.label), ["DMG Multiplier Increase", "Multiplier Increase"]);
       return multiplierIncreaseLabel(label);
     }

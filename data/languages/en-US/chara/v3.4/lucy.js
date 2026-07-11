@@ -168,15 +168,15 @@ window.WUWA_LANGUAGES.extend("en-US", {
             "source": "Inherent Skill: Function Cracking",
             "label": "DMG Increase",
             "trigger": "In Target Hack · Interfered",
-            "excerpt": "DMG Increase +20% per stack",
-            "desc": "DMG Increase +20% per stack"
+            "excerpt": "DMG Increase +10% per stack",
+            "desc": "DMG Increase +10% per stack"
           },
           {
             "source": "Inherent Skill: Function Cracking",
             "label": "DMG Multiplier Increase",
             "trigger": "In Target Hack · Interfered",
-            "excerpt": "DMG Multiplier Increase +20% per stack",
-            "desc": "DMG Multiplier Increase +20% per stack"
+            "excerpt": "DMG Multiplier Increase +10% per stack",
+            "desc": "DMG Multiplier Increase +10% per stack"
           },
           {
             "source": "Inherent Skill: Function Cracking",

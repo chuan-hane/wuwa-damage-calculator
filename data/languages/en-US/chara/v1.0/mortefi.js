@@ -64,8 +64,8 @@ window.WUWA_LANGUAGES.extend("en-US", {
             "source": "Inherent Skill: Rhythmic Vibrato",
             "label": "Violent Finale - Marcato Damage DMG Multiplier Increase",
             "trigger": "After casting Violent Finale - Marcato Damage",
-            "excerpt": "Violent Finale - Marcato Damage DMG Multiplier Increase +75% per stack",
-            "desc": "Violent Finale - Marcato Damage DMG Multiplier Increase +75% per stack"
+            "excerpt": "Violent Finale - Marcato Damage DMG Multiplier Increase +1.5% per stack",
+            "desc": "Violent Finale - Marcato Damage DMG Multiplier Increase +1.5% per stack"
           },
           {
             "source": "Outro Skill: Rage Transposition",

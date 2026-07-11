@@ -24,7 +24,7 @@ WUWA.register({
   "resources": [
     {
       "id": "imagination",
-      "max": 100,
+      "max": 300,
       "defaultValue": "max"
     }
   ],
@@ -203,7 +203,7 @@ WUWA.register({
       "category": "forteCircuit",
       "damageType": "heavy",
       "multiplier": 357.86,
-      "formula": "幻想照进现实第三段100%",
+      "formula": "357.86%",
       "seq": 6,
       "requiresResource": "resource_gate_2",
       "impliedStates": [
@@ -395,7 +395,6 @@ WUWA.register({
           "scope": "self",
           "skills": [
             "heavy",
-            "lib",
             "forte_1",
             "forte_2",
             "forte_3",

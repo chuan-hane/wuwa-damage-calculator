@@ -173,7 +173,7 @@ window.WUWA_LANGUAGES.extend("en-US", {
               {
                 "label": "Crit. DMG",
                 "trigger": "After casting Scroll Divination - Chime DMG / Scroll Divination - Ding DMG / Scroll Divination - Ruyi DMG / Scroll Divination - Mask DMG",
-                "excerpt": "Crit. DMG +60% per stack"
+                "excerpt": "Crit. DMG +15% per stack"
               }
             ]
           }

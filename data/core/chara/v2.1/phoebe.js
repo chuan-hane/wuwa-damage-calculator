@@ -27,12 +27,12 @@ WUWA.register({
   "resources": [
     {
       "id": "gospel",
-      "max": 30,
+      "max": 60,
       "defaultValue": "max"
     },
     {
       "id": "prayer",
-      "max": 100,
+      "max": 120,
       "defaultValue": "max"
     }
   ],
@@ -141,7 +141,11 @@ WUWA.register({
       "category": "resonanceLiberation",
       "damageType": "resonanceLiberation",
       "multiplier": 401.6,
-      "formula": "401.60%"
+      "formula": "401.60%",
+      "excludesState": [
+        "mode_1_option_1",
+        "mode_1_option_2"
+      ]
     },
     {
       "id": "burst_absolution",
@@ -179,6 +183,10 @@ WUWA.register({
       "multiplier": 248.07,
       "formula": "82.69% × 3",
       "requiresResource": "gospel",
+      "requiresResourceAtLeast": {
+        "id": "gospel",
+        "value": 15
+      },
       "fallbackSkillId": "heavy",
       "requiresState": "mode_1_option_1"
     },
@@ -189,6 +197,10 @@ WUWA.register({
       "multiplier": 248.07,
       "formula": "82.69% × 3",
       "requiresResource": "gospel",
+      "requiresResourceAtLeast": {
+        "id": "gospel",
+        "value": 30
+      },
       "fallbackSkillId": "heavy",
       "requiresState": "mode_1_option_2",
       "triggerEvents": [
@@ -244,6 +256,39 @@ WUWA.register({
     }
   ],
   "defaultSkillId": "starflash_absolution",
+  "skillEvents": [
+    {
+      "skills": [
+        "absolution_litany",
+        "confession"
+      ],
+      "event": "applySpectroFrazzle",
+      "stacks": 1
+    },
+    {
+      "skills": [
+        "starflash_confession",
+        "c6_starflash_confession"
+      ],
+      "event": "applySpectroFrazzle",
+      "stacks": 5
+    },
+    {
+      "skills": [
+        "burst_confession"
+      ],
+      "event": "applySpectroFrazzle",
+      "stacks": 8
+    },
+    {
+      "seq": 1,
+      "skills": [
+        "burst_confession"
+      ],
+      "event": "applySpectroFrazzle",
+      "stacks": "max"
+    }
+  ],
   "validSubs": [
     "atkFlat",
     "critRate",
@@ -311,7 +356,10 @@ WUWA.register({
         "c6_starflash_absolution"
       ],
       "requiresState": "mode_1_option_1",
-      "defaultActive": false
+      "requiresEffectStacks": {
+        "effect": "lightNoise",
+        "stacks": 1
+      }
     },
     {
       "id": "b_outro_res",
@@ -413,6 +461,16 @@ WUWA.register({
           "value": 10,
           "scope": "team",
           "defaultActive": false,
+          "triggerSkills": [
+            "na1",
+            "na2",
+            "na3",
+            "dodge",
+            "chamuel_dodge",
+            "chamuel1",
+            "chamuel2",
+            "chamuel3"
+          ],
           "duration": 30
         }
       ]

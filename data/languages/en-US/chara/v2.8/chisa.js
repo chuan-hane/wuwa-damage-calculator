@@ -88,11 +88,18 @@ window.WUWA_LANGUAGES.extend("en-US", {
           },
           {
             "name": "Sight of Unraveling - Oblivion - Sawring - Eradication DMG"
+          },
+          {
+            "name": "Wandering Through the Desolate Corridors - Fixed Havoc DMG",
+            "requiresResourceLabel": "Fixed damage not yet triggered on this target"
           }
         ],
         "resources": [
           {
             "label": "Ring of Chainsaw"
+          },
+          {
+            "label": "Lifethread - Jetstream"
           }
         ],
         "combatStates": [
@@ -103,6 +110,10 @@ window.WUWA_LANGUAGES.extend("en-US", {
             "entry": "This skill cannot be cast while in Chainsaw Mode.",
             "effects": "This skill cannot be cast while in Chainsaw Mode.",
             "options": [
+              {
+                "label": "Not in Chainsaw Mode",
+                "valueLabel": "Not in Chainsaw Mode"
+              },
               {
                 "label": "Chainsaw Mode",
                 "valueLabel": "Chainsaw Mode"

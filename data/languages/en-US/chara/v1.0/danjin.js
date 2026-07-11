@@ -73,6 +73,15 @@ window.WUWA_LANGUAGES.extend("en-US", {
             "label": "Ruby Blossom"
           }
         ],
+        "combatStates": [
+          {
+            "label": "Target Incinerating Will",
+            "idLabel": "Incinerating Will",
+            "inactiveLabel": "Target has no Incinerating Will",
+            "entry": "Applied when Crimson Erosion 2 hits the target.",
+            "options": [{ "label": "Target has Incinerating Will", "valueLabel": "Incinerating Will" }]
+          }
+        ],
         "buffs": [
           {
             "source": "Resonance Skill: Incinerating Will",
@@ -111,7 +120,7 @@ window.WUWA_LANGUAGES.extend("en-US", {
               {
                 "label": "ATK",
                 "trigger": "Default",
-                "excerpt": "ATK +30% per stack"
+                "excerpt": "ATK +5% per stack"
               }
             ]
           },

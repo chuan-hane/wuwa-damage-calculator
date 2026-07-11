@@ -147,7 +147,7 @@ window.WUWA_LANGUAGES.extend("ja-JP", {
               {
                 "label": "ダメージブースト",
                 "trigger": "燃え盛る状態状態",
-                "excerpt": "ダメージブースト 1スタックにつき+60%"
+                "excerpt": "ダメージブースト 1スタックにつき+20%"
               }
             ]
           },

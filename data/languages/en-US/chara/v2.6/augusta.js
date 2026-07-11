@@ -150,7 +150,7 @@ window.WUWA_LANGUAGES.extend("en-US", {
               {
                 "label": "Crit. DMG",
                 "trigger": "After casting Stride of Goldenflare - Skill DMG",
-                "excerpt": "Crit. DMG +30% per stack"
+                "excerpt": "Crit. DMG +15% per stack"
               },
               {
                 "label": "Electro DMG Bonus",
@@ -166,7 +166,7 @@ window.WUWA_LANGUAGES.extend("en-US", {
               {
                 "label": "Crit. Rate",
                 "trigger": "After casting Stride of Goldenflare - Skill DMG",
-                "excerpt": "Crit. Rate +40% per stack"
+                "excerpt": "Crit. Rate +20% per stack"
               },
               {
                 "label": "Crit. DMG",
@@ -208,17 +208,17 @@ window.WUWA_LANGUAGES.extend("en-US", {
               {
                 "label": "Electro DMG Bonus",
                 "trigger": "After casting Hunter's Path - Heavy Attack - Thunderoar: Spinslash DMG / Hunter's Path - Heavy Attack - Thunderoar: Uppercut DMG",
-                "excerpt": "Electro DMG Bonus +30% per stack"
+                "excerpt": "Electro DMG Bonus +15% per stack"
               },
               {
                 "label": "Crit. DMG",
                 "trigger": "After casting Hunter's Path - Heavy Attack - Thunderoar: Spinslash DMG / Hunter's Path - Heavy Attack - Thunderoar: Uppercut DMG",
-                "excerpt": "Crit. DMG +30% per stack"
+                "excerpt": "Crit. DMG +15% per stack"
               },
               {
                 "label": "Crit. Rate",
                 "trigger": "After casting Hunter's Path - Heavy Attack - Thunderoar: Spinslash DMG / Hunter's Path - Heavy Attack - Thunderoar: Uppercut DMG",
-                "excerpt": "Crit. Rate +40% per stack"
+                "excerpt": "Crit. Rate +20% per stack"
               },
               {
                 "label": "Crit. DMG",

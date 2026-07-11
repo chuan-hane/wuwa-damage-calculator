@@ -5,6 +5,7 @@ window.WUWA_LANGUAGES.extend("ja-JP", {
     "chars": {
       "baizhi": {
         "name": "白芷",
+        "resources": [{ "label": "思念" }],
         "skills": [
           {
             "name": "約束 - 1段目ダメージ"

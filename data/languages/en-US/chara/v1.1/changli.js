@@ -97,8 +97,8 @@ window.WUWA_LANGUAGES.extend("en-US", {
             "source": "Inherent Skill: Secret Strategist",
             "label": "Fusion DMG Bonus",
             "trigger": "After casting Tripartite Flames - True Sight: Conquest DMG / Tripartite Flames - True Sight: Charge DMG",
-            "excerpt": "Fusion DMG Bonus +20% per stack",
-            "desc": "Fusion DMG Bonus +20% per stack"
+            "excerpt": "Fusion DMG Bonus +5% per stack",
+            "desc": "Fusion DMG Bonus +5% per stack"
           },
           {
             "source": "Inherent Skill: Sweeping Force",

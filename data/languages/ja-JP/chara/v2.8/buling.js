@@ -53,6 +53,12 @@ window.WUWA_LANGUAGES.extend("ja-JP", {
         ],
         "resources": [
           {
+            "label": "卦象・艮"
+          },
+          {
+            "label": "卦象・震"
+          },
+          {
             "label": "少陰"
           },
           {

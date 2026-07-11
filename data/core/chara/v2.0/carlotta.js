@@ -23,8 +23,13 @@ WUWA.register({
   },
   "resources": [
     {
-      "id": "moldableCrystal",
-      "max": 100,
+      "id": "moldableCrystals",
+      "max": 6,
+      "defaultValue": "max"
+    },
+    {
+      "id": "substance",
+      "max": 120,
       "defaultValue": "max"
     }
   ],
@@ -84,7 +89,7 @@ WUWA.register({
       "multiplier": 228.18,
       "formula": "34.23% × 2 + 34.23% × 2 + 91.26%",
       "requiresResource": "resource_gate_1",
-      "requiresResourceFull": "moldableCrystal",
+      "requiresResourceFull": "substance",
       "fallbackSkillId": "heavy"
     },
     {
@@ -172,7 +177,7 @@ WUWA.register({
       "multiplier": 835.36,
       "formula": "66.83% × 5 + 501.21%",
       "requiresResource": "resource_gate_2",
-      "requiresResourceFull": "moldableCrystal",
+      "requiresResourceFull": "substance",
       "requiresState": "mechanic_1_option_1",
       "fallbackSkillId": "heavy"
     }

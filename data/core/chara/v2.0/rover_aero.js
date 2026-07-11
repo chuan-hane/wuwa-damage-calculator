@@ -98,7 +98,10 @@ WUWA.register({
       "category": "resonanceSkill",
       "damageType": "resonanceSkill",
       "multiplier": 175.26,
-      "formula": "23.37% × 3 + 105.15%"
+      "formula": "23.37% × 3 + 105.15%",
+      "triggerEvents": [
+        "applyAeroErosion"
+      ]
     },
     {
       "id": "lib",

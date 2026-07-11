@@ -5,6 +5,7 @@ window.WUWA_LANGUAGES.extend("zh-CN", {
     "chars": {
       "camellya": {
         "name": "椿",
+        "resources": [{ "label": "红椿·蕊" }],
         "skills": [
           {
             "name": "第一段"

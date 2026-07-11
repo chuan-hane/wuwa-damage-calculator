@@ -91,6 +91,9 @@ window.WUWA_LANGUAGES.extend("en-US", {
           },
           {
             "name": "Gloves Are Comin' Off! - Hack Response - Meltdown DMG"
+          },
+          {
+            "name": "Maybe, Just Maybe... - Enhanced Heavy Attack Additional DMG"
           }
         ],
         "resources": [
@@ -162,8 +165,8 @@ window.WUWA_LANGUAGES.extend("en-US", {
             "source": "Inherent Skill: Tag, You're It!",
             "label": "ATK",
             "trigger": "After casting Gloves Are Comin' Off! - Rat-tat-tat!: Huntress DMG / Gloves Are Comin' Off! - Bang-bang-bang!: Guts DMG",
-            "excerpt": "ATK +20% per stack",
-            "desc": "ATK +20% per stack"
+            "excerpt": "ATK +10% per stack",
+            "desc": "ATK +10% per stack"
           },
           {
             "source": "Inherent Skill: Tag, You're It!",
@@ -190,8 +193,8 @@ window.WUWA_LANGUAGES.extend("en-US", {
             "source": "Outro Skill: Preem Choom",
             "label": "Heavy Attack DMG Increase",
             "trigger": "In Target Hack · Interfered",
-            "excerpt": "Heavy Attack DMG Increase +35% per stack",
-            "desc": "Heavy Attack DMG Increase +35% per stack"
+            "excerpt": "Heavy Attack DMG Increase +0.5% per stack",
+            "desc": "Heavy Attack DMG Increase +0.5% per stack"
           }
         ],
         "chain": [
@@ -265,9 +268,10 @@ window.WUWA_LANGUAGES.extend("en-US", {
             "desc": "Rebecca's Basic Attack DMG Bonus from every source is increased by 40%.\nDuring Heavy Attack - Rat-tat-tat!: Huntress or Heavy Attack - Bang-bang-bang!: Guts, Rebecca deals an additional instance of Electro DMG equal to 900% of her ATK, considered Basic Attack DMG.\nRebecca recovers an additional 20 points of Hot Hand when she is casting Heavy Attack - Rat-tat-tat!: Huntress or Heavy Attack - Bang-bang-bang!: Guts.\nWhen Rebecca takes a fatal blow, she does not fall to the damage and instead restores fixed 2077 HP for 5 times immediately. This effect is triggered once every 10 min.\nWhen Rebecca stays out of combat for more than 4s, she restores 120 point of Fervor. This effect is triggered once every 4s.",
             "buffs": [
               {
-                "label": "Gloves Are Comin' Off! - Rat-tat-tat!: Huntress DMG Multiplier Increase",
-                "trigger": "In Target Hack · Interfered",
-                "excerpt": "Gloves Are Comin' Off! - Rat-tat-tat!: Huntress DMG Multiplier Increase +900%"
+                "label": "Basic Attack DMG Bonus Source Increase",
+                "trigger": "Default",
+                "excerpt": "Basic Attack DMG Bonus from every source is increased by 40%",
+                "desc": "Rebecca's Basic Attack DMG Bonus from every source is increased by 40%."
               }
             ]
           }

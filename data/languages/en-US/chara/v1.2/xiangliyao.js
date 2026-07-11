@@ -95,8 +95,8 @@ window.WUWA_LANGUAGES.extend("en-US", {
             "source": "Inherent Skill: Knowing",
             "label": "Electro DMG Bonus",
             "trigger": "In Intuition",
-            "excerpt": "Electro DMG Bonus +20% per stack",
-            "desc": "Electro DMG Bonus +20% per stack"
+            "excerpt": "Electro DMG Bonus +5% per stack",
+            "desc": "Electro DMG Bonus +5% per stack"
           }
         ],
         "chain": [

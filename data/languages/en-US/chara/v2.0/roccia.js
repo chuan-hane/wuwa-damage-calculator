@@ -49,8 +49,8 @@ window.WUWA_LANGUAGES.extend("en-US", {
             "requiresResourceLabel": "Imagination at least 100"
           },
           {
-            "name": "A Prop Master Prepares - Stage 3 DMG",
-            "requiresResourceLabel": "resource_gate_2"
+            "name": "Reality Recreation",
+            "requiresResourceLabel": "Within 12s after Resonance Liberation"
           }
         ],
         "resources": [
@@ -115,7 +115,7 @@ window.WUWA_LANGUAGES.extend("en-US", {
               {
                 "label": "Havoc DMG Bonus",
                 "trigger": "After casting A Prop Master Prepares - Stage 1 DMG / A Prop Master Prepares - Stage 2 DMG / A Prop Master Prepares - Stage 3 DMG",
-                "excerpt": "Havoc DMG Bonus +30% per stack"
+                "excerpt": "Havoc DMG Bonus +10% per stack"
               },
               {
                 "label": "Havoc DMG Bonus",
