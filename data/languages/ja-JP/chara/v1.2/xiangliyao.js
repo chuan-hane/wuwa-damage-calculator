@@ -65,6 +65,9 @@ window.WUWA_LANGUAGES.extend("ja-JP", {
           },
           {
             "name": "正理 - スキルダメージ"
+          },
+          {
+            "name": "連鎖"
           }
         ],
         "resources": [
@@ -152,6 +155,11 @@ window.WUWA_LANGUAGES.extend("ja-JP", {
                 "label": "思考の羅列 - 思考の羅列ダメージ倍率アップ",
                 "trigger": "洞察状態",
                 "excerpt": "思考の羅列 - 思考の羅列ダメージ倍率アップ +100%"
+              },
+              {
+                "label": "連鎖ダメージ倍率アップ",
+                "trigger": "デフォルト",
+                "excerpt": "連鎖のダメージ倍率+222%"
               }
             ]
           },

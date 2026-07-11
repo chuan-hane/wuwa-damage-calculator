@@ -261,6 +261,11 @@ window.WUWA_LANGUAGES.extend("ko", {
                 "label": "최종 피해 보너스",
                 "trigger": "거합 자세 상태",
                 "excerpt": "최종 피해 보너스 +25%"
+              },
+              {
+                "label": "서리 점진 이상 배율 상승",
+                "trigger": "히유키 출전 중 파티가 서리 점진 부여",
+                "excerpt": "눈 녹 2스택 시 파티가 부여하는 서리 점진 이상 배율 +488%"
               }
             ]
           }

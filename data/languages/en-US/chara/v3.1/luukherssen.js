@@ -77,6 +77,9 @@ window.WUWA_LANGUAGES.extend("en-US", {
           {
             "name": "Spark from the Frost - Ichor Blade DMG (per 0.15s)",
             "requiresResourceLabel": "Ichor Blade active"
+          },
+          {
+            "name": "Bow to the Last Light"
           }
         ],
         "resources": [
@@ -224,6 +227,11 @@ window.WUWA_LANGUAGES.extend("en-US", {
                 "label": "Reunion of All the Fallen - Golden Reflux DMG Multiplier Increase",
                 "trigger": "In Target Tune Strain · Interfered",
                 "excerpt": "Reunion of All the Fallen - Golden Reflux DMG Multiplier Increase +50%"
+              },
+              {
+                "label": "Bow to the Last Light DMG Bonus",
+                "trigger": "Default",
+                "excerpt": "Bow to the Last Light DMG Bonus +80%"
               }
             ]
           },

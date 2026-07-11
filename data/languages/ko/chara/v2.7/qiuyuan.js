@@ -68,6 +68,13 @@ window.WUWA_LANGUAGES.extend("ko", {
           {
             "name": "푸른 칼끝 - 취묵 상태 종료 피해",
             "requiresResourceLabel": "resource_gate_3"
+          },
+          {
+            "name": "새로이 드러난 푸르름",
+            "requiresResourceLabel": "대나무숲의 은둔자 발동 후 다음 반주"
+          },
+          {
+            "name": "달아나지 않는 마음"
           }
         ],
         "resources": [

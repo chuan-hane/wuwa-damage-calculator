@@ -71,6 +71,9 @@ window.WUWA_LANGUAGES.extend("en-US", {
           {
             "name": "Within Infinity's Embrace - Forte Circuit - Learn My True Name DMG",
             "requiresResourceLabel": "Full Stop full"
+          },
+          {
+            "name": "In This Very Moment"
           }
         ],
         "resources": [

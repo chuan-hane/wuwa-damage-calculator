@@ -79,6 +79,9 @@ window.WUWA_LANGUAGES.extend("en-US", {
           },
           {
             "name": "Ebb and Flow - Absolute Fullness DMG"
+          },
+          {
+            "name": "From Gloom to Gleam"
           }
         ],
         "resources": [

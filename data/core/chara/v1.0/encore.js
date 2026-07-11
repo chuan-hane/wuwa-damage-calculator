@@ -271,6 +271,13 @@ WUWA.register({
       "impliedStates": [
         "state_1_option_1"
       ]
+    },
+    {
+      "id": "outro_thermal_field",
+      "category": "outroSkill",
+      "damageType": "outroSkill",
+      "multiplier": 176.76,
+      "formula": "176.76% / 1.5s"
     }
   ],
   "defaultSkillId": "heavy_4",

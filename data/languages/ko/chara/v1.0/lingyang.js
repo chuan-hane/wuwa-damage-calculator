@@ -66,6 +66,9 @@ window.WUWA_LANGUAGES.extend("ko", {
           },
           {
             "name": "신형합일 - 등루·천근추 피해"
+          },
+          {
+            "name": "흔적·의지의 발자취"
           }
         ],
         "resources": [

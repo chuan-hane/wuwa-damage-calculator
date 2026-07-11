@@ -94,6 +94,9 @@ window.WUWA_LANGUAGES.extend("ja-JP", {
           },
           {
             "name": "もしあの時…… - 強化重撃追加ダメージ"
+          },
+          {
+            "name": "最高のチューマ"
           }
         ],
         "resources": [

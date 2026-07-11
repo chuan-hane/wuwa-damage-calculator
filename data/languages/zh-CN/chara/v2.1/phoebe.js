@@ -83,6 +83,12 @@ window.WUWA_LANGUAGES.extend("zh-CN", {
           },
           {
             "name": "告解·镜之环附带星辉"
+          },
+          {
+            "name": "倾听之心"
+          },
+          {
+            "name": "倾听之心·告解"
           }
         ],
         "combatStates": [
@@ -184,6 +190,11 @@ window.WUWA_LANGUAGES.extend("zh-CN", {
                 "label": "光噪效应伤害加深",
                 "trigger": "告解状态延奏默祷后",
                 "excerpt": "告解状态默祷下，光噪效应伤害加深额外提升120%"
+              },
+              {
+                "label": "倾听之心伤害加深",
+                "trigger": "赦罪状态且目标拥有光噪效应",
+                "excerpt": "倾听之心对光噪效应目标的伤害加深120%"
               }
             ]
           },

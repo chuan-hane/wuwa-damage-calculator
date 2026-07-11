@@ -101,6 +101,9 @@ window.WUWA_LANGUAGES.extend("en-US", {
           },
           {
             "name": "Chromaticity Modeling - Tune Rupture Response - Spectral Analysis DMG"
+          },
+          {
+            "name": "Let's Hit the Road!"
           }
         ],
         "resources": [

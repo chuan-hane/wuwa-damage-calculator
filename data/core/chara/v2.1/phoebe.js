@@ -253,6 +253,22 @@ WUWA.register({
       "triggerEvents": [
         "applySpectroFrazzle"
       ]
+    },
+    {
+      "id": "outro_attentive_heart",
+      "category": "outroSkill",
+      "damageType": "outroSkill",
+      "multiplier": 783.41,
+      "formula": "528.41% + 255%",
+      "requiresState": "mode_1_option_1"
+    },
+    {
+      "id": "outro_attentive_confession",
+      "category": "outroSkill",
+      "damageType": "outroSkill",
+      "multiplier": 528.41,
+      "formula": "528.41%",
+      "requiresState": "mode_1_option_2"
     }
   ],
   "defaultSkillId": "starflash_absolution",
@@ -368,6 +384,8 @@ WUWA.register({
       "value": 10,
       "scope": "team",
       "requiresState": "mode_1_option_2",
+      "defaultActive": false,
+      "triggerOutro": true,
       "duration": 30
     },
     {
@@ -377,6 +395,8 @@ WUWA.register({
       "value": 100,
       "scope": "team",
       "requiresState": "mode_1_option_2",
+      "defaultActive": false,
+      "triggerOutro": true,
       "duration": 30
     }
   ],
@@ -421,6 +441,20 @@ WUWA.register({
           "defaultActive": false,
           "triggerOutro": true,
           "duration": 30
+        },
+        {
+          "id": "k2_outro_absolution",
+          "zone": "amplify",
+          "value": 120,
+          "scope": "self",
+          "skills": [
+            "outro_attentive_heart"
+          ],
+          "requiresState": "mode_1_option_1",
+          "requiresEffectStacks": {
+            "effect": "lightNoise",
+            "stacks": 1
+          }
         }
       ]
     },

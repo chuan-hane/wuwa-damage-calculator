@@ -72,6 +72,9 @@ window.WUWA_LANGUAGES.extend("zh-CN", {
           {
             "name": "重击·黑咩·暴走之炎",
             "requiresResourceLabel": "100失序值"
+          },
+          {
+            "name": "热力场"
           }
         ],
         "combatStates": [

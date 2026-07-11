@@ -67,6 +67,9 @@ window.WUWA_LANGUAGES.extend("en-US", {
           {
             "name": "There Will Be A Light - Heavy Slash - Lightsmash DMG",
             "requiresResourceLabel": "Blazes at least 30"
+          },
+          {
+            "name": "Beacon For the Future"
           }
         ],
         "resources": [
@@ -153,6 +156,12 @@ window.WUWA_LANGUAGES.extend("en-US", {
             "trigger": "In Blazing Ember",
             "excerpt": "DMG Increase +20%",
             "desc": "DMG Increase +20%"
+          },
+          {
+            "source": "Outro Skill: Beacon For the Future",
+            "label": "Beacon For the Future DMG Amplification",
+            "trigger": "Consume Heliacal Ember",
+            "excerpt": "Each Heliacal Ember Amplifies this Outro by 10%, up to 60 stacks"
           }
         ],
         "chain": [

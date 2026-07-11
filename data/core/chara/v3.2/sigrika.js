@@ -251,6 +251,13 @@ WUWA.register({
       "formula": "302.87% + 908.61%",
       "requiresResource": "resource_gate_6",
       "requiresResourceFull": "period"
+    },
+    {
+      "id": "outro_very_moment",
+      "category": "outroSkill",
+      "damageType": "outroSkill",
+      "multiplier": 795,
+      "formula": "795%"
     }
   ],
   "defaultSkillId": "true_name",

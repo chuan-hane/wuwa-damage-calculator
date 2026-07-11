@@ -48,6 +48,11 @@ window.WUWA_LANGUAGES.extend("ja-JP", {
           },
           {
             "name": "千の顔を持つ - 裁判の雷ダメージ"
+          },
+          {
+            "name": "神罰の雷撃・最大4回",
+            "stackLabel": "追加発動回数",
+            "requiresResourceLabel": "共鳴解放発動後30秒以内"
           }
         ],
         "resources": [

@@ -48,6 +48,11 @@ window.WUWA_LANGUAGES.extend("ko", {
           },
           {
             "name": "천면 매혹 - 심판의 뇌전 피해"
+          },
+          {
+            "name": "심판의 뇌전·최대 4회",
+            "stackLabel": "추가 발동 횟수",
+            "requiresResourceLabel": "공명 해방 발동 후 30초 이내"
           }
         ],
         "resources": [

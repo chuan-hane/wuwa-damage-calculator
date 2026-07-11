@@ -46,6 +46,9 @@ window.WUWA_LANGUAGES.extend("ja-JP", {
           {
             "name": "流れる烈火の英魂 - ドカン！ダメージ",
             "requiresResourceLabel": "「ダダダ！」中に熾炎弾を30発発射"
+          },
+          {
+            "name": "躍動する炎"
           }
         ],
         "buffs": [

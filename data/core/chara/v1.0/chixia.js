@@ -172,6 +172,13 @@ WUWA.register({
         "id": "dakaDakaShots",
         "value": 30
       }
+    },
+    {
+      "id": "outro_leaping_flames",
+      "category": "outroSkill",
+      "damageType": "outroSkill",
+      "multiplier": 530,
+      "formula": "530%"
     }
   ],
   "defaultSkillId": "lib",

@@ -178,6 +178,18 @@ WUWA.register({
       "impliedStates": [
         "target_1_option_2"
       ]
+    },
+    {
+      "id": "c6_judgement_strike",
+      "category": "resonanceChain",
+      "damageType": "resonanceSkill",
+      "multiplier": 419.59,
+      "perStack": 419.59,
+      "stackMax": 3,
+      "formula": "419.59% × 1~4",
+      "seq": 6,
+      "requiresResource": "c6_liberation_window",
+      "triggeredDamage": true
     }
   ],
   "defaultSkillId": "forte_judgment",

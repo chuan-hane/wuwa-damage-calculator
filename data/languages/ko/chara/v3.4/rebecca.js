@@ -94,6 +94,9 @@ window.WUWA_LANGUAGES.extend("ko", {
           },
           {
             "name": "어쩌면... - 강화 강공격 추가 피해"
+          },
+          {
+            "name": "최고의 동료"
           }
         ],
         "resources": [

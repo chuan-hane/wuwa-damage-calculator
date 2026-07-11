@@ -46,6 +46,9 @@ window.WUWA_LANGUAGES.extend("en-US", {
           {
             "name": "Heroic Bullets - Boom Boom Damage",
             "requiresResourceLabel": "30 Thermobaric Bullets fired during DAKA DAKA!"
+          },
+          {
+            "name": "Leaping Flames"
           }
         ],
         "buffs": [

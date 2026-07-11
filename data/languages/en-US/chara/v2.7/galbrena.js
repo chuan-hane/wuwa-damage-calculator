@@ -84,6 +84,9 @@ window.WUWA_LANGUAGES.extend("en-US", {
           },
           {
             "name": "Beyond Threshold - Resonance Skill - Ravage DMG"
+          },
+          {
+            "name": "Ashen Pursuit"
           }
         ],
         "resources": [

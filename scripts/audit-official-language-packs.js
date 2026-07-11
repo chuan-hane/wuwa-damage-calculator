@@ -81,6 +81,31 @@ function apiSkillAttributes(apiChar) {
   return attrs;
 }
 
+function positiveDamageRate(rate) {
+  return asList(rate).some((value) => {
+    const parts = String(value || "").match(/\d+(?:\.\d+)?/g) || [];
+    return parts.some((part) => Number(part) > 0);
+  });
+}
+
+function officialDirectOutroSkills(apiChar) {
+  return (apiChar.Skills || []).filter((skill) => {
+    if (skill.SkillType !== "Outro Skill") return false;
+    if ((skill.DamageList || []).some((item) => positiveDamageRate(item.RateLv))) return true;
+    const desc = cleanHtml(skill.SkillDescribe);
+    const rateBeforeDmg = /\b(?:deal|deals|dealing)\b[^.]{0,60}\d+(?:\.\d+)?%\s+(?:(?:Fusion|Glacio|Electro|Aero|Spectro|Havoc)\s+)?DMG\b/i;
+    const rateAfterDmg = /\b(?:deal|deals|dealing|suffering)\b[^.]{0,160}\bDMG\b[^.]{0,60}\bequal to\b[^.]{0,40}\d+(?:\.\d+)?%/i;
+    return rateBeforeDmg.test(desc) || rateAfterDmg.test(desc);
+  });
+}
+
+function officialActionNameMatches(localName, officialName) {
+  const local = normName(localName);
+  const official = normName(officialName);
+  if (!local || !official) return false;
+  return local === official || local.startsWith(official);
+}
+
 function uniqueNameIndex(items, field) {
   const grouped = new Map();
   items.forEach((item) => {
@@ -204,11 +229,20 @@ async function auditCharacters(bad, stats) {
     const matchedSkills = skillMatches.filter(Boolean).length;
     stats.matchedSkillEntries += matchedSkills;
     if (!matchedSkills) bad.push(`character ${id}: no local skill names matched official English attributes`);
+    const directOutroMatches = officialDirectOutroSkills(enDetail).map((official) => {
+      const index = (window.WUWA.chars[id].skills || []).findIndex((sk, idx) => (
+        sk.category === "outroSkill" && officialActionNameMatches(enPack?.skills?.[idx]?.name, official.SkillName)
+      ));
+      if (index < 0) bad.push(`character ${id}: missing direct Outro action ${official.SkillName}`);
+      else stats.directOutroEntries += 1;
+      return { skillId: official.SkillId, index };
+    });
     for (const { code, api } of TARGET_LANGS) {
       const pack = window.WUWA_LANGUAGES.localeData(code, "chars", id);
       const detail = await charDetail(api, apiId);
       if (pack?.name !== detail.Name?.Content) bad.push(`${code}.char.${id}.name: ${pack?.name} != ${detail.Name?.Content}`);
       const targetAttrs = new Map(apiSkillAttributes(detail).map((attr) => [attr.id, attr]));
+      const targetSkills = new Map((detail.Skills || []).map((skill) => [skill.SkillId, skill]));
       (window.WUWA.chars[id].skills || []).forEach((sk, idx) => {
         const match = skillMatches[idx];
         const official = match ? targetAttrs.get(match.attr.id)?.[match.field] : null;
@@ -218,6 +252,11 @@ async function auditCharacters(bad, stats) {
           return;
         }
         if (pack?.skills?.[idx]?.name !== official) bad.push(`${code}.char.${id}.${sk.id}: ${pack?.skills?.[idx]?.name} != ${official}`);
+      });
+      directOutroMatches.forEach((match) => {
+        if (match.index < 0) return;
+        const official = targetSkills.get(match.skillId)?.SkillName || "";
+        if (!officialActionNameMatches(pack?.skills?.[match.index]?.name, official)) bad.push(`${code}.char.${id}.directOutro: ${pack?.skills?.[match.index]?.name} != ${official}`);
       });
       const targetChains = new Map((detail.ResonantChain || []).map((node) => [node.NodeIndex, node]));
       (window.WUWA.chars[id].chain || []).forEach((node, idx) => {
@@ -300,7 +339,7 @@ async function auditSonatas(bad, stats) {
 async function main() {
   loadRepoData();
   const bad = [];
-  const stats = { matchedSkillEntries: 0, derivedSkillEntries: 0, skippedBetaCharacters: 0, skippedBetaWeapons: 0, skippedBetaSonatas: 0 };
+  const stats = { matchedSkillEntries: 0, derivedSkillEntries: 0, directOutroEntries: 0, skippedBetaCharacters: 0, skippedBetaWeapons: 0, skippedBetaSonatas: 0 };
   await auditCharacters(bad, stats);
   await auditWeapons(bad, stats);
   await auditSonatas(bad, stats);
@@ -309,7 +348,7 @@ async function main() {
     console.error(bad.slice(0, 120).join("\n"));
     process.exit(1);
   }
-  console.log(`OFFICIAL_AUDIT_OK chars=${window.WUWA.order.length - stats.skippedBetaCharacters}/${window.WUWA.order.length} weapons=${window.WUWA_DATA.weapons.length - stats.skippedBetaWeapons}/${window.WUWA_DATA.weapons.length} sonatas=${window.WUWA_SONATAS.length - stats.skippedBetaSonatas}/${window.WUWA_SONATAS.length} skippedBeta=${stats.skippedBetaCharacters + stats.skippedBetaWeapons + stats.skippedBetaSonatas} matchedSkillEntries=${stats.matchedSkillEntries} derivedSkillEntries=${stats.derivedSkillEntries} langs=${TARGET_LANGS.map((item) => item.code).join(",")}`);
+  console.log(`OFFICIAL_AUDIT_OK chars=${window.WUWA.order.length - stats.skippedBetaCharacters}/${window.WUWA.order.length} weapons=${window.WUWA_DATA.weapons.length - stats.skippedBetaWeapons}/${window.WUWA_DATA.weapons.length} sonatas=${window.WUWA_SONATAS.length - stats.skippedBetaSonatas}/${window.WUWA_SONATAS.length} skippedBeta=${stats.skippedBetaCharacters + stats.skippedBetaWeapons + stats.skippedBetaSonatas} matchedSkillEntries=${stats.matchedSkillEntries} derivedSkillEntries=${stats.derivedSkillEntries} directOutroEntries=${stats.directOutroEntries} langs=${TARGET_LANGS.map((item) => item.code).join(",")}`);
 }
 
 main().catch((error) => {

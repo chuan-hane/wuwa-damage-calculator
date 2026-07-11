@@ -67,6 +67,9 @@ window.WUWA_LANGUAGES.extend("ja-JP", {
           {
             "name": "長夜の明け時 - 重斬り・閃裂ダメージ",
             "requiresResourceLabel": "焔光30以上"
+          },
+          {
+            "name": "来る日の道標"
           }
         ],
         "resources": [
@@ -153,6 +156,12 @@ window.WUWA_LANGUAGES.extend("ja-JP", {
             "trigger": "烈日の残光状態",
             "excerpt": "ダメージブースト +20%",
             "desc": "ダメージブースト +20%"
+          },
+          {
+            "source": "終奏スキル・来る日の道標",
+            "label": "来る日の道標ダメージブースト",
+            "trigger": "太陽の残光を消費",
+            "excerpt": "太陽の残光1スタックにつき終奏ダメージブースト10%、最大60スタック"
           }
         ],
         "chain": [

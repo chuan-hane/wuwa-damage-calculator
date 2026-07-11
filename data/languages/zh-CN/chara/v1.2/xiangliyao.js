@@ -73,6 +73,9 @@ window.WUWA_LANGUAGES.extend("zh-CN", {
           },
           {
             "name": "正理"
+          },
+          {
+            "name": "链式"
           }
         ],
         "combatStates": [
@@ -159,6 +162,11 @@ window.WUWA_LANGUAGES.extend("zh-CN", {
                 "trigger": "默认",
                 "excerpt": "思维矩阵伤害倍率提升100%",
                 "desc": "延奏技能链式伤害倍率增加222%，共鸣解放思维矩阵伤害倍率提升100%。"
+              },
+              {
+                "label": "链式倍率增加",
+                "trigger": "默认",
+                "excerpt": "链式伤害倍率增加222%"
               }
             ]
           },

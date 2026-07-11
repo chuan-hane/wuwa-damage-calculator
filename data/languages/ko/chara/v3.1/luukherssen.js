@@ -77,6 +77,9 @@ window.WUWA_LANGUAGES.extend("ko", {
           {
             "name": "서리 속에서 태어난 불빛 - 부서진 이코르의 칼날 피해 (0.15초당)",
             "requiresResourceLabel": "이코르 블레이드 활성화"
+          },
+          {
+            "name": "죽음으로 내린 답"
           }
         ],
         "resources": [
@@ -224,6 +227,11 @@ window.WUWA_LANGUAGES.extend("ko", {
                 "label": "이곳에 지는 모든 것들, 결국 재회하리니 - 되살아난 금빛의 흐름 피해 배율 상승",
                 "trigger": "목표 조화 밀집 · 간섭 상태",
                 "excerpt": "이곳에 지는 모든 것들, 결국 재회하리니 - 되살아난 금빛의 흐름 피해 배율 상승 +50%"
+              },
+              {
+                "label": "죽음으로 내린 답 피해 보너스",
+                "trigger": "기본",
+                "excerpt": "죽음으로 내린 답 피해 보너스 +80%"
               }
             ]
           },

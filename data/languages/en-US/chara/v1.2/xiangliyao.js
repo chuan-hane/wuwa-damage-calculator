@@ -65,6 +65,9 @@ window.WUWA_LANGUAGES.extend("en-US", {
           },
           {
             "name": "Principle - Skill DMG"
+          },
+          {
+            "name": "Chain Rule"
           }
         ],
         "resources": [
@@ -152,6 +155,11 @@ window.WUWA_LANGUAGES.extend("en-US", {
                 "label": "Cogitation Model - Cogitation Model DMG Multiplier Increase",
                 "trigger": "In Intuition",
                 "excerpt": "Cogitation Model - Cogitation Model DMG Multiplier Increase +100%"
+              },
+              {
+                "label": "Chain Rule DMG Multiplier Increase",
+                "trigger": "Default",
+                "excerpt": "Chain Rule DMG Multiplier Increase +222%"
               }
             ]
           },

@@ -171,6 +171,31 @@ WUWA.register({
         "value": 100
       },
       "fallbackSkillId": "skill"
+    },
+    {
+      "id": "c1_marcato_duet",
+      "category": "resonanceChain",
+      "damageType": "resonanceLiberation",
+      "damageTags": [
+        "coordinated"
+      ],
+      "multiplier": 63.62,
+      "formula": "31.81% × 2",
+      "seq": 1,
+      "requiresResource": "burning_rhapsody_active",
+      "triggeredDamage": true
+    },
+    {
+      "id": "c5_marcato_quartet",
+      "category": "resonanceChain",
+      "damageType": "resonanceLiberation",
+      "damageTags": [
+        "coordinated"
+      ],
+      "multiplier": 63.62,
+      "formula": "31.81% × 50% × 4",
+      "seq": 5,
+      "triggeredDamage": true
     }
   ],
   "defaultSkillId": "lib_marcato",

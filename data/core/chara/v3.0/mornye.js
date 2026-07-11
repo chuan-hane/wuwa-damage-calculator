@@ -347,7 +347,10 @@ WUWA.register({
       "zone": "discordEff",
       "value": 50,
       "scope": "team",
-      "requiresState": "field_1_option_1"
+      "requiresState": [
+        "field_1_option_1",
+        "field_1_option_2"
+      ]
     },
     {
       "id": "b_strong_def",
@@ -444,7 +447,10 @@ WUWA.register({
           "zone": "discordEff",
           "value": 20,
           "scope": "team",
-          "requiresState": "field_1_option_1"
+          "requiresState": [
+            "field_1_option_1",
+            "field_1_option_2"
+          ]
         }
       ]
     },

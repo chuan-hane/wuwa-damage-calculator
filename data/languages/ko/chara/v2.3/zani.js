@@ -67,6 +67,9 @@ window.WUWA_LANGUAGES.extend("ko", {
           {
             "name": "어둠이 밝을 무렵 - 중참 · 섬광 피해",
             "requiresResourceLabel": "불빛 30 이상"
+          },
+          {
+            "name": "미래 목표"
           }
         ],
         "resources": [
@@ -153,6 +156,12 @@ window.WUWA_LANGUAGES.extend("ko", {
             "trigger": "강렬한 불기운 상태",
             "excerpt": "피해 증가 +20%",
             "desc": "피해 증가 +20%"
+          },
+          {
+            "source": "반주 스킬·미래 목표",
+            "label": "미래 목표 피해 부스트",
+            "trigger": "태양의 잔광 소모",
+            "excerpt": "태양의 잔광 1스택당 반주 피해 부스트 10%, 최대 60스택"
           }
         ],
         "chain": [

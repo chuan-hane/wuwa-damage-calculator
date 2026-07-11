@@ -233,6 +233,13 @@ WUWA.register({
       "triggerEvents": [
         "introEntry"
       ]
+    },
+    {
+      "id": "outro_chain_rule",
+      "category": "outroSkill",
+      "damageType": "outroSkill",
+      "multiplier": 237.63,
+      "formula": "237.63%"
     }
   ],
   "defaultSkillId": "forte_law",
@@ -353,6 +360,14 @@ WUWA.register({
           "scope": "self",
           "skills": [
             "lib_cogitation"
+          ]
+        },
+        {
+          "id": "k5_outro",
+          "multAdd": 222,
+          "scope": "self",
+          "skills": [
+            "outro_chain_rule"
           ]
         }
       ]

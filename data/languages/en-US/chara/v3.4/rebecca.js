@@ -94,6 +94,9 @@ window.WUWA_LANGUAGES.extend("en-US", {
           },
           {
             "name": "Maybe, Just Maybe... - Enhanced Heavy Attack Additional DMG"
+          },
+          {
+            "name": "Preem Choom"
           }
         ],
         "resources": [

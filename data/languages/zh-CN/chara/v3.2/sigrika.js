@@ -85,6 +85,9 @@ window.WUWA_LANGUAGES.extend("zh-CN", {
           {
             "name": "共鸣回路·我即语义",
             "requiresResourceLabel": "100点句点"
+          },
+          {
+            "name": "在这一瞬间"
           }
         ],
         "combatStates": [

@@ -79,6 +79,9 @@ window.WUWA_LANGUAGES.extend("ja-JP", {
           },
           {
             "name": "満ち欠けの間に揺らぐ - 至高の円満ダメージ"
+          },
+          {
+            "name": "夜を渡りて暁へ"
           }
         ],
         "resources": [

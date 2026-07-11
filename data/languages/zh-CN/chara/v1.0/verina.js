@@ -71,6 +71,9 @@ window.WUWA_LANGUAGES.extend("zh-CN", {
           {
             "name": "空中攻击·星星花绽放第三段",
             "requiresResourceLabel": "光合能量"
+          },
+          {
+            "name": "6链·光合标记协同攻击"
           }
         ],
         "buffs": [

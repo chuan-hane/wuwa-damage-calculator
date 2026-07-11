@@ -75,6 +75,9 @@ window.WUWA_LANGUAGES.extend("zh-CN", {
           {
             "name": "重斩·闪裂",
             "requiresResourceLabel": "焰光不少于30"
+          },
+          {
+            "name": "来日道标"
           }
         ],
         "combatStates": [
@@ -150,6 +153,12 @@ window.WUWA_LANGUAGES.extend("zh-CN", {
             "trigger": "释放延奏技能后",
             "excerpt": "其他角色攻击烈阳余烬目标时，衍射伤害加深20%",
             "desc": "队伍中除赞妮以外的角色对拥有【烈阳余烬】的目标造成的衍射伤害加深20%，持续20秒。"
+          },
+          {
+            "source": "延奏·来日道标",
+            "label": "来日道标伤害加深",
+            "trigger": "消耗烈阳余烬",
+            "excerpt": "每层烈阳余烬使本次延奏伤害加深10%，最多60层"
           }
         ],
         "chain": [

@@ -253,6 +253,13 @@ WUWA.register({
       "impliedStates": [
         "status_1_option_1"
       ]
+    },
+    {
+      "id": "outro_frosty_marks",
+      "category": "outroSkill",
+      "damageType": "outroSkill",
+      "multiplier": 587.94,
+      "formula": "587.94%"
     }
   ],
   "defaultSkillId": "forte_stormy_kicks",

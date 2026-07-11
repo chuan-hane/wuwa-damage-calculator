@@ -250,6 +250,13 @@ WUWA.register({
       "damageType": "resonanceLiberation",
       "multiplier": 159.05,
       "formula": "159.05%"
+    },
+    {
+      "id": "outro_from_gloom",
+      "category": "outroSkill",
+      "damageType": "outroSkill",
+      "multiplier": 100,
+      "formula": "100%"
     }
   ],
   "defaultSkillId": "rs_yuexiane",

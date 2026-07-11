@@ -375,6 +375,7 @@ WUWA.register({
     },
     {
       "id": "b_outro_flower_atk",
+      "maxSeq": 0,
       "zone": "attackPercent",
       "scope": "team",
       "requiresState": "ceaseless_landscape_active",
@@ -396,7 +397,29 @@ WUWA.register({
   ],
   "chain": [
     {
-      "seq": 1
+      "seq": 1,
+      "buffs": [
+        {
+          "id": "c1_outro_flower_atk",
+          "zone": "attackPercent",
+          "scope": "team",
+          "requiresState": "ceaseless_landscape_active",
+          "defaultActive": false,
+          "triggerOutro": true,
+          "requiresResourceAtLeast": {
+            "id": "floral_epistle",
+            "value": 600
+          },
+          "duration": 6,
+          "scaleBy": {
+            "stat": "energyRegen",
+            "statBonus": -200,
+            "rate": 0.8333333333333334,
+            "min": 0,
+            "cap": 50
+          }
+        }
+      ]
     },
     {
       "seq": 2,

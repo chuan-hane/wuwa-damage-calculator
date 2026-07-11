@@ -84,6 +84,9 @@ window.WUWA_LANGUAGES.extend("zh-CN", {
           },
           {
             "name": "至臻的完满"
+          },
+          {
+            "name": "延奏·尤诺"
           }
         ],
         "combatStates": [

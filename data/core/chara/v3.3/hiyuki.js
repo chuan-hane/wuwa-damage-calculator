@@ -533,6 +533,7 @@ WUWA.register({
         },
         {
           "id": "k3_snow_rust_frost_extra",
+          "maxSeq": 5,
           "zone": "effectExtraRate",
           "effect": "frost",
           "value": 488,
@@ -613,6 +614,18 @@ WUWA.register({
           "requiresBuffStacks": {
             "id": "b_snow_rust_cd",
             "stacks": 3
+          }
+        },
+        {
+          "id": "k6_snow_rust_frost_extra",
+          "zone": "effectExtraRate",
+          "effect": "frost",
+          "value": 488,
+          "scope": "team",
+          "requiresActiveChar": "hiyuki",
+          "requiresBuffStacks": {
+            "id": "b_snow_rust_cd",
+            "stacks": 2
           }
         }
       ]

@@ -60,6 +60,9 @@ window.WUWA_LANGUAGES.extend("ko", {
           {
             "name": "청룡파진 - 승천하는 청룡·처형 피해",
             "requiresResourceLabel": "파진치 30 이상"
+          },
+          {
+            "name": "극기의 각오"
           }
         ],
         "resources": [
@@ -156,6 +159,11 @@ window.WUWA_LANGUAGES.extend("ko", {
                 "label": "공격력",
                 "trigger": "청룡의 습격 - 스킬 피해 발동 후",
                 "excerpt": "공격력 스택당 +3%"
+              },
+              {
+                "label": "극기의 각오 피해 배율 상승",
+                "trigger": "기본",
+                "excerpt": "극기의 각오 피해 배율 +120%"
               }
             ]
           },

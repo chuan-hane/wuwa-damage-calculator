@@ -45,6 +45,13 @@ window.WUWA_LANGUAGES.extend("en-US", {
           {
             "name": "Fury Fugue - Fury Fugue Damage",
             "requiresResourceLabel": "Annoyance at least 100"
+          },
+          {
+            "name": "Marcato - 2 Coordinated Hits (Sequence 1)",
+            "requiresResourceLabel": "During Burning Rhapsody"
+          },
+          {
+            "name": "Marcato - 4 Hits at 50% DMG (Sequence 5)"
           }
         ],
         "resources": [

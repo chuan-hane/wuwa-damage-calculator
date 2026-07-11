@@ -66,6 +66,9 @@ window.WUWA_LANGUAGES.extend("ja-JP", {
           },
           {
             "name": "形神統一 - 登楼・千斤の墜ダメージ"
+          },
+          {
+            "name": "着痕・雪に星々"
           }
         ],
         "resources": [

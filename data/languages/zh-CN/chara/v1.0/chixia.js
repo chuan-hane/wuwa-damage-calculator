@@ -46,6 +46,9 @@ window.WUWA_LANGUAGES.extend("zh-CN", {
           {
             "name": "轰轰",
             "requiresResourceLabel": "咔咔压制期间已连续射击30发热压弹"
+          },
+          {
+            "name": "跃动的火星"
           }
         ],
         "buffs": [

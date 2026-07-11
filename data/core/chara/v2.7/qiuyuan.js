@@ -206,6 +206,23 @@ WUWA.register({
       "formula": "600%",
       "seq": 6,
       "requiresResource": "resource_gate_3"
+    },
+    {
+      "id": "c3_outro_sheath_fallen",
+      "category": "outroSkill",
+      "damageType": "echoSkill",
+      "multiplier": 500,
+      "formula": "500%",
+      "seq": 3,
+      "requiresResource": "resource_gate_2",
+      "triggeredDamage": true
+    },
+    {
+      "id": "outro_strike_before_ready",
+      "category": "outroSkill",
+      "damageType": "echoSkill",
+      "multiplier": 100,
+      "formula": "100%"
     }
   ],
   "defaultSkillId": "liberation",

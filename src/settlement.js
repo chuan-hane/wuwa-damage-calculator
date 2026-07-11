@@ -827,6 +827,10 @@ window.WUWA_SETTLEMENT = (() => {
       return idx !== outputIdx && (String(buff.source).startsWith("延奏") || buff.triggerOutro === true);
     }
 
+    function affectsOwnOutroAction(buff, ctx) {
+      return buff.scope === "self" && buff.skills && skillRefsMatch(ctx.skill, buff.skills);
+    }
+
     function hasOwnToggle(slot, key) {
       return Object.prototype.hasOwnProperty.call(slot.toggles || {}, key);
     }
@@ -1065,12 +1069,13 @@ window.WUWA_SETTLEMENT = (() => {
       if (resourceGate) return resourceGate;
       if (!sourceStatRequirementReady(slot, buff)) return `需${sourceStatRequirementLabel(buff.requiresSourceStat)}`;
       if (!sourceCharRequirementReady(slot, buff)) return `需${sourceCharRequirementLabel(buff)}`;
+      if (!activeCharRequirementReady(buff)) return `需${activeCharRequirementLabel(buff)}为登场角色`;
       if (buff.maxStacks && (buff.stackStart != null || buff.stackEnd != null || buff.stackRange) && buffTriggerSatisfied(slot, idx, buff, outputIdx, ctx) && buffStackContribution(slot, buff, idx, outputIdx, ctx) <= 0) return buffStackRangeLabel(buff);
       if (buff.requiresEffectStacks && !effectStackRequirementReadyForBuff(buff) && explicitBuffToggle(slot, buff) === true) return `需${effectStackRequirementLabel(buff.requiresEffectStacks)}`;
       if (buff.requiresAnyEffectStacks && !anyEffectStackRequirementReadyForBuff(buff) && explicitBuffToggle(slot, buff) === true) return `需${anyEffectStackRequirementLabel(buff.requiresAnyEffectStacks)}`;
       if (buffClearedByCurrentSkill(slot, buff, ctx)) return "被当前技能清除";
       if (!isDps && buff.scope !== "team") return "仅自身输出时生效";
-      if (isDps && (String(buff.source).startsWith("延奏") || buff.triggerOutro === true)) return "延奏不给自己";
+      if (isDps && (String(buff.source).startsWith("延奏") || buff.triggerOutro === true) && !affectsOwnOutroAction(buff, ctx)) return "延奏不给自己";
       if (buff.skills && !skillRefsMatch(ctx.skill, buff.skills)) return "仅 " + skillRefsLabel(slot, buff.skills);
       if (buff.element && buff.element !== ctx.element) return "需输出位为" + L.element(buff.element);
       if (buff.damageType && !damageRequirementMatches(ctx, buff.damageType)) return "需当前技能为" + asList(buff.damageType).map(L.damageType).join("/");
@@ -1228,6 +1233,20 @@ window.WUWA_SETTLEMENT = (() => {
 
     function sourceCharRequirementLabel(buff) {
       return asList(buff.requiresChar || buff.requiresSourceChar)
+        .map((id) => ch(id) ? L.charName(ch(id)) : L.text(id))
+        .join("/");
+    }
+
+    function activeCharRequirementReady(buff) {
+      const required = asList(buff.requiresActiveChar);
+      if (!required.length) return true;
+      const active = ch(state.slots[state.outputIdx]?.char);
+      const names = [active?.id, active?.name, window.WUWA_LANGUAGES?.officialName?.("chars", active?.id), ...asList(active?.aliases)].filter(Boolean);
+      return required.some((name) => names.includes(name));
+    }
+
+    function activeCharRequirementLabel(buff) {
+      return asList(buff.requiresActiveChar)
         .map((id) => ch(id) ? L.charName(ch(id)) : L.text(id))
         .join("/");
     }
@@ -1530,8 +1549,9 @@ window.WUWA_SETTLEMENT = (() => {
       else if (!buffStateRequirementsReady(slot, buff) && !supportStateNeedsConfirmation(slot, idx, buff, outputIdx)) gated = `需处于${buffStateRequirementLabel(buff)}`;
       else if (!sourceStatRequirementReady(slot, buff)) gated = `需${sourceStatRequirementLabel(buff.requiresSourceStat)}`;
       else if (!sourceCharRequirementReady(slot, buff)) gated = `需${sourceCharRequirementLabel(buff)}`;
+      else if (!activeCharRequirementReady(buff)) gated = `需${activeCharRequirementLabel(buff)}为登场角色`;
       else if (!isDps && buff.scope !== "team") gated = "仅自身输出时生效";
-      else if (isDps && (String(buff.source).startsWith("延奏") || buff.triggerOutro === true)) gated = "延奏不给自己";
+      else if (isDps && (String(buff.source).startsWith("延奏") || buff.triggerOutro === true) && !affectsOwnOutroAction(buff, ctx)) gated = "延奏不给自己";
       else if (buff.skills && !skillRefsMatch(ctx.skill, buff.skills)) gated = "仅 " + skillRefsLabel(slot, buff.skills);
       else if (buff.element && buff.element !== def.element) gated = "需目标效应为" + L.element(buff.element);
       else if (buff.damageType && !damageRequirementMatches(ctx, buff.damageType)) gated = "需当前技能为" + asList(buff.damageType).map(L.damageType).join("/");
@@ -1540,7 +1560,8 @@ window.WUWA_SETTLEMENT = (() => {
         const ref = slotBuffs(slot).find((b) => b.id === req.id);
         const refStatus = ref && !seen.has(buff.id) ? effectBuffStatus(slot, idx, ref, effectKey, def, new Set([...seen, buff.id]), outputIdx) : null;
         const stacks = ref ? buffStackCount(slot, ref, idx, outputIdx) : 0;
-        if (!ref || !refStatus || !refStatus.applies || stacks < req.stacks) gated = `需${req.label || req.id}${req.stacks}层`;
+        const refReady = refStatus && (refStatus.applies || (refStatus.gated === "仅自身输出时生效" && refStatus.toggleOn));
+        if (!ref || !refReady || stacks < req.stacks) gated = `需${req.label || req.id}${req.stacks}层`;
       }
       const precondition = buffNeedsPrecondition(slot, idx, buff, outputIdx);
       const toggleOn = precondition ? explicitBuffToggle(slot, buff) === true : true;

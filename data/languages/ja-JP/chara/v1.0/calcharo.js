@@ -77,6 +77,9 @@ window.WUWA_LANGUAGES.extend("ja-JP", {
           {
             "name": "最終警告 - 幻影協同攻撃ダメージ",
             "requiresResourceLabel": "resource_gate_3"
+          },
+          {
+            "name": "残影奇襲"
           }
         ],
         "resources": [

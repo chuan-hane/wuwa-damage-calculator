@@ -112,6 +112,9 @@ window.WUWA_LANGUAGES.extend("zh-CN", {
           },
           {
             "name": "震谐响应·光谱解析"
+          },
+          {
+            "name": "有空一起兜风！"
           }
         ],
         "combatStates": [
