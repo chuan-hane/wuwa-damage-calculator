@@ -58,6 +58,12 @@ window.WUWA_LANGUAGES.extend("ko", {
           {
             "name": "예술의 순례 - 마지막 길 피해",
             "requiresResourceLabel": "영민 최대"
+          },
+          {
+            "name": "만화경의 불꽃"
+          },
+          {
+            "name": "연설"
           }
         ],
         "resources": [

@@ -165,9 +165,9 @@ window.WUWA_LANGUAGES.extend("en-US", {
           {
             "source": "Forte Circuit: Syntony Field",
             "label": "Off-Tune Buildup Efficiency",
-            "trigger": "In Syntony Field",
-            "excerpt": "Off-Tune Buildup Efficiency +50%",
-            "desc": "When casting this skill, if a Syntony Field is present, remove it and generate a High Syntony Field."
+            "trigger": "In Syntony Field or High Syntony Field",
+            "excerpt": "Off-Tune Buildup Efficiency +50% in either field",
+            "desc": "Syntony Field increases the Off-Tune Buildup Rate of all nearby Resonators in the team by 50%. High Syntony Field inherits the Syntony Field's boost to Off-Tune Buildup Rate."
           },
           {
             "source": "Resonance Liberation: High Syntony Field",
@@ -181,7 +181,7 @@ window.WUWA_LANGUAGES.extend("en-US", {
             "label": "Vulnerability",
             "trigger": "In Interfered Marker",
             "excerpt": "Vulnerability based on Energy Regen, cap 40%",
-            "desc": "When a Resonator in the team deals Tune Break DMG to a target inflicted with Observation Marker, Mornye inflicts an Interfered Marker on the target for 8s."
+            "desc": "Targets affected by Tune Rupture - Interfered or Tune Strain - Interfered take increased DMG from all nearby Resonators in the team. For every 1% of Mornye's Energy Regen exceeding 100%, their DMG is increased by 0.25%, up to 40%."
           },
           {
             "source": "Tune Break: Decoupling",
@@ -221,8 +221,8 @@ window.WUWA_LANGUAGES.extend("en-US", {
               },
               {
                 "label": "Off-Tune Buildup Efficiency",
-                "trigger": "In Syntony Field",
-                "excerpt": "Off-Tune Buildup Efficiency +20%"
+                "trigger": "In Syntony Field or High Syntony Field",
+                "excerpt": "Off-Tune Buildup Efficiency +20% in either field"
               }
             ]
           },

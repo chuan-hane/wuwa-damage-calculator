@@ -73,6 +73,13 @@ window.WUWA_LANGUAGES.extend("zh-CN", {
           {
             "name": "退出淋漓醉墨",
             "requiresResourceLabel": "已退出淋漓醉墨且仍为登场角色"
+          },
+          {
+            "name": "新筠坠箨",
+            "requiresResourceLabel": "施放荷蓑出林后的下一次延奏"
+          },
+          {
+            "name": "出其不趋"
           }
         ],
         "combatStates": [

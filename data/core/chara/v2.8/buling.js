@@ -217,6 +217,14 @@ WUWA.register({
       ],
       "event": "applyElectroFlare",
       "stacks": 2
+    },
+    {
+      "seq": 5,
+      "skills": [
+        "forte_lib"
+      ],
+      "event": "applyElectroFlare",
+      "stacks": 6
     }
   ],
   "validSubs": [

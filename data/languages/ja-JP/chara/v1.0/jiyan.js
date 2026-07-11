@@ -60,6 +60,9 @@ window.WUWA_LANGUAGES.extend("ja-JP", {
           {
             "name": "蒼龍破陣 - 蒼渡八荒・後手ダメージ",
             "requiresResourceLabel": "破陣値30以上"
+          },
+          {
+            "name": "克己"
           }
         ],
         "resources": [
@@ -156,6 +159,11 @@ window.WUWA_LANGUAGES.extend("ja-JP", {
                 "label": "攻撃力",
                 "trigger": "不意打 - スキルダメージ発動後",
                 "excerpt": "攻撃力 1スタックにつき+3%"
+              },
+              {
+                "label": "克己ダメージ倍率アップ",
+                "trigger": "デフォルト",
+                "excerpt": "克己のダメージ倍率+120%"
               }
             ]
           },

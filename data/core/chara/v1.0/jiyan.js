@@ -171,6 +171,13 @@ WUWA.register({
         "id": "resolve",
         "value": 30
       }
+    },
+    {
+      "id": "outro_discipline",
+      "category": "outroSkill",
+      "damageType": "outroSkill",
+      "multiplier": 313.4,
+      "formula": "313.40%"
     }
   ],
   "defaultSkillId": "lib_lance3",
@@ -333,6 +340,14 @@ WUWA.register({
           ],
           "triggerStacks": 15,
           "duration": 8
+        },
+        {
+          "id": "k5_outro",
+          "multAdd": 120,
+          "scope": "self",
+          "skills": [
+            "outro_discipline"
+          ]
         }
       ]
     },

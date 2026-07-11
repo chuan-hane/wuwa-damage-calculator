@@ -65,6 +65,9 @@ window.WUWA_LANGUAGES.extend("zh-CN", {
           {
             "name": "苍躣八荒·后动",
             "requiresResourceLabel": "30破阵值"
+          },
+          {
+            "name": "克己"
           }
         ],
         "combatStates": [
@@ -158,6 +161,11 @@ window.WUWA_LANGUAGES.extend("zh-CN", {
                 "label": "攻击",
                 "trigger": "攻击命中或施放变奏技能后",
                 "excerpt": "攻击命中每层攻击提升3%；释放攻其不备后直接满15层"
+              },
+              {
+                "label": "克己倍率增加",
+                "trigger": "默认",
+                "excerpt": "克己伤害倍率增加120%"
               }
             ]
           },

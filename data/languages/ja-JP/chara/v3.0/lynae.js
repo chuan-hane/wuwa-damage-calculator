@@ -101,6 +101,9 @@ window.WUWA_LANGUAGES.extend("ja-JP", {
           },
           {
             "name": "色と光の混合律 - 震撃協和レスポンス・スペクトル解析ダメージ"
+          },
+          {
+            "name": "ツーリング、付き合って！"
           }
         ],
         "resources": [

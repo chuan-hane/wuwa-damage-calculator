@@ -67,6 +67,9 @@ window.WUWA_LANGUAGES.extend("ja-JP", {
           {
             "name": "黒メェと白メェ - 黒メェ・暴走の炎ダメージ",
             "requiresResourceLabel": "錯乱値100以上"
+          },
+          {
+            "name": "アツアツステージ！"
           }
         ],
         "resources": [

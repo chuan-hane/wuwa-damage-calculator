@@ -46,6 +46,9 @@ window.WUWA_LANGUAGES.extend("ko", {
           {
             "name": "영웅의 불길 - 폭격의 천둥소리 피해",
             "requiresResourceLabel": "「쾅쾅」 중 열압탄 30발 발사"
+          },
+          {
+            "name": "도약의 불빛"
           }
         ],
         "buffs": [

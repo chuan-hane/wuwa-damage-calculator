@@ -79,6 +79,9 @@ window.WUWA_LANGUAGES.extend("ko", {
           },
           {
             "name": "차고 기울 때의 움직임 - 완벽한 결말 피해"
+          },
+          {
+            "name": "밤을 건너 새벽으로"
           }
         ],
         "resources": [

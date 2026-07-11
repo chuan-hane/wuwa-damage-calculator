@@ -180,6 +180,22 @@ WUWA.register({
       "requiresResourceFull": "substance",
       "requiresState": "mechanic_1_option_1",
       "fallbackSkillId": "heavy"
+    },
+    {
+      "id": "c3_death_knell",
+      "category": "outroSkill",
+      "damageType": "outroSkill",
+      "multiplier": 1032.18,
+      "formula": "1032.18%",
+      "seq": 3,
+      "triggeredDamage": true
+    },
+    {
+      "id": "outro_closing_remark",
+      "category": "outroSkill",
+      "damageType": "outroSkill",
+      "multiplier": 794.2,
+      "formula": "794.20%"
     }
   ],
   "defaultSkillId": "forte_last",

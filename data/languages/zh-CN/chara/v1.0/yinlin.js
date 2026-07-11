@@ -53,6 +53,11 @@ window.WUWA_LANGUAGES.extend("zh-CN", {
           },
           {
             "name": "审判之雷"
+          },
+          {
+            "name": "6链·疾霆昭彰（最多4次）",
+            "stackLabel": "额外触发次数",
+            "requiresResourceLabel": "施放破天雷灭击后30秒内"
           }
         ],
         "combatStates": [

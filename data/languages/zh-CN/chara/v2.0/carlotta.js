@@ -66,6 +66,12 @@ window.WUWA_LANGUAGES.extend("zh-CN", {
           {
             "name": "末路见行",
             "requiresResourceLabel": "灵萃充满且镀色晶激活"
+          },
+          {
+            "name": "碎璃镜花"
+          },
+          {
+            "name": "致辞"
           }
         ],
         "combatStates": [

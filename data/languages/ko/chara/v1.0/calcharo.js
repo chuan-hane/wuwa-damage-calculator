@@ -77,6 +77,9 @@ window.WUWA_LANGUAGES.extend("ko", {
           {
             "name": "최후의 일격 - 환영 협동 공격 피해",
             "requiresResourceLabel": "resource_gate_3"
+          },
+          {
+            "name": "그림자의 기습"
           }
         ],
         "resources": [

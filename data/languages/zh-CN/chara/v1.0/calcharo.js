@@ -85,6 +85,9 @@ window.WUWA_LANGUAGES.extend("zh-CN", {
           {
             "name": "幻影协同攻击",
             "requiresResourceLabel": "重击·死告触发"
+          },
+          {
+            "name": "掠影奇袭"
           }
         ],
         "combatStates": [

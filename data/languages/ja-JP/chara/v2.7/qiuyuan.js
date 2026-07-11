@@ -68,6 +68,13 @@ window.WUWA_LANGUAGES.extend("ja-JP", {
           {
             "name": "黒中の蒼 - 酔墨状態終了ダメージ",
             "requiresResourceLabel": "resource_gate_3"
+          },
+          {
+            "name": "若竹の一新",
+            "requiresResourceLabel": "竹林より出づる蓑発動後の次の終奏"
+          },
+          {
+            "name": "不意を突く"
           }
         ],
         "resources": [

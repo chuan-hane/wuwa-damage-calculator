@@ -101,6 +101,9 @@ window.WUWA_LANGUAGES.extend("ko", {
           },
           {
             "name": "색과 빛의 혼합률 - 조화 파동 대응 · 스펙트럼 분석 피해"
+          },
+          {
+            "name": "시간 날땐 함께 드라이브!"
           }
         ],
         "resources": [

@@ -248,6 +248,21 @@ WUWA.register({
       "triggerEvents": [
         "heal"
       ]
+    },
+    {
+      "id": "c6_coordinated_blossom",
+      "category": "resonanceChain",
+      "damageType": "resonanceLiberation",
+      "damageTags": [
+        "coordinated"
+      ],
+      "multiplier": 9.95,
+      "formula": "9.95%",
+      "seq": 6,
+      "triggeredDamage": true,
+      "triggerEvents": [
+        "heal"
+      ]
     }
   ],
   "defaultSkillId": "lib",

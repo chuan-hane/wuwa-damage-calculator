@@ -67,6 +67,9 @@ window.WUWA_LANGUAGES.extend("en-US", {
           {
             "name": "Black & White Woolies - Cosmos Rupture Damage",
             "requiresResourceLabel": "Mayhem at least 100"
+          },
+          {
+            "name": "Thermal Field"
           }
         ],
         "resources": [

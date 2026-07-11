@@ -275,6 +275,13 @@ WUWA.register({
       "impliedStates": [
         "state_1_option_1"
       ]
+    },
+    {
+      "id": "outro_shadowy_raid",
+      "category": "outroSkill",
+      "damageType": "outroSkill",
+      "multiplier": 587.94,
+      "formula": "195.98% + 391.96%"
     }
   ],
   "defaultSkillId": "forte_death_messenger",

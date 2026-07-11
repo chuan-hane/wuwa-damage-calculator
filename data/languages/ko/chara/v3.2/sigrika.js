@@ -71,6 +71,9 @@ window.WUWA_LANGUAGES.extend("ko", {
           {
             "name": "드넓고 깊은 아득함 속에 - 공명 회로 · 나 곧 함의이니 피해",
             "requiresResourceLabel": "마침표 최대"
+          },
+          {
+            "name": "지금 이 순간"
           }
         ],
         "resources": [

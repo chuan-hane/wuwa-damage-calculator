@@ -58,6 +58,12 @@ window.WUWA_LANGUAGES.extend("en-US", {
           {
             "name": "Lethal Repertoire - Imminent Oblivion DMG",
             "requiresResourceLabel": "Substance full"
+          },
+          {
+            "name": "Kaleidoscope Sparks"
+          },
+          {
+            "name": "Closing Remark"
           }
         ],
         "resources": [

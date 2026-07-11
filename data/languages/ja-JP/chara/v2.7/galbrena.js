@@ -84,6 +84,9 @@ window.WUWA_LANGUAGES.extend("ja-JP", {
           },
           {
             "name": "オーバースレッショルド - 共鳴スキル・襲掠ダメージ"
+          },
+          {
+            "name": "残灰一掃"
           }
         ],
         "resources": [

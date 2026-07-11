@@ -92,6 +92,9 @@ window.WUWA_LANGUAGES.extend("zh-CN", {
           },
           {
             "name": "共鸣技能·掠袭"
+          },
+          {
+            "name": "残灰追猎"
           }
         ],
         "combatStates": [

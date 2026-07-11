@@ -75,6 +75,12 @@ window.WUWA_LANGUAGES.extend("ja-JP", {
           },
           {
             "name": "交差する星屑の祝福 - 重撃・スターライトダメージ"
+          },
+          {
+            "name": "傾聴の心"
+          },
+          {
+            "name": "傾聴の心・告解"
           }
         ],
         "resources": [
@@ -183,6 +189,11 @@ window.WUWA_LANGUAGES.extend("ja-JP", {
                 "label": "ダメージブースト",
                 "trigger": "変奏スキル発動後",
                 "excerpt": "ダメージブースト +120%"
+              },
+              {
+                "label": "傾聴の心ダメージブースト",
+                "trigger": "アブソリューション状態・騒光効果の目標",
+                "excerpt": "傾聴の心のダメージブースト+120%"
               }
             ]
           },

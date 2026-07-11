@@ -77,6 +77,9 @@ window.WUWA_LANGUAGES.extend("en-US", {
           {
             "name": "The Ultimatum - Phantom Coordinated Attack DMG",
             "requiresResourceLabel": "resource_gate_3"
+          },
+          {
+            "name": "Shadowy Raid"
           }
         ],
         "resources": [

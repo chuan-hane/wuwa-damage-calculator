@@ -116,7 +116,14 @@ window.WUWA_LANGUAGES.extend("en-US", {
         "chain": [
           {
             "name": "Mountains Washed Into Paintings",
-            "desc": "Resonators with Undulating Mist also gain ATK increase after inflicting Negative Status or dealing Negative Status DMG.\nThe duration of Reflecting Shadows obtained through the third Plume Step is extended by 100%.\nBasic Attack - Drizzle Stance, Heavy Attack - Drizzle Stance, Plunging Attack - Illuminating Dew and Plunging Attack - Swallow's Cut are immune to interruption."
+            "desc": "Resonators with Undulating Mist also gain ATK increase after inflicting Negative Status or dealing Negative Status DMG.\nThe duration of Reflecting Shadows obtained through the third Plume Step is extended by 100%.\nBasic Attack - Drizzle Stance, Heavy Attack - Drizzle Stance, Plunging Attack - Illuminating Dew and Plunging Attack - Swallow's Cut are immune to interruption.",
+            "buffs": [
+              {
+                "label": "ATK",
+                "trigger": "After consuming, inflicting, or dealing Negative Status DMG",
+                "excerpt": "Undulating Mist raises ATK after any Negative Status trigger, cap 50%"
+              }
+            ]
           },
           {
             "name": "Clouds Pour Like Molten Gold",

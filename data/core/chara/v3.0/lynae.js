@@ -398,6 +398,13 @@ WUWA.register({
       "requiresAllStates": [
         "mode_1_option_1"
       ]
+    },
+    {
+      "id": "outro_hit_the_road",
+      "category": "outroSkill",
+      "damageType": "outroSkill",
+      "multiplier": 100,
+      "formula": "100%"
     }
   ],
   "defaultSkillId": "prismatic_overblast",

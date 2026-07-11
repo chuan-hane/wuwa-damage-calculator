@@ -45,6 +45,13 @@ window.WUWA_LANGUAGES.extend("ko", {
           {
             "name": "분노의 후가 - 분노의 후가 피해",
             "requiresResourceLabel": "분노 게이지 100 이상"
+          },
+          {
+            "name": "강화음·협동 공격 2회(1체인)",
+            "requiresResourceLabel": "분노의 랩소디 지속 시간"
+          },
+          {
+            "name": "강화음·4회 공격(피해 50%, 5체인)"
           }
         ],
         "resources": [

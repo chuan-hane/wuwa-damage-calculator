@@ -45,6 +45,13 @@ window.WUWA_LANGUAGES.extend("ja-JP", {
           {
             "name": "火の遁走曲 - 火の遁走曲ダメージ",
             "requiresResourceLabel": "焦燥値100以上"
+          },
+          {
+            "name": "マルカート・2回協同攻撃（1チェーン）",
+            "requiresResourceLabel": "竜翼の狂想曲発動中"
+          },
+          {
+            "name": "マルカート・4回攻撃（ダメージ50%、5チェーン）"
           }
         ],
         "resources": [

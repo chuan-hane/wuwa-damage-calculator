@@ -50,6 +50,13 @@ window.WUWA_LANGUAGES.extend("zh-CN", {
           {
             "name": "怒火赋格",
             "requiresResourceLabel": "100怒气值"
+          },
+          {
+            "name": "1链·加强音（2发）",
+            "requiresResourceLabel": "浮翼狂想持续期间"
+          },
+          {
+            "name": "5链·加强音（4发·伤害降低50%）"
           }
         ],
         "buffs": [

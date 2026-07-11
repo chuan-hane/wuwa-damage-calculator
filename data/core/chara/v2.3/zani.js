@@ -271,6 +271,13 @@ WUWA.register({
       "triggerEvents": [
         "castBasicAttack"
       ]
+    },
+    {
+      "id": "outro_beacon",
+      "category": "outroSkill",
+      "damageType": "lightNoise",
+      "multiplier": 150,
+      "formula": "150%"
     }
   ],
   "defaultSkillId": "forte_nightfall",
@@ -352,7 +359,24 @@ WUWA.register({
       "value": 20,
       "scope": "team",
       "requiresState": "target_1_option_1",
+      "defaultActive": false,
+      "triggerOutro": true,
       "duration": 20
+    },
+    {
+      "id": "b_outro_ember_amp",
+      "zone": "amplify",
+      "damageType": "lightNoise",
+      "value": 600,
+      "scope": "self",
+      "skills": [
+        "outro_beacon"
+      ],
+      "requiresState": "target_1_option_1",
+      "maxStacks": 60,
+      "defaultStacks": 0,
+      "defaultActive": false,
+      "stackGroup": "heliacal_ember"
     }
   ],
   "chain": [

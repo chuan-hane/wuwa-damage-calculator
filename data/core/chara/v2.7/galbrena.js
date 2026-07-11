@@ -263,6 +263,13 @@ WUWA.register({
       "triggerEvents": [
         "castResonanceSkill"
       ]
+    },
+    {
+      "id": "outro_ashen_pursuit",
+      "category": "outroSkill",
+      "damageType": "outroSkill",
+      "multiplier": 795,
+      "formula": "79.50% × 3 + 556.50%"
     }
   ],
   "defaultSkillId": "lib_absolution",

@@ -58,6 +58,12 @@ window.WUWA_LANGUAGES.extend("ja-JP", {
           {
             "name": "アート・オデッセイ - イミネントオブリビオンダメージ",
             "requiresResourceLabel": "サブスタンス最大"
+          },
+          {
+            "name": "万華鏡の雫"
+          },
+          {
+            "name": "クロージング・リマーク"
           }
         ],
         "resources": [

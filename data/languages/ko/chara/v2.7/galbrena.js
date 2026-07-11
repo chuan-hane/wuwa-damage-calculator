@@ -84,6 +84,9 @@ window.WUWA_LANGUAGES.extend("ko", {
           },
           {
             "name": "초월한 경계 - 공명 스킬 · 기습 약탈 피해"
+          },
+          {
+            "name": "섬멸의 추격"
           }
         ],
         "resources": [

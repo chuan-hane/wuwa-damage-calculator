@@ -95,7 +95,11 @@ window.WUWA_BUFF_VIEW = (() => {
     }
 
     function combatBuffs(slot) {
-      return slotBuffs(slot).filter((b) => b.id !== "w_sec" && !(b.seq && slot.seq < b.seq));
+      return slotBuffs(slot).filter((b) => (
+        b.id !== "w_sec"
+        && !(b.seq && slot.seq < b.seq)
+        && !(b.maxSeq != null && slot.seq > b.maxSeq)
+      ));
     }
 
     function autoResolutionHTML() {

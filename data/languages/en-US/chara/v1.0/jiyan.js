@@ -60,6 +60,9 @@ window.WUWA_LANGUAGES.extend("en-US", {
           {
             "name": "Qingloong at War - Emerald Storm: Finale Damage",
             "requiresResourceLabel": "Resolve at least 30"
+          },
+          {
+            "name": "Discipline"
           }
         ],
         "resources": [
@@ -156,6 +159,11 @@ window.WUWA_LANGUAGES.extend("en-US", {
                 "label": "ATK",
                 "trigger": "After casting Tactical Strike - Skill DMG",
                 "excerpt": "ATK +3% per stack"
+              },
+              {
+                "label": "Discipline DMG Multiplier Increase",
+                "trigger": "Default",
+                "excerpt": "Discipline DMG Multiplier Increase +120%"
               }
             ]
           },

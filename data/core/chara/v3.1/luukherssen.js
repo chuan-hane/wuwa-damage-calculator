@@ -200,6 +200,13 @@ WUWA.register({
       "triggeredDamage": true,
       "requiresResource": "ichor_blade_active",
       "defaultResourceActive": false
+    },
+    {
+      "id": "outro_last_light",
+      "category": "outroSkill",
+      "damageType": "outroSkill",
+      "multiplier": 500,
+      "formula": "500%"
     }
   ],
   "defaultSkillId": "forte_gavel",
@@ -418,6 +425,15 @@ WUWA.register({
           "scope": "self",
           "skills": [
             "skill_reflux"
+          ]
+        },
+        {
+          "id": "k5_outro",
+          "zone": "typeBonus",
+          "value": 80,
+          "scope": "self",
+          "skills": [
+            "outro_last_light"
           ]
         }
       ]

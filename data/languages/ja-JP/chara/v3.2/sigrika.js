@@ -71,6 +71,9 @@ window.WUWA_LANGUAGES.extend("ja-JP", {
           {
             "name": "広大の中で - 共鳴回路・わたしが意味そのものダメージ",
             "requiresResourceLabel": "ピリオド最大"
+          },
+          {
+            "name": "この瞬間に"
           }
         ],
         "resources": [

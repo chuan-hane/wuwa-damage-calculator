@@ -359,6 +359,7 @@ WUWA.register({
   "defaultSkillId": "sawring_end",
   "skillEvents": [
     {
+      "seq": 4,
       "event": "applyHavocBane",
       "stacks": 1,
       "requiresState": "target_1_option_1"

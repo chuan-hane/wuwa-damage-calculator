@@ -48,6 +48,11 @@ window.WUWA_LANGUAGES.extend("en-US", {
           },
           {
             "name": "Chameleon Cipher - Judgment Strike Damage"
+          },
+          {
+            "name": "Judgement Strike - Up to 4 Triggers",
+            "stackLabel": "Additional Triggers",
+            "requiresResourceLabel": "Within 30s after casting Thundering Wrath"
           }
         ],
         "resources": [

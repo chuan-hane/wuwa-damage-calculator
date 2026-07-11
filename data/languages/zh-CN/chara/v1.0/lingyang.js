@@ -71,6 +71,9 @@ window.WUWA_LANGUAGES.extend("zh-CN", {
           },
           {
             "name": "登楼·尾坠千斤"
+          },
+          {
+            "name": "留痕·踏雪点星"
           }
         ],
         "combatStates": [

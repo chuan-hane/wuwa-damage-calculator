@@ -66,6 +66,9 @@ window.WUWA_LANGUAGES.extend("ko", {
           {
             "name": "별꽃의 개화 - 공중 공격 · 별꽃의 개화 3단 피해",
             "requiresResourceLabel": "광합성 에너지"
+          },
+          {
+            "name": "광합성 표식 협동 공격(6체인)"
           }
         ],
         "resources": [

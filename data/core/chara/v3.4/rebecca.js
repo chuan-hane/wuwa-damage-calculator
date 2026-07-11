@@ -326,6 +326,13 @@ WUWA.register({
         "id": "fervor",
         "value": 120
       }
+    },
+    {
+      "id": "outro_preem_choom",
+      "category": "outroSkill",
+      "damageType": "outroSkill",
+      "multiplier": 2.5,
+      "formula": "2.5% / hit"
     }
   ],
   "defaultSkillId": "big_fireworks",

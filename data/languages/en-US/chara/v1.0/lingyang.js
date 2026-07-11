@@ -66,6 +66,9 @@ window.WUWA_LANGUAGES.extend("en-US", {
           },
           {
             "name": "Unification of Spirits - Tail Strike Damage"
+          },
+          {
+            "name": "Frosty Marks"
           }
         ],
         "resources": [

@@ -68,6 +68,13 @@ window.WUWA_LANGUAGES.extend("en-US", {
           {
             "name": "Verdant Edge - Exit Drunken Ink State DMG",
             "requiresResourceLabel": "resource_gate_3"
+          },
+          {
+            "name": "Sheath Fallen, New Shoots Revealed",
+            "requiresResourceLabel": "Next Outro after Straw Cape in Drizzly Rain"
+          },
+          {
+            "name": "Strike Before Ready"
           }
         ],
         "resources": [

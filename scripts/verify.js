@@ -120,7 +120,7 @@ function validateBuffShape(owner, b, siblingIds, bad) {
   if (b.requiresSourceStat && !validScaleStats.has(b.requiresSourceStat.stat)) bad.push(`${owner}: requiresSourceStat.stat ${b.requiresSourceStat.stat} unsupported`);
   validateEvents(`${owner}: triggerEvents`, b.triggerEvents, bad);
   for (const rule of [].concat(b.triggerRules || [])) validateEvents(`${owner}: triggerRules.events`, rule.events, bad);
-  for (const charId of [].concat(b.requiresChar || [], b.requiresSourceChar || [])) {
+  for (const charId of [].concat(b.requiresChar || [], b.requiresSourceChar || [], b.requiresActiveChar || [])) {
     if (!validCharIds.has(charId)) bad.push(`${owner}: character reference ${charId} missing`);
     if (/[\u3400-\u9fff]/.test(String(charId))) bad.push(`${owner}: character reference ${charId} must use id`);
   }
@@ -1387,6 +1387,7 @@ function allCharacterResourceThresholdsAreStructured() {
     "roccia.forte_3_2",
     "brant.outro_blast",
     "qiuyuan.skill_lotuscloak",
+    "yinlin.c6_judgement_strike",
   ]);
   const thresholdText = /\d|满|充满|不少于|以上/;
   for (const c of Object.values(window.WUWA.chars)) {
@@ -1425,6 +1426,9 @@ function allPlainResourceGatesAreReviewed() {
     "phrolova.intro_immortality",
     "phrolova.k6_hecate_phantom",
     "qiuyuan.skill_lotuscloak",
+    "qiuyuan.c3_outro_sheath_fallen",
+    "mortefi.c1_marcato_duet",
+    "yinlin.c6_judgement_strike",
     "qiuyuan.ink_exit",
     "buling.field_tick",
     "lynae.to_a_vivid_tomorrow",
@@ -3640,7 +3644,41 @@ function sixCharacterAuditRegressions() {
   slot.toggles[__T.stateChoiceKey("mode_1")] = "mode_1_option_1";
   ids = new Set(__T.availableSkills(slot).map((item) => item.id));
   assert(ids.has("wide_na1") && !ids.has("na1") && ids.has("lib"), "Mornye Wide Field Observation mode should replace normal attacks while keeping common actions");
-  expectEqual(allBuffs(mornye).find((item) => item.id === "k1_amp")?.zone, "vulnerability", "Mornye C1 target-takes-damage effect should use vulnerability");
+  const mornyeBaseMarker = allBuffs(mornye).find((item) => item.id === "b_interference_amp_base");
+  const mornyeC1Marker = allBuffs(mornye).find((item) => item.id === "k1_amp");
+  expectEqual(mornyeBaseMarker?.zone, "vulnerability", "Mornye Interfered Marker should use the target vulnerability zone");
+  expectEqual(mornyeC1Marker?.zone, "vulnerability", "Mornye C1 should preserve the Interfered Marker vulnerability zone");
+
+  slot.skill = "lib";
+  slot.seq = 0;
+  slot.toggles[__T.stateChoiceKey("target_1")] = "target_1_option_1";
+  slot.toggles[__T.stateChoiceKey("target_2")] = "target_2_option_1";
+  assert(__T.buffStatus(slot, 0, buff(slot, "b_interference_amp_base")).applies, "Mornye C0 Interfered Marker should require both the marker and an Interfered state");
+
+  slot.seq = 1;
+  delete slot.toggles[__T.stateChoiceKey("target_2")];
+  assert(__T.buffStatus(slot, 0, buff(slot, "k1_amp")).applies, "Mornye C1 Interfered Marker should no longer require an Interfered state");
+  const mornyeBuffView = window.WUWA_BUFF_VIEW.create({
+    state: __T.state,
+    ch: (id) => window.WUWA.chars[id],
+    slotBuffs: __T.slotBuffs,
+    buffStatus: __T.buffStatus,
+    buffValue: () => 0,
+    buffStackCount: __T.buffStackCount,
+    scaleByInfo: () => null,
+  });
+  assert(!mornyeBuffView.combatBuffs(slot).some((item) => item.id === "b_interference_amp_base"), "Mornye C1 should hide the replaced C0 Interfered Marker buff");
+
+  slot.seq = 2;
+  const normalField = "field_1_option_1";
+  const highField = "field_1_option_2";
+  const fieldBase = buff(slot, "b_field_discord");
+  const fieldC2 = buff(slot, "k2_discord");
+  slot.toggles[__T.stateChoiceKey("field_1")] = normalField;
+  assert(__T.buffStatus(slot, 0, fieldBase).applies && __T.buffStatus(slot, 0, fieldC2).applies, "Mornye C2 Syntony Field should grant 50% + 20% Off-Tune Buildup Rate");
+  slot.toggles[__T.stateChoiceKey("field_1")] = highField;
+  assert(__T.buffStatus(slot, 0, fieldBase).applies && __T.buffStatus(slot, 0, fieldC2).applies, "Mornye C2 High Syntony Field should inherit the same 50% + 20% Off-Tune Buildup Rate");
+  assert(__T.buffStatus(slot, 0, buff(slot, "b_strong_def")).applies, "Mornye High Syntony Field should also retain its 20% DEF buff");
 
   const yangyang = window.WUWA.chars.yangyang_xuanling;
   resetTeam(["yangyang_xuanling"]);
@@ -3905,6 +3943,9 @@ function v2FullAuditRegressions() {
   slot.toggles[__T.stateChoiceKey("field_1")] = "field_1_option_1";
   slot.skill = "field_tick";
   expectEqual(__T.compute().effect.actionStacks, 2, "Buling Five Thunders Spell Array should apply 2 Electro Flare stacks per tick");
+  slot.seq = 5;
+  slot.skill = "forte_lib";
+  expectEqual(__T.compute().effect.actionStacks, 6, "Buling chain 5 should apply 6 Electro Flare stacks when Five Thunders Spell Array is generated");
 
   resetTeam(["chisa"]);
   slot = __T.state.slots[0];
@@ -3913,6 +3954,8 @@ function v2FullAuditRegressions() {
   __T.state.effectCalc = { key: "havocBane", providerIdx: 0, stacks: 0, stackMode: "action", deepen: 0 };
   slot.toggles[__T.stateChoiceKey("target_1")] = "target_1_option_1";
   slot.skill = "na1";
+  expectEqual(__T.compute().effect.actionStacks, null, "Chisa should not apply Havoc Bane through Unseen Snare before chain 4");
+  slot.seq = 4;
   expectEqual(__T.compute().effect.actionStacks, 1, "Chisa direct damage to an Unseen Snare target should apply 1 Havoc Bane stack");
 }
 
@@ -4058,6 +4101,111 @@ function iconAssetsUseSonataSets() {
   assert(!leadIcons.length, `lead echoes should not receive set icons: ${leadIcons.join(", ")}`);
 }
 
+function resonanceChainActionCoverageRegressions() {
+  const directOutroRates = [
+    ["jiyan", "outro_discipline", 313.4],
+    ["calcharo", "outro_shadowy_raid", 587.94],
+    ["chixia", "outro_leaping_flames", 530],
+    ["encore", "outro_thermal_field", 176.76],
+    ["lingyang", "outro_frosty_marks", 587.94],
+    ["xiangliyao", "outro_chain_rule", 237.63],
+    ["carlotta", "outro_closing_remark", 794.2],
+    ["phoebe", "outro_attentive_heart", 783.41],
+    ["phoebe", "outro_attentive_confession", 528.41],
+    ["galbrena", "outro_ashen_pursuit", 795],
+    ["qiuyuan", "outro_strike_before_ready", 100, "echoSkill"],
+    ["iuno", "outro_from_gloom", 100],
+    ["lynae", "outro_hit_the_road", 100],
+    ["luukherssen", "outro_last_light", 500],
+    ["sigrika", "outro_very_moment", 795],
+    ["rebecca", "outro_preem_choom", 2.5],
+  ];
+  directOutroRates.forEach(([charId, skillId, multiplier, damageType = "outroSkill"]) => {
+    const action = skill(window.WUWA.chars[charId], skillId);
+    expectEqual(action.category, "outroSkill", `${charId} direct Outro category`);
+    expectEqual(action.damageType, damageType, `${charId} direct Outro damage type`);
+    expectEqual(action.multiplier, multiplier, `${charId} direct Outro multiplier`);
+  });
+  const zaniOutro = skill(window.WUWA.chars.zani, "outro_beacon");
+  expectEqual(zaniOutro.category, "outroSkill", "Zani direct Outro category");
+  expectEqual(zaniOutro.damageType, "lightNoise", "Zani direct Outro damage type");
+  expectEqual(zaniOutro.multiplier, 150, "Zani direct Outro multiplier");
+
+  resetTeam(["jiyan"]);
+  let slot = __T.state.slots[0];
+  slot.skill = "outro_discipline";
+  slot.seq = 4;
+  expectEqual(__T.compute().panel.baseMult, 313.4, "Jiyan Discipline base multiplier");
+  slot.seq = 5;
+  expectEqual(__T.compute().panel.baseMult, 433.4, "Jiyan chain 5 Discipline multiplier");
+
+  resetTeam(["xiangliyao"]);
+  slot = __T.state.slots[0];
+  slot.skill = "outro_chain_rule";
+  slot.seq = 4;
+  expectEqual(__T.compute().panel.baseMult, 237.63, "Xiangli Yao Chain Rule base multiplier");
+  slot.seq = 5;
+  expectEqual(__T.compute().panel.baseMult, 459.63, "Xiangli Yao chain 5 Chain Rule multiplier");
+
+  resetTeam(["luukherssen"]);
+  slot = __T.state.slots[0];
+  slot.skill = "outro_last_light";
+  slot.seq = 5;
+  expectEqual(__T.compute().totals.typeBonus, 80, "Luuk Herssen chain 5 Outro DMG Bonus");
+
+  const yinlin = window.WUWA.chars.yinlin;
+  expectEqual(skill(yinlin, "c6_judgement_strike").multiplier, 419.59, "Yinlin chain 6 Judgement Strike per-trigger multiplier");
+  resetTeam(["yinlin"]);
+  slot = __T.state.slots[0];
+  slot.seq = 6;
+  slot.skill = "c6_judgement_strike";
+  expectEqual(__T.compute().panel.baseMult, 1678.36, "Yinlin chain 6 four-trigger total multiplier");
+
+  expectEqual(skill(window.WUWA.chars.carlotta, "c3_death_knell").multiplier, 1032.18, "Carlotta chain 3 Kaleidoscope Sparks multiplier");
+  expectEqual(skill(window.WUWA.chars.mortefi, "c1_marcato_duet").multiplier, 63.62, "Mortefi chain 1 two-Marcato total multiplier");
+  expectEqual(skill(window.WUWA.chars.mortefi, "c5_marcato_quartet").multiplier, 63.62, "Mortefi chain 5 reduced four-Marcato total multiplier");
+  expectEqual(skill(window.WUWA.chars.qiuyuan, "c3_outro_sheath_fallen").multiplier, 500, "Qiuyuan chain 3 replacement Outro multiplier");
+  expectEqual(skill(window.WUWA.chars.verina, "c6_coordinated_blossom").multiplier, 9.95, "Verina chain 6 coordinated attack multiplier");
+
+  resetTeam(["phoebe"]);
+  slot = __T.state.slots[0];
+  slot.skill = "outro_attentive_heart";
+  slot.toggles[__T.stateChoiceKey("mode_1")] = "mode_1_option_1";
+  slot.seq = 1;
+  expectEqual(__T.compute().panel.baseMult, 783.41, "Phoebe Absolution Outro should include its 255% multiplier increase");
+  slot.seq = 2;
+  __T.state.effectCalc = { key: "lightNoise", providerIdx: 0, stacks: 1, stackMode: "manual", deepen: 0 };
+  expectEqual(__T.compute().totals.amplify, 120, "Phoebe chain 2 Absolution Outro amplification");
+
+  resetTeam(["zani"]);
+  slot = __T.state.slots[0];
+  slot.skill = "outro_beacon";
+  slot.toggles[__T.stateChoiceKey("target_1")] = "target_1_option_1";
+  __T.state.effectCalc = { key: "lightNoise", providerIdx: 0, stacks: 1, stackMode: "manual", deepen: 0 };
+  slot.toggles.stk_heliacal_ember = 60;
+  __T.setBuffToggle(slot, 0, "b_outro_ember_amp", true);
+  expectEqual(__T.compute().totals.amplify, 600, "Zani Outro should scale to 600% Light Noise amplification at 60 Ember stacks");
+
+  resetTeam(["suisui"]);
+  slot = __T.state.slots[0];
+  let baseFlower = buff(slot, "b_outro_flower_atk");
+  slot.seq = 0;
+  assert(__T.buffStatus(slot, 0, baseFlower).gated !== "已被高链效果替换", "Suisui base Undulating Mist ATK trigger should exist at sequence 0");
+  slot.seq = 1;
+  assert(__T.buffStatus(slot, 0, baseFlower).gated === "已被高链效果替换", "Suisui sequence 1 should replace the base Undulating Mist trigger");
+  assert(__T.buffStatus(slot, 0, buff(slot, "c1_outro_flower_atk")).gated !== "需 1 链", "Suisui sequence 1 expanded Undulating Mist trigger should be available");
+
+  resetTeam(["hiyuki", "suisui"]);
+  const hiyuki = __T.state.slots[0];
+  hiyuki.seq = 6;
+  hiyuki.toggles.stk_stack_group_1 = 2;
+  __T.setBuffToggle(hiyuki, 0, "b_snow_rust_cd", true);
+  __T.state.effectCalc = { key: "frost", providerIdx: 1, stacks: 1, stackMode: "manual", deepen: 0 };
+  expectEqual(__T.compute().effect.extraRate, 488, "Hiyuki chain 6 should boost team-applied Glacio Chafe while Hiyuki is active");
+  __T.state.outputIdx = 1;
+  expectEqual(__T.compute().effect.extraRate, 0, "Hiyuki chain 6 team trigger should require Hiyuki to be active");
+}
+
 const checks = [
   ["index loads every character file", indexLoadsAllCharacterFiles],
   ["index loads every beta file", indexLoadsAllBetaFiles],
@@ -4128,6 +4276,7 @@ const checks = [
   ["v3 full audit regressions", v3FullAuditRegressions],
   ["v2 full audit regressions", v2FullAuditRegressions],
   ["v1 full audit regressions", v1FullAuditRegressions],
+  ["resonance chain action coverage regressions", resonanceChainActionCoverageRegressions],
   ["per-stack localization values", perStackLocalizationValuesMatch],
   ["icon assets use sonata sets", iconAssetsUseSonataSets],
 ];

@@ -67,6 +67,9 @@ window.WUWA_LANGUAGES.extend("ko", {
           {
             "name": "그늘이와 구름이 - 그늘이·폭주하는 화염 피해",
             "requiresResourceLabel": "무질서 게이지 100 이상"
+          },
+          {
+            "name": "워밍업"
           }
         ],
         "resources": [

@@ -77,6 +77,9 @@ window.WUWA_LANGUAGES.extend("zh-CN", {
           {
             "name": "自霜中诞生的火光 - 日髓碎刃伤害（每0.15秒）",
             "requiresResourceLabel": "日髓碎刃持续命中"
+          },
+          {
+            "name": "致濒死以答"
           }
         ],
         "resources": [
@@ -228,6 +231,11 @@ window.WUWA_LANGUAGES.extend("zh-CN", {
                 "label": "流金回潮倍率提升",
                 "trigger": "默认",
                 "excerpt": "流金回潮伤害倍率提升50%"
+              },
+              {
+                "label": "致濒死以答伤害加成",
+                "trigger": "默认",
+                "excerpt": "致濒死以答伤害加成提升80%"
               }
             ]
           },

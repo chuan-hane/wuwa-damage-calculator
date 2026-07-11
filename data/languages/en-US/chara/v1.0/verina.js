@@ -66,6 +66,9 @@ window.WUWA_LANGUAGES.extend("en-US", {
           {
             "name": "Starflower Blooms - Mid-air Attack: Starflower Blooms Stage 3 DMG",
             "requiresResourceLabel": "Photosynthesis Energy"
+          },
+          {
+            "name": "Photosynthesis Mark Coordinated Attack (Sequence 6)"
           }
         ],
         "resources": [

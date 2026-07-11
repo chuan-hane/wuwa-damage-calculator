@@ -65,6 +65,9 @@ window.WUWA_LANGUAGES.extend("ko", {
           },
           {
             "name": "진리 - 스킬 피해"
+          },
+          {
+            "name": "연쇄 법칙"
           }
         ],
         "resources": [
@@ -152,6 +155,11 @@ window.WUWA_LANGUAGES.extend("ko", {
                 "label": "사고의 배열 - 사고의 배열 피해 배율 상승",
                 "trigger": "통찰 상태",
                 "excerpt": "사고의 배열 - 사고의 배열 피해 배율 상승 +100%"
+              },
+              {
+                "label": "연쇄 법칙 피해 배율 상승",
+                "trigger": "기본",
+                "excerpt": "연쇄 법칙 피해 배율 +222%"
               }
             ]
           },

@@ -75,6 +75,12 @@ window.WUWA_LANGUAGES.extend("en-US", {
           },
           {
             "name": "Radiant Invocation - Heavy Attack: Starflash DMG"
+          },
+          {
+            "name": "Attentive Heart"
+          },
+          {
+            "name": "Attentive Heart - Confession"
           }
         ],
         "resources": [
@@ -183,6 +189,11 @@ window.WUWA_LANGUAGES.extend("en-US", {
                 "label": "DMG Increase",
                 "trigger": "After casting Intro Skill",
                 "excerpt": "DMG Increase +120%"
+              },
+              {
+                "label": "Attentive Heart DMG Amplification",
+                "trigger": "In Absolution against Spectro Frazzle",
+                "excerpt": "Attentive Heart DMG Amplification +120%"
               }
             ]
           },

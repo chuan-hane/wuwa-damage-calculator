@@ -261,6 +261,11 @@ window.WUWA_LANGUAGES.extend("en-US", {
                 "label": "Final DMG Bonus",
                 "trigger": "In Iai Stance",
                 "excerpt": "Final DMG Bonus +25%"
+              },
+              {
+                "label": "Glacio Chafe Extra Rate",
+                "trigger": "Hiyuki active; team applies Glacio Chafe",
+                "excerpt": "At 2 Snow Rust, team-applied Glacio Chafe gains 488% extra rate"
               }
             ]
           }

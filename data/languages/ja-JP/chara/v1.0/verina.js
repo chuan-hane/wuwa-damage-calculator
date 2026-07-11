@@ -66,6 +66,9 @@ window.WUWA_LANGUAGES.extend("ja-JP", {
           {
             "name": "綺羅花咲き - 空中攻撃・綺羅花咲き3段目ダメージ",
             "requiresResourceLabel": "光合成エネルギー"
+          },
+          {
+            "name": "光合成マーク協同攻撃（6チェーン）"
           }
         ],
         "resources": [

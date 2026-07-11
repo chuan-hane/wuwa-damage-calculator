@@ -77,6 +77,9 @@ window.WUWA_LANGUAGES.extend("ja-JP", {
           {
             "name": "霜より生まれし火花 - 日髓刃ダメージ（0.15秒ごと）",
             "requiresResourceLabel": "日髄の刃発動中"
+          },
+          {
+            "name": "瀕死に答えを"
           }
         ],
         "resources": [
@@ -224,6 +227,11 @@ window.WUWA_LANGUAGES.extend("ja-JP", {
                 "label": "墜ちたものの再会 - 流金の回潮ダメージ倍率アップ",
                 "trigger": "目標密集協和 · インターフェア状態",
                 "excerpt": "墜ちたものの再会 - 流金の回潮ダメージ倍率アップ +50%"
+              },
+              {
+                "label": "瀕死に答えをダメージアップ",
+                "trigger": "デフォルト",
+                "excerpt": "瀕死に答えをのダメージ+80%"
               }
             ]
           },

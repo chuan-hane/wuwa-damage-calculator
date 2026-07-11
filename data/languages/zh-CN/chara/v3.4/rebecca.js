@@ -99,6 +99,9 @@ window.WUWA_LANGUAGES.extend("zh-CN", {
           },
           {
             "name": "也许…… - 强化重击额外伤害"
+          },
+          {
+            "name": "好搭档"
           }
         ],
         "combatStates": [

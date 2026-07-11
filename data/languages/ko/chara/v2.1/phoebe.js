@@ -75,6 +75,12 @@ window.WUWA_LANGUAGES.extend("ko", {
           },
           {
             "name": "얽혀 있는 별빛의 축복 - 강공격 · 별빛 피해"
+          },
+          {
+            "name": "경청하는 마음"
+          },
+          {
+            "name": "경청하는 마음·고해"
           }
         ],
         "resources": [
@@ -183,6 +189,11 @@ window.WUWA_LANGUAGES.extend("ko", {
                 "label": "피해 증가",
                 "trigger": "변주 스킬 발동 후",
                 "excerpt": "피해 증가 +120%"
+              },
+              {
+                "label": "경청하는 마음 피해 부스트",
+                "trigger": "면죄 상태·광학 효과 목표",
+                "excerpt": "경청하는 마음 피해 부스트 +120%"
               }
             ]
           },
