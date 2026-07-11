@@ -252,7 +252,7 @@ window.WUWA_STAGE_VIEW = (() => {
       const harmonyNote = isHarmonyResponse ? `<div>${L.text("谐度响应伤害按谐度基础值、响应系数与谐度破坏增幅独立结算，不吃攻击、暴击、属性加成、类型加成。")}</div>` : "";
       return (
         `<div class="dmg-type"><div>${esc(L.text("本次"))}: <b>${esc(displayName)}</b> (${esc(L.category(selectedSk.category))})</div>` +
-        `<div>${esc(L.text("此次伤害视为"))} "<span class="dt">${esc(L.damageType(sk.damageType))}</span>"${tags} · ${elementBadgeHTML(c.element)} · ${esc(baseName)} ${esc(multLabel)}</div>` +
+        `<div>${esc(L.text("此次伤害视为"))} "<span class="dt">${esc(L.damageType(sk.damageType))}</span>"${tags} · ${elementBadgeHTML(sk.element || c.element)} · ${esc(baseName)} ${esc(multLabel)}</div>` +
         `<div class="formula">${esc(L.text(formula))}</div>${harmonyNote}</div>`
       );
     }
@@ -509,11 +509,13 @@ window.WUWA_STAGE_VIEW = (() => {
       const levelMult = r.sk ? skillMultValue(rawSkillMult + stackMult, lvRatio) : 0;
       const skillMultBonus = num(r.totals?.skillMultBonus);
       const skType = r.sk?.damageType;
-      const echoElemLabel = `${L.text("声骸属性伤害加成")}${c?.element ? formulaParen(L.element(c.element)) : ""}`;
+      const damageElement = r.damageElement || r.sk?.element || c?.element;
+      const treeElemBonus = damageElement === c?.element ? tree.elemBonus : 0;
+      const echoElemLabel = `${L.text("声骸属性伤害加成")}${damageElement ? formulaParen(L.element(damageElement)) : ""}`;
       const echoTypeLabel = `${L.text("声骸类型伤害加成")}${skType ? formulaParen(L.damageType(skType)) : ""}`;
       const echoBonusParts = [
-        formulaSource("属性树", tree.elemBonus, "%"),
-        formulaSourceText(echoElemLabel, r.es?.elem?.[c?.element], "%"),
+        formulaSource("属性树", treeElemBonus, "%"),
+        formulaSourceText(echoElemLabel, r.es?.elem?.[damageElement], "%"),
         formulaSourceText(echoTypeLabel, skType ? r.es?.type?.[skType] : 0, "%"),
       ];
       const normalBonusParts = [

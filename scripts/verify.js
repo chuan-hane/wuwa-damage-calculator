@@ -106,7 +106,7 @@ const validEventKeys = new Set([
   "introEntry", "castBasicAttack", "castResonanceSkill", "castResonanceLiberation",
   "castForteCircuit", "castIntroSkill", "castOutroSkill", "castEchoSkill", "castResonanceChain",
   "shield", "heal", "consumeConcerto",
-  "applyAeroErosion", "applySpectroFrazzle", "applyGlacioChafe", "applyHavocBane", "applyPhotochromicFlux",
+  "applyAeroErosion", "applySpectroFrazzle", "applyGlacioChafe", "applyElectroFlare", "applyHavocBane", "applyPhotochromicFlux",
   "applyObservationMark", "enterReincarnation", "gainLesserYang",
 ]);
 const validCharIds = new Set(window.WUWA.order);
@@ -191,7 +191,7 @@ function resetTeam(chars = ["jinhsi", "zhezhi", "verina"]) {
   __T.state.showDesc = false;
   __T.state.showTargetExtras = false;
   __T.state.damageMode = "expected";
-  __T.state.effectCalc = { key: "none", providerIdx: null, stacks: 10, electroRageStacks: 0, deepen: 0 };
+  __T.state.effectCalc = { key: "none", providerIdx: null, stacks: 10, stackMode: "auto", electroRageStacks: 0, deepen: 0 };
   __T.state.offsetCalc = { key: "tuneBreak", providerIdx: null, skillId: null, stateId: null, stateValue: null, stacks: 3, deepen: 0 };
 }
 
@@ -792,9 +792,9 @@ function characterPickerSortsNewestFirst() {
     const id = match[1];
     if (window.WUWA.chars[id] && !picked.includes(id)) picked.push(id);
   }
-  const firstTwo = new Set(picked.slice(0, 2));
-  assert(firstTwo.has("yangyang_xuanling") && firstTwo.has("suisui"), `character picker should list the newest 3.5 characters first: ${picked.slice(0, 5).join(", ")}`);
-  assert(Number(window.WUWA.chars[picked[2]]?.debut) <= 3.4, "older stable characters should follow the 3.5 characters");
+  const firstThree = new Set(picked.slice(0, 3));
+  assert(["rover_electro", "yangyang_xuanling", "suisui"].every((id) => firstThree.has(id)), `character picker should list the newest 3.5 characters first: ${picked.slice(0, 5).join(", ")}`);
+  assert(Number(window.WUWA.chars[picked[3]]?.debut) <= 3.4, "older stable characters should follow the 3.5 characters");
 }
 
 function v35CharacterEntryRegressions() {
@@ -925,6 +925,122 @@ function v35CharacterEntryRegressions() {
   assert(set.p5.every((b) => b.defaultActive === false), "Song of Feathered Trace 5-piece effects should require manual confirmation");
 }
 
+function roverElectroEntryRegressions() {
+  const c = window.WUWA.chars.rover_electro;
+  assert(c?.debut === 3.5 && c.betaVersion == null, "Rover: Electro should be stable v3.5 data");
+  assert(c.signatureWeaponId === null && c.defaultWeaponId === "emerald_of_genesis", "Rover: Electro should not invent a signature weapon and should use the existing default sword");
+  assert(c.base.hp === 10775 && c.base.attack === 437 && c.base.defense === 1136, "Rover: Electro should use formal level-90 base stats");
+  assert(c.base.tree.critRate === 8 && c.base.tree.attackPct === 12, "Rover: Electro should total the formal Crit. Rate and ATK stat nodes");
+  assert(c.effectTypes?.includes("electro"), "Rover: Electro should explicitly provide Electro Flare");
+  assert((c.resources || []).find((r) => r.id === "electric_surge")?.max === 120, "Rover: Electro Electric Surge cap should be 120");
+  assert((c.resources || []).find((r) => r.id === "thunder_rage")?.max === 100, "Rover: Electro Thunder Rage cap should be 100");
+  assert((c.resources || []).find((r) => r.id === "concerto_energy")?.max === 100, "Rover: Electro should expose Concerto Energy for the 60-point hold-Overshock gate");
+
+  assert(skill(c, "overload_tap").multiplier === 1412.58 && skill(c, "overload_hold").multiplier === 1412.58, "Rover: Electro tap and hold Overshock should use the formal level-10 multiplier");
+  const holdOvershock = skill(c, "overload_hold");
+  assert(holdOvershock.requiresAllResourcesAtLeast?.some((req) => req.id === "concerto_energy" && req.value === 60), "Rover: Electro hold Overshock should require 60 Concerto Energy");
+  assert(holdOvershock.triggerEvents?.includes("consumeConcerto"), "Rover: Electro hold Overshock should emit the Concerto-consumption event");
+  assert(skill(c, "lib").multiplier === 1192.86, "Rover: Electro Ultimate Tactics should use the formal level-10 multiplier");
+  assert(["thrum_aero_air1", "thrum_aero_air2"].every((id) => skill(c, id).triggerEvents?.includes("heal")), "Rover: Electro Aero Mid-air Attacks should emit healing events");
+  assert(["air", "dodge", "havoc_air1", "havoc_air2", "havoc_air3", "air_dodge"].every((id) => skill(c, id).damageType === "basic"), "Rover: Electro Deterrence variants should follow the official Basic Attack damage classification");
+  const elementSkills = {
+    thrum_spectro1: "spectro",
+    thrum_havoc1: "havoc",
+    thrum_aero: "aero",
+    thunder_bane: "electro",
+  };
+  Object.entries(elementSkills).forEach(([id, element]) => {
+    const sk = skill(c, id);
+    assert(sk.element === element && sk.damageType === "resonanceSkill", `Rover: Electro ${id} should use ${element} Resonance Skill damage`);
+  });
+  assert((c.skillEvents || []).some((event) => event.event === "applyElectroFlare" && event.stacks === 10 && event.skills?.includes("overload_tap") && event.skills?.includes("overload_hold")), "Rover: Electro Overshock should apply 10 Electro Flare stacks through Decipher");
+  assert((c.skillEvents || []).some((event) => event.seq === 2 && event.event === "applyElectroFlare" && event.stacks === 5 && event.skills?.includes("lib")), "Rover: Electro chain 2 should make Ultimate Tactics apply 5 Electro Flare stacks");
+  const thunderBane = skill(c, "thunder_bane");
+  assert(thunderBane.triggeredDamage === true && !thunderBane.triggerEvents?.some((event) => String(event).startsWith("cast")), "Rover: Electro Thunder Bane should be triggered damage rather than a cast event");
+  assert(thunderBane.multiplier === 0 && thunderBane.perStack === 39.77 && thunderBane.stackMax === 6 && thunderBane.defaultLayers === 1, "Rover: Electro Thunder Bane should settle 39.77% once per confirmed Thrum hit");
+  assert(thunderBane.requiresAllStates?.includes("thrum_hit"), "Rover: Electro Thunder Bane should require a confirmed Thrum hit");
+
+  const teamAtk = allBuffs(c).find((b) => b.id === "b_overload_team_atk");
+  const regression = allBuffs(c).find((b) => b.id === "b_regression_skill_bonus");
+  const outro = allBuffs(c).find((b) => b.id === "b_outro_all_amp");
+  assert(teamAtk?.zone === "attackPercent" && teamAtk.value === 10 && teamAtk.scope === "team" && teamAtk.defaultActive === false && !teamAtk.triggerSkills, "Rover: Electro post-Overshock team ATK should require prior-trigger confirmation");
+  assert(regression?.zone === "typeBonus" && regression.damageType === "resonanceSkill" && regression.value === 20 && regression.defaultActive === false && !regression.triggerSkills, "Rover: Electro Regression should require prior hold-Overshock confirmation");
+  assert(outro?.zone === "amplify" && outro.value === 25 && outro.triggerOutro === true && outro.requiresAnyEffectStacks?.stacks === 1, "Rover: Electro Outro should require Outro confirmation and an inflicted Negative Status");
+  assert(allBuffs(c).find((b) => b.id === "k3_overload")?.zone === "skillMultBonus", "Rover: Electro chain 3 should increase the Overshock skill multiplier");
+  assert(allBuffs(c).find((b) => b.id === "k5_crit_damage")?.requiresState === "apex_resonance", "Rover: Electro chain 5 Crit. DMG should require Apex Resonance");
+
+  resetTeam(["rover_electro"]);
+  const slot = __T.state.slots[0];
+  const modeKey = __T.stateChoiceKey("resonance_mode");
+  slot.resources.concerto_energy = 59;
+  let skillIds = new Set(__T.availableSkills(slot).map((item) => item.id));
+  assert(skillIds.has("overload_tap") && !skillIds.has("overload_hold"), "Rover: Electro should hide hold Overshock below 60 Concerto Energy while keeping tap Overshock available");
+  slot.resources.concerto_energy = 60;
+  skillIds = new Set(__T.availableSkills(slot).map((item) => item.id));
+  assert(skillIds.has("overload_tap") && skillIds.has("overload_hold"), "Rover: Electro should unlock hold Overshock at 60 Concerto Energy");
+
+  slot.skill = "overload_hold";
+  __T.state.effectCalc = { key: "electro", providerIdx: 0, stacks: 10, stackMode: "auto", electroRageStacks: 0, deepen: 0 };
+  let effectResult = __T.compute().effect;
+  expectEqual(effectResult.actionStacks, 10, "Rover: Electro Overshock should expose 10 automatic Electro Flare stacks");
+  expectEqual(effectResult.stacks, 10, "Rover: Electro Overshock should settle 10 Electro Flare stacks by default");
+  slot.seq = 2;
+  slot.skill = "lib";
+  effectResult = __T.compute().effect;
+  expectEqual(effectResult.actionStacks, 5, "Rover: Electro chain 2 Ultimate Tactics should expose 5 automatic Electro Flare stacks");
+  expectEqual(effectResult.stacks, 5, "Rover: Electro chain 2 Ultimate Tactics should settle 5 Electro Flare stacks by default");
+  __T.state.effectCalc.stackMode = "manual";
+  __T.state.effectCalc.stacks = 7;
+  expectEqual(__T.compute().effect.stacks, 7, "manual effect stacks should override Rover: Electro action-derived stacks");
+  __T.state.effectCalc = { key: "none", providerIdx: null, stacks: 10, stackMode: "auto", electroRageStacks: 0, deepen: 0 };
+  slot.seq = 0;
+
+  assert(skillIds.has("overload_tap") && skillIds.has("overload_hold") && !skillIds.has("thrum_spectro1"), "Rover: Electro normal mode should show full-Surge Overshock and hide Thrum of All Sounds");
+  slot.toggles[modeKey] = "apex_resonance";
+  skillIds = new Set(__T.availableSkills(slot).map((item) => item.id));
+  assert(skillIds.has("thrum_spectro1") && !skillIds.has("thunder_bane") && !skillIds.has("skill") && !skillIds.has("skill_repel") && !skillIds.has("overload_tap") && !skillIds.has("overload_hold"), "Rover: Electro Apex Resonance should replace Thunderclap and Overshock with Thrum of All Sounds while keeping Thunder Bane gated behind a hit");
+
+  slot.skill = "thrum_spectro1";
+  slot.echo.fields["elem:spectro"] = 0;
+  slot.echo.fields["elem:electro"] = 0;
+  const baseline = __T.compute();
+  assert(baseline.damageElement === "spectro", "Rover: Electro Spectro Thrum should expose Spectro as the current damage element");
+  slot.echo.fields["elem:spectro"] = 17;
+  const spectroBonus = __T.compute();
+  assert(Math.abs(spectroBonus.bonus - baseline.bonus - 0.17) < 1e-9, "Rover: Electro Spectro Thrum should use Spectro echo damage bonus");
+  slot.echo.fields["elem:spectro"] = 0;
+  slot.echo.fields["elem:electro"] = 23;
+  const electroBonus = __T.compute();
+  assert(Math.abs(electroBonus.bonus - baseline.bonus) < 1e-9, "Rover: Electro Spectro Thrum should not use Electro echo damage bonus");
+
+  const detailOptions = window.WUWA_EQUIPMENT.echoMainOptions(3, c).map((option) => option.key);
+  assert(["elem:electro", "elem:aero", "elem:spectro", "elem:havoc"].every((key) => detailOptions.includes(key)), "Rover: Electro detailed 3-cost Echo options should include every damage element used by the character");
+  slot.echo.detailMode = true;
+  const detail = window.WUWA_EQUIPMENT.ensureEchoDetail(slot, c);
+  detail.echoes[1].main = "attackPct";
+  const detailBaseline = __T.compute();
+  detail.echoes[1].main = "elem:spectro";
+  const detailSpectro = __T.compute();
+  assert(Math.abs(detailSpectro.bonus - detailBaseline.bonus - 0.3) < 1e-9, "Rover: Electro detailed Echo mode should apply a Spectro 3-cost main stat to Spectro Thrum damage");
+  slot.echo.detailMode = false;
+
+  slot.toggles[__T.stateChoiceKey("thunder_bane_trigger")] = "thrum_hit";
+  skillIds = new Set(__T.availableSkills(slot).map((item) => item.id));
+  assert(skillIds.has("thunder_bane"), "Rover: Electro should expose Thunder Bane only after confirming a Thrum hit");
+  slot.skill = "thunder_bane";
+  slot.layers = 3;
+  expectEqual(__T.compute().panel.baseMult, 119.31, "Rover: Electro Thunder Bane should multiply 39.77% by the confirmed trigger count");
+  slot.echo.primary = 3;
+  slot.echo.combo = "single5";
+  const voidThunder = __T.slotBuffs(slot).find((item) => item.id === "son_3_p5_0");
+  assert(voidThunder, "Rover: Electro trigger regression should find the Void Thunder 5-piece effect");
+  assert(__T.buffStatus(slot, 0, voidThunder).precondition && !__T.buffStatus(slot, 0, voidThunder).applies, "Thunder Bane should not count as casting Resonance Skill for Void Thunder");
+  slot.toggles[modeKey] = "normal_resonance";
+  slot.skill = "overload_tap";
+  slot.layers = null;
+  assert(__T.buffStatus(slot, 0, voidThunder).applies, "an actual Overshock cast should still trigger Void Thunder");
+}
+
 function renderPreservesScroll() {
   const oldScrollX = window.scrollX;
   const oldScrollY = window.scrollY;
@@ -1026,6 +1142,7 @@ function characterSchemasAreLinked() {
     lucilla: 3.4,
     lucy: 3.4,
     rebecca: 3.4,
+    rover_electro: 3.5,
     yangyang_xuanling: 3.5,
     suisui: 3.5,
   };
@@ -1060,10 +1177,14 @@ function characterSchemasAreLinked() {
       if (!/^[a-z0-9_]+$/.test(sk.id)) bad.push(`${c.id}.${sk.id}: skill id must be lower_snake_case`);
       if (/^(a|s)\d+$/.test(sk.id)) bad.push(`${c.id}.${sk.id}: skill id must not be an anonymous sequence id`);
       if (sk.stat && !validSkillStats.has(sk.stat)) bad.push(`${c.id}.${sk.id}: stat ${sk.stat} unsupported`);
+      if (sk.element && !validElements.has(sk.element)) bad.push(`${c.id}.${sk.id}: element ${sk.element} unsupported`);
       for (const legacyId of [].concat(sk.legacyIds || [])) {
         if (legacyId === sk.id) bad.push(`${c.id}.${sk.id}: legacyIds should not repeat current id`);
       }
       validateEvents(`${c.id}.${sk.id}: triggerEvents`, sk.triggerEvents, bad);
+      if (sk.triggeredDamage && [].concat(sk.triggerEvents || []).some((event) => String(event).startsWith("cast"))) {
+        bad.push(`${c.id}.${sk.id}: triggered damage must not emit cast events`);
+      }
       if ([].concat(sk.triggerEvents || []).includes("castEchoSkill")) {
         bad.push(`${c.id}.${sk.id}: character skill must not use triggerEvents castEchoSkill; use damageType echoSkill or a manual buff precondition`);
       }
@@ -1106,6 +1227,9 @@ function characterSchemasAreLinked() {
     for (const [idx, eventDef] of [].concat(c.skillEvents || []).entries()) {
       const eventName = typeof eventDef === "string" ? eventDef : eventDef?.event || eventDef?.name || eventDef?.value;
       validateEvents(`${c.id}.skillEvents.${idx}`, eventName, bad);
+      if (eventDef?.stacks != null && (!Number.isInteger(Number(eventDef.stacks)) || Number(eventDef.stacks) <= 0)) {
+        bad.push(`${c.id}.skillEvents.${idx}: stacks must be a positive integer`);
+      }
       for (const skillRef of [].concat(eventDef?.skills || [])) {
         if (!skillIds.has(skillRef)) bad.push(`${c.id}.skillEvents.${idx}: skill reference ${skillRef} missing`);
       }
@@ -3442,6 +3566,12 @@ function p1WeaponEffectRegressions() {
 function iconAssetsUseSonataSets() {
   const assets = window.WUWA_ICON_ASSETS || {};
   assert(assets.sonatas && !assets.echoes, "icon assets should use sonata set icons, not lead echo icons");
+  const stableCharacters = Object.values(window.WUWA.chars).filter((c) => !c.betaVersion);
+  const missingCharacters = stableCharacters.filter((c) => !c.portrait || assets.characters?.[c.id] !== c.portrait || !fs.existsSync(path.join(root, c.portrait))).map((c) => c.id);
+  assert(!missingCharacters.length, `stable character icons should be local and attached: ${missingCharacters.join(", ")}`);
+  const stableWeapons = weapons.filter((weapon) => !weapon.betaVersion);
+  const missingWeapons = stableWeapons.filter((weapon) => !weapon.icon || assets.weapons?.[weapon.id] !== weapon.icon || !fs.existsSync(path.join(root, weapon.icon))).map((weapon) => weapon.id);
+  assert(!missingWeapons.length, `stable weapon icons should be local and attached: ${missingWeapons.join(", ")}`);
   const stableSonatas = sonatas.filter((set) => !set.betaVersion);
   const missing = stableSonatas.filter((set) => !set.icon || assets.sonatas[String(set.id)] !== set.icon).map((set) => set.name);
   assert(!missing.length, `sonata icons should attach to echo sets: ${missing.join(", ")}`);
@@ -3480,6 +3610,7 @@ const checks = [
   ["team card sequence select shows chain names", teamCardSequenceSelectShowsChainNames],
   ["character picker sorts newest first", characterPickerSortsNewestFirst],
   ["v3.5 character entry regressions", v35CharacterEntryRegressions],
+  ["Rover Electro entry regressions", roverElectroEntryRegressions],
   ["render preserves scroll", renderPreservesScroll],
   ["buff toggle uses partial refresh", buffToggleUsesPartialRefresh],
   ["precondition buffs require confirmation", preconditionBuffsRequireConfirmation],
