@@ -106,7 +106,7 @@ const validEventKeys = new Set([
   "introEntry", "castBasicAttack", "castResonanceSkill", "castResonanceLiberation",
   "castForteCircuit", "castIntroSkill", "castOutroSkill", "castEchoSkill", "castResonanceChain",
   "shield", "heal", "consumeConcerto",
-  "applyAeroErosion", "applySpectroFrazzle", "applyGlacioChafe", "applyElectroFlare", "applyHavocBane", "applyPhotochromicFlux",
+  "applyAeroErosion", "applySpectroFrazzle", "applyGlacioChafe", "applyElectroFlare", "applyHavocBane", "applyFusionBurst", "applyPhotochromicFlux",
   "applyObservationMark", "enterReincarnation", "gainLesserYang",
 ]);
 const validCharIds = new Set(window.WUWA.order);
@@ -805,6 +805,9 @@ function v35CharacterEntryRegressions() {
   assert(y.effectTypes?.includes("havocBane"), "Yangyang: Xuanling should explicitly provide Havoc Bane");
   assert(skill(y, "azure_na4").triggerEvents?.includes("applyHavocBane"), "Yangyang: Xuanling azure NA4 should apply Havoc Bane");
   assert(skill(y, "feather_na4").triggerEvents?.includes("applyHavocBane"), "Yangyang: Xuanling feather NA4 should apply Havoc Bane");
+  const oneWithWindEvent = (y.skillEvents || []).find((event) => event.requiresState === "one_with_wind_active");
+  assert(oneWithWindEvent?.event === "applyHavocBane" && oneWithWindEvent.stacks === 6 && oneWithWindEvent.skills?.includes("flow_azure") && oneWithWindEvent.skills?.includes("flow_feather"), "Yangyang: Xuanling One with the Wind should make both Sword Stance Flow skills apply 6 Havoc Bane stacks");
+  assert((y.combatStates || []).some((state) => state.id === "one_with_wind"), "Yangyang: Xuanling should expose One with the Wind as an explicit trigger condition");
   const yangyangC6Heavy = allBuffs(y).find((b) => b.id === "c6_heavy_amp");
   assert(yangyangC6Heavy?.zone === "vulnerability" && yangyangC6Heavy.defaultActive === false && !yangyangC6Heavy.triggerEvents?.includes("applyHavocBane"), "Yangyang: Xuanling C6 target-takes-damage effect should be a manually confirmed vulnerability after Havoc Bane is inflicted");
   assert(skill(y, "outro").category === "outroSkill" && skill(y, "outro").multiplier === 300 && skill(y, "outro").formula === "300.00%", "Yangyang: Xuanling Outro should keep its real 300% damage entry");
@@ -824,6 +827,12 @@ function v35CharacterEntryRegressions() {
     const total = vowBuffs.reduce((sum, item) => sum + (__T.buffStatus(vowSlot, 0, buff(vowSlot, item.id)).applies ? item.value : 0), 0);
     expectEqual(total, expected, `Yangyang: Xuanling Unbroken Vow should total ${expected}% at ${idx + 1} Havoc Bane stacks`);
   });
+  vowSlot.skill = "flow_azure";
+  vowSlot.resources.melody = 0;
+  vowSlot.toggles[__T.stateChoiceKey("sword_stance")] = "sword_stance_feather";
+  vowSlot.toggles[__T.stateChoiceKey("one_with_wind")] = "one_with_wind_active";
+  __T.state.effectCalc = { key: "havocBane", providerIdx: 0, stacks: 0, stackMode: "action", deepen: 0 };
+  expectEqual(__T.compute().effect.actionStacks, 6, "Yangyang: Xuanling Sword Stance Flow should apply 6 Havoc Bane stacks only in One with the Wind");
 
   const stanceKey = __T.stateChoiceKey("sword_stance");
   vowSlot.toggles[stanceKey] = "sword_stance_azure";
@@ -1417,6 +1426,7 @@ function allPlainResourceGatesAreReviewed() {
     "camellya.forte_ephemeral_2",
     "camellya.outro_bloom",
     "roccia.forte_3_2",
+    "roccia.magic_box",
     "brant.outro_blast",
     "brant.rekindle",
     "zani.forte_dawning",
@@ -3137,6 +3147,9 @@ function modalEffectAndOffsetControlRegressions() {
   assert(offsetValues.has(`state|${deniaTargetState.id}|${deniaInterference}`), "Denia Tune Strain Interference should stay available in the offset-system calculator");
   slot.toggles[__T.stateChoiceKey("共鸣模态")] = "共鸣模态·聚爆";
   assert(effectOptions().includes("fusion"), "Denia Fusion mode should expose Fusion effect damage");
+  slot.skill = "sc_na3";
+  __T.state.effectCalc = { key: "fusion", providerIdx: 0, stacks: 0, stackMode: "action", deepen: 0 };
+  expectEqual(__T.compute().effect.actionStacks, 2, "Denia listed Forte actions should apply 2 Fusion Burst stacks on hit");
 
   resetTeam(["aemeath"]);
   slot = __T.state.slots[0];
@@ -3813,6 +3826,8 @@ function v3FullAuditRegressions() {
   expectEqual(r.scaledTypeBonus, r.typeBonus * 1.4, "Rebecca C6 should increase Basic Attack DMG Bonus from every source by 40%");
   expectEqual(skill(window.WUWA.chars.rebecca, "c6_extra_hit").multiplier, 900, "Rebecca C6 additional hit should be a separate 900% Basic Attack damage entry");
   assert(!allBuffs(window.WUWA.chars.rebecca).some((item) => item.id === "k6_extra_hit" || item.multAdd === 900), "Rebecca C6 additional hit should not be merged into the triggering skill multiplier");
+  const lucyTurret = buff(slot, "b_outro_lucy_mult");
+  assert(lucyTurret.zone === "skillMultBonus" && lucyTurret.value === 250 && lucyTurret.defaultActive === false && lucyTurret.skills.includes("outro_preem_choom"), "Rebecca's Lucy-enhanced turret should be a manually confirmed 250% Outro multiplier increase");
 }
 
 function v2FullAuditRegressions() {
@@ -3834,7 +3849,10 @@ function v2FullAuditRegressions() {
   controls = __T.resourceControlsForSlot(slot);
   assert(controls.some((ctrl) => ctrl.id === "imagination" && ctrl.max === 300), "Roccia should expose 300 Imagination");
   expectEqual(skill(window.WUWA.chars.roccia, "forte_3_2").formula, "357.86%", "Roccia Reality Recreation should use Real Fantasy Stage 3 multiplier");
-  expectEqual(window.WUWA_LANGUAGES.localeData("en-US", "chars", "roccia").skills.at(-1).name, "Reality Recreation", "Roccia derived skill should use its official English name");
+  assert(window.WUWA_LANGUAGES.localeData("en-US", "chars", "roccia").skills.some((item) => item.name === "Reality Recreation"), "Roccia Reality Recreation should keep its official English name");
+  const magicBox = skill(window.WUWA.chars.roccia, "magic_box");
+  assert(magicBox.fixedDamage === 100 && magicBox.category === "echoSkill" && magicBox.damageType === "echoSkill" && magicBox.defaultResourceActive === false, "Roccia Magic Box should be a manually confirmed fixed 100 Echo Skill action");
+  expectEqual(window.WUWA_LANGUAGES.localeData("en-US", "chars", "roccia").skills.at(-1).name, "Super Attractive Magic Box - Magic Box DMG", "Roccia Magic Box should use the official English skill name in its derived action label");
   assert(!buff(slot, "k5_heavy").skills.includes("lib"), "Roccia Sequence 5 Heavy Attack multiplier should not leak into Resonance Liberation");
 
   assert(skill(window.WUWA.chars.rover_aero, "skill_sever").triggerEvents.includes("applyAeroErosion"), "Rover: Aero Skyfall Severance should emit Aero Erosion application event");
@@ -3898,6 +3916,12 @@ function v2FullAuditRegressions() {
   resetTeam(["cartethyia"]);
   slot = __T.state.slots[0];
   __T.state.effectCalc = { key: "windErosion", providerIdx: 0, stacks: 0, stackMode: "action", deepen: 0 };
+  slot.skill = "na4";
+  expectEqual(__T.compute().effect.actionStacks, 1, "Cartethyia Basic Attack Stage 4 should apply 1 Aero Erosion stack");
+  slot.skill = "skill";
+  expectEqual(__T.compute().effect.actionStacks, 2, "Cartethyia Resonance Skill should apply 2 Aero Erosion stacks");
+  slot.skill = "intro_past";
+  expectEqual(__T.compute().effect.actionStacks, 2, "Cartethyia's own Intro Skill should apply 2 Aero Erosion stacks");
   slot.toggles[__T.stateChoiceKey("form_1")] = "form_1_option_2";
   slot.seq = 3;
   slot.skill = "fl_na5";
@@ -4000,6 +4024,11 @@ function v1FullAuditRegressions() {
   assert(skill(window.WUWA.chars.danjin, "heavy_2").triggerEvents.includes("heal"), "Danjin Chaoscleave should emit heal");
   assert(!skill(window.WUWA.chars.danjin, "heavy_3").triggerEvents?.includes("heal"), "Danjin Scatterbloom should not emit heal");
   assert(skill(window.WUWA.chars.jianxin, "forte_channel").triggerEvents.includes("shield"), "Jianxin Zhoutian channel should emit shield");
+  resetTeam(["rover_spectro"]);
+  slot = __T.state.slots[0];
+  slot.skill = "burst";
+  __T.state.effectCalc = { key: "lightNoise", providerIdx: 0, stacks: 0, stackMode: "action", deepen: 0 };
+  expectEqual(__T.compute().effect.actionStacks, 6, "Rover: Spectro Resonance Liberation should apply 6 Spectro Frazzle stacks");
   assert(skill(window.WUWA.chars.taoqi, "forte_timed_counters_3").triggerEvents.includes("shield"), "Taoqi Timed Counters should emit shield");
 
   resetTeam(["danjin"]);

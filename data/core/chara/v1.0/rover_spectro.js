@@ -169,6 +169,15 @@ WUWA.register({
     }
   ],
   "defaultSkillId": "burst",
+  "skillEvents": [
+    {
+      "skills": [
+        "burst"
+      ],
+      "event": "applySpectroFrazzle",
+      "stacks": 6
+    }
+  ],
   "validSubs": [
     "atkFlat",
     "critRate",

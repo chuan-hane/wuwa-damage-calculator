@@ -56,6 +56,10 @@ window.WUWA_LANGUAGES.extend("zh-CN", {
           {
             "name": "构筑现实",
             "requiresResourceLabel": "共鸣解放后12秒内"
+          },
+          {
+            "name": "无尽引力珍奇箱 - 珍奇箱伤害",
+            "requiresResourceLabel": "已施放延奏技能"
           }
         ],
         "combatStates": [

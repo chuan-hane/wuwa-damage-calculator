@@ -20,6 +20,7 @@ window.WUWA_SETTLEMENT = (() => {
     const OFFSET_STATE_RE = /偏移|震谐.*干涉|干涉.*震谐|集谐.*干涉|干涉.*集谐|骇破.*干涉|干涉.*骇破|谐度.*干涉|干涉.*谐度|Off-?Tune|Interference|Interfered|Shifting|Hack|Tune Strain|Tune Rupture|Offset/i;
     const TUNE_BREAK_LEVEL_RATE = 1600;
     const EFFECT_EVENT_BY_KEY = {
+      fusion: "applyFusionBurst",
       electro: "applyElectroFlare",
       frost: "applyGlacioChafe",
       lightNoise: "applySpectroFrazzle",
@@ -404,6 +405,7 @@ window.WUWA_SETTLEMENT = (() => {
       applySpectroFrazzle: "applySpectroFrazzle", 附加光噪效应: "applySpectroFrazzle",
       applyGlacioChafe: "applyGlacioChafe", 附加霜渐效应: "applyGlacioChafe",
       applyElectroFlare: "applyElectroFlare", 附加电磁效应: "applyElectroFlare",
+      applyFusionBurst: "applyFusionBurst", 附加聚爆效应: "applyFusionBurst",
       applyHavocBane: "applyHavocBane", 附加虚湮效应: "applyHavocBane",
       applyPhotochromicFlux: "applyPhotochromicFlux", 附加光致变染: "applyPhotochromicFlux",
       applyObservationMark: "applyObservationMark", 附加观测标记: "applyObservationMark",

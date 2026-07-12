@@ -454,6 +454,16 @@ WUWA.register({
       "defaultActive": false,
       "stackGroup": "stack_group_1",
       "duration": 14
+    },
+    {
+      "id": "b_outro_lucy_mult",
+      "zone": "skillMultBonus",
+      "value": 250,
+      "scope": "self",
+      "skills": [
+        "outro_preem_choom"
+      ],
+      "defaultActive": false
     }
   ],
   "chain": [

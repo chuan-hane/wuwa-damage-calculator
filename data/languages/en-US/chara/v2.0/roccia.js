@@ -51,6 +51,10 @@ window.WUWA_LANGUAGES.extend("en-US", {
           {
             "name": "Reality Recreation",
             "requiresResourceLabel": "Within 12s after Resonance Liberation"
+          },
+          {
+            "name": "Super Attractive Magic Box - Magic Box DMG",
+            "requiresResourceLabel": "Magic Box available after Outro Skill"
           }
         ],
         "resources": [
@@ -85,8 +89,8 @@ window.WUWA_LANGUAGES.extend("en-US", {
             "source": "Resonance Liberation: Commedia Improvviso!",
             "label": "Flat ATK",
             "trigger": "After casting Commedia Improvviso! - Skill DMG",
-            "excerpt": "Flat ATK based on Crit. Rate, cap 200%",
-            "desc": "Increase Resonance Liberation Commedia Improvviso!'s DMG Multiplier by 20% and Heavy Attack's DMG Multiplier by 80%."
+            "excerpt": "Flat ATK based on Crit. Rate above 50%, cap 200 points",
+            "desc": "For every 0.1% of Roccia's Crit. Rate over 50%, this skill increases the ATK of all Resonators in the team by 1 point for 30s, up to 200 points."
           },
           {
             "source": "Outro Skill: Applause, Please!",
