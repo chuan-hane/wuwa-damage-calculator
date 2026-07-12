@@ -432,6 +432,15 @@ WUWA.register({
       ],
       "event": "applyHavocBane",
       "stacks": 1
+    },
+    {
+      "skills": [
+        "flow_azure",
+        "flow_feather"
+      ],
+      "event": "applyHavocBane",
+      "stacks": 6,
+      "requiresState": "one_with_wind_active"
     }
   ],
   "combatStates": [
@@ -464,6 +473,15 @@ WUWA.register({
       "options": [
         {
           "value": "voice_upon_voice_active"
+        }
+      ]
+    },
+    {
+      "id": "one_with_wind",
+      "kind": "status",
+      "options": [
+        {
+          "value": "one_with_wind_active"
         }
       ]
     }

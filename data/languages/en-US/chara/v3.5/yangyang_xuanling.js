@@ -69,6 +69,14 @@ window.WUWA_LANGUAGES.extend("en-US", {
             "options": [
               { "label": "Gained", "valueLabel": "Voice upon Voice" }
             ]
+          },
+          {
+            "label": "One with the Wind",
+            "inactiveLabel": "One with the Wind not gained",
+            "entry": "Gained at 6 Windbound stacks. Casting Sword Stance Flow: Azure or Sword Stance Flow: Feather makes Feather Release: Xuanling apply 6 Havoc Bane stacks, then removes this state.",
+            "options": [
+              { "label": "Gained", "valueLabel": "One with the Wind" }
+            ]
           }
         ],
         "buffs": [

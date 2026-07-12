@@ -69,6 +69,14 @@ window.WUWA_LANGUAGES.extend("ko", {
             "options": [
               { "label": "획득", "valueLabel": "맴도는 소리 상태" }
             ]
+          },
+          {
+            "label": "바람을 나란히 맞대고",
+            "inactiveLabel": "바람을 나란히 맞대고 미획득",
+            "entry": "바람의 숨결에 기대어가 6스택에 도달하면 획득합니다. 검술의 흐름 · 푸름 또는 검술의 흐름 · 깃털 발동 시 해방된 깃털 · 현령이 암흑 효과 6스택을 부여한 후 이 상태가 제거됩니다.",
+            "options": [
+              { "label": "획득", "valueLabel": "바람을 나란히 맞대고" }
+            ]
           }
         ],
         "buffs": [

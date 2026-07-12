@@ -198,6 +198,13 @@ window.WUWA_LANGUAGES.extend("en-US", {
             "trigger": "In Target Hack · Interfered",
             "excerpt": "Heavy Attack DMG Increase +0.5% per stack",
             "desc": "Heavy Attack DMG Increase +0.5% per stack"
+          },
+          {
+            "source": "Outro Skill: Preem Choom",
+            "label": "Preem Choom DMG Multiplier Increase",
+            "trigger": "After Lucy enhances the turret",
+            "excerpt": "Lucy-enhanced turret DMG Multiplier +250%",
+            "desc": "Lucy can enhance the turret, increasing its DMG Multiplier by 250%, but its on-field duration will be lowered to 4s."
           }
         ],
         "chain": [

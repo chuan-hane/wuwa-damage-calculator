@@ -498,6 +498,29 @@ WUWA.register({
     }
   ],
   "defaultSkillId": "bd_lib",
+  "skillEvents": [
+    {
+      "skills": [
+        "sc_na3",
+        "sc_na4",
+        "bd_na3",
+        "bd_na4",
+        "bd_air3",
+        "bd_air4",
+        "void_bd_na3",
+        "void_bd_na4",
+        "void_bd_air3",
+        "void_bd_air4",
+        "sc_lib",
+        "bd_lib",
+        "sc_intro",
+        "bd_intro",
+        "erosion_field"
+      ],
+      "event": "applyFusionBurst",
+      "stacks": 2
+    }
+  ],
   "validSubs": [
     "atkFlat",
     "critRate",

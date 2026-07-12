@@ -76,6 +76,14 @@ window.WUWA_LANGUAGES.extend("zh-CN", {
             "options": [
               { "label": "已获得", "valueLabel": "声声流转" }
             ]
+          },
+          {
+            "label": "风我同频",
+            "inactiveLabel": "未获得风我同频",
+            "entry": "风息相依满6层后获得；施放剑式流转·苍或剑式流转·羽时，释羽·玄翎为目标附加6层虚湮效应，随后移除该状态。",
+            "options": [
+              { "label": "已获得", "valueLabel": "风我同频" }
+            ]
           }
         ],
         "buffs": [

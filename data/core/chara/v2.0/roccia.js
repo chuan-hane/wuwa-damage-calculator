@@ -212,6 +212,17 @@ WUWA.register({
       "triggerEvents": [
         "castBasicAttack"
       ]
+    },
+    {
+      "id": "magic_box",
+      "category": "echoSkill",
+      "damageType": "echoSkill",
+      "element": "havoc",
+      "multiplier": 0,
+      "formula": "100",
+      "fixedDamage": 100,
+      "requiresResource": "magic_box_ready",
+      "defaultResourceActive": false
     }
   ],
   "defaultSkillId": "forte_1",

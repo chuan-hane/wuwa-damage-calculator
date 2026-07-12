@@ -123,11 +123,11 @@ window.WUWA_LANGUAGES.extend("en-US", {
         ],
         "buffs": [
           {
-            "source": "Outro Skill: Iuno",
+            "source": "Outro Skill: From Gloom to Gleam",
             "label": "Heavy Attack DMG Increase",
-            "trigger": "In Full Moon Domain",
-            "excerpt": "Heavy Attack DMG Increase +50%",
-            "desc": "When in this state, Iuno will attack with Moonbow."
+            "trigger": "After casting Outro Skill",
+            "excerpt": "Incoming Resonator's Heavy Attack DMG Amplified by 50%",
+            "desc": "Attack the target to deal 100% Aero DMG. The incoming Resonator gains 50% Heavy Attack DMG Amplification for 14s. This effect ends early if they are switched off the field. Casting Outro Skill won't interrupt Heavy Attack - Absolute Fullness, and the Outro Skill effect still applies."
           },
           {
             "source": "Forte Circuit: Full Moon Domain / Inherent Skill: Derivation",

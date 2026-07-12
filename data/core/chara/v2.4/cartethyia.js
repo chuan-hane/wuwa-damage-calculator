@@ -77,9 +77,6 @@ WUWA.register({
       "formula": "2.52% × 3 + 7.54%",
       "impliedStates": [
         "form_1_option_1"
-      ],
-      "triggerEvents": [
-        "applyAeroErosion"
       ]
     },
     {
@@ -169,9 +166,6 @@ WUWA.register({
       "formula": "6.89% × 3 + 8.86%",
       "impliedStates": [
         "form_1_option_1"
-      ],
-      "triggerEvents": [
-        "applyAeroErosion"
       ]
     },
     {
@@ -201,8 +195,7 @@ WUWA.register({
         "form_1_option_1"
       ],
       "triggerEvents": [
-        "introEntry",
-        "applyAeroErosion"
+        "introEntry"
       ]
     },
     {
@@ -385,6 +378,21 @@ WUWA.register({
   ],
   "echoSet": 17,
   "skillEvents": [
+    {
+      "skills": [
+        "na4"
+      ],
+      "event": "applyAeroErosion",
+      "stacks": 1
+    },
+    {
+      "skills": [
+        "skill",
+        "intro_past"
+      ],
+      "event": "applyAeroErosion",
+      "stacks": 2
+    },
     {
       "seq": 3,
       "skills": [

@@ -69,6 +69,14 @@ window.WUWA_LANGUAGES.extend("ja-JP", {
             "options": [
               { "label": "獲得", "valueLabel": "声声流転状態" }
             ]
+          },
+          {
+            "label": "風我同調",
+            "inactiveLabel": "風我同調を未獲得",
+            "entry": "寄り添う風たちが6スタックに達すると獲得。剣技流転・蒼または剣技流転・羽を発動すると、解羽・玄翎が虚滅効果を6スタック付与し、この状態を解除します。",
+            "options": [
+              { "label": "獲得", "valueLabel": "風我同調" }
+            ]
           }
         ],
         "buffs": [
