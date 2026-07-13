@@ -32,7 +32,6 @@ window.WUWA_RENDER_HELPERS = (() => {
     return label ? `<span class="beta-version-badge">${esc(label)}</span>` : "";
   }
 
-  const RES_HINT = { toString: () => L.t("hints.res") };
   const PROVIDER_META = {
     "技能树": { cls: "skill", get label() { return L.provider("技能树"); } },
     "共鸣链": { cls: "chain", get label() { return L.provider("共鸣链"); } },
@@ -196,7 +195,7 @@ window.WUWA_RENDER_HELPERS = (() => {
   return {
     fmt, fx, esc, tnum, parts, sum, nonEchoEntries, nonEchoSum, pct,
     betaVersionLabel, betaVersionSuffix, betaBadgeHTML,
-    RES_HINT, PROVIDER_META, PROVIDER_ORDER, DAMAGE_MODES,
+    PROVIDER_META, PROVIDER_ORDER, DAMAGE_MODES,
     skillFormulaText, parseFormulaParts, multiplierPartsForResult, damageSplitHTML,
     durationText, shortDuration, buffSourceTitle, buffExcerpt, buffOriginalText,
   };

@@ -190,6 +190,7 @@ function resetTeam(chars = ["jinhsi", "zhezhi", "verina"]) {
   __T.state.enemy = { charLevel: 90, enemyLevel: 90, harmonyBase: 10027, res: 10, resShred: 0, defShred: 0, defIgnore: 0, vulnerability: 0, dmgReduction: 0, finalDmg: 0 };
   __T.state.showDesc = false;
   __T.state.showTargetExtras = false;
+  __T.state.resultMode = "skill";
   __T.state.damageMode = "expected";
   __T.state.effectCalc = { key: "none", providerIdx: null, stacks: 10, stackMode: "auto", electroRageStacks: 0, deepen: 0 };
   __T.state.offsetCalc = { key: "tuneBreak", providerIdx: null, skillId: null, stateId: null, stateValue: null, stacks: 3, deepen: 0 };
@@ -331,25 +332,38 @@ function initialRenderCompletes() {
   __T.render();
   const html = String(board.innerHTML);
   const damageIdx = html.indexOf('id="out-active"');
+  const resultModeTabsIdx = html.indexOf('id="result-mode-tabs"');
+  const heroTeamIdx = html.indexOf('class="hero-team"');
+  const overviewIdx = html.indexOf('class="stage-card damage-stage damage-overview-stage"');
+  const overviewEndIdx = html.indexOf("</section>", overviewIdx);
+  const stageGridIdx = html.indexOf('class="stage-grid"');
+  const targetIdx = html.indexOf('id="target-controls"');
+  const settlementIdx = html.indexOf('id="settlement-stage"');
+  const panelIdx = html.indexOf('class="stage-card panel-stage"');
+  const buffIdx = html.indexOf('class="stage-card buff-stage"');
   const formulaIdx = html.indexOf('id="metric-strip"');
-  const lowerIdx = html.indexOf('class="damage-lower');
   const skillDetailIdx = html.indexOf('<div id="dmg-type"');
   assert(html.includes("stage-shell"), "initial render did not produce the stage shell");
   assert(html.includes("<h1>wuwa伤害计算器</h1>"), "topbar title should stay wuwa damage calculator");
   assert(html.includes('class="stage-language"') && html.includes('data-act="language"') && html.includes('data-lang="zh-CN"') && html.includes(">ZH</button>") && html.includes('data-lang="en-US"') && html.includes('data-lang="ko"') && html.includes('data-lang="ja-JP"'), "topbar should render functional language switch controls");
   assert(html.includes('class="stage-github-link"') && html.includes("https://github.com/chuan-hane/wuwa-damage-calculator"), "topbar should link to the GitHub repository");
   assert((html.match(/data-act="echo-detail"/g) || []).length === 3 && html.includes("详细声骸模式"), "team cards should render detailed echo mode switches");
-  assert(damageIdx >= 0 && formulaIdx > damageIdx && formulaIdx < lowerIdx, "main damage formula should sit below the large damage number and above lower controls");
-  assert(skillDetailIdx > lowerIdx, "skill detail formula should stay inside the lower skill controls");
+  assert(html.includes('id="damage-dock-sentinel"') && html.indexOf('id="damage-dock-sentinel"') < heroTeamIdx, "damage dock trigger should sit at the end of the left damage summary");
+  assert((html.match(/data-act="dock-output"/g) || []).length === 3 && html.includes("topbar-output-build") && html.includes("topbar-output-set-icons") && html.includes("topbar-output-lead"), "fixed damage dock should expose three output slots with build and Echo summaries");
+  const formulaHeadIdx = html.indexOf('class="result-formula-head"');
+  assert(damageIdx >= 0 && formulaHeadIdx > damageIdx && targetIdx > formulaHeadIdx && formulaIdx > targetIdx && overviewEndIdx > formulaIdx && settlementIdx > overviewEndIdx, "target controls should sit beside the formula title above the formula cards");
+  assert(resultModeTabsIdx > damageIdx && heroTeamIdx > resultModeTabsIdx, "the compact result-mode switch should sit below the large result inside the left result column");
+  assert(stageGridIdx > overviewEndIdx && settlementIdx > stageGridIdx && panelIdx > settlementIdx && buffIdx > panelIdx, "settlement should lead the left grid column above the character panel while Buff starts in the right column");
+  assert(overviewIdx >= 0 && formulaIdx > overviewIdx, "the unified result and formula should share the first card");
+  assert(skillDetailIdx > settlementIdx, "skill detail should stay inside the original settlement block below the formula");
   assert(html.includes('class="skill-control-row"') && html.indexOf('data-act="skill"') > html.indexOf('class="skill-control-row"') && html.indexOf('data-act="skilllevel"') > html.indexOf('class="skill-control-row"'), "skill and skill level controls should share one row");
   assert(!html.includes('class="mode-tabs"'), "top-right damage mode tabs should not render");
   assert(!html.includes('class="pos-num"'), "top output selector should not render slot numbers");
   assert(!html.includes("damage-formula-panel"), "old formula panel wrapper should not be rendered");
-  assert(html.includes('class="damage-lower') && html.includes('class="damage-control-main"'), "skill controls should be in the lower damage section");
-  assert(html.includes("offset-calc"), "offset-system calculator should be permanently visible");
-  assert(html.includes("谐度破坏伤害"), "base Tune Break damage should be selectable without offset-system teammates");
+  assert(html.includes('id="result-mode-tabs"') && html.includes('data-mode="skill"') && html.includes('data-mode="effect"') && html.includes('data-mode="offset"'), "the top workbench should expose skill, effect, and offset result modes");
+  assert(html.includes('class="stage-card settlement-stage"') && html.indexOf('class="stage-card settlement-stage"') > overviewEndIdx && !html.includes('class="damage-lower') && !html.includes("其它伤害 · 独立结算"), "settlement should render as its own stage card after the result card");
+  assert(html.includes('data-act="skill"') && !html.includes("result-inline-controls") && !html.includes("result-mode-parameters"), "skill mode should retain the original settlement controls without redundant mode parameters");
   assert(!html.includes("减防0%"), "compact damage formulas should not render zero defense shred");
-  assert(html.includes('data-act="offset-cost"'), "offset calculator should expose target Cost selection");
   assert(!html.includes('data-act="offset-char-level"'), "offset calculator should not expose player level selection");
   assert(!html.includes('data-key="charLevel"'), "target controls should not expose player level input");
   assert(html.includes("team-avatar-level"), "team cards should show fixed level badge on character avatars");
@@ -360,10 +374,26 @@ function initialRenderCompletes() {
   assert(r.offset.available, "base Tune Break calculator should be available for ordinary teams");
   expectEqual(r.offset.kind, "tuneBreak", "offset calculator should default to base Tune Break damage");
   assert((r.offset.entries || []).some((entry) => entry.kind === "tuneBreak"), "ordinary teams should include base Tune Break damage entry");
-  const offsetHtml = html.slice(html.indexOf('id="out-offset"'), html.indexOf("</div></div></section>", html.indexOf('id="out-offset"')));
-  assert(offsetHtml.includes("<span>减伤/易伤</span>") && offsetHtml.includes("<span>最终伤害</span>") && offsetHtml.includes("<span>固定系数</span>"), "base Tune Break formula should show every multiplier card");
+  __T.state.resultMode = "offset";
+  __T.render();
+  const offsetPage = String(board.innerHTML);
+  const offsetControlsIdx = offsetPage.indexOf('id="result-inline-controls"');
+  const offsetHeroTeamIdx = offsetPage.indexOf('class="hero-team"');
+  assert(offsetPage.includes('class="result-inline-controls"') && offsetPage.includes("谐度破坏伤害"), "offset mode should expose base Tune Break controls without specialist teammates");
+  assert(offsetPage.includes('data-act="offset-cost"'), "offset mode should expose target Cost selection");
+  assert(offsetControlsIdx > offsetPage.indexOf('id="result-mode-tabs"') && offsetHeroTeamIdx > offsetControlsIdx, "offset controls should sit below the compact result switch inside the left result column");
+  assert(!offsetPage.includes('class="result-mode-parameters"') && offsetPage.includes('class="stage-card settlement-stage"') && offsetPage.includes('data-act="skill"'), "offset controls should leave the formula clean while the standalone settlement card remains visible");
+  const offsetHtml = offsetPage.slice(offsetPage.indexOf('id="result-formula"'), offsetPage.indexOf("</section>", offsetPage.indexOf('id="result-formula"')));
+  assert(!offsetHtml.includes('data-act="offset-key"') && !offsetHtml.includes('data-act="offset-cost"'), "offset selectors should not be duplicated inside the formula area");
+  assert(offsetHtml.includes("<span>易伤</span>") && offsetHtml.includes("<span>最终伤害提升</span>") && offsetHtml.includes("<span>固定系数</span>"), "base Tune Break formula should show every multiplier card");
   assert(!offsetHtml.includes("抗性/固定"), "base Tune Break formula should not imply RES is part of Tune Break damage");
-  assert(offsetHtml.includes("effect-mini-strip--formula") && !offsetHtml.includes("<b>×"), "offset formula cards should use outer multiply signs");
+  const offsetHeadIdx = offsetHtml.indexOf('class="result-formula-head"');
+  const offsetTargetIdx = offsetHtml.indexOf('id="target-controls"');
+  const offsetStripIdx = offsetHtml.indexOf('class="metric-strip formula-strip formula-strip--multiply"');
+  assert(offsetTargetIdx > offsetHeadIdx && offsetStripIdx > offsetTargetIdx && !offsetHtml.includes("谐度破坏伤害 ="), "target controls should replace the textual equation beside the formula title");
+  assert(offsetStripIdx >= 0 && !offsetHtml.includes("<b>×"), "offset formula cards should use the shared formula strip and outer multiply signs");
+  assert(offsetHtml.includes('class="metric-card formula-card"') && !offsetHtml.includes("effect-mini-card"), "offset formulas should reuse the main formula card component");
+  __T.state.resultMode = "skill";
 }
 
 function splitDamageRendersUnderMainDamage() {
@@ -377,7 +407,7 @@ function splitDamageRendersUnderMainDamage() {
   let damageIdx = html.indexOf('id="out-active"');
   let splitIdx = html.indexOf('class="damage-split');
   let metricIdx = html.indexOf('id="metric-strip"');
-  let splitHtml = html.slice(splitIdx, metricIdx);
+  let splitHtml = html.slice(splitIdx, html.indexOf('<div class="hero-team">', splitIdx));
   assert(splitIdx > damageIdx && splitIdx < metricIdx, "split damage should render below the large damage number and above metric cards");
   assert(splitHtml.includes("分段伤害：") && !splitHtml.includes("分段公式：") && !splitHtml.includes("23.86% × 6"), "split damage block should not show the percentage formula row");
 
@@ -386,7 +416,7 @@ function splitDamageRendersUnderMainDamage() {
   html = String(board.innerHTML);
   splitIdx = html.indexOf('class="damage-split');
   metricIdx = html.indexOf('id="metric-strip"');
-  splitHtml = html.slice(splitIdx, metricIdx);
+  splitHtml = html.slice(splitIdx, html.indexOf('<div class="hero-team">', splitIdx));
   assert(splitHtml.includes("Split DMG:") && !splitHtml.includes("Split formula:") && !splitHtml.includes("分段公式"), "split damage labels should stay localized and omit the percentage formula");
 }
 
@@ -400,12 +430,32 @@ function englishRenderCompletes() {
   assert(html.includes('aria-label="Open GitHub repository"'), "English topbar should localize the GitHub repository link label");
   assert(html.includes("Resonator Panel"), "panel heading should render in English");
   assert(html.includes("Current Attack Buffs"), "buff heading should render in English");
-  assert(html.includes("Final DMG"), "damage stage should use official English DMG wording");
-  assert(html.includes("Tune Break DMG"), "offset system should use official Tune Break DMG terminology");
+  assert(html.includes("Final DMG") && html.includes("Skill DMG") && html.includes("Off-Tune System"), "unified result modes should use official English DMG wording");
   assert(html.includes("Jinhsi") && html.includes("Ages of Harvest"), "English render should use formal character and weapon names");
   assert(html.includes('data-lang="zh-CN"') && html.includes('data-lang="en-US"') && html.includes('data-lang="ko"') && html.includes('data-lang="ja-JP"'), "all language buttons should remain available");
+  __T.state.resultMode = "offset";
+  __T.render();
+  assert(String(board.innerHTML).includes("Tune Break DMG"), "English offset mode should use official Tune Break DMG terminology");
+  __T.state.resultMode = "skill";
   __T.state.lang = "zh-CN";
   __T.render();
+}
+
+function resistanceHintReferenceTable() {
+  resetTeam(["jinhsi"]);
+  __T.state.lang = "zh-CN";
+  __T.render();
+  const html = String(board.innerHTML);
+  assert((html.match(/class="res-help-row/g) || []).length === 7, "resistance help should render one header and six approved mode rows");
+  for (const label of ["大世界", "全息", "深塔", "矩阵", "海墟·无尽", "海墟·9–11层"]) {
+    assert(html.includes(label), `resistance help should include ${label}`);
+  }
+  assert(!html.includes("海墟·1–8层"), "resistance help should omit Whimpering Wastes floors 1–8");
+  assert(html.includes("基础抗性") && html.includes("对应抗性"), "resistance help should label both resistance columns explicitly");
+  assert(html.includes("基础抗性为全属性抗性") && html.includes("目标自身属性的对应属性抗性"), "resistance help should define base and matching resistance");
+  assert(!html.includes("50%*") && !html.includes("仅海墟·9–11层"), "resistance help should not use an asterisk or restrict the explicit resistance increase rule to floors 9–11");
+  assert(html.includes("气动属性抗性提高20%") && html.includes("20% + 20% = 40%") && html.includes("50% + 20% = 70%"), "resistance help should explain that explicit attribute RES increases apply to both base and matching resistance");
+  assert(!html.includes("再 +30%") && !html.includes("another 30% RES"), "the obsolete universal +30% resistance rule should be removed");
 }
 
 function koreanRenderCompletes() {
@@ -418,10 +468,13 @@ function koreanRenderCompletes() {
   assert(html.includes('aria-label="GitHub 저장소 열기"'), "Korean topbar should localize the GitHub repository link label");
   assert(html.includes("공명자 스탯"), "panel heading should render in Korean");
   assert(html.includes("이번 공격 버프"), "buff heading should render in Korean");
-  assert(html.includes("최종 피해"), "damage stage should render in Korean");
-  assert(html.includes("조화도 파괴 피해"), "offset system should render in Korean");
+  assert(html.includes("최종 피해") && html.includes("스킬 피해") && html.includes("편조 시스템"), "unified result modes should render in Korean");
   assert(html.includes("금희") && html.includes("태평성대"), "Korean render should use Korean character and weapon names");
   assert(html.includes('data-lang="zh-CN"') && html.includes('data-lang="en-US"') && html.includes('data-lang="ko"') && html.includes('data-lang="ja-JP"'), "all language buttons should remain available");
+  __T.state.resultMode = "offset";
+  __T.render();
+  assert(String(board.innerHTML).includes("조화도 파괴 피해"), "Korean offset mode should render Tune Break damage");
+  __T.state.resultMode = "skill";
   __T.state.lang = "zh-CN";
   __T.render();
 }
@@ -436,10 +489,13 @@ function japaneseRenderCompletes() {
   assert(html.includes('aria-label="GitHub リポジトリを開く"'), "Japanese topbar should localize the GitHub repository link label");
   assert(html.includes("共鳴者ステータス"), "panel heading should render in Japanese");
   assert(html.includes("今回の攻撃 Buff"), "buff heading should render in Japanese");
-  assert(html.includes("最終ダメージ"), "damage stage should render in Japanese");
-  assert(html.includes("協和破壊ダメージ"), "offset system should render in Japanese");
+  assert(html.includes("最終ダメージ") && html.includes("スキルダメージ") && html.includes("オフセット体系"), "unified result modes should render in Japanese");
   assert(html.includes("今汐") && html.includes("歳華調和"), "Japanese render should use Japanese character and weapon names");
   assert(html.includes('data-lang="zh-CN"') && html.includes('data-lang="en-US"') && html.includes('data-lang="ko"') && html.includes('data-lang="ja-JP"'), "all language buttons should remain available");
+  __T.state.resultMode = "offset";
+  __T.render();
+  assert(String(board.innerHTML).includes("協和破壊ダメージ"), "Japanese offset mode should render Tune Break damage");
+  __T.state.resultMode = "skill";
   __T.state.lang = "zh-CN";
   __T.render();
 }
@@ -647,40 +703,59 @@ function damageMetricCritLabels() {
   __T.state.damageMode = "crit";
   __T.render();
   let html = String(board.innerHTML);
-  let metricHtml = html.slice(html.indexOf('class="metric-strip"'), html.indexOf('class="damage-lower'));
+  let metricHtml = html.slice(html.indexOf('class="metric-strip"'), html.indexOf("</section>", html.indexOf('class="metric-strip"')));
   assert(html.includes("<span>暴击伤害</span>") && !html.includes("<span>暴击区</span>"), "crit metric should be labeled as crit damage");
+  assert(html.includes('<div class="topbar-damage-summary"><span>暴击</span>') && (html.match(/id="dock-out-active"/g) || []).length === 1 && !html.includes("dock-out-exp") && !html.includes("dock-out-normal"), "fixed dock should show only the selected crit result");
   assert(!metricHtml.includes("<b>×"), "metric card values should not duplicate the outer multiply sign");
   __T.state.damageMode = "expected";
   __T.render();
   html = String(board.innerHTML);
   assert(html.includes("<span>期望修正</span>") && !html.includes("<span>暴击区</span>"), "expected metric should be labeled as expected correction");
+  assert(html.includes('<div class="topbar-damage-summary"><span>期望</span>'), "fixed dock should follow the selected expected result");
   __T.state.damageMode = "normal";
   __T.render();
   html = String(board.innerHTML);
   assert(html.includes("<span>非暴伤害</span>") && !html.includes("<span>暴击区</span>"), "normal metric should be labeled as non-crit damage");
+  assert(html.includes('<div class="topbar-damage-summary"><span>非暴</span>'), "fixed dock should follow the selected non-crit result");
 }
 
 function formulaStripResponsiveCss() {
   const css = fs.readFileSync(path.join(root, "styles.css"), "utf8");
+  const stageView = fs.readFileSync(path.join(root, "src/stage-view.js"), "utf8");
   const metricBaseIdx = css.indexOf(".metric-strip {\n  --formula-gap");
   const responsiveIdx = css.lastIndexOf("@container (max-width: 38rem)");
   assert(metricBaseIdx >= 0, "metric strip base style should exist");
   assert(responsiveIdx > metricBaseIdx, "metric strip responsive rules should follow the base style so they override it");
-  assert(css.includes("grid-template-columns: repeat(9, minmax(0, 1fr));"), "main metric formula should keep all cards in one row until the shared narrow breakpoint");
-  assert(css.includes(".formula-card {\n  position: relative;\n  min-width: 0;") && css.includes("max-width: 100%;\n  overflow-wrap: anywhere;"), "formula cards should constrain and wrap long localized text");
-  assert(css.includes(".metric-card span,\n.metric-card small {\n  display: block;\n  min-width: 0;") && css.includes("line-height: 1.25;\n  overflow-wrap: anywhere;"), "metric card labels and notes should wrap inside formula cards");
+  assert(css.includes(".metric-strip {\n  --formula-gap: 16px;\n  display: flex;") && !css.includes(".effect-mini-strip"), "all wide formula strips should use the same flexible row component");
+  assert(css.includes("flex: 1 1 max-content;"), "formula cards should distribute width from their rendered content length");
+  assert(css.includes("width: min(100%, 360px);") && css.includes("height: 30px;") && css.includes("font-size: var(--font-sm);"), "the result-mode switch should stay compact inside the result column");
+  assert(css.includes(".result-inline-controls {") && css.includes("grid-template-columns: minmax(0, 1.55fr) minmax(92px, 0.8fr);") && css.includes(".result-inline-controls--effect {") && css.includes(".result-inline-controls--effect-rage {") && !css.includes(".result-mode-parameters") && css.includes(".result-formula {") && css.includes(".settlement-content {") && !css.includes(".damage-lower") && !css.includes(".damage-control-stack"), "effect and offset controls should share the compact result area while formulas and settlement keep their own sections");
+  assert(css.includes(".formula-card {\n  position: relative;\n  min-width: 0;") && css.includes("max-width: 100%;\n  overflow-wrap: anywhere;") && !css.includes(".effect-mini-card"), "all formula modes should share one constrained card component");
+  assert(stageView.includes("function formulaCardHTML") && stageView.includes("function formulaStripHTML") && !stageView.includes("miniCardHTML") && !stageView.includes("effect-mini-strip"), "skill, effect, and offset formulas should use one card renderer and one strip renderer");
+  assert(css.includes(".formula-target-fields {\n  display: flex;\n  align-items: center;\n  flex-wrap: wrap;") && css.includes(".formula-target-controls .effect-field input {\n  width: 72px;\n  height: 30px;") && css.includes(".formula-target-toggle {\n  align-self: center;\n  width: auto;\n  min-width: 64px;"), "target controls should use compact inline labels, fixed-width inputs, and a content-sized More button");
+  assert(!css.includes(".result-formula-summary"), "the formula title row should not restore the textual equation");
+  assert(css.includes(".metric-card span {\n  display: block;\n  min-width: 0;") && css.includes("line-height: 1.25;\n  overflow-wrap: anywhere;"), "metric card labels should wrap inside formula cards");
   assert(css.includes(".metric-card b {\n  display: block;") && css.includes("font-variant-numeric: tabular-nums;\n  overflow-wrap: anywhere;"), "metric card values should wrap internally before the cards wrap");
-  assert(css.includes(".effect-mini-strip.formula-strip--multiply {\n    grid-template-columns: repeat(2, minmax(0, 1fr));\n    padding-left: var(--formula-gap);"), "effect and offset formula wraps should reserve room for row-start multiply signs");
+  assert(css.includes(".metric-strip {\n    display: grid;\n    grid-template-columns: repeat(2, minmax(0, 1fr));\n    padding-left: var(--formula-gap);"), "all wrapped formula strips should reserve room for row-start multiply signs");
   assert(!css.includes("nth-child(4n + 1)::before") && !css.includes("nth-child(odd)::before"), "wrapped formulas should keep row-start multiply signs visible");
 }
 
 function topbarSticksToViewportTop() {
   const css = fs.readFileSync(path.join(root, "styles.css"), "utf8");
+  const appSrc = fs.readFileSync(path.join(root, "src/app.js"), "utf8");
   assert(css.includes("--topbar-y-pad: 0px;"), "fixed topbar should sit flush with the viewport top");
   assert(css.includes("--font-page-title: 22px;"), "fixed topbar title should stay visually prominent");
-  assert(css.includes("--topbar-h: 68px;"), "stage shell should reserve enough space for the larger fixed topbar");
+  assert(css.includes("--topbar-base-h: 68px;") && css.includes("--topbar-h: var(--topbar-base-h);"), "stage shell should reserve enough space for the fixed topbar base row");
   assert(css.includes("padding: 0 var(--page-x-pad) var(--page-y-pad);"), "stage page padding should not reintroduce a top gap above the fixed topbar");
+  assert(/\.stage-shell\s*\{[^}]*display:\s*grid;[^}]*gap:\s*var\(--stage-gap\);/s.test(css), "top-level stage cards should use the shared stage gap");
+  assert(/\.stage-grid\s*\{[^}]*margin-top:\s*0;/s.test(css), "the lower grid should rely on the shared stage gap instead of adding a second margin");
   assert(css.includes(".stage-topbar {\n  position: fixed;") && css.includes("border-radius: 0 0 14px 14px;"), "fixed topbar should have square top corners when attached to the viewport top");
+  assert(css.includes(".topbar-damage-dock") && css.includes(".topbar-damage-dock[hidden]") && css.includes(".topbar-output-slots") && css.includes(".topbar-output-slot.on"), "fixed topbar should expose a collapsible damage dock with selectable output slots");
+  assert(css.includes(".topbar-damage-summary {\n  min-height: 40px;\n  display: flex;\n  align-items: center;") && /\.topbar-output-slot\s*\{[^}]*height:\s*40px;[^}]*min-height:\s*40px;[^}]*display:\s*flex;[^}]*align-items:\s*center;/s.test(css), "fixed damage and output summaries should share one compact aligned row");
+  assert(/\.topbar-output-slots\s*\{[^}]*display:\s*flex;[^}]*justify-content:\s*flex-end;/s.test(css) && css.includes(".topbar-output-slot {\n  flex: 0 1 auto;\n  width: fit-content;"), "fixed output slots should size to their content and stay aligned to the right edge");
+  assert(/\.topbar-output-slot\s*\{[^}]*overflow:\s*visible;/s.test(css) && css.includes(".topbar-output-set-icons .echo-set-chip::after {\n  width: max-content;\n  max-width: none;\n  white-space: nowrap;\n  overflow-wrap: normal;"), "fixed Sonata icons should show their complete hover names on one horizontal line");
+  assert(appSrc.includes('window.addEventListener("scroll", queueDamageDockSync') && appSrc.includes('getElementById("damage-dock-sentinel")') && appSrc.includes("source.getBoundingClientRect().top > topbarBaseBottom") && !appSrc.includes('getElementById("damage-result-source")'), "damage dock should appear when the damage summary crosses the fixed topbar");
+  assert(appSrc.includes('"dock-output": (el, idx)') && appSrc.includes("state.outputIdx = idx; render();"), "fixed output slots should switch the calculated character");
 }
 
 function betaVersionBadgesRender() {
@@ -756,11 +831,15 @@ function teamCardLongNamesWrap() {
   const metaRule = rule(".team-char-meta");
   const headRule = rule(".team-card-head");
   const seqRule = rule(".team-card .team-seq-select");
+  const echoRowRule = rule(".team-echo-row");
+  const echoSelectRule = rule(".team-gear-select");
   assert(nameRule.includes("overflow-wrap: anywhere;") && nameRule.includes("white-space: normal;"), "team card character names should wrap instead of truncating");
   assert(nameLineRule.includes("overflow: visible;") && nameLineRule.includes("white-space: normal;"), "team card character name line should not clip wrapped names");
   assert(metaRule.includes("text-overflow: ellipsis;") && metaRule.includes("white-space: nowrap;"), "team card character meta should remain compact");
   assert(headRule.includes("grid-template-columns: minmax(0, 1fr);"), "team card character picker should use its own row");
   assert(seqRule.includes("width: 100%;") && seqRule.includes("justify-self: stretch;"), "team card sequence selector should use a full standalone row");
+  assert(echoRowRule.includes("background: var(--team-control-bg);") && echoRowRule.includes("padding-left: 9px;"), "echo set icon and lead selector should share one aligned control background");
+  assert(echoSelectRule.includes("background-color: transparent;") && echoSelectRule.includes("padding-left: 0;"), "lead selector should not draw a second inset control behind the echo set icon");
 }
 
 function teamCardSequenceSelectShowsChainNames() {
@@ -1084,11 +1163,12 @@ function buffToggleUsesPartialRefresh() {
   assert(toggleHandler, "buff toggle handler should stay explicit");
   assert(toggleHandler[1].includes("refreshAfterBuffToggle();"), "buff toggle should use partial refresh");
   assert(!toggleHandler[1].includes("render();"), "buff toggle should not full-render the whole board");
-  assert(appJs.includes("function replaceOuterHTML") && appJs.includes("bind(targetControls);") && appJs.includes("bind(lower);") && appJs.includes("bind(buffStage);"), "partial buff refresh should replace and bind only local sections");
+  assert(appJs.includes("function replaceOuterHTML") && appJs.includes('replaceOuterHTML("result-main-display", resultMainDisplayHTML(r))') && appJs.includes("const sections = [resultMain, resultFormula, settlementStage, damageDock, buffStage]") && appJs.includes("sections.forEach(bind);"), "partial refresh should preserve inline result controls and replace only local workbench sections");
   assert(appJs.includes("function withScrollRestore") && /function refreshAfterBuffToggle\(\)\s*\{\s*withScrollRestore/.test(appJs), "partial buff refresh should preserve scroll while replacing sections");
   assert(appJs.includes("restoreScrollPosition(pos);\n  if (typeof window.requestAnimationFrame"), "scroll restoration should happen immediately and again on the next frame");
-  assert(stageJs.includes('id="target-controls"') && stageJs.includes('id="damage-lower"') && stageJs.includes('id="buff-stage"'), "partial buff refresh needs stable target, damage, and buff section ids");
-  assert(stageJs.includes("targetControlsHTML, damageLowerHTML, buffStageHTML"), "stage view should export partial section renderers");
+  assert(stageJs.includes('id="target-controls"') && stageJs.includes('id="result-formula"') && stageJs.includes('id="settlement-stage"') && stageJs.includes('id="buff-stage"'), "partial buff refresh needs stable result, settlement, and buff section ids");
+  assert(stageJs.includes("resultMainDisplayHTML, resultMainHTML, resultFormulaBodyHTML, resultFormulaHTML, damageDockHTML") && !stageJs.includes("activeResultMode, resultModeTabsHTML, resultMainHTML") && !stageJs.includes("damageDockHTML,\n      targetControlsHTML") && stageJs.includes("settlementStageHTML, buffStageHTML"), "stage view should export result and settlement partial renderers without exposing nested target controls or the internal mode switch renderer");
+  assert(stageJs.includes('${settlementStageHTML(r)}\n        ${panelStageHTML(r)}') && stageJs.includes('${buffStageHTML()}'), "settlement and character panel should share the left stack while Buff occupies the raised right stack");
 }
 
 function weaponPickerKeepsStringIds() {
@@ -1997,7 +2077,7 @@ function formulaNumberFormattingFloors() {
   __T.render();
   const displayAtk = __T.compute().panel.displayAtk.toLocaleString("en-US");
   const html = String(board.innerHTML);
-  const metricHtml = html.slice(html.indexOf('id="metric-strip"'), html.indexOf('class="damage-lower'));
+  const metricHtml = html.slice(html.indexOf('id="metric-strip"'), html.indexOf("</section>", html.indexOf('id="metric-strip"')));
   assert(metricHtml.includes(`<b>${displayAtk}</b>`), "main formula stat base should display floored panel value");
   assert(!metricHtml.includes("<b>2,439</b>"), "main formula stat base should not round the old baseline panel value up");
 }
@@ -2048,13 +2128,15 @@ function formulaCardTooltips() {
   __T.state.lang = "zh-CN";
   __T.render();
   const html = String(board.innerHTML);
-  const metricHtml = html.slice(html.indexOf('id="metric-strip"'), html.indexOf('class="damage-lower'));
+  const metricStart = html.indexOf('id="metric-strip"');
+  const metricHtml = html.slice(metricStart, html.indexOf("</section>", metricStart));
   assert((metricHtml.match(/class="formula-card-tip"/g) || []).length >= 9, "main formula cards should expose hover source tooltips for every multiplier card");
-  assert(metricHtml.includes("技能倍率 =") && metricHtml.includes("防御系数 ="), "formula card tooltips should explain how card values are derived");
-  assert(metricHtml.includes("声骸类型伤害加成（共鸣技能） 57%"), "echo type tooltip source should name the current damage type");
-  assert(metricHtml.includes("层数倍率") && metricHtml.includes("等级系数"), "skill multiplier tooltip should expand stack and level terms");
-  assert(metricHtml.includes("800 + 8 × 我方等级90") && metricHtml.includes("8 × 敌方等级90 + 792"), "defense tooltip should expand level terms");
-  assert(metricHtml.includes("减伤/易伤") && metricHtml.includes("受到伤害减少 5%") && metricHtml.includes("易伤 12%"), "normal formula should show the damage reduction/vulnerability multiplier");
+  assert(!metricHtml.includes("<small>"), "formula cards should keep their third line out of the card body");
+  assert(metricHtml.includes("角色基础") && metricHtml.includes("属性树"), "formula card tooltips should list concrete source categories");
+  assert(metricHtml.includes("声骸") && metricHtml.includes("共鸣技能伤害加成 +57%"), "echo type tooltip source should name the current damage type");
+  assert(metricHtml.includes("基础倍率") && metricHtml.includes("层数倍率"), "skill multiplier tooltip should list its contributing sources");
+  assert(metricHtml.includes("目标 · 我方等级 90") && metricHtml.includes("目标 · 敌方等级 90"), "defense tooltip should list both level sources");
+  assert(metricHtml.includes("<span>易伤</span>") && metricHtml.includes("目标 · 受到伤害减少 5%") && metricHtml.includes("目标 · 易伤 +12%"), "normal formula should show vulnerability as the card title while retaining both factor sources");
   assert(metricHtml.includes('tabindex="0"') && metricHtml.includes('role="tooltip"'), "formula card tooltips should be keyboard reachable");
   assert(metricHtml.includes('<div class="formula-card-tip"') && !metricHtml.includes('<span class="formula-card-tip"'), "formula card tooltips should not inherit parent span text color");
   const css = fs.readFileSync(path.join(root, "styles.css"), "utf8");
@@ -2802,6 +2884,7 @@ function reportedCharacterFixes() {
 
 function effectDamageModel() {
   resetTeam(["jinhsi", "buling"]);
+  __T.state.resultMode = "effect";
   __T.state.effectCalc = { key: "electro", stacks: 10, electroRageStacks: 0, deepen: 0 };
   let r = __T.compute();
   const baseDamage = r.effect.damage;
@@ -2810,8 +2893,12 @@ function effectDamageModel() {
   expectEqual(r.effect.rate, 415.85, "10-stack electro rate");
   __T.render();
   let html = String(board.innerHTML);
-  let effectHtml = html.slice(html.indexOf('id="out-effect"'), html.indexOf('id="out-offset"'));
-  assert(effectHtml.includes("effect-mini-strip--formula") && !effectHtml.includes("<b>×"), "effect formula cards should use outer multiply signs");
+  let effectHtml = html.slice(html.indexOf('id="result-formula"'), html.indexOf("</section>", html.indexOf('id="result-formula"')));
+  const effectHeadIdx = effectHtml.indexOf('class="result-formula-head"');
+  const effectTargetIdx = effectHtml.indexOf('id="target-controls"');
+  const effectStripIdx = effectHtml.indexOf('class="metric-strip formula-strip formula-strip--multiply"');
+  assert(effectTargetIdx > effectHeadIdx && effectStripIdx > effectTargetIdx && !effectHtml.includes("电磁效应 ="), "effect mode should show target controls instead of a textual equation beside the formula title");
+  assert(effectStripIdx >= 0 && !effectHtml.includes("<b>×"), "effect formula cards should use the shared formula strip and outer multiply signs");
   assert(effectHtml.includes("<span>效应基础值</span>") && effectHtml.includes("<span>效应倍率</span>"), "effect formula should name effect base and multiplier clearly");
   assert(effectHtml.includes("<span>效应加深</span>") && !effectHtml.includes("<span>效应加深</span><b>0%</b>"), "effect amplification card should show the multiplier factor, not the raw percent");
 
@@ -2820,9 +2907,10 @@ function effectDamageModel() {
   assert(r.effect.damage > baseDamage * 1.19, "manual effect amplification should increase effect damage through a multiplier");
   __T.render();
   html = String(board.innerHTML);
-  effectHtml = html.slice(html.indexOf('id="out-effect"'), html.indexOf('id="out-offset"'));
+  effectHtml = html.slice(html.indexOf('id="result-formula"'), html.indexOf("</section>", html.indexOf('id="result-formula"')));
   assert(effectHtml.includes("<span>效应加深</span>") && effectHtml.includes("<b>1.200</b>"), "effect amplification card should display the active multiplier factor");
-  assert(effectHtml.includes("效应加深 = max(0, 1 + (手动 20% + Buff 0%) / 100) = 1.200"), "effect amplification tooltip should explain manual and buff deepen sources");
+  assert(effectHtml.includes("手动 · 效应加深 +20%"), "effect amplification tooltip should list the manual deepen source");
+  assert(!effectHtml.slice(effectStripIdx).includes("<small>"), "effect formula cards should keep their third line inside the hover tooltip");
   __T.state.effectCalc.deepen = 0;
 
   __T.state.effectCalc.electroRageStacks = 10;
@@ -2902,7 +2990,10 @@ function effectDamageModel() {
   expectEqual(r.effect.defShred, 6, "havoc bane should display 3-stack defense shred");
   expectEqual(r.defense.effectDefShred, 6, "havoc bane defense shred should be tracked separately from manual defense shred");
   expectEqual(r.defense.totalDefShred, 6, "havoc bane defense shred should contribute to total defense shred");
+  __T.state.resultMode = "effect";
   __T.render();
+  const havocFormulaHtml = String(board.innerHTML).slice(String(board.innerHTML).indexOf('id="result-formula"'), String(board.innerHTML).indexOf('id="settlement-stage"'));
+  assert(havocFormulaHtml.includes('class="metric-strip formula-strip formula-strip--multiply"') && havocFormulaHtml.includes("<span>层数</span>") && havocFormulaHtml.includes("<span>每层 · 减防</span>") && havocFormulaHtml.includes("<b>3</b>") && havocFormulaHtml.includes("<b>2%</b>"), "havoc bane formula should visibly show stacks multiplied by defense shred per stack");
   assert(!String(board.innerHTML).includes("手动减防%"), "defense shred field label should not imply the whole field is manual");
   assert(String(board.innerHTML).includes("减防%"), "defense shred field should keep a concise label");
   assert(!String(board.innerHTML).includes("自动+6%"), "defense shred field should not split automatic effect defense shred into a badge");
@@ -3009,44 +3100,63 @@ function effectDamageModel() {
 }
 
 function effectPanelVisibility() {
+  const renderEffect = () => {
+    __T.state.resultMode = "effect";
+    __T.render();
+    return String(board.innerHTML);
+  };
   resetTeam();
+  let pageHTML = renderEffect();
+  assert(!pageHTML.includes('data-act="effect-key"'), "team without effect source should disable effect mode and omit its controls");
+  assert(/data-mode="effect"[^>]*disabled/.test(pageHTML), "team without effect source should keep effect mode visible but disabled");
+  __T.state.resultMode = "offset";
   __T.render();
-  assert(!String(board.innerHTML).includes('data-act="effect-key"'), "team without effect source should hide effect calculator");
-  assert(String(board.innerHTML).includes("offset-calc"), "team without offset specialists should still show Tune Break calculator");
+  assert(String(board.innerHTML).includes("result-inline-controls"), "offset mode should expose compact Tune Break controls without offset specialists");
 
   resetTeam(["buling"]);
-  __T.state.effectCalc = { key: "electro", stacks: 10, electroRageStacks: 3, deepen: 0 };
-  __T.render();
-  const html = String(board.innerHTML);
-  assert(html.includes('data-act="effect-key"'), "team with effect source should show effect calculator");
+  __T.state.effectCalc = { key: "none", providerIdx: null, stacks: 0, stackMode: "auto", electroRageStacks: 0, deepen: 0 };
+  const defaultEffect = __T.compute().effect;
+  expectEqual(defaultEffect.key, "electro", "an effect-capable team should default to its first available effect");
+  expectEqual(__T.state.effectCalc.key, "electro", "default effect selection should persist in calculator state");
+  expectEqual(defaultEffect.stacks, 10, "default effect selection should use that effect's default stack count");
+  __T.state.effectCalc.electroRageStacks = 3;
+  const html = renderEffect();
+  const effectControlsIdx = html.indexOf('class="result-inline-controls result-inline-controls--effect');
+  const effectHeroTeamIdx = html.indexOf('class="hero-team"');
+  const effectFormulaHTML = html.slice(html.indexOf('id="result-formula"'), html.indexOf('id="settlement-stage"'));
+  assert(effectControlsIdx > html.indexOf('id="result-mode-tabs"') && effectHeroTeamIdx > effectControlsIdx, "effect controls should sit below the compact result switch inside the left result column");
+  assert(html.includes('data-act="effect-key"') && html.includes('data-act="effect-provider"') && html.includes('data-act="effect-stacks"') && html.includes('data-act="effect-deepen"'), "team with an effect source should show every effect control in the result area");
+  assert(!effectFormulaHTML.includes('data-act="effect-key"') && !effectFormulaHTML.includes('data-act="effect-stacks"'), "effect selectors should not be duplicated inside the formula area");
+  assert(effectFormulaHTML.includes('class="metric-card formula-card"') && !effectFormulaHTML.includes("effect-mini-card"), "effect formulas should reuse the main formula card component");
   assert(html.includes("爆发层数"), "electro effect calculator should show electro rage stacks");
   assert(html.includes("效应/爆发上限 10 层"), "electro effect calculator should show shared flare/rage cap");
-  const electroEffectSelect = html.match(/<select data-act="effect-key">([\s\S]*?)<\/select>/);
-  assert(electroEffectSelect && electroEffectSelect[1].includes(">电磁效应<"), "Chinese effect selector should localize effect names");
+  const electroEffectSelect = html.match(/<select data-act="effect-key"[^>]*>([\s\S]*?)<\/select>/);
+  assert(electroEffectSelect && electroEffectSelect[1].includes(">电磁效应 · 效应/爆发上限 10 层<"), "effect selector should combine the localized effect name with its current cap");
   assert(!electroEffectSelect[1].includes(">electro<"), "Chinese effect selector should not expose effect keys");
+  assert(!electroEffectSelect[1].includes('value="none"') && !electroEffectSelect[1].includes("不计算"), "effect selector should not expose an unselected option");
+  const effectMeta = html.match(/<div class="stage-result-meta" id="result-meta">([\s\S]*?)<\/div>/);
+  assert(effectMeta && effectMeta[1] === "", "effect cap should no longer render as a separate line above the selector");
 
   resetTeam(["cartethyia"]);
   __T.state.effectCalc = { key: "windErosion", stacks: 3, deepen: 0 };
-  __T.render();
-  const cartethyiaEffectSelect = String(board.innerHTML).match(/<select data-act="effect-key">([\s\S]*?)<\/select>/);
+  pageHTML = renderEffect();
+  const cartethyiaEffectSelect = pageHTML.match(/<select data-act="effect-key"[^>]*>([\s\S]*?)<\/select>/);
   assert(cartethyiaEffectSelect, "Cartethyia should render effect selector");
   const options = [...cartethyiaEffectSelect[1].matchAll(/value="([^"]+)"/g)].map((m) => m[1]);
-  expectEqual(options.join(","), "none,windErosion", "Cartethyia-only team should only offer wind erosion effect");
-  assert(String(board.innerHTML).includes("上限 3 层"), "Cartethyia-only effect calculator should show 3-stack wind erosion cap");
+  expectEqual(options.join(","), "windErosion", "Cartethyia-only team should only offer wind erosion effect without an unselected option");
+  assert(pageHTML.includes("上限 3 层"), "Cartethyia-only effect calculator should show 3-stack wind erosion cap");
 
   resetTeam(["cartethyia", "chisa"]);
   __T.setBuffToggle(__T.state.slots[1], 1, "b_outro_effect_cap", true);
   __T.state.effectCalc = { key: "windErosion", providerIdx: 0, stacks: 6, deepen: 0 };
-  __T.render();
-  const capBonusHTML = String(board.innerHTML);
+  const capBonusHTML = renderEffect();
   assert(capBonusHTML.includes("上限=3层+千咲延奏3层=6层"), "effect cap bonus should render as base plus source equals final cap");
   assert(!capBonusHTML.includes("effect-cap-toggle"), "effect cap bonus should not render a separate control-row reminder");
 
   __T.state.slots[0].seq = 2;
   __T.state.slots[0].toggles[__T.stateChoiceKey("形态")] = "芙露德莉斯";
   __T.state.effectCalc.stacks = 9;
-  __T.render();
-  assert(String(board.innerHTML).includes("上限=3层+卡提希娅2链3层+千咲延奏3层=9层"), "multiple cap bonuses should render as an additive cap equation");
+  assert(renderEffect().includes("上限=3层+卡提希娅2链3层+千咲延奏3层=9层"), "multiple cap bonuses should render as an additive cap equation");
 
   resetTeam(["cartethyia", "suisui", "chisa"]);
   __T.state.slots[0].seq = 2;
@@ -3055,8 +3165,7 @@ function effectPanelVisibility() {
   __T.setBuffToggle(__T.state.slots[1], 1, "b_landscape_effect_cap", true);
   __T.setBuffToggle(__T.state.slots[2], 2, "b_outro_effect_cap", true);
   __T.state.effectCalc = { key: "windErosion", providerIdx: 0, stacks: 12, deepen: 0 };
-  __T.render();
-  const windCapHTML = String(board.innerHTML);
+  const windCapHTML = renderEffect();
   assert(windCapHTML.includes("上限=3层+卡提希娅2链3层+穗穗·共鸣解放·康衢之谣3层+千咲延奏3层=12层"), "three wind erosion cap bonuses should render together");
 
   resetTeam(["zani", "suisui", "chisa"]);
@@ -3064,16 +3173,14 @@ function effectPanelVisibility() {
   __T.setBuffToggle(__T.state.slots[1], 1, "b_landscape_effect_cap", true);
   __T.setBuffToggle(__T.state.slots[2], 2, "b_outro_effect_cap", true);
   __T.state.effectCalc = { key: "lightNoise", stacks: 16, deepen: 0 };
-  __T.render();
-  assert(String(board.innerHTML).includes("上限=10层+穗穗·共鸣解放·康衢之谣3层+千咲延奏3层=16层"), "Suisui and Chisa cap bonuses should render together for light noise");
+  assert(renderEffect().includes("上限=10层+穗穗·共鸣解放·康衢之谣3层+千咲延奏3层=16层"), "Suisui and Chisa cap bonuses should render together for light noise");
 
   resetTeam(["buling", "suisui", "chisa"]);
   __T.state.slots[1].toggles[__T.stateChoiceKey("ceaseless_landscape")] = "ceaseless_landscape_active";
   __T.setBuffToggle(__T.state.slots[1], 1, "b_landscape_effect_cap", true);
   __T.setBuffToggle(__T.state.slots[2], 2, "b_outro_effect_cap", true);
   __T.state.effectCalc = { key: "electro", stacks: 16, electroRageStacks: 16, deepen: 0 };
-  __T.render();
-  const electroCapHTML = String(board.innerHTML);
+  const electroCapHTML = renderEffect();
   assert(electroCapHTML.includes("效应/爆发上限=10层+穗穗·共鸣解放·康衢之谣3层+千咲延奏3层=16层"), "Suisui and Chisa cap bonuses should render together for electro");
   assert(electroCapHTML.includes("当前只录入1/2/3/4/5/6/7/8/9/10/11/12/13层倍率"), "missing 16-stack electro rates should show recorded stack list");
 
@@ -3082,14 +3189,14 @@ function effectPanelVisibility() {
   __T.state.slots[0].seq = 3;
   __T.setBuffToggle(__T.state.slots[1], 1, "b_outro_effect_cap", true);
   __T.state.effectCalc = { key: "havocBane", providerIdx: 0, stacks: 9, deepen: 0 };
-  __T.render();
-  assert(String(board.innerHTML).includes("上限=3层+秧秧·玄翎3链3层+千咲延奏3层=9层"), "Havoc Bane cap bonuses from Yangyang Xuanling chain 3 and Chisa outro should both render");
+  assert(renderEffect().includes("上限=3层+秧秧·玄翎3链3层+千咲延奏3层=9层"), "Havoc Bane cap bonuses from Yangyang Xuanling chain 3 and Chisa outro should both render");
 }
 
 function modalEffectAndOffsetControlRegressions() {
   const effectOptions = () => {
+    __T.state.resultMode = "effect";
     __T.render();
-    const match = String(board.innerHTML).match(/<select data-act="effect-key">([\s\S]*?)<\/select>/);
+    const match = String(board.innerHTML).match(/<select data-act="effect-key"[^>]*>([\s\S]*?)<\/select>/);
     return match ? [...match[1].matchAll(/value="([^"]+)"/g)].map((m) => m[1]) : [];
   };
 
@@ -3202,6 +3309,7 @@ function roverFormsAreSeparateCharacters() {
   const r = __T.compute();
   expectEqual(r.effect.cap, 9, "Aero Rover outro should raise an existing wind erosion provider cap to 9 after confirmation");
   expectEqual(r.effect.stacks, 9, "Aero Rover outro should allow an existing wind erosion provider to reach 9 stacks after confirmation");
+  __T.state.resultMode = "effect";
   __T.render();
   assert(String(board.innerHTML).includes("上限=6层+漂泊者·气动延奏3层=9层"), "Aero Rover cap bonus should render as an additive cap equation");
 }
@@ -3287,15 +3395,17 @@ function cyberpunkCharacterRegressions() {
   __T.state.enemy.finalDmg = 100;
   r = __T.compute();
   expectEqual(r.normal, breakAmpHack, "Hack-break damage should ignore attack, crit damage, element bonus, and manual final damage");
+  __T.state.resultMode = "offset";
   __T.render();
   assert(String(board.innerHTML).includes("偏移体系"), "Offset-system calculator should render for hack-break characters");
   assert(String(board.innerHTML).includes("骇破响应·熔触"), "Offset-system calculator should list hack response skills");
   assert(String(board.innerHTML).includes("骇破倍率"), "Hack-break offset formula should label the response multiplier as Hack Break");
-  assert(String(board.innerHTML).includes("骇破伤害 = 谐度基础值 × 骇破倍率"), "Hack-break offset formula should show the current Hack Break equation");
-  assert(String(board.innerHTML).includes("减伤/易伤"), "Hack-break response formula should show the damage-reduction/vulnerability card");
-  assert(String(board.innerHTML).includes("<span>抗性系数</span>") && String(board.innerHTML).includes("<span>最终伤害</span>"), "Hack-break response formula should split RES and final damage into separate cards");
+  assert(!String(board.innerHTML).includes("骇破伤害 =") && String(board.innerHTML).includes("<span>骇破倍率</span>"), "Hack-break offset formula should rely on the shared multiplier cards without a textual equation");
+  assert(String(board.innerHTML).includes("<span>易伤</span>"), "Hack-break response formula should show the vulnerability card");
+  assert(String(board.innerHTML).includes("<span>抗性系数</span>") && String(board.innerHTML).includes("<span>最终伤害提升</span>"), "Hack-break response formula should split RES and final damage into separate cards");
   assert(!String(board.innerHTML).includes("抗性/最终"), "Hack-break response formula should not merge RES and final damage into one card");
-  assert(String(board.innerHTML).includes("谐度响应伤害按谐度基础值"), "Harmony-response stage note should explain the special formula");
+  const responseFormulaHTML = String(board.innerHTML).slice(String(board.innerHTML).indexOf('id="result-formula"'), String(board.innerHTML).indexOf('id="settlement-stage"'));
+  assert(!responseFormulaHTML.includes("谐度响应伤害按谐度基础值"), "Harmony-response formula should stop after the equation without a repeated explanatory note");
   assert(!String(board.innerHTML).includes('data-key="harmonyBase"'), "More bonuses/debuffs should not expose raw harmony base input");
   assert(String(board.innerHTML).includes("目标Cost"), "Offset-system calculator should expose target Cost selection");
   assert(!String(board.innerHTML).includes('data-act="offset-char-level"'), "Offset-system calculator should not expose player level selection");
@@ -3368,10 +3478,11 @@ function lynaeCharacterRegressions() {
   expectEqual(r.offset.kind, "response", "Lynae Tune Rupture response should render in the offset-system calculator");
   expectEqual(r.offset.formulaKind, "tuneRupture", "Lynae Tune Rupture response should use the Tune Rupture offset formula kind");
   assert(r.offset.damage > baseResponse * 1.36, "Offset-system Tune Rupture response should include Tune Break Boost");
+  __T.state.resultMode = "offset";
   __T.render();
   assert(String(board.innerHTML).includes("震谐倍率"), "Tune Rupture offset formula should label the response multiplier as Tune Rupture");
-  assert(String(board.innerHTML).includes("震谐伤害 = 谐度基础值 × 震谐倍率"), "Tune Rupture offset formula should show the current Tune Rupture equation");
-  assert(String(board.innerHTML).includes("<span>抗性系数</span>") && String(board.innerHTML).includes("<span>最终伤害</span>"), "Tune Rupture response formula should split RES and final damage into separate cards");
+  assert(!String(board.innerHTML).includes("震谐伤害 =") && String(board.innerHTML).includes("<span>震谐倍率</span>"), "Tune Rupture offset formula should rely on the shared multiplier cards without a textual equation");
+  assert(String(board.innerHTML).includes("<span>抗性系数</span>") && String(board.innerHTML).includes("<span>最终伤害提升</span>"), "Tune Rupture response formula should split RES and final damage into separate cards");
   __T.state.offsetCalc = { key: "tuneBreak", providerIdx: 0, skillId: null, stateId: null, stateValue: null, stacks: 3, deepen: 0 };
   r = __T.compute();
   expectEqual(r.offset.kind, "tuneBreak", "Tune Break damage should be selectable in the offset-system calculator");
@@ -3384,7 +3495,7 @@ function lynaeCharacterRegressions() {
   assert(String(board.innerHTML).includes('data-act="offset-cost"'), "Offset calculator should render target Cost selector");
   assert(!String(board.innerHTML).includes('data-act="offset-char-level"'), "Offset calculator should not render player level selector");
   assert(String(board.innerHTML).includes("固定等级参数"), "Tune Break formula should explain the fixed level multiplier in formula details");
-  assert(String(board.innerHTML).includes("<span>减伤/易伤</span>") && String(board.innerHTML).includes("<span>最终伤害</span>") && String(board.innerHTML).includes("<span>固定系数</span>"), "Tune Break formula should expose damage reduction, final damage, and fixed 0.8 as cards");
+  assert(String(board.innerHTML).includes("<span>易伤</span>") && String(board.innerHTML).includes("<span>最终伤害提升</span>") && String(board.innerHTML).includes("<span>固定系数</span>"), "Tune Break formula should expose vulnerability, final damage, and fixed 0.8 as cards");
   assert(!String(board.innerHTML).includes("抗性/固定"), "Tune Break formula should not label fixed 0.8 as a RES factor");
 
   slot.skill = "visual_impact";
@@ -3423,7 +3534,9 @@ function lynaeCharacterRegressions() {
   assert(__T.buffFormulaText(slot, strainBuff, 0).includes("+18%"), "Lynae Tune Strain - Interfered should scale 3 stacks from active Tune Break Boost");
   expectEqual(r.totals.finalDmg, 18, "Offset-system Tune Strain final damage should not double count the legacy buff card value");
   __T.render();
-  assert(String(board.innerHTML).includes("最终伤害提升 = 3层 × 50点 × 0.12% = <b>18%</b>"), "Tune Strain Interfered formula should be visible in the offset-system calculator");
+  const strainHtml = String(board.innerHTML);
+  const strainFormulaHTML = strainHtml.slice(strainHtml.indexOf('id="result-formula"'), strainHtml.indexOf('id="settlement-stage"'));
+  assert(!strainFormulaHTML.includes("最终伤害提升 =") && strainFormulaHTML.includes("<span>层数</span>") && strainFormulaHTML.includes("<span>谐度增幅</span>") && strainFormulaHTML.includes("<span>最终提升</span>"), "Tune Strain Interfered should expose its inputs through shared cards without a textual equation");
 
   resetTeam(["luukherssen", "lynae", "rebecca"]);
   const output = __T.state.slots[0];
@@ -3512,7 +3625,7 @@ function newCharacterWeaponRegressions() {
   assert(html.includes("属性抗性%"), "resistance field should use attribute resistance wording");
   assert(html.includes("属性减抗%"), "resistance shred field should use attribute shred wording");
   assert(html.includes('data-act="target-extra-toggle"'), "folded target extra controls should keep an expansion control");
-  assert(html.includes("--metric-extra-columns:9"), "folded target controls should reserve full expanded column widths");
+  assert(html.includes('class="effect-controls formula-target-fields"') && !html.includes("--metric-extra-columns"), "folded target controls should use the compact formula toolbar");
   assert(html.includes("抗10% + 减抗10%"), "resistance factor card should display base resistance and total shred sources");
   assert(!html.includes("抗10% + 减抗10% ="), "resistance factor card should not repeat the effective resistance after an equals sign");
 
@@ -4242,6 +4355,7 @@ const checks = [
   ["core data keeps display text out", coreDataDoesNotContainDisplayTextFields],
   ["state/resource tokens are language-neutral", stateAndResourceTokensAreLanguageNeutral],
   ["initial render completes", initialRenderCompletes],
+  ["resistance hint reference table", resistanceHintReferenceTable],
   ["English render completes", englishRenderCompletes],
   ["Korean render completes", koreanRenderCompletes],
   ["Japanese render completes", japaneseRenderCompletes],
