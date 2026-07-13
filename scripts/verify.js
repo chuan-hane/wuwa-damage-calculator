@@ -9,6 +9,8 @@ const dataDir = path.join(root, "data");
 const charDir = path.join(dataDir, "core/chara");
 const betaCoreDir = path.join(dataDir, "core/beta");
 const BETA_VERSION_RE = /^Beta\d+\.\d+\.\d+$/;
+const targetSync = require(path.join(root, "scripts/sync-targets.js"));
+const targetFixtures = JSON.parse(fs.readFileSync(path.join(root, "scripts/fixtures/target-api-samples.json"), "utf8"));
 
 function jsFilesUnder(dir) {
   if (!fs.existsSync(dir)) return [];
@@ -37,6 +39,7 @@ global.WUWA = window.WUWA = {
 
 require(path.join(root, "data/core/weapons.js"));
 require(path.join(root, "data/core/sonatas.js"));
+require(path.join(root, "data/core/targets.js"));
 for (const file of betaCoreFiles.filter((file) => /\/weapons\.js$/.test(file))) require(path.join(root, file));
 for (const file of betaCoreFiles.filter((file) => /\/sonatas\.js$/.test(file))) require(path.join(root, file));
 for (const file of charFiles) {
@@ -61,6 +64,7 @@ for (const lang of SUPPORTED_LANGS) {
   for (const file of languageFiles(lang)) require(file);
 }
 window.WUWA_LANGUAGES.applyData(window.WUWA, window.WUWA_DATA, window.WUWA_SONATAS);
+require(path.join(root, "src/targets.js"));
 require(path.join(root, "src/rules.js"));
 require(path.join(root, "src/render-helpers.js"));
 require(path.join(root, "src/equipment.js"));
@@ -187,7 +191,26 @@ function resetTeam(chars = ["jinhsi", "zhezhi", "verina"]) {
   });
   chars.forEach((charId, idx) => __T.pickCharacter(idx, charId));
   __T.state.outputIdx = 0;
-  __T.state.enemy = { charLevel: 90, enemyLevel: 90, harmonyBase: 10027, res: 10, resShred: 0, defShred: 0, defIgnore: 0, vulnerability: 0, dmgReduction: 0, finalDmg: 0 };
+  __T.state.enemy = {
+    charLevel: 90,
+    enemyLevel: 90,
+    harmonyBase: 10027,
+    res: 10,
+    resShred: 0,
+    defShred: 0,
+    defIgnore: 0,
+    vulnerability: 0,
+    dmgReduction: 0,
+    finalDmg: 0,
+    targetMode: "openWorld",
+    targetSeasonId: null,
+    targetId: null,
+    targetLevelOverride: null,
+    targetResistanceOverrides: {},
+    targetBuffValues: {},
+    targetBuffChoices: {},
+  };
+  window.WUWA_TARGETS.ensureSelection(__T.state.enemy);
   __T.state.showDesc = false;
   __T.state.showTargetExtras = false;
   __T.state.resultMode = "skill";
@@ -351,7 +374,8 @@ function initialRenderCompletes() {
   assert(html.includes('id="damage-dock-sentinel"') && html.indexOf('id="damage-dock-sentinel"') < heroTeamIdx, "damage dock trigger should sit at the end of the left damage summary");
   assert((html.match(/data-act="dock-output"/g) || []).length === 3 && html.includes("topbar-output-build") && html.includes("topbar-output-set-icons") && html.includes("topbar-output-lead"), "fixed damage dock should expose three output slots with build and Echo summaries");
   const formulaHeadIdx = html.indexOf('class="result-formula-head"');
-  assert(damageIdx >= 0 && formulaHeadIdx > damageIdx && targetIdx > formulaHeadIdx && formulaIdx > targetIdx && overviewEndIdx > formulaIdx && settlementIdx > overviewEndIdx, "target controls should sit beside the formula title above the formula cards");
+  const targetStageIdx = html.indexOf('class="target-stage"');
+  assert(damageIdx >= 0 && targetStageIdx > damageIdx && targetIdx > targetStageIdx && formulaHeadIdx > targetIdx && formulaIdx > formulaHeadIdx && overviewEndIdx > formulaIdx && settlementIdx > overviewEndIdx, "the gameplay target block should sit above the separate formula heading and cards");
   assert(resultModeTabsIdx > damageIdx && heroTeamIdx > resultModeTabsIdx, "the compact result-mode switch should sit below the large result inside the left result column");
   assert(stageGridIdx > overviewEndIdx && settlementIdx > stageGridIdx && panelIdx > settlementIdx && buffIdx > panelIdx, "settlement should lead the left grid column above the character panel while Buff starts in the right column");
   assert(overviewIdx >= 0 && formulaIdx > overviewIdx, "the unified result and formula should share the first card");
@@ -384,13 +408,14 @@ function initialRenderCompletes() {
   assert(offsetControlsIdx > offsetPage.indexOf('id="result-mode-tabs"') && offsetHeroTeamIdx > offsetControlsIdx, "offset controls should sit below the compact result switch inside the left result column");
   assert(!offsetPage.includes('class="result-mode-parameters"') && offsetPage.includes('class="stage-card settlement-stage"') && offsetPage.includes('data-act="skill"'), "offset controls should leave the formula clean while the standalone settlement card remains visible");
   const offsetHtml = offsetPage.slice(offsetPage.indexOf('id="result-formula"'), offsetPage.indexOf("</section>", offsetPage.indexOf('id="result-formula"')));
-  assert(!offsetHtml.includes('data-act="offset-key"') && !offsetHtml.includes('data-act="offset-cost"'), "offset selectors should not be duplicated inside the formula area");
+  const offsetFormulaCardsHtml = offsetHtml.slice(offsetHtml.indexOf('class="result-formula-head"'));
+  assert(!offsetFormulaCardsHtml.includes('data-act="offset-key"') && !offsetFormulaCardsHtml.includes('data-act="offset-cost"'), "offset selectors should stay outside the formula cards");
   assert(offsetHtml.includes("<span>易伤</span>") && offsetHtml.includes("<span>最终伤害提升</span>") && offsetHtml.includes("<span>固定系数</span>"), "base Tune Break formula should show every multiplier card");
   assert(!offsetHtml.includes("抗性/固定"), "base Tune Break formula should not imply RES is part of Tune Break damage");
   const offsetHeadIdx = offsetHtml.indexOf('class="result-formula-head"');
   const offsetTargetIdx = offsetHtml.indexOf('id="target-controls"');
   const offsetStripIdx = offsetHtml.indexOf('class="metric-strip formula-strip formula-strip--multiply"');
-  assert(offsetTargetIdx > offsetHeadIdx && offsetStripIdx > offsetTargetIdx && !offsetHtml.includes("谐度破坏伤害 ="), "target controls should replace the textual equation beside the formula title");
+  assert(offsetTargetIdx >= 0 && offsetHeadIdx > offsetTargetIdx && offsetStripIdx > offsetHeadIdx && !offsetHtml.includes("谐度破坏伤害 ="), "offset mode should keep the gameplay target block above the formula heading");
   assert(offsetStripIdx >= 0 && !offsetHtml.includes("<b>×"), "offset formula cards should use the shared formula strip and outer multiply signs");
   assert(offsetHtml.includes('class="metric-card formula-card"') && !offsetHtml.includes("effect-mini-card"), "offset formulas should reuse the main formula card component");
   __T.state.resultMode = "skill";
@@ -421,6 +446,7 @@ function splitDamageRendersUnderMainDamage() {
 }
 
 function englishRenderCompletes() {
+  resetTeam();
   __T.state.lang = "en-US";
   __T.render();
   const html = String(board.innerHTML);
@@ -441,24 +467,428 @@ function englishRenderCompletes() {
   __T.render();
 }
 
-function resistanceHintReferenceTable() {
+function selectSnapshotTarget(target) {
+  const targets = window.WUWA_TARGETS;
+  targets.selectMode(__T.state.enemy, target.mode);
+  targets.selectSeason(__T.state.enemy, target.seasonId);
+  targets.selectTarget(__T.state.enemy, target.id);
+}
+
+function targetSelectionInterface() {
   resetTeam(["jinhsi"]);
   __T.state.lang = "zh-CN";
   __T.render();
-  const html = String(board.innerHTML);
-  assert((html.match(/class="res-help-row/g) || []).length === 7, "resistance help should render one header and six approved mode rows");
-  for (const label of ["大世界", "全息", "深塔", "矩阵", "海墟·无尽", "海墟·9–11层"]) {
-    assert(html.includes(label), `resistance help should include ${label}`);
+  let html = String(board.innerHTML);
+  const css = fs.readFileSync(path.join(root, "styles.css"), "utf8");
+  const appSource = fs.readFileSync(path.join(root, "src/app.js"), "utf8");
+  const targets = window.WUWA_TARGETS;
+  const targetPickerHTML = (page) => {
+    const start = page.indexOf('class="formula-target-pick"');
+    return page.slice(start, page.indexOf("</label>", start));
+  };
+  assert(html.includes('data-act="target-mode"') && html.includes('data-act="target-pick"'), "target toolbar should expose linked mode and concrete-target selectors");
+  assert(html.includes('class="target-stage"') && html.includes("今汐") && html.includes("衍射抗性"), "the gameplay block should summarize the active damage element and target resistance");
+  assert(html.includes('id="target-summary"') && appSource.includes('replaceOuterHTML("target-summary", targetSummaryHTML(r))'), "target summary should refresh immediately with target-level and resistance input changes");
+  assert(css.includes(".target-stage") && css.includes(".formula-target-toggle {\n  align-self: end;"), "the gameplay block should align the selectors and More button on the same baseline");
+  assert(css.includes("grid-template-columns: repeat(4, auto) auto;") && css.includes("justify-content: start;"), "the gameplay selectors should size to their content instead of stretching across the row");
+  assert(css.includes(".formula-target-primary select,\n.target-buff-controls select {\n  appearance: none;") && css.includes("background-image:\n    linear-gradient(45deg, transparent 50%, var(--muted) 50%)"), "the gameplay selectors should reuse the standard custom caret style");
+  assert(!html.includes('class="res-help') && !html.includes("目标属性抗性参考"), "the old resistance reference table should be removed");
+  assert(html.includes('class="formula-target-level"') && html.includes('data-act="target-level"') && !html.includes('data-act="target-resistance"'), "enemy level should stay in the primary gameplay row while six-resistance overrides stay inside More");
+  const openWorldTargets = targets.targetsFor("openWorld", "default");
+  expectEqual(openWorldTargets.length, 7, "Open World attribute choices");
+  const openWorldGroups = targets.groupedTargets("openWorld", "default");
+  expectEqual(openWorldGroups.length, 1, "Open World attribute group count");
+  expectEqual(openWorldGroups[0].items.map(targets.targetOptionName).join(","), "无属性,冷凝,热熔,导电,气动,衍射,湮灭", "Open World attribute labels");
+  assert(html.includes("目标属性") && !targetPickerHTML(html).includes("%") && !targetPickerHTML(html).includes("级") && !targetPickerHTML(html).includes("先锋幼岩") && !targetPickerHTML(html).includes("optgroup"), "Open World target picker should expose attributes without resistance values, levels, or monster names");
+  const glacioTarget = openWorldTargets.find((item) => targets.targetOptionName(item) === "冷凝");
+  targets.selectTarget(__T.state.enemy, glacioTarget.id);
+  expectEqual(targets.context(__T.state.enemy, "glacio").resistance, 40, "Glacio target automatic matching resistance");
+  expectEqual(targets.context(__T.state.enemy, "spectro").resistance, 10, "Glacio target automatic non-matching resistance");
+  __T.render();
+  html = String(board.innerHTML);
+  assert(html.includes("冷凝 90级") && html.includes("衍射抗性10%"), "target summary should show the selected attribute and automatically derived current resistance");
+  assert(html.indexOf('class="formula-target-pick"') < html.indexOf('class="formula-target-level"') && html.indexOf('class="formula-target-level"') < html.indexOf('class="formula-target-cost"') && html.indexOf('class="formula-target-cost"') < html.indexOf('class="formula-target-toggle'), "enemy level should stay on the primary row before Cost and More");
+  expectEqual((html.match(/data-act="offset-cost"/g) || []).length, 1, "skill mode gameplay Cost selector count");
+  assert(html.includes('<option value="10027" selected>4C</option>'), "gameplay Cost selector should keep compact 1C/3C/4C labels");
+
+  __T.state.enemy.targetLevelOverride = 81;
+  __T.render();
+  html = String(board.innerHTML);
+  assert(html.includes('data-act="target-level" value="81"') && html.includes("81级") && !targetPickerHTML(html).includes("级"), "enemy-level override should update the level control and summary without leaving a stale level in the target picker");
+  targets.clearOverrides(__T.state.enemy);
+
+  for (const mode of targets.modeOrder) {
+    targets.selectMode(__T.state.enemy, mode);
+    __T.render();
+    html = String(board.innerHTML);
+    expectEqual((html.match(/data-act="offset-cost"/g) || []).length, 1, `${mode} gameplay Cost selector count`);
   }
-  assert(!html.includes("海墟·1–8层"), "resistance help should omit Whimpering Wastes floors 1–8");
-  assert(html.includes("基础抗性") && html.includes("对应抗性"), "resistance help should label both resistance columns explicitly");
-  assert(html.includes("基础抗性为全属性抗性") && html.includes("目标自身属性的对应属性抗性"), "resistance help should define base and matching resistance");
-  assert(!html.includes("50%*") && !html.includes("仅海墟·9–11层"), "resistance help should not use an asterisk or restrict the explicit resistance increase rule to floors 9–11");
-  assert(html.includes("气动属性抗性提高20%") && html.includes("20% + 20% = 40%") && html.includes("50% + 20% = 70%"), "resistance help should explain that explicit attribute RES increases apply to both base and matching resistance");
-  assert(!html.includes("再 +30%") && !html.includes("another 30% RES"), "the obsolete universal +30% resistance rule should be removed");
+
+  __T.state.enemy.harmonyBase = 2149;
+  __T.state.resultMode = "offset";
+  __T.render();
+  html = String(board.innerHTML);
+  expectEqual((html.match(/data-act="offset-cost"/g) || []).length, 2, "linked gameplay and offset Cost selector count");
+  expectEqual((html.match(/<option value="2149" selected>/g) || []).length, 2, "linked gameplay and offset 3C selection");
+  __T.state.enemy.harmonyBase = 716;
+  __T.render();
+  html = String(board.innerHTML);
+  expectEqual((html.match(/<option value="716" selected>/g) || []).length, 2, "linked gameplay and offset 1C selection");
+  __T.state.resultMode = "skill";
+  __T.state.enemy.harmonyBase = 10027;
+  targets.selectMode(__T.state.enemy, "openWorld");
+
+  targets.selectMode(__T.state.enemy, "toa");
+  __T.render();
+  html = String(board.innerHTML);
+  const toaPaths = window.WUWA_TARGETS.targetPaths("toa", __T.state.enemy.targetSeasonId);
+  expectEqual(toaPaths.length, 6, "ToA current season tower/floor choices");
+  assert(html.includes('data-act="target-season"') && html.includes('data-act="target-path"') && html.includes("逆境深塔") && html.includes("残响之塔 → 4层"), "ToA should expose season and only the retained tower/floor choices in the primary row");
+  assert(html.includes('data-act="target-buff-toggle"') && html.includes("自动生效"), "ToA fixed and triggered stage effects should appear in the gameplay block");
+
+  targets.selectMode(__T.state.enemy, "whiwa");
+  __T.render();
+  html = String(board.innerHTML);
+  assert(html.includes("9层 · 急潮") && html.includes("10层 · 狂澜") && html.includes("11层 · 海魇") && html.includes("无尽层 · 无尽湍渊"), "Whiwa target groups should identify floors 9-11 and Endless");
+  assert(html.includes('data-act="target-season"') && html.includes('data-act="target-buff-choice"') && html.includes("信物"), "Whiwa should expose season and a single Token selector");
+  assert(html.includes('<optgroup label="金色信物">') && html.includes('<optgroup label="紫色信物">'), "Whiwa Token selector should group the gold and purple options");
+  for (const name of ["眷属-珍奇契约", "镌刻者—长夜孤灯", "希冀者—长夜孤灯", "编造者—长夜孤灯", "慰藉者—长夜孤灯", "狂欢者—船长印章"]) {
+    assert(html.includes(name), `Whiwa Token selector should include current purple Token ${name}`);
+  }
+
+  targets.selectMode(__T.state.enemy, "dpmatrix");
+  __T.render();
+  html = String(board.innerHTML);
+  const matrixPaths = window.WUWA_TARGETS.targetPaths("dpmatrix", __T.state.enemy.targetSeasonId);
+  expectEqual(matrixPaths.length, 3, "Matrix current season wave choices");
+  assert(html.includes('data-act="target-season"') && html.includes("终焉矩阵·奇点扩张") && html.includes("波次 1") && !html.includes("轮次 1"), "Matrix should expose season, the full Singularity Expansion name, and three player-facing wave choices");
+  window.WUWA_TARGETS.selectPath(__T.state.enemy, matrixPaths[2].id);
+  expectEqual(window.WUWA_TARGETS.target(__T.state.enemy.targetId).stageId, 3, "Matrix wave selector should change the active target group");
+  expectEqual((html.match(/data-act="target-buff-choice"/g) || []).length, 1, "Matrix should expose one enhancement selector");
+
+  __T.state.showTargetExtras = true;
+  __T.render();
+  html = String(board.innerHTML);
+  assert(html.includes('data-act="target-season"') && html.includes('data-act="target-level"') && !html.includes('data-act="target-custom"'), "seasonal modes should expose season and enemy level in the primary row without a redundant custom-target mode");
+  assert(html.indexOf('data-act="target-season"') < html.indexOf('class="target-summary"') && html.indexOf('data-act="target-level"') < html.indexOf('class="target-summary"'), "season and enemy level should remain in the primary gameplay row");
+  expectEqual((html.match(/data-act="target-resistance"/g) || []).length, 6, "More should expose all six attribute resistance inputs");
+  assert(html.includes("完整六属性抗性") && html.includes("目标数据更新于") && !html.includes("target-source-parts"), "More should show the complete resistance array and update date without an extra metadata row");
+  targets.selectMode(__T.state.enemy, "openWorld");
+  __T.render();
+  html = String(board.innerHTML);
+  assert(html.includes('data-act="target-level"') && !html.includes('data-act="target-season"') && !html.includes('data-act="target-custom"'), "Open World More should omit meaningless season and custom-target controls");
+  __T.state.showTargetExtras = false;
+}
+
+function targetApiFixtureRegressions() {
+  const monster = targetSync.normalizeMonsterResistance(targetFixtures.monster);
+  expectEqual(monster.glacio, 10, "monster API basis-point Glacio normalization");
+  expectEqual(monster.havoc, 40, "monster API basis-point Havoc normalization");
+
+  const toaTargets = {};
+  const toaIds = targetSync.buildToaSeason(targetFixtures.toa, 37, toaTargets);
+  const toa = toaTargets[toaIds[0]];
+  expectEqual(toa.level, 90, "ToA fixture enemy level");
+  expectEqual(toa.resistances.glacio, 20, "ToA fixture percent resistance unit");
+  expectEqual(toa.resistances.havoc, 60, "ToA fixture matching resistance");
+  expectEqual(toa.resistances.aero, 10, "ToA fixture explicit stage resistance adjustment");
+  assert(toa.resistance.sourceKind === "stageFinal" && toa.resistance.includesModeModifiers && !toa.resistance.modifiers.some((modifier) => modifier.kind === "modeBase"), "ToA final resistance should never receive another mode-base stack");
+  assert(targetSync.toaSeasonCoverage(targetFixtures.toa).complete, "complete ToA fixture should be accepted");
+  assert(!targetSync.toaSeasonCoverage(targetFixtures.toaIncomplete).complete, "ToA fixture without level and resistance fields should be excluded");
+  const conditionalRecord = JSON.parse(JSON.stringify(targetFixtures.toa.sample));
+  conditionalRecord.id = 400;
+  conditionalRecord.areaNum = 2;
+  conditionalRecord.floor = 3;
+  conditionalRecord.buffs = [{ id: 92008180, desc: "敌方全属性抗性提升15%。敌方受到异常效应伤害时移除。" }];
+  const conditionalExclusions = [];
+  const mixedToaTargets = {};
+  const mixedGameplayBuffs = {};
+  const mixedToaIds = targetSync.buildToaSeason({ base: targetFixtures.toa.sample, conditional: conditionalRecord }, 37, mixedToaTargets, conditionalExclusions, mixedGameplayBuffs);
+  expectEqual(mixedToaIds.length, 2, "ToA conditional resistance record should remain selectable");
+  const conditionalTarget = Object.values(mixedToaTargets).find((target) => target.recordId === conditionalRecord.id);
+  expectEqual(conditionalTarget.resistances.glacio, 35, "ToA conditional resistance should default to active");
+  assert(conditionalTarget.gameplay.controlIds.length === 1 && conditionalExclusions.length === 0, "ToA conditional resistance should expose a removal control instead of excluding the target");
+
+  const whiwaTargets = {};
+  const whiwaGameplayBuffs = {};
+  const monsterDetails = new Map([[targetFixtures.monster.Id, targetFixtures.monster]]);
+  const whiwaIds = targetSync.buildWhiwaSeason(targetFixtures.whiwa, 19, whiwaTargets, monsterDetails, whiwaGameplayBuffs);
+  const whiwa = whiwaTargets[whiwaIds[0]];
+  expectEqual(whiwa.level, 90, "Whiwa order 9 fixture level");
+  expectEqual(whiwa.resistances.glacio, 20, "Whiwa intrinsic plus mode-base resistance");
+  expectEqual(whiwa.resistances.aero, 40, "Whiwa explicit attribute resistance increase");
+  expectEqual(whiwa.resistances.havoc, 50, "Whiwa matching intrinsic plus mode-base resistance");
+  const tokenQualities = whiwa.gameplay.choiceGroups[0].optionIds.map((id) => whiwaGameplayBuffs[id].qualityId).sort();
+  expectEqual(tokenQualities.join(","), "4,4,4,4,4,4,5,5,5", "Whiwa fixture complete purple and gold Token qualities");
+
+  const matrixTargets = {};
+  const matrixIds = targetSync.buildMatrixSeason(targetFixtures.dpmatrix, 6, matrixTargets);
+  expectEqual(matrixIds.length, 3, "Matrix fixture should expose all three player-facing waves");
+  expectEqual(Array.from(new Set(matrixIds.map((id) => matrixTargets[id].stageId))).sort().join(","), "1,2,3", "Matrix fixture wave choices");
+  matrixIds.forEach((id) => {
+    const target = matrixTargets[id];
+    expectEqual(target.resistances[target.element], 40, `Matrix ${id} matching resistance`);
+    targetSync.ELEMENTS.filter((element) => element !== target.element).forEach((element) => {
+      expectEqual(target.resistances[element], 20, `Matrix ${id} base ${element} resistance`);
+    });
+  });
+}
+
+function targetSnapshotCoverage() {
+  const data = window.WUWA_TARGET_DATA;
+  const targets = Object.values(data.targets);
+  assert(data.schemaVersion === 2 && data.snapshot.apiVersion, "target snapshot should record schema and API version");
+  const snapshotText = JSON.stringify(data.snapshot);
+  for (const key of ["provider", "apiBase", "docsUrl", "openapiUrl", "levelEvidenceUrl", "resistanceEvidenceId"]) {
+    assert(!snapshotText.includes(`"${key}"`), `target snapshot should omit connection metadata: ${key}`);
+  }
+  assert(data.snapshot.syncedAt && data.snapshot.currentSeasons.toa && data.snapshot.currentSeasons.whiwa && data.snapshot.currentSeasons.dpmatrix, "target snapshot should record sync time and current seasons");
+  assert(targets.length > 0, "target snapshot should contain targets");
+  targets.forEach((target) => {
+    assert(Number.isFinite(target.level), `${target.id}: target level missing`);
+    targetSync.ELEMENTS.forEach((element) => assert(Number.isFinite(target.resistances[element]), `${target.id}: ${element} resistance missing`));
+    assert(target.resistance && typeof target.resistance.includesModeModifiers === "boolean", `${target.id}: resistance modifier inclusion flag missing`);
+  });
+
+  const toaSeasonIds = new Set(data.modes.toa.seasons.map((season) => Number(season.id)));
+  assert(Array.from(toaSeasonIds).every((id) => id >= 32), "ToA seasons without complete level and resistance data should be omitted");
+  assert((data.snapshot.exclusions.toaSeasons || []).some((item) => Number(item.seasonId) === 31), "snapshot should record excluded incomplete ToA seasons");
+  assert((data.snapshot.exclusions.toaRecords || []).every((item) => item.reason === "unparsedResistanceModifier"), "snapshot should only omit ToA records whose resistance modifier is not structurally proven");
+  const toaTargets = targets.filter((target) => target.mode === "toa");
+  assert(toaTargets.every((target) => (target.areaId === 1 && target.stageId === 4) || (target.areaId === 2 && [1, 2, 3, 4].includes(target.stageId)) || (target.areaId === 3 && target.stageId === 4)), "ToA snapshot should keep only left 4, middle 1-4, and right 4");
+  const whiwaTargets = targets.filter((target) => target.mode === "whiwa");
+  assert(whiwaTargets.every((target) => [9, 10, 11, 12].includes(target.stageOrder)), "Whiwa floors 1-8 should be omitted");
+  assert(whiwaTargets.every((target) => target.level === (target.stageOrder === 12 ? 100 : 90)), "Whiwa snapshot should use level 90 for orders 9-11 and level 100 for endless");
+  const whiwaTokens = Object.values(data.gameplayBuffs).filter((buff) => buff.mode === "whiwa" && buff.control === "option");
+  expectEqual(whiwaTokens.filter((buff) => buff.qualityId === 4).length, 6, "Whiwa snapshot purple Token count");
+  expectEqual(whiwaTokens.filter((buff) => buff.qualityId === 5).length, 3, "Whiwa snapshot gold Token count");
+  expectEqual(data.snapshot.synthesis.gameplayBuffs.whiwaSelectableTokenCounts.purple, 6, "Whiwa snapshot selectable purple Token metadata");
+  expectEqual(data.snapshot.synthesis.gameplayBuffs.whiwaSelectableTokenCounts.gold, 3, "Whiwa snapshot selectable gold Token metadata");
+
+  const currentMatrix = targets.filter((target) => target.mode === "dpmatrix" && target.seasonId === data.modes.dpmatrix.currentSeasonId && target.areaId === 12);
+  expectEqual(Array.from(new Set(currentMatrix.map((target) => target.stageId))).sort().join(","), "1,2,3", "current Matrix season should expose three wave choices");
+  const openWorldTargets = targets.filter((target) => target.mode === "openWorld");
+  assert(openWorldTargets.every((target) => target.level === 90), "open-world targets should default to level 90");
+  assert(Object.keys(data.gameplayBuffs).length > 0, "snapshot should include structured gameplay Buffs");
+
+  for (const mode of ["toa", "whiwa", "dpmatrix"]) {
+    const enemy = {};
+    window.WUWA_TARGETS.ensureSelection(enemy);
+    window.WUWA_TARGETS.selectMode(enemy, mode);
+    expectEqual(enemy.targetSeasonId, window.WUWA_TARGETS.currentSeasonId(mode), `${mode} should default to the current season`);
+  }
+
+  const encounters = new Map();
+  targets.filter((target) => target.mode !== "openWorld").forEach((target) => {
+    const key = [target.mode, target.seasonId, target.areaId, target.stageId, target.waveId].join(":");
+    if (!encounters.has(key)) encounters.set(key, []);
+    encounters.get(key).push(target);
+  });
+  const multiMonster = Array.from(encounters.values()).find((items) => new Set(items.map((item) => item.monsterId)).size > 1);
+  assert(multiMonster, "seasonal snapshot should include a multi-monster encounter");
+  multiMonster.forEach((target) => {
+    selectSnapshotTarget(target);
+    expectEqual(window.WUWA_TARGETS.context(__T.state.enemy, "spectro").target.id, target.id, `multi-monster target ${target.id} should be individually selectable`);
+  });
+}
+
+function targetResistanceDerivationRegressions() {
+  const data = window.WUWA_TARGET_DATA;
+  const charByElement = Object.fromEntries(targetSync.ELEMENTS.map((element) => [
+    element,
+    window.WUWA.order.find((id) => window.WUWA.chars[id].element === element),
+  ]));
+  const switchCase = Object.values(data.targets).flatMap((target) => targetSync.ELEMENTS.flatMap((first) =>
+    targetSync.ELEMENTS.filter((second) => second !== first && target.resistances[first] !== target.resistances[second]).map((second) => ({ target, first, second }))
+  )).find((item) => charByElement[item.first] && charByElement[item.second]);
+  assert(switchCase, "snapshot should contain a target with distinct resistances for two playable elements");
+
+  resetTeam([charByElement[switchCase.first], charByElement[switchCase.second]]);
+  selectSnapshotTarget(switchCase.target);
+  __T.state.slots.filter((slot) => slot.char).forEach((slot) => {
+    const ownElement = window.WUWA.chars[slot.char].element;
+    const ownSkill = __T.availableSkills(slot).find((item) => (item.damageElement || item.element || ownElement) === ownElement);
+    assert(ownSkill, `${slot.char}: no own-element skill for target resistance regression`);
+    slot.skill = ownSkill.id;
+  });
+  __T.state.outputIdx = 0;
+  let first = __T.compute();
+  expectEqual(first.damageElement, switchCase.first, "first output character damage element");
+  expectEqual(first.target.resistance, switchCase.target.resistances[switchCase.first], "first output character target resistance");
+  __T.state.outputIdx = 1;
+  const second = __T.compute();
+  expectEqual(second.damageElement, switchCase.second, "second output character damage element");
+  expectEqual(second.target.resistance, switchCase.target.resistances[switchCase.second], "second output character target resistance");
+  assert(first.target.target.id === second.target.target.id && first.resFactor !== second.resFactor, "switching output characters should keep the target and immediately change the applied resistance factor");
+
+  resetTeam(["rover_electro"]);
+  selectSnapshotTarget(data.targets["openWorld:310000430"]);
+  __T.state.slots[0].skill = "na1";
+  const electro = __T.compute();
+  __T.state.slots[0].skill = "havoc_air1";
+  const havoc = __T.compute();
+  expectEqual(electro.damageElement, "electro", "Rover normal skill element");
+  expectEqual(havoc.damageElement, "havoc", "skill-provided damage element should override character element");
+  expectEqual(electro.target.resistance, 10, "Rover Electro target resistance");
+  expectEqual(havoc.target.resistance, 40, "Rover Havoc action target resistance");
+
+  const explicitDamageElementSkill = skill(window.WUWA.chars.rover_electro, "havoc_air1");
+  explicitDamageElementSkill.damageElement = "spectro";
+  const explicitDamageElement = __T.compute();
+  delete explicitDamageElementSkill.damageElement;
+  expectEqual(explicitDamageElement.damageElement, "spectro", "damageElement should take priority over skill element");
+  expectEqual(explicitDamageElement.target.resistance, 10, "damageElement should select its own resistance entry");
+
+  const automaticLevel = havoc.target.enemyLevel;
+  const automaticResistance = havoc.target.resistance;
+  __T.state.enemy.targetLevelOverride = automaticLevel + 7;
+  __T.state.enemy.targetResistanceOverrides.havoc = automaticResistance + 13;
+  let overridden = __T.compute();
+  expectEqual(overridden.target.enemyLevel, automaticLevel + 7, "manual target level override");
+  expectEqual(overridden.target.resistance, automaticResistance + 13, "manual target resistance override");
+  window.WUWA_TARGETS.clearOverrides(__T.state.enemy);
+  overridden = __T.compute();
+  expectEqual(overridden.target.enemyLevel, automaticLevel, "reset should restore automatic target level");
+  expectEqual(overridden.target.resistance, automaticResistance, "reset should restore automatic target resistance");
+}
+
+function gameplayBuffRegressions() {
+  const data = window.WUWA_TARGET_DATA;
+  const currentTarget = (mode, predicate = () => true) => Object.values(data.targets).find((target) =>
+    target.mode === mode && target.seasonId === data.modes[mode].currentSeasonId && predicate(target)
+  );
+
+  resetTeam(["jinhsi"]);
+  const matrix = currentTarget("dpmatrix");
+  selectSnapshotTarget(matrix);
+  __T.state.slots[0].skill = "na1";
+  const matrixGroup = matrix.gameplay.choiceGroups[0];
+  const matrixBase = __T.compute().totals.finalDmg;
+  const general = matrixGroup.optionIds.find((id) => id.includes(":29:"));
+  window.WUWA_TARGETS.setGameplayChoice(__T.state.enemy, matrixGroup.id, general);
+  expectEqual(__T.compute().totals.finalDmg - matrixBase, 20, "Matrix General Enhancement should add its unconditional final DMG");
+  const negative = matrixGroup.optionIds.find((id) => id.includes(":26:"));
+  window.WUWA_TARGETS.setGameplayChoice(__T.state.enemy, matrixGroup.id, negative);
+  expectEqual(__T.compute().totals.finalDmg, matrixBase, "Matrix triggered enhancement effects should default inactive");
+  const negativeChildren = Object.values(data.gameplayBuffs).filter((buff) => buff.parentId === negative);
+  window.WUWA_TARGETS.setGameplayValue(__T.state.enemy, negativeChildren[0].id, true);
+  expectEqual(__T.compute().totals.finalDmg - matrixBase, 25, "Matrix first confirmed trigger");
+  window.WUWA_TARGETS.setGameplayValue(__T.state.enemy, negativeChildren[1].id, true);
+  expectEqual(__T.compute().totals.finalDmg - matrixBase, 55, "Matrix independent confirmed triggers should add without merging their conditions");
+
+  resetTeam(["jinhsi"]);
+  const whiwa = currentTarget("whiwa", (target) => target.stageOrder === 9);
+  selectSnapshotTarget(whiwa);
+  const tokenGroup = whiwa.gameplay.choiceGroups[0];
+  const tokenBase = __T.compute().totals.amplify;
+  const captainSeal = tokenGroup.optionIds.find((id) => id.includes(":71500090:"));
+  window.WUWA_TARGETS.setGameplayChoice(__T.state.enemy, tokenGroup.id, captainSeal);
+  expectEqual(__T.compute().totals.amplify - tokenBase, 25, "Whiwa Token should apply once when selected");
+  const finalDmgBase = __T.compute().totals.finalDmg;
+  const hopebearer = tokenGroup.optionIds.find((id) => id.includes(":71501002:"));
+  window.WUWA_TARGETS.setGameplayChoice(__T.state.enemy, tokenGroup.id, hopebearer);
+  expectEqual(__T.compute().totals.finalDmg - finalDmgBase, 15, "Whiwa persistent purple Token should apply its unconditional effect");
+  const hopebearerTrigger = Object.values(data.gameplayBuffs).find((buff) => buff.parentId === hopebearer);
+  window.WUWA_TARGETS.setGameplayValue(__T.state.enemy, hopebearerTrigger.id, true);
+  expectEqual(__T.compute().totals.finalDmg - finalDmgBase, 30, "Whiwa persistent purple Token trigger should require confirmation");
+  window.WUWA_TARGETS.setGameplayChoice(__T.state.enemy, tokenGroup.id, captainSeal);
+  expectEqual(__T.compute().totals.finalDmg, finalDmgBase, "Whiwa Token selection should not retain another Token's confirmed child effect");
+  const rarePact = tokenGroup.optionIds.find((id) => id.includes(":71500011:"));
+  window.WUWA_TARGETS.setGameplayChoice(__T.state.enemy, tokenGroup.id, rarePact);
+  expectEqual(__T.compute().totals.finalDmg, finalDmgBase, "Whiwa non-formula purple Token should remain selectable without inventing a damage effect");
+  const skillContext = { resultMode: "skill", damageElement: "spectro", damageTypes: ["basic"] };
+  const offsetContext = { resultMode: "offset", damageElement: "spectro", damageTypes: ["tuneRupture", "tuneRuptureDmg"] };
+  const inscriber = tokenGroup.optionIds.find((id) => id.includes(":71501001:"));
+  window.WUWA_TARGETS.setGameplayChoice(__T.state.enemy, tokenGroup.id, inscriber);
+  expectEqual(window.WUWA_TARGETS.gameplayAggregate(__T.state.enemy, skillContext).finalDmg, 15, "Whiwa Inscriber should apply its unconditional final DMG effect");
+  expectEqual(window.WUWA_TARGETS.gameplayAggregate(__T.state.enemy, offsetContext).vulnerability, 50, "Whiwa Inscriber should scope its Tune Rupture damage-taken effect to offset damage");
+  const fabricator = tokenGroup.optionIds.find((id) => id.includes(":71501003:"));
+  window.WUWA_TARGETS.setGameplayChoice(__T.state.enemy, tokenGroup.id, fabricator);
+  expectEqual(window.WUWA_TARGETS.gameplayAggregate(__T.state.enemy, skillContext).finalDmg, 15, "Whiwa Fabricator should keep its unconditional final DMG effect");
+  expectEqual(window.WUWA_TARGETS.gameplayAggregate(__T.state.enemy, { ...skillContext, damageTypes: ["echoSkill"] }).finalDmg, 40, "Whiwa Fabricator should add its Echo Skill final DMG effect only to Echo Skills");
+
+  resetTeam(["jinhsi"]);
+  const toaLeft = currentTarget("toa", (target) => target.recordId === 402);
+  selectSnapshotTarget(toaLeft);
+  expectEqual(__T.compute().totals.defIgnore, 25, "ToA fixed stage DEF Ignore should apply automatically");
+
+  const toaMiddle = currentTarget("toa", (target) => target.recordId === 405);
+  selectSnapshotTarget(toaMiddle);
+  expectEqual(window.WUWA_TARGETS.context(__T.state.enemy, "glacio").resistance, 35, "ToA conditional All-Attribute RES should default active exactly once");
+  const middleControls = toaMiddle.gameplay.controlIds.map((id) => data.gameplayBuffs[id]);
+  const removal = middleControls.find((buff) => buff.id.endsWith("resistance-removed"));
+  window.WUWA_TARGETS.setGameplayValue(__T.state.enemy, removal.id, true);
+  expectEqual(window.WUWA_TARGETS.context(__T.state.enemy, "glacio").resistance, 20, "confirming the ToA removal condition should restore stage-final RES");
+  window.WUWA_TARGETS.setGameplayValue(__T.state.enemy, removal.id, false);
+  expectEqual(window.WUWA_TARGETS.context(__T.state.enemy, "glacio").resistance, 35, "clearing the removal confirmation should restore automatic RES");
+  const ramp = middleControls.find((buff) => buff.control === "range");
+  const rampBase = __T.compute().totals.finalDmg;
+  window.WUWA_TARGETS.setGameplayValue(__T.state.enemy, ramp.id, 60);
+  expectEqual(__T.compute().totals.finalDmg - rampBase, 60, "ToA timed stage effect should use the selected proven value");
+}
+
+function targetLocalesAndOfflineRuntime() {
+  const data = window.WUWA_TARGET_DATA;
+  const officialModeNames = {
+    "zh-CN": ["大世界", "逆境深塔", "冥歌海墟", "终焉矩阵·奇点扩张"],
+    "en-US": ["Open World", "Tower of Adversity", "Whimpering Wastes", "Endstate Matrix: Singularity Expansion"],
+    "ja-JP": ["オープンワールド", "逆境深塔", "死の歌が纏う海の廃墟", "終焉マトリクス・奇点拡張"],
+    ko: ["오픈 월드", "역경의 탑", "죽음의 노래와 바닷속 폐허", "종말 매트릭스 · 특이점 확장"],
+  };
+  const bad = [];
+  for (const lang of SUPPORTED_LANGS) {
+    const ui = isolatedLanguagePack(lang).strings?.targets || {};
+    for (const key of ["section", "mode", "target", "attribute", "attributeNone", "cost", "season", "enemyLevel", "fullResistance", "summary", "updatedAt", "endlessFloor", "towerFloor", "floorLabel", "waveLabel", "token", "tokenGold", "tokenPurple", "enhancement", "buffUnselected"]) {
+      if (!ui[key]) bad.push(`${lang}: missing targets.${key}`);
+    }
+    window.WUWA_TARGETS.modeOrder.forEach((mode, index) => {
+      const name = window.WUWA_LANGUAGES.localeData(lang, "targetModes", mode)?.name;
+      if (name !== officialModeNames[lang][index]) bad.push(`${lang}: target mode ${mode} expected ${officialModeNames[lang][index]}, got ${name}`);
+    });
+    Object.values(data.targets).forEach((target) => {
+      if (!window.WUWA_LANGUAGES.localeData(lang, "targetNames", target.nameId)?.name) bad.push(`${lang}: missing target name ${target.nameId}`);
+      if (target.mode === "openWorld") return;
+      if (!window.WUWA_LANGUAGES.localeData(lang, "targetSeasons", `${target.mode}:${target.seasonId}`)?.name) bad.push(`${lang}: missing target season ${target.mode}:${target.seasonId}`);
+    });
+    Object.keys(data.gameplayBuffs).forEach((id) => {
+      const buff = window.WUWA_LANGUAGES.localeData(lang, "targetBuffs", id);
+      if (!buff?.name || !buff?.desc) bad.push(`${lang}: missing target gameplay Buff ${id}`);
+      if (/。。|。\s*。/.test(buff?.desc || "")) bad.push(`${lang}: malformed gameplay Buff paragraph punctuation ${id}`);
+    });
+    const glacioTrigger = window.WUWA_LANGUAGES.localeData(lang, "targetBuffs", "whiwa:19:71500092:glacio-chafe")?.name || "";
+    if (/该信物|This Token|この贈り物|해당 증표/.test(glacioTrigger)) bad.push(`${lang}: Whiwa Token trigger label should describe the trigger instead of its usage limit`);
+    const harmonyTrigger = window.WUWA_LANGUAGES.localeData(lang, "targetBuffs", "whiwa:19:71501002:concentrated-harmony")?.name || "";
+    if (/^敵が受ける最終ダメージ/.test(harmonyTrigger)) bad.push(`${lang}: Whiwa conditional Token label should omit the unconditional effect`);
+  }
+  assert(!bad.length, `target locale coverage is incomplete:\n${bad.slice(0, 40).join("\n")}`);
+
+  const runtimeFiles = ["index.html", ...jsFilesUnder(path.join(root, "src")), "data/core/targets.js", ...SUPPORTED_LANGS.map((lang) => `data/languages/${lang}/targets.js`)];
+  const networkRuntimeFiles = runtimeFiles.filter((file) => /\bfetch\s*\(|XMLHttpRequest\s*\(/.test(fs.readFileSync(path.join(root, file), "utf8")));
+  assert(!networkRuntimeFiles.length, `runtime target data should work offline without API calls: ${networkRuntimeFiles.join(", ")}`);
+  const index = fs.readFileSync(path.join(root, "index.html"), "utf8");
+  assert(index.includes('src="data/core/targets.js"') && SUPPORTED_LANGS.every((lang) => index.includes(`src="data/languages/${lang}/targets.js"`)) && index.includes('src="src/targets.js"'), "index should load the local target snapshot and all four target language packs");
+  const syncSource = fs.readFileSync(path.join(root, "scripts/sync-targets.js"), "utf8");
+  assert(syncSource.lastIndexOf("validateKnownSamples(targets);") < syncSource.lastIndexOf("writeSnapshot(files);"), "sync should validate all responses before replacing the previous snapshot");
+}
+
+function targetConnectionDetailsStayPrivate() {
+  const pipelineFiles = [
+    "data/core/targets.js",
+    "scripts/sync-targets.js",
+    "scripts/fixtures/target-api-samples.json",
+  ];
+  const hardcodedConnections = pipelineFiles.filter((file) => /https?:\/\/|www\./i.test(fs.readFileSync(path.join(root, file), "utf8")));
+  assert(!hardcodedConnections.length, `target data connection details should be supplied at runtime: ${hardcodedConnections.join(", ")}`);
+  const syncFiles = fs.readdirSync(path.join(root, "scripts")).filter((name) => /^sync-.*targets\.js$/.test(name));
+  expectEqual(syncFiles.join(","), "sync-targets.js", "target sync script should use a neutral filename");
+  const fixtureFiles = fs.readdirSync(path.join(root, "scripts/fixtures")).filter((name) => /^target.*\.json$/.test(name));
+  expectEqual(fixtureFiles.join(","), "target-api-samples.json", "target samples should use a neutral filename");
+  const targetUiText = SUPPORTED_LANGS.map((lang) => fs.readFileSync(path.join(root, `data/languages/${lang}/ui.js`), "utf8")).join("\n");
+  assert(!/sourceBreakdown|sourceMonsterIntrinsic|sourceStageFinal|sourceModeBase|sourceAttributeAdjustment|sourceManual/.test(targetUiText), "target UI packs should omit connection and derivation metadata labels");
 }
 
 function koreanRenderCompletes() {
+  resetTeam();
   __T.state.lang = "ko";
   __T.render();
   const html = String(board.innerHTML);
@@ -480,6 +910,7 @@ function koreanRenderCompletes() {
 }
 
 function japaneseRenderCompletes() {
+  resetTeam();
   __T.state.lang = "ja-JP";
   __T.render();
   const html = String(board.innerHTML);
@@ -732,7 +1163,10 @@ function formulaStripResponsiveCss() {
   assert(css.includes(".result-inline-controls {") && css.includes("grid-template-columns: minmax(0, 1.55fr) minmax(92px, 0.8fr);") && css.includes(".result-inline-controls--effect {") && css.includes(".result-inline-controls--effect-rage {") && !css.includes(".result-mode-parameters") && css.includes(".result-formula {") && css.includes(".settlement-content {") && !css.includes(".damage-lower") && !css.includes(".damage-control-stack"), "effect and offset controls should share the compact result area while formulas and settlement keep their own sections");
   assert(css.includes(".formula-card {\n  position: relative;\n  min-width: 0;") && css.includes("max-width: 100%;\n  overflow-wrap: anywhere;") && !css.includes(".effect-mini-card"), "all formula modes should share one constrained card component");
   assert(stageView.includes("function formulaCardHTML") && stageView.includes("function formulaStripHTML") && !stageView.includes("miniCardHTML") && !stageView.includes("effect-mini-strip"), "skill, effect, and offset formulas should use one card renderer and one strip renderer");
-  assert(css.includes(".formula-target-fields {\n  display: flex;\n  align-items: center;\n  flex-wrap: wrap;") && css.includes(".formula-target-controls .effect-field input {\n  width: 72px;\n  height: 30px;") && css.includes(".formula-target-toggle {\n  align-self: center;\n  width: auto;\n  min-width: 64px;"), "target controls should use compact inline labels, fixed-width inputs, and a content-sized More button");
+  assert(css.includes(".target-stage {\n  display: grid;") && css.includes(".formula-target-fields {\n  display: flex;\n  align-items: center;\n  flex-wrap: wrap;") && css.includes(".formula-target-controls .effect-field input {\n  width: 72px;\n  height: 30px;") && css.includes(".formula-target-toggle {\n  align-self: end;\n  width: auto;\n  min-width: 64px;"), "the gameplay block should use compact controls with a baseline-aligned More button");
+  assert(css.includes("grid-template-columns: repeat(4, auto) auto;") && css.includes("grid-template-columns: repeat(5, auto) auto;") && css.includes("grid-template-columns: repeat(6, auto) auto;"), "all gameplay modes should size target controls to their content");
+  assert(css.includes(".formula-target-level input {\n  width: 72px;"), "enemy level should stay compact while other gameplay controls size to content");
+  assert(css.includes(".formula-target-cost {\n    grid-column: 1 / -1;"), "the gameplay Cost control should stack at compact widths");
   assert(!css.includes(".result-formula-summary"), "the formula title row should not restore the textual equation");
   assert(css.includes(".metric-card span {\n  display: block;\n  min-width: 0;") && css.includes("line-height: 1.25;\n  overflow-wrap: anywhere;"), "metric card labels should wrap inside formula cards");
   assert(css.includes(".metric-card b {\n  display: block;") && css.includes("font-variant-numeric: tabular-nums;\n  overflow-wrap: anywhere;"), "metric card values should wrap internally before the cards wrap");
@@ -2054,14 +2488,14 @@ function baselineB() {
     heavyDmg: 16.5,
   };
 
-  __T.state.enemy.enemyLevel = 83;
+  __T.state.enemy.targetLevelOverride = 83;
   let r = __T.compute();
   expectEqual(r.panel.displayAtk, 2438, "baseline B displayed attack");
   expectEqual(Math.round(r.panel.totalAtk * 1000) / 1000, 2438.999, "baseline B internal attack");
   expectEqual(r.panel.baseMult, 48.65, "baseline B level-6 multiplier");
   expectEqual(r.critHit, 2772, "baseline B enemy 83 crit");
 
-  __T.state.enemy.enemyLevel = 85;
+  __T.state.enemy.targetLevelOverride = 85;
   r = __T.compute();
   expectEqual(r.critHit, 2757, "baseline B enemy 85 crit");
 }
@@ -2072,7 +2506,7 @@ function formulaNumberFormattingFloors() {
   slot.skill = "a1";
   slot.skillLevels = { "常态攻击": 6 };
   slot.echo.fields = { attackPct: 88.1, atkFlat: 440, critRate: 40, critDamage: 108.8, elem: 30, basicDmg: 24.4, heavyDmg: 16.5 };
-  __T.state.enemy.enemyLevel = 83;
+  __T.state.enemy.targetLevelOverride = 83;
   __T.state.lang = "zh-CN";
   __T.render();
   const displayAtk = __T.compute().panel.displayAtk.toLocaleString("en-US");
@@ -2897,7 +3331,7 @@ function effectDamageModel() {
   const effectHeadIdx = effectHtml.indexOf('class="result-formula-head"');
   const effectTargetIdx = effectHtml.indexOf('id="target-controls"');
   const effectStripIdx = effectHtml.indexOf('class="metric-strip formula-strip formula-strip--multiply"');
-  assert(effectTargetIdx > effectHeadIdx && effectStripIdx > effectTargetIdx && !effectHtml.includes("电磁效应 ="), "effect mode should show target controls instead of a textual equation beside the formula title");
+  assert(effectTargetIdx >= 0 && effectHeadIdx > effectTargetIdx && effectStripIdx > effectHeadIdx && !effectHtml.includes("电磁效应 ="), "effect mode should keep the gameplay target block above the formula heading");
   assert(effectStripIdx >= 0 && !effectHtml.includes("<b>×"), "effect formula cards should use the shared formula strip and outer multiply signs");
   assert(effectHtml.includes("<span>效应基础值</span>") && effectHtml.includes("<span>效应倍率</span>"), "effect formula should name effect base and multiplier clearly");
   assert(effectHtml.includes("<span>效应加深</span>") && !effectHtml.includes("<span>效应加深</span><b>0%</b>"), "effect amplification card should show the multiplier factor, not the raw percent");
@@ -2991,6 +3425,7 @@ function effectDamageModel() {
   expectEqual(r.defense.effectDefShred, 6, "havoc bane defense shred should be tracked separately from manual defense shred");
   expectEqual(r.defense.totalDefShred, 6, "havoc bane defense shred should contribute to total defense shred");
   __T.state.resultMode = "effect";
+  __T.state.showTargetExtras = true;
   __T.render();
   const havocFormulaHtml = String(board.innerHTML).slice(String(board.innerHTML).indexOf('id="result-formula"'), String(board.innerHTML).indexOf('id="settlement-stage"'));
   assert(havocFormulaHtml.includes('class="metric-strip formula-strip formula-strip--multiply"') && havocFormulaHtml.includes("<span>层数</span>") && havocFormulaHtml.includes("<span>每层 · 减防</span>") && havocFormulaHtml.includes("<b>3</b>") && havocFormulaHtml.includes("<b>2%</b>"), "havoc bane formula should visibly show stacks multiplied by defense shred per stack");
@@ -3407,7 +3842,7 @@ function cyberpunkCharacterRegressions() {
   const responseFormulaHTML = String(board.innerHTML).slice(String(board.innerHTML).indexOf('id="result-formula"'), String(board.innerHTML).indexOf('id="settlement-stage"'));
   assert(!responseFormulaHTML.includes("谐度响应伤害按谐度基础值"), "Harmony-response formula should stop after the equation without a repeated explanatory note");
   assert(!String(board.innerHTML).includes('data-key="harmonyBase"'), "More bonuses/debuffs should not expose raw harmony base input");
-  assert(String(board.innerHTML).includes("目标Cost"), "Offset-system calculator should expose target Cost selection");
+  assert(String(board.innerHTML).includes('data-act="offset-cost"'), "Offset-system calculator should expose target Cost selection");
   assert(!String(board.innerHTML).includes('data-act="offset-char-level"'), "Offset-system calculator should not expose player level selection");
   assert(!String(board.innerHTML).includes('data-act="offset-provider"'), "Offset-system calculator should not expose provider selection");
   assert(r.normal > 0, "Rebecca hack response should calculate positive damage");
@@ -3612,22 +4047,20 @@ function newCharacterWeaponRegressions() {
   let r = __T.compute();
   expectEqual(r.rawTotals.defIgnore, 32, "Confirmed Aemeath signature weapon should feed defense ignore");
   expectEqual(r.rawTotals.resShred, 10, "Confirmed Aemeath signature weapon should feed Fusion resistance ignore");
+  __T.state.showTargetExtras = true;
   __T.render();
   let html = String(board.innerHTML);
-  assert(/data-key="res"[^>]*data-auto="0"[^>]*value="10"/.test(html), "attribute resistance input should keep base resistance separate from resistance shred");
+  assert((html.match(/data-act="target-resistance"/g) || []).length === 6, "expanded target controls should show the complete six-resistance array");
   assert(/data-key="resShred"[^>]*data-auto="10"[^>]*value="10"/.test(html), "resistance shred input should display active resistance shred as the total");
   assert(/data-key="defIgnore"[^>]*data-auto="32"[^>]*value="32"/.test(html), "defense ignore field should appear when an active buff provides defense ignore");
-  assert(!html.includes('data-key="defShred"'), "defense shred field should stay folded when no active source or manual value exists");
   assert(!html.includes('data-key="charLevel"'), "target controls should not expose player level input");
-  assert(html.indexOf('data-key="enemyLevel"') < html.indexOf('data-key="res"'), "enemy level should render before attribute resistance");
-  assert(html.indexOf('data-key="res"') < html.indexOf('data-key="resShred"'), "attribute resistance and resistance shred fields should render next to each other");
-  assert(html.indexOf('data-key="resShred"') < html.indexOf('data-key="defIgnore"'), "active extra target fields should render after resistance shred");
-  assert(html.includes("属性抗性%"), "resistance field should use attribute resistance wording");
+  assert(html.indexOf('data-act="target-level"') < html.indexOf('data-act="target-resistance"'), "enemy level should render before the six resistance overrides");
+  assert(html.indexOf('data-act="target-resistance"') < html.indexOf('data-key="resShred"'), "automatic target values should render before other target modifiers");
   assert(html.includes("属性减抗%"), "resistance shred field should use attribute shred wording");
   assert(html.includes('data-act="target-extra-toggle"'), "folded target extra controls should keep an expansion control");
-  assert(html.includes('class="effect-controls formula-target-fields"') && !html.includes("--metric-extra-columns"), "folded target controls should use the compact formula toolbar");
-  assert(html.includes("抗10% + 减抗10%"), "resistance factor card should display base resistance and total shred sources");
-  assert(!html.includes("抗10% + 减抗10% ="), "resistance factor card should not repeat the effective resistance after an equals sign");
+  assert(html.includes('class="effect-controls formula-target-fields formula-target-modifiers"') && !html.includes("--metric-extra-columns"), "expanded target modifiers should use the compact formula toolbar");
+  assert(html.includes(`抗${r.target.resistance}% + 减抗10%`), "resistance factor card should display derived target resistance and total shred sources");
+  assert(!html.includes(`抗${r.target.resistance}% + 减抗10% =`), "resistance factor card should not repeat the effective resistance after an equals sign");
 
   resetTeam(["lucilla"]);
   slot = __T.state.slots[0];
@@ -3755,7 +4188,7 @@ function sixCharacterAuditRegressions() {
   assert(r.resourceBlocked, "Chisa C1 fixed damage should require one-time target confirmation");
   slot.toggles[__T.resourceKey("c1_fixed_damage_available")] = true;
   __T.state.enemy.vulnerability = 999;
-  __T.state.enemy.res = 99;
+  __T.state.enemy.targetResistanceOverrides.havoc = 99;
   r = __T.compute();
   expectEqual(r.damageModel, "fixed", "Chisa C1 should use the fixed-damage settlement branch");
   expectEqual(r.normal, 61803, "Chisa C1 fixed damage should remain 61803 through other multiplier changes");
@@ -4355,7 +4788,13 @@ const checks = [
   ["core data keeps display text out", coreDataDoesNotContainDisplayTextFields],
   ["state/resource tokens are language-neutral", stateAndResourceTokensAreLanguageNeutral],
   ["initial render completes", initialRenderCompletes],
-  ["resistance hint reference table", resistanceHintReferenceTable],
+  ["data-driven target selection interface", targetSelectionInterface],
+  ["fixed target API samples", targetApiFixtureRegressions],
+  ["target snapshot coverage", targetSnapshotCoverage],
+  ["target resistance derivation", targetResistanceDerivationRegressions],
+  ["gameplay Buff selection and derivation", gameplayBuffRegressions],
+  ["target locales and offline runtime", targetLocalesAndOfflineRuntime],
+  ["target connection details stay private", targetConnectionDetailsStayPrivate],
   ["English render completes", englishRenderCompletes],
   ["Korean render completes", koreanRenderCompletes],
   ["Japanese render completes", japaneseRenderCompletes],

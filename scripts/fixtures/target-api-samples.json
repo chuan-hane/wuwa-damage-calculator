@@ -1,0 +1,112 @@
+{
+  "monster": {
+    "Id": 310000430,
+    "Properties": {
+      "DamageResistanceElement1": { "Value": 1000 },
+      "DamageResistanceElement2": { "Value": 1000 },
+      "DamageResistanceElement3": { "Value": 1000 },
+      "DamageResistanceElement4": { "Value": 1000 },
+      "DamageResistanceElement5": { "Value": 1000 },
+      "DamageResistanceElement6": { "Value": 4000 }
+    }
+  },
+  "toa": {
+    "sample": {
+      "id": 402,
+      "season": 37,
+      "areaNum": 1,
+      "areaName": "残响之塔",
+      "floor": 4,
+      "buffs": [
+        {
+          "id": 92007113,
+          "name": "",
+          "desc": "敌方气动抗性降低10%"
+        }
+      ],
+      "monsters": [
+        {
+          "id": 310000430,
+          "name": "幽翎火",
+          "elements": [{ "id": 6 }],
+          "whiteGreenProps": [
+            { "key": "Lv", "value": 90, "isPercent": false },
+            { "key": "DamageResistanceElement1", "value": 20, "isPercent": true },
+            { "key": "DamageResistanceElement2", "value": 20, "isPercent": true },
+            { "key": "DamageResistanceElement3", "value": 20, "isPercent": true },
+            { "key": "DamageResistanceElement4", "value": 20, "isPercent": true },
+            { "key": "DamageResistanceElement5", "value": 20, "isPercent": true },
+            { "key": "DamageResistanceElement6", "value": 60, "isPercent": true }
+          ]
+        }
+      ]
+    }
+  },
+  "toaIncomplete": {
+    "sample": {
+      "id": 1,
+      "season": 31,
+      "areaNum": 1,
+      "areaName": "残响之塔",
+      "floor": 1,
+      "monsters": [{ "id": 310000430, "name": "幽翎火", "whiteGreenProps": [] }]
+    }
+  },
+  "whiwa": {
+    "season": 19,
+    "buffItems": [
+      { "itemId": 71500090, "item": { "qualityId": 4 } },
+      { "itemId": 71500091, "item": { "qualityId": 5 } },
+      { "itemId": 71500092, "item": { "qualityId": 5 } },
+      { "itemId": 71500093, "item": { "qualityId": 5 } }
+    ],
+    "stageGroups": [
+      {
+        "id": 2,
+        "levels": [
+          {
+            "id": 117,
+            "orderIndex": 9,
+            "title": "急潮之歌",
+            "stages": [
+              {
+                "instId": 40232,
+                "buffs": [
+                  {
+                    "id": 680002203,
+                    "name": "气动抗性提升",
+                    "desc": "气动属性抗性提高20%"
+                  }
+                ],
+                "monsters": [{ "id": 310000430, "name": "幽翎火", "element": { "id": 6 } }]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "dpmatrix": {
+    "Season": 6,
+    "Levels": [
+      {
+        "Id": 12,
+        "Name": "矩阵叠兵·终局",
+        "MaxLoopCount": 99,
+        "NewTowerBuffCount": 1,
+        "NewTowerBuffs": [
+          { "Id": 29, "Name": "通用强化", "Desc": "敌人受到伤害最终提升20%，敌人受到共鸣技能伤害最终提升20%。" },
+          { "Id": 26, "Name": "异常效应强化", "Desc": "角色附加异常效应时，使目标受到伤害最终提升25%，持续30秒。角色附加虚湮效应时，自身造成伤害最终提升30%，持续15秒。" },
+          { "Id": 27, "Name": "声骸技能强化", "Desc": "我方声骸技能伤害最终提升30%，热熔伤害最终提升20%，重击伤害最终提升20%。" },
+          { "Id": 28, "Name": "谐度破坏强化", "Desc": "角色震谐伤害最终提升150%。角色附加谐度·偏移状态时，伤害最终提升25%，持续30秒。" }
+        ],
+        "Waves": [
+          { "Id": 107, "Round": 1, "Wave": 1, "MonsterId": 24000046, "MonsterLevel": 100, "ElementId": 3, "Name": "第一轮目标", "IsShowInView": true },
+          { "Id": 108, "Round": 2, "Wave": 1, "MonsterId": 650000047, "MonsterLevel": 100, "ElementId": 5, "Name": "第二轮目标", "IsShowInView": true },
+          { "Id": 109, "Round": 3, "Wave": 1, "MonsterId": 665000020, "MonsterLevel": 100, "ElementId": 4, "Name": "第三轮目标", "IsShowInView": true },
+          { "Id": 110, "Round": 4, "Wave": 1, "MonsterId": 947700006, "MonsterLevel": 100, "ElementId": 2, "Name": "隐藏目标", "IsShowInView": false }
+        ]
+      }
+    ]
+  }
+}

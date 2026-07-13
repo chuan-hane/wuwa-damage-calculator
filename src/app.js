@@ -2,6 +2,7 @@
 // 前端逻辑：基础面板挂载(角色base+属性树+武器静态) + 队伍Buff + 去混乘区。
 const W = window.WUWA;
 const L = window.WUWA_LANGUAGES;
+const TARGETS = window.WUWA_TARGETS;
 const ch = (id) => W.chars[id];
 const {
   WEAPONS, SONATAS, wp, defaultEchoForChar, leadChoicesForEcho, syncEchoLead,
@@ -57,14 +58,37 @@ const state = {
     initialSlot("zhezhi", "rime_draped_sprouts", "forte_creations_zenith"),
     initialSlot("verina", "cosmic_ripples", "lib"),
   ],
-  enemy: { charLevel: 90, enemyLevel: 90, harmonyBase: 10027, res: 10, resShred: 0, defShred: 0, defIgnore: 0, vulnerability: 0, dmgReduction: 0, finalDmg: 0 },
+  enemy: {
+    charLevel: 90,
+    enemyLevel: 90,
+    harmonyBase: 10027,
+    res: 10,
+    resShred: 0,
+    defShred: 0,
+    defIgnore: 0,
+    vulnerability: 0,
+    dmgReduction: 0,
+    finalDmg: 0,
+    targetMode: "openWorld",
+    targetSeasonId: null,
+    targetId: null,
+    targetLevelOverride: null,
+    targetResistanceOverrides: {},
+    targetBuffValues: {},
+    targetBuffChoices: {},
+  },
 };
+TARGETS.ensureSelection(state.enemy);
 
 const {
   slotBuffs, availableSkills, selectedSkill, resourceKey, resourceControlsForSlot, resolvedSkill,
   stateKey, stateChoiceKey, stateControlsHTML,
   buffStackCount, buffStatus, setBuffToggle, scaleByInfo, buffValue, compute,
-} = window.WUWA_SETTLEMENT.create({ state, ch, wp, echoStats, weaponBuffs, sonataBuffs, esc });
+} = window.WUWA_SETTLEMENT.create({
+  state, ch, wp, echoStats, weaponBuffs, sonataBuffs, esc,
+  targetContext: (damageElement) => TARGETS.context(state.enemy, damageElement),
+  targetGameplay: (context) => TARGETS.gameplayAggregate(state.enemy, context),
+});
 const {
   buffFormulaText, autoResolutionHTML, settlementBuffRowsHTML, stackFeedsBuffRequirement, resetBuffStage,
 } = window.WUWA_BUFF_VIEW.create({ state, ch, slotBuffs, buffStatus, buffValue, buffStackCount, scaleByInfo });
@@ -74,7 +98,7 @@ const {
 const {
   stageLayoutHTML, typeTagHTML,
   resultMainDisplayHTML, resultMainHTML, resultFormulaBodyHTML, resultFormulaHTML, damageDockHTML,
-  settlementStageHTML, buffStageHTML,
+  targetSummaryHTML, settlementStageHTML, buffStageHTML,
 } = window.WUWA_STAGE_VIEW.create({
   state, W, ch, wp, WEAPONS, SONATAS, leadChoicesForEcho, syncEchoLead,
   ECHO_COSTS, echoMainOptions, echoSubOptions, echoSubValues, echoFixedMain, ensureEchoDetail, echoDetailSummary, statLabel, echoStats,
@@ -152,7 +176,8 @@ function refreshResultDisplay(r) {
   const resultMainDisplay = replaceOuterHTML("result-main-display", resultMainDisplayHTML(r));
   const resultFormulaBody = replaceOuterHTML("result-formula-body", resultFormulaBodyHTML(r));
   const damageDock = replaceOuterHTML("topbar-damage-dock", damageDockHTML(r));
-  if (!resultMainDisplay || !resultFormulaBody || !damageDock) return false;
+  const targetSummary = replaceOuterHTML("target-summary", targetSummaryHTML(r));
+  if (!resultMainDisplay || !resultFormulaBody || !damageDock || !targetSummary) return false;
   bind(resultMainDisplay);
   bind(resultFormulaBody);
   syncDamageDock();
@@ -220,6 +245,22 @@ function updateEnemyInput(el) {
   // 等级/抗性留空时不归零，避免清空瞬间塌成 0。
   if (raw === "" && ["enemyLevel", "res"].includes(key)) { repaint(); return; }
   state.enemy[key] = raw === "" ? 0 : num(raw) - auto;
+  repaint();
+}
+
+function updateTargetLevel(el) {
+  const raw = el.value.trim();
+  if (raw === "") { repaint(); return; }
+  state.enemy.targetLevelOverride = num(raw);
+  repaint();
+}
+
+function updateTargetResistance(el) {
+  const raw = el.value.trim();
+  if (raw === "") { repaint(); return; }
+  const element = el.dataset.element;
+  if (!TARGETS.elements().includes(element)) return;
+  state.enemy.targetResistanceOverrides[element] = num(raw);
   repaint();
 }
 
@@ -557,6 +598,22 @@ const ACTIONS = {
   }; },
   "show-desc": (el) => { el.onchange = () => { state.showDesc = el.checked; render(); }; },
   "target-extra-toggle": (el) => { el.onclick = () => { state.showTargetExtras = !state.showTargetExtras; render(); }; },
+  "target-mode": (el) => { el.onchange = () => { TARGETS.selectMode(state.enemy, el.value); render(); }; },
+  "target-season": (el) => { el.onchange = () => { TARGETS.selectSeason(state.enemy, el.value); render(); }; },
+  "target-path": (el) => { el.onchange = () => { TARGETS.selectPath(state.enemy, el.value); render(); }; },
+  "target-pick": (el) => { el.onchange = () => { TARGETS.selectTarget(state.enemy, el.value); render(); }; },
+  "target-buff-choice": (el) => { el.onchange = () => { TARGETS.setGameplayChoice(state.enemy, el.dataset.group, el.value); render(); }; },
+  "target-buff-toggle": (el) => { el.onchange = () => { TARGETS.setGameplayValue(state.enemy, el.dataset.buff, el.checked); render(); }; },
+  "target-buff-range": (el) => { el.onchange = () => { TARGETS.setGameplayValue(state.enemy, el.dataset.buff, el.value); render(); }; },
+  "target-level": (el) => {
+    el.oninput = () => updateTargetLevel(el);
+    el.onchange = () => render();
+  },
+  "target-resistance": (el) => {
+    el.oninput = () => updateTargetResistance(el);
+    el.onchange = () => render();
+  },
+  "target-reset": (el) => { el.onclick = () => { TARGETS.clearOverrides(state.enemy); render(); }; },
   "combo-toggle": (el) => { el.onclick = (ev) => { ev.stopPropagation(); const combo = el.closest(".combo"); const wasOpen = combo.classList.contains("open"); board.querySelectorAll(".combo.open").forEach((c) => c.classList.remove("open")); if (!wasOpen) { combo.classList.add("open"); const s = combo.querySelector(".combo-search"); if (s) { s.value = ""; filterCombo(s); s.focus(); } } }; },
   "combo-search": (el) => { el.onclick = (ev) => ev.stopPropagation(); el.oninput = () => filterCombo(el); },
   "combo-pick": (el) => { el.onclick = (ev) => { ev.stopPropagation(); const si = +el.dataset.slot; if (el.dataset.kind === "char") pickCharacter(si, el.dataset.value); else state.slots[si].weapon = el.dataset.value; render(); }; },

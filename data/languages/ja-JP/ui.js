@@ -44,23 +44,39 @@ window.WUWA_LANGUAGES.extend("ja-JP", {
       damage: "分割ダメージ：",
       expected: "期待値分割："
     },
+    targets: {
+      section: "コンテンツ",
+      mode: "種類",
+      target: "対象",
+      attribute: "対象属性",
+      attributeNone: "無属性",
+      cost: "対象Cost",
+      season: "シーズン",
+      current: "開催中",
+      enemyLevel: "敵レベル",
+      resistance: "{element}耐性%",
+      fullResistance: "全6属性耐性",
+      resetAutomatic: "自動対象値に戻す",
+      seasonFallback: "シーズン{value}",
+      floor: "{value}層",
+      endlessFloor: "エンドレス層",
+      wave: "ウェーブ{value}",
+      towerFloor: "塔エリア / 階層",
+      floorLabel: "階層",
+      waveLabel: "ウェーブ",
+      buff: "コンテンツ Buff",
+      token: "贈り物",
+      tokenGold: "金色の「贈り物」",
+      tokenPurple: "紫色の「贈り物」",
+      enhancement: "強化",
+      buffUnselected: "未選択",
+      stageEffects: "自動適用",
+      buffValue: "{value}%",
+      gameplayBuffSource: "コンテンツ",
+      summary: "{character}・{element} → {target} {level}・{element}耐性{resistance}%",
+      updatedAt: "対象データ更新：{date}"
+    },
     hints: {
-      res: {
-        aria: "属性耐性の参考表。基礎耐性は全属性に適用されます。対応耐性は対象自身の属性に対応する属性耐性です。コンテンツに特定属性の耐性上昇が明記されている場合、その属性耐性に記載値を加算します。",
-        intro: "対象の属性耐性の参考値（現時点の検証結果）",
-        definition: "基礎耐性は全属性に適用され、対応耐性は対象自身の属性に対応する属性耐性です。",
-        headers: { mode: "コンテンツ", base: "基礎耐性", matching: "対応耐性" },
-        modes: {
-          openWorld: "Open World",
-          tacticalHologram: "Tactical Hologram",
-          towerOfAdversity: "Tower of Adversity",
-          endstateMatrix: "Endstate Matrix",
-          whimperingWastesEndless: "Whimpering Wastes · Endless",
-          whimperingWastesHigh: "Whimpering Wastes · 9–11層"
-        },
-        note: "コンテンツに特定属性の耐性上昇が明記されている場合、その属性耐性に記載値を加算します。例：Whimpering Wastesに「気動属性耐性20%上昇」と記載されている状態で気動属性攻撃を行う場合、基礎耐性は「20% + 20% = 40%」、対応耐性は「50% + 20% = 70%」です。",
-        source: "現在の対象に合わせて入力してください。"
-      },
       defShred: "この入力欄は防御力ダウン合計を表示・編集します。バフなどの自動ソースもリアルタイムで含まれます。",
       defShredWithHavocBane: "この入力欄は虚滅効果による{value}%を含む防御力ダウン合計を表示・編集します。"
     }
