@@ -1,11 +1,20 @@
 "use strict";
 
 window.WUWA_SETTLEMENT = (() => {
-  function create({ state, ch, wp, echoStats, weaponBuffs, sonataBuffs, esc }) {
+  function create({ state, ch, wp, echoStats, weaponBuffs, sonataBuffs, esc, targetContext, targetGameplay }) {
     const {
       SEC_ZONE, skillLevelRatio, skillMultValue, num, zeros, EFFECT_DEFS, EFFECT_ORDER, effectKeyOf,
     } = window.WUWA_RULES;
     const L = window.WUWA_LANGUAGES;
+    const resolveTarget = (damageElement) => targetContext
+      ? targetContext(damageElement)
+      : {
+          enemyLevel: state.enemy.enemyLevel,
+          resistance: state.enemy.res,
+          resistances: Object.fromEntries(window.WUWA_RULES.ELEMENTS.map((element) => [element, state.enemy.res])),
+          damageElement,
+        };
+    const resolveGameplay = (context) => targetGameplay ? targetGameplay(context) : { sources: {} };
 
     const pushUniq = (arr, v) => { if (v && !arr.includes(v)) arr.push(v); };
     const asList = (v) => Array.isArray(v) ? v : (v ? [v] : []);
@@ -60,6 +69,17 @@ window.WUWA_SETTLEMENT = (() => {
     function addBuffSource(sources, key, slot, buff, value, extra = {}) {
       if (!sources[key]) sources[key] = [];
       sources[key].push(buffSourcePart(slot, buff, value, extra));
+    }
+
+    function mergeAggregate(target, extra) {
+      Object.entries(extra || {}).forEach(([key, value]) => {
+        if (key === "sources" || typeof value !== "number" || typeof target[key] !== "number") return;
+        target[key] += value;
+      });
+      Object.entries(extra?.sources || {}).forEach(([key, parts]) => {
+        target.sources[key] = [...(target.sources[key] || []), ...asList(parts)];
+      });
+      return target;
     }
 
     function skillUnlocked(slot, sk) {
@@ -807,7 +827,7 @@ window.WUWA_SETTLEMENT = (() => {
       const s1 = state.slots[outputIdx];
       const c = ch(s1.char);
       const sk = skillOverride || resolvedSkill(s1);
-      return { element: sk?.element || c?.element, damageType: sk ? sk.damageType : null, damageTypes: damageTypesForSkill(sk), skillName: sk ? sk.name : null, skillId: sk ? sk.id : null, skill: sk };
+      return { element: sk?.damageElement || sk?.element || c?.element, damageType: sk ? sk.damageType : null, damageTypes: damageTypesForSkill(sk), skillName: sk ? sk.name : null, skillId: sk ? sk.id : null, skill: sk };
     }
 
     function currentSkillTriggersBuff(slot, idx, buff, outputIdx = state.outputIdx, ctxOverride = null) {
@@ -1482,6 +1502,11 @@ window.WUWA_SETTLEMENT = (() => {
           }
         });
       });
+      mergeAggregate(t, resolveGameplay({
+        resultMode: "offset",
+        damageElement: ctx.element,
+        damageTypes: ctx.damageTypes,
+      }));
       return t;
     }
 
@@ -1697,6 +1722,15 @@ window.WUWA_SETTLEMENT = (() => {
           }
         });
       });
+      const gameplay = resolveGameplay({ resultMode: "effect", effectKey, damageElement: def.element, damageTypes: [effectKey] });
+      t.deepen += num(gameplay.amplify) + num(gameplay.vulnerability);
+      t.buffDeepen += num(gameplay.amplify) + num(gameplay.vulnerability);
+      t.finalDmg += num(gameplay.finalDmg);
+      t.buffFinalDmg += num(gameplay.finalDmg);
+      for (const zone of EFFECT_DEFENSE_ZONES) t[zone] += num(gameplay[zone]);
+      Object.entries(gameplay.sources || {}).forEach(([key, parts]) => {
+        t.sources[key] = [...(t.sources[key] || []), ...asList(parts)];
+      });
       return t;
     }
 
@@ -1726,11 +1760,12 @@ window.WUWA_SETTLEMENT = (() => {
       }
       const b = effectAggregate(key, def, providerIdx);
       const baseInfo = effectBaseInfo(def, stacks, effectAtk, rageStacks, b.extraRate);
+      const target = resolveTarget(def.element);
       const defReduction = Math.min(Math.max((state.enemy.defShred + b.defShred) / 100, 0), 0.95);
       const defIgnore = Math.min(Math.max((state.enemy.defIgnore + b.defIgnore) / 100, 0), 0.95);
-      const res = state.enemy.res - state.enemy.resShred - b.resShred;
+      const res = target.resistance - state.enemy.resShred - b.resShred;
       const levelTerm = 800 + 8 * state.enemy.charLevel;
-      const enemyDef = (8 * state.enemy.enemyLevel + 792) * (1 - defReduction);
+      const enemyDef = (8 * target.enemyLevel + 792) * (1 - defReduction);
       const defFactor = levelTerm / (levelTerm + enemyDef * (1 - defIgnore));
       const resFactor = resistanceFactor(res);
       const deepenFactor = Math.max(0, 1 + b.deepen / 100);
@@ -1750,12 +1785,12 @@ window.WUWA_SETTLEMENT = (() => {
         valid: baseInfo.valid, deepen: b.deepen, manualDeepen: b.manualDeepen, buffDeepen: b.buffDeepen,
         finalDmg: b.finalDmg, buffFinalDmg: b.buffFinalDmg, finalDmgFactor,
         sources: b.sources, attackSources: attackInfo.sources,
-        defFactor, resFactor, res, raw, normal, critHit, expected, damage: expected,
+        defFactor, resFactor, res, raw, normal, critHit, expected, damage: expected, target,
         fixedCritRate: b.fixedCritRate, fixedCritDamage: b.fixedCritDamage, cr, cd, note: def.note,
-        charLevel: state.enemy.charLevel, enemyLevel: state.enemy.enemyLevel,
+        charLevel: state.enemy.charLevel, enemyLevel: target.enemyLevel,
         manualDefShred: state.enemy.defShred, buffDefShred: b.defShred,
         manualDefIgnore: state.enemy.defIgnore, buffDefIgnore: b.defIgnore,
-        manualRes: state.enemy.res, manualResShred: state.enemy.resShred, buffResShred: b.resShred,
+        manualRes: target.resistance, manualResShred: state.enemy.resShred, buffResShred: b.resShred,
         defReduction: defReduction * 100, defIgnore: defIgnore * 100,
       };
     }
@@ -1896,14 +1931,15 @@ window.WUWA_SETTLEMENT = (() => {
       return providers[0]?.idx ?? state.outputIdx;
     }
 
-    function offsetDefenseFactors(extra = {}) {
+    function offsetDefenseFactors(extra = {}, damageElement = null) {
+      const target = resolveTarget(damageElement);
       const defReduction = Math.min(Math.max((state.enemy.defShred + num(extra.defShred)) / 100, 0), 0.95);
       const defIgnore = Math.min(Math.max((state.enemy.defIgnore + num(extra.defIgnore)) / 100, 0), 0.95);
       const levelTerm = 800 + 8 * state.enemy.charLevel;
-      const enemyDef = (8 * state.enemy.enemyLevel + 792) * (1 - defReduction);
+      const enemyDef = (8 * target.enemyLevel + 792) * (1 - defReduction);
       const defFactor = levelTerm / (levelTerm + enemyDef * (1 - defIgnore));
-      const res = state.enemy.res - state.enemy.resShred - num(extra.resShred);
-      return { defFactor, res, resFactor: resistanceFactor(res), defReduction: defReduction * 100, defIgnore: defIgnore * 100 };
+      const res = target.resistance - state.enemy.resShred - num(extra.resShred);
+      return { target, defFactor, res, resFactor: resistanceFactor(res), defReduction: defReduction * 100, defIgnore: defIgnore * 100 };
     }
 
     function computeOffsetTuneBreak(entry, entries) {
@@ -1915,17 +1951,18 @@ window.WUWA_SETTLEMENT = (() => {
       const breakAmpInfo = outputBreakAmpInfo(providerIdx);
       const breakAmp = breakAmpInfo.value;
       const breakAmpFactor = Math.max(0, 1 + breakAmp / 100);
-      const factors = offsetDefenseFactors();
-      const deepen = state.enemy.vulnerability - state.enemy.dmgReduction;
+      const gameplay = resolveGameplay({ resultMode: "offset", damageElement: providerChar?.element, damageTypes: ["tuneBreak", "tuneBreakDmg"] });
+      const factors = offsetDefenseFactors(gameplay, providerChar?.element);
+      const deepen = state.enemy.vulnerability - state.enemy.dmgReduction + num(gameplay.amplify) + num(gameplay.vulnerability);
       const deepenFactor = Math.max(0, 1 + deepen / 100);
-      const finalDmg = Math.max(0, 1 + state.enemy.finalDmg / 100);
+      const finalDmg = Math.max(0, 1 + (state.enemy.finalDmg + num(gameplay.finalDmg)) / 100);
       const fixedFactor = 0.8;
       const raw = harmonyBase * tuneBreakRate / 100 * breakAmpFactor * factors.defFactor * deepenFactor * finalDmg * fixedFactor;
       return {
         available: true, enabled: true, valid: true, kind: "tuneBreak", key: "tuneBreak", formulaKind: "tuneBreak",
         entries, providers, providerIdx, providerName: providerChar?.name || "", label: "谐度破坏伤害",
         harmonyBase, multiplier: tuneBreakRate, breakAmp, breakAmpFactor,
-        sources: { breakAmp: breakAmpInfo.sources },
+        sources: { breakAmp: breakAmpInfo.sources, ...(gameplay.sources || {}) },
         enemyVulnerability: state.enemy.vulnerability, enemyDmgReduction: state.enemy.dmgReduction,
         deepen, deepenFactor, finalDmg, fixedFactor, raw, damage: Math.floor(raw), ...factors,
       };
@@ -1952,7 +1989,8 @@ window.WUWA_SETTLEMENT = (() => {
       const finalDmg = Math.max(0, 1 + (state.enemy.finalDmg + harmony.finalDmg) / 100);
       const breakAmp = harmony.breakAmp;
       const breakAmpFactor = Math.max(0, 1 + breakAmp / 100);
-      const factors = offsetDefenseFactors(harmony);
+      const damageElement = sk?.damageElement || sk?.element || providerChar?.element;
+      const factors = offsetDefenseFactors(harmony, damageElement);
       const stateReady = sk && stateRequirementReady(providerSlot, sk.requiresState) && allStateRequirementsReady(providerSlot, sk.requiresAllStates);
       const raw = stateReady
         ? harmonyBase * multiplier / 100 * breakAmpFactor * deepenFactor * factors.defFactor * factors.resFactor * finalDmg
@@ -1965,7 +2003,7 @@ window.WUWA_SETTLEMENT = (() => {
       return {
         available: true, enabled: true, valid: !!stateReady, kind: "response", key: "response", formulaKind,
         entries, providers, providerIdx, providerName: providerChar?.name || "", label: sk?.name || entry.label,
-        skill: sk, damageType: sk?.damageType || entry.damageType, skLevel, harmonyBase, baseMult, multiplier,
+        skill: sk, damageType: sk?.damageType || entry.damageType, damageElement, skLevel, harmonyBase, baseMult, multiplier,
         skillMultBonus, breakAmp, breakAmpFactor, buffDeepen: harmony.amplify + harmony.vulnerability,
         sources: harmony.sources,
         enemyVulnerability: state.enemy.vulnerability, enemyDmgReduction: state.enemy.dmgReduction,
@@ -2022,7 +2060,12 @@ window.WUWA_SETTLEMENT = (() => {
       const w = wp(s1.weapon);
       const selectedSk = selectedSkill(s1);
       const sk = resolvedSkill(s1);
-      const b = aggregate();
+      const damageElement = sk?.damageElement || sk?.element || c.element;
+      const b = mergeAggregate(aggregate(), resolveGameplay({
+        resultMode: "skill",
+        damageElement,
+        damageTypes: damageTypesForSkill(sk),
+      }));
       const es = echoStats(s1);
       const tree = c.base.tree || {};
 
@@ -2088,7 +2131,7 @@ window.WUWA_SETTLEMENT = (() => {
       const skillMult = (baseMult * (1 + skillMultBonus / 100)) / 100;
 
       const skType = sk ? sk.damageType : null;
-      const damageElement = sk?.element || c.element;
+      const target = resolveTarget(damageElement);
       const treeElemBonus = damageElement === c.element ? tree.elemBonus || 0 : 0;
       const typeBonus = b.typeBonus + (skType ? es.type[skType] || 0 : 0);
       const scaledTypeBonus = typeBonus * (1 + num(b.typeBonusScale) / 100);
@@ -2104,9 +2147,9 @@ window.WUWA_SETTLEMENT = (() => {
       const totalDefIgnore = state.enemy.defIgnore + formulaTotals.defIgnore;
       const defReduction = Math.min(Math.max(totalDefShred / 100, 0), 0.95);
       const defIgnore = Math.min(Math.max(totalDefIgnore / 100, 0), 0.95);
-      const res = state.enemy.res - state.enemy.resShred - formulaTotals.resShred;
+      const res = target.resistance - state.enemy.resShred - formulaTotals.resShred;
       const levelTerm = 800 + 8 * state.enemy.charLevel;
-      const enemyDef = (8 * state.enemy.enemyLevel + 792) * (1 - defReduction);
+      const enemyDef = (8 * target.enemyLevel + 792) * (1 - defReduction);
       const defFactor = levelTerm / (levelTerm + enemyDef * (1 - defIgnore));
       const resFactor = resistanceFactor(res);
 
@@ -2141,7 +2184,7 @@ window.WUWA_SETTLEMENT = (() => {
           buffDefIgnore: formulaTotals.defIgnore,
           totalDefIgnore,
         },
-        damageModel: isFixedDamage ? "fixed" : isHarmonyResponse ? "harmonyResponse" : "normal", damageElement, breakAmp, breakAmpFactor, harmonyBase, fixedDamage,
+        damageModel: isFixedDamage ? "fixed" : isHarmonyResponse ? "harmonyResponse" : "normal", damageElement, target, breakAmp, breakAmpFactor, harmonyBase, fixedDamage,
         normal, expected, critHit, sk, selectedSk, layers, skLevel, perStackBonus, multAdd, resourceReady, resourceBlocked, damageScalar, effect, offset,
       };
     }

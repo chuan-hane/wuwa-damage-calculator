@@ -9,6 +9,7 @@ window.WUWA_STAGE_VIEW = (() => {
   }) {
     const { skillLevelRatio, skillMultValue, EFFECT_DEFS, EFFECT_ORDER, HARMONY_BASE_OPTIONS, effectKeyOf, num } = window.WUWA_RULES;
     const L = window.WUWA_LANGUAGES;
+    const TARGETS = window.WUWA_TARGETS;
     const {
       fmt, fx, esc, tnum, DAMAGE_MODES, skillFormulaText, damageSplitHTML,
       betaVersionLabel, betaVersionSuffix, betaBadgeHTML,
@@ -577,10 +578,10 @@ window.WUWA_STAGE_VIEW = (() => {
       return staticFormulaSource("目标", label, value, "%", signed);
     }
 
-    function targetLevelSources() {
+    function targetLevelSources(target) {
       return [
         staticFormulaSource("目标", "我方等级", state.enemy.charLevel, "", false, true),
-        staticFormulaSource("目标", "敌方等级", state.enemy.enemyLevel, "", false, true),
+        staticFormulaSource("目标", "敌方等级", target?.enemyLevel ?? state.enemy.enemyLevel, "", false, true),
       ];
     }
 
@@ -603,10 +604,11 @@ window.WUWA_STAGE_VIEW = (() => {
       const s1 = state.slots[state.outputIdx];
       const c = ch(s1.char);
       const tree = c?.base?.tree || {};
+      const target = r.target || {};
       const statDisplay = isHarmonyResponse ? r.harmonyBase : r.panel.stat === "hp" ? r.panel.displayHp : r.panel.stat === "defense" ? r.panel.displayDef : r.panel.displayAtk;
       const statLabel = isHarmonyResponse ? L.text("谐度基础值") : L.stat(r.panel.stat);
       const totalResShred = num(state.enemy.resShred) + num(r?.totals?.resShred);
-      const resSub = `${L.text("抗")}${tnum(state.enemy.res)}% + ${L.text("减抗")}${tnum(totalResShred)}%`;
+      const resSub = `${L.text("抗")}${tnum(target.resistance)}% + ${L.text("减抗")}${tnum(totalResShred)}%`;
       const damageMode = activeDamageMode();
       const responseCanCrit = isHarmonyResponse && r.totals?.fixedCritRate != null;
       const critMul = isHarmonyResponse && !responseCanCrit ? 1 : damageMode === "expected" ? 1 + r.cr * (r.cd - 1) : damageMode === "crit" ? r.cd : 1;
@@ -615,7 +617,7 @@ window.WUWA_STAGE_VIEW = (() => {
       const stackMult = r.sk?.perStack ? num(r.sk.perStack) * num(r.layers) * (1 + num(r.perStackBonus) / 100) : 0;
       const levelMult = r.sk ? skillMultValue(rawSkillMult + stackMult, lvRatio) : 0;
       const skType = r.sk?.damageType;
-      const damageElement = r.damageElement || r.sk?.element || c?.element;
+      const damageElement = r.damageElement || r.sk?.damageElement || r.sk?.element || c?.element;
       const treeElemBonus = damageElement === c?.element ? tree.elemBonus : 0;
       const normalSources = r.rawTotals?.sources || {};
       const activeSources = r.sources || {};
@@ -674,7 +676,7 @@ window.WUWA_STAGE_VIEW = (() => {
       }
       if (isHarmonyResponse && !responseCanCrit) critCard.tip = "";
       const defTip = formulaSourceTip([
-        targetLevelSources(),
+        targetLevelSources(target),
         targetPercentSource("减防", r.defense?.manualDefShred, true),
         sourceParts(activeSources, "defShred"),
         r.defense?.effectDefShred ? staticFormulaSource(L.effect(r.effect?.def || "效应"), "减防", r.defense.effectDefShred) : null,
@@ -682,7 +684,7 @@ window.WUWA_STAGE_VIEW = (() => {
         sourceParts(activeSources, "defIgnore"),
       ]);
       const resTip = formulaSourceTip([
-        targetPercentSource("抗性", state.enemy.res, false),
+        targetPercentSource("抗性", target.resistance, false),
         targetPercentSource("减抗", state.enemy.resShred, true),
         sourceParts(activeSources, "resShred"),
       ]);
@@ -701,7 +703,7 @@ window.WUWA_STAGE_VIEW = (() => {
         amplifyCard,
         ...(isHarmonyResponse ? [] : [vulnCard]),
         critCard,
-        { k: L.text("防御系数"), v: `<b>${esc(fx(r.defFactor))}</b>`, sub: `${L.text("我")}${esc(tnum(state.enemy.charLevel))} / ${L.text("敌")}${esc(tnum(state.enemy.enemyLevel))}${L.text("级")}`, tip: defTip },
+        { k: L.text("防御系数"), v: `<b>${esc(fx(r.defFactor))}</b>`, sub: `${L.text("我")}${esc(tnum(state.enemy.charLevel))} / ${L.text("敌")}${esc(tnum(target.enemyLevel))}${L.text("级")}`, tip: defTip },
         { k: L.text("抗性系数"), v: `<b>${esc(fx(r.resFactor))}</b>`, sub: esc(resSub), tip: resTip },
         finalCard,
       ];
@@ -923,7 +925,7 @@ window.WUWA_STAGE_VIEW = (() => {
       ]);
       const finalTip = formulaSourceTip(sourceParts(sources, "finalDmg"));
       const defTip = formulaSourceTip([
-        targetLevelSources(),
+        targetLevelSources(e.target),
         targetPercentSource("减防", e.manualDefShred, true),
         sourceParts(sources, "defShred"),
         targetPercentSource("防御无视", e.manualDefIgnore, true),
@@ -1042,15 +1044,20 @@ window.WUWA_STAGE_VIEW = (() => {
       return found ? `${L.t("common.target")}${found.label}` : L.text("自定义目标");
     }
 
-    function offsetCostControlHTML(o, wide) {
-      if (!o.enabled || o.kind === "state") return "";
+    function offsetCostOptionsHTML(compact = false) {
       const current = num(state.enemy.harmonyBase);
       const matched = HARMONY_BASE_OPTIONS.some((item) => item.value === current);
       const options = HARMONY_BASE_OPTIONS.map((item) =>
-        `<option value="${item.value}" ${item.value === current ? "selected" : ""}>${item.label} · ${fmt(item.value)}</option>`
+        `<option value="${item.value}" ${item.value === current ? "selected" : ""}>${item.label}${compact ? "" : ` · ${fmt(item.value)}`}</option>`
       ).join("");
-      const custom = matched ? "" : `<option value="${esc(current)}" selected>${esc(L.t("common.custom"))} · ${esc(fmt(current))}</option>`;
-      return `<label class="result-inline-field${wide ? " result-inline-field--wide" : ""}"><span>${esc(L.text("目标Cost"))}</span><select data-act="offset-cost">${options}${custom}</select></label>`;
+      const customValue = compact ? "" : ` · ${fmt(current)}`;
+      const custom = matched ? "" : `<option value="${esc(current)}" selected>${esc(L.t("common.custom") + customValue)}</option>`;
+      return options + custom;
+    }
+
+    function offsetCostControlHTML(o, wide) {
+      if (!o.enabled || o.kind === "state") return "";
+      return `<label class="result-inline-field${wide ? " result-inline-field--wide" : ""}"><span>${esc(L.t("targets.cost"))}</span><select data-act="offset-cost">${offsetCostOptionsHTML()}</select></label>`;
     }
 
     function offsetDetailControlHTML(o, wide) {
@@ -1067,8 +1074,8 @@ window.WUWA_STAGE_VIEW = (() => {
       return String(value || "").replace(/<[^>]*>/g, "").replace(/\s+/g, " ").trim();
     }
 
-    function offsetDefenseSub() {
-      return `${L.text("我")}${tnum(state.enemy.charLevel)} / ${L.text("敌")}${tnum(state.enemy.enemyLevel)}`;
+    function offsetDefenseSub(o) {
+      return `${L.text("我")}${tnum(state.enemy.charLevel)} / ${L.text("敌")}${tnum(o?.target?.enemyLevel ?? state.enemy.enemyLevel)}`;
     }
 
     function offsetHarmonyBaseTip(o) {
@@ -1082,7 +1089,7 @@ window.WUWA_STAGE_VIEW = (() => {
 
     function offsetDefenseTip(o) {
       return formulaSourceTip([
-        targetLevelSources(),
+        targetLevelSources(o.target),
         targetPercentSource("减防", state.enemy.defShred, true),
         sourceParts(o.sources, "defShred"),
         targetPercentSource("防御无视", state.enemy.defIgnore, true),
@@ -1099,7 +1106,7 @@ window.WUWA_STAGE_VIEW = (() => {
 
     function offsetResTip(o) {
       return formulaSourceTip([
-        targetPercentSource("抗性", state.enemy.res, false),
+        targetPercentSource("抗性", o.target?.resistance ?? state.enemy.res, false),
         targetPercentSource("减抗", state.enemy.resShred, true),
         sourceParts(o.sources, "resShred"),
       ]);
@@ -1369,7 +1376,8 @@ window.WUWA_STAGE_VIEW = (() => {
     function resultFormulaHTML(r) {
       const data = resultData(r);
       return `<div class="result-formula result-formula--${data.key}" id="result-formula">
-      <div class="result-formula-head"><span>${esc(L.text("伤害公式"))}</span>${targetControlsHTML(r)}</div>
+      <div class="target-stage"><span class="target-stage-title">${esc(L.t("targets.section"))}</span>${targetControlsHTML(r)}</div>
+      <div class="result-formula-head"><span>${esc(L.text("伤害公式"))}</span></div>
       ${resultFormulaBodyHTML(r)}
     </div>`;
     }
@@ -1443,69 +1451,172 @@ window.WUWA_STAGE_VIEW = (() => {
   </div>`;
     }
 
+    function activeTargetInfo(r) {
+      const fallback = { context: r.target, element: r.damageElement };
+      const mode = activeResultMode(r);
+      if (mode === "skill") return fallback;
+      if (mode === "effect") {
+        const effect = visibleEffectResult(r, teamEffectKeys());
+        if (!effect?.target) return fallback;
+        return { context: effect.target, element: effect.def?.element || r.damageElement };
+      }
+      const offset = r.offset || {};
+      if (!offset.target) return fallback;
+      return { context: offset.target, element: offset.damageElement || r.damageElement };
+    }
+
+    function targetSummaryHTML(r, active = activeTargetInfo(r)) {
+      const context = active.context || TARGETS.context(state.enemy, active.element);
+      const damageElement = active.element || r.damageElement || ch(state.slots[state.outputIdx].char)?.element;
+      const outputChar = ch(state.slots[state.outputIdx].char);
+      const summary = L.t("targets.summary", {
+        character: L.charName(outputChar),
+        element: L.element(damageElement),
+        target: context.name,
+        level: L.t("common.levelShort", { value: tnum(context.enemyLevel) }),
+        resistance: tnum(context.resistance),
+      });
+      return `<div class="target-summary" id="target-summary">${esc(summary)}</div>`;
+    }
+
+    function targetGameplayControlsHTML() {
+      const gameplay = TARGETS.gameplayControls(state.enemy);
+      if (!gameplay.groups.length && !gameplay.fixed.length && !gameplay.controls.length) return "";
+      const groupLabel = state.enemy.targetMode === "whiwa"
+        ? L.t("targets.token")
+        : state.enemy.targetMode === "dpmatrix"
+          ? L.t("targets.enhancement")
+          : L.t("targets.buff");
+      const optionHTML = (group, buff) => `<option value="${esc(buff.id)}" ${group.value === buff.id ? "selected" : ""}>${esc(TARGETS.gameplayBuffName(buff))}</option>`;
+      const choiceOptionsHTML = (group) => {
+        if (state.enemy.targetMode !== "whiwa") return group.options.map((buff) => optionHTML(group, buff)).join("");
+        return [
+          { qualityId: 5, label: L.t("targets.tokenGold") },
+          { qualityId: 4, label: L.t("targets.tokenPurple") },
+        ].map(({ qualityId, label }) => {
+          const options = group.options.filter((buff) => Number(buff.qualityId) === qualityId);
+          if (!options.length) return "";
+          return `<optgroup label="${esc(label)}">${options.map((buff) => optionHTML(group, buff)).join("")}</optgroup>`;
+        }).join("");
+      };
+      const groups = gameplay.groups.map((group) => {
+        const options = choiceOptionsHTML(group);
+        return `<label class="target-buff-select"><span>${esc(groupLabel)}</span><select data-act="target-buff-choice" data-group="${esc(group.id)}"><option value="">${esc(L.t("targets.buffUnselected"))}</option>${options}</select></label>`;
+      }).join("");
+      const fixed = gameplay.fixed.length
+        ? `<div class="target-buff-fixed"><span>${esc(L.t("targets.stageEffects"))}</span>${gameplay.fixed.map((buff) => `<span class="target-buff-chip" title="${esc(TARGETS.gameplayBuffDescription(buff))}">${esc(TARGETS.gameplayBuffName(buff))}</span>`).join("")}</div>`
+        : "";
+      const controls = gameplay.controls.map((buff) => {
+        const name = TARGETS.gameplayBuffName(buff);
+        const desc = TARGETS.gameplayBuffDescription(buff);
+        if (buff.control === "range") {
+          const value = TARGETS.controlValue(state.enemy, buff);
+          const options = [];
+          for (let current = Number(buff.min); current <= Number(buff.max); current += Number(buff.step)) {
+            options.push(`<option value="${esc(current)}" ${current === value ? "selected" : ""}>${esc(L.t("targets.buffValue", { value: tnum(current) }))}</option>`);
+          }
+          return `<label class="target-buff-range" title="${esc(desc)}"><span>${esc(name)}</span><select data-act="target-buff-range" data-buff="${esc(buff.id)}">${options.join("")}</select></label>`;
+        }
+        return `<label class="target-buff-toggle" title="${esc(desc)}"><input type="checkbox" data-act="target-buff-toggle" data-buff="${esc(buff.id)}" ${TARGETS.controlValue(state.enemy, buff) ? "checked" : ""} /> <span>${esc(name)}</span></label>`;
+      }).join("");
+      const selectedDescriptions = gameplay.groups.map((group) => group.options.find((buff) => buff.id === group.value)).filter(Boolean).map((buff) => TARGETS.gameplayBuffDescription(buff));
+      const description = selectedDescriptions.length ? `<div class="target-buff-description">${selectedDescriptions.map(esc).join(" · ")}</div>` : "";
+      return `<div class="target-buff-controls">${groups}${fixed}${controls}${description}</div>`;
+    }
+
     function targetControlsHTML(r) {
-      const e = state.enemy;
-      const resistanceHintHTML = () => {
-        const rows = [
-          ["openWorld", "10%", "40%"],
-          ["tacticalHologram", "10%", "80%"],
-          ["towerOfAdversity", "20%", "60%"],
-          ["endstateMatrix", "20%", "40%"],
-          ["whimperingWastesEndless", "20%", "50%"],
-          ["whimperingWastesHigh", "20%", "50%"],
-        ];
-        const rowHTML = rows.map(([mode, base, matching]) => `<span class="res-help-row" role="row">
-          <span role="cell">${esc(L.t(`hints.res.modes.${mode}`))}</span>
-          <span role="cell">${base}</span>
-          <span role="cell">${matching}</span>
-        </span>`).join("");
-        return `<span class="help res-help" tabindex="0" role="note" aria-label="${esc(L.t("hints.res.aria"))}">?<span class="help-tip res-help-tip" role="tooltip">
-          <span class="res-help-intro">${esc(L.t("hints.res.intro"))}</span>
-          <span class="res-help-definition">${esc(L.t("hints.res.definition"))}</span>
-          <span class="res-help-grid" role="table">
-            <span class="res-help-row res-help-head" role="row">
-              <span role="columnheader">${esc(L.t("hints.res.headers.mode"))}</span>
-              <span role="columnheader">${esc(L.t("hints.res.headers.base"))}</span>
-              <span role="columnheader">${esc(L.t("hints.res.headers.matching"))}</span>
-            </span>
-            ${rowHTML}
-          </span>
-          <span class="res-help-note">${esc(L.t("hints.res.note"))}</span>
-          <span class="res-help-source">${esc(L.t("hints.res.source"))}</span>
-        </span></span>`;
-      };
-      const enemyField = ({ key, label, hint, helpHTML = "", step = "0.1", autoValue = 0 }) => {
+      const enemy = state.enemy;
+      const active = activeTargetInfo(r);
+      const context = active.context || TARGETS.context(enemy, active.element);
+      const modeOptions = TARGETS.modeOrder.map((mode) =>
+        `<option value="${esc(mode)}" ${mode === enemy.targetMode ? "selected" : ""}>${esc(TARGETS.modeName(mode))}</option>`
+      ).join("");
+      const seasons = TARGETS.sortedSeasons(enemy.targetMode);
+      const currentSeasonId = TARGETS.currentSeasonId(enemy.targetMode);
+      const seasonOptions = seasons.map((item) => {
+        const isCurrent = String(item.id) === String(currentSeasonId);
+        const suffix = isCurrent ? ` · ${L.t("targets.current")}` : "";
+        return `<option value="${esc(item.id)}" ${String(item.id) === String(enemy.targetSeasonId) ? "selected" : ""}>${esc(TARGETS.seasonName(enemy.targetMode, item.id) + suffix)}</option>`;
+      }).join("");
+      const seasonControl = seasons.length <= 1 ? "" : `<label class="target-season-field"><span>${esc(L.t("targets.season"))}</span><select data-act="target-season">${seasonOptions}</select></label>`;
+      const targetPaths = TARGETS.targetPaths(enemy.targetMode, enemy.targetSeasonId);
+      const selectedPathId = TARGETS.selectedPathId(enemy);
+      const pathControl = targetPaths.length ? `<label class="formula-target-path"><span>${esc(TARGETS.targetPathLabel(enemy.targetMode))}</span><select data-act="target-path">${targetPaths.map((path) =>
+        `<option value="${esc(path.id)}" ${path.id === selectedPathId ? "selected" : ""}>${esc(path.label)}</option>`
+      ).join("")}</select></label>` : "";
+      const targetOptions = TARGETS.groupedTargets(enemy.targetMode, enemy.targetSeasonId, selectedPathId).map((group) => {
+        const options = group.items.map((item) =>
+          `<option value="${esc(item.id)}" ${item.id === enemy.targetId ? "selected" : ""}>${esc(TARGETS.targetOptionName(item))}</option>`
+        ).join("");
+        return group.label ? `<optgroup label="${esc(group.label)}">${options}</optgroup>` : options;
+      }).join("");
+      const updatedAt = L.t("targets.updatedAt", { date: TARGETS.syncedDate() });
+      const gameplayControls = targetGameplayControlsHTML();
+      const toggle = `<button type="button" class="formula-target-toggle${state.showTargetExtras ? " on" : ""}" data-act="target-extra-toggle">${esc(state.showTargetExtras ? L.t("common.collapse") : L.t("common.more"))}</button>`;
+      const targetLabel = enemy.targetMode === "openWorld" ? L.t("targets.attribute") : L.t("targets.target");
+      const costControl = `<label class="formula-target-cost"><span>${esc(L.t("targets.cost"))}</span><select data-act="offset-cost">${offsetCostOptionsHTML(true)}</select></label>`;
+      const levelControl = `<label class="formula-target-level"><span>${esc(L.t("targets.enemyLevel"))}</span><input type="number" min="1" step="1" data-act="target-level" value="${esc(tnum(context.enemyLevel))}" /></label>`;
+      const primaryClass = `formula-target-primary${seasonControl ? " formula-target-primary--with-season" : ""}${pathControl ? " formula-target-primary--with-path" : ""}`;
+      if (!state.showTargetExtras) {
+        return `<div class="formula-target-controls" id="target-controls">
+      <div class="${primaryClass}">
+        <label><span>${esc(L.t("targets.mode"))}</span><select data-act="target-mode">${modeOptions}</select></label>
+        ${seasonControl}
+        ${pathControl}
+        <label class="formula-target-pick"><span>${esc(targetLabel)}</span><select data-act="target-pick">${targetOptions}</select></label>
+        ${levelControl}
+        ${costControl}
+        ${toggle}
+      </div>
+      ${targetSummaryHTML(r, active)}
+      ${gameplayControls}
+    </div>`;
+      }
+
+      const enemyField = ({ key, label, hint, step = "0.1", autoValue = 0 }) => {
         const auto = num(autoValue);
-        const total = num(e[key]) + auto;
-        const help = helpHTML || (hint ? `<span class="help" tabindex="0" role="note" aria-label="${esc(hint)}">?<span class="help-tip" role="tooltip">${esc(hint)}</span></span>` : "");
-        return `<label class="effect-field"><span>${label}${help}</span><input type="number" step="${esc(step)}" data-act="enemy" data-key="${esc(key)}" data-total="1" data-auto="${esc(auto)}" value="${esc(tnum(total))}" /></label>`;
+        const total = num(enemy[key]) + auto;
+        const help = hint ? `<span class="help" tabindex="0" role="note" aria-label="${esc(hint)}">?<span class="help-tip" role="tooltip">${esc(hint)}</span></span>` : "";
+        return `<label class="effect-field"><span>${esc(label)}${help}</span><input type="number" step="${esc(step)}" data-act="enemy" data-key="${esc(key)}" data-total="1" data-auto="${esc(auto)}" value="${esc(tnum(total))}" /></label>`;
       };
+      const resistanceInputs = TARGETS.elements().map((element) =>
+        `<label class="effect-field"><span>${esc(L.t("targets.resistance", { element: L.element(element) }))}</span><input type="number" step="0.1" data-act="target-resistance" data-element="${esc(element)}" value="${esc(tnum(context.resistances[element]))}" /></label>`
+      ).join("");
       const autoDefShred = num(r?.defense?.buffDefShred) + num(r?.defense?.effectDefShred);
       const defHint = r?.defense && r.defense.effectDefShred
         ? L.t("hints.defShredWithHavocBane", { value: tnum(r.defense.effectDefShred) })
         : L.t("hints.defShred");
-      const baseFields = [
-        { key: "enemyLevel", label: L.text("敌方等级"), step: "1" },
-        { key: "res", label: L.text("属性抗性%"), helpHTML: resistanceHintHTML() },
-        { key: "resShred", label: L.text("属性减抗%"), autoValue: r?.totals?.resShred },
-      ];
       const extraFields = [
+        { key: "resShred", label: L.text("属性减抗%"), autoValue: r?.totals?.resShred },
         { key: "defShred", label: L.text("减防%"), hint: defHint, autoValue: autoDefShred },
         { key: "defIgnore", label: L.text("防御无视%"), autoValue: r?.defense?.buffDefIgnore },
         { key: "finalDmg", label: L.text("最终伤害%"), autoValue: r?.totals?.finalDmg },
         { key: "vulnerability", label: L.text("易伤%"), autoValue: r?.totals?.vulnerability },
         { key: "dmgReduction", label: L.text("受到伤害减少%") },
       ];
-      const shouldShowExtra = (field) => state.showTargetExtras || num(field.autoValue) !== 0 || num(e[field.key]) !== 0;
-      const visibleExtraFields = extraFields.filter(shouldShowExtra);
-      const hiddenExtraCount = extraFields.length - visibleExtraFields.length;
-      const toggle = hiddenExtraCount || state.showTargetExtras
-        ? `<button type="button" class="formula-target-toggle${state.showTargetExtras ? " on" : ""}" data-act="target-extra-toggle">${esc(state.showTargetExtras ? L.t("common.collapse") : L.t("common.more"))}</button>`
+      const reset = context.overrideActive
+        ? `<button type="button" class="panel-clear" data-act="target-reset">${esc(L.t("targets.resetAutomatic"))}</button>`
         : "";
-      return `<div class="formula-target-controls" id="target-controls">
-    <div class="effect-controls formula-target-fields">
-      ${baseFields.concat(visibleExtraFields).map(enemyField).join("")}
+      const moreHead = reset
+        ? `<div class="target-more-head">${reset}</div>`
+        : "";
+      return `<div class="formula-target-controls formula-target-controls--expanded" id="target-controls">
+    <div class="${primaryClass}">
+      <label><span>${esc(L.t("targets.mode"))}</span><select data-act="target-mode">${modeOptions}</select></label>
+      ${seasonControl}
+      ${pathControl}
+      <label class="formula-target-pick"><span>${esc(targetLabel)}</span><select data-act="target-pick">${targetOptions}</select></label>
+      ${levelControl}
+      ${costControl}
       ${toggle}
+    </div>
+    ${targetSummaryHTML(r, active)}
+    ${gameplayControls}
+    <div class="target-more-panel">
+      ${moreHead}
+      <fieldset class="target-resistance-fieldset"><legend>${esc(L.t("targets.fullResistance"))}</legend><div class="target-resistance-grid">${resistanceInputs}</div></fieldset>
+      <div class="effect-controls formula-target-fields formula-target-modifiers">${extraFields.map(enemyField).join("")}</div>
+      <div class="target-updated">${esc(updatedAt)}</div>
     </div>
   </div>`;
     }
@@ -1515,7 +1626,7 @@ window.WUWA_STAGE_VIEW = (() => {
       effectValueHTML, effectFormulaHTML, effectCapTextHTML,
       offsetValueHTML, offsetFormulaHTML,
       activeResultMode, resultMainDisplayHTML, resultMainHTML, resultFormulaBodyHTML, resultFormulaHTML, damageDockHTML,
-      settlementStageHTML, buffStageHTML,
+      targetSummaryHTML, settlementStageHTML, buffStageHTML,
     };
   }
 

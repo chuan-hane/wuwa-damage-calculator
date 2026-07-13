@@ -44,23 +44,39 @@ window.WUWA_LANGUAGES.extend("zh-CN", {
       damage: "分段伤害：",
       expected: "期望分段："
     },
+    targets: {
+      section: "玩法",
+      mode: "类型",
+      target: "目标",
+      attribute: "目标属性",
+      attributeNone: "无属性",
+      cost: "目标 Cost",
+      season: "期数",
+      current: "当前",
+      enemyLevel: "敌方等级",
+      resistance: "{element}抗性%",
+      fullResistance: "完整六属性抗性",
+      resetAutomatic: "恢复自动目标值",
+      seasonFallback: "第 {value} 期",
+      floor: "{value}层",
+      endlessFloor: "无尽层",
+      wave: "波次 {value}",
+      towerFloor: "塔区 / 层数",
+      floorLabel: "层数",
+      waveLabel: "波次",
+      buff: "玩法 Buff",
+      token: "信物",
+      tokenGold: "金色信物",
+      tokenPurple: "紫色信物",
+      enhancement: "强化",
+      buffUnselected: "未选择",
+      stageEffects: "自动生效",
+      buffValue: "{value}%",
+      gameplayBuffSource: "玩法",
+      summary: "{character} · {element} → {target} {level} · {element}抗性{resistance}%",
+      updatedAt: "目标数据更新于 {date}"
+    },
     hints: {
-      res: {
-        aria: "属性抗性参考表。基础抗性为全属性抗性，对应抗性为目标自身属性的对应属性抗性。大世界基础抗性10%对应抗性40%，全息基础抗性10%对应抗性80%，深塔基础抗性20%对应抗性60%，矩阵基础抗性20%对应抗性40%，海墟无尽和9至11层基础抗性20%对应抗性50%。若玩法明确标注某种属性抗性提高，则该属性的抗性需要额外提高对应数值。",
-        intro: "目标属性抗性参考（当前测试结果）",
-        definition: "基础抗性为全属性抗性；对应抗性为目标自身属性的对应属性抗性。",
-        headers: { mode: "玩法", base: "基础抗性", matching: "对应抗性" },
-        modes: {
-          openWorld: "大世界",
-          tacticalHologram: "全息",
-          towerOfAdversity: "深塔",
-          endstateMatrix: "矩阵",
-          whimperingWastesEndless: "海墟·无尽",
-          whimperingWastesHigh: "海墟·9–11层"
-        },
-        note: "若玩法明确标注某种属性抗性提高，则该属性的抗性需要额外提高对应数值。如海墟标注“气动属性抗性提高20%”，此时使用气动属性攻击，则基础抗性为“20% + 20% = 40%”，对应抗性为“50% + 20% = 70%”。",
-        source: "请按当前目标手动填写。"
-      },
       defShred: "输入框显示并编辑当前总减防；Buff 等自动来源会实时折入。",
       defShredWithHavocBane: "输入框显示并编辑当前总减防；其中虚湮{value}%。"
     }

@@ -44,23 +44,39 @@ window.WUWA_LANGUAGES.extend("en-US", {
       damage: "Split DMG: ",
       expected: "Expected split: "
     },
+    targets: {
+      section: "Gameplay",
+      mode: "Mode",
+      target: "Target",
+      attribute: "Target Attribute",
+      attributeNone: "No Attribute",
+      cost: "Target Cost",
+      season: "Season",
+      current: "Current",
+      enemyLevel: "Enemy Level",
+      resistance: "{element} RES%",
+      fullResistance: "All Attribute RES",
+      resetAutomatic: "Restore Auto Target",
+      seasonFallback: "Season {value}",
+      floor: "Floor {value}",
+      endlessFloor: "Endless Floor",
+      wave: "Wave {value}",
+      towerFloor: "Tower / Floor",
+      floorLabel: "Floor",
+      waveLabel: "Wave",
+      buff: "Mode Buff",
+      token: "Token",
+      tokenGold: "Gold Tokens",
+      tokenPurple: "Purple Tokens",
+      enhancement: "Enhancement",
+      buffUnselected: "None selected",
+      stageEffects: "Auto-applied",
+      buffValue: "{value}%",
+      gameplayBuffSource: "Gameplay",
+      summary: "{character} · {element} → {target} {level} · {element} RES {resistance}%",
+      updatedAt: "Target data updated {date}"
+    },
     hints: {
-      res: {
-        aria: "Attribute RES reference. Base RES applies to all attributes. Matching RES is the attribute RES corresponding to the target's own attribute. If a mode explicitly states that a certain attribute's RES is increased, add the stated amount to that attribute's RES.",
-        intro: "Target Attribute RES reference (current test results)",
-        definition: "Base RES applies to all attributes; Matching RES is the attribute RES corresponding to the target's own attribute.",
-        headers: { mode: "Mode", base: "Base RES", matching: "Matching RES" },
-        modes: {
-          openWorld: "Open World",
-          tacticalHologram: "Tactical Hologram",
-          towerOfAdversity: "Tower of Adversity",
-          endstateMatrix: "Endstate Matrix",
-          whimperingWastesEndless: "Whimpering Wastes · Endless",
-          whimperingWastesHigh: "Whimpering Wastes · Floors 9–11"
-        },
-        note: "If a mode explicitly states that a certain attribute's RES is increased, add the stated amount to that attribute's RES. For example, if Whimpering Wastes states “Aero RES increased by 20%” and you deal Aero DMG, Base RES becomes “20% + 20% = 40%,” while Matching RES becomes “50% + 20% = 70%.”",
-        source: "Enter the current target's value manually."
-      },
       defShred: "This input shows and edits total DEF Shred. Auto sources such as Buffs are included in real time.",
       defShredWithHavocBane: "This input shows and edits total DEF Shred, including {value}% from Havoc Bane."
     }
