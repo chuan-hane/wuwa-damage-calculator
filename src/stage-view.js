@@ -3,14 +3,14 @@
 window.WUWA_STAGE_VIEW = (() => {
   function create({
     state, W, ch, wp, WEAPONS, SONATAS, leadChoicesForEcho, syncEchoLead,
-    ECHO_COSTS, echoMainOptions, echoSubOptions, echoSubValues, echoFixedMain, ensureEchoDetail, echoDetailSummary, statLabel,
+    ECHO_COSTS, echoMainOptions, echoSubOptions, echoSubValues, echoFixedMain, ensureEchoDetail, echoDetailSummary, statLabel, echoStats,
     availableSkills, selectedSkill, resourceControlsForSlot, resolvedSkill, stateControlsHTML,
     panelEntryTableHTML, autoResolutionHTML, settlementBuffRowsHTML,
   }) {
     const { skillLevelRatio, skillMultValue, EFFECT_DEFS, EFFECT_ORDER, HARMONY_BASE_OPTIONS, effectKeyOf, num } = window.WUWA_RULES;
     const L = window.WUWA_LANGUAGES;
     const {
-      fmt, fx, esc, tnum, RES_HINT, DAMAGE_MODES, skillFormulaText, damageSplitHTML,
+      fmt, fx, esc, tnum, DAMAGE_MODES, skillFormulaText, damageSplitHTML,
       betaVersionLabel, betaVersionSuffix, betaBadgeHTML,
     } = window.WUWA_RENDER_HELPERS;
     const asList = (v) => Array.isArray(v) ? v : (v ? [v] : []);
@@ -116,35 +116,55 @@ window.WUWA_STAGE_VIEW = (() => {
       return L.sourceJoin(label, tip);
     }
 
-    function formulaSource(label, value, suffix = "") {
-      return num(value) ? `${L.text(label)} ${tnum(value)}${suffix}` : "";
+    function formulaCardDetailText(sub, tip = "", fallback = "") {
+      return [plainText(sub), tip || fallback].filter(Boolean).join("\n");
     }
 
-    function formulaSourceText(label, value, suffix = "") {
-      return num(value) ? `${label} ${tnum(value)}${suffix}` : "";
+    function staticFormulaSource(source, label, value, suffix = "%", signed = true, keepZero = false) {
+      return { source, label, value, suffix, signed, keepZero, static: true };
     }
 
-    function formulaSources(items, empty = "0") {
-      const text = items.filter(Boolean).join(" + ");
-      return text || empty;
+    function formulaSourceOrigin(part) {
+      const owner = part.charId ? L.charName(ch(part.charId)) : "";
+      const source = part.source ? L.sourceTitle(part.source) : "";
+      return [owner, source].filter(Boolean).join("·");
     }
 
-    function formulaParen(text) {
-      return L.paren(text);
+    function formulaSourceLabel(part) {
+      if (part.static) return L.text(part.label || "");
+      return L.buffLabel(part) || L.zone(part.zone) || L.text(part.label || "");
     }
 
-    function formulaBreak() {
-      return L.semicolon();
+    function formulaSourceLine(part) {
+      const origin = formulaSourceOrigin(part);
+      const label = formulaSourceLabel(part);
+      const value = num(part.value);
+      const sign = part.signed !== false && value > 0 ? "+" : "";
+      const detail = `${sign}${tnum(value)}${part.suffix ?? "%"}`;
+      return `${[origin, label].filter(Boolean).join(" · ")} ${detail}`.trim();
     }
 
-    function metricFormulaCardHTML({ k, v, sub, tip }) {
-      const subHTML = sub.startsWith("<small") ? sub : `<small>${sub}</small>`;
-      return `<div class="metric-card formula-card" tabindex="0" aria-label="${esc(formulaCardAria(k, tip))}">
-    <span>${esc(k)}</span>
-    ${v}
-    ${subHTML}
-    ${formulaCardTipHTML(tip)}
+    function formulaSourceTip(parts, fallback = "无额外来源") {
+      const lines = asList(parts).flat().filter((part) => part && (part.keepZero || num(part.value))).map(formulaSourceLine);
+      return lines.length ? lines.join("\n") : L.text(fallback);
+    }
+
+    function formulaCardHTML({ k, v, sub, tip }) {
+      const label = L.text(k);
+      const rawValue = String(v ?? "");
+      const valueHTML = /^<b(?:\s|>)/.test(rawValue.trim()) ? rawValue : `<b>${rawValue}</b>`;
+      const detail = formulaCardDetailText(L.text(plainText(sub)), tip, `${label} = ${plainText(rawValue)}`);
+      return `<div class="metric-card formula-card" tabindex="0" aria-label="${esc(formulaCardAria(label, detail))}">
+    <span>${esc(label)}</span>
+    ${valueHTML}
+    ${formulaCardTipHTML(detail)}
   </div>`;
+    }
+
+    function formulaStripHTML(cards, { multiply = true, id = "" } = {}) {
+      const content = Array.isArray(cards) ? cards.map(formulaCardHTML).join("") : String(cards || "");
+      const idAttr = id ? ` id="${esc(id)}"` : "";
+      return `<div class="metric-strip formula-strip${multiply ? " formula-strip--multiply" : ""}"${idAttr}>${content}</div>`;
     }
 
     function echoSetIconGroupHTML(ids) {
@@ -483,7 +503,7 @@ window.WUWA_STAGE_VIEW = (() => {
     </div>`;
     }
 
-    function stageTopbarHTML() {
+    function stageTopbarHTML(r) {
       const langs = L.available();
       return `<section class="stage-topbar">
     <div class="stage-brand">
@@ -498,30 +518,94 @@ window.WUWA_STAGE_VIEW = (() => {
         ${langs.map((lang) => `<button type="button" class="stage-language-btn${lang.code === state.lang ? " on" : ""}" data-act="language" data-lang="${esc(lang.code)}" aria-pressed="${lang.code === state.lang ? "true" : "false"}">${esc(lang.shortLabel)}</button>`).join("")}
       </div>
     </div>
+    ${damageDockHTML(r)}
   </section>`;
+    }
+
+    function sourceParts(sources, key) {
+      return asList(sources?.[key]);
+    }
+
+    function panelStatSourceParts(slot, stat, es, sources) {
+      if (!slot) return [];
+      const c = ch(slot.char);
+      const w = wp(slot.weapon);
+      const tree = c?.base?.tree || {};
+      if (!c) return [];
+      const config = {
+        attack: { base: c.base.attack, pct: tree.attackPct, pctKey: "attackPercent", pctField: "attackPct", flat: es.flatAtk, flatKey: "attackFlat", flatField: "atkFlat" },
+        hp: { base: c.base.hp, pct: tree.hpPct, pctKey: "hpPercent", pctField: "hpPct", flat: es.flatHp, flatKey: "hpFlat", flatField: "hpFlat" },
+        defense: { base: c.base.defense, pct: tree.defPct, pctKey: "defensePercent", pctField: "defPct", flat: es.flatDef, flatKey: "defenseFlat", flatField: "defFlat" },
+      }[stat] || null;
+      if (!config) return [];
+      return [
+        staticFormulaSource("角色基础", L.stat(stat), config.base, "", false, true),
+        ...(stat === "attack" && w ? [staticFormulaSource(`${L.text("武器")}·${L.weaponName(w)}`, "攻击", w.attack90, "", false)] : []),
+        staticFormulaSource("属性树", statLabel(config.pctField, c), config.pct),
+        sourceParts(sources, config.pctKey),
+        staticFormulaSource("声骸", statLabel(config.pctField, c), es[config.pctKey]),
+        sourceParts(sources, config.flatKey),
+        staticFormulaSource("声骸", statLabel(config.flatField, c), config.flat, ""),
+      ];
+    }
+
+    function panelCritSourceParts(slot, key, es, sources) {
+      const c = ch(slot.char);
+      const tree = c?.base?.tree || {};
+      if (!c) return [];
+      const isRate = key === "critRate";
+      return [
+        staticFormulaSource("角色基础", L.stat(key), c.base[key], "%", false, true),
+        staticFormulaSource("属性树", L.stat(key), tree[key] || 0),
+        sourceParts(sources, key),
+        staticFormulaSource("声骸", L.stat(key), isRate ? es.critRate : es.critDamage),
+      ];
+    }
+
+    function fixedCritSourceParts(sources, key) {
+      return sourceParts(sources, "fixedCrit").map((part) => ({
+        ...part,
+        static: true,
+        label: key === "critRate" ? "暴击率" : "暴击伤害",
+        value: key === "critRate" ? part.critRate : part.critDamage,
+        suffix: "%",
+        signed: false,
+      }));
+    }
+
+    function targetPercentSource(label, value, signed = false) {
+      return staticFormulaSource("目标", label, value, "%", signed);
+    }
+
+    function targetLevelSources() {
+      return [
+        staticFormulaSource("目标", "我方等级", state.enemy.charLevel, "", false, true),
+        staticFormulaSource("目标", "敌方等级", state.enemy.enemyLevel, "", false, true),
+      ];
     }
 
     function damageMetricCardsHTML(r) {
       const isHarmonyResponse = r.damageModel === "harmonyResponse";
       if (r.damageModel === "fixed") {
-        const floorNote = r.sk?.fixedDamageHpFloorPct == null
-          ? ""
-          : `\n${L.text("实际伤害受目标生命下限限制")} ${tnum(r.sk.fixedDamageHpFloorPct)}%`;
-        return metricFormulaCardHTML({
+        const sources = [
+          staticFormulaSource(`${L.text("技能")}·${r.sk ? L.skillName(r.sk) : L.text("固定")}`, "固定", r.fixedDamage, "", false, true),
+        ];
+        if (r.sk?.fixedDamageHpFloorPct != null) {
+          sources.push(staticFormulaSource("目标", "实际伤害受目标生命下限限制", r.sk.fixedDamageHpFloorPct, "%", false));
+        }
+        return formulaCardHTML({
           k: L.text("固定"),
           v: `<b>${esc(fmt(r.fixedDamage))}</b>`,
           sub: L.text("不受伤害加成影响"),
-          tip: `${L.text("固定")} = ${fmt(r.fixedDamage)}${floorNote}`,
+          tip: formulaSourceTip(sources),
         });
       }
       const s1 = state.slots[state.outputIdx];
       const c = ch(s1.char);
       const tree = c?.base?.tree || {};
       const statDisplay = isHarmonyResponse ? r.harmonyBase : r.panel.stat === "hp" ? r.panel.displayHp : r.panel.stat === "defense" ? r.panel.displayDef : r.panel.displayAtk;
-      const statRaw = r.panel.stat === "hp" ? r.panel.totalHp : r.panel.stat === "defense" ? r.panel.totalDef : r.panel.totalAtk;
       const statLabel = isHarmonyResponse ? L.text("谐度基础值") : L.stat(r.panel.stat);
       const totalResShred = num(state.enemy.resShred) + num(r?.totals?.resShred);
-      const effectiveRes = num(state.enemy.res) - totalResShred;
       const resSub = `${L.text("抗")}${tnum(state.enemy.res)}% + ${L.text("减抗")}${tnum(totalResShred)}%`;
       const damageMode = activeDamageMode();
       const responseCanCrit = isHarmonyResponse && r.totals?.fixedCritRate != null;
@@ -530,62 +614,86 @@ window.WUWA_STAGE_VIEW = (() => {
       const rawSkillMult = r.sk ? num(r.sk.multiplier) : 0;
       const stackMult = r.sk?.perStack ? num(r.sk.perStack) * num(r.layers) * (1 + num(r.perStackBonus) / 100) : 0;
       const levelMult = r.sk ? skillMultValue(rawSkillMult + stackMult, lvRatio) : 0;
-      const skillMultBonus = num(r.totals?.skillMultBonus);
       const skType = r.sk?.damageType;
       const damageElement = r.damageElement || r.sk?.element || c?.element;
       const treeElemBonus = damageElement === c?.element ? tree.elemBonus : 0;
-      const echoElemLabel = `${L.text("声骸属性伤害加成")}${damageElement ? formulaParen(L.element(damageElement)) : ""}`;
-      const echoTypeLabel = `${L.text("声骸类型伤害加成")}${skType ? formulaParen(L.damageType(skType)) : ""}`;
-      const echoBonusParts = [
-        formulaSource("属性树", treeElemBonus, "%"),
-        formulaSourceText(echoElemLabel, r.es?.elem?.[damageElement], "%"),
-        formulaSourceText(echoTypeLabel, skType ? r.es?.type?.[skType] : 0, "%"),
-      ];
-      const normalBonusParts = [
-        formulaSource("伤害加成 Buff", r.rawTotals?.damageBonus, "%"),
-        formulaSource("类型加成 Buff", r.rawTotals?.typeBonus, "%"),
-        ...echoBonusParts,
-      ];
+      const normalSources = r.rawTotals?.sources || {};
+      const activeSources = r.sources || {};
       const statTip = isHarmonyResponse
-        ? `${L.text("谐度基础值")} = ${fmt(r.harmonyBase)}\n${L.sourceJoin(L.text("来源"), L.text(offsetCostLabel(r.harmonyBase)))}`
-        : `${statLabel} = ${fmt(statDisplay)}${L.paren(L.text("显示取整"))}\n${L.text("伤害计算使用")} ${tnum(statRaw)}`;
-      const stackPart = stackMult ? ` + ${L.text("层数倍率")} ${tnum(stackMult)}%` : "";
-      const skillTip = `${L.text("技能倍率")} = (((${L.text("基础倍率")} ${tnum(rawSkillMult)}%${stackPart}) × ${L.text("等级系数")} ${tnum(lvRatio)}) + ${L.text("倍率增加")} ${tnum(r.multAdd)}%) × (1 + ${L.text("技能倍率提升")} ${tnum(skillMultBonus)}%) = ${tnum(r.panel.skillMult * 100)}%\n${L.text("等级")} ${tnum(r.skLevel)}`;
+        ? formulaSourceTip([staticFormulaSource(offsetCostLabel(r.harmonyBase), "谐度基础值", r.harmonyBase, "", false, true)])
+        : formulaSourceTip(panelStatSourceParts(s1, r.panel.stat, r.es, normalSources));
+      const baseLevelMult = r.sk ? skillMultValue(rawSkillMult, lvRatio) : 0;
+      const skillOrigin = `${L.text("技能")}·${r.sk ? L.skillName(r.sk) : "—"}·${L.t("common.levelShort", { value: r.skLevel || 10 })}`;
+      const skillTip = formulaSourceTip([
+        staticFormulaSource(skillOrigin, "基础倍率", baseLevelMult, "%", false, true),
+        staticFormulaSource(r.sk?.stackLabel || r.sk?.stackResource || "层数", "层数倍率", levelMult - baseLevelMult),
+        sourceParts(activeSources, "perStackBonus"),
+        sourceParts(activeSources, "multAdd"),
+        sourceParts(activeSources, "skillMultBonus"),
+      ]);
+      const bonusSources = [
+        staticFormulaSource("属性树", damageElement ? L.damageBonusLabel(L.element(damageElement)) : L.text("属性伤害加成"), treeElemBonus),
+        staticFormulaSource("声骸", damageElement ? L.damageBonusLabel(L.element(damageElement)) : L.text("属性伤害加成"), r.es?.elem?.[damageElement]),
+        staticFormulaSource("声骸", skType ? L.typeBonusLabel(L.damageType(skType)) : L.text("类型伤害加成"), skType ? r.es?.type?.[skType] : 0),
+        sourceParts(normalSources, "damageBonus"),
+        sourceParts(normalSources, "typeBonus"),
+        sourceParts(normalSources, "typeBonusScale"),
+      ];
       const bonusCard = isHarmonyResponse
-        ? { k: L.text("谐度增幅"), v: `<b>${esc(fx(r.breakAmpFactor))}</b>`, sub: L.pointText(esc(tnum(r.breakAmp))), tip: `${L.text("谐度增幅")} = 1 + ${L.text("谐度破坏增幅")} ${tnum(r.breakAmp)} / 100 = ${fx(r.breakAmpFactor)}` }
-        : { k: L.text("加成区"), v: `<b>${esc(tnum(r.bonus))}</b>`, sub: `+${esc(tnum((r.bonus - 1) * 100))}% · ${L.text("属性+类型")}`, tip: `${L.text("加成区")} = 1 + (${formulaSources(normalBonusParts, "0%")} + ${L.text("类型加成来源")} ${tnum(r.typeBonus)}% × ${L.text("来源提升")} ${tnum(r.rawTotals?.typeBonusScale)}%) / 100 = ${tnum(r.bonus)}` };
+        ? { k: L.text("谐度增幅"), v: `<b>${esc(fx(r.breakAmpFactor))}</b>`, sub: L.pointText(esc(tnum(r.breakAmp))), tip: formulaSourceTip(sourceParts(activeSources, "breakAmp"), "无额外来源") }
+        : { k: L.text("加成区"), v: `<b>${esc(tnum(r.bonus))}</b>`, sub: `+${esc(tnum((r.bonus - 1) * 100))}% · ${L.text("属性+类型")}`, tip: formulaSourceTip(bonusSources) };
       const amplifyCard = isHarmonyResponse
-        ? { k: L.text("响应增伤"), v: `<b>${esc(tnum(r.amplify * r.vuln))}</b>`, sub: L.text("谐度响应专属加深/易伤"), tip: `${L.text("响应增伤")} = (1 + ${tnum(r.totals.amplify)}%) × (1 + ${tnum(r.totals.vulnerability)}%) = ${tnum(r.amplify * r.vuln)}` }
-        : { k: L.text("加深区"), v: `<b>${esc(tnum(r.amplify))}</b>`, sub: `+${esc(tnum((r.amplify - 1) * 100))}% · ${L.text("独立乘区")}`, tip: `${L.text("加深区")} = 1 + ${L.text("伤害加深 Buff")} ${tnum(r.rawTotals.amplify)}% / 100 = ${tnum(r.amplify)}` };
-      const vulnBuff = num(r.rawTotals?.vulnerability);
-      const vulnCard = { k: L.text("减伤/易伤"), v: `<b>${esc(tnum(r.vuln))}</b>`, sub: `${L.text("易伤")}${esc(tnum(state.enemy.vulnerability))}% · ${L.text("减伤")}${esc(tnum(state.enemy.dmgReduction))}%`, tip: `${L.text("减伤/易伤")} = max(0, 1 - ${L.text("受到伤害减少")} ${tnum(state.enemy.dmgReduction)}% + ${L.text("易伤")} ${tnum(state.enemy.vulnerability)}% + ${L.text("易伤 Buff")} ${tnum(vulnBuff)}%) = ${tnum(r.vuln)}` };
+        ? { k: L.text("响应增伤"), v: `<b>${esc(tnum(r.amplify * r.vuln))}</b>`, sub: L.text("谐度响应专属加深/易伤"), tip: formulaSourceTip([sourceParts(activeSources, "amplify"), sourceParts(activeSources, "vulnerability")]) }
+        : { k: L.text("加深区"), v: `<b>${esc(tnum(r.amplify))}</b>`, sub: `+${esc(tnum((r.amplify - 1) * 100))}% · ${L.text("独立乘区")}`, tip: formulaSourceTip(sourceParts(normalSources, "amplify")) };
+      const vulnCard = {
+        k: L.text("易伤"),
+        v: `<b>${esc(tnum(r.vuln))}</b>`,
+        sub: `${L.text("易伤")}${esc(tnum(state.enemy.vulnerability))}% · ${L.text("减伤")}${esc(tnum(state.enemy.dmgReduction))}%`,
+        tip: formulaSourceTip([
+          targetPercentSource("受到伤害减少", state.enemy.dmgReduction, false),
+          targetPercentSource("易伤", state.enemy.vulnerability, true),
+          sourceParts(normalSources, "vulnerability"),
+        ]),
+      };
       let critCard = { k: L.text("不可暴击"), v: "<b>1</b>", sub: L.text("谐度响应") };
       const shownCritRate = responseCanCrit ? r.totals.fixedCritRate : r.panel.critRate;
       const shownCritDamage = responseCanCrit ? r.totals.fixedCritDamage : r.panel.critDamage;
+      const critRateSources = responseCanCrit ? fixedCritSourceParts(activeSources, "critRate") : panelCritSourceParts(s1, "critRate", r.es, normalSources);
+      const critDamageSources = responseCanCrit ? fixedCritSourceParts(activeSources, "critDamage") : panelCritSourceParts(s1, "critDamage", r.es, normalSources);
       if (!isHarmonyResponse || responseCanCrit) {
         switch (damageMode) {
           case "expected":
-            critCard = { k: L.text("期望修正"), v: `<b>${esc(tnum(critMul))}</b>`, sub: `${L.stat("暴击率")} ${esc(tnum(shownCritRate))}%`, tip: `${L.text("期望修正")} = ${L.stat("暴击率")} ${tnum(shownCritRate)}% × ${L.stat("暴击伤害")} ${tnum(shownCritDamage)}% + (1 - ${L.stat("暴击率")}) = ${tnum(critMul)}` };
+            critCard = { k: L.text("期望修正"), v: `<b>${esc(tnum(critMul))}</b>`, sub: `${L.stat("暴击率")} ${esc(tnum(shownCritRate))}%`, tip: formulaSourceTip([critRateSources, critDamageSources]) };
             break;
           case "crit":
-            critCard = { k: L.text("暴击伤害"), v: `<b>${esc(tnum(critMul))}</b>`, sub: `${L.stat("暴击伤害")} ${esc(tnum(shownCritDamage))}%`, tip: `${L.text("暴击伤害")} = ${tnum(shownCritDamage)}% / 100 = ${tnum(critMul)}` };
+            critCard = { k: L.text("暴击伤害"), v: `<b>${esc(tnum(critMul))}</b>`, sub: `${L.stat("暴击伤害")} ${esc(tnum(shownCritDamage))}%`, tip: formulaSourceTip(critDamageSources) };
             break;
           default:
-            critCard = { k: L.text("非暴伤害"), v: "<b>1</b>", sub: L.text("不计算暴击"), tip: `${L.text("非暴伤害")} = 1` };
+            critCard = { k: L.text("非暴伤害"), v: "<b>1</b>", sub: L.text("不计算暴击"), tip: "" };
         }
       }
-      if (isHarmonyResponse && !responseCanCrit) critCard.tip = `${L.text("不可暴击")} = 1`;
-      const totalDefShred = num(r.defense?.totalDefShred);
-      const totalDefIgnore = num(r.defense?.totalDefIgnore);
-      const levelTerm = 800 + 8 * num(state.enemy.charLevel);
-      const enemyDefTerm = 8 * num(state.enemy.enemyLevel) + 792;
-      const charLevelText = `${L.text("我方等级")}${tnum(state.enemy.charLevel)}`;
-      const enemyLevelText = `${L.text("敌方等级")}${tnum(state.enemy.enemyLevel)}`;
-      const defTip = `${L.text("防御系数")} = (800 + 8 × ${charLevelText}) / ((800 + 8 × ${charLevelText}) + (8 × ${enemyLevelText} + 792) × (1 - ${L.text("减防")} ${tnum(totalDefShred)}%) × (1 - ${L.text("防御无视")} ${tnum(totalDefIgnore)}%)) = ${fx(r.defFactor)}`;
-      const resTip = `${L.text("抗性系数")} = f(${tnum(effectiveRes)}%) = ${fx(r.resFactor)}\n${L.text("抗性")} ${tnum(state.enemy.res)}% - ${L.text("减抗")} ${tnum(totalResShred)}%`;
+      if (isHarmonyResponse && !responseCanCrit) critCard.tip = "";
+      const defTip = formulaSourceTip([
+        targetLevelSources(),
+        targetPercentSource("减防", r.defense?.manualDefShred, true),
+        sourceParts(activeSources, "defShred"),
+        r.defense?.effectDefShred ? staticFormulaSource(L.effect(r.effect?.def || "效应"), "减防", r.defense.effectDefShred) : null,
+        targetPercentSource("防御无视", r.defense?.manualDefIgnore, true),
+        sourceParts(activeSources, "defIgnore"),
+      ]);
+      const resTip = formulaSourceTip([
+        targetPercentSource("抗性", state.enemy.res, false),
+        targetPercentSource("减抗", state.enemy.resShred, true),
+        sourceParts(activeSources, "resShred"),
+      ]);
+      const finalSources = [
+        targetPercentSource("最终伤害提升", state.enemy.finalDmg, true),
+        sourceParts(activeSources, "finalDmg"),
+        r.offsetFinalDmg ? staticFormulaSource(L.text("集谐干涉"), "最终伤害提升", r.offsetFinalDmg) : null,
+      ];
       const finalCard = isHarmonyResponse
-        ? { k: L.text("最终伤害"), v: `<b>${r.finalDmg === 1 ? esc(L.text("不参与")) : esc(tnum(r.finalDmg))}</b>`, sub: L.text("明确指定才参与"), tip: `${L.text("最终伤害")} = 1 + ${L.text("明确指定 Buff")} ${tnum(r.totals.finalDmg)}% / 100 = ${tnum(r.finalDmg)}` }
-        : { k: L.text("最终伤害"), v: `<b>${esc(tnum(r.finalDmg))}</b>`, sub: `+${esc(tnum((r.finalDmg - 1) * 100))}% · ${L.text("最终乘区")}`, tip: `${L.text("最终伤害")} = 1 + (${L.text("手动")} ${tnum(state.enemy.finalDmg)}% + Buff ${tnum(r.totals.finalDmg)}%) / 100 = ${tnum(r.finalDmg)}` };
+        ? { k: L.text("最终伤害提升"), v: `<b>${r.finalDmg === 1 ? esc(L.text("不参与")) : esc(tnum(r.finalDmg))}</b>`, sub: L.text("明确指定才参与"), tip: formulaSourceTip(finalSources) }
+        : { k: L.text("最终伤害提升"), v: `<b>${esc(tnum(r.finalDmg))}</b>`, sub: `+${esc(tnum((r.finalDmg - 1) * 100))}% · ${L.text("最终乘区")}`, tip: formulaSourceTip(finalSources) };
       const cards = [
         { k: L.text("属性基数"), v: `<b>${esc(fmt(statDisplay))}</b>`, sub: esc(statLabel), tip: statTip },
         { k: L.text("技能倍率"), v: `<b>${esc(`${tnum(r.panel.skillMult * 100)}%`)}</b>`, sub: esc(r.sk ? L.damageType(r.sk.damageType) : "—"), tip: skillTip },
@@ -597,7 +705,7 @@ window.WUWA_STAGE_VIEW = (() => {
         { k: L.text("抗性系数"), v: `<b>${esc(fx(r.resFactor))}</b>`, sub: esc(resSub), tip: resTip },
         finalCard,
       ];
-      return cards.map(metricFormulaCardHTML).join("");
+      return cards.map(formulaCardHTML).join("");
     }
 
     function stateChoiceKey(label) {
@@ -771,8 +879,22 @@ window.WUWA_STAGE_VIEW = (() => {
 
     function effectFormulaHTML(r, availableKeys = teamEffectKeys()) {
       const e = visibleEffectResult(r, availableKeys);
-      if (!e.enabled) return L.text("效应伤害独立结算，不进入上方普通伤害。");
-      if (e.kind === "defShred") return `<div class="effect-equation">${esc(L.effect(e.def))}: ${L.stackText(e.stacks)} × ${tnum(e.def.valuePerStack)}% = <b>${tnum(e.defShred)}%</b> ${L.text("减防")}，${L.text("已计入上方防御系数")}</div>`;
+      if (!e.enabled) return L.t("common.unselected");
+      if (e.kind === "defShred") {
+        const perStack = num(e.def.valuePerStack);
+        return formulaStripHTML([
+          {
+            k: "层数",
+            v: esc(tnum(e.stacks)),
+            tip: formulaSourceTip([staticFormulaSource(L.effect(e.def), "层数", e.stacks, "", false, true)]),
+          },
+          {
+            k: `${L.text("每层")} · ${L.text("减防")}`,
+            v: `${esc(tnum(perStack))}%`,
+            tip: formulaSourceTip([staticFormulaSource(L.effect(e.def), "减防", perStack, "%", false, true)]),
+          },
+        ]);
+      }
       if (!e.valid) return `${esc(L.effect(e.def))}${L.text("当前只录入")}${knownEffectStacksText(e.def)}${L.text("层倍率。")}`;
       const baseValue = e.kind === "attack" ? tnum(e.attack) : tnum(e.base);
       const multValue = e.kind === "attack" ? `${tnum(e.rate)}%` : L.text("层数基础");
@@ -782,36 +904,57 @@ window.WUWA_STAGE_VIEW = (() => {
       const multDetail = e.kind === "attack" ? rateParts.join(" + ") : `${esc(L.effectShort(e.def))} ${L.stackText(e.stacks)}`;
       const provider = e.providerName ? `${e.providerName} ${L.stat("攻击")}` : L.text("提供者攻击");
       const effectDeepenFactor = Math.max(0, 1 + num(e.deepen) / 100);
+      const sources = e.sources || {};
+      const providerSlot = state.slots[e.providerIdx];
       const baseTip = e.kind === "attack"
-        ? `${L.text("效应基础值")} = ${provider} ${tnum(e.attack)} × ${L.text("效应倍率")} ${tnum(e.rate)}% / 100 = ${tnum(e.base)}`
-        : `${L.text("效应基础值")} = ${L.effect(e.def)} ${L.stackText(e.stacks)} ${L.text("层固定基础值")} ${tnum(e.base)}`;
+        ? formulaSourceTip(panelStatSourceParts(providerSlot, "attack", echoStats(providerSlot), e.attackSources || {}))
+        : formulaSourceTip([staticFormulaSource(`${L.effect(e.def)}·${L.stackText(e.stacks)}`, "层固定基础值", e.base, "", false, true)]);
       const multTip = e.kind === "attack"
-        ? `${L.text("效应倍率")} = ${formulaSources(rateParts, "0%")} = ${tnum(e.rate)}%`
-        : `${L.text("效应倍率")} = ${L.effectShort(e.def)} ${L.stackText(e.stacks)}`;
-      const deepenTip = `${L.text("效应加深")} = max(0, 1 + (${L.text("手动")} ${tnum(e.manualDeepen)}% + Buff ${tnum(e.buffDeepen)}%) / 100) = ${fx(effectDeepenFactor)}`;
-      const finalTip = `${L.text("最终伤害")} = 1 + Buff ${tnum(e.buffFinalDmg || 0)}% / 100 = ${fx(e.finalDmgFactor || 1)}`;
-      const effectLevelTerm = 800 + 8 * num(e.charLevel);
-      const effectEnemyDefTerm = 8 * num(e.enemyLevel) + 792;
-      const effectDefShred = num(e.manualDefShred) + num(e.buffDefShred);
-      const effectDefIgnore = num(e.manualDefIgnore) + num(e.buffDefIgnore);
-      const charLevelText = `${L.text("我方等级")}${tnum(e.charLevel)}`;
-      const enemyLevelText = `${L.text("敌方等级")}${tnum(e.enemyLevel)}`;
-      const defTip = `${L.text("防御系数")} = (800 + 8 × ${charLevelText}) / ((800 + 8 × ${charLevelText}) + (8 × ${enemyLevelText} + 792) × (1 - ${L.text("减防")} ${tnum(effectDefShred)}%) × (1 - ${L.text("防御无视")} ${tnum(effectDefIgnore)}%)) = ${fx(e.defFactor)}\n${tnum(effectLevelTerm)} / (${tnum(effectLevelTerm)} + ${tnum(effectEnemyDefTerm)} × (1 - ${tnum(effectDefShred)}%) × (1 - ${tnum(effectDefIgnore)}%))`;
-      const resTip = `${L.text("抗性系数")} = f(${tnum(e.res)}%) = ${fx(e.resFactor)}\n${L.text("抗性")} ${tnum(e.manualRes)}% - ${L.text("减抗")} ${tnum(e.manualResShred)}% - Buff ${tnum(e.buffResShred)}%`;
-      const critCard = e.fixedCritRate == null ? "" : miniCardHTML(
-        activeDamageMode() === "crit" ? "暴击伤害" : activeDamageMode() === "normal" ? "非暴伤害" : "期望修正",
-        activeDamageMode() === "crit" ? fx(e.cd) : activeDamageMode() === "normal" ? "1" : fx(1 + e.cr * (e.cd - 1)),
-        `${L.stat("暴击率")} ${tnum(e.fixedCritRate)}% · ${L.stat("暴击伤害")} ${tnum(e.fixedCritDamage)}%`
-      );
-      return `<div class="effect-mini-strip effect-mini-strip--formula formula-strip formula-strip--multiply">
-        ${miniCardHTML("效应基础值", baseValue, e.kind === "attack" ? provider : L.effect(e.def), baseTip)}
-        ${miniCardHTML("效应倍率", multValue, multDetail, multTip)}
-        ${miniCardHTML("效应加深", fx(effectDeepenFactor), `+${tnum(e.deepen)}%`, deepenTip)}
-        ${miniCardHTML("最终伤害", fx(e.finalDmgFactor || 1), `Buff ${tnum(e.buffFinalDmg || 0)}%`, finalTip)}
-        ${miniCardHTML("防御系数", fx(e.defFactor), `${L.text("我")}${tnum(e.charLevel)} / ${L.text("敌")}${tnum(e.enemyLevel)}`, defTip)}
-        ${miniCardHTML("抗性系数", fx(e.resFactor), `${L.text("抗性")} ${tnum(e.res)}%`, resTip)}
-        ${critCard}
-      </div>`;
+        ? formulaSourceTip([
+          staticFormulaSource(`${L.effectShort(e.def)}·${L.stackText(e.stacks)}`, "层数倍率", e.baseRate || 0, "%", false, true),
+          e.rageCap != null ? staticFormulaSource(`${L.text("爆发")}·${L.stackText(e.rageStacks)}`, "层数倍率", e.rageRate || 0, "%", false) : null,
+          sourceParts(sources, "effectExtraRate"),
+        ])
+        : formulaSourceTip([staticFormulaSource(L.effectShort(e.def), "层数", e.stacks, L.text("层"), false, true)]);
+      const deepenTip = formulaSourceTip([
+        staticFormulaSource("手动", "效应加深", e.manualDeepen || 0),
+        sourceParts(sources, "amplify"),
+        sourceParts(sources, "vulnerability"),
+      ]);
+      const finalTip = formulaSourceTip(sourceParts(sources, "finalDmg"));
+      const defTip = formulaSourceTip([
+        targetLevelSources(),
+        targetPercentSource("减防", e.manualDefShred, true),
+        sourceParts(sources, "defShred"),
+        targetPercentSource("防御无视", e.manualDefIgnore, true),
+        sourceParts(sources, "defIgnore"),
+      ]);
+      const resTip = formulaSourceTip([
+        targetPercentSource("抗性", e.manualRes, false),
+        targetPercentSource("减抗", e.manualResShred, true),
+        sourceParts(sources, "resShred"),
+      ]);
+      const critTip = formulaSourceTip([
+        fixedCritSourceParts(sources, "critRate"),
+        fixedCritSourceParts(sources, "critDamage"),
+      ]);
+      const cards = [
+        { k: "效应基础值", v: baseValue, sub: e.kind === "attack" ? provider : L.effect(e.def), tip: baseTip },
+        { k: "效应倍率", v: multValue, sub: multDetail, tip: multTip },
+        { k: "效应加深", v: fx(effectDeepenFactor), sub: `+${tnum(e.deepen)}%`, tip: deepenTip },
+        { k: "最终伤害提升", v: fx(e.finalDmgFactor || 1), sub: `Buff ${tnum(e.buffFinalDmg || 0)}%`, tip: finalTip },
+        { k: "防御系数", v: fx(e.defFactor), sub: `${L.text("我")}${tnum(e.charLevel)} / ${L.text("敌")}${tnum(e.enemyLevel)}`, tip: defTip },
+        { k: "抗性系数", v: fx(e.resFactor), sub: `${L.text("抗性")} ${tnum(e.res)}%`, tip: resTip },
+      ];
+      if (e.fixedCritRate != null) {
+        cards.push({
+          k: activeDamageMode() === "crit" ? "暴击伤害" : activeDamageMode() === "normal" ? "非暴伤害" : "期望修正",
+          v: activeDamageMode() === "crit" ? fx(e.cd) : activeDamageMode() === "normal" ? "1" : fx(1 + e.cr * (e.cd - 1)),
+          sub: `${L.stat("暴击率")} ${tnum(e.fixedCritRate)}% · ${L.stat("暴击伤害")} ${tnum(e.fixedCritDamage)}%`,
+          tip: critTip,
+        });
+      }
+      return formulaStripHTML(cards);
     }
 
     function effectStackControlHTML(e) {
@@ -826,45 +969,40 @@ window.WUWA_STAGE_VIEW = (() => {
 
     function effectRageStackControlHTML(e) {
       if (!e.enabled || e.rageCap == null) return "";
-      return `<label class="effect-field"><span>${esc(L.text("爆发层数"))}</span><input type="number" min="0" max="${e.rageCap}" step="1" data-act="effect-rage-stacks" value="${e.rageStacks}" /></label>`;
+      return `<label class="result-inline-field"><span>${esc(L.text("爆发层数"))}</span><input type="number" min="0" max="${e.rageCap}" step="1" data-act="effect-rage-stacks" value="${e.rageStacks}" /></label>`;
     }
 
     function effectProviderControlHTML(e) {
-      if (!e.enabled) return `<label class="effect-field"><span>${esc(L.text("提供者"))}</span><select disabled><option>—</option></select></label>`;
+      if (!e.enabled) return `<label class="result-inline-field"><span>${esc(L.text("提供者"))}</span><select disabled><option>—</option></select></label>`;
       const providers = effectProvidersForKey(e.key);
-      if (!providers.length) return `<label class="effect-field"><span>${esc(L.text("提供者"))}</span><select disabled><option>—</option></select></label>`;
+      if (!providers.length) return `<label class="result-inline-field"><span>${esc(L.text("提供者"))}</span><select disabled><option>—</option></select></label>`;
       const selectedIdx = providers.some((item) => item.idx === e.providerIdx) ? e.providerIdx : providers[0].idx;
       const options = providers.map((item) => `<option value="${item.idx}" ${item.idx === selectedIdx ? "selected" : ""}>${esc(L.charName(item.c))}</option>`).join("");
-      return `<label class="effect-field"><span>${esc(L.text("提供者"))}</span><select data-act="effect-provider">${options}</select></label>`;
+      return `<label class="result-inline-field"><span>${esc(L.text("提供者"))}</span><select data-act="effect-provider">${options}</select></label>`;
     }
 
-    function effectCalcHTML(r) {
+    function effectInlineControlsHTML(r) {
       const availableKeys = teamEffectKeys();
       if (!availableKeys.length) return "";
       const calc = state.effectCalc || {};
       const e = visibleEffectResult(r, availableKeys);
-      const selectedKey = e.enabled ? e.key : "none";
+      const selectedKey = e.enabled ? e.key : availableKeys[0];
       const disabled = e.enabled ? "" : "disabled";
       const deepen = calc.deepen ?? 0;
-      const options = ["none", ...availableKeys].map((key) => {
+      const capText = e.enabled ? effectCapTextHTML(r, availableKeys) : "";
+      const options = availableKeys.map((key) => {
         const def = EFFECT_DEFS[key];
-        return `<option value="${key}" ${key === selectedKey ? "selected" : ""}>${esc(L.effect(def))}</option>`;
+        const label = key === selectedKey && capText ? `${L.effect(def)} · ${capText}` : L.effect(def);
+        return `<option value="${key}" ${key === selectedKey ? "selected" : ""}>${esc(label)}</option>`;
       }).join("");
-      return `<div class="effect-calc">
-    <div class="effect-head">
-      <span class="effect-title">${esc(L.text("效应伤害"))}</span>
-      <b class="effect-value" id="effect-value">${esc(effectValueHTML(r, availableKeys))}</b>
-      <span class="effect-cap-text" id="effect-cap-text">${esc(effectCapTextHTML(r, availableKeys))}</span>
-    </div>
-    <div class="effect-controls">
-      <label class="effect-field"><span>${esc(L.text("效应"))}</span><select data-act="effect-key">${options}</select></label>
+      const rageClass = e.rageCap == null ? "" : " result-inline-controls--effect-rage";
+      return `<div class="result-inline-controls result-inline-controls--effect${rageClass}" id="result-inline-controls">
+      <label class="result-inline-field result-inline-field--wide"><span>${esc(L.text("效应"))}</span><select data-act="effect-key" title="${esc(capText)}">${options}</select></label>
       ${effectProviderControlHTML(e)}
-      <label class="effect-field"><span>${esc(L.text("层数"))}</span>${effectStackControlHTML(e)}</label>
+      <label class="result-inline-field"><span>${esc(L.text("层数"))}</span>${effectStackControlHTML(e)}</label>
       ${effectRageStackControlHTML(e)}
-      <label class="effect-field"><span>${esc(L.text("手动加深%"))}</span><input type="number" step="0.1" data-act="effect-deepen" value="${esc(deepen)}" ${disabled} /></label>
-    </div>
-    <div class="effect-formula" id="effect-formula">${effectFormulaHTML(r, availableKeys)}</div>
-  </div>`;
+      <label class="result-inline-field"><span>${esc(L.text("手动加深%"))}</span><input type="number" step="0.1" data-act="effect-deepen" value="${esc(deepen)}" ${disabled} /></label>
+    </div>`;
     }
 
     function offsetSelectedValue(o) {
@@ -887,17 +1025,6 @@ window.WUWA_STAGE_VIEW = (() => {
       return fmt(value);
     }
 
-    function offsetCapTextHTML(r) {
-      const o = r.offset || {};
-      if (!o.available) return "";
-      if (!o.enabled) return L.text("独立于上方普通伤害");
-      if (o.kind === "state" && o.formulaKind === "coherenceInterference") return `${L.text(o.stateValueLabel || compactOffsetStateName(o.stateValue || "集谐·干涉"))} · ${L.stackText(tnum(o.stacks))}`;
-      if (o.kind === "state") return `${L.text("层数")} ${L.stackText(tnum(o.stacks))}`;
-      const base = `${offsetCostLabel()} · ${L.text("谐度基础值")} ${fmt(o.harmonyBase)}`;
-      if (o.kind === "response" && !o.valid && o.requiredState) return `${base} · ${L.text("需")}${L.text(o.requiredState)}`;
-      return base;
-    }
-
     function compactOffsetStateName(value) {
       const text = String(value || "").trim();
       if (!text) return "";
@@ -915,7 +1042,7 @@ window.WUWA_STAGE_VIEW = (() => {
       return found ? `${L.t("common.target")}${found.label}` : L.text("自定义目标");
     }
 
-    function offsetCostControlHTML(o) {
+    function offsetCostControlHTML(o, wide) {
       if (!o.enabled || o.kind === "state") return "";
       const current = num(state.enemy.harmonyBase);
       const matched = HARMONY_BASE_OPTIONS.some((item) => item.value === current);
@@ -923,30 +1050,21 @@ window.WUWA_STAGE_VIEW = (() => {
         `<option value="${item.value}" ${item.value === current ? "selected" : ""}>${item.label} · ${fmt(item.value)}</option>`
       ).join("");
       const custom = matched ? "" : `<option value="${esc(current)}" selected>${esc(L.t("common.custom"))} · ${esc(fmt(current))}</option>`;
-      return `<label class="effect-field"><span>${esc(L.text("目标Cost"))}</span><select data-act="offset-cost">${options}${custom}</select></label>`;
+      return `<label class="result-inline-field${wide ? " result-inline-field--wide" : ""}"><span>${esc(L.text("目标Cost"))}</span><select data-act="offset-cost">${options}${custom}</select></label>`;
     }
 
-    function offsetDetailControlHTML(o) {
+    function offsetDetailControlHTML(o, wide) {
       if (!o.enabled || o.kind === "tuneBreak") return "";
       if (o.kind === "response") {
         const lv = o.skLevel || 10;
         const opts = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((level) => `<option value="${level}" ${level === lv ? "selected" : ""}>${esc(L.t("common.levelShort", { value: level }))}</option>`).join("");
-        return `<label class="effect-field"><span>${esc(L.text("响应等级"))}</span><select data-act="offset-skilllevel">${opts}</select></label>`;
+        return `<label class="result-inline-field${wide ? " result-inline-field--wide" : ""}"><span>${esc(L.text("响应等级"))}</span><select data-act="offset-skilllevel">${opts}</select></label>`;
       }
-      return `<label class="effect-field"><span>${esc(L.text("层数"))}</span><input type="number" min="0" step="1" data-act="offset-stacks" value="${esc(o.stacks || 0)}" /></label>`;
+      return `<label class="result-inline-field${wide ? " result-inline-field--wide" : ""}"><span>${esc(L.text("层数"))}</span><input type="number" min="0" step="1" data-act="offset-stacks" value="${esc(o.stacks || 0)}" /></label>`;
     }
 
     function plainText(value) {
       return String(value || "").replace(/<[^>]*>/g, "").replace(/\s+/g, " ").trim();
-    }
-
-    function miniCardHTML(k, v, sub, tip = "") {
-      const label = L.text(k);
-      const subText = L.text(plainText(sub));
-      const detail = tip || `${label} = ${plainText(v)}${subText ? `\n${subText}` : ""}`;
-      return `<div class="effect-mini-card formula-card" tabindex="0" aria-label="${esc(formulaCardAria(label, detail))}">
-        <span>${esc(label)}</span><b>${v}</b><small>${esc(subText)}</small>${formulaCardTipHTML(detail)}
-      </div>`;
     }
 
     function offsetDefenseSub() {
@@ -954,38 +1072,49 @@ window.WUWA_STAGE_VIEW = (() => {
     }
 
     function offsetHarmonyBaseTip(o) {
-      return `${L.text("谐度基础值")} = ${fmt(o.harmonyBase)}\n${L.sourceJoin(L.text("来源"), L.text(offsetCostLabel(o.harmonyBase)))}`;
+      return formulaSourceTip([staticFormulaSource(offsetCostLabel(o.harmonyBase), "谐度基础值", o.harmonyBase, "", false, true)]);
     }
 
     function offsetBreakAmpTip(o) {
-      return `${L.text("谐度增幅")} = 1 + ${L.text("谐度破坏增幅")} ${tnum(o.breakAmp)} / 100 = ${fx(o.breakAmpFactor)}`;
+      const sources = sourceParts(o.sources, "breakAmp");
+      return formulaSourceTip(sources.length ? sources : [staticFormulaSource("角色面板", "谐度破坏增幅", o.breakAmp, "%", false, true)]);
     }
 
     function offsetDefenseTip(o) {
-      const levelTerm = 800 + 8 * num(state.enemy.charLevel);
-      const enemyDefTerm = 8 * num(state.enemy.enemyLevel) + 792;
-      const charLevelText = `${L.text("我方等级")}${tnum(state.enemy.charLevel)}`;
-      const enemyLevelText = `${L.text("敌方等级")}${tnum(state.enemy.enemyLevel)}`;
-      return `${L.text("防御系数")} = (800 + 8 × ${charLevelText}) / ((800 + 8 × ${charLevelText}) + (8 × ${enemyLevelText} + 792) × (1 - ${L.text("减防")} ${tnum(o.defReduction)}%) × (1 - ${L.text("防御无视")} ${tnum(o.defIgnore)}%)) = ${fx(o.defFactor)}\n${tnum(levelTerm)} / (${tnum(levelTerm)} + ${tnum(enemyDefTerm)} × (1 - ${tnum(o.defReduction)}%) × (1 - ${tnum(o.defIgnore)}%))`;
+      return formulaSourceTip([
+        targetLevelSources(),
+        targetPercentSource("减防", state.enemy.defShred, true),
+        sourceParts(o.sources, "defShred"),
+        targetPercentSource("防御无视", state.enemy.defIgnore, true),
+        sourceParts(o.sources, "defIgnore"),
+      ]);
     }
 
     function offsetFinalTip(o) {
-      const total = Math.max(0, (num(o.finalDmg) - 1) * 100);
-      const buff = total - num(state.enemy.finalDmg);
-      return `${L.text("最终伤害")} = max(0, 1 + (${L.text("手动")} ${tnum(state.enemy.finalDmg)}% + Buff ${tnum(buff)}%) / 100) = ${tnum(o.finalDmg)}`;
+      return formulaSourceTip([
+        targetPercentSource("最终伤害提升", state.enemy.finalDmg, true),
+        sourceParts(o.sources, "finalDmg"),
+      ]);
     }
 
     function offsetResTip(o) {
-      const totalResShred = num(state.enemy.res) - num(o.res);
-      const buffResShred = totalResShred - num(state.enemy.resShred);
-      return `${L.text("抗性系数")} = f(${tnum(o.res)}%) = ${fx(o.resFactor)}\n${L.text("抗性")} ${tnum(state.enemy.res)}% - ${L.text("减抗")} ${tnum(state.enemy.resShred)}% - Buff ${tnum(buffResShred)}%`;
+      return formulaSourceTip([
+        targetPercentSource("抗性", state.enemy.res, false),
+        targetPercentSource("减抗", state.enemy.resShred, true),
+        sourceParts(o.sources, "resShred"),
+      ]);
     }
 
-    function offsetDeepenCardHTML(o) {
+    function offsetDeepenCard(o) {
       const buff = tnum(o.buffDeepen || 0);
       const sub = `${L.text("易伤")}${tnum(o.enemyVulnerability)}% · ${L.text("减伤")}${tnum(o.enemyDmgReduction)}%${buff !== "0" ? ` · Buff ${buff}%` : ""}`;
-      const tip = `${L.text("减伤/易伤")} = max(0, 1 - ${L.text("受到伤害减少")} ${tnum(o.enemyDmgReduction)}% + ${L.text("易伤")} ${tnum(o.enemyVulnerability)}% + Buff ${buff}%) = ${tnum(o.deepenFactor)}`;
-      return miniCardHTML("减伤/易伤", esc(tnum(o.deepenFactor)), sub, tip);
+      const tip = formulaSourceTip([
+        targetPercentSource("受到伤害减少", o.enemyDmgReduction, false),
+        targetPercentSource("易伤", o.enemyVulnerability, true),
+        sourceParts(o.sources, "amplify"),
+        sourceParts(o.sources, "vulnerability"),
+      ]);
+      return { k: "易伤", v: esc(tnum(o.deepenFactor)), sub, tip };
     }
 
     function offsetResponseLabels(o) {
@@ -994,63 +1123,76 @@ window.WUWA_STAGE_VIEW = (() => {
       return { damage: L.text("谐度响应伤害"), multiplier: L.text("响应倍率") };
     }
 
-    function offsetResponseMultiplierTip(o, labels) {
-      return `${labels.multiplier} = ${L.text("基础倍率")} ${tnum(o.baseMult)}% × (1 + ${L.text("技能倍率提升")} ${tnum(o.skillMultBonus)}%) = ${tnum(o.multiplier)}%\n${L.text("等级")} ${tnum(o.skLevel || 10)}`;
+    function offsetResponseMultiplierTip(o) {
+      return formulaSourceTip([
+        staticFormulaSource(`${L.text("技能")}·${L.text(o.label || "响应技能")}·${L.t("common.levelShort", { value: o.skLevel || 10 })}`, "基础倍率", o.baseMult, "%", false, true),
+        sourceParts(o.sources, "skillMultBonus"),
+      ]);
     }
 
     function offsetFormulaHTML(r) {
       const o = r.offset || {};
-      if (!o.enabled) return L.text("偏移体系伤害独立结算，不进入上方普通伤害。");
+      if (!o.enabled) return L.t("common.unselected");
       if (o.kind === "state") {
         if (o.formulaKind === "coherenceInterference") {
           const compactState = o.currentStateLabel || o.stateValueLabel || compactOffsetStateName(o.currentState || o.stateValue || "集谐·干涉");
-          const stateHint = o.valid ? "" : `<div class="effect-equation">${L.text("需先确认目标处于")}${esc(L.text(o.stateValueLabel || compactOffsetStateName(o.stateValue || "集谐·干涉")))}${L.text("，才应用该收益。")}</div>`;
-          return `<div class="effect-mini-strip">
-          ${miniCardHTML("状态", esc(L.text(compactState || "未确认")), o.valid ? "已确认" : "未确认")}
-          ${miniCardHTML("层数", esc(L.stackText(tnum(o.stacks))), "集谐干涉")}
-          ${miniCardHTML("谐度增幅", esc(L.pointText(tnum(o.breakAmp))), "角色面板")}
-          ${miniCardHTML("每层", esc(`${tnum(o.perStackRate)}%`), L.text("每点增幅"))}
-          ${miniCardHTML("最终提升", esc(`+${tnum(o.finalDmgGain)}%`), L.text("最终乘区"))}
-        </div><div class="effect-equation">${esc(L.text("最终伤害提升"))} = ${esc(L.stackTextCompact(tnum(o.stacks)))} × ${esc(L.pointTextCompact(tnum(o.breakAmp)))} × ${esc(tnum(o.perStackRate))}% = <b>${esc(tnum(o.finalDmgGain))}%</b></div>${stateHint}`;
+          const stateHint = o.valid ? "" : `<div class="formula-state-hint">${L.text("需先确认目标处于")}${esc(L.text(o.stateValueLabel || compactOffsetStateName(o.stateValue || "集谐·干涉")))}${L.text("，才应用该收益。")}</div>`;
+          const finalGainTip = formulaSourceTip([
+            staticFormulaSource(L.text(compactState), "层数", o.stacks, L.text("层"), false, true),
+            sourceParts(o.sources, "breakAmp"),
+            staticFormulaSource("固定", "每点增幅", o.perStackRate, "%", false, true),
+          ]);
+          return `${formulaStripHTML([
+            { k: "状态", v: esc(L.text(compactState || "未确认")), sub: o.valid ? "已确认" : "未确认", tip: L.sourceJoin(L.text("目标"), L.text(compactState || "未确认")) },
+            { k: "层数", v: esc(L.stackText(tnum(o.stacks))), sub: "集谐干涉", tip: formulaSourceTip([staticFormulaSource(L.text(compactState), "层数", o.stacks, L.text("层"), false, true)]) },
+            { k: "谐度增幅", v: esc(L.pointText(tnum(o.breakAmp))), sub: "角色面板", tip: offsetBreakAmpTip(o) },
+            { k: "每层", v: esc(`${tnum(o.perStackRate)}%`), sub: L.text("每点增幅"), tip: formulaSourceTip([staticFormulaSource("固定", "每点增幅", o.perStackRate, "%", false, true)]) },
+            { k: "最终提升", v: esc(`+${tnum(o.finalDmgGain)}%`), sub: L.text("最终乘区"), tip: finalGainTip },
+          ], { multiply: false })}${stateHint}`;
         }
-        return `<div class="effect-mini-strip">
-          ${miniCardHTML("状态", esc(L.text(o.currentStateLabel || compactOffsetStateName(o.currentState || "未确认"))), esc(L.text(o.stateValueLabel || compactOffsetStateName(o.stateValue || "—"))))}
-          ${miniCardHTML("层数", esc(L.stackText(tnum(o.stacks))), "状态层数")}
-          ${miniCardHTML("谐度增幅", esc(L.pointText(tnum(o.breakAmp))), "相关角色面板")}
-          ${miniCardHTML("结算", esc(L.text(o.status || "未确认")), "该状态本身不直接造成伤害")}
-        </div>`;
+        const currentState = L.text(o.currentStateLabel || compactOffsetStateName(o.currentState || "未确认"));
+        const expectedState = L.text(o.stateValueLabel || compactOffsetStateName(o.stateValue || "—"));
+        return formulaStripHTML([
+          { k: "状态", v: esc(currentState), sub: esc(expectedState), tip: L.sourceJoin(L.text("目标"), currentState) },
+          { k: "层数", v: esc(L.stackText(tnum(o.stacks))), sub: "状态层数", tip: formulaSourceTip([staticFormulaSource(currentState, "层数", o.stacks, L.text("层"), false, true)]) },
+          { k: "谐度增幅", v: esc(L.pointText(tnum(o.breakAmp))), sub: "相关角色面板", tip: offsetBreakAmpTip(o) },
+          { k: "结算", v: esc(L.text(o.status || "未确认")), sub: "该状态本身不直接造成伤害", tip: L.sourceJoin(L.text("目标"), currentState) },
+        ], { multiply: false });
       }
       if (o.kind === "tuneBreak") {
-        return `<div class="effect-mini-strip effect-mini-strip--formula formula-strip formula-strip--multiply">
-          ${miniCardHTML("谐度基础值", esc(fmt(o.harmonyBase)), esc(offsetCostLabel(o.harmonyBase)), offsetHarmonyBaseTip(o))}
-          ${miniCardHTML("等级倍率", esc(`${tnum(o.multiplier)}%`), "固定等级参数", `${L.text("等级倍率")} = ${tnum(o.multiplier)}%`)}
-          ${miniCardHTML("谐度增幅", esc(fx(o.breakAmpFactor)), L.pointText(esc(tnum(o.breakAmp))), offsetBreakAmpTip(o))}
-          ${miniCardHTML("防御系数", esc(fx(o.defFactor)), offsetDefenseSub(o), offsetDefenseTip(o))}
-          ${offsetDeepenCardHTML(o)}
-          ${miniCardHTML("最终伤害", esc(tnum(o.finalDmg)), `+${tnum((num(o.finalDmg) - 1) * 100)}%`, offsetFinalTip(o))}
-          ${miniCardHTML("固定系数", esc(tnum(o.fixedFactor)), "固定系数0.8", `${L.text("固定系数")} = ${tnum(o.fixedFactor)}`)}
-        </div><div class="effect-equation">${L.text("谐度破坏伤害")} = ${L.text("谐度基础值")} × ${L.text("等级倍率")} × ${L.text("谐度增幅")} × ${L.text("防御系数")} × ${L.text("减伤/易伤")} × ${L.text("最终伤害")} × ${L.text("固定0.8")}</div>`;
+        return formulaStripHTML([
+          { k: "谐度基础值", v: esc(fmt(o.harmonyBase)), sub: esc(offsetCostLabel(o.harmonyBase)), tip: offsetHarmonyBaseTip(o) },
+          { k: "等级倍率", v: esc(`${tnum(o.multiplier)}%`), sub: "固定等级参数", tip: formulaSourceTip([staticFormulaSource("固定等级参数", "等级倍率", o.multiplier, "%", false, true)]) },
+          { k: "谐度增幅", v: esc(fx(o.breakAmpFactor)), sub: L.pointText(esc(tnum(o.breakAmp))), tip: offsetBreakAmpTip(o) },
+          { k: "防御系数", v: esc(fx(o.defFactor)), sub: offsetDefenseSub(o), tip: offsetDefenseTip(o) },
+          offsetDeepenCard(o),
+          { k: "最终伤害提升", v: esc(tnum(o.finalDmg)), sub: `+${tnum((num(o.finalDmg) - 1) * 100)}%`, tip: offsetFinalTip(o) },
+          { k: "固定系数", v: esc(tnum(o.fixedFactor)), sub: "固定系数0.8", tip: formulaSourceTip([staticFormulaSource("固定", "固定系数", o.fixedFactor, "", false, true)]) },
+        ]);
       }
-      const stateHint = o.valid ? "" : `<div class="effect-equation">${L.text("需先确认目标处于")}${esc(L.text(o.requiredState || "对应干涉状态"))}${L.text("，才结算该响应伤害。")}</div>`;
+      const stateHint = o.valid ? "" : `<div class="formula-state-hint">${L.text("需先确认目标处于")}${esc(L.text(o.requiredState || "对应干涉状态"))}${L.text("，才结算该响应伤害。")}</div>`;
       const labels = offsetResponseLabels(o);
-      const critCard = o.fixedCritRate == null ? "" : miniCardHTML(
-        activeDamageMode() === "crit" ? "暴击伤害" : activeDamageMode() === "normal" ? "非暴伤害" : "期望修正",
-        activeDamageMode() === "crit" ? fx(o.cd) : activeDamageMode() === "normal" ? "1" : fx(1 + o.cr * (o.cd - 1)),
-        `${L.stat("暴击率")} ${tnum(o.fixedCritRate)}% · ${L.stat("暴击伤害")} ${tnum(o.fixedCritDamage)}%`
-      );
-      return `<div class="effect-mini-strip effect-mini-strip--formula formula-strip formula-strip--multiply">
-        ${miniCardHTML("谐度基础值", esc(fmt(o.harmonyBase)), esc(offsetCostLabel(o.harmonyBase)), offsetHarmonyBaseTip(o))}
-        ${miniCardHTML(labels.multiplier, esc(`${tnum(o.multiplier)}%`), `${esc(o.label || L.text("响应技能"))} ${esc(L.t("common.levelShort", { value: o.skLevel || 10 }))}`, offsetResponseMultiplierTip(o, labels))}
-        ${miniCardHTML("谐度增幅", esc(fx(o.breakAmpFactor)), L.pointText(esc(tnum(o.breakAmp))), offsetBreakAmpTip(o))}
-        ${offsetDeepenCardHTML(o)}
-        ${miniCardHTML("防御系数", esc(fx(o.defFactor)), offsetDefenseSub(o), offsetDefenseTip(o))}
-        ${miniCardHTML("抗性系数", esc(fx(o.resFactor)), `${L.text("抗性")}${tnum(o.res)}%`, offsetResTip(o))}
-        ${miniCardHTML("最终伤害", esc(tnum(o.finalDmg)), `+${tnum((num(o.finalDmg) - 1) * 100)}%`, offsetFinalTip(o))}
-        ${critCard}
-      </div><div class="effect-equation">${esc(labels.damage)} = ${L.text("谐度基础值")} × ${esc(labels.multiplier)} × ${L.text("谐度增幅")} × ${L.text("防御系数")} × ${L.text("抗性系数")} × ${L.text("减伤/易伤")} × ${L.text("最终伤害")}</div>${stateHint}`;
+      const cards = [
+        { k: "谐度基础值", v: esc(fmt(o.harmonyBase)), sub: esc(offsetCostLabel(o.harmonyBase)), tip: offsetHarmonyBaseTip(o) },
+        { k: labels.multiplier, v: esc(`${tnum(o.multiplier)}%`), sub: `${esc(o.label || L.text("响应技能"))} ${esc(L.t("common.levelShort", { value: o.skLevel || 10 }))}`, tip: offsetResponseMultiplierTip(o) },
+        { k: "谐度增幅", v: esc(fx(o.breakAmpFactor)), sub: L.pointText(esc(tnum(o.breakAmp))), tip: offsetBreakAmpTip(o) },
+        offsetDeepenCard(o),
+        { k: "防御系数", v: esc(fx(o.defFactor)), sub: offsetDefenseSub(o), tip: offsetDefenseTip(o) },
+        { k: "抗性系数", v: esc(fx(o.resFactor)), sub: `${L.text("抗性")}${tnum(o.res)}%`, tip: offsetResTip(o) },
+        { k: "最终伤害提升", v: esc(tnum(o.finalDmg)), sub: `+${tnum((num(o.finalDmg) - 1) * 100)}%`, tip: offsetFinalTip(o) },
+      ];
+      if (o.fixedCritRate != null) {
+        cards.push({
+          k: activeDamageMode() === "crit" ? "暴击伤害" : activeDamageMode() === "normal" ? "非暴伤害" : "期望修正",
+          v: activeDamageMode() === "crit" ? fx(o.cd) : activeDamageMode() === "normal" ? "1" : fx(1 + o.cr * (o.cd - 1)),
+          sub: `${L.stat("暴击率")} ${tnum(o.fixedCritRate)}% · ${L.stat("暴击伤害")} ${tnum(o.fixedCritDamage)}%`,
+          tip: formulaSourceTip([fixedCritSourceParts(o.sources, "critRate"), fixedCritSourceParts(o.sources, "critDamage")]),
+        });
+      }
+      return `${formulaStripHTML(cards)}${stateHint}`;
     }
 
-    function offsetCalcHTML(r) {
+    function offsetInlineControlsHTML(r) {
       const o = r.offset || {};
       if (!o.available) return "";
       const selected = offsetSelectedValue(o);
@@ -1058,61 +1200,194 @@ window.WUWA_STAGE_VIEW = (() => {
         const detail = entry.kind === "response" ? ` (${L.damageType(entry.damageType || "响应")})` : "";
         return `<option value="${esc(entry.optionValue)}" ${entry.optionValue === selected ? "selected" : ""}>${esc(L.text(entry.label))}${detail}</option>`;
       }).join("");
-      return `<div class="effect-calc offset-calc">
-    <div class="effect-head">
-      <span class="effect-title">${esc(L.text("偏移体系"))}</span>
-      <b class="effect-value" id="offset-value">${esc(offsetValueHTML(r))}</b>
-      <span class="effect-cap-text" id="offset-cap-text">${esc(offsetCapTextHTML(r))}</span>
-    </div>
-    <div class="effect-controls">
-      <label class="effect-field"><span>${esc(L.text("体系"))}</span><select data-act="offset-key">${options}</select></label>
-      ${offsetCostControlHTML(o)}
-      ${offsetDetailControlHTML(o)}
-    </div>
-    <div class="effect-formula" id="offset-formula">${offsetFormulaHTML(r)}</div>
-  </div>`;
+      const hasCost = o.enabled && o.kind !== "state";
+      const hasDetail = o.enabled && o.kind !== "tuneBreak";
+      const systemWide = hasCost === hasDetail;
+      return `<div class="result-inline-controls" id="result-inline-controls">
+      <label class="result-inline-field${systemWide ? " result-inline-field--wide" : ""}"><span>${esc(L.text("体系"))}</span><select data-act="offset-key">${options}</select></label>
+      ${offsetCostControlHTML(o, false)}
+      ${offsetDetailControlHTML(o, false)}
+    </div>`;
+    }
+
+    function resultModes(r) {
+      return [
+        { key: "skill", label: L.text("技能伤害"), available: true },
+        { key: "effect", label: L.text("效应伤害"), available: teamEffectKeys().length > 0 },
+        { key: "offset", label: L.text("偏移体系"), available: !!r.offset?.available },
+      ];
+    }
+
+    function activeResultMode(r) {
+      const requested = state.resultMode || "skill";
+      return resultModes(r).some((mode) => mode.key === requested && mode.available) ? requested : "skill";
+    }
+
+    function resultData(r) {
+      const key = activeResultMode(r);
+      const damageMode = DAMAGE_MODES[activeDamageMode()];
+      const outputChar = ch(state.slots[state.outputIdx]?.char);
+      const outputName = outputChar ? L.charName(outputChar) : L.text("空位");
+      if (key === "effect") {
+        const availableKeys = teamEffectKeys();
+        const e = visibleEffectResult(r, availableKeys);
+        const providerChar = e.providerIdx == null ? null : ch(state.slots[e.providerIdx]?.char);
+        const hasDamageModes = !!(e.enabled && e.valid && e.kind !== "defShred" && e.fixedCritRate != null);
+        return {
+          key,
+          kindLabel: L.text("效应伤害"),
+          detailLabel: e.enabled ? L.effect(e.def) : L.t("common.unselected"),
+          sourceName: providerChar ? L.charName(providerChar) : outputName,
+          value: effectValueHTML(r, availableKeys),
+          meta: "",
+          values: hasDamageModes ? { crit: e.critHit, expected: e.expected, normal: e.normal } : null,
+          split: "",
+        };
+      }
+      if (key === "offset") {
+        const o = r.offset || {};
+        const providerChar = o.providerIdx == null ? null : ch(state.slots[o.providerIdx]?.char);
+        const detailLabel = o.kind === "state"
+          ? L.text(o.currentStateLabel || o.stateValueLabel || compactOffsetStateName(o.stateValue || o.label))
+          : o.skill ? L.skillName(o.skill) : L.text(o.label || "谐度破坏伤害");
+        const hasDamageModes = !!(o.enabled && o.valid && o.kind === "response" && o.fixedCritRate != null);
+        return {
+          key,
+          kindLabel: L.text("偏移体系"),
+          detailLabel,
+          sourceName: providerChar ? L.charName(providerChar) : outputName,
+          value: offsetValueHTML(r),
+          meta: "",
+          values: hasDamageModes ? { crit: o.critHit, expected: o.expected, normal: o.normal } : null,
+          split: "",
+        };
+      }
+      return {
+        key: "skill",
+        kindLabel: L.text("技能伤害"),
+        detailLabel: r.sk ? L.skillName(r.sk) : L.t("common.unselected"),
+        sourceName: outputName,
+        value: fmt(damageMode.value(r)),
+        meta: "",
+        values: { crit: r.critHit, expected: r.expected, normal: r.normal },
+        split: damageSplitHTML(r, damageMode.split),
+      };
+    }
+
+    function resultModeTabsHTML(r) {
+      const active = activeResultMode(r);
+      const buttons = resultModes(r).map((mode) =>
+        `<button type="button" class="result-mode-tab${mode.key === active ? " on" : ""}" data-act="result-mode" data-mode="${mode.key}" aria-pressed="${mode.key === active ? "true" : "false"}" ${mode.available ? "" : "disabled"}>${esc(mode.label)}</button>`
+      ).join("");
+      return `<div class="result-mode-tabs" id="result-mode-tabs" role="group" aria-label="${esc(L.text("最终伤害"))}">${buttons}</div>`;
+    }
+
+    function resultDamageLineHTML(data) {
+      if (!data.values) return "";
+      const modeKey = activeDamageMode();
+      const items = [["crit", "out-crit"], ["expected", "out-exp"], ["normal", "out-normal"]];
+      return `<div class="stage-damage-line">${items.map(([key, id]) =>
+        `<button type="button" class="dmg-line-btn${key === modeKey ? " on" : ""}" data-act="dmg-mode" data-mode="${key}">${DAMAGE_MODES[key].label} <b id="${id}">${fmt(data.values[key])}</b></button>`
+      ).join("")}</div>`;
+    }
+
+    function resultMainDisplayHTML(r) {
+      const data = resultData(r);
+      return `<div class="result-main-display" id="result-main-display">
+        <span class="stage-kicker">${esc(data.kindLabel)} · ${esc(data.detailLabel)}</span>
+        <div class="stage-damage" id="out-active">${esc(data.value)}</div>
+        ${resultModeTabsHTML(r)}
+        ${resultDamageLineHTML(data)}
+        <div class="stage-result-meta" id="result-meta">${esc(data.meta)}</div>
+        <div id="out-active-split">${data.split}</div>
+        <span class="damage-dock-sentinel" id="damage-dock-sentinel" aria-hidden="true"></span>
+      </div>`;
+    }
+
+    function resultMainHTML(r) {
+      const mode = activeResultMode(r);
+      const inlineControls = mode === "effect" ? effectInlineControlsHTML(r) : mode === "offset" ? offsetInlineControlsHTML(r) : "";
+      return `<div class="damage-main" id="result-main">
+        ${resultMainDisplayHTML(r)}
+        ${inlineControls}
+      </div>`;
+    }
+
+    function topbarOutputSetIconsHTML(slot) {
+      const ids = teamEchoSetIds(slot).filter(Boolean);
+      const names = ids.map(sonataDisplayName);
+      return `<span class="topbar-output-set-icons" title="${esc(names.join(" + "))}">${ids.map((id, i) => {
+        const name = sonataDisplayName(id);
+        const separator = i ? `<span class="echo-set-plus">+</span>` : "";
+        return `${separator}<span class="echo-set-chip" role="img" aria-label="${esc(name)}" title="${esc(name)}" data-tip="${esc(name)}">${sonataIconHTML(sonataById(id))}</span>`;
+      }).join("")}</span>`;
+    }
+
+    function topbarOutputSlotHTML(slot, idx) {
+      const c = ch(slot.char);
+      if (!c) {
+        return `<button type="button" class="topbar-output-slot topbar-output-slot--empty" disabled><span>${esc(L.t("common.empty"))}</span></button>`;
+      }
+      const e = slot.echo;
+      syncEchoLead(e, c.element);
+      const lead = leadChoicesForEcho(e).find((choice) => choice.key === e.lead);
+      const leadName = leadEchoDisplayName(lead);
+      const charName = L.charName(c);
+      const build = `${num(slot.seq)}+${num(slot.rank) || 1}`;
+      const avatar = c.portrait
+        ? `<img class="topbar-output-avatar" src="${esc(c.portrait)}" alt="" onerror="this.style.display='none'" />`
+        : `<span class="topbar-output-avatar topbar-output-avatar--fallback">${esc(charName.slice(0, 1))}</span>`;
+      const setNames = teamEchoSetIds(slot).filter(Boolean).map(sonataDisplayName).join(" + ");
+      const aria = [charName, build, setNames, leadName].filter(Boolean).join(" · ");
+      return `<button type="button" class="topbar-output-slot${idx === state.outputIdx ? " on" : ""}" data-act="dock-output" data-slot="${idx}" aria-pressed="${idx === state.outputIdx ? "true" : "false"}" aria-label="${esc(aria)}">
+      <span class="topbar-output-identity">${avatar}<b>${esc(charName)}</b><span class="topbar-output-build">${esc(build)}</span></span>
+      <span class="topbar-output-gear">${topbarOutputSetIconsHTML(slot)}<span class="topbar-output-lead" title="${esc(leadName)}">${esc(leadName)}</span></span>
+    </button>`;
+    }
+
+    function damageDockHTML(r) {
+      const data = resultData(r);
+      const mode = activeDamageMode();
+      const modeLabel = data.values ? DAMAGE_MODES[mode].label : data.kindLabel;
+      const value = data.values ? fmt(data.values[mode]) : data.value;
+      return `<div class="topbar-damage-dock" id="topbar-damage-dock" role="group" aria-label="${esc(L.text("最终伤害"))}" hidden>
+      <div class="topbar-damage-summary"><span>${esc(modeLabel)}</span><b id="dock-out-active">${esc(value)}</b><span class="topbar-damage-skill" title="${esc(data.detailLabel)}">${esc(data.detailLabel)}</span></div>
+      <div class="topbar-output-slots" role="group" aria-label="${esc(L.text("本次结算"))}">${state.slots.map(topbarOutputSlotHTML).join("")}</div>
+    </div>`;
+    }
+
+    function resultFormulaBodyHTML(r) {
+      const data = resultData(r);
+      const formula = data.key === "effect"
+        ? effectFormulaHTML(r)
+        : data.key === "offset"
+          ? offsetFormulaHTML(r)
+          : formulaStripHTML(damageMetricCardsHTML(r), { id: "metric-strip" });
+      return `<div class="result-formula-body" id="result-formula-body">${formula}</div>`;
+    }
+
+    function resultFormulaHTML(r) {
+      const data = resultData(r);
+      return `<div class="result-formula result-formula--${data.key}" id="result-formula">
+      <div class="result-formula-head"><span>${esc(L.text("伤害公式"))}</span>${targetControlsHTML(r)}</div>
+      ${resultFormulaBodyHTML(r)}
+    </div>`;
+    }
+
+    function settlementStageHTML(r) {
+      return `<section class="stage-card settlement-stage" id="settlement-stage">${calcControlsHTML(r)}</section>`;
     }
 
     function damageStageHTML(r) {
-      const modeKey = activeDamageMode();
-      const mode = DAMAGE_MODES[modeKey];
-      const activeValue = mode.value(r);
-      const lineModes = [["crit", "out-crit", r.critHit], ["expected", "out-exp", r.expected], ["normal", "out-normal", r.normal]];
-      const lineHTML = lineModes.map(([key, id, val]) =>
-        `<button type="button" class="dmg-line-btn${key === modeKey ? " on" : ""}" data-act="dmg-mode" data-mode="${key}">${DAMAGE_MODES[key].label} <b id="${id}">${fmt(val)}</b></button>`
-      ).join("");
-      return `<section class="stage-card damage-stage">
+      return `<section class="stage-card damage-stage damage-overview-stage" id="damage-result-source">
     <div class="damage-hero">
-      <div class="damage-main">
-        <span class="stage-kicker">${esc(L.text("最终伤害"))} · ${mode.label}</span>
-        <div class="stage-damage" id="out-active">${fmt(activeValue)}</div>
-        <div class="stage-damage-line">${lineHTML}</div>
-        <div id="out-active-split">${damageSplitHTML(r, mode.split)}</div>
-      </div>
+      ${resultMainHTML(r)}
       <div class="hero-team">
         ${teamCardsHTML()}
       </div>
     </div>
-    ${targetControlsHTML(r)}
-    <div class="metric-strip formula-strip formula-strip--multiply" id="metric-strip">${damageMetricCardsHTML(r)}</div>
-    ${damageLowerHTML(r)}
+    ${resultFormulaHTML(r)}
   </section>`;
-    }
-
-    function independentDamageHTML(r) {
-      const effectHTML = effectCalcHTML(r);
-      const offsetHTML = offsetCalcHTML(r);
-      return `${effectHTML ? `<div id="out-effect">${effectHTML}</div>` : ""}${offsetHTML ? `<div id="out-offset">${offsetHTML}</div>` : ""}`;
-    }
-
-    function damageLowerHTML(r) {
-      const independentHTML = independentDamageHTML(r);
-      return `<div class="damage-lower${independentHTML ? "" : " no-independent"}" id="damage-lower">
-      <div class="damage-control-main">
-        ${calcControlsHTML(r)}
-      </div>
-      ${independentHTML ? `<div class="damage-control-stack"><div class="other-damage-head">${esc(L.text("其它伤害 · 独立结算"))}</div>${independentHTML}</div>` : ""}
-    </div>`;
     }
 
     function panelStageHTML(r) {
@@ -1138,10 +1413,11 @@ window.WUWA_STAGE_VIEW = (() => {
 
     function stageLayoutHTML(r) {
       return `<div class="stage-shell">
-    ${stageTopbarHTML()}
+    ${stageTopbarHTML(r)}
     ${damageStageHTML(r)}
     <div class="stage-grid">
       <div class="stage-stack">
+        ${settlementStageHTML(r)}
         ${panelStageHTML(r)}
       </div>
       <div class="stage-stack">
@@ -1156,7 +1432,7 @@ window.WUWA_STAGE_VIEW = (() => {
       const s1 = state.slots[oi];
       const cat0 = (r.selectedSk || r.sk) ? (r.selectedSk || r.sk).category : "";
       const curLv = (cat0 && s1.skillLevels && s1.skillLevels[cat0]) || 10;
-      return `<div class="control-card">
+      return `<div class="settlement-content">
     <div class="card-head"><span>${esc(L.text("本次结算"))}</span><small>${esc(L.text("技能"))} / ${esc(L.text("入场"))} / ${esc(L.text("条件"))}</small></div>
     <div class="skill-control-row">
       <div class="field"><label>${esc(L.text("技能"))}</label><select data-act="skill" data-slot="${oi}">${skillOptions(s1)}</select></div>
@@ -1169,10 +1445,40 @@ window.WUWA_STAGE_VIEW = (() => {
 
     function targetControlsHTML(r) {
       const e = state.enemy;
-      const enemyField = ({ key, label, hint, step = "0.1", autoValue = 0 }) => {
+      const resistanceHintHTML = () => {
+        const rows = [
+          ["openWorld", "10%", "40%"],
+          ["tacticalHologram", "10%", "80%"],
+          ["towerOfAdversity", "20%", "60%"],
+          ["endstateMatrix", "20%", "40%"],
+          ["whimperingWastesEndless", "20%", "50%"],
+          ["whimperingWastesHigh", "20%", "50%"],
+        ];
+        const rowHTML = rows.map(([mode, base, matching]) => `<span class="res-help-row" role="row">
+          <span role="cell">${esc(L.t(`hints.res.modes.${mode}`))}</span>
+          <span role="cell">${base}</span>
+          <span role="cell">${matching}</span>
+        </span>`).join("");
+        return `<span class="help res-help" tabindex="0" role="note" aria-label="${esc(L.t("hints.res.aria"))}">?<span class="help-tip res-help-tip" role="tooltip">
+          <span class="res-help-intro">${esc(L.t("hints.res.intro"))}</span>
+          <span class="res-help-definition">${esc(L.t("hints.res.definition"))}</span>
+          <span class="res-help-grid" role="table">
+            <span class="res-help-row res-help-head" role="row">
+              <span role="columnheader">${esc(L.t("hints.res.headers.mode"))}</span>
+              <span role="columnheader">${esc(L.t("hints.res.headers.base"))}</span>
+              <span role="columnheader">${esc(L.t("hints.res.headers.matching"))}</span>
+            </span>
+            ${rowHTML}
+          </span>
+          <span class="res-help-note">${esc(L.t("hints.res.note"))}</span>
+          <span class="res-help-source">${esc(L.t("hints.res.source"))}</span>
+        </span></span>`;
+      };
+      const enemyField = ({ key, label, hint, helpHTML = "", step = "0.1", autoValue = 0 }) => {
         const auto = num(autoValue);
         const total = num(e[key]) + auto;
-        return `<label class="effect-field"><span>${label}${hint ? `<span class="help" tabindex="0" role="note" aria-label="${esc(hint)}">?<span class="help-tip" role="tooltip">${esc(hint)}</span></span>` : ""}</span><input type="number" step="${esc(step)}" data-act="enemy" data-key="${esc(key)}" data-total="1" data-auto="${esc(auto)}" value="${esc(tnum(total))}" /></label>`;
+        const help = helpHTML || (hint ? `<span class="help" tabindex="0" role="note" aria-label="${esc(hint)}">?<span class="help-tip" role="tooltip">${esc(hint)}</span></span>` : "");
+        return `<label class="effect-field"><span>${label}${help}</span><input type="number" step="${esc(step)}" data-act="enemy" data-key="${esc(key)}" data-total="1" data-auto="${esc(auto)}" value="${esc(tnum(total))}" /></label>`;
       };
       const autoDefShred = num(r?.defense?.buffDefShred) + num(r?.defense?.effectDefShred);
       const defHint = r?.defense && r.defense.effectDefShred
@@ -1180,7 +1486,7 @@ window.WUWA_STAGE_VIEW = (() => {
         : L.t("hints.defShred");
       const baseFields = [
         { key: "enemyLevel", label: L.text("敌方等级"), step: "1" },
-        { key: "res", label: L.text("属性抗性%"), hint: RES_HINT },
+        { key: "res", label: L.text("属性抗性%"), helpHTML: resistanceHintHTML() },
         { key: "resShred", label: L.text("属性减抗%"), autoValue: r?.totals?.resShred },
       ];
       const extraFields = [
@@ -1194,11 +1500,10 @@ window.WUWA_STAGE_VIEW = (() => {
       const visibleExtraFields = extraFields.filter(shouldShowExtra);
       const hiddenExtraCount = extraFields.length - visibleExtraFields.length;
       const toggle = hiddenExtraCount || state.showTargetExtras
-        ? `<button type="button" class="metric-extra-toggle${state.showTargetExtras ? " on" : ""}" data-act="target-extra-toggle">${esc(state.showTargetExtras ? L.t("common.collapse") : L.t("common.more"))}</button>`
+        ? `<button type="button" class="formula-target-toggle${state.showTargetExtras ? " on" : ""}" data-act="target-extra-toggle">${esc(state.showTargetExtras ? L.t("common.collapse") : L.t("common.more"))}</button>`
         : "";
-      const columnCount = baseFields.length + extraFields.length + (toggle ? 1 : 0);
-      return `<div class="effect-calc metric-extra" id="target-controls">
-    <div class="effect-controls metric-extra-fields" style="--metric-extra-columns:${columnCount}">
+      return `<div class="formula-target-controls" id="target-controls">
+    <div class="effect-controls formula-target-fields">
       ${baseFields.concat(visibleExtraFields).map(enemyField).join("")}
       ${toggle}
     </div>
@@ -1208,8 +1513,9 @@ window.WUWA_STAGE_VIEW = (() => {
     return {
       stageLayoutHTML, typeTagHTML, damageMetricCardsHTML, activeDamageMode,
       effectValueHTML, effectFormulaHTML, effectCapTextHTML,
-      offsetValueHTML, offsetFormulaHTML, offsetCapTextHTML,
-      targetControlsHTML, damageLowerHTML, buffStageHTML,
+      offsetValueHTML, offsetFormulaHTML,
+      activeResultMode, resultMainDisplayHTML, resultMainHTML, resultFormulaBodyHTML, resultFormulaHTML, damageDockHTML,
+      settlementStageHTML, buffStageHTML,
     };
   }
 

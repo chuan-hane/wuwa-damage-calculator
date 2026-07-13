@@ -13,7 +13,7 @@ const {
   num, effectKeyOf,
 } = window.WUWA_RULES;
 const {
-  fmt, esc, DAMAGE_MODES, damageSplitHTML,
+  esc,
 } = window.WUWA_RENDER_HELPERS;
 const defaultEcho = (charId) => defaultEchoForChar(charId ? ch(charId) : null);
 // 面板默认展开的「添加」行：治疗辅助(validSubs 含 heal)默认带治疗效果加成行
@@ -46,6 +46,7 @@ function clearCharacter(idx) {
 const state = {
   lang: L.current(),
   outputIdx: 0, // 当前作「输出位」的号位（结算列可切 1/2/3）；其余位作支援
+  resultMode: "skill", // 顶部统一结算：skill / effect / offset
   damageMode: "crit", // 顶部伤害显示：crit / expected / normal
   showDesc: false, // buff 第二行默认显示短摘；由 Buff 区「原文」开关切到完整文本
   showTargetExtras: false, // 目标参数行额外乘区默认折叠，只在有生效来源或用户展开时显示
@@ -71,13 +72,12 @@ const {
   panelEntryTableHTML, refreshPanelEntryTotals,
 } = window.WUWA_PANEL_VIEW.create({ state, ch, wp, echoStats, echoFieldValues, slotBuffs, buffStatus, buffValue, setHTML });
 const {
-  stageLayoutHTML, typeTagHTML, damageMetricCardsHTML, activeDamageMode,
-  effectValueHTML, effectFormulaHTML, effectCapTextHTML,
-  offsetValueHTML, offsetFormulaHTML, offsetCapTextHTML,
-  targetControlsHTML, damageLowerHTML, buffStageHTML,
+  stageLayoutHTML, typeTagHTML,
+  resultMainDisplayHTML, resultMainHTML, resultFormulaBodyHTML, resultFormulaHTML, damageDockHTML,
+  settlementStageHTML, buffStageHTML,
 } = window.WUWA_STAGE_VIEW.create({
   state, W, ch, wp, WEAPONS, SONATAS, leadChoicesForEcho, syncEchoLead,
-  ECHO_COSTS, echoMainOptions, echoSubOptions, echoSubValues, echoFixedMain, ensureEchoDetail, echoDetailSummary, statLabel,
+  ECHO_COSTS, echoMainOptions, echoSubOptions, echoSubValues, echoFixedMain, ensureEchoDetail, echoDetailSummary, statLabel, echoStats,
   availableSkills, selectedSkill, resourceControlsForSlot, resolvedSkill, stateControlsHTML,
   panelEntryTableHTML, autoResolutionHTML, settlementBuffRowsHTML,
 });
@@ -112,12 +112,32 @@ function syncLanguage() {
   if (typeof document !== "undefined") document.title = title;
 }
 
+let damageDockFrame = 0;
+
+function syncDamageDock() {
+  damageDockFrame = 0;
+  if (typeof document === "undefined" || typeof document.querySelector !== "function") return;
+  const dock = document.getElementById("topbar-damage-dock");
+  const topbar = document.querySelector(".stage-topbar");
+  const source = document.getElementById("damage-dock-sentinel");
+  if (!dock || !topbar || !source) return;
+  const dockHeight = dock.hidden ? 0 : dock.getBoundingClientRect().height;
+  const topbarBaseBottom = topbar.getBoundingClientRect().bottom - dockHeight;
+  dock.hidden = source.getBoundingClientRect().top > topbarBaseBottom;
+}
+
+function queueDamageDockSync() {
+  if (damageDockFrame || typeof window.requestAnimationFrame !== "function") return;
+  damageDockFrame = window.requestAnimationFrame(syncDamageDock);
+}
+
 function render() {
   syncLanguage();
   withScrollRestore(() => {
     const r = compute();
     board.innerHTML = stageLayoutHTML(r);
     bind();
+    syncDamageDock();
   });
 }
 function setHTML(id, h) { const el = document.getElementById(id); if (el) el.innerHTML = h; }
@@ -127,15 +147,16 @@ function replaceOuterHTML(id, h) {
   el.outerHTML = h;
   return document.getElementById(id);
 }
-function refreshEffectInline(r) {
-  setHTML("effect-value", esc(effectValueHTML(r)));
-  setHTML("effect-cap-text", esc(effectCapTextHTML(r)));
-  setHTML("effect-formula", effectFormulaHTML(r));
-}
-function refreshOffsetInline(r) {
-  setHTML("offset-value", esc(offsetValueHTML(r)));
-  setHTML("offset-cap-text", esc(offsetCapTextHTML(r)));
-  setHTML("offset-formula", offsetFormulaHTML(r));
+
+function refreshResultDisplay(r) {
+  const resultMainDisplay = replaceOuterHTML("result-main-display", resultMainDisplayHTML(r));
+  const resultFormulaBody = replaceOuterHTML("result-formula-body", resultFormulaBodyHTML(r));
+  const damageDock = replaceOuterHTML("topbar-damage-dock", damageDockHTML(r));
+  if (!resultMainDisplay || !resultFormulaBody || !damageDock) return false;
+  bind(resultMainDisplay);
+  bind(resultFormulaBody);
+  syncDamageDock();
+  return true;
 }
 
 function targetAutoValues(r) {
@@ -165,15 +186,7 @@ function repaint() {
   const r = compute();
   refreshPanelEntryTotals(r);
   setHTML("dmg-type", typeTagHTML(r));
-  setHTML("out-exp", fmt(r.expected));
-  setHTML("out-normal", fmt(r.normal));
-  setHTML("out-crit", fmt(r.critHit));
-  const mode = DAMAGE_MODES[activeDamageMode()];
-  setHTML("out-active", fmt(mode.value(r)));
-  setHTML("out-active-split", damageSplitHTML(r, mode.split));
-  refreshEffectInline(r);
-  refreshOffsetInline(r);
-  setHTML("metric-strip", damageMetricCardsHTML(r));
+  if (!refreshResultDisplay(r)) { render(); return; }
   refreshTargetInputs(r);
   // 叠层 / 按属性换算 buff 的「当前公式」实时刷新（纯文本，不动输入框）
   state.slots.forEach((slot, idx) => {
@@ -187,20 +200,15 @@ function refreshAfterBuffToggle() {
   withScrollRestore(() => {
     const r = compute();
     refreshPanelEntryTotals(r);
-    setHTML("out-exp", fmt(r.expected));
-    setHTML("out-normal", fmt(r.normal));
-    setHTML("out-crit", fmt(r.critHit));
-    const mode = DAMAGE_MODES[activeDamageMode()];
-    setHTML("out-active", fmt(mode.value(r)));
-    setHTML("out-active-split", damageSplitHTML(r, mode.split));
-    setHTML("metric-strip", damageMetricCardsHTML(r));
-    const targetControls = replaceOuterHTML("target-controls", targetControlsHTML(r));
-    const lower = replaceOuterHTML("damage-lower", damageLowerHTML(r));
+    const resultMain = replaceOuterHTML("result-main", resultMainHTML(r));
+    const resultFormula = replaceOuterHTML("result-formula", resultFormulaHTML(r));
+    const settlementStage = replaceOuterHTML("settlement-stage", settlementStageHTML(r));
+    const damageDock = replaceOuterHTML("topbar-damage-dock", damageDockHTML(r));
     const buffStage = replaceOuterHTML("buff-stage", buffStageHTML());
-    if (!targetControls || !lower || !buffStage) { render(); return; }
-    bind(targetControls);
-    bind(lower);
-    bind(buffStage);
+    const sections = [resultMain, resultFormula, settlementStage, damageDock, buffStage];
+    if (sections.some((section) => !section)) { render(); return; }
+    sections.forEach(bind);
+    syncDamageDock();
   });
 }
 
@@ -519,7 +527,9 @@ function updateDetailEcho(idx, echoIdx, update) {
 const ACTIONS = {
   language: (el) => { el.onclick = () => { state.lang = el.dataset.lang || "zh-CN"; render(); }; },
   output: (el, idx) => { el.onclick = (ev) => { if (ev.target.closest("button, select, input, .combo, .echo-set-chip")) return; state.outputIdx = idx; render(); }; },
+  "dock-output": (el, idx) => { el.onclick = () => { if (state.outputIdx === idx) return; state.outputIdx = idx; render(); }; },
   "clear-slot": (el, idx) => { el.onclick = (ev) => { ev.stopPropagation(); clearCharacter(idx); render(); }; },
+  "result-mode": (el) => { el.onclick = () => { state.resultMode = el.dataset.mode || "skill"; render(); }; },
   "dmg-mode": (el) => { el.onclick = () => { state.damageMode = el.dataset.mode; render(); }; },
   "effect-key": (el) => { el.onchange = () => {
     const def = window.WUWA_RULES.EFFECT_DEFS[el.value] || window.WUWA_RULES.EFFECT_DEFS.none;
@@ -646,4 +656,8 @@ function filterCombo(input) {
   });
 }
 
+if (typeof window.addEventListener === "function") {
+  window.addEventListener("scroll", queueDamageDockSync, { passive: true });
+  window.addEventListener("resize", queueDamageDockSync);
+}
 render();

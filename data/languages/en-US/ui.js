@@ -45,7 +45,22 @@ window.WUWA_LANGUAGES.extend("en-US", {
       expected: "Expected split: "
     },
     hints: {
-      res: "Open-world enemies usually have 10% base RES to all attributes. If an enemy has a stated attribute RES bonus, add another 30% RES for that attribute.",
+      res: {
+        aria: "Attribute RES reference. Base RES applies to all attributes. Matching RES is the attribute RES corresponding to the target's own attribute. If a mode explicitly states that a certain attribute's RES is increased, add the stated amount to that attribute's RES.",
+        intro: "Target Attribute RES reference (current test results)",
+        definition: "Base RES applies to all attributes; Matching RES is the attribute RES corresponding to the target's own attribute.",
+        headers: { mode: "Mode", base: "Base RES", matching: "Matching RES" },
+        modes: {
+          openWorld: "Open World",
+          tacticalHologram: "Tactical Hologram",
+          towerOfAdversity: "Tower of Adversity",
+          endstateMatrix: "Endstate Matrix",
+          whimperingWastesEndless: "Whimpering Wastes · Endless",
+          whimperingWastesHigh: "Whimpering Wastes · Floors 9–11"
+        },
+        note: "If a mode explicitly states that a certain attribute's RES is increased, add the stated amount to that attribute's RES. For example, if Whimpering Wastes states “Aero RES increased by 20%” and you deal Aero DMG, Base RES becomes “20% + 20% = 40%,” while Matching RES becomes “50% + 20% = 70%.”",
+        source: "Enter the current target's value manually."
+      },
       defShred: "This input shows and edits total DEF Shred. Auto sources such as Buffs are included in real time.",
       defShredWithHavocBane: "This input shows and edits total DEF Shred, including {value}% from Havoc Bane."
     }

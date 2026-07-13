@@ -3,7 +3,7 @@
 window.WUWA_SETTLEMENT = (() => {
   function create({ state, ch, wp, echoStats, weaponBuffs, sonataBuffs, esc }) {
     const {
-      SEC_ZONE, skillLevelRatio, skillMultValue, num, zeros, EFFECT_DEFS, effectKeyOf,
+      SEC_ZONE, skillLevelRatio, skillMultValue, num, zeros, EFFECT_DEFS, EFFECT_ORDER, effectKeyOf,
     } = window.WUWA_RULES;
     const L = window.WUWA_LANGUAGES;
 
@@ -38,6 +38,28 @@ window.WUWA_SETTLEMENT = (() => {
       const weapon = weaponBuffs(slot.weapon, slot.rank).map((b) => ({ ...b, provider: "武器" }));
       const sonata = sonataBuffs(slot).map((b) => ({ ...b, provider: "声骸" }));
       return [...own, ...chain, ...weapon, ...sonata].filter((buff) => buffCompatibleWithSelectedCombatStateFilters(slot, buff));
+    }
+
+    function buffSourcePart(slot, buff, value, extra = {}) {
+      return {
+        charId: slot.char,
+        provider: buff.provider || "",
+        source: buff.source || "",
+        label: buff.label || "",
+        zone: buff.zone || "",
+        type: buff.type,
+        damageType: buff.damageType,
+        effect: buff.effect,
+        value,
+        suffix: buff.zone === "attackFlat" ? "" : "%",
+        signed: true,
+        ...extra,
+      };
+    }
+
+    function addBuffSource(sources, key, slot, buff, value, extra = {}) {
+      if (!sources[key]) sources[key] = [];
+      sources[key].push(buffSourcePart(slot, buff, value, extra));
     }
 
     function skillUnlocked(slot, sk) {
@@ -1289,6 +1311,32 @@ window.WUWA_SETTLEMENT = (() => {
       return state.slots.some((slot) => slotProvidesEffect(slot, effectKey));
     }
 
+    function availableEffectKeys() {
+      const keys = new Set(state.slots.flatMap(explicitEffectKeysForSlot));
+      return EFFECT_ORDER.filter((key) => key !== "none" && keys.has(key));
+    }
+
+    function syncEffectSelection() {
+      const keys = availableEffectKeys();
+      if (!keys.length) return;
+      const calc = state.effectCalc || (state.effectCalc = {});
+      const currentKey = effectKeyOf(calc.key);
+      if (keys.includes(currentKey)) {
+        const providerSlot = state.slots[calc.providerIdx];
+        calc.providerIdx = providerSlot && slotProvidesEffect(providerSlot, currentKey)
+          ? calc.providerIdx
+          : state.slots.findIndex((slot) => slotProvidesEffect(slot, currentKey));
+        return;
+      }
+      const key = keys[0];
+      const def = EFFECT_DEFS[key];
+      calc.key = key;
+      calc.providerIdx = state.slots.findIndex((slot) => slotProvidesEffect(slot, key));
+      calc.stacks = def.defaultStacks ?? 0;
+      calc.stackMode = "auto";
+      calc.electroRageStacks = 0;
+    }
+
     function effectProviderIndex(effectKey) {
       const requested = Math.round(num(state.effectCalc?.providerIdx, -1));
       if (state.slots[requested] && slotProvidesEffect(state.slots[requested], effectKey)) return requested;
@@ -1296,17 +1344,20 @@ window.WUWA_SETTLEMENT = (() => {
       return found >= 0 ? found : state.outputIdx;
     }
 
-    function attackForSlot(idx) {
+    function attackInfoForSlot(idx) {
       const slot = state.slots[idx];
       const c = ch(slot && slot.char);
-      if (!c) return 0;
+      if (!c) return { value: 0, sources: {} };
       const w = wp(slot.weapon);
       const b = aggregate(idx);
       const es = echoStats(slot);
       const tree = c.base.tree || {};
       const baseAtk = c.base.attack + (w ? num(w.attack90) : 0);
       const atkPct = (tree.attackPct || 0) + b.attackPercent + es.attackPercent;
-      return baseAtk * (1 + atkPct / 100) + es.flatAtk + b.attackFlat;
+      return {
+        value: baseAtk * (1 + atkPct / 100) + es.flatAtk + b.attackFlat,
+        sources: b.sources,
+      };
     }
 
     function scaleBySourceSlot(slot, scale, outputIdx = state.outputIdx) {
@@ -1356,36 +1407,60 @@ window.WUWA_SETTLEMENT = (() => {
 
     function aggregate(outputIdx = state.outputIdx) {
       const t = zeros();
+      t.sources = {};
       const ctx = dpsContext(outputIdx);
       state.slots.forEach((slot, idx) => {
         slotBuffs(slot).forEach((buff) => {
           if (buff.effect) return;
           const type = buff.type || buff.damageType;
           if (buff.zone === "typeBonus" && !damageRequirementMatches(ctx, type)) return;
-          if (buffStatus(slot, idx, buff, new Set(), outputIdx).applies && t[buff.zone] !== undefined) t[buff.zone] += buffValue(slot, buff, idx, outputIdx);
+          if (!buffStatus(slot, idx, buff, new Set(), outputIdx).applies || t[buff.zone] === undefined) return;
+          const value = buffValue(slot, buff, idx, outputIdx);
+          t[buff.zone] += value;
+          addBuffSource(t.sources, buff.zone, slot, buff, value);
         });
       });
       return t;
     }
 
-    function outputBreakAmp(outputIdx = state.outputIdx) {
+    function outputBreakAmpInfo(outputIdx = state.outputIdx) {
       const slot = state.slots[outputIdx];
       const c = ch(slot.char);
-      if (!c) return 0;
+      if (!c) return { value: 0, sources: [] };
       const tree = c.base.tree || {};
-      let total = (c.base.breakAmp ?? 0) + (tree.breakAmp || 0) + num(echoStats(slot).breakAmp);
+      const base = c.base.breakAmp ?? 0;
+      const treeValue = tree.breakAmp || 0;
+      const echoValue = num(echoStats(slot).breakAmp);
+      let total = base + treeValue + echoValue;
+      const sources = [];
+      if (base) sources.push({ source: "角色基础", label: "谐度破坏增幅", value: base, suffix: "%", signed: false });
+      if (treeValue) sources.push({ source: "属性树", label: "谐度破坏增幅", value: treeValue, suffix: "%", signed: true });
+      if (echoValue) sources.push({ source: "声骸", label: "谐度破坏增幅", value: echoValue, suffix: "%", signed: true });
       state.slots.forEach((providerSlot, providerIdx) => {
         slotBuffs(providerSlot).forEach((buff) => {
           if (buff.zone !== "breakAmp") return;
           if (!buffStatus(providerSlot, providerIdx, buff, new Set(), outputIdx).applies) return;
-          total += buffValue(providerSlot, buff, providerIdx, outputIdx);
+          const value = buffValue(providerSlot, buff, providerIdx, outputIdx);
+          total += value;
+          sources.push(buffSourcePart(providerSlot, buff, value));
         });
       });
-      return total;
+      return { value: total, sources };
+    }
+
+    function outputBreakAmp(outputIdx = state.outputIdx) {
+      return outputBreakAmpInfo(outputIdx).value;
     }
 
     function harmonyResponseAggregate(outputIdx = state.outputIdx, ctxOverride = null) {
-      const t = { breakAmp: outputBreakAmp(outputIdx), skillMultBonus: 0, amplify: 0, vulnerability: 0, finalDmg: 0, resShred: 0, defShred: 0, defIgnore: 0, fixedCritRate: null, fixedCritDamage: null };
+      const breakAmp = outputBreakAmpInfo(outputIdx);
+      const t = {
+        breakAmp: breakAmp.value,
+        skillMultBonus: 0, amplify: 0, vulnerability: 0, finalDmg: 0,
+        resShred: 0, defShred: 0, defIgnore: 0,
+        fixedCritRate: null, fixedCritDamage: null,
+        sources: { breakAmp: breakAmp.sources },
+      };
       const ctx = ctxOverride || dpsContext(outputIdx);
       state.slots.forEach((slot, idx) => {
         slotBuffs(slot).forEach((buff) => {
@@ -1393,11 +1468,18 @@ window.WUWA_SETTLEMENT = (() => {
           if (buff.zone === "fixedCrit" && buffExplicitlyTargetsCurrentSkill(buff, ctx)) {
             t.fixedCritRate = Math.max(num(t.fixedCritRate), num(buff.critRate));
             t.fixedCritDamage = Math.max(num(t.fixedCritDamage), num(buff.critDamage));
+            addBuffSource(t.sources, "fixedCrit", slot, buff, 0, { critRate: num(buff.critRate), critDamage: num(buff.critDamage), signed: false });
             return;
           }
           const v = buffValue(slot, buff, idx, outputIdx, ctx);
-          if (HARMONY_RESPONSE_DEFENSE_ZONES.has(buff.zone)) t[buff.zone] += v;
-          if (HARMONY_RESPONSE_EXPLICIT_ZONES.has(buff.zone) && buffExplicitlyTargetsCurrentSkill(buff, ctx)) t[buff.zone] += v;
+          if (HARMONY_RESPONSE_DEFENSE_ZONES.has(buff.zone)) {
+            t[buff.zone] += v;
+            addBuffSource(t.sources, buff.zone, slot, buff, v);
+          }
+          if (HARMONY_RESPONSE_EXPLICIT_ZONES.has(buff.zone) && buffExplicitlyTargetsCurrentSkill(buff, ctx)) {
+            t[buff.zone] += v;
+            addBuffSource(t.sources, buff.zone, slot, buff, v);
+          }
         });
       });
       return t;
@@ -1576,6 +1658,7 @@ window.WUWA_SETTLEMENT = (() => {
         finalDmg: 0, buffFinalDmg: 0, extraRate: 0,
         resShred: 0, defShred: 0, defIgnore: 0,
         fixedCritRate: null, fixedCritDamage: null,
+        sources: {},
       };
       state.slots.forEach((slot, idx) => {
         slotBuffs(slot).forEach((buff) => {
@@ -1588,23 +1671,30 @@ window.WUWA_SETTLEMENT = (() => {
           if (effectSpecific && EFFECT_DEEPEN_ZONES.has(buff.zone)) {
             t.deepen += v;
             t.buffDeepen += v;
+            addBuffSource(t.sources, buff.zone, slot, buff, v);
             return;
           }
           if (effectSpecific && buff.zone === "finalDmg") {
             t.finalDmg += v;
             t.buffFinalDmg += v;
+            addBuffSource(t.sources, buff.zone, slot, buff, v);
             return;
           }
           if (effectSpecific && buff.zone === "effectExtraRate") {
             t.extraRate += v;
+            addBuffSource(t.sources, buff.zone, slot, buff, v);
             return;
           }
           if (effectSpecific && buff.zone === "fixedCrit") {
             t.fixedCritRate = Math.max(num(t.fixedCritRate), num(buff.critRate));
             t.fixedCritDamage = Math.max(num(t.fixedCritDamage), num(buff.critDamage));
+            addBuffSource(t.sources, buff.zone, slot, buff, 0, { critRate: num(buff.critRate), critDamage: num(buff.critDamage), signed: false });
             return;
           }
-          if (EFFECT_DEFENSE_ZONES.has(buff.zone)) t[buff.zone] += v;
+          if (EFFECT_DEFENSE_ZONES.has(buff.zone)) {
+            t[buff.zone] += v;
+            addBuffSource(t.sources, buff.zone, slot, buff, v);
+          }
         });
       });
       return t;
@@ -1619,7 +1709,8 @@ window.WUWA_SETTLEMENT = (() => {
       const providerIdx = effectProviderIndex(key);
       const providerSlot = state.slots[providerIdx];
       const providerChar = ch(providerSlot && providerSlot.char);
-      const effectAtk = attackForSlot(providerIdx);
+      const attackInfo = attackInfoForSlot(providerIdx);
+      const effectAtk = attackInfo.value;
       const capInfo = effectCap(def, providerIdx);
       const cap = capInfo.value;
       const actionStacks = providerIdx === state.outputIdx && calc.stackMode !== "manual"
@@ -1658,6 +1749,7 @@ window.WUWA_SETTLEMENT = (() => {
         rageRate: baseInfo.rageRate, extraRate: baseInfo.extraRate || 0, attack: baseInfo.attack,
         valid: baseInfo.valid, deepen: b.deepen, manualDeepen: b.manualDeepen, buffDeepen: b.buffDeepen,
         finalDmg: b.finalDmg, buffFinalDmg: b.buffFinalDmg, finalDmgFactor,
+        sources: b.sources, attackSources: attackInfo.sources,
         defFactor, resFactor, res, raw, normal, critHit, expected, damage: expected,
         fixedCritRate: b.fixedCritRate, fixedCritDamage: b.fixedCritDamage, cr, cd, note: def.note,
         charLevel: state.enemy.charLevel, enemyLevel: state.enemy.enemyLevel,
@@ -1820,7 +1912,8 @@ window.WUWA_SETTLEMENT = (() => {
       const providerChar = ch(state.slots[providerIdx]?.char);
       const harmonyBase = Math.max(0, num(state.enemy.harmonyBase, 10027));
       const tuneBreakRate = TUNE_BREAK_LEVEL_RATE;
-      const breakAmp = outputBreakAmp(providerIdx);
+      const breakAmpInfo = outputBreakAmpInfo(providerIdx);
+      const breakAmp = breakAmpInfo.value;
       const breakAmpFactor = Math.max(0, 1 + breakAmp / 100);
       const factors = offsetDefenseFactors();
       const deepen = state.enemy.vulnerability - state.enemy.dmgReduction;
@@ -1832,6 +1925,7 @@ window.WUWA_SETTLEMENT = (() => {
         available: true, enabled: true, valid: true, kind: "tuneBreak", key: "tuneBreak", formulaKind: "tuneBreak",
         entries, providers, providerIdx, providerName: providerChar?.name || "", label: "谐度破坏伤害",
         harmonyBase, multiplier: tuneBreakRate, breakAmp, breakAmpFactor,
+        sources: { breakAmp: breakAmpInfo.sources },
         enemyVulnerability: state.enemy.vulnerability, enemyDmgReduction: state.enemy.dmgReduction,
         deepen, deepenFactor, finalDmg, fixedFactor, raw, damage: Math.floor(raw), ...factors,
       };
@@ -1873,6 +1967,7 @@ window.WUWA_SETTLEMENT = (() => {
         entries, providers, providerIdx, providerName: providerChar?.name || "", label: sk?.name || entry.label,
         skill: sk, damageType: sk?.damageType || entry.damageType, skLevel, harmonyBase, baseMult, multiplier,
         skillMultBonus, breakAmp, breakAmpFactor, buffDeepen: harmony.amplify + harmony.vulnerability,
+        sources: harmony.sources,
         enemyVulnerability: state.enemy.vulnerability, enemyDmgReduction: state.enemy.dmgReduction,
         deepen, deepenFactor, finalDmg, raw, normal, critHit, expected, damage: expected,
         fixedCritRate: harmony.fixedCritRate, fixedCritDamage: harmony.fixedCritDamage, cr, cd, ...factors,
@@ -1893,7 +1988,8 @@ window.WUWA_SETTLEMENT = (() => {
       const currentOpt = combatStateOptionForValue(def, current);
       const fallbackStacks = providerSlot?.toggles?.["stk_" + entry.stateValue] ?? providerSlot?.toggles?.["stk_" + entry.stateId] ?? 0;
       const stacks = Math.max(0, Math.round(num(calc.stacks, fallbackStacks)));
-      const breakAmp = outputBreakAmp(providerIdx);
+      const breakAmpInfo = outputBreakAmpInfo(providerIdx);
+      const breakAmp = breakAmpInfo.value;
       const formulaKind = offsetStateFormulaKind(entry.stateValue, expectedOpt);
       const perStackRate = formulaKind === "coherenceInterference" ? 0.12 : 0;
       const finalDmgGain = stacks * breakAmp * perStackRate;
@@ -1903,7 +1999,7 @@ window.WUWA_SETTLEMENT = (() => {
         stateId: entry.stateId, stateLabel: entry.stateLabel, stateValue: entry.stateValue, currentState: current,
         stateValueLabel: expectedOpt ? L.combatOptionLabel(expectedOpt) : L.text(entry.label || entry.stateValue),
         currentStateLabel: currentOpt ? L.combatOptionLabel(currentOpt) : L.text(current || "未确认"),
-        stacks, breakAmp, perStackRate, finalDmgGain, status: confirmed ? "已确认" : "未确认",
+        stacks, breakAmp, perStackRate, finalDmgGain, sources: { breakAmp: breakAmpInfo.sources }, status: confirmed ? "已确认" : "未确认",
       };
     }
 
@@ -1920,6 +2016,7 @@ window.WUWA_SETTLEMENT = (() => {
     }
 
     function compute() {
+      syncEffectSelection();
       const s1 = state.slots[state.outputIdx];
       const c = ch(s1.char);
       const w = wp(s1.weapon);
@@ -1955,17 +2052,26 @@ window.WUWA_SETTLEMENT = (() => {
       const resourceReady = skillResourceReady(s1, selectedSk);
       const resourceBlocked = !!selectedSk && !resourceReady && !sk;
       let perStackBonus = 0;
+      const perStackBonusSources = [];
       state.slots.forEach((slot, idx) => slotBuffs(slot).forEach((buff) => {
-        if (buff.perStackBonus && buffStatus(slot, idx, buff).applies) perStackBonus += num(buff.perStackBonus);
+        if (!buff.perStackBonus || !buffStatus(slot, idx, buff).applies) return;
+        const value = num(buff.perStackBonus);
+        perStackBonus += value;
+        perStackBonusSources.push(buffSourcePart(slot, buff, value, { perStackBonus: value }));
       }));
       const stackMult = sk && sk.perStack ? sk.perStack * layers * (1 + perStackBonus / 100) : 0;
       const levelMult = sk ? skillMultValue(sk.multiplier + stackMult, lvRatio) : 0;
       let multAdd = 0;
+      const multAddSources = [];
       state.slots.forEach((slot, idx) => slotBuffs(slot).forEach((buff) => {
         if (!buffStatus(slot, idx, buff).applies) return;
-        if (buff.multAdd) multAdd += num(buff.multAdd);
-        if (buff.multAddByResource) multAdd += buffValue(slot, buff, idx);
-        if (buff.multScaleAdd) multAdd += skillMultValue(levelMult * num(buff.multScaleAdd) / 100, 1);
+        let value = 0;
+        if (buff.multAdd) value += num(buff.multAdd);
+        if (buff.multAddByResource) value += buffValue(slot, buff, idx);
+        if (buff.multScaleAdd) value += skillMultValue(levelMult * num(buff.multScaleAdd) / 100, 1);
+        if (!value) return;
+        multAdd += value;
+        multAddSources.push(buffSourcePart(slot, buff, value, { multAdd: value }));
       }));
       const baseMult = levelMult + multAdd;
       const isHarmonyResponse = sk ? isHarmonyResponseContext({ damageType: sk.damageType, damageTypes: damageTypesForSkill(sk) }) : false;
@@ -1973,6 +2079,11 @@ window.WUWA_SETTLEMENT = (() => {
       const harmony = isHarmonyResponse ? harmonyResponseAggregate(state.outputIdx) : null;
       const normalTotals = offsetFinalDmg ? { ...b, finalDmg: b.finalDmg - coherenceBuffFinalDmg + offsetFinalDmg } : b;
       const formulaTotals = isHarmonyResponse ? { ...b, ...harmony, damageBonus: 0, typeBonus: 0, critRate: 0, critDamage: 0 } : normalTotals;
+      const formulaSources = {
+        ...(formulaTotals.sources || {}),
+        multAdd: multAddSources,
+        perStackBonus: perStackBonusSources,
+      };
       const skillMultBonus = formulaTotals.skillMultBonus || 0;
       const skillMult = (baseMult * (1 + skillMultBonus / 100)) / 100;
 
@@ -2020,7 +2131,7 @@ window.WUWA_SETTLEMENT = (() => {
 
       return {
         panel: { stat, totalAtk, totalHp, totalDef, displayAtk, displayHp, displayDef, critRate, critDamage, baseMult, skillMult },
-        totals: formulaTotals, rawTotals: b, offsetFinalDmg, coherenceBuffFinalDmg, es, defFactor, resFactor, bonus, typeBonus, scaledTypeBonus, amplify, vuln, finalDmg, cr, cd,
+        totals: formulaTotals, rawTotals: b, sources: formulaSources, offsetFinalDmg, coherenceBuffFinalDmg, es, defFactor, resFactor, bonus, typeBonus, scaledTypeBonus, amplify, vuln, finalDmg, cr, cd,
         defense: {
           manualDefShred: state.enemy.defShred,
           buffDefShred: formulaTotals.defShred,

@@ -45,7 +45,22 @@ window.WUWA_LANGUAGES.extend("ko", {
       "expected": "기댓값 분할: "
     },
     "hints": {
-      "res": "오픈월드 적은 보통 모든 속성에 기본 내성 10%를 가집니다. 적에게 특정 속성 내성 보너스가 명시되어 있으면 해당 속성에 내성 30%를 추가합니다.",
+      "res": {
+        "aria": "속성 내성 참고표. 기본 내성은 모든 속성에 적용됩니다. 대응 내성은 대상 고유 속성에 대응하는 속성 내성입니다. 콘텐츠에 특정 속성 내성 증가가 명시되어 있으면 해당 속성 내성에 표기된 수치를 추가합니다.",
+        "intro": "대상 속성 내성 참고값(현재 테스트 결과)",
+        "definition": "기본 내성은 모든 속성에 적용되며, 대응 내성은 대상 고유 속성에 대응하는 속성 내성입니다.",
+        "headers": { "mode": "콘텐츠", "base": "기본 내성", "matching": "대응 내성" },
+        "modes": {
+          "openWorld": "Open World",
+          "tacticalHologram": "Tactical Hologram",
+          "towerOfAdversity": "Tower of Adversity",
+          "endstateMatrix": "Endstate Matrix",
+          "whimperingWastesEndless": "Whimpering Wastes · Endless",
+          "whimperingWastesHigh": "Whimpering Wastes · 9–11층"
+        },
+        "note": "콘텐츠에 특정 속성 내성 증가가 명시되어 있으면 해당 속성 내성에 표기된 수치를 추가합니다. 예: Whimpering Wastes에 ‘기류 속성 내성 20% 증가’가 표시된 상태에서 기류 속성 공격을 사용하면 기본 내성은 ‘20% + 20% = 40%’, 대응 내성은 ‘50% + 20% = 70%’입니다.",
+        "source": "현재 대상에 맞춰 직접 입력하세요."
+      },
       "defShred": "이 입력값은 총 방어 감소를 표시하고 수정합니다. 버프 같은 자동 출처가 실시간으로 포함됩니다.",
       "defShredWithHavocBane": "이 입력값은 인멸 재앙의 {value}%를 포함한 총 방어 감소를 표시하고 수정합니다."
     }
