@@ -566,10 +566,8 @@ window.WUWA_STAGE_VIEW = (() => {
       </div>
     </div>
     <div class="stage-actions">
-      <a class="stage-github-link" href="https://github.com/chuan-hane/wuwa-damage-calculator" target="_blank" rel="noopener noreferrer" aria-label="${esc(L.t("topbar.githubAria"))}">${esc(L.t("topbar.githubLabel"))}</a>
-      <div class="stage-language" role="group" aria-label="${esc(L.t("topbar.languageAria"))}">
-        ${langs.map((lang) => `<button type="button" class="stage-language-btn${lang.code === state.lang ? " on" : ""}" data-act="language" data-lang="${esc(lang.code)}" aria-pressed="${lang.code === state.lang ? "true" : "false"}">${esc(lang.shortLabel)}</button>`).join("")}
-      </div>
+      <a class="stage-github-link" href="https://github.com/chuan-hane/wuwa-damage-calculator" target="_blank" rel="noopener noreferrer" aria-label="${esc(L.t("topbar.githubAria"))}"><svg class="stage-github-icon" viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path fill="currentColor" d="M8 0C3.58 0 0 3.64 0 8.13c0 3.59 2.29 6.64 5.47 7.72.4.08.55-.18.55-.39 0-.19-.01-.83-.01-1.5-2.01.38-2.53-.5-2.69-.96-.09-.24-.48-.96-.82-1.16-.28-.15-.68-.53-.01-.54.63-.01 1.08.59 1.23.83.72 1.23 1.87.88 2.33.67.07-.53.28-.88.51-1.08-1.78-.21-3.64-.91-3.64-4.02 0-.89.31-1.62.82-2.19-.08-.21-.36-1.04.08-2.16 0 0 .67-.22 2.2.84A7.49 7.49 0 0 1 8 3.92c.68 0 1.36.09 2 .27 1.53-1.06 2.2-.84 2.2-.84.44 1.12.16 1.95.08 2.16.51.57.82 1.3.82 2.19 0 3.12-1.87 3.81-3.65 4.02.29.25.54.74.54 1.51 0 1.09-.01 1.97-.01 2.24 0 .22.15.47.55.39A8.14 8.14 0 0 0 16 8.13C16 3.64 12.42 0 8 0Z"/></svg><span>${esc(L.t("topbar.githubLabel"))}</span></a>
+      <label class="stage-language"><svg class="stage-language-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="2"/><path d="M3 12h18M12 3c2.3 2.5 3.5 5.5 3.5 9s-1.2 6.5-3.5 9c-2.3-2.5-3.5-5.5-3.5-9S9.7 5.5 12 3Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg><select class="stage-language-select" data-act="language" aria-label="${esc(L.t("topbar.languageAria"))}">${langs.map((lang) => `<option value="${esc(lang.code)}" ${lang.code === state.lang ? "selected" : ""}>${esc(lang.shortLabel)}</option>`).join("")}</select></label>
     </div>
     ${damageDockHTML(r)}
   </section>`;
