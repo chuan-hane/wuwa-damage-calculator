@@ -593,7 +593,7 @@ function showTargetChoicePreview(option) {
 }
 
 const ACTIONS = {
-  language: (el) => { el.onclick = () => { state.lang = el.dataset.lang || "zh-CN"; render(); }; },
+  language: (el) => { el.onchange = () => { state.lang = el.value || "zh-CN"; render(); }; },
   output: (el, idx) => { el.onclick = (ev) => { if (ev.target.closest("button, select, input, .combo, .echo-set-chip")) return; state.outputIdx = idx; render(); }; },
   "dock-output": (el, idx) => { el.onclick = () => { if (state.outputIdx === idx) return; state.outputIdx = idx; render(); }; },
   "clear-slot": (el, idx) => { el.onclick = (ev) => { ev.stopPropagation(); clearCharacter(idx); render(); }; },

@@ -888,19 +888,7 @@ window.WUWA_SETTLEMENT = (() => {
       return slotBuffs(slot).filter((other) => other.exclusiveGroup === buff.exclusiveGroup && buffSeqUnlocked(slot, other));
     }
 
-    function defaultBuffToggleOn(slot, buff) {
-      const own = explicitBuffToggle(slot, buff);
-      if (own != null) return own === true;
-      if (buff.defaultActive === false) return false;
-      if (!buff.exclusiveGroup) return true;
-      const group = exclusiveBuffGroup(slot, buff);
-      const selected = group.find((other) => explicitBuffToggle(slot, other) === true);
-      if (selected) return selected.id === buff.id;
-      if (group.some((other) => explicitBuffToggle(slot, other) != null)) return false;
-      return group[0]?.id === buff.id;
-    }
-
-    function confirmableBuffToggleOn(slot, buff) {
+    function buffToggleOn(slot, buff) {
       const own = explicitBuffToggle(slot, buff);
       if (own != null) return own === true;
       if (!buff.exclusiveGroup) return true;
@@ -1041,27 +1029,43 @@ window.WUWA_SETTLEMENT = (() => {
       return Math.max(0, Math.round(num(cap)));
     }
 
-    function buffOwnStackFallback(slot, buff, idx, outputIdx, ctxOverride = null) {
-      let fallback = buff.defaultStacks ?? buff.maxStacks;
+    function buffHasDrivenStackSource(buff) {
+      return !!buff.stackResource
+        || buff.triggerStacks != null
+        || !!buff.triggerStacksByTeamElement
+        || asList(buff.triggerStacksBySeq).length > 0
+        || asList(buff.triggerRules).some((rule) => rule.stacks != null);
+    }
+
+    function drivenBuffStackFallback(slot, buff, idx, outputIdx, ctxOverride = null) {
+      if (!buffHasDrivenStackSource(buff)) return null;
       if (buff.stackResource) {
         const value = characterResourceValue(slot, buff.stackResource);
-        fallback = value == null ? fallback : Math.floor(value / Math.max(1, num(buff.stackResourceStep, 1)));
+        if (value != null) return Math.floor(value / Math.max(1, num(buff.stackResourceStep, 1)));
       }
       const info = directTriggerInfo(slot, idx, buff, outputIdx, ctxOverride);
-      if (info.triggered && info.stacks != null) fallback = info.stacks;
-      if (buff.maxStacks && !buff.stackResource && defaultBuffToggleOn(slot, buff)) fallback = buffStackCap(slot, buff) || buff.maxStacks;
-      return num(fallback);
+      if (info.triggered && info.stacks != null) return num(info.stacks);
+      if (buff.provider === "共鸣链" && buffToggleOn(slot, buff)) return null;
+      if (buff.defaultActive === false && explicitBuffToggle(slot, buff) === true) return null;
+      return num(buff.defaultStacks);
+    }
+
+    function manualBuffStackFallback(slot, buff) {
+      if (buff.maxStacks && buffToggleOn(slot, buff)) return buffStackCap(slot, buff) || buff.maxStacks;
+      return num(buff.defaultStacks ?? buff.maxStacks);
     }
 
     function buffStackCount(slot, buff, idx = state.slots.indexOf(slot), outputIdx = state.outputIdx, ctxOverride = null) {
       const key = buffStackStorageKey(buff);
-      let fallback = buffOwnStackFallback(slot, buff, idx, outputIdx, ctxOverride);
-      if (buff.stackGroup) {
-        slotBuffs(slot).forEach((other) => {
-          if (other.stackGroup !== buff.stackGroup || !buffSeqUnlocked(slot, other)) return;
-          fallback = Math.max(fallback, buffOwnStackFallback(slot, other, idx, outputIdx, ctxOverride));
-        });
-      }
+      const linked = buff.stackGroup
+        ? slotBuffs(slot).filter((other) => other.stackGroup === buff.stackGroup && buffSeqUnlocked(slot, other))
+        : [buff];
+      const driven = linked
+        .map((other) => drivenBuffStackFallback(slot, other, idx, outputIdx, ctxOverride))
+        .filter((value) => value != null);
+      const fallback = driven.length
+        ? Math.max(...driven)
+        : Math.max(...linked.map((other) => manualBuffStackFallback(slot, other)));
       const value = num(slot.toggles[key] ?? fallback);
       const cap = buffStackCap(slot, buff);
       return cap ? Math.min(Math.max(0, value), cap) : Math.max(0, value);
@@ -1126,8 +1130,8 @@ window.WUWA_SETTLEMENT = (() => {
       if (!sourceCharRequirementReady(slot, buff)) return `需${sourceCharRequirementLabel(buff)}`;
       if (!activeCharRequirementReady(buff)) return `需${activeCharRequirementLabel(buff)}为登场角色`;
       if (buff.maxStacks && (buff.stackStart != null || buff.stackEnd != null || buff.stackRange) && buffTriggerSatisfied(slot, idx, buff, outputIdx, ctx) && buffStackContribution(slot, buff, idx, outputIdx, ctx) <= 0) return buffStackRangeLabel(buff);
-      if (buff.requiresEffectStacks && !effectStackRequirementReadyForBuff(buff) && confirmableBuffToggleOn(slot, buff)) return `需${effectStackRequirementLabel(buff.requiresEffectStacks)}`;
-      if (buff.requiresAnyEffectStacks && !anyEffectStackRequirementReadyForBuff(buff) && confirmableBuffToggleOn(slot, buff)) return `需${anyEffectStackRequirementLabel(buff.requiresAnyEffectStacks)}`;
+      if (buff.requiresEffectStacks && !effectStackRequirementReadyForBuff(buff) && buffToggleOn(slot, buff)) return `需${effectStackRequirementLabel(buff.requiresEffectStacks)}`;
+      if (buff.requiresAnyEffectStacks && !anyEffectStackRequirementReadyForBuff(buff) && buffToggleOn(slot, buff)) return `需${anyEffectStackRequirementLabel(buff.requiresAnyEffectStacks)}`;
       if (buffClearedByCurrentSkill(slot, buff, ctx)) return "被当前技能清除";
       if (!isDps && buff.scope !== "team") return "仅自身输出时生效";
       if (isDps && (String(buff.source).startsWith("延奏") || buff.triggerOutro === true) && !affectsOwnOutroAction(buff, ctx)) return "延奏不给自己";
@@ -1143,7 +1147,7 @@ window.WUWA_SETTLEMENT = (() => {
       const isDps = idx === outputIdx;
       const gated = buffGateReason(slot, idx, buff, seen, outputIdx, ctx, isDps);
       const precondition = buffNeedsPrecondition(slot, idx, buff, outputIdx, ctx);
-      const toggleOn = precondition ? confirmableBuffToggleOn(slot, buff) : true;
+      const toggleOn = precondition ? buffToggleOn(slot, buff) : true;
       return { gated, precondition, toggleOn, applies: !gated && toggleOn };
     }
 
@@ -1684,7 +1688,7 @@ window.WUWA_SETTLEMENT = (() => {
         if (!ref || !refReady || stacks < req.stacks) gated = `需${req.label || req.id}${req.stacks}层`;
       }
       const precondition = buffNeedsPrecondition(slot, idx, buff, outputIdx);
-      const toggleOn = precondition ? confirmableBuffToggleOn(slot, buff) : true;
+      const toggleOn = precondition ? buffToggleOn(slot, buff) : true;
       return { gated, precondition, toggleOn, applies: !gated && toggleOn };
     }
 
