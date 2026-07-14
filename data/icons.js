@@ -189,6 +189,29 @@ window.WUWA_ICON_ASSETS = {
     "aero": "assets/icons/elements/aero.webp",
     "spectro": "assets/icons/elements/spectro.webp",
     "havoc": "assets/icons/elements/havoc.webp"
+  },
+  "targetGameplay": {
+    "whiwa": {
+      "71500011": "assets/icons/targets/gameplay/whiwa_71500011.webp",
+      "71500090": "assets/icons/targets/gameplay/whiwa_71500090.webp",
+      "71500091": "assets/icons/targets/gameplay/whiwa_71500091.webp",
+      "71500092": "assets/icons/targets/gameplay/whiwa_71500092.webp",
+      "71500093": "assets/icons/targets/gameplay/whiwa_71500093.webp",
+      "71500094": "assets/icons/targets/gameplay/whiwa_71500094.webp",
+      "71500095": "assets/icons/targets/gameplay/whiwa_71500095.webp",
+      "71500096": "assets/icons/targets/gameplay/whiwa_71500096.webp",
+      "71500097": "assets/icons/targets/gameplay/whiwa_71500097.webp",
+      "71501001": "assets/icons/targets/gameplay/whiwa_71501001.webp",
+      "71501002": "assets/icons/targets/gameplay/whiwa_71501002.webp",
+      "71501003": "assets/icons/targets/gameplay/whiwa_71501003.webp",
+      "71501004": "assets/icons/targets/gameplay/whiwa_71501004.webp"
+    },
+    "dpmatrix": {
+      "26": "assets/icons/targets/gameplay/dpmatrix_26.webp",
+      "27": "assets/icons/targets/gameplay/dpmatrix_27.webp",
+      "28": "assets/icons/targets/gameplay/dpmatrix_28.webp",
+      "29": "assets/icons/targets/gameplay/dpmatrix_29.webp"
+    }
   }
 };
 

@@ -249,6 +249,7 @@ function updateEnemyInput(el) {
 }
 
 function updateTargetLevel(el) {
+  if (state.enemy.targetMode !== "openWorld") return;
   const raw = el.value.trim();
   if (raw === "") { repaint(); return; }
   state.enemy.targetLevelOverride = num(raw);
@@ -565,6 +566,32 @@ function updateDetailEcho(idx, echoIdx, update) {
   render();
 }
 
+function closeTargetChoices() {
+  board.querySelectorAll(".target-choice.open").forEach((choice) => {
+    hideTargetChoicePreview(choice);
+    choice.classList.remove("open");
+    choice.querySelector(".target-choice-toggle")?.setAttribute("aria-expanded", "false");
+  });
+}
+
+function hideTargetChoicePreview(choice) {
+  if (!choice) return;
+  choice.classList.remove("show-preview");
+}
+
+function showTargetChoicePreview(option) {
+  const choice = option.closest(".target-choice");
+  const tooltip = choice?.querySelector(".target-choice-tooltip");
+  const description = option.dataset.preview;
+  if (!choice || !tooltip || !description) return;
+  const choiceRect = choice.getBoundingClientRect();
+  const optionRect = option.getBoundingClientRect();
+  tooltip.textContent = description;
+  choice.style.setProperty("--target-choice-tip-left", `${optionRect.left - choiceRect.left + optionRect.width / 2}px`);
+  choice.style.setProperty("--target-choice-tip-top", `${optionRect.top - choiceRect.top - 8}px`);
+  choice.classList.add("show-preview");
+}
+
 const ACTIONS = {
   language: (el) => { el.onclick = () => { state.lang = el.dataset.lang || "zh-CN"; render(); }; },
   output: (el, idx) => { el.onclick = (ev) => { if (ev.target.closest("button, select, input, .combo, .echo-set-chip")) return; state.outputIdx = idx; render(); }; },
@@ -602,7 +629,27 @@ const ACTIONS = {
   "target-season": (el) => { el.onchange = () => { TARGETS.selectSeason(state.enemy, el.value); render(); }; },
   "target-path": (el) => { el.onchange = () => { TARGETS.selectPath(state.enemy, el.value); render(); }; },
   "target-pick": (el) => { el.onchange = () => { TARGETS.selectTarget(state.enemy, el.value); render(); }; },
-  "target-buff-choice": (el) => { el.onchange = () => { TARGETS.setGameplayChoice(state.enemy, el.dataset.group, el.value); render(); }; },
+  "target-choice-toggle": (el) => { el.onclick = (ev) => {
+    ev.stopPropagation();
+    const choice = el.closest(".target-choice");
+    const open = !choice.classList.contains("open");
+    closeTargetChoices();
+    board.querySelectorAll(".combo.open").forEach((combo) => combo.classList.remove("open"));
+    if (!open) return;
+    choice.classList.add("open");
+    el.setAttribute("aria-expanded", "true");
+  }; },
+  "target-buff-choice": (el) => {
+    const select = () => { TARGETS.setGameplayChoice(state.enemy, el.dataset.group, el.value); render(); };
+    if (el.tagName === "SELECT") el.onchange = select;
+    else {
+      el.onclick = (ev) => { ev.stopPropagation(); select(); };
+      el.onmouseenter = () => showTargetChoicePreview(el);
+      el.onmouseleave = () => hideTargetChoicePreview(el.closest(".target-choice"));
+      el.onfocus = () => showTargetChoicePreview(el);
+      el.onblur = () => hideTargetChoicePreview(el.closest(".target-choice"));
+    }
+  },
   "target-buff-toggle": (el) => { el.onchange = () => { TARGETS.setGameplayValue(state.enemy, el.dataset.buff, el.checked); render(); }; },
   "target-buff-range": (el) => { el.onchange = () => { TARGETS.setGameplayValue(state.enemy, el.dataset.buff, el.value); render(); }; },
   "target-level": (el) => {
@@ -701,8 +748,11 @@ function bind(root = board) {
     ACTIONS[el.dataset.act]?.(el, idx);
   });
   // 弹层内空白点击不关闭；点列以外关闭所有打开的下拉
-  root.querySelectorAll(".combo-pop").forEach((p) => (p.onclick = (ev) => ev.stopPropagation()));
-  document.onclick = () => board.querySelectorAll(".combo.open").forEach((c) => c.classList.remove("open"));
+  root.querySelectorAll(".combo-pop, .target-choice-pop").forEach((p) => (p.onclick = (ev) => ev.stopPropagation()));
+  document.onclick = () => {
+    board.querySelectorAll(".combo.open").forEach((c) => c.classList.remove("open"));
+    closeTargetChoices();
+  };
 }
 
 // 下拉内搜索过滤（不重渲染，避免丢焦点）

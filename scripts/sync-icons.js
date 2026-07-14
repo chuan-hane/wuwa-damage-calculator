@@ -6,6 +6,8 @@ const path = require("path");
 const root = path.resolve(__dirname, "..");
 const iconDataFile = path.join(root, "data", "icons.js");
 const reportFile = path.join(root, "assets", "icons", "missing-icons.json");
+const targetDataFile = path.join(root, "data", "core", "targets.js");
+const targetApiBase = String(process.env.WUWA_TARGET_API_BASE || "").replace(/\/+$/, "");
 
 const elementFileNames = {
   glacio: "glacio",
@@ -26,7 +28,7 @@ function jsFilesUnder(dir) {
   });
 }
 
-function loadProjectData() {
+function loadProjectData(targetDataOverride = null) {
   global.window = {};
   global.WUWA = window.WUWA = {
     chars: {},
@@ -39,6 +41,8 @@ function loadProjectData() {
   require(path.join(root, "data", "core", "weapons.js"));
   require(path.join(root, "data", "core", "sonatas.js"));
   jsFilesUnder(path.join(root, "data", "core", "chara")).sort().forEach((file) => require(file));
+  if (targetDataOverride) window.WUWA_TARGET_DATA = targetDataOverride;
+  else require(targetDataFile);
   require(path.join(root, "src", "languages.js"));
   languageFiles("zh-CN").forEach((file) => require(file));
   languageFiles("en-US").forEach((file) => require(file));
@@ -48,6 +52,7 @@ function loadProjectData() {
     chars: Object.values(window.WUWA.chars),
     weapons: window.WUWA_DATA.weapons || [],
     sonatas: window.WUWA_SONATAS || [],
+    targetData: window.WUWA_TARGET_DATA,
   };
 }
 
@@ -112,8 +117,38 @@ function collectLocalIcons(icons, missing, kind, items, makePath, makeKey, makeN
   });
 }
 
-function writeIconData(icons, missing) {
-  const body = `window.WUWA_ICON_ASSETS = ${JSON.stringify(icons, null, 2)};\n\n` +
+function assert(condition, message) {
+  if (!condition) throw new Error(message);
+}
+
+function asArray(value) {
+  return Array.isArray(value) ? value : [];
+}
+
+function targetGameplayAssetPath(mode, sourceId) {
+  return `assets/icons/targets/gameplay/${mode}_${sourceId}.webp`;
+}
+
+function gameplayAssetRef(definition) {
+  const ref = definition?.localeRef || {};
+  if (ref.kind === "whiwaItem") return { mode: "whiwa", sourceId: Number(ref.itemId) };
+  if (ref.kind === "matrixBuff") return { mode: "dpmatrix", sourceId: Number(ref.buffId) };
+  return null;
+}
+
+function collectTargetLocalIcons(icons, missing, targetData) {
+  Object.values(targetData?.gameplayBuffs || {}).forEach((definition) => {
+    const ref = gameplayAssetRef(definition);
+    if (!ref) return;
+    const key = String(ref.sourceId);
+    const rel = targetGameplayAssetPath(ref.mode, ref.sourceId);
+    if (fs.existsSync(path.join(root, rel))) icons.targetGameplay[ref.mode][key] = rel;
+    else missing.push({ kind: `targetGameplay.${ref.mode}`, key, expectedPath: rel });
+  });
+}
+
+function iconFileContent(icons) {
+  return `window.WUWA_ICON_ASSETS = ${JSON.stringify(icons, null, 2)};\n\n` +
 `(function applyWuwaIconAssets() {\n` +
 `  const assets = window.WUWA_ICON_ASSETS || {};\n` +
 `  const chars = window.WUWA && window.WUWA.chars ? window.WUWA.chars : {};\n` +
@@ -131,14 +166,13 @@ function writeIconData(icons, missing) {
 `    if (set) set.icon = icon;\n` +
 `  });\n` +
 `})();\n`;
-  fs.writeFileSync(iconDataFile, body);
-  mkdirp(path.dirname(reportFile));
-  fs.writeFileSync(reportFile, JSON.stringify({ generatedAt: new Date().toISOString(), missing }, null, 2));
 }
 
-function main() {
-  const { chars, weapons, sonatas } = loadProjectData();
-  const icons = { characters: {}, weapons: {}, sonatas: {}, elements: {} };
+function buildIconSnapshotFromData({ chars, weapons, sonatas, targetData }, generatedAt = new Date().toISOString()) {
+  const icons = {
+    characters: {}, weapons: {}, sonatas: {}, elements: {},
+    targetGameplay: { whiwa: {}, dpmatrix: {} },
+  };
   const missing = [];
   const elements = Object.keys(elementFileNames).map((name) => ({ name }));
 
@@ -146,10 +180,203 @@ function main() {
   collectLocalIcons(icons, missing, "weapons", weapons, (w, index) => assetPath("weapons", weaponFileName(w, index)), (w) => w.id || w.name, (w) => w.name);
   collectLocalIcons(icons, missing, "sonatas", sonatas, sonataAssetPath, sonataKey, (set) => set.name);
   collectLocalIcons(icons, missing, "elements", elements, (item) => assetPath("elements", elementFileNames[item.name]), (item) => item.name, (item) => item.name);
-
-  writeIconData(icons, missing);
-  console.log(`Local icon sync: linked ${Object.values(icons).reduce((sum, group) => sum + Object.keys(group).length, 0)} icons; missing ${missing.length}.`);
-  if (missing.length) console.log(`Missing report: ${path.relative(root, reportFile)}`);
+  collectTargetLocalIcons(icons, missing, targetData);
+  return {
+    icons,
+    missing,
+    files: {
+      "data/icons.js": iconFileContent(icons),
+      "assets/icons/missing-icons.json": JSON.stringify({ generatedAt, missing }, null, 2),
+    },
+  };
 }
 
-main();
+function buildIconSnapshot(targetDataOverride = null, generatedAt = new Date().toISOString()) {
+  return buildIconSnapshotFromData(loadProjectData(targetDataOverride), generatedAt);
+}
+
+function writeIconData(snapshot) {
+  fs.writeFileSync(iconDataFile, snapshot.files["data/icons.js"]);
+  mkdirp(path.dirname(reportFile));
+  fs.writeFileSync(reportFile, snapshot.files["assets/icons/missing-icons.json"]);
+}
+
+function targetEndpoint(route) {
+  return `${targetApiBase}/zh-Hans${route}`;
+}
+
+async function fetchJson(url, label, attempt = 1) {
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), 25000);
+  try {
+    const response = await fetch(url, {
+      headers: { accept: "application/json", "user-agent": "wuwa-damage-calculator-icon-sync/1.0" },
+      signal: controller.signal,
+    });
+    assert(response.ok, `${label}: request failed`);
+    return await response.json();
+  } catch (error) {
+    if (attempt >= 4) throw new Error(`${label}: request failed`);
+    await new Promise((resolve) => setTimeout(resolve, attempt * 500));
+    return fetchJson(url, label, attempt + 1);
+  } finally {
+    clearTimeout(timeout);
+  }
+}
+
+async function concurrentMap(values, limit, mapper) {
+  const output = new Array(values.length);
+  let cursor = 0;
+  async function worker() {
+    const index = cursor++;
+    if (index >= values.length) return;
+    output[index] = await mapper(values[index], index);
+    return worker();
+  }
+  await Promise.all(Array.from({ length: Math.min(limit, values.length) }, () => worker()));
+  return output;
+}
+
+async function fetchTargetPayloads(targetData) {
+  assert(targetApiBase, "Set WUWA_TARGET_API_BASE before syncing target icons.");
+  const seasonIds = asArray(targetData?.modes?.dpmatrix?.seasons).map((season) => String(season.id));
+  const matrixEntries = await concurrentMap(seasonIds, 4, async (seasonId) => [seasonId, await fetchJson(targetEndpoint(`/dpmatrix/${seasonId}`), `dpmatrix ${seasonId}`)]);
+  const itemIds = Array.from(new Set(Object.values(targetData?.gameplayBuffs || {})
+    .map(gameplayAssetRef)
+    .filter((ref) => ref?.mode === "whiwa")
+    .map((ref) => ref.sourceId)));
+  const itemEntries = await concurrentMap(itemIds, 4, async (itemId) => [itemId, await fetchJson(targetEndpoint(`/item/${itemId}`), `item ${itemId}`)]);
+  return { detailsByMode: { dpmatrix: new Map(matrixEntries) }, itemDetails: new Map(itemEntries) };
+}
+
+function matrixBuffs(payload) {
+  return asArray(payload?.Levels).flatMap((level) => asArray(level.NewTowerBuffs));
+}
+
+function gameplayIconSources(detailsByMode, itemDetails) {
+  const sources = { whiwa: new Map(), dpmatrix: new Map() };
+  itemDetails.forEach((item, itemId) => sources.whiwa.set(String(itemId), item.Icon));
+  detailsByMode.dpmatrix.forEach((payload) => matrixBuffs(payload).forEach((buff) => {
+    const key = String(buff.Id);
+    if (!sources.dpmatrix.has(key)) sources.dpmatrix.set(key, buff.Icon);
+    else assert(sources.dpmatrix.get(key) === buff.Icon, `conflicting dpmatrix icon ${key}`);
+  }));
+  return sources;
+}
+
+function registerRemoteAsset(assets, relative, source) {
+  assert(typeof source === "string" && source, `missing icon source ${relative}`);
+  const parsed = new URL(source);
+  assert(parsed.protocol === "https:" && parsed.pathname.endsWith(".webp"), `invalid icon source ${relative}`);
+  const existing = assets.get(relative);
+  assert(!existing || existing === source, `conflicting icon source ${relative}`);
+  assets.set(relative, source);
+}
+
+function buildTargetIconPlan(targetData, payloads) {
+  const assets = new Map();
+  const gameplaySources = gameplayIconSources(payloads.detailsByMode, payloads.itemDetails);
+  Object.values(targetData?.gameplayBuffs || {}).forEach((definition) => {
+    const ref = gameplayAssetRef(definition);
+    if (!ref) return;
+    const relative = targetGameplayAssetPath(ref.mode, ref.sourceId);
+    registerRemoteAsset(assets, relative, gameplaySources[ref.mode].get(String(ref.sourceId)));
+  });
+  const origins = new Set(Array.from(assets.values(), (source) => new URL(source).origin));
+  assert(origins.size === 1, "target icons must use one asset origin");
+  return Array.from(assets, ([relative, source]) => ({ relative, source }));
+}
+
+function isWebp(bytes) {
+  return bytes.length > 12 && bytes.toString("ascii", 0, 4) === "RIFF" && bytes.toString("ascii", 8, 12) === "WEBP";
+}
+
+async function fetchIcon(asset, attempt = 1) {
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), 25000);
+  try {
+    const response = await fetch(asset.source, {
+      headers: { accept: "image/webp", "user-agent": "wuwa-damage-calculator-icon-sync/1.0" },
+      signal: controller.signal,
+    });
+    assert(response.ok, `icon ${asset.relative}: request failed`);
+    const bytes = Buffer.from(await response.arrayBuffer());
+    assert(bytes.length > 0 && bytes.length <= 5 * 1024 * 1024 && isWebp(bytes), `icon ${asset.relative}: invalid image`);
+    return bytes;
+  } catch (error) {
+    if (attempt >= 4) throw new Error(`icon ${asset.relative}: request failed`);
+    await new Promise((resolve) => setTimeout(resolve, attempt * 500));
+    return fetchIcon(asset, attempt + 1);
+  } finally {
+    clearTimeout(timeout);
+  }
+}
+
+async function downloadTargetIcons(plan) {
+  const staged = [];
+  const errors = [];
+  let cursor = 0;
+  async function worker() {
+    const index = cursor++;
+    if (index >= plan.length) return;
+    const asset = plan[index];
+    const destination = path.join(root, asset.relative);
+    const temp = `${destination}.tmp-${process.pid}`;
+    try {
+      const bytes = await fetchIcon(asset);
+      mkdirp(path.dirname(destination));
+      fs.writeFileSync(temp, bytes);
+      staged.push([temp, destination]);
+    } catch (error) {
+      errors.push(error);
+    }
+    return worker();
+  }
+  await Promise.all(Array.from({ length: Math.min(6, plan.length) }, () => worker()));
+  if (errors.length) {
+    staged.forEach(([temp]) => { if (fs.existsSync(temp)) fs.unlinkSync(temp); });
+    throw errors[0];
+  }
+  staged.forEach(([temp, destination]) => fs.renameSync(temp, destination));
+}
+
+async function synchronizeTargetIcons(targetData, payloads = null) {
+  const resolvedPayloads = payloads || await fetchTargetPayloads(targetData);
+  const plan = buildTargetIconPlan(targetData, resolvedPayloads);
+  await downloadTargetIcons(plan);
+  return plan.length;
+}
+
+function buildIconFiles(targetData, generatedAt) {
+  const snapshot = buildIconSnapshot(targetData, generatedAt);
+  assert(!snapshot.missing.length, `local icon snapshot is incomplete (${snapshot.missing.length})`);
+  return snapshot.files;
+}
+
+async function main() {
+  const initial = loadProjectData();
+  let downloaded = 0;
+  if (process.argv.includes("--targets")) downloaded = await synchronizeTargetIcons(initial.targetData);
+  const snapshot = buildIconSnapshotFromData(initial);
+  writeIconData(snapshot);
+  const linked = Object.values(snapshot.icons).reduce((sum, group) => {
+    if (!group || typeof group !== "object") return sum;
+    return sum + Object.values(group).reduce((count, value) => count + (value && typeof value === "object" ? Object.keys(value).length : 1), 0);
+  }, 0);
+  console.log(`Local icon sync: linked ${linked} icons; downloaded ${downloaded}; missing ${snapshot.missing.length}.`);
+  if (snapshot.missing.length) console.log(`Missing report: ${path.relative(root, reportFile)}`);
+}
+
+if (require.main === module) {
+  main().catch((error) => {
+    console.error(error.message || error);
+    process.exitCode = 1;
+  });
+}
+
+module.exports = {
+  buildIconFiles,
+  buildIconSnapshot,
+  buildTargetIconPlan,
+  synchronizeTargetIcons,
+};

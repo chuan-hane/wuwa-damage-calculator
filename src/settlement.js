@@ -900,6 +900,17 @@ window.WUWA_SETTLEMENT = (() => {
       return group[0]?.id === buff.id;
     }
 
+    function confirmableBuffToggleOn(slot, buff) {
+      const own = explicitBuffToggle(slot, buff);
+      if (own != null) return own === true;
+      if (!buff.exclusiveGroup) return true;
+      const group = exclusiveBuffGroup(slot, buff);
+      const selected = group.find((other) => explicitBuffToggle(slot, other) === true);
+      if (selected) return selected.id === buff.id;
+      if (group.some((other) => explicitBuffToggle(slot, other) != null)) return false;
+      return group[0]?.id === buff.id;
+    }
+
     function buffSeqUnlocked(slot, buff) {
       if (buff.seq && num(slot.seq) < num(buff.seq)) return false;
       if (buff.maxSeq != null && num(slot.seq) > num(buff.maxSeq)) return false;
@@ -1115,8 +1126,8 @@ window.WUWA_SETTLEMENT = (() => {
       if (!sourceCharRequirementReady(slot, buff)) return `需${sourceCharRequirementLabel(buff)}`;
       if (!activeCharRequirementReady(buff)) return `需${activeCharRequirementLabel(buff)}为登场角色`;
       if (buff.maxStacks && (buff.stackStart != null || buff.stackEnd != null || buff.stackRange) && buffTriggerSatisfied(slot, idx, buff, outputIdx, ctx) && buffStackContribution(slot, buff, idx, outputIdx, ctx) <= 0) return buffStackRangeLabel(buff);
-      if (buff.requiresEffectStacks && !effectStackRequirementReadyForBuff(buff) && explicitBuffToggle(slot, buff) === true) return `需${effectStackRequirementLabel(buff.requiresEffectStacks)}`;
-      if (buff.requiresAnyEffectStacks && !anyEffectStackRequirementReadyForBuff(buff) && explicitBuffToggle(slot, buff) === true) return `需${anyEffectStackRequirementLabel(buff.requiresAnyEffectStacks)}`;
+      if (buff.requiresEffectStacks && !effectStackRequirementReadyForBuff(buff) && confirmableBuffToggleOn(slot, buff)) return `需${effectStackRequirementLabel(buff.requiresEffectStacks)}`;
+      if (buff.requiresAnyEffectStacks && !anyEffectStackRequirementReadyForBuff(buff) && confirmableBuffToggleOn(slot, buff)) return `需${anyEffectStackRequirementLabel(buff.requiresAnyEffectStacks)}`;
       if (buffClearedByCurrentSkill(slot, buff, ctx)) return "被当前技能清除";
       if (!isDps && buff.scope !== "team") return "仅自身输出时生效";
       if (isDps && (String(buff.source).startsWith("延奏") || buff.triggerOutro === true) && !affectsOwnOutroAction(buff, ctx)) return "延奏不给自己";
@@ -1132,7 +1143,7 @@ window.WUWA_SETTLEMENT = (() => {
       const isDps = idx === outputIdx;
       const gated = buffGateReason(slot, idx, buff, seen, outputIdx, ctx, isDps);
       const precondition = buffNeedsPrecondition(slot, idx, buff, outputIdx, ctx);
-      const toggleOn = precondition ? explicitBuffToggle(slot, buff) === true : true;
+      const toggleOn = precondition ? confirmableBuffToggleOn(slot, buff) : true;
       return { gated, precondition, toggleOn, applies: !gated && toggleOn };
     }
 
@@ -1673,7 +1684,7 @@ window.WUWA_SETTLEMENT = (() => {
         if (!ref || !refReady || stacks < req.stacks) gated = `需${req.label || req.id}${req.stacks}层`;
       }
       const precondition = buffNeedsPrecondition(slot, idx, buff, outputIdx);
-      const toggleOn = precondition ? explicitBuffToggle(slot, buff) === true : true;
+      const toggleOn = precondition ? confirmableBuffToggleOn(slot, buff) : true;
       return { gated, precondition, toggleOn, applies: !gated && toggleOn };
     }
 

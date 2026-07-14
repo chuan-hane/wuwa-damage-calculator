@@ -52,6 +52,75 @@
       "monsters": [{ "id": 310000430, "name": "幽翎火", "whiteGreenProps": [] }]
     }
   },
+  "toaFuture": {
+    "multiAttribute": {
+      "id": 415,
+      "season": 38,
+      "areaNum": 2,
+      "areaName": "危险之塔",
+      "floor": 1,
+      "buffs": [
+        {
+          "id": 92007148,
+          "name": "",
+          "desc": "敌方热熔、衍射抗性降低10%，气动、导电抗性提高10%"
+        },
+        {
+          "id": 92008186,
+          "name": "",
+          "desc": "角色获得30%热熔和衍射伤害加成。附加谐度·偏移后，攻击提升30%。"
+        }
+      ],
+      "monsters": [
+        {
+          "id": 310000430,
+          "name": "幽翎火",
+          "elements": [{ "id": 6 }]
+        }
+      ]
+    },
+    "conditional": {
+      "id": 417,
+      "season": 38,
+      "areaNum": 2,
+      "areaName": "危险之塔",
+      "floor": 3,
+      "buffs": [
+        {
+          "id": 92008198,
+          "name": "",
+          "desc": "敌方初始全属性抗性提升15%。目标处于异常效应或谐度·偏移状态时移除。"
+        },
+        {
+          "id": 92008205,
+          "name": "",
+          "desc": "战斗60秒后，每5秒造成伤害最终提升5%，上限60%。"
+        },
+        {
+          "id": 92008191,
+          "name": "",
+          "desc": "施放谐度破坏技能后，造成伤害最终提升10%，最多3层。附加虚湮后，造成伤害最终提升45%。"
+        }
+      ],
+      "monsters": [
+        {
+          "id": 310000430,
+          "name": "幽翎火",
+          "elements": [{ "id": 6 }]
+        }
+      ]
+    }
+  },
+  "toaFutureLevels": {
+    "area": {
+      "2": {
+        "floor": {
+          "1": { "id": 415, "monsters": { "310000430": { "level": 100 } } },
+          "3": { "id": 417, "monsters": { "310000430": { "level": 100 } } }
+        }
+      }
+    }
+  },
   "whiwa": {
     "season": 19,
     "buffItems": [
@@ -74,6 +143,41 @@
                 "buffs": [
                   {
                     "id": 680002203,
+                    "name": "气动抗性提升",
+                    "desc": "气动属性抗性提高20%"
+                  }
+                ],
+                "monsters": [{ "id": 310000430, "name": "幽翎火", "element": { "id": 6 } }]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "whiwaFuture": {
+    "season": 20,
+    "buffItems": [
+      { "itemId": 71500094, "item": { "qualityId": 4 } },
+      { "itemId": 71500095, "item": { "qualityId": 5 } },
+      { "itemId": 71500096, "item": { "qualityId": 5 } },
+      { "itemId": 71500097, "item": { "qualityId": 5 } }
+    ],
+    "stageGroups": [
+      {
+        "id": 2,
+        "levels": [
+          {
+            "id": 123,
+            "orderIndex": 9,
+            "title": "急潮之歌",
+            "desc": "满足潮汐条件时，敌方受到伤害最终提升60%。",
+            "stages": [
+              {
+                "instId": 40244,
+                "buffs": [
+                  {
+                    "id": 680003216,
                     "name": "气动抗性提升",
                     "desc": "气动属性抗性提高20%"
                   }

@@ -174,11 +174,6 @@ window.WUWA_TARGETS = (() => {
     return L.t("targets.wave", { value: item.waveId });
   }
 
-  function targetName(item) {
-    if (item?.mode === "openWorld") return openWorldAttributeName(item);
-    return localeEntry("targetNames", item?.nameId)?.name || String(item?.monsterId || "");
-  }
-
   function targetPathId(item) {
     if (!item || item.mode === "openWorld") return "";
     const parts = [item.mode, item.seasonId];
@@ -203,8 +198,18 @@ window.WUWA_TARGETS = (() => {
 
   function targetOptionName(item) {
     if (item?.mode === "openWorld") return openWorldAttributeName(item);
-    const element = item.element ? L.element(item.element) : "";
-    return [targetName(item), element].filter(Boolean).join(" · ");
+    return item?.element ? L.element(item.element) : L.t("targets.attributeNone");
+  }
+
+  function targetOptionKey(item) {
+    if (item?.mode === "openWorld") return openWorldAttribute(item)?.key || "";
+    return item?.element || "none";
+  }
+
+  function targetOptionOrder(item) {
+    if (item?.mode === "openWorld") return openWorldAttribute(item)?.order ?? -1;
+    const index = elements().indexOf(item?.element);
+    return index >= 0 ? index : -1;
   }
 
   function gameplayData(item) {
@@ -366,7 +371,8 @@ window.WUWA_TARGETS = (() => {
       targetElements.forEach((element) => { automaticResistances[element] = Number(automaticResistances[element]) + effect.value; });
     });
     const levelOverride = Number(enemy.targetLevelOverride);
-    const enemyLevel = enemy.targetLevelOverride != null && Number.isFinite(levelOverride) ? levelOverride : Number(selected.level);
+    const hasLevelOverride = selected.mode === "openWorld" && enemy.targetLevelOverride != null && Number.isFinite(levelOverride);
+    const enemyLevel = hasLevelOverride ? levelOverride : Number(selected.level);
     const resistances = {};
     elements().forEach((element) => {
       const override = Number(enemy.targetResistanceOverrides?.[element]);
@@ -377,22 +383,19 @@ window.WUWA_TARGETS = (() => {
     return {
       automatic: true,
       target: selected,
-      name: targetName(selected),
+      name: targetOptionName(selected),
       enemyLevel,
       automaticLevel: selected.level,
       resistances,
       automaticResistances,
       damageElement,
       resistance: Number.isFinite(resistance) ? resistance : 0,
-      overrideActive: enemy.targetLevelOverride != null || Object.values(enemy.targetResistanceOverrides || {}).some((value) => value != null),
+      overrideActive: hasLevelOverride || Object.values(enemy.targetResistanceOverrides || {}).some((value) => value != null),
     };
   }
 
   function sortedSeasons(mode) {
-    return seasons(mode).slice().sort((a, b) => {
-      if (a.current !== b.current) return a.current ? -1 : 1;
-      return Number(b.id) - Number(a.id);
-    });
+    return seasons(mode).slice().sort((a, b) => Number(b.id) - Number(a.id));
   }
 
   function targetPaths(mode, seasonId) {
@@ -424,7 +427,7 @@ window.WUWA_TARGETS = (() => {
     return "";
   }
 
-  function groupedTargets(mode, seasonId, pathId = "") {
+  function groupedTargets(mode, seasonId, pathId = "", selectedTargetId = "") {
     const groups = new Map();
     targetsFor(mode, seasonId).forEach((item) => {
       if (pathId && targetPathId(item) !== pathId) return;
@@ -432,13 +435,14 @@ window.WUWA_TARGETS = (() => {
       if (!groups.has(label)) groups.set(label, []);
       groups.get(label).push(item);
     });
-    return Array.from(groups, ([label, items]) => ({
-      label,
-      items: items.slice().sort((a, b) => {
-        if (mode !== "openWorld") return Number(a.waveId) - Number(b.waveId) || targetOptionName(a).localeCompare(targetOptionName(b), L.compareLocale());
-        return openWorldAttribute(a).order - openWorldAttribute(b).order;
-      }),
-    }));
+    return Array.from(groups, ([label, items]) => {
+      const choices = new Map();
+      items.slice().sort((a, b) => Number(a.waveId) - Number(b.waveId) || targetOptionOrder(a) - targetOptionOrder(b)).forEach((item) => {
+        const key = targetOptionKey(item);
+        if (!choices.has(key) || item.id === selectedTargetId) choices.set(key, item);
+      });
+      return { label, items: Array.from(choices.values()) };
+    });
   }
 
   function syncedDate() {
@@ -473,7 +477,6 @@ window.WUWA_TARGETS = (() => {
     areaName,
     stageName,
     waveName,
-    targetName,
     targetPathLabel,
     targetPathName,
     targetOptionName,

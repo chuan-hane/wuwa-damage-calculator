@@ -73,7 +73,7 @@ window.WUWA_LANGUAGES.extend("zh-CN", {
       stageEffects: "自动生效",
       buffValue: "{value}%",
       gameplayBuffSource: "玩法",
-      summary: "{character} · {element} → {target} {level} · {element}抗性{resistance}%",
+      summary: "{character} · {element} → 目标 {target} {level} · {element}抗性{resistance}%",
       updatedAt: "目标数据更新于 {date}"
     },
     hints: {

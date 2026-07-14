@@ -63,10 +63,62 @@ window.WUWA_STAGE_VIEW = (() => {
       return `<span class="combo-ic combo-ic-fallback">${esc(text)}</span>`;
     }
 
-    function elementBadgeHTML(element) {
+    function elementIconHTML(element, className = "", title = "") {
       const icon = window.WUWA_ICON_ASSETS?.elements?.[element];
-      const img = icon ? `<img class="element-ic" src="${esc(icon)}" alt="" onerror="this.style.display='none'" />` : "";
-      return `<span class="element-badge">${img}<span>${esc(L.element(element))}</span></span>`;
+      if (!icon) return "";
+      const extraClass = className ? ` ${esc(className)}` : "";
+      return `<span class="element-icon element-icon--${esc(element)}${extraClass}" title="${esc(title || L.element(element))}"><img class="element-icon-image" src="${esc(icon)}" alt="" onerror="this.style.display='none'" /></span>`;
+    }
+
+    function elementBadgeHTML(element) {
+      return `<span class="element-badge">${elementIconHTML(element)}<span>${esc(L.element(element))}</span></span>`;
+    }
+
+    function targetDisplayElement(item) {
+      if (!item) return "";
+      if (item.mode !== "openWorld") return item.element || "";
+      return TARGETS.elements().find((element) => Number(item.resistances?.[element]) === 40) || "";
+    }
+
+    function gameplayAssetPath(buff) {
+      const ref = buff?.localeRef || {};
+      const assets = window.WUWA_ICON_ASSETS?.targetGameplay || {};
+      if (ref.kind === "whiwaItem") return assets.whiwa?.[String(ref.itemId)] || "";
+      if (ref.kind === "matrixBuff") return assets.dpmatrix?.[String(ref.buffId)] || "";
+      return "";
+    }
+
+    function targetControlIconHTML({ icon = "", element = "", label = "", qualityId = 0, variant = "" } = {}) {
+      if (!icon && !element) return "";
+      const quality = Number(qualityId);
+      const qualityClass = quality === 5 ? " target-control-icon--gold" : quality === 4 ? " target-control-icon--purple" : "";
+      if (element) return elementIconHTML(element, "target-control-icon", label);
+      const variantClass = variant === "matrix" ? " target-control-icon--matrix" : "";
+      const title = label || (element ? L.element(element) : "");
+      const image = icon ? `<img class="target-control-image" src="${esc(icon)}" alt="" onerror="this.style.display='none'" />` : "";
+      return `<span class="target-control-icon${qualityClass}${variantClass}" title="${esc(title)}">${image}</span>`;
+    }
+
+    function targetPickerIconHTML(item) {
+      return targetControlIconHTML({
+        element: targetDisplayElement(item),
+        label: item ? TARGETS.targetOptionName(item) : "",
+      });
+    }
+
+    function gameplayBuffIconHTML(buff) {
+      const mode = state.enemy.targetMode;
+      if (!buff || (mode !== "whiwa" && mode !== "dpmatrix")) return "";
+      return targetControlIconHTML({
+        icon: gameplayAssetPath(buff),
+        label: TARGETS.gameplayBuffName(buff),
+        qualityId: buff?.qualityId,
+        variant: mode === "dpmatrix" ? "matrix" : "",
+      });
+    }
+
+    function targetSelectControlHTML(selectHTML, iconHTML) {
+      return `<div class="target-select-control${iconHTML ? " target-select-control--with-icon" : ""}">${iconHTML}${selectHTML}</div>`;
     }
 
     function skillOptions(slot) {
@@ -1476,7 +1528,7 @@ window.WUWA_STAGE_VIEW = (() => {
         level: L.t("common.levelShort", { value: tnum(context.enemyLevel) }),
         resistance: tnum(context.resistance),
       });
-      return `<div class="target-summary" id="target-summary">${esc(summary)}</div>`;
+      return `<div class="target-summary" id="target-summary">${elementIconHTML(damageElement, "target-summary-icon")}<span>${esc(summary)}</span></div>`;
     }
 
     function targetGameplayControlsHTML() {
@@ -1487,7 +1539,14 @@ window.WUWA_STAGE_VIEW = (() => {
         : state.enemy.targetMode === "dpmatrix"
           ? L.t("targets.enhancement")
           : L.t("targets.buff");
-      const optionHTML = (group, buff) => `<option value="${esc(buff.id)}" ${group.value === buff.id ? "selected" : ""}>${esc(TARGETS.gameplayBuffName(buff))}</option>`;
+      const optionHTML = (group, buff) => {
+        const selected = group.value === buff.id;
+        const name = TARGETS.gameplayBuffName(buff);
+        const description = TARGETS.gameplayBuffDescription(buff);
+        return `<button type="button" class="combo-opt target-choice-option${selected ? " sel" : ""}" data-act="target-buff-choice" data-group="${esc(group.id)}" data-preview="${esc(description)}" value="${esc(buff.id)}" role="option" aria-selected="${selected}" aria-label="${esc(L.sourceJoin(name, description))}">
+          ${gameplayBuffIconHTML(buff)}<span class="combo-opt-lbl">${esc(name)}</span>
+        </button>`;
+      };
       const choiceOptionsHTML = (group) => {
         if (state.enemy.targetMode !== "whiwa") return group.options.map((buff) => optionHTML(group, buff)).join("");
         return [
@@ -1496,12 +1555,19 @@ window.WUWA_STAGE_VIEW = (() => {
         ].map(({ qualityId, label }) => {
           const options = group.options.filter((buff) => Number(buff.qualityId) === qualityId);
           if (!options.length) return "";
-          return `<optgroup label="${esc(label)}">${options.map((buff) => optionHTML(group, buff)).join("")}</optgroup>`;
+          return `<div class="target-choice-group-label">${esc(label)}</div>${options.map((buff) => optionHTML(group, buff)).join("")}`;
         }).join("");
       };
       const groups = gameplay.groups.map((group) => {
         const options = choiceOptionsHTML(group);
-        return `<label class="target-buff-select"><span>${esc(groupLabel)}</span><select data-act="target-buff-choice" data-group="${esc(group.id)}"><option value="">${esc(L.t("targets.buffUnselected"))}</option>${options}</select></label>`;
+        const selected = group.options.find((buff) => buff.id === group.value);
+        const currentName = selected ? TARGETS.gameplayBuffName(selected) : L.t("targets.buffUnselected");
+        const unselected = `<button type="button" class="combo-opt target-choice-option${selected ? "" : " sel"}" data-act="target-buff-choice" data-group="${esc(group.id)}" value="" role="option" aria-selected="${!selected}"><span class="combo-opt-lbl">${esc(L.t("targets.buffUnselected"))}</span></button>`;
+        return `<div class="target-buff-select"><span>${esc(groupLabel)}</span><div class="target-choice">
+          <button type="button" class="target-choice-toggle" data-act="target-choice-toggle" aria-haspopup="listbox" aria-expanded="false">${gameplayBuffIconHTML(selected)}<span class="combo-lbl">${esc(currentName)}</span><span class="combo-caret" aria-hidden="true"></span></button>
+          <div class="combo-pop target-choice-pop" role="listbox" aria-label="${esc(groupLabel)}">${unselected}${options}</div>
+          <div class="formula-card-tip target-choice-tooltip" role="tooltip"></div>
+        </div></div>`;
       }).join("");
       const fixed = gameplay.fixed.length
         ? `<div class="target-buff-fixed"><span>${esc(L.t("targets.stageEffects"))}</span>${gameplay.fixed.map((buff) => `<span class="target-buff-chip" title="${esc(TARGETS.gameplayBuffDescription(buff))}">${esc(TARGETS.gameplayBuffName(buff))}</span>`).join("")}</div>`
@@ -1519,9 +1585,7 @@ window.WUWA_STAGE_VIEW = (() => {
         }
         return `<label class="target-buff-toggle" title="${esc(desc)}"><input type="checkbox" data-act="target-buff-toggle" data-buff="${esc(buff.id)}" ${TARGETS.controlValue(state.enemy, buff) ? "checked" : ""} /> <span>${esc(name)}</span></label>`;
       }).join("");
-      const selectedDescriptions = gameplay.groups.map((group) => group.options.find((buff) => buff.id === group.value)).filter(Boolean).map((buff) => TARGETS.gameplayBuffDescription(buff));
-      const description = selectedDescriptions.length ? `<div class="target-buff-description">${selectedDescriptions.map(esc).join(" · ")}</div>` : "";
-      return `<div class="target-buff-controls">${groups}${fixed}${controls}${description}</div>`;
+      return `<div class="target-buff-controls">${groups}${fixed}${controls}</div>`;
     }
 
     function targetControlsHTML(r) {
@@ -1544,7 +1608,7 @@ window.WUWA_STAGE_VIEW = (() => {
       const pathControl = targetPaths.length ? `<label class="formula-target-path"><span>${esc(TARGETS.targetPathLabel(enemy.targetMode))}</span><select data-act="target-path">${targetPaths.map((path) =>
         `<option value="${esc(path.id)}" ${path.id === selectedPathId ? "selected" : ""}>${esc(path.label)}</option>`
       ).join("")}</select></label>` : "";
-      const targetOptions = TARGETS.groupedTargets(enemy.targetMode, enemy.targetSeasonId, selectedPathId).map((group) => {
+      const targetOptions = TARGETS.groupedTargets(enemy.targetMode, enemy.targetSeasonId, selectedPathId, enemy.targetId).map((group) => {
         const options = group.items.map((item) =>
           `<option value="${esc(item.id)}" ${item.id === enemy.targetId ? "selected" : ""}>${esc(TARGETS.targetOptionName(item))}</option>`
         ).join("");
@@ -1553,9 +1617,11 @@ window.WUWA_STAGE_VIEW = (() => {
       const updatedAt = L.t("targets.updatedAt", { date: TARGETS.syncedDate() });
       const gameplayControls = targetGameplayControlsHTML();
       const toggle = `<button type="button" class="formula-target-toggle${state.showTargetExtras ? " on" : ""}" data-act="target-extra-toggle">${esc(state.showTargetExtras ? L.t("common.collapse") : L.t("common.more"))}</button>`;
-      const targetLabel = enemy.targetMode === "openWorld" ? L.t("targets.attribute") : L.t("targets.target");
+      const targetLabel = L.t("targets.attribute");
+      const targetPick = targetSelectControlHTML(`<select data-act="target-pick">${targetOptions}</select>`, targetPickerIconHTML(context.target));
       const costControl = `<label class="formula-target-cost"><span>${esc(L.t("targets.cost"))}</span><select data-act="offset-cost">${offsetCostOptionsHTML(true)}</select></label>`;
-      const levelControl = `<label class="formula-target-level"><span>${esc(L.t("targets.enemyLevel"))}</span><input type="number" min="1" step="1" data-act="target-level" value="${esc(tnum(context.enemyLevel))}" /></label>`;
+      const levelControlState = enemy.targetMode === "openWorld" ? 'data-act="target-level"' : "disabled";
+      const levelControl = `<label class="formula-target-level"><span>${esc(L.t("targets.enemyLevel"))}</span><input type="number" min="1" step="1" ${levelControlState} value="${esc(tnum(context.enemyLevel))}" /></label>`;
       const primaryClass = `formula-target-primary${seasonControl ? " formula-target-primary--with-season" : ""}${pathControl ? " formula-target-primary--with-path" : ""}`;
       if (!state.showTargetExtras) {
         return `<div class="formula-target-controls" id="target-controls">
@@ -1563,7 +1629,7 @@ window.WUWA_STAGE_VIEW = (() => {
         <label><span>${esc(L.t("targets.mode"))}</span><select data-act="target-mode">${modeOptions}</select></label>
         ${seasonControl}
         ${pathControl}
-        <label class="formula-target-pick"><span>${esc(targetLabel)}</span><select data-act="target-pick">${targetOptions}</select></label>
+        <label class="formula-target-pick"><span>${esc(targetLabel)}</span>${targetPick}</label>
         ${levelControl}
         ${costControl}
         ${toggle}
@@ -1580,7 +1646,7 @@ window.WUWA_STAGE_VIEW = (() => {
         return `<label class="effect-field"><span>${esc(label)}${help}</span><input type="number" step="${esc(step)}" data-act="enemy" data-key="${esc(key)}" data-total="1" data-auto="${esc(auto)}" value="${esc(tnum(total))}" /></label>`;
       };
       const resistanceInputs = TARGETS.elements().map((element) =>
-        `<label class="effect-field"><span>${esc(L.t("targets.resistance", { element: L.element(element) }))}</span><input type="number" step="0.1" data-act="target-resistance" data-element="${esc(element)}" value="${esc(tnum(context.resistances[element]))}" /></label>`
+        `<label class="effect-field"><span class="target-resistance-label">${elementIconHTML(element, "target-resistance-icon")}${esc(L.t("targets.resistance", { element: L.element(element) }))}</span><input type="number" step="0.1" data-act="target-resistance" data-element="${esc(element)}" value="${esc(tnum(context.resistances[element]))}" /></label>`
       ).join("");
       const autoDefShred = num(r?.defense?.buffDefShred) + num(r?.defense?.effectDefShred);
       const defHint = r?.defense && r.defense.effectDefShred
@@ -1605,7 +1671,7 @@ window.WUWA_STAGE_VIEW = (() => {
       <label><span>${esc(L.t("targets.mode"))}</span><select data-act="target-mode">${modeOptions}</select></label>
       ${seasonControl}
       ${pathControl}
-      <label class="formula-target-pick"><span>${esc(targetLabel)}</span><select data-act="target-pick">${targetOptions}</select></label>
+      <label class="formula-target-pick"><span>${esc(targetLabel)}</span>${targetPick}</label>
       ${levelControl}
       ${costControl}
       ${toggle}

@@ -73,7 +73,7 @@ window.WUWA_LANGUAGES.extend("ja-JP", {
       stageEffects: "自動適用",
       buffValue: "{value}%",
       gameplayBuffSource: "コンテンツ",
-      summary: "{character}・{element} → {target} {level}・{element}耐性{resistance}%",
+      summary: "{character}・{element} → 対象 {target} {level}・{element}耐性{resistance}%",
       updatedAt: "対象データ更新：{date}"
     },
     hints: {
