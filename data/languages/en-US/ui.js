@@ -73,7 +73,7 @@ window.WUWA_LANGUAGES.extend("en-US", {
       stageEffects: "Auto-applied",
       buffValue: "{value}%",
       gameplayBuffSource: "Gameplay",
-      summary: "{character} · {element} → {target} {level} · {element} RES {resistance}%",
+      summary: "{character} · {element} → Target {target} {level} · {element} RES {resistance}%",
       updatedAt: "Target data updated {date}"
     },
     hints: {

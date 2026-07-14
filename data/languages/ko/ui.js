@@ -73,7 +73,7 @@ window.WUWA_LANGUAGES.extend("ko", {
       "stageEffects": "자동 적용",
       "buffValue": "{value}%",
       "gameplayBuffSource": "콘텐츠",
-      "summary": "{character} · {element} → {target} {level} · {element} 내성 {resistance}%",
+      "summary": "{character} · {element} → 대상 {target} {level} · {element} 내성 {resistance}%",
       "updatedAt": "대상 데이터 업데이트: {date}"
     },
     "hints": {

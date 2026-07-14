@@ -2,10 +2,12 @@
 
 const fs = require("fs");
 const path = require("path");
+const { buildIconFiles, synchronizeTargetIcons } = require("./sync-icons.js");
 
 const ROOT = path.resolve(__dirname, "..");
 const API_BASE = String(process.env.WUWA_TARGET_API_BASE || "").replace(/\/+$/, "");
 const API_SCHEMA_URL = String(process.env.WUWA_TARGET_API_SCHEMA_URL || "");
+const TOA_LEVEL_URL_TEMPLATE = String(process.env.WUWA_TARGET_TOA_LEVEL_URL_TEMPLATE || "");
 const LANGUAGES = {
   "zh-CN": "zh-Hans",
   "en-US": "en",
@@ -35,8 +37,18 @@ const WHIWA_INCLUDED_ORDER = new Set([9, 10, 11, 12]);
 const WHIWA_LEVEL_BY_ORDER = { 9: 90, 10: 90, 11: 90, 12: 100 };
 const WHIWA_TOKEN_QUALITY_IDS = new Set([4, 5]);
 const WHIWA_PERSISTENT_PURPLE_TOKEN_IDS = [71500011, 71501001, 71501002, 71501003, 71501004];
-const WHIWA_CURRENT_REWARD_TOKEN_IDS = [71500090, 71500091, 71500092, 71500093];
+const WHIWA_REWARD_TOKEN_IDS_BY_SEASON = {
+  19: [71500090, 71500091, 71500092, 71500093],
+  20: [71500094, 71500095, 71500096, 71500097],
+};
+const REVIEWED_SEASONS = {
+  toa: new Set([37, 38, 39]),
+  whiwa: new Set([19, 20]),
+  dpmatrix: new Set([6]),
+};
+const TOA_COMPOSED_SEASONS = new Set([38, 39]);
 const MODE_RULES = {
+  toa: { all: 10, matchingElement: 10 },
   whiwa: { all: 10 },
   dpmatrix: { all: 20, matchingElement: 20 },
 };
@@ -62,6 +74,8 @@ const CONDITIONAL_RESISTANCE_SCHEMAS = {
   92008132: { value: 15, suffix: "resistance-removed" },
   92008151: { value: 15, suffix: "resistance-removed" },
   92008180: { value: 15, suffix: "resistance-removed" },
+  92008193: { value: 15, suffix: "resistance-removed" },
+  92008198: { value: 15, suffix: "resistance-removed" },
 };
 
 const TOA_GAMEPLAY_SCHEMAS = {
@@ -90,6 +104,46 @@ const TOA_GAMEPLAY_SCHEMAS = {
     { suffix: "intro-basic-heavy", control: "toggle", clause: -1, effects: [
       { zone: "typeBonus", value: 40, damageTypes: ["basic"], modes: ["skill"] },
       { zone: "typeBonus", value: 40, damageTypes: ["heavy"], modes: ["skill"] },
+    ] },
+  ],
+  92008119: [
+    { suffix: "crit-dmg", control: "fixed", clause: 0, effects: [{ zone: "critDamage", value: 20, modes: ["skill"] }] },
+    { suffix: "intro-liberation-heavy", control: "toggle", clause: -1, effects: [
+      { zone: "typeBonus", value: 30, damageTypes: ["resonanceLiberation"], modes: ["skill"] },
+      { zone: "typeBonus", value: 30, damageTypes: ["heavy"], modes: ["skill"] },
+    ] },
+  ],
+  92008186: [
+    { suffix: "fusion-spectro", control: "fixed", clause: 0, effects: [
+      { zone: "damageBonus", value: 30, element: "fusion", modes: ["skill"] },
+      { zone: "damageBonus", value: 30, element: "spectro", modes: ["skill"] },
+    ] },
+    { suffix: "tune-shifting-atk", control: "toggle", clause: -1, effects: [{ zone: "attackPercent", value: 30, modes: ["skill"] }] },
+  ],
+  92008190: [
+    { suffix: "basic-stacks", control: "range", clause: 0, min: 0, max: 8, step: 1, defaultValue: 0, effects: [{ zone: "damageBonus", value: 5, controlMultiplier: true, modes: ["skill"] }] },
+  ],
+  92008191: [
+    { suffix: "tune-break-stacks", control: "range", clause: 0, min: 0, max: 3, step: 1, defaultValue: 0, effects: [{ zone: "finalDmg", value: 10, controlMultiplier: true, modes: ["skill"] }] },
+    { suffix: "havoc-bane", control: "toggle", clause: -1, effects: [{ zone: "finalDmg", value: 45, modes: ["skill"] }] },
+  ],
+  92008192: [
+    { suffix: "crit-dmg", control: "fixed", clause: 0, effects: [{ zone: "critDamage", value: 25, modes: ["skill"] }] },
+    { suffix: "fusion-burst", control: "fixed", clause: -1, effects: [{ zone: "finalDmg", value: 40, effect: "fusion", modes: ["effect"] }] },
+  ],
+  92008194: [
+    { suffix: "fixed", control: "fixed", clause: 0, effects: [{ zone: "finalDmg", value: 15, modes: ["skill"] }] },
+    { suffix: "tune-strain", control: "toggle", clause: 1, effects: [{ zone: "finalDmg", value: 50, modes: ["skill"] }] },
+    { suffix: "havoc-bane", control: "toggle", clause: 2, effects: [{ zone: "finalDmg", value: 30, modes: ["skill"] }] },
+    { suffix: "negative-status", control: "fixed", clause: -1, effects: [{ zone: "finalDmg", value: 60, modes: ["effect"] }] },
+  ],
+  92008205: [
+    { suffix: "time-ramp", control: "range", clause: 0, min: 0, max: 60, step: 5, defaultValue: 0, effects: [{ zone: "finalDmg", controlValue: true, modes: ["skill"] }] },
+  ],
+  92008036: [
+    { suffix: "intro-basic", control: "toggle", clause: 0, effects: [
+      { zone: "critDamage", value: 20, modes: ["skill"] },
+      { zone: "typeBonus", value: 40, damageTypes: ["basic"], modes: ["skill"] },
     ] },
   ],
 };
@@ -121,6 +175,23 @@ const WHIWA_TOKEN_SCHEMAS = {
     { zone: "finalDmg", value: 20, element: "spectro", modes: ["skill"] },
     { zone: "finalDmg", value: 40, damageTypes: ["heavy"], modes: ["skill"] },
     { zone: "finalDmg", value: 40, damageTypes: ["basic"], modes: ["skill"] },
+  ] },
+  71500094: { qualityId: 4, effects: [{ zone: "amplify", value: 25, modes: ["skill"] }] },
+  71500095: { qualityId: 5, effects: [], children: [
+    { suffix: "havoc-bane", control: "toggle", clause: 0, effects: [{ zone: "finalDmg", value: 60, modes: ["skill"] }] },
+  ] },
+  71500096: { qualityId: 5, effects: [
+    { zone: "finalDmg", value: 30, element: "fusion", modes: ["skill"] },
+    { zone: "finalDmg", value: 100, effect: "fusion", modes: ["effect"] },
+  ], children: [
+    { suffix: "negative-status", control: "toggle", clause: 1, effects: [{ zone: "attackPercent", value: 20, modes: ["skill"] }] },
+  ] },
+  71500097: { qualityId: 5, effects: [], children: [
+    { suffix: "tune-strain", control: "toggle", clause: 0, effects: [{ zone: "finalDmg", value: 40, modes: ["skill"] }] },
+    { suffix: "tune-break", control: "toggle", clause: 1, effects: [
+      { zone: "damageBonus", value: 30, modes: ["skill"] },
+      { zone: "damageBonus", value: 30, element: "aero", modes: ["skill"] },
+    ] },
   ] },
 };
 
@@ -286,6 +357,86 @@ function toaSeasonCoverage(payload) {
   };
 }
 
+function hasToaFinalStats(monster) {
+  const map = propsMap(monster?.whiteGreenProps);
+  return Number.isFinite(Number(map.get("Lv")?.value)) && ELEMENTS.every((element) => {
+    const property = map.get(RESISTANCE_KEYS[element]);
+    return property?.isPercent === true && Number.isFinite(Number(property.value));
+  });
+}
+
+function toaLevelKey(recordId, monsterId) {
+  return targetId([recordId, monsterId]);
+}
+
+function toaLevelMap(payload, seasonId) {
+  const areas = payload?.area;
+  assert(areas && typeof areas === "object", "toa " + seasonId + ": invalid level payload");
+  const output = new Map();
+  Object.values(areas).forEach((area) => {
+    Object.values(area?.floor || {}).forEach((floor) => {
+      const recordId = Number(floor?.id);
+      assert(Number.isFinite(recordId), "toa " + seasonId + ": missing level record id");
+      Object.entries(floor?.monsters || {}).forEach(([monsterId, monster]) => {
+        const level = Number(monster?.level);
+        const key = toaLevelKey(recordId, monsterId);
+        assert(Number.isFinite(level) && level > 0, "toa " + seasonId + ": missing target level " + key);
+        assert(!output.has(key), "toa " + seasonId + ": duplicate target level " + key);
+        output.set(key, level);
+      });
+    });
+  });
+  assert(output.size, "toa " + seasonId + ": empty level payload");
+  return output;
+}
+
+function toaLevelCoverage(payload, levels) {
+  const records = collectToaRecords(payload).filter(toaRecordIncluded);
+  const rows = records.flatMap((record) => asArray(record.monsters).map((monster) => ({
+    recordId: Number(record.id),
+    monsterId: Number(monster.id),
+  })));
+  const withLevel = rows.filter((row) => Number.isFinite(levels.get(toaLevelKey(row.recordId, row.monsterId)))).length;
+  return {
+    records: records.length,
+    monsters: rows.length,
+    withLevel,
+    complete: records.length > 0 && withLevel === rows.length,
+  };
+}
+
+function toaModeModifiers(monster, label) {
+  const matchingElements = uniqueIds(asArray(monster?.elements).map((item) => elementFromApi(item?.id)).filter(Boolean));
+  assert(matchingElements.length === 1, label + ": expected exactly one target element");
+  return [
+    { kind: "modeBase", value: MODE_RULES.toa.all, sourceId: "toaModeBase" },
+    {
+      kind: "attributeResistanceAdjustment",
+      element: matchingElements[0],
+      value: MODE_RULES.toa.matchingElement,
+      sourceId: "toaMatchingElement",
+    },
+  ];
+}
+
+function validateToaCompositionCalibration(payload, seasonId, levels, monsterDetails) {
+  const records = collectToaRecords(payload).filter(toaRecordIncluded);
+  const rows = records.flatMap((record) => asArray(record.monsters).map((monster) => ({ record, monster })));
+  assert(rows.length, "toa " + seasonId + ": empty composition calibration set");
+  rows.forEach(({ record, monster }) => {
+    const label = "toa " + seasonId + " record " + record.id + " monster " + monster.id;
+    assert(hasToaFinalStats(monster), label + ": incomplete calibration stats");
+    const level = levels.get(toaLevelKey(record.id, monster.id));
+    assert(Number(level) === toaMonsterLevel(monster, label), label + ": level calibration mismatch");
+    const detail = monsterDetails.get(Number(monster.id));
+    assert(detail, label + ": missing calibration monster detail");
+    const composed = applyModifiers(normalizeMonsterResistance(detail), toaModeModifiers(monster, label));
+    const final = toaFinalResistance(monster, label);
+    ELEMENTS.forEach((element) => assert(composed[element] === final[element], label + ": " + element + " resistance calibration mismatch"));
+  });
+  return rows.length;
+}
+
 function collectToaRecords(value, output = []) {
   if (!value || typeof value !== "object") return output;
   if (Array.isArray(value)) {
@@ -389,11 +540,42 @@ function toaExclusion(record, seasonId, modifierInfo) {
   };
 }
 
-function addToaRecordTargets(record, seasonId, modifierInfo, targets, gameplayBuffs) {
+function toaTargetStats(record, monster, seasonId, modifierInfo, monsterDetails, levels) {
+  const label = "toa " + seasonId + " record " + record.id + " monster " + monster.id;
+  if (hasToaFinalStats(monster)) {
+    return {
+      level: toaMonsterLevel(monster, label),
+      resistances: applyModifiers(toaFinalResistance(monster, label), modifierInfo.modifiers),
+      resistance: {
+        sourceKind: "stageFinal",
+        includesModeModifiers: true,
+        modifiers: modifierInfo.modifiers,
+      },
+    };
+  }
+  assert(TOA_COMPOSED_SEASONS.has(Number(seasonId)), label + ": composed stats are not reviewed for this season");
+  const level = levels.get(toaLevelKey(record.id, monster.id));
+  assert(Number.isFinite(level), label + ": missing reviewed target level");
+  const detail = monsterDetails.get(Number(monster.id));
+  assert(detail, label + ": missing monster resistance detail");
+  const modifiers = [...toaModeModifiers(monster, label), ...modifierInfo.modifiers];
+  return {
+    level,
+    resistances: applyModifiers(normalizeMonsterResistance(detail), modifiers),
+    resistance: {
+      sourceKind: "composed",
+      includesModeModifiers: true,
+      intrinsicSource: "monster",
+      modifiers,
+    },
+  };
+}
+
+function addToaRecordTargets(record, seasonId, modifierInfo, targets, gameplayBuffs, monsterDetails, levels) {
   const gameplay = toaGameplay(record, seasonId, gameplayBuffs);
   return asArray(record.monsters).map((monster) => {
-    const label = "toa " + seasonId + " record " + record.id + " monster " + monster.id;
     const id = targetId(["toa", seasonId, record.id, monster.id]);
+    const stats = toaTargetStats(record, monster, seasonId, modifierInfo, monsterDetails, levels);
     return addTarget(targets, {
       id,
       mode: "toa",
@@ -405,19 +587,13 @@ function addToaRecordTargets(record, seasonId, modifierInfo, targets, gameplayBu
       monsterId: Number(monster.id),
       nameId: targetNameId(monster.id),
       element: elementFromApi(asArray(monster.elements)[0]?.id),
-      level: toaMonsterLevel(monster, label),
-      resistances: applyModifiers(toaFinalResistance(monster, label), modifierInfo.modifiers),
-      resistance: {
-        sourceKind: "stageFinal",
-        includesModeModifiers: true,
-        modifiers: modifierInfo.modifiers,
-      },
+      ...stats,
       gameplay,
     });
   });
 }
 
-function buildToaSeason(payload, seasonId, targets, exclusions = [], gameplayBuffs = {}) {
+function buildToaSeason(payload, seasonId, targets, exclusions = [], gameplayBuffs = {}, monsterDetails = new Map(), levels = new Map()) {
   const ids = [];
   const records = collectToaRecords(payload).filter(toaRecordIncluded);
   assert(records.length, "toa " + seasonId + ": no encounter records");
@@ -428,7 +604,7 @@ function buildToaSeason(payload, seasonId, targets, exclusions = [], gameplayBuf
       exclusions.push(toaExclusion(record, seasonId, modifierInfo));
       return;
     }
-    ids.push(...addToaRecordTargets(record, seasonId, modifierInfo, targets, gameplayBuffs));
+    ids.push(...addToaRecordTargets(record, seasonId, modifierInfo, targets, gameplayBuffs, monsterDetails, levels));
   });
   assert(ids.length, "toa " + seasonId + ": no supported targets");
   return uniqueIds(ids);
@@ -533,8 +709,11 @@ function whiwaSelectableTokenIds(payload) {
 }
 
 function whiwaTokenGroup(payload, seasonId, gameplayBuffs) {
-  if (String(seasonId) !== "19") return null;
+  const reviewedRewardIds = WHIWA_REWARD_TOKEN_IDS_BY_SEASON[Number(seasonId)];
+  if (!reviewedRewardIds) return null;
   const rewardItems = new Map(asArray(payload.buffItems).map((item) => [Number(item.itemId), item]));
+  const rewardIds = Array.from(rewardItems.keys()).sort((a, b) => a - b);
+  assert(JSON.stringify(rewardIds) === JSON.stringify(reviewedRewardIds), "whiwa " + seasonId + ": reward Token set changed");
   const optionIds = whiwaSelectableTokenIds(payload).map((itemId) => {
     const schema = WHIWA_TOKEN_SCHEMAS[itemId];
     assert(schema, "whiwa " + seasonId + ": unstructured current Token " + itemId);
@@ -570,15 +749,15 @@ function whiwaTokenGroup(payload, seasonId, gameplayBuffs) {
     });
     return parent.id;
   });
-  assert(optionIds.length === Object.keys(WHIWA_TOKEN_SCHEMAS).length, "whiwa " + seasonId + ": incomplete current Token options");
+  assert(optionIds.length === WHIWA_PERSISTENT_PURPLE_TOKEN_IDS.length + reviewedRewardIds.length, "whiwa " + seasonId + ": incomplete Token options");
   const qualities = optionIds.map((id) => gameplayBuffs[id].qualityId);
-  assert(qualities.filter((qualityId) => qualityId === 4).length === 6, "whiwa " + seasonId + ": incomplete current purple Token options");
-  assert(qualities.filter((qualityId) => qualityId === 5).length === 3, "whiwa " + seasonId + ": incomplete current gold Token options");
+  assert(qualities.filter((qualityId) => qualityId === 4).length === 6, "whiwa " + seasonId + ": incomplete purple Token options");
+  assert(qualities.filter((qualityId) => qualityId === 5).length === 3, "whiwa " + seasonId + ": incomplete gold Token options");
   return { id: targetId(["whiwa", seasonId, "token"]), optionIds, defaultOptionId: null };
 }
 
 function whiwaGameplay(entry, seasonId, gameplayBuffs, tokenGroup) {
-  if (String(seasonId) !== "19") return gameplayRefs();
+  if (!REVIEWED_SEASONS.whiwa.has(Number(seasonId))) return gameplayRefs();
   const level = entry.level;
   const fixedIds = [];
   const controlIds = [];
@@ -789,7 +968,12 @@ function currentSeasonEntry(entries, mode) {
 function includedSeasons(entries, mode, current) {
   const currentId = seasonValue(current, mode);
   if (mode === "dpmatrix") return entries.filter((entry) => seasonValue(entry, mode) <= currentId);
-  if (mode === "whiwa" || mode === "toa") return entries.filter((entry) => seasonValue(entry, mode) > 0 && seasonValue(entry, mode) <= currentId);
+  if (mode === "whiwa" || mode === "toa") {
+    return entries.filter((entry) => {
+      const id = seasonValue(entry, mode);
+      return id > 0 && (id <= currentId || REVIEWED_SEASONS[mode].has(id));
+    });
+  }
   return entries.filter((entry) => seasonValue(entry, mode) <= currentId);
 }
 
@@ -946,7 +1130,7 @@ function validateLocaleCoverage(locale, targets, modeSeasons, gameplayBuffs, cod
   Object.keys(gameplayBuffs).forEach((id) => assert(locale.targetBuffs[id]?.name && locale.targetBuffs[id]?.desc, code + ": missing gameplay buff " + id));
 }
 
-async function fetchJson(url, attempt = 1) {
+async function fetchJson(url, attempt = 1, label = "request") {
   const controller = new AbortController();
   const timeout = setTimeout(() => controller.abort(), 25000);
   try {
@@ -954,12 +1138,12 @@ async function fetchJson(url, attempt = 1) {
       headers: { accept: "application/json", "user-agent": "wuwa-damage-calculator-target-sync/1.0" },
       signal: controller.signal,
     });
-    assert(response.ok, url + ": HTTP " + response.status);
+    assert(response.ok, label + ": HTTP " + response.status);
     return await response.json();
   } catch (error) {
-    if (attempt >= 4) throw error;
+    if (attempt >= 4) throw new Error(label + ": request failed");
     await new Promise((resolve) => setTimeout(resolve, attempt * 500));
-    return fetchJson(url, attempt + 1);
+    return fetchJson(url, attempt + 1, label);
   } finally {
     clearTimeout(timeout);
   }
@@ -1004,6 +1188,19 @@ async function fetchSeasonDetails(code, mode, seasons) {
   }).then((entries) => new Map(entries));
 }
 
+function toaLevelUrl(seasonId) {
+  assert(TOA_LEVEL_URL_TEMPLATE.includes("{season}"), "Set WUWA_TARGET_TOA_LEVEL_URL_TEMPLATE before syncing reviewed future target levels.");
+  return TOA_LEVEL_URL_TEMPLATE.replace("{season}", String(seasonId));
+}
+
+async function fetchToaLevelMaps(seasonIds) {
+  const rows = await concurrentMap(seasonIds, 3, async (seasonId) => {
+    const payload = await fetchJson(toaLevelUrl(seasonId), 1, "toa " + seasonId + " level data");
+    return [String(seasonId), toaLevelMap(payload, seasonId)];
+  });
+  return new Map(rows);
+}
+
 async function fetchLocalizedDetails(code, lists, includedByMode) {
   const details = {};
   for (const mode of ["toa", "whiwa", "dpmatrix"]) {
@@ -1027,8 +1224,8 @@ async function fetchMonsterDetails(monsterIds) {
   return new Map(rows);
 }
 
-async function fetchWhiwaItemDetails(code, payload) {
-  const ids = whiwaSelectableTokenIds(payload);
+async function fetchWhiwaItemDetails(code, payloads) {
+  const ids = uniqueIds(payloads.flatMap(whiwaSelectableTokenIds));
   const rows = await concurrentMap(ids, 4, async (id) => {
     const detail = await fetchJson(endpoint(code, "/item/" + id));
     const schema = WHIWA_TOKEN_SCHEMAS[id];
@@ -1056,22 +1253,28 @@ function referencedWhiwaMonsterIds(details) {
   return new Set(Array.from(details.values()).flatMap(whiwaMonsterIdsForPayload));
 }
 
-function seasonTargetIds(mode, payload, seasonId, targets, monsterDetails, toaExclusions, gameplayBuffs) {
+function referencedComposedToaMonsterIds(details) {
+  return new Set(Array.from(details.entries())
+    .filter(([seasonId]) => TOA_COMPOSED_SEASONS.has(Number(seasonId)))
+    .flatMap(([, payload]) => collectToaRecords(payload).filter(toaRecordIncluded).flatMap((record) => asArray(record.monsters).map((monster) => Number(monster.id)))));
+}
+
+function seasonTargetIds(mode, payload, seasonId, targets, monsterDetails, toaExclusions, gameplayBuffs, toaLevels) {
   switch (mode) {
-    case "toa": return buildToaSeason(payload, seasonId, targets, toaExclusions, gameplayBuffs);
+    case "toa": return buildToaSeason(payload, seasonId, targets, toaExclusions, gameplayBuffs, monsterDetails, toaLevels.get(String(seasonId)) || new Map());
     case "whiwa": return buildWhiwaSeason(payload, seasonId, targets, monsterDetails, gameplayBuffs);
     case "dpmatrix": return buildMatrixSeason(payload, seasonId, targets, gameplayBuffs);
     default: throw new Error("unsupported target mode " + mode);
   }
 }
 
-function buildModeCore(mode, entries, currentEntry, details, targets, monsterDetails, toaExclusions, gameplayBuffs) {
+function buildModeCore(mode, entries, currentEntry, details, targets, monsterDetails, toaExclusions, gameplayBuffs, toaLevels) {
   const currentId = String(seasonValue(currentEntry, mode));
   const seasons = entries.map((entry) => {
     const id = String(seasonValue(entry, mode));
     const payload = details.get(id);
     assert(payload, mode + " " + id + ": missing zh-Hans detail");
-    return seasonCore(entry, mode, currentId, seasonTargetIds(mode, payload, id, targets, monsterDetails, toaExclusions, gameplayBuffs));
+    return seasonCore(entry, mode, currentId, seasonTargetIds(mode, payload, id, targets, monsterDetails, toaExclusions, gameplayBuffs, toaLevels));
   });
   return {
     currentSeasonId: currentId,
@@ -1135,34 +1338,43 @@ function writeSnapshot(files) {
   }
 }
 
-function validateCurrentGameplaySchemas(currentEntries, details) {
-  const expected = { toa: "37", whiwa: "19", dpmatrix: "6" };
-  Object.entries(expected).forEach(([mode, seasonId]) => {
-    assert(String(seasonValue(currentEntries[mode], mode)) === seasonId, mode + " current season has no reviewed gameplay Buff schema");
-  });
-  const toaPayload = details.toa.get(expected.toa);
-  collectToaRecords(toaPayload).filter(toaRecordIncluded).forEach((record) => {
+function validateToaGameplaySeason(seasonId, payload) {
+  assert(payload, "toa " + seasonId + ": missing reviewed gameplay data");
+  collectToaRecords(payload).filter(toaRecordIncluded).forEach((record) => {
     asArray(record.buffs).forEach((buff) => {
       const handled = TOA_GAMEPLAY_SCHEMAS[Number(buff.id)] || resistanceBuffInfo(buff).supported;
-      assert(handled, "toa current Buff " + buff.id + " has no reviewed structure");
+      assert(handled, "toa " + seasonId + " Buff " + buff.id + " has no reviewed structure");
     });
   });
-  const whiwaPayload = details.whiwa.get(expected.whiwa);
+}
+
+function validateWhiwaGameplaySeason(seasonId, whiwaPayload) {
+  assert(whiwaPayload, "whiwa " + seasonId + ": missing reviewed gameplay data");
   const whiwaItems = asArray(whiwaPayload?.buffItems);
   const itemIds = whiwaItems.map((item) => Number(item.itemId)).sort((a, b) => a - b);
-  assert(JSON.stringify(itemIds) === JSON.stringify(WHIWA_CURRENT_REWARD_TOKEN_IDS), "whiwa current reward Token set changed");
+  assert(JSON.stringify(itemIds) === JSON.stringify(WHIWA_REWARD_TOKEN_IDS_BY_SEASON[Number(seasonId)]), "whiwa " + seasonId + " reward Token set changed");
   const tokenQualities = whiwaItems.map((item) => Number(item.item?.qualityId));
-  assert(tokenQualities.filter((qualityId) => qualityId === 4).length === 1 && tokenQualities.filter((qualityId) => qualityId === 5).length === 3, "whiwa current reward Token qualities changed");
+  assert(tokenQualities.filter((qualityId) => qualityId === 4).length === 1 && tokenQualities.filter((qualityId) => qualityId === 5).length === 3, "whiwa " + seasonId + " reward Token qualities changed");
   const selectableQualities = whiwaSelectableTokenIds(whiwaPayload).map((id) => WHIWA_TOKEN_SCHEMAS[id]?.qualityId);
-  assert(selectableQualities.filter((qualityId) => qualityId === 4).length === 6, "whiwa current selectable purple Token set changed");
-  assert(selectableQualities.filter((qualityId) => qualityId === 5).length === 3, "whiwa current selectable gold Token set changed");
+  assert(selectableQualities.filter((qualityId) => qualityId === 4).length === 6, "whiwa " + seasonId + " selectable purple Token set changed");
+  assert(selectableQualities.filter((qualityId) => qualityId === 5).length === 3, "whiwa " + seasonId + " selectable gold Token set changed");
   const includedLevels = whiwaLevelEntries(whiwaPayload);
-  assert(includedLevels.length === 4, "whiwa current high-floor set changed");
+  assert(includedLevels.length === 4, "whiwa " + seasonId + " high-floor set changed");
   includedLevels.forEach(({ level }) => assert(cleanText(level.desc).includes("60%"), "whiwa " + level.id + ": missing reviewed tide effect"));
-  assert(cleanText(includedLevels.find(({ level }) => Number(level.orderIndex) === 12)?.level.desc).includes("30%"), "whiwa current endless effect changed");
-  const matrixLevel = matrixSingularityLevel(details.dpmatrix.get(expected.dpmatrix));
+  assert(cleanText(includedLevels.find(({ level }) => Number(level.orderIndex) === 12)?.level.desc).includes("30%"), "whiwa " + seasonId + " endless effect changed");
+}
+
+function validateReviewedGameplaySchemas(currentEntries, details) {
+  const expectedCurrent = { toa: "37", whiwa: "19", dpmatrix: "6" };
+  Object.entries(expectedCurrent).forEach(([mode, seasonId]) => {
+    assert(String(seasonValue(currentEntries[mode], mode)) === seasonId, mode + " current season has no reviewed gameplay Buff schema");
+  });
+  REVIEWED_SEASONS.toa.forEach((seasonId) => validateToaGameplaySeason(seasonId, details.toa.get(String(seasonId))));
+  REVIEWED_SEASONS.whiwa.forEach((seasonId) => validateWhiwaGameplaySeason(seasonId, details.whiwa.get(String(seasonId))));
+  const matrixSeasonId = Number(expectedCurrent.dpmatrix);
+  const matrixLevel = matrixSingularityLevel(details.dpmatrix.get(String(matrixSeasonId)));
   const matrixIds = asArray(matrixLevel.NewTowerBuffs).map((buff) => Number(buff.Id)).sort((a, b) => a - b);
-  assert(JSON.stringify(matrixIds) === JSON.stringify(Object.keys(MATRIX_BUFF_SCHEMAS).map(Number).sort((a, b) => a - b)), "dpmatrix current enhancement set changed");
+  assert(JSON.stringify(matrixIds) === JSON.stringify(Object.keys(MATRIX_BUFF_SCHEMAS).map(Number).sort((a, b) => a - b)), "dpmatrix " + matrixSeasonId + " enhancement set changed");
 }
 
 function validateKnownSamples(targets, gameplayBuffs) {
@@ -1174,8 +1386,25 @@ function validateKnownSamples(targets, gameplayBuffs) {
   assert(toa?.resistance.includesModeModifiers === true && !toa?.resistance.modifiers.some((modifier) => modifier.kind === "modeBase"), "toa final resistance must not be restacked");
   const conditionalToa = Object.values(targets).find((target) => target.mode === "toa" && target.seasonId === "37" && target.recordId === 405);
   assert(conditionalToa?.resistances.glacio === 35 && conditionalToa?.resistances.aero === 75, "toa conditional resistance default sample failed");
+  for (const seasonId of ["38", "39"]) {
+    const futureToa = Object.values(targets).find((target) => target.mode === "toa" && target.seasonId === seasonId);
+    assert(futureToa?.resistance.sourceKind === "composed" && futureToa?.resistance.includesModeModifiers === true, "toa " + seasonId + " composed resistance metadata failed");
+    assert(futureToa.resistance.modifiers.filter((modifier) => modifier.kind === "modeBase").length === 1, "toa " + seasonId + " mode base should be composed exactly once");
+  }
+  const toa38Conditional = Object.values(targets).find((target) => target.mode === "toa" && target.seasonId === "38" && target.recordId === 417);
+  const toa39Conditional = Object.values(targets).find((target) => target.mode === "toa" && target.seasonId === "39" && target.recordId === 429);
+  assert(toa38Conditional?.gameplay.controlIds.some((id) => id.endsWith("resistance-removed")), "toa 38 conditional resistance control failed");
+  assert(toa39Conditional?.gameplay.controlIds.some((id) => id.endsWith("resistance-removed")), "toa 39 conditional resistance control failed");
   const whiwa = Object.values(targets).find((target) => target.mode === "whiwa" && target.seasonId === "19" && target.monsterId === 310000430);
   assert(whiwa?.level === 90, "whiwa high-floor level sample failed");
+  const futureWhiwa = Object.values(targets).find((target) => target.mode === "whiwa" && target.seasonId === "20" && target.stageOrder === 9);
+  assert(futureWhiwa?.level === 90 && futureWhiwa?.gameplay.choiceGroups.length === 1, "whiwa 20 target and Token sample failed");
+  const gameplayCounts = Object.values(gameplayBuffs).reduce((counts, buff) => {
+    const key = buff.mode + ":" + buff.id.split(":")[1];
+    counts[key] = (counts[key] || 0) + 1;
+    return counts;
+  }, {});
+  assert(gameplayCounts["toa:38"] === 14 && gameplayCounts["toa:39"] === 20 && gameplayCounts["whiwa:20"] === 20, "future gameplay structure count failed");
   const matrixRounds = new Set(Object.values(targets).filter((target) => target.mode === "dpmatrix" && target.seasonId === "6" && target.areaId === 12).map((target) => target.stageId));
   assert(matrixRounds.size === 3, "matrix current season must expose three rounds");
   assert(Object.keys(gameplayBuffs).length > 0, "current gameplay Buff snapshot is empty");
@@ -1213,12 +1442,21 @@ async function synchronize() {
     process.stdout.write(mode + " details zh-CN (" + includedByMode[mode].length + ")\n");
     zhDetails[mode] = await fetchSeasonDetails("zh-CN", mode, includedByMode[mode]);
   }
-  validateCurrentGameplaySchemas(currentEntries, zhDetails);
+  validateReviewedGameplaySchemas(currentEntries, zhDetails);
+  const includedToaIds = new Set(includedByMode.toa.map((entry) => String(seasonValue(entry, "toa"))));
+  const calibrationSeasonId = String(seasonValue(currentEntries.toa, "toa"));
+  const toaLevelSeasonIds = uniqueIds([
+    calibrationSeasonId,
+    ...Array.from(TOA_COMPOSED_SEASONS).map(String).filter((seasonId) => includedToaIds.has(seasonId)),
+  ]);
+  const toaLevels = await fetchToaLevelMaps(toaLevelSeasonIds);
   const excludedToaSeasons = [];
   includedByMode.toa = includedByMode.toa.filter((entry) => {
     const id = String(seasonValue(entry, "toa"));
     const coverage = toaSeasonCoverage(zhDetails.toa.get(id));
     if (coverage.complete) return true;
+    const levelCoverage = toaLevels.has(id) ? toaLevelCoverage(zhDetails.toa.get(id), toaLevels.get(id)) : null;
+    if (TOA_COMPOSED_SEASONS.has(Number(id)) && levelCoverage?.complete) return true;
     excludedToaSeasons.push({ seasonId: id, reason: "missingTargetLevelOrResistance", ...coverage });
     return false;
   });
@@ -1229,14 +1467,17 @@ async function synchronize() {
     detailsByLocale.set(code, await fetchLocalizedDetails(code, listsByLocale.get(code), includedByMode));
   }
 
-  const includedToaIds = new Set(includedByMode.toa.map((entry) => String(seasonValue(entry, "toa"))));
-  zhDetails.toa.forEach((payload, id) => {
-    if (includedToaIds.has(id)) buildToaSeason(payload, id, {});
-  });
   zhDetails.dpmatrix.forEach((payload, id) => buildMatrixSeason(payload, id, {}));
   const monsterIds = new Set(zhLists.monsters.map((monster) => Number(monster.Id)));
   referencedWhiwaMonsterIds(zhDetails.whiwa).forEach((id) => monsterIds.add(id));
+  referencedComposedToaMonsterIds(zhDetails.toa).forEach((id) => monsterIds.add(id));
   const monsterDetails = await fetchMonsterDetails(Array.from(monsterIds).sort((a, b) => a - b));
+  const calibratedToaTargets = validateToaCompositionCalibration(
+    zhDetails.toa.get(calibrationSeasonId),
+    calibrationSeasonId,
+    toaLevels.get(calibrationSeasonId),
+    monsterDetails
+  );
   const excludedOpenWorldTargets = zhLists.monsters
     .filter((monster) => !hasMonsterResistance(monsterDetails.get(Number(monster.Id))))
     .map((monster) => ({ monsterId: Number(monster.Id), reason: "missingResistanceFields" }));
@@ -1252,14 +1493,17 @@ async function synchronize() {
     },
   };
   for (const mode of ["toa", "whiwa", "dpmatrix"]) {
-    modes[mode] = buildModeCore(mode, includedByMode[mode], currentEntries[mode], zhDetails[mode], targets, monsterDetails, excludedToaRecords, gameplayBuffs);
+    modes[mode] = buildModeCore(mode, includedByMode[mode], currentEntries[mode], zhDetails[mode], targets, monsterDetails, excludedToaRecords, gameplayBuffs, toaLevels);
   }
 
   validateKnownSamples(targets, gameplayBuffs);
   const itemDetailsByLocale = new Map();
   for (const code of Object.keys(LANGUAGES)) {
     const details = detailsByLocale.get(code);
-    itemDetailsByLocale.set(code, await fetchWhiwaItemDetails(code, details.whiwa.get(modes.whiwa.currentSeasonId)));
+    const reviewedPayloads = modes.whiwa.seasons
+      .filter((season) => REVIEWED_SEASONS.whiwa.has(Number(season.id)))
+      .map((season) => details.whiwa.get(season.id));
+    itemDetailsByLocale.set(code, await fetchWhiwaItemDetails(code, reviewedPayloads));
   }
   const localeFiles = {};
   for (const code of Object.keys(LANGUAGES)) {
@@ -1283,6 +1527,11 @@ async function synchronize() {
       synthesis: {
         toa: {
           stageFinalIncludesModeModifiers: true,
+          composedSeasons: Array.from(TOA_COMPOSED_SEASONS),
+          composedBaseAllResistance: MODE_RULES.toa.all,
+          composedMatchingElementResistance: MODE_RULES.toa.matchingElement,
+          calibrationSeasonId: Number(calibrationSeasonId),
+          calibratedTargetCount: calibratedToaTargets,
           unconditionalResistanceBuffs: "apply",
           conditionalResistanceBuffs: "applyDefaultAndExposeRemovalControl",
           includedFloors: { left: [4], middle: [1, 2, 3, 4], right: [4] },
@@ -1299,13 +1548,13 @@ async function synchronize() {
           matchingElementResistance: MODE_RULES.dpmatrix.matchingElement,
         },
         gameplayBuffs: {
-          reviewedCurrentSeasons: { toa: 37, whiwa: 19, dpmatrix: 6 },
+          reviewedSeasons: Object.fromEntries(Object.entries(REVIEWED_SEASONS).map(([mode, ids]) => [mode, Array.from(ids)])),
           triggeredEffectsDefaultActive: false,
           matrixSelectionLimit: 1,
           whiwaTokenSelectionLimit: 1,
           whiwaTokenQualityIds: [4, 5],
           whiwaPersistentPurpleTokenIds: WHIWA_PERSISTENT_PURPLE_TOKEN_IDS,
-          whiwaCurrentRewardTokenIds: WHIWA_CURRENT_REWARD_TOKEN_IDS,
+          whiwaRewardTokenIdsBySeason: WHIWA_REWARD_TOKEN_IDS_BY_SEASON,
           whiwaSelectableTokenCounts: { purple: 6, gold: 3 },
         },
       },
@@ -1320,12 +1569,17 @@ async function synchronize() {
     gameplayBuffs,
     targets,
   };
+  const iconCount = await synchronizeTargetIcons(core, {
+    detailsByMode: zhDetails,
+    itemDetails: itemDetailsByLocale.get("zh-CN"),
+  });
   const files = {
     "data/core/targets.js": jsFile("window.WUWA_TARGET_DATA = ", core),
     ...localeFiles,
+    ...buildIconFiles(core, syncedAt),
   };
   writeSnapshot(files);
-  process.stdout.write("wrote " + Object.keys(targets).length + " targets at " + syncedAt + "\n");
+  process.stdout.write("wrote " + Object.keys(targets).length + " targets and " + iconCount + " icons at " + syncedAt + "\n");
   return core;
 }
 
@@ -1343,6 +1597,9 @@ module.exports = {
   hasMonsterResistance,
   toaFinalResistance,
   toaSeasonCoverage,
+  toaLevelMap,
+  toaLevelCoverage,
+  validateToaCompositionCalibration,
   collectToaRecords,
   resistanceBuffModifier,
   applyModifiers,

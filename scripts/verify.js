@@ -482,23 +482,50 @@ function targetSelectionInterface() {
   const css = fs.readFileSync(path.join(root, "styles.css"), "utf8");
   const appSource = fs.readFileSync(path.join(root, "src/app.js"), "utf8");
   const targets = window.WUWA_TARGETS;
+  expectEqual(targets.sortedSeasons("toa").slice(0, 3).map((item) => item.id).join(","), "39,38,37", "ToA seasons should sort newest to oldest above the current season");
+  expectEqual(targets.sortedSeasons("whiwa").slice(0, 2).map((item) => item.id).join(","), "20,19", "Whiwa seasons should sort newest to oldest above the current season");
+  expectEqual(targets.sortedSeasons("dpmatrix").slice(0, 2).map((item) => item.id).join(","), "6,5", "Matrix seasons should sort newest to oldest");
   const targetPickerHTML = (page) => {
     const start = page.indexOf('class="formula-target-pick"');
     return page.slice(start, page.indexOf("</label>", start));
   };
-  assert(html.includes('data-act="target-mode"') && html.includes('data-act="target-pick"'), "target toolbar should expose linked mode and concrete-target selectors");
+  const targetLevelHTML = (page) => {
+    const start = page.indexOf('class="formula-target-level"');
+    return page.slice(start, page.indexOf("</label>", start));
+  };
+  const targetChoiceToggleHTML = (page) => {
+    const start = page.indexOf('class="target-choice-toggle"');
+    return page.slice(start, page.indexOf("</button>", start));
+  };
+  assert(html.includes('data-act="target-mode"') && html.includes('data-act="target-pick"'), "target toolbar should expose linked mode and target-attribute selectors");
   assert(html.includes('class="target-stage"') && html.includes("今汐") && html.includes("衍射抗性"), "the gameplay block should summarize the active damage element and target resistance");
+  assert(html.includes('class="element-icon element-icon--spectro target-summary-icon"') && html.includes('class="element-icon-image" src="assets/icons/elements/spectro.webp"'), "target summary should show the actual damage element icon through the shared component");
+  assert(html.includes('class="element-badge"><span class="element-icon element-icon--spectro"'), "skill element should use the same shared component as target controls and summary");
   assert(html.includes('id="target-summary"') && appSource.includes('replaceOuterHTML("target-summary", targetSummaryHTML(r))'), "target summary should refresh immediately with target-level and resistance input changes");
   assert(css.includes(".target-stage") && css.includes(".formula-target-toggle {\n  align-self: end;"), "the gameplay block should align the selectors and More button on the same baseline");
   assert(css.includes("grid-template-columns: repeat(4, auto) auto;") && css.includes("justify-content: start;"), "the gameplay selectors should size to their content instead of stretching across the row");
   assert(css.includes(".formula-target-primary select,\n.target-buff-controls select {\n  appearance: none;") && css.includes("background-image:\n    linear-gradient(45deg, transparent 50%, var(--muted) 50%)"), "the gameplay selectors should reuse the standard custom caret style");
+  assert(css.includes(".element-icon {") && css.includes("width: 1em;") && css.includes("height: 1em;") && css.includes(".element-icon-image {") && css.includes("filter: grayscale(1) brightness(0.55) contrast(10);") && css.includes(".element-icon--aero {") && !css.includes(".target-control-icon--element") && !css.includes(".target-resistance-icon {"), "all attribute icons should share one text-relative high-contrast element component");
+  assert(html.includes("→ 目标 "), "target summary should label the text after the arrow as the target");
+  assert(css.includes(".target-choice-toggle {\n  display: flex;") && css.includes(".target-choice.show-preview .target-choice-tooltip {") && appSource.includes("showTargetChoicePreview") && appSource.includes('"target-choice-toggle"'), "Token and enhancement selectors should use a fixed-height custom menu with floating formula-card previews");
+  assert(css.includes(".target-choice-pop {\n  z-index: 80;\n  top: calc(100% + 4px);\n  padding: 5px;") && css.includes("background: rgba(54, 54, 54, 0.82);") && css.includes("backdrop-filter: blur(24px) saturate(140%);") && css.includes(".target-choice-pop .target-choice-option {\n  position: relative;\n  width: 100%;\n  min-height: 24px;\n  padding: 2px 10px;") && css.includes(".target-choice-pop .target-choice-option.sel::before {\n  content: \"✓\";"), "Token and enhancement menus should match the native skill-selector popup styling");
   assert(!html.includes('class="res-help') && !html.includes("目标属性抗性参考"), "the old resistance reference table should be removed");
-  assert(html.includes('class="formula-target-level"') && html.includes('data-act="target-level"') && !html.includes('data-act="target-resistance"'), "enemy level should stay in the primary gameplay row while six-resistance overrides stay inside More");
+  assert(targetLevelHTML(html).includes('data-act="target-level"') && !targetLevelHTML(html).includes("disabled") && !html.includes('data-act="target-resistance"'), "Open World enemy level should stay editable in the primary gameplay row while six-resistance overrides stay inside More");
   const openWorldTargets = targets.targetsFor("openWorld", "default");
   expectEqual(openWorldTargets.length, 7, "Open World attribute choices");
   const openWorldGroups = targets.groupedTargets("openWorld", "default");
   expectEqual(openWorldGroups.length, 1, "Open World attribute group count");
   expectEqual(openWorldGroups[0].items.map(targets.targetOptionName).join(","), "无属性,冷凝,热熔,导电,气动,衍射,湮灭", "Open World attribute labels");
+  const attributeLabels = new Set(["无属性", ...targets.elements().map((element) => window.WUWA_LANGUAGES.element(element))]);
+  ["toa", "whiwa", "dpmatrix"].forEach((mode) => targets.seasons(mode).forEach((season) => {
+    targets.targetPaths(mode, season.id).forEach((targetPath) => {
+      targets.groupedTargets(mode, season.id, targetPath.id).forEach((group) => {
+        const labels = group.items.map(targets.targetOptionName);
+        assert(labels.every((label) => attributeLabels.has(label)), `${mode} target choices should contain attribute names only`);
+        expectEqual(new Set(labels).size, labels.length, `${mode} target attributes should be deduplicated within each wave`);
+      });
+    });
+  }));
   assert(html.includes("目标属性") && !targetPickerHTML(html).includes("%") && !targetPickerHTML(html).includes("级") && !targetPickerHTML(html).includes("先锋幼岩") && !targetPickerHTML(html).includes("optgroup"), "Open World target picker should expose attributes without resistance values, levels, or monster names");
   const glacioTarget = openWorldTargets.find((item) => targets.targetOptionName(item) === "冷凝");
   targets.selectTarget(__T.state.enemy, glacioTarget.id);
@@ -507,6 +534,7 @@ function targetSelectionInterface() {
   __T.render();
   html = String(board.innerHTML);
   assert(html.includes("冷凝 90级") && html.includes("衍射抗性10%"), "target summary should show the selected attribute and automatically derived current resistance");
+  assert(targetPickerHTML(html).includes('class="element-icon element-icon--glacio target-control-icon"') && targetPickerHTML(html).includes('class="element-icon-image" src="assets/icons/elements/glacio.webp"'), "Open World attribute selection should show its local element icon through the shared component");
   assert(html.indexOf('class="formula-target-pick"') < html.indexOf('class="formula-target-level"') && html.indexOf('class="formula-target-level"') < html.indexOf('class="formula-target-cost"') && html.indexOf('class="formula-target-cost"') < html.indexOf('class="formula-target-toggle'), "enemy level should stay on the primary row before Cost and More");
   expectEqual((html.match(/data-act="offset-cost"/g) || []).length, 1, "skill mode gameplay Cost selector count");
   assert(html.includes('<option value="10027" selected>4C</option>'), "gameplay Cost selector should keep compact 1C/3C/4C labels");
@@ -522,6 +550,10 @@ function targetSelectionInterface() {
     __T.render();
     html = String(board.innerHTML);
     expectEqual((html.match(/data-act="offset-cost"/g) || []).length, 1, `${mode} gameplay Cost selector count`);
+    const levelHTML = targetLevelHTML(html);
+    assert(mode === "openWorld"
+      ? levelHTML.includes('data-act="target-level"') && !levelHTML.includes("disabled")
+      : levelHTML.includes("disabled") && !levelHTML.includes('data-act="target-level"'), `${mode} enemy-level editability`);
   }
 
   __T.state.enemy.harmonyBase = 2149;
@@ -542,18 +574,48 @@ function targetSelectionInterface() {
   __T.render();
   html = String(board.innerHTML);
   const toaPaths = window.WUWA_TARGETS.targetPaths("toa", __T.state.enemy.targetSeasonId);
+  const toaTarget = targets.target(__T.state.enemy.targetId);
+  const toaTargetName = window.WUWA_LANGUAGES.localeData("zh-CN", "targetNames", toaTarget.nameId)?.name || "";
+  const toaPicker = targetPickerHTML(html);
+  const toaChoices = targets.groupedTargets("toa", __T.state.enemy.targetSeasonId, targets.selectedPathId(__T.state.enemy), toaTarget.id).flatMap((group) => group.items);
   expectEqual(toaPaths.length, 6, "ToA current season tower/floor choices");
   assert(html.includes('data-act="target-season"') && html.includes('data-act="target-path"') && html.includes("逆境深塔") && html.includes("残响之塔 → 4层"), "ToA should expose season and only the retained tower/floor choices in the primary row");
+  assert(targetLevelHTML(html).includes("disabled") && !targetLevelHTML(html).includes('data-act="target-level"'), "ToA enemy level should be fixed by the selected floor");
+  const fixedToaLevel = targets.context(__T.state.enemy, "spectro").enemyLevel;
+  __T.state.enemy.targetLevelOverride = fixedToaLevel + 7;
+  expectEqual(targets.context(__T.state.enemy, "spectro").enemyLevel, fixedToaLevel, "ToA should ignore stale manual enemy-level overrides");
   assert(html.includes('data-act="target-buff-toggle"') && html.includes("自动生效"), "ToA fixed and triggered stage effects should appear in the gameplay block");
+  expectEqual(new Set(toaChoices.map(targets.targetOptionName)).size, toaChoices.length, "ToA target attributes should be deduplicated");
+  assert(toaPicker.includes(`src="assets/icons/elements/${toaTarget.element}.webp"`) && (!toaTargetName || !toaPicker.includes(toaTargetName)) && !html.includes("target-control-icon--matrix"), "ToA should show only the selected attribute and its element icon");
 
   targets.selectMode(__T.state.enemy, "whiwa");
   __T.render();
   html = String(board.innerHTML);
   assert(html.includes("9层 · 急潮") && html.includes("10层 · 狂澜") && html.includes("11层 · 海魇") && html.includes("无尽层 · 无尽湍渊"), "Whiwa target groups should identify floors 9-11 and Endless");
   assert(html.includes('data-act="target-season"') && html.includes('data-act="target-buff-choice"') && html.includes("信物"), "Whiwa should expose season and a single Token selector");
-  assert(html.includes('<optgroup label="金色信物">') && html.includes('<optgroup label="紫色信物">'), "Whiwa Token selector should group the gold and purple options");
+  const whiwaSelected = targets.target(__T.state.enemy.targetId);
+  const whiwaTargetName = window.WUWA_LANGUAGES.localeData("zh-CN", "targetNames", whiwaSelected.nameId)?.name || "";
+  assert(targetPickerHTML(html).includes(`src="assets/icons/elements/${whiwaSelected.element}.webp"`) && (!whiwaTargetName || !targetPickerHTML(html).includes(whiwaTargetName)), "Whiwa should show only the selected attribute and its element icon");
+  assert(html.includes('class="combo-pop target-choice-pop"') && html.includes('class="combo-opt target-choice-option') && html.includes('class="combo-lbl"') && html.includes('class="combo-caret"'), "Whiwa Token selector should reuse the standard custom dropdown styles");
+  assert(html.includes('class="target-choice-group-label">金色信物') && html.includes('class="target-choice-group-label">紫色信物'), "Whiwa Token selector should group the gold and purple options");
   for (const name of ["眷属-珍奇契约", "镌刻者—长夜孤灯", "希冀者—长夜孤灯", "编造者—长夜孤灯", "慰藉者—长夜孤灯", "狂欢者—船长印章"]) {
     assert(html.includes(name), `Whiwa Token selector should include current purple Token ${name}`);
+  }
+  const whiwaTarget = whiwaSelected;
+  const tokenGroup = whiwaTarget.gameplay.choiceGroups[0];
+  expectEqual((html.match(/data-preview=/g) || []).length, tokenGroup.optionIds.length, "Whiwa Token options should expose floating previews before selection");
+  expectEqual((html.match(/class="formula-card-tip target-choice-tooltip"/g) || []).length, 1, "Whiwa Token selector should reuse one formula-card tooltip");
+  assert(tokenGroup.optionIds.every((id) => html.includes(targets.gameplayBuffDescription(targets.gameplayBuff(id)))) && !html.includes('class="target-buff-description"'), "Whiwa Token effects should live in option previews instead of a post-selection description");
+  for (const qualityId of [5, 4]) {
+    const tokenId = tokenGroup.optionIds.find((id) => Number(targets.gameplayBuff(id).qualityId) === qualityId);
+    const token = targets.gameplayBuff(tokenId);
+    targets.setGameplayChoice(__T.state.enemy, tokenGroup.id, tokenId);
+    __T.render();
+    html = String(board.innerHTML);
+    const tokenIcon = window.WUWA_ICON_ASSETS.targetGameplay.whiwa[String(token.localeRef.itemId)];
+    const qualityClass = qualityId === 5 ? "target-control-icon--gold" : "target-control-icon--purple";
+    const selectedToggle = targetChoiceToggleHTML(html);
+    assert(tokenIcon && selectedToggle.includes(`src="${tokenIcon}"`) && selectedToggle.includes(qualityClass), `Whiwa quality ${qualityId} Token should show its local icon and rarity treatment without changing the control height`);
   }
 
   targets.selectMode(__T.state.enemy, "dpmatrix");
@@ -564,14 +626,27 @@ function targetSelectionInterface() {
   assert(html.includes('data-act="target-season"') && html.includes("终焉矩阵·奇点扩张") && html.includes("波次 1") && !html.includes("轮次 1"), "Matrix should expose season, the full Singularity Expansion name, and three player-facing wave choices");
   window.WUWA_TARGETS.selectPath(__T.state.enemy, matrixPaths[2].id);
   expectEqual(window.WUWA_TARGETS.target(__T.state.enemy.targetId).stageId, 3, "Matrix wave selector should change the active target group");
-  expectEqual((html.match(/data-act="target-buff-choice"/g) || []).length, 1, "Matrix should expose one enhancement selector");
+  const matrixTarget = targets.target(__T.state.enemy.targetId);
+  const matrixGroup = matrixTarget.gameplay.choiceGroups[0];
+  const matrixBuff = targets.gameplayBuff(matrixGroup.optionIds[0]);
+  expectEqual((html.match(/data-act="target-buff-choice"/g) || []).length, matrixGroup.optionIds.length + 1, "Matrix should expose one hoverable option for every enhancement plus the unselected choice");
+  expectEqual((html.match(/data-preview=/g) || []).length, matrixGroup.optionIds.length, "Matrix enhancement options should expose floating previews before selection");
+  expectEqual((html.match(/class="formula-card-tip target-choice-tooltip"/g) || []).length, 1, "Matrix enhancement selector should reuse one formula-card tooltip");
+  targets.setGameplayChoice(__T.state.enemy, matrixGroup.id, matrixBuff.id);
+  __T.render();
+  html = String(board.innerHTML);
+  const matrixTargetName = window.WUWA_LANGUAGES.localeData("zh-CN", "targetNames", matrixTarget.nameId)?.name || "";
+  const matrixBuffIcon = window.WUWA_ICON_ASSETS.targetGameplay.dpmatrix[String(matrixBuff.localeRef.buffId)];
+  const matrixToggle = targetChoiceToggleHTML(html);
+  assert(matrixBuffIcon && targetPickerHTML(html).includes(`src="assets/icons/elements/${matrixTarget.element}.webp"`) && (!matrixTargetName || !targetPickerHTML(html).includes(matrixTargetName)) && matrixToggle.includes(`src="${matrixBuffIcon}"`) && matrixToggle.includes("target-control-icon--matrix"), "Matrix should show only the selected attribute icon and the chosen enhancement icon without changing the control height");
 
   __T.state.showTargetExtras = true;
   __T.render();
   html = String(board.innerHTML);
-  assert(html.includes('data-act="target-season"') && html.includes('data-act="target-level"') && !html.includes('data-act="target-custom"'), "seasonal modes should expose season and enemy level in the primary row without a redundant custom-target mode");
-  assert(html.indexOf('data-act="target-season"') < html.indexOf('class="target-summary"') && html.indexOf('data-act="target-level"') < html.indexOf('class="target-summary"'), "season and enemy level should remain in the primary gameplay row");
+  assert(html.includes('data-act="target-season"') && targetLevelHTML(html).includes("disabled") && !html.includes('data-act="target-custom"'), "seasonal modes should expose a fixed enemy level in the primary row without a redundant custom-target mode");
+  assert(html.indexOf('data-act="target-season"') < html.indexOf('class="target-summary"') && html.indexOf('class="formula-target-level"') < html.indexOf('class="target-summary"'), "season and fixed enemy level should remain in the primary gameplay row");
   expectEqual((html.match(/data-act="target-resistance"/g) || []).length, 6, "More should expose all six attribute resistance inputs");
+  expectEqual((html.match(/target-resistance-icon/g) || []).length, 6, "More should show six resistance icons through the shared element component");
   assert(html.includes("完整六属性抗性") && html.includes("目标数据更新于") && !html.includes("target-source-parts"), "More should show the complete resistance array and update date without an extra metadata row");
   targets.selectMode(__T.state.enemy, "openWorld");
   __T.render();
@@ -595,6 +670,25 @@ function targetApiFixtureRegressions() {
   assert(toa.resistance.sourceKind === "stageFinal" && toa.resistance.includesModeModifiers && !toa.resistance.modifiers.some((modifier) => modifier.kind === "modeBase"), "ToA final resistance should never receive another mode-base stack");
   assert(targetSync.toaSeasonCoverage(targetFixtures.toa).complete, "complete ToA fixture should be accepted");
   assert(!targetSync.toaSeasonCoverage(targetFixtures.toaIncomplete).complete, "ToA fixture without level and resistance fields should be excluded");
+  const futureToaLevels = targetSync.toaLevelMap(targetFixtures.toaFutureLevels, 38);
+  assert(targetSync.toaLevelCoverage(targetFixtures.toaFuture, futureToaLevels).complete, "reviewed future ToA level fixture should cover every target");
+  const futureToaTargets = {};
+  const futureToaGameplay = {};
+  const fixtureMonsterDetails = new Map([[targetFixtures.monster.Id, targetFixtures.monster]]);
+  const futureToaIds = targetSync.buildToaSeason(targetFixtures.toaFuture, 38, futureToaTargets, [], futureToaGameplay, fixtureMonsterDetails, futureToaLevels);
+  expectEqual(futureToaIds.length, 2, "future ToA fixture target count");
+  const futureMultiAttribute = Object.values(futureToaTargets).find((target) => target.recordId === 415);
+  expectEqual(futureMultiAttribute.level, 100, "future ToA reviewed enemy level");
+  expectEqual(futureMultiAttribute.resistances.glacio, 20, "future ToA composed base resistance");
+  expectEqual(futureMultiAttribute.resistances.fusion, 10, "future ToA explicit resistance reduction");
+  expectEqual(futureMultiAttribute.resistances.electro, 30, "future ToA explicit resistance increase");
+  expectEqual(futureMultiAttribute.resistances.havoc, 60, "future ToA matching resistance");
+  assert(futureMultiAttribute.resistance.sourceKind === "composed" && futureMultiAttribute.resistance.includesModeModifiers, "future ToA should identify complete composed resistance");
+  expectEqual(futureMultiAttribute.resistance.modifiers.filter((modifier) => modifier.kind === "modeBase").length, 1, "future ToA mode base application count");
+  const futureConditional = Object.values(futureToaTargets).find((target) => target.recordId === 417);
+  expectEqual(futureConditional.resistances.glacio, 35, "future ToA conditional resistance should default active once");
+  expectEqual(futureConditional.resistances.havoc, 75, "future ToA conditional matching resistance should default active once");
+  assert(futureConditional.gameplay.controlIds.some((id) => id.endsWith("resistance-removed")), "future ToA conditional resistance should expose a removal control");
   const conditionalRecord = JSON.parse(JSON.stringify(targetFixtures.toa.sample));
   conditionalRecord.id = 400;
   conditionalRecord.areaNum = 2;
@@ -620,6 +714,20 @@ function targetApiFixtureRegressions() {
   expectEqual(whiwa.resistances.havoc, 50, "Whiwa matching intrinsic plus mode-base resistance");
   const tokenQualities = whiwa.gameplay.choiceGroups[0].optionIds.map((id) => whiwaGameplayBuffs[id].qualityId).sort();
   expectEqual(tokenQualities.join(","), "4,4,4,4,4,4,5,5,5", "Whiwa fixture complete purple and gold Token qualities");
+
+  const futureWhiwaTargets = {};
+  const futureWhiwaGameplay = {};
+  const futureWhiwaIds = targetSync.buildWhiwaSeason(targetFixtures.whiwaFuture, 20, futureWhiwaTargets, monsterDetails, futureWhiwaGameplay);
+  const futureWhiwa = futureWhiwaTargets[futureWhiwaIds[0]];
+  expectEqual(futureWhiwa.level, 90, "future Whiwa order 9 fixture level");
+  expectEqual(futureWhiwa.resistances.aero, 40, "future Whiwa explicit attribute resistance increase");
+  expectEqual(futureWhiwa.resistance.modifiers.filter((modifier) => modifier.kind === "modeBase").length, 1, "future Whiwa mode base application count");
+  const futureTokenGroup = futureWhiwa.gameplay.choiceGroups[0];
+  expectEqual(futureTokenGroup.optionIds.length, 9, "future Whiwa complete Token option count");
+  const futureCaptain = futureWhiwaGameplay[futureTokenGroup.optionIds.find((id) => id.includes(":71500094:"))];
+  assert(futureCaptain.effects.some((effect) => effect.zone === "amplify" && effect.value === 25), "future Whiwa purple Token structure");
+  const futureShuttle = futureWhiwaGameplay[futureTokenGroup.optionIds.find((id) => id.includes(":71500096:"))];
+  assert(futureShuttle.effects.some((effect) => effect.effect === "fusion" && effect.value === 100), "future Whiwa Fusion Burst Token structure");
 
   const matrixTargets = {};
   const matrixIds = targetSync.buildMatrixSeason(targetFixtures.dpmatrix, 6, matrixTargets);
@@ -652,18 +760,32 @@ function targetSnapshotCoverage() {
 
   const toaSeasonIds = new Set(data.modes.toa.seasons.map((season) => Number(season.id)));
   assert(Array.from(toaSeasonIds).every((id) => id >= 32), "ToA seasons without complete level and resistance data should be omitted");
+  assert(toaSeasonIds.has(38) && toaSeasonIds.has(39), "reviewed future ToA seasons should be included");
+  expectEqual(data.modes.toa.currentSeasonId, "37", "future ToA seasons should not replace the current default");
   assert((data.snapshot.exclusions.toaSeasons || []).some((item) => Number(item.seasonId) === 31), "snapshot should record excluded incomplete ToA seasons");
   assert((data.snapshot.exclusions.toaRecords || []).every((item) => item.reason === "unparsedResistanceModifier"), "snapshot should only omit ToA records whose resistance modifier is not structurally proven");
   const toaTargets = targets.filter((target) => target.mode === "toa");
   assert(toaTargets.every((target) => (target.areaId === 1 && target.stageId === 4) || (target.areaId === 2 && [1, 2, 3, 4].includes(target.stageId)) || (target.areaId === 3 && target.stageId === 4)), "ToA snapshot should keep only left 4, middle 1-4, and right 4");
+  const futureToaTargets = toaTargets.filter((target) => ["38", "39"].includes(target.seasonId));
+  assert(futureToaTargets.every((target) => target.level === (target.areaId === 2 ? 100 : 90)), "future ToA target levels should match the reviewed tower/floor mapping");
+  assert(futureToaTargets.every((target) => target.resistance.sourceKind === "composed" && target.resistance.includesModeModifiers), "future ToA targets should carry complete composed resistance metadata");
+  assert(futureToaTargets.every((target) => target.resistance.modifiers.filter((modifier) => modifier.kind === "modeBase").length === 1), "future ToA mode resistance should be applied exactly once");
   const whiwaTargets = targets.filter((target) => target.mode === "whiwa");
   assert(whiwaTargets.every((target) => [9, 10, 11, 12].includes(target.stageOrder)), "Whiwa floors 1-8 should be omitted");
   assert(whiwaTargets.every((target) => target.level === (target.stageOrder === 12 ? 100 : 90)), "Whiwa snapshot should use level 90 for orders 9-11 and level 100 for endless");
+  assert(data.modes.whiwa.seasons.some((season) => Number(season.id) === 20), "reviewed future Whiwa season should be included");
+  expectEqual(data.modes.whiwa.currentSeasonId, "19", "future Whiwa season should not replace the current default");
   const whiwaTokens = Object.values(data.gameplayBuffs).filter((buff) => buff.mode === "whiwa" && buff.control === "option");
-  expectEqual(whiwaTokens.filter((buff) => buff.qualityId === 4).length, 6, "Whiwa snapshot purple Token count");
-  expectEqual(whiwaTokens.filter((buff) => buff.qualityId === 5).length, 3, "Whiwa snapshot gold Token count");
+  for (const seasonId of ["19", "20"]) {
+    const seasonalTokens = whiwaTokens.filter((buff) => buff.id.startsWith(`whiwa:${seasonId}:`));
+    expectEqual(seasonalTokens.filter((buff) => buff.qualityId === 4).length, 6, `Whiwa ${seasonId} purple Token count`);
+    expectEqual(seasonalTokens.filter((buff) => buff.qualityId === 5).length, 3, `Whiwa ${seasonId} gold Token count`);
+  }
   expectEqual(data.snapshot.synthesis.gameplayBuffs.whiwaSelectableTokenCounts.purple, 6, "Whiwa snapshot selectable purple Token metadata");
   expectEqual(data.snapshot.synthesis.gameplayBuffs.whiwaSelectableTokenCounts.gold, 3, "Whiwa snapshot selectable gold Token metadata");
+  assert(data.snapshot.synthesis.toa.calibratedTargetCount === 13, "ToA composed resistance calibration should cover all current retained targets");
+  assert(data.snapshot.synthesis.gameplayBuffs.reviewedSeasons.toa.join(",") === "37,38,39", "reviewed ToA season metadata");
+  assert(data.snapshot.synthesis.gameplayBuffs.reviewedSeasons.whiwa.join(",") === "19,20", "reviewed Whiwa season metadata");
 
   const currentMatrix = targets.filter((target) => target.mode === "dpmatrix" && target.seasonId === data.modes.dpmatrix.currentSeasonId && target.areaId === 12);
   expectEqual(Array.from(new Set(currentMatrix.map((target) => target.stageId))).sort().join(","), "1,2,3", "current Matrix season should expose three wave choices");
@@ -677,6 +799,14 @@ function targetSnapshotCoverage() {
     window.WUWA_TARGETS.selectMode(enemy, mode);
     expectEqual(enemy.targetSeasonId, window.WUWA_TARGETS.currentSeasonId(mode), `${mode} should default to the current season`);
   }
+  const futureEnemy = {};
+  window.WUWA_TARGETS.ensureSelection(futureEnemy);
+  window.WUWA_TARGETS.selectMode(futureEnemy, "toa");
+  window.WUWA_TARGETS.selectSeason(futureEnemy, "38");
+  assert(futureEnemy.targetSeasonId === "38" && window.WUWA_TARGETS.target(futureEnemy.targetId)?.seasonId === "38", "future ToA season should be selectable");
+  window.WUWA_TARGETS.selectMode(futureEnemy, "whiwa");
+  window.WUWA_TARGETS.selectSeason(futureEnemy, "20");
+  assert(futureEnemy.targetSeasonId === "20" && window.WUWA_TARGETS.target(futureEnemy.targetId)?.seasonId === "20", "future Whiwa season should be selectable");
 
   const encounters = new Map();
   targets.filter((target) => target.mode !== "openWorld").forEach((target) => {
@@ -825,6 +955,36 @@ function gameplayBuffRegressions() {
   const rampBase = __T.compute().totals.finalDmg;
   window.WUWA_TARGETS.setGameplayValue(__T.state.enemy, ramp.id, 60);
   expectEqual(__T.compute().totals.finalDmg - rampBase, 60, "ToA timed stage effect should use the selected proven value");
+
+  resetTeam(["jinhsi"]);
+  const futureToa = Object.values(data.targets).find((target) => target.mode === "toa" && target.seasonId === "38" && target.recordId === 417);
+  selectSnapshotTarget(futureToa);
+  const futureResistance = window.WUWA_TARGETS.context(__T.state.enemy, "glacio").resistance;
+  const futureControls = futureToa.gameplay.controlIds.map((id) => data.gameplayBuffs[id]);
+  const futureRemoval = futureControls.find((buff) => buff.id.endsWith("resistance-removed"));
+  window.WUWA_TARGETS.setGameplayValue(__T.state.enemy, futureRemoval.id, true);
+  expectEqual(window.WUWA_TARGETS.context(__T.state.enemy, "glacio").resistance, futureResistance - 15, "future ToA confirmed removal should subtract the default resistance exactly once");
+  window.WUWA_TARGETS.setGameplayValue(__T.state.enemy, futureRemoval.id, false);
+  expectEqual(window.WUWA_TARGETS.context(__T.state.enemy, "glacio").resistance, futureResistance, "future ToA cleared removal should restore the composed target resistance");
+  const futureRamp = futureControls.find((buff) => buff.id.endsWith("time-ramp"));
+  const futureRampBase = __T.compute().totals.finalDmg;
+  window.WUWA_TARGETS.setGameplayValue(__T.state.enemy, futureRamp.id, 60);
+  expectEqual(__T.compute().totals.finalDmg - futureRampBase, 60, "future ToA timed stage effect should use the selected value");
+
+  resetTeam(["jinhsi"]);
+  const futureWhiwa = Object.values(data.targets).find((target) => target.mode === "whiwa" && target.seasonId === "20" && target.stageOrder === 9);
+  selectSnapshotTarget(futureWhiwa);
+  const futureTokenGroup = futureWhiwa.gameplay.choiceGroups[0];
+  const futureAmplifyBase = __T.compute().totals.amplify;
+  const futureCaptain = futureTokenGroup.optionIds.find((id) => id.includes(":71500094:"));
+  window.WUWA_TARGETS.setGameplayChoice(__T.state.enemy, futureTokenGroup.id, futureCaptain);
+  expectEqual(__T.compute().totals.amplify - futureAmplifyBase, 25, "future Whiwa purple Token should apply once when selected");
+  const futureMirror = futureTokenGroup.optionIds.find((id) => id.includes(":71500095:"));
+  window.WUWA_TARGETS.setGameplayChoice(__T.state.enemy, futureTokenGroup.id, futureMirror);
+  const futureMirrorBase = __T.compute().totals.finalDmg;
+  const futureMirrorTrigger = Object.values(data.gameplayBuffs).find((buff) => buff.parentId === futureMirror);
+  window.WUWA_TARGETS.setGameplayValue(__T.state.enemy, futureMirrorTrigger.id, true);
+  expectEqual(__T.compute().totals.finalDmg - futureMirrorBase, 60, "future Whiwa triggered Token should require confirmation and apply once");
 }
 
 function targetLocalesAndOfflineRuntime() {
@@ -868,14 +1028,22 @@ function targetLocalesAndOfflineRuntime() {
   const index = fs.readFileSync(path.join(root, "index.html"), "utf8");
   assert(index.includes('src="data/core/targets.js"') && SUPPORTED_LANGS.every((lang) => index.includes(`src="data/languages/${lang}/targets.js"`)) && index.includes('src="src/targets.js"'), "index should load the local target snapshot and all four target language packs");
   const syncSource = fs.readFileSync(path.join(root, "scripts/sync-targets.js"), "utf8");
-  assert(syncSource.lastIndexOf("validateKnownSamples(targets);") < syncSource.lastIndexOf("writeSnapshot(files);"), "sync should validate all responses before replacing the previous snapshot");
+  const validationIndex = syncSource.lastIndexOf("validateKnownSamples(targets, gameplayBuffs);");
+  const iconSyncIndex = syncSource.lastIndexOf("await synchronizeTargetIcons(core");
+  const writeIndex = syncSource.lastIndexOf("writeSnapshot(files);");
+  assert(validationIndex >= 0 && validationIndex < iconSyncIndex && iconSyncIndex < writeIndex, "sync should validate data and localize every icon before replacing the previous snapshot");
 }
 
 function targetConnectionDetailsStayPrivate() {
   const pipelineFiles = [
     "data/core/targets.js",
+    "data/icons.js",
+    "scripts/audit-official-language-packs.js",
+    "scripts/sync-icons.js",
+    "scripts/rebuild-language-packs.js",
     "scripts/sync-targets.js",
     "scripts/fixtures/target-api-samples.json",
+    ...SUPPORTED_LANGS.map((lang) => `data/languages/${lang}/targets.js`),
   ];
   const hardcodedConnections = pipelineFiles.filter((file) => /https?:\/\/|www\./i.test(fs.readFileSync(path.join(root, file), "utf8")));
   assert(!hardcodedConnections.length, `target data connection details should be supplied at runtime: ${hardcodedConnections.join(", ")}`);
@@ -1334,7 +1502,7 @@ function v35CharacterEntryRegressions() {
   const vowSlot = __T.state.slots[0];
   vowSlot.seq = 3;
   vowSlot.skill = "intro";
-  assert(vowBuffs.every((item) => !__T.buffStatus(vowSlot, 0, buff(vowSlot, item.id)).applies), "Yangyang: Xuanling Unbroken Vow should require actual Havoc Bane stacks");
+  assert(vowBuffs.every((item) => !__T.buffStatus(vowSlot, 0, buff(vowSlot, item.id)).applies), "Yangyang: Xuanling Unbroken Vow should still require available Havoc Bane stacks");
   [10, 20, 30, 42, 54, 66].forEach((expected, idx) => {
     __T.state.effectCalc = { key: "havocBane", providerIdx: 0, stacks: idx + 1, stackMode: "manual", deepen: 0 };
     const total = vowBuffs.reduce((sum, item) => sum + (__T.buffStatus(vowSlot, 0, buff(vowSlot, item.id)).applies ? item.value : 0), 0);
@@ -1367,7 +1535,8 @@ function v35CharacterEntryRegressions() {
   assert(featheredOath?.value === 150 && featheredOath.maxStacks === 6, "Yangyang: Xuanling Feathered Oath should total 150% Crit. DMG at six stacks");
   vowSlot.skill = "azure_heavy";
   let runtimeOath = buff(vowSlot, "b_windbound_heavy_cd");
-  assert(!__T.buffStatus(vowSlot, 0, runtimeOath).applies, "Yangyang: Xuanling Feathered Oath should wait for explicit stack confirmation");
+  assert(__T.buffStatus(vowSlot, 0, runtimeOath).toggleOn, "Yangyang: Xuanling Feathered Oath should default checked when its precondition is confirmable");
+  expectEqual(__T.buffStackCount(vowSlot, runtimeOath, 0), 0, "Yangyang: Xuanling Feathered Oath should keep its independent default stack count");
   __T.setBuffToggle(vowSlot, 0, runtimeOath.id, true);
   vowSlot.toggles.stk_b_windbound_heavy_cd = 1;
   expectEqual(__T.buffFormulaText(vowSlot, runtimeOath, 0), "+25%", "Yangyang: Xuanling Feathered Oath should grant 25% Crit. DMG per stack");
@@ -1406,8 +1575,10 @@ function v35CharacterEntryRegressions() {
   ySlot.weapon = "azure_oath";
   ySlot.skill = "azure_heavy";
   assert(__T.resolvedSkill(ySlot)?.triggerEvents?.includes("applyHavocBane"), "Yangyang: Xuanling Azure Heavy should still attach Havoc Bane");
-  assert(!__T.buffStatus(ySlot, 0, buff(ySlot, "w_e1")).applies, "Azure Oath heavy deepen should wait for post-attachment confirmation");
-  assert(!__T.buffStatus(ySlot, 0, buff(ySlot, "w_e2")).applies, "Azure Oath defense ignore should wait for post-attachment confirmation");
+  assert(__T.buffStatus(ySlot, 0, buff(ySlot, "w_e1")).applies, "Azure Oath heavy deepen should default checked");
+  assert(__T.buffStatus(ySlot, 0, buff(ySlot, "w_e2")).applies, "Azure Oath defense ignore should default checked");
+  __T.setBuffToggle(ySlot, 0, "w_e1", false);
+  assert(!__T.buffStatus(ySlot, 0, buff(ySlot, "w_e1")).applies, "Azure Oath heavy deepen should remain manually disableable");
   __T.setBuffToggle(ySlot, 0, "w_e1", true);
   __T.setBuffToggle(ySlot, 0, "w_e2", true);
   assert(__T.buffStatus(ySlot, 0, buff(ySlot, "w_e1")).applies, "Azure Oath heavy deepen should apply after confirmation");
@@ -1426,7 +1597,7 @@ function v35CharacterEntryRegressions() {
 
   resetTeam(["chisa", "suisui"]);
   const suisuiSlot = __T.state.slots[1];
-  assert(!__T.buffStatus(suisuiSlot, 1, buff(suisuiSlot, "b_outro_all_amp")).applies, "Suisui Outro deepen should wait for support Outro confirmation");
+  assert(__T.buffStatus(suisuiSlot, 1, buff(suisuiSlot, "b_outro_all_amp")).applies, "Suisui Outro deepen should default checked for support");
   suisuiSlot.resources.floral_epistle = 399;
   __T.setBuffToggle(suisuiSlot, 1, "b_outro_reflecting_final", true);
   assert(!__T.buffStatus(suisuiSlot, 1, buff(suisuiSlot, "b_outro_reflecting_final")).applies, "Suisui 400 Floral Epistle effect should stay gated at 399");
@@ -1439,7 +1610,7 @@ function v35CharacterEntryRegressions() {
   assert(__T.buffStatus(suisuiSlot, 1, buff(suisuiSlot, "b_outro_flower_atk")).applies, "Suisui 600 Floral Epistle effect should apply after its consumption trigger and Outro are confirmed even when no stack remains");
   suisuiSlot.seq = 2;
   const c2EffectCrit = buff(suisuiSlot, "c2_effect_cd");
-  assert(!__T.buffStatus(suisuiSlot, 1, c2EffectCrit).applies, "Suisui C2 Crit. DMG should wait for its post-trigger confirmation");
+  assert(__T.buffStatus(suisuiSlot, 1, c2EffectCrit).applies, "Suisui C2 Crit. DMG should default checked");
   __T.setBuffToggle(suisuiSlot, 1, c2EffectCrit.id, true);
   assert(__T.buffStatus(suisuiSlot, 1, buff(suisuiSlot, "c2_effect_cd")).applies, "Suisui C2 Crit. DMG should apply after confirmation even when the consumed stack is gone");
 
@@ -1558,7 +1729,7 @@ function roverElectroEntryRegressions() {
   slot.echo.combo = "single5";
   const voidThunder = __T.slotBuffs(slot).find((item) => item.id === "son_3_p5_0");
   assert(voidThunder, "Rover: Electro trigger regression should find the Void Thunder 5-piece effect");
-  assert(__T.buffStatus(slot, 0, voidThunder).precondition && !__T.buffStatus(slot, 0, voidThunder).applies, "Thunder Bane should not count as casting Resonance Skill for Void Thunder");
+  assert(__T.buffStatus(slot, 0, voidThunder).precondition && __T.buffStatus(slot, 0, voidThunder).applies, "Void Thunder should default checked when its casting precondition remains confirmable");
   slot.toggles[modeKey] = "normal_resonance";
   slot.skill = "overload_tap";
   slot.layers = null;
@@ -2271,7 +2442,9 @@ function sonataEffectAttachmentBuffsAreManual() {
   slot.echo.combo = "single5";
   slot.echo.primary = 14;
   const selfBuff = buff(slot, "son_14_gusts_of_welkin_self_aero");
-  assert(!__T.buffStatus(slot, 0, selfBuff).applies, "Gusts of Welkin 5pc should wait for its post-attachment window confirmation");
+  assert(__T.buffStatus(slot, 0, selfBuff).applies, "Gusts of Welkin 5pc should default checked");
+  __T.setBuffToggle(slot, 0, "son_14_gusts_of_welkin_self_aero", false);
+  assert(!__T.buffStatus(slot, 0, selfBuff).applies, "Gusts of Welkin 5pc should remain manually disableable");
   __T.setBuffToggle(slot, 0, "son_14_gusts_of_welkin_self_aero", true);
   assert(__T.buffStatus(slot, 0, selfBuff).applies, "Gusts of Welkin 5pc should apply after confirmation");
 }
@@ -2516,7 +2689,7 @@ function formulaNumberFormattingFloors() {
   assert(!metricHtml.includes("<b>2,439</b>"), "main formula stat base should not round the old baseline panel value up");
 }
 
-function preconditionBuffsRequireConfirmation() {
+function confirmableBuffDefaultsAndStructuredPreconditions() {
   resetTeam(["chixia"]);
   const slot = __T.state.slots[0];
   const firedBullets = buff(slot, "b1");
@@ -2588,7 +2761,7 @@ function introEntryIsSkillDriven() {
   let b = buff(slot, "b1");
   __T.render();
   assert(!String(board.innerHTML).includes('data-act="intro-entry"'), "intro-entry control should stay removed for intro-triggered buffs");
-  assert(__T.buffStatus(slot, 0, b).precondition && !__T.buffStatus(slot, 0, b).applies, "intro-triggered buff should wait for confirmation before an intro skill is selected");
+  assert(__T.buffStatus(slot, 0, b).precondition && __T.buffStatus(slot, 0, b).applies, "intro-triggered buff should default checked before an intro skill is selected");
   __T.setBuffToggle(slot, 0, b.id, false);
   assert(!__T.buffStatus(slot, 0, b).applies, "intro-triggered buff should stay user-disableable before an intro skill is selected");
   slot.skill = "intro";
@@ -2679,11 +2852,13 @@ function reportedCharacterFixes() {
   slot = __T.state.slots[0];
   slot.skill = "skill_targeted";
   b = buff(slot, "son_11_eternal_radiance_crit");
-  assert(!__T.buffStatus(slot, 0, b).applies && __T.buffStatus(slot, 0, b).precondition, "Zani Eternal Radiance crit should wait for confirmation");
+  assert(__T.buffStatus(slot, 0, b).applies && __T.buffStatus(slot, 0, b).precondition, "Zani Eternal Radiance crit should default checked");
+  __T.setBuffToggle(slot, 0, "son_11_eternal_radiance_crit", false);
+  assert(!__T.buffStatus(slot, 0, b).applies, "Zani Eternal Radiance crit should remain manually disableable");
   __T.setBuffToggle(slot, 0, "son_11_eternal_radiance_crit", true);
   assert(__T.buffStatus(slot, 0, b).applies, "Eternal Radiance crit should apply after confirmation");
   b = buff(slot, "son_11_eternal_radiance_spectro");
-  assert(__T.buffStatus(slot, 0, b).precondition && !__T.buffStatus(slot, 0, b).applies, "Eternal Radiance Spectro bonus should wait for confirmed Light Noise stacks");
+  assert(__T.buffStatus(slot, 0, b).precondition && !__T.buffStatus(slot, 0, b).applies, "Eternal Radiance Spectro bonus should still require available Light Noise stacks");
   __T.setBuffToggle(slot, 0, "son_11_eternal_radiance_spectro", true);
   expectEqual(__T.state.effectCalc.key, "lightNoise", "confirming 10-stack Light Noise bonus should select Light Noise effect");
   expectEqual(__T.state.effectCalc.stacks, 10, "confirming 10-stack Light Noise bonus should set effect stacks to 10");
@@ -2775,13 +2950,17 @@ function reportedCharacterFixes() {
   slot.seq = 4;
   slot.skill = "heavy";
   b = buff(slot, "k4_all");
-  assert(__T.buffStatus(slot, 0, b).precondition && !__T.buffStatus(slot, 0, b).applies, "Cartethyia chain 4 post-effect buff should wait for confirmation");
+  assert(__T.buffStatus(slot, 0, b).precondition && __T.buffStatus(slot, 0, b).applies, "Cartethyia chain 4 post-effect buff should default checked");
+  __T.setBuffToggle(slot, 0, b.id, false);
+  assert(!__T.buffStatus(slot, 0, b).applies, "Cartethyia chain 4 post-effect buff should remain manually disableable");
   __T.setBuffToggle(slot, 0, b.id, true);
   assert(__T.buffStatus(slot, 0, b).applies, "Cartethyia chain 4 post-effect buff should apply after confirmation");
   slot.toggles[__T.stateChoiceKey("形态")] = "芙露德莉斯";
   slot.skill = "lib_tideblade";
   b = buff(slot, "w_e1");
-  assert(!__T.buffStatus(slot, 0, b).applies, "Cartethyia signature weapon defense ignore should wait for confirmation on later damage");
+  assert(__T.buffStatus(slot, 0, b).applies, "Cartethyia signature weapon defense ignore should default checked on later damage");
+  __T.setBuffToggle(slot, 0, b.id, false);
+  assert(!__T.buffStatus(slot, 0, b).applies, "Cartethyia signature weapon defense ignore should remain manually disableable");
   slot.toggles[__T.stateChoiceKey("形态")] = "卡提希娅";
   slot.skill = "na1";
   assert(__T.buffStatus(slot, 0, b).applies, "Cartethyia signature weapon defense ignore should trigger from basic damage");
@@ -2850,18 +3029,18 @@ function reportedCharacterFixes() {
   expectEqual(sigrikaRuneSum, 4, "Sigrika should hold 2 additional runes at 50 Full Stop");
   slot.resources.period = 100;
   b = buff(slot, "b_blessing_aero");
-  assert(__T.buffStatus(slot, 0, b).precondition && !__T.buffStatus(slot, 0, b).applies, "Sigrika Semantic Blessing should wait for confirmation");
-  expectEqual(__T.buffStackCount(slot, b, 0), 0, "Sigrika Semantic Blessing should stay at zero stacks before confirmation");
+  assert(__T.buffStatus(slot, 0, b).precondition && __T.buffStatus(slot, 0, b).applies, "Sigrika Semantic Blessing should default checked");
+  expectEqual(__T.buffStackCount(slot, b, 0), 0, "Sigrika Semantic Blessing should keep its independent default stack count");
   __T.setBuffToggle(slot, 0, b.id, true);
   assert(__T.buffStatus(slot, 0, b).applies, "Sigrika Semantic Blessing should apply after confirmation");
   expectEqual(__T.buffStackCount(slot, b, 0), 6, "Sigrika Semantic Blessing should use max stacks after confirmation");
   assert(!__T.buffStatus(slot, 0, buff(slot, "b_er_echo")).applies, "Sigrika ER conversion should not apply below 125% energy regen");
   const trueNameCrit = buff(slot, "son_29_sound_of_true_name_echo_crit");
-  assert(!__T.buffStatus(slot, 0, trueNameCrit).applies, "Sound of True Name 5-piece Echo Skill crit should wait for confirmation");
+  assert(__T.buffStatus(slot, 0, trueNameCrit).applies, "Sound of True Name 5-piece Echo Skill crit should default checked");
   __T.setBuffToggle(slot, 0, trueNameCrit.id, true);
   assert(__T.buffStatus(slot, 0, trueNameCrit).applies, "Sound of True Name 5-piece Echo Skill crit should apply after confirmation");
   const trueNameAero = buff(slot, "son_29_sound_of_true_name_aero");
-  assert(!__T.buffStatus(slot, 0, trueNameAero).applies, "Sound of True Name 5-piece Aero bonus should wait for confirmation");
+  assert(__T.buffStatus(slot, 0, trueNameAero).applies, "Sound of True Name 5-piece Aero bonus should default checked");
   __T.setBuffToggle(slot, 0, trueNameAero.id, true);
   assert(__T.buffStatus(slot, 0, trueNameAero).applies, "Sound of True Name 5-piece Aero bonus should apply after confirmation");
   slot.resources.hopeRune = 1;
@@ -2890,7 +3069,9 @@ function reportedCharacterFixes() {
   slot.seq = 4;
   slot.skill = "a10";
   b = buff(slot, "k4");
-  assert(!__T.buffStatus(slot, 0, b).applies, "Zhezhi chain 4 should wait for confirmation");
+  assert(__T.buffStatus(slot, 0, b).applies, "Zhezhi chain 4 should default checked");
+  __T.setBuffToggle(slot, 0, b.id, false);
+  assert(!__T.buffStatus(slot, 0, b).applies, "Zhezhi chain 4 should remain manually disableable");
   __T.setBuffToggle(slot, 0, b.id, true);
   assert(__T.buffStatus(slot, 0, b).applies, "Zhezhi chain 4 should apply after confirmation");
 
@@ -3061,7 +3242,7 @@ function reportedCharacterFixes() {
   slot = __T.state.slots[0];
   slot.skill = "skill_windqueller";
   b = buff(slot, "b3");
-  assert(!__T.buffStatus(slot, 0, b).applies, "Jiyan Windqueller bonus should wait for Qingloong Mode or manual confirmation");
+  assert(__T.buffStatus(slot, 0, b).applies, "Jiyan Windqueller bonus should default checked outside Qingloong Mode");
   slot.toggles = {};
   slot.toggles[__T.stateChoiceKey("破阵状态")] = "破阵状态";
   assert(__T.buffStatus(slot, 0, b).applies, "Jiyan Windqueller bonus should apply in Qingloong Mode");
@@ -3092,12 +3273,12 @@ function reportedCharacterFixes() {
   resetTeam(["jinhsi", "chisa"]);
   const chisaSupport = __T.state.slots[1];
   b = buff(chisaSupport, "b_thread_def");
-  assert(!__T.buffStatus(chisaSupport, 1, b).applies, "Chisa Thread defense ignore should wait for confirmation");
+  assert(__T.buffStatus(chisaSupport, 1, b).applies, "Chisa Thread defense ignore should default checked");
   __T.setBuffToggle(chisaSupport, 1, "b_thread_def", true);
   assert(__T.buffStatus(chisaSupport, 1, b).applies, "Chisa Thread defense ignore should apply after confirmation");
   chisaSupport.seq = 2;
   b = buff(chisaSupport, "c2_dmg");
-  assert(!__T.buffStatus(chisaSupport, 1, b).applies, "Chisa chain 2 Thread bonus should wait for confirmation");
+  assert(__T.buffStatus(chisaSupport, 1, b).applies, "Chisa chain 2 Thread bonus should default checked");
   __T.setBuffToggle(chisaSupport, 1, "c2_dmg", true);
   assert(__T.buffStatus(chisaSupport, 1, b).applies, "Chisa chain 2 Thread bonus should apply after confirmation");
 
@@ -3107,7 +3288,7 @@ function reportedCharacterFixes() {
   chisaSlot.seq = 6;
   b = buff(chisaSlot, "c6_effect_amp");
   let st = __T.buffStatus(chisaSlot, 1, b);
-  assert(st.precondition && !st.gated, "effect-only support state buff should expose a confirmation control");
+  assert(st.precondition && !st.gated && st.applies, "effect-only support state buff should expose a default-checked confirmation control");
   __T.setBuffToggle(chisaSlot, 1, "c6_effect_amp", true);
   assert(chisaSlot.toggles[__T.stateChoiceKey(chisaVoidSnare.id)] === stateOptionValueFor(chisa, "虚无绞痕·终焉"), "confirming Chisa effect amp should write the provider target state");
   r = __T.compute();
@@ -3303,7 +3484,7 @@ function reportedCharacterFixes() {
   assert(html.includes("灵性 (0-100)"), "Iuno New Moon should keep the Spirituality resource visible at zero");
   slot.skill = "rs_chuyin";
   b = buff(slot, "b2");
-  assert(!__T.buffStatus(slot, 0, b).applies, "Iuno Pale Light should wait for a qualifying shield or Intro trigger");
+  assert(__T.buffStatus(slot, 0, b).applies, "Iuno Pale Light should default checked before a qualifying shield or Intro trigger");
   expectEqual(__T.buffFormulaText(slot, b, 0), "×(1+0%)", "Iuno Pale Light should stay at zero stacks before a qualifying trigger");
   slot.toggles[__T.stateChoiceKey("满月领域")] = "满月领域";
   assert(__T.buffStatus(slot, 0, b).applies, "Iuno shield should grant Pale Light stacks inside Full Moon Domain");
@@ -4019,7 +4200,7 @@ function hiyukiCharacterRegressions() {
   const frostWeapon = buff(slot, "w_e3");
   assert(frostWeapon.effect === "frost", "Hiyuki signature weapon effect damage deepen should target Frost effect damage");
   let st = __T.buffStatus(slot, 0, frostWeapon);
-  assert(st.precondition && !st.gated && !st.applies, "Hiyuki signature effect deepen should wait for confirmation");
+  assert(st.precondition && !st.gated && st.applies, "Hiyuki signature effect deepen should default checked");
   __T.setBuffToggle(slot, 0, frostWeapon.id, true);
   r = __T.compute();
   assert(r.effect.buffDeepen >= 80, "Confirmed Hiyuki signature effect deepen should feed the Frost effect calculation");
@@ -4027,7 +4208,7 @@ function hiyukiCharacterRegressions() {
   resetTeam(["hiyuki"]);
   const snowCrit = buff(__T.state.slots[0], "son_30_wishes_of_quiet_snowfall_crit");
   st = __T.buffStatus(__T.state.slots[0], 0, snowCrit);
-  assert(st.precondition && !st.applies, "Wishes of Quiet Snowfall crit should wait for confirmation");
+  assert(st.precondition && st.applies, "Wishes of Quiet Snowfall crit should default checked");
   __T.setBuffToggle(__T.state.slots[0], 0, snowCrit.id, true);
   assert(__T.buffStatus(__T.state.slots[0], 0, snowCrit).applies, "Wishes of Quiet Snowfall crit should apply after confirmation");
 }
@@ -4041,7 +4222,7 @@ function newCharacterWeaponRegressions() {
   assert(defIgnore && defIgnore.zone === "defIgnore" && defIgnore.value === 32 && defIgnore.damageType === "resonanceLiberation", "Aemeath signature weapon should include Liberation defense ignore");
   assert(resIgnore && resIgnore.zone === "resShred" && resIgnore.value === 10 && resIgnore.element === "fusion", "Aemeath signature weapon should include Fusion resistance ignore");
   let st = __T.buffStatus(slot, 0, defIgnore);
-  assert(st.precondition && !st.applies, "Aemeath signature post-offset defense ignore should wait for confirmation");
+  assert(st.precondition && st.applies, "Aemeath signature post-offset defense ignore should default checked");
   __T.setBuffToggle(slot, 0, defIgnore.id, true);
   __T.setBuffToggle(slot, 0, resIgnore.id, true);
   let r = __T.compute();
@@ -4068,11 +4249,14 @@ function newCharacterWeaponRegressions() {
   const glacio = buff(slot, "w_e2");
   assert(glacio && glacio.zone === "damageBonus" && glacio.value === 30 && glacio.element === "glacio", "Lucilla signature weapon should include post-Frost Glacio damage bonus");
   st = __T.buffStatus(slot, 0, glacio);
-  assert(st.precondition && !st.applies, "Lucilla signature post-Frost Glacio bonus should wait for confirmation");
-  const beforeGlacio = __T.compute().rawTotals.damageBonus;
+  assert(st.precondition && st.applies, "Lucilla signature post-Frost Glacio bonus should default checked");
+  const defaultGlacio = __T.compute().rawTotals.damageBonus;
+  __T.setBuffToggle(slot, 0, glacio.id, false);
+  const disabledGlacio = __T.compute().rawTotals.damageBonus;
+  expectEqual(defaultGlacio - disabledGlacio, 30, "Lucilla signature weapon should remain manually disableable");
   __T.setBuffToggle(slot, 0, glacio.id, true);
   r = __T.compute();
-  expectEqual(r.rawTotals.damageBonus - beforeGlacio, 30, "Confirmed Lucilla signature weapon should feed Glacio damage bonus");
+  expectEqual(r.rawTotals.damageBonus, defaultGlacio, "Re-enabled Lucilla signature weapon should restore Glacio damage bonus");
 }
 
 function modernEchoDefaultRegressions() {
@@ -4249,10 +4433,10 @@ function sixCharacterAuditRegressions() {
   slot.skill = "azure_heavy";
   expectEqual(__T.compute().effect.actionStacks, 3, "Yangyang: Xuanling C3 Azure heavy should apply 2 base plus 1 extra Havoc Bane stacks");
   slot.skill = "lib";
-  expectEqual(__T.compute().effect.actionStacks, 3, "Yangyang: Xuanling Liberation should set Havoc Bane to the current cap");
+  expectEqual(__T.compute().effect.actionStacks, 6, "Yangyang: Xuanling Liberation should use the default-checked confirmable cap increase");
   const azureBreath = buff(slot, "b_desperate_breath_azure");
   slot.skill = "azure_heavy";
-  assert(!azureBreath.triggerSkills && __T.buffStatus(slot, 0, azureBreath).precondition && !__T.buffStatus(slot, 0, azureBreath).applies, "Yangyang: Xuanling Bated Breath should require cooldown confirmation instead of auto-triggering on every heavy attack");
+  assert(!azureBreath.triggerSkills && __T.buffStatus(slot, 0, azureBreath).precondition && __T.buffStatus(slot, 0, azureBreath).applies, "Yangyang: Xuanling Bated Breath should default checked while retaining its cooldown precondition");
   ["lib_shadow", "c1_shadow", "c2_shadow", "c6_shadow", "wraith_of_sound"].forEach((id) => {
     assert(skill(yangyang, id).triggeredDamage === true, `Yangyang: Xuanling ${id} should be modeled as triggered damage`);
   });
@@ -4424,7 +4608,11 @@ function v2FullAuditRegressions() {
   slot.skill = "na1";
   assert(__T.buffStatus(slot, 0, buff(slot, "k4_res")).applies, "Phoebe Sequence 4 Spectro RES reduction should auto-trigger on Basic Attack");
   slot.skill = "heavy";
-  assert(!__T.buffStatus(slot, 0, buff(slot, "k4_res")).applies, "Phoebe Sequence 4 Spectro RES reduction should not auto-trigger on Heavy Attack");
+  assert(__T.buffStatus(slot, 0, buff(slot, "k4_res")).applies, "Phoebe Sequence 4 Spectro RES reduction confirmation should default checked after another action");
+  __T.render();
+  assert(String(board.innerHTML).includes('data-buff="k4_res" checked'), "confirmable Buff checkbox should render checked by default");
+  __T.setBuffToggle(slot, 0, "k4_res", false);
+  assert(!__T.buffStatus(slot, 0, buff(slot, "k4_res")).applies, "Phoebe Sequence 4 Spectro RES reduction should allow manual disable after another action");
   slot.seq = 0;
   slot.skill = "starflash_absolution";
   slot.toggles[__T.stateChoiceKey("mode_1")] = "mode_1_option_1";
@@ -4674,6 +4862,25 @@ function iconAssetsUseSonataSets() {
   assert(!missing.length, `sonata icons should attach to echo sets: ${missing.join(", ")}`);
   const leadIcons = sonatas.flatMap((set) => [].concat(set.leads || [], set.lead || []).filter((lead) => lead.icon).map((lead) => `${set.name}/${lead.echo}`));
   assert(!leadIcons.length, `lead echoes should not receive set icons: ${leadIcons.join(", ")}`);
+  const targetData = window.WUWA_TARGET_DATA;
+  const gameplayIcon = (buff) => {
+    const ref = buff.localeRef || {};
+    if (ref.kind === "whiwaItem") return assets.targetGameplay?.whiwa?.[String(ref.itemId)];
+    if (ref.kind === "matrixBuff") return assets.targetGameplay?.dpmatrix?.[String(ref.buffId)];
+    return "";
+  };
+  const gameplayWithArtwork = Object.values(targetData.gameplayBuffs).filter((buff) => ["whiwaItem", "matrixBuff"].includes(buff.localeRef?.kind));
+  const missingGameplayIcons = gameplayWithArtwork.filter((buff) => {
+    const icon = gameplayIcon(buff);
+    return !icon || !fs.existsSync(path.join(root, icon));
+  }).map((buff) => buff.id);
+  assert(!missingGameplayIcons.length, `Whiwa Tokens and Matrix enhancements should have local icons: ${missingGameplayIcons.slice(0, 20).join(", ")}`);
+  const targetIconPaths = [
+    ...Object.values(assets.targetGameplay?.whiwa || {}),
+    ...Object.values(assets.targetGameplay?.dpmatrix || {}),
+  ];
+  assert(!assets.targetMonsters && !assets.targetMatrix && !assets.targetGameplay?.toa, "target icon manifest should omit monster, wave, and ToA effect artwork");
+  assert(targetIconPaths.length && targetIconPaths.every((icon) => icon.startsWith("assets/icons/targets/gameplay/") && !/https?:\/\//i.test(icon)), "Token and enhancement icons should use local asset paths only");
 }
 
 function resonanceChainActionCoverageRegressions() {
@@ -4822,7 +5029,7 @@ const checks = [
   ["Rover Electro entry regressions", roverElectroEntryRegressions],
   ["render preserves scroll", renderPreservesScroll],
   ["buff toggle uses partial refresh", buffToggleUsesPartialRefresh],
-  ["precondition buffs require confirmation", preconditionBuffsRequireConfirmation],
+  ["confirmable Buff defaults and structured preconditions", confirmableBuffDefaultsAndStructuredPreconditions],
   ["weapon picker keeps string ids", weaponPickerKeepsStringIds],
   ["beta data files use versioned paths", betaDataFilesUseVersionedPaths],
   ["character schema references resolve", characterSchemasAreLinked],

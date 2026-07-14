@@ -4,7 +4,7 @@ const fs = require("fs");
 const path = require("path");
 
 const root = path.resolve(__dirname, "..");
-const API_BASE = "https://api-v2.encore.moe/api";
+const API_BASE = String(process.env.WUWA_LANGUAGE_API_BASE || "").replace(/\/+$/, "");
 const DEFAULT_LANG = "zh-CN";
 const OUTPUT_LANGS = [
   { code: "en-US", api: "en" },
@@ -1420,16 +1420,16 @@ async function getJson(url) {
     const timer = setTimeout(() => controller.abort(), FETCH_TIMEOUT_MS);
     try {
       const response = await fetch(url, { signal: controller.signal });
-      if (!response.ok) throw new Error(`${response.status} ${url}`);
+      if (!response.ok) throw new Error(`HTTP ${response.status}`);
       return await response.json();
     } catch (error) {
-      if (attempt === FETCH_RETRIES) throw new Error(`${url}: ${error.message}`);
+      if (attempt === FETCH_RETRIES) throw new Error(`Language data request failed: ${error.message}`);
       await new Promise((resolve) => setTimeout(resolve, 500 * (attempt + 1)));
     } finally {
       clearTimeout(timer);
     }
   }
-  throw new Error(`Failed to fetch ${url}`);
+  throw new Error("Language data request failed");
 }
 
 async function mapConcurrent(items, limit, fn) {
@@ -1883,6 +1883,7 @@ function writeLanguageFile(lang, relativePath, data) {
 }
 
 async function main() {
+  if (!API_BASE) throw new Error("Set WUWA_LANGUAGE_API_BASE before rebuilding language packs.");
   loadRepoData();
 
   console.error("Fetching character index...");
