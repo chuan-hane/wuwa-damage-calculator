@@ -570,7 +570,6 @@ function closeTargetChoices() {
   board.querySelectorAll(".target-choice.open").forEach((choice) => {
     hideTargetChoicePreview(choice);
     choice.classList.remove("open");
-    choice.querySelector(".target-choice-toggle")?.setAttribute("aria-expanded", "false");
   });
 }
 
@@ -628,19 +627,13 @@ const ACTIONS = {
   "target-mode": (el) => { el.onchange = () => { TARGETS.selectMode(state.enemy, el.value); render(); }; },
   "target-season": (el) => { el.onchange = () => { TARGETS.selectSeason(state.enemy, el.value); render(); }; },
   "target-path": (el) => { el.onchange = () => { TARGETS.selectPath(state.enemy, el.value); render(); }; },
-  "target-pick": (el) => { el.onchange = () => { TARGETS.selectTarget(state.enemy, el.value); render(); }; },
-  "target-choice-toggle": (el) => { el.onclick = (ev) => {
-    ev.stopPropagation();
-    const choice = el.closest(".target-choice");
-    const open = !choice.classList.contains("open");
-    closeTargetChoices();
-    board.querySelectorAll(".combo.open").forEach((combo) => combo.classList.remove("open"));
-    if (!open) return;
-    choice.classList.add("open");
-    el.setAttribute("aria-expanded", "true");
-  }; },
+  "target-pick": (el) => {
+    const select = () => { TARGETS.selectTarget(state.enemy, el.dataset.value ?? el.value); render(); };
+    if (el.tagName === "SELECT") el.onchange = select;
+    else el.onclick = (ev) => { ev.stopPropagation(); select(); };
+  },
   "target-buff-choice": (el) => {
-    const select = () => { TARGETS.setGameplayChoice(state.enemy, el.dataset.group, el.value); render(); };
+    const select = () => { TARGETS.setGameplayChoice(state.enemy, el.dataset.group, el.dataset.value ?? el.value); render(); };
     if (el.tagName === "SELECT") el.onchange = select;
     else {
       el.onclick = (ev) => { ev.stopPropagation(); select(); };
@@ -661,7 +654,7 @@ const ACTIONS = {
     el.onchange = () => render();
   },
   "target-reset": (el) => { el.onclick = () => { TARGETS.clearOverrides(state.enemy); render(); }; },
-  "combo-toggle": (el) => { el.onclick = (ev) => { ev.stopPropagation(); const combo = el.closest(".combo"); const wasOpen = combo.classList.contains("open"); board.querySelectorAll(".combo.open").forEach((c) => c.classList.remove("open")); if (!wasOpen) { combo.classList.add("open"); const s = combo.querySelector(".combo-search"); if (s) { s.value = ""; filterCombo(s); s.focus(); } } }; },
+  "combo-toggle": (el) => { el.onclick = (ev) => { ev.stopPropagation(); const combo = el.closest(".combo"); const wasOpen = combo.classList.contains("open"); closeTargetChoices(); board.querySelectorAll(".combo.open").forEach((c) => c.classList.remove("open")); if (!wasOpen) { combo.classList.add("open"); const s = combo.querySelector(".combo-search"); if (s) { s.value = ""; filterCombo(s); s.focus(); } } }; },
   "combo-search": (el) => { el.onclick = (ev) => ev.stopPropagation(); el.oninput = () => filterCombo(el); },
   "combo-pick": (el) => { el.onclick = (ev) => { ev.stopPropagation(); const si = +el.dataset.slot; if (el.dataset.kind === "char") pickCharacter(si, el.dataset.value); else state.slots[si].weapon = el.dataset.value; render(); }; },
   "rank-set": (el, idx) => { el.onchange = () => { state.slots[idx].rank = +el.value; render(); }; },
@@ -748,7 +741,7 @@ function bind(root = board) {
     ACTIONS[el.dataset.act]?.(el, idx);
   });
   // 弹层内空白点击不关闭；点列以外关闭所有打开的下拉
-  root.querySelectorAll(".combo-pop, .target-choice-pop").forEach((p) => (p.onclick = (ev) => ev.stopPropagation()));
+  root.querySelectorAll(".combo-pop").forEach((p) => (p.onclick = (ev) => ev.stopPropagation()));
   document.onclick = () => {
     board.querySelectorAll(".combo.open").forEach((c) => c.classList.remove("open"));
     closeTargetChoices();

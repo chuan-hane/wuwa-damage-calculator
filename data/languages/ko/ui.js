@@ -13,6 +13,7 @@ window.WUWA_LANGUAGES.extend("ko", {
       "unselectedLead": "메인 에코 없음",
       "searchCharacter": "공명자 검색...",
       "searchWeapon": "무기 검색...",
+      "searchOption": "옵션 검색...",
       "weaponFallback": "무",
       "emptyFallback": "-",
       "signature": "전용",

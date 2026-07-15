@@ -13,6 +13,7 @@ window.WUWA_LANGUAGES.extend("ja-JP", {
       unselectedLead: "メイン音骸なし",
       searchCharacter: "共鳴者を検索...",
       searchWeapon: "武器を検索...",
+      searchOption: "選択肢を検索...",
       weaponFallback: "武",
       emptyFallback: "-",
       signature: "モチーフ",

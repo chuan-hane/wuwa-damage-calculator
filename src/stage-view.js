@@ -11,7 +11,7 @@ window.WUWA_STAGE_VIEW = (() => {
     const L = window.WUWA_LANGUAGES;
     const TARGETS = window.WUWA_TARGETS;
     const {
-      fmt, fx, esc, tnum, DAMAGE_MODES, skillFormulaText, damageSplitHTML,
+      fmt, fx, esc, tnum, DAMAGE_MODES, damageSplitHTML,
       betaVersionLabel, betaVersionSuffix, betaBadgeHTML,
     } = window.WUWA_RENDER_HELPERS;
     const asList = (v) => Array.isArray(v) ? v : (v ? [v] : []);
@@ -88,37 +88,42 @@ window.WUWA_STAGE_VIEW = (() => {
       return "";
     }
 
-    function targetControlIconHTML({ icon = "", element = "", label = "", qualityId = 0, variant = "" } = {}) {
-      if (!icon && !element) return "";
-      const quality = Number(qualityId);
-      const qualityClass = quality === 5 ? " target-control-icon--gold" : quality === 4 ? " target-control-icon--purple" : "";
-      if (element) return elementIconHTML(element, "target-control-icon", label);
-      const variantClass = variant === "matrix" ? " target-control-icon--matrix" : "";
-      const title = label || (element ? L.element(element) : "");
-      const image = icon ? `<img class="target-control-image" src="${esc(icon)}" alt="" onerror="this.style.display='none'" />` : "";
-      return `<span class="target-control-icon${qualityClass}${variantClass}" title="${esc(title)}">${image}</span>`;
+    function targetComboIconHTML(item) {
+      const element = targetDisplayElement(item) || "none";
+      const icon = window.WUWA_ICON_ASSETS?.elements?.[element];
+      const label = item ? TARGETS.targetOptionName(item) : "";
+      if (!icon) return comboIconHTML({ label }, "char");
+      return `<span class="combo-ic target-combo-ic element-icon--${esc(element)}" title="${esc(label)}"><img class="element-icon-image" src="${esc(icon)}" alt="" onerror="this.style.display='none'" /></span>`;
     }
 
-    function targetPickerIconHTML(item) {
-      return targetControlIconHTML({
-        element: targetDisplayElement(item),
-        label: item ? TARGETS.targetOptionName(item) : "",
-      });
-    }
-
-    function gameplayBuffIconHTML(buff) {
+    function gameplayBuffComboIconHTML(buff) {
       const mode = state.enemy.targetMode;
-      if (!buff || (mode !== "whiwa" && mode !== "dpmatrix")) return "";
-      return targetControlIconHTML({
-        icon: gameplayAssetPath(buff),
-        label: TARGETS.gameplayBuffName(buff),
-        qualityId: buff?.qualityId,
-        variant: mode === "dpmatrix" ? "matrix" : "",
-      });
+      const label = buff ? TARGETS.gameplayBuffName(buff) : L.t("targets.buffUnselected");
+      const icon = gameplayAssetPath(buff);
+      if (!icon || (mode !== "whiwa" && mode !== "dpmatrix")) return comboIconHTML({ label }, "char");
+      const quality = Number(buff?.qualityId);
+      const qualityClass = quality === 5 ? " target-gameplay-combo-ic--gold" : quality === 4 ? " target-gameplay-combo-ic--purple" : "";
+      const variantClass = mode === "dpmatrix" ? " target-gameplay-combo-ic--matrix" : "";
+      return `<img class="combo-ic target-gameplay-combo-ic${qualityClass}${variantClass}" src="${esc(icon)}" alt="" title="${esc(label)}" onerror="this.style.visibility='hidden'" />`;
     }
 
-    function targetSelectControlHTML(selectHTML, iconHTML) {
-      return `<div class="target-select-control${iconHTML ? " target-select-control--with-icon" : ""}">${iconHTML}${selectHTML}</div>`;
+    function targetPickerComboHTML(groups, current, label) {
+      const items = groups.map((group) => {
+        const heading = group.label ? `<li class="combo-group-label" role="presentation">${esc(group.label)}</li>` : "";
+        const options = group.items.map((item) => {
+          const optionLabel = TARGETS.targetOptionName(item);
+          const search = `${group.label || ""} ${optionLabel}`.trim().toLowerCase();
+          return `<li class="combo-opt${item.id === state.enemy.targetId ? " sel" : ""}" data-act="target-pick" data-value="${esc(item.id)}" data-search="${esc(search)}" role="option" aria-selected="${item.id === state.enemy.targetId}">
+            ${targetComboIconHTML(item)}<span class="combo-opt-lbl">${esc(optionLabel)}</span>
+          </li>`;
+        }).join("");
+        return `${heading}${options}`;
+      }).join("");
+      const currentLabel = current ? TARGETS.targetOptionName(current) : L.t("common.unselected");
+      return `<div class="combo target-choice target-picker-combo">
+        <button type="button" class="combo-btn target-picker-trigger" data-act="combo-toggle" aria-haspopup="listbox">${targetComboIconHTML(current)}<span class="combo-lbl">${esc(currentLabel)}</span><span class="combo-caret" aria-hidden="true"></span></button>
+        <div class="combo-pop" role="listbox" aria-label="${esc(label)}"><input type="text" class="combo-search" placeholder="${esc(L.t("common.searchOption"))}" data-act="combo-search" /><ul class="combo-list">${items}</ul></div>
+      </div>`;
     }
 
     function skillOptions(slot) {
@@ -126,7 +131,11 @@ window.WUWA_STAGE_VIEW = (() => {
       const currentId = selectedSkill(slot)?.id;
       availableSkills(slot).forEach((s) => { (cats[s.category] = cats[s.category] || []).push(s); });
       return Object.entries(cats).map(([cat, arr]) =>
-        `<optgroup label="${esc(L.category(cat))}">` + arr.map((s) => `<option value="${s.id}" ${s.id === currentId ? "selected" : ""}>${esc(L.skillOptionName(s))} (${esc(L.text(skillFormulaText(s)))})</option>`).join("") + `</optgroup>`
+        `<optgroup label="${esc(L.category(cat))}">` + arr.map((s) => {
+          const level = num(slot.skillLevels?.[s.category], 10);
+          const multiplier = skillMultValue(s.multiplier, skillLevelRatio(level));
+          return `<option value="${s.id}" ${s.id === currentId ? "selected" : ""}>${esc(L.skillOptionName(s))} (${esc(`${tnum(multiplier)}%`)})</option>`;
+        }).join("") + `</optgroup>`
       ).join("");
     }
 
@@ -305,7 +314,6 @@ window.WUWA_STAGE_VIEW = (() => {
           `<div>${esc(L.text("缺少"))} "<span class="dt">${esc(skillResourceLabel(s1, selectedSk))}</span>", ${esc(L.text("当前技能不可释放"))}</div></div>`
         );
       }
-      const lv = r.skLevel || 10;
       const statName = L.stat(skillStatKey(sk.stat));
       const isHarmonyResponse = r.damageModel === "harmonyResponse";
       const isFixedDamage = r.damageModel === "fixed";
@@ -320,24 +328,14 @@ window.WUWA_STAGE_VIEW = (() => {
         );
       }
       const baseName = isHarmonyResponse ? L.text("谐度基础值") : statName;
-      const expr = skillFormulaText(sk, r.layers);
-      const stackMult = sk.perStack ? sk.perStack * r.layers : 0;
-      const ten = sk.multiplier + stackMult * (1 + (r.perStackBonus || 0) / 100);
       const multLabel = isHarmonyResponse ? L.text("响应系数") : L.text("倍率");
-      let formula = `${multLabel} ＝ ${expr}`;
-      if (sk.perStack || /[+×]/.test(sk.formula)) formula += ` ＝ ${tnum(sk.multiplier + stackMult)}%`;
-      if (sk.perStack && r.perStackBonus) formula += `; ${L.text(sk.stackLabel)} ${L.text("增加部分")} ×(1 + ${tnum(r.perStackBonus)}%) ＝ ${tnum(ten)}%`;
-      if (lv !== 10) formula += ` ×${skillLevelRatio(lv)} (${L.t("common.levelShort", { value: lv })})`;
-      if (r.multAdd) formula += ` + ${tnum(r.multAdd)}% (${L.text("倍率增加")})`;
-      if (lv !== 10 || r.multAdd) formula += ` ＝ ${tnum(r.panel.baseMult)}%`;
-      if (r.totals.skillMultBonus) formula += ` ×(1 + ${r.totals.skillMultBonus}% ${L.text("技能倍率提升")}) ＝ ${tnum(r.panel.skillMult * 100)}%`;
       const displayName = selectedSk.id !== sk.id ? `${L.skillName(selectedSk)} (${L.text("按")} ${L.skillName(sk)})` : L.skillName(sk);
       const tags = (sk.damageTags || []).length ? ` · ${L.text("标签")}: ${sk.damageTags.map((tag) => `"${esc(L.damageType(tag))}"`).join("/")}` : "";
       const harmonyNote = isHarmonyResponse ? `<div>${L.text("谐度响应伤害按谐度基础值、响应系数与谐度破坏增幅独立结算，不吃攻击、暴击、属性加成、类型加成。")}</div>` : "";
       return (
         `<div class="dmg-type"><div>${esc(L.text("本次"))}: <b>${esc(displayName)}</b> (${esc(L.category(selectedSk.category))})</div>` +
         `<div>${esc(L.text("此次伤害视为"))} "<span class="dt">${esc(L.damageType(sk.damageType))}</span>"${tags} · ${elementBadgeHTML(sk.element || c.element)} · ${esc(baseName)} ${esc(multLabel)}</div>` +
-        `<div class="formula">${esc(L.text(formula))}</div>${harmonyNote}</div>`
+        `${harmonyNote}</div>`
       );
     }
 
@@ -1541,9 +1539,9 @@ window.WUWA_STAGE_VIEW = (() => {
         const selected = group.value === buff.id;
         const name = TARGETS.gameplayBuffName(buff);
         const description = TARGETS.gameplayBuffDescription(buff);
-        return `<button type="button" class="combo-opt target-choice-option${selected ? " sel" : ""}" data-act="target-buff-choice" data-group="${esc(group.id)}" data-preview="${esc(description)}" value="${esc(buff.id)}" role="option" aria-selected="${selected}" aria-label="${esc(L.sourceJoin(name, description))}">
-          ${gameplayBuffIconHTML(buff)}<span class="combo-opt-lbl">${esc(name)}</span>
-        </button>`;
+        return `<li class="combo-opt${selected ? " sel" : ""}" data-act="target-buff-choice" data-group="${esc(group.id)}" data-value="${esc(buff.id)}" data-search="${esc(name.toLowerCase())}" data-preview="${esc(description)}" role="option" aria-selected="${selected}" aria-label="${esc(L.sourceJoin(name, description))}">
+          ${gameplayBuffComboIconHTML(buff)}<span class="combo-opt-lbl">${esc(name)}</span>
+        </li>`;
       };
       const choiceOptionsHTML = (group) => {
         if (state.enemy.targetMode !== "whiwa") return group.options.map((buff) => optionHTML(group, buff)).join("");
@@ -1553,17 +1551,17 @@ window.WUWA_STAGE_VIEW = (() => {
         ].map(({ qualityId, label }) => {
           const options = group.options.filter((buff) => Number(buff.qualityId) === qualityId);
           if (!options.length) return "";
-          return `<div class="target-choice-group-label">${esc(label)}</div>${options.map((buff) => optionHTML(group, buff)).join("")}`;
+          return `<li class="combo-group-label" role="presentation">${esc(label)}</li>${options.map((buff) => optionHTML(group, buff)).join("")}`;
         }).join("");
       };
       const groups = gameplay.groups.map((group) => {
         const options = choiceOptionsHTML(group);
         const selected = group.options.find((buff) => buff.id === group.value);
         const currentName = selected ? TARGETS.gameplayBuffName(selected) : L.t("targets.buffUnselected");
-        const unselected = `<button type="button" class="combo-opt target-choice-option${selected ? "" : " sel"}" data-act="target-buff-choice" data-group="${esc(group.id)}" value="" role="option" aria-selected="${!selected}"><span class="combo-opt-lbl">${esc(L.t("targets.buffUnselected"))}</span></button>`;
-        return `<div class="target-buff-select"><span>${esc(groupLabel)}</span><div class="target-choice">
-          <button type="button" class="target-choice-toggle" data-act="target-choice-toggle" aria-haspopup="listbox" aria-expanded="false">${gameplayBuffIconHTML(selected)}<span class="combo-lbl">${esc(currentName)}</span><span class="combo-caret" aria-hidden="true"></span></button>
-          <div class="combo-pop target-choice-pop" role="listbox" aria-label="${esc(groupLabel)}">${unselected}${options}</div>
+        const unselected = `<li class="combo-opt${selected ? "" : " sel"}" data-act="target-buff-choice" data-group="${esc(group.id)}" data-value="" data-search="${esc(L.t("targets.buffUnselected").toLowerCase())}" role="option" aria-selected="${!selected}">${gameplayBuffComboIconHTML(null)}<span class="combo-opt-lbl">${esc(L.t("targets.buffUnselected"))}</span></li>`;
+        return `<div class="target-buff-select"><span>${esc(groupLabel)}</span><div class="combo target-choice">
+          <button type="button" class="combo-btn target-choice-trigger" data-act="combo-toggle" aria-haspopup="listbox">${gameplayBuffComboIconHTML(selected)}<span class="combo-lbl">${esc(currentName)}</span><span class="combo-caret" aria-hidden="true"></span></button>
+          <div class="combo-pop" role="listbox" aria-label="${esc(groupLabel)}"><input type="text" class="combo-search" placeholder="${esc(L.t("common.searchOption"))}" data-act="combo-search" /><ul class="combo-list">${unselected}${options}</ul></div>
           <div class="formula-card-tip target-choice-tooltip" role="tooltip"></div>
         </div></div>`;
       }).join("");
@@ -1606,20 +1604,17 @@ window.WUWA_STAGE_VIEW = (() => {
       const pathControl = targetPaths.length ? `<label class="formula-target-path"><span>${esc(TARGETS.targetPathLabel(enemy.targetMode))}</span><select data-act="target-path">${targetPaths.map((path) =>
         `<option value="${esc(path.id)}" ${path.id === selectedPathId ? "selected" : ""}>${esc(path.label)}</option>`
       ).join("")}</select></label>` : "";
-      const targetOptions = TARGETS.groupedTargets(enemy.targetMode, enemy.targetSeasonId, selectedPathId, enemy.targetId).map((group) => {
-        const options = group.items.map((item) =>
-          `<option value="${esc(item.id)}" ${item.id === enemy.targetId ? "selected" : ""}>${esc(TARGETS.targetOptionName(item))}</option>`
-        ).join("");
-        return group.label ? `<optgroup label="${esc(group.label)}">${options}</optgroup>` : options;
-      }).join("");
+      const targetGroups = TARGETS.groupedTargets(enemy.targetMode, enemy.targetSeasonId, selectedPathId, enemy.targetId);
+      const selectedTarget = TARGETS.target(enemy.targetId);
       const updatedAt = L.t("targets.updatedAt", { date: TARGETS.syncedDate() });
       const gameplayControls = targetGameplayControlsHTML();
       const toggle = `<button type="button" class="formula-target-toggle${state.showTargetExtras ? " on" : ""}" data-act="target-extra-toggle">${esc(state.showTargetExtras ? L.t("common.collapse") : L.t("common.more"))}</button>`;
       const targetLabel = L.t("targets.attribute");
-      const targetPick = targetSelectControlHTML(`<select data-act="target-pick">${targetOptions}</select>`, targetPickerIconHTML(context.target));
+      const targetPick = targetPickerComboHTML(targetGroups, selectedTarget, targetLabel);
       const costControl = `<label class="formula-target-cost"><span>${esc(L.t("targets.cost"))}</span><select data-act="offset-cost">${offsetCostOptionsHTML(true)}</select></label>`;
-      const levelControlState = enemy.targetMode === "openWorld" ? 'data-act="target-level"' : "disabled";
-      const levelControl = `<label class="formula-target-level"><span>${esc(L.t("targets.enemyLevel"))}</span><input type="number" min="1" step="1" ${levelControlState} value="${esc(tnum(context.enemyLevel))}" /></label>`;
+      const levelControl = enemy.targetMode === "openWorld"
+        ? `<label class="formula-target-level"><span>${esc(L.t("targets.enemyLevel"))}</span><input type="number" min="1" step="1" data-act="target-level" value="${esc(tnum(context.enemyLevel))}" /></label>`
+        : "";
       const primaryClass = `formula-target-primary${seasonControl ? " formula-target-primary--with-season" : ""}${pathControl ? " formula-target-primary--with-path" : ""}`;
       if (!state.showTargetExtras) {
         return `<div class="formula-target-controls" id="target-controls">
@@ -1627,7 +1622,7 @@ window.WUWA_STAGE_VIEW = (() => {
         <label><span>${esc(L.t("targets.mode"))}</span><select data-act="target-mode">${modeOptions}</select></label>
         ${seasonControl}
         ${pathControl}
-        <label class="formula-target-pick"><span>${esc(targetLabel)}</span>${targetPick}</label>
+        <div class="formula-target-pick formula-target-field"><span>${esc(targetLabel)}</span>${targetPick}</div>
         ${levelControl}
         ${costControl}
         ${toggle}
@@ -1669,7 +1664,7 @@ window.WUWA_STAGE_VIEW = (() => {
       <label><span>${esc(L.t("targets.mode"))}</span><select data-act="target-mode">${modeOptions}</select></label>
       ${seasonControl}
       ${pathControl}
-      <label class="formula-target-pick"><span>${esc(targetLabel)}</span>${targetPick}</label>
+      <div class="formula-target-pick formula-target-field"><span>${esc(targetLabel)}</span>${targetPick}</div>
       ${levelControl}
       ${costControl}
       ${toggle}

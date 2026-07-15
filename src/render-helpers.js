@@ -45,14 +45,6 @@ window.WUWA_RENDER_HELPERS = (() => {
     normal: { get label() { return L.t("damageModes.normal"); }, value: (r) => r.normal, split: "normal" },
   };
 
-  function skillFormulaText(sk, layers = null) {
-    if (!sk) return "0%";
-    const text = sk.formula || `${sk.multiplier}%`;
-    const formula = layers == null || !sk.stackLabel
-      ? text
-      : text.replace(new RegExp(`(×\\s*)${sk.stackLabel}`, "g"), `$1${sk.stackLabel}(${layers})`);
-    return L.text(formula);
-  }
   function parseFormulaParts(sk, layers = 0) {
     if (!sk || !sk.formula) return null;
     const terms = String(sk.formula).split("+").map((p) => p.trim()).filter(Boolean);
@@ -196,7 +188,7 @@ window.WUWA_RENDER_HELPERS = (() => {
     fmt, fx, esc, tnum, parts, sum, nonEchoEntries, nonEchoSum, pct,
     betaVersionLabel, betaVersionSuffix, betaBadgeHTML,
     PROVIDER_META, PROVIDER_ORDER, DAMAGE_MODES,
-    skillFormulaText, parseFormulaParts, multiplierPartsForResult, damageSplitHTML,
+    parseFormulaParts, multiplierPartsForResult, damageSplitHTML,
     durationText, shortDuration, buffSourceTitle, buffExcerpt, buffOriginalText,
   };
 })();
