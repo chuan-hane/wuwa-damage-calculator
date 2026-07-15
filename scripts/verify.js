@@ -421,6 +421,20 @@ function initialRenderCompletes() {
   __T.state.resultMode = "skill";
 }
 
+function skillSelectorUsesSelectedLevelMultiplier() {
+  resetTeam(["jinhsi"]);
+  __T.state.lang = "zh-CN";
+  const slot = __T.state.slots[0];
+  slot.skill = "na1";
+  slot.skillLevels.basicAttack = 5;
+  __T.render();
+  const html = String(board.innerHTML);
+  const detailStart = html.indexOf('<div id="dmg-type"');
+  const detailHtml = html.slice(detailStart, html.indexOf('<div id="layer-fields"', detailStart));
+  assert(html.includes('<option value="na1" selected>第一段 (45.5%)</option>'), "skill selector should show the selected level's actual multiplier");
+  assert(!detailHtml.includes('class="formula"') && !detailHtml.includes("0.68452") && !detailHtml.includes("66.47% ×"), "skill detail should hide the internal level-10 conversion formula");
+}
+
 function splitDamageRendersUnderMainDamage() {
   __T.state.lang = "zh-CN";
   resetTeam(["suisui"]);
@@ -486,15 +500,23 @@ function targetSelectionInterface() {
   expectEqual(targets.sortedSeasons("whiwa").slice(0, 2).map((item) => item.id).join(","), "20,19", "Whiwa seasons should sort newest to oldest above the current season");
   expectEqual(targets.sortedSeasons("dpmatrix").slice(0, 2).map((item) => item.id).join(","), "6,5", "Matrix seasons should sort newest to oldest");
   const targetPickerHTML = (page) => {
-    const start = page.indexOf('class="formula-target-pick"');
-    return page.slice(start, page.indexOf("</label>", start));
+    const start = page.indexOf('class="formula-target-pick ');
+    const end = [page.indexOf('class="formula-target-level"', start), page.indexOf('class="formula-target-cost"', start)]
+      .filter((index) => index > start)
+      .sort((a, b) => a - b)[0];
+    return page.slice(start, end);
   };
   const targetLevelHTML = (page) => {
     const start = page.indexOf('class="formula-target-level"');
+    if (start < 0) return "";
     return page.slice(start, page.indexOf("</label>", start));
   };
   const targetChoiceToggleHTML = (page) => {
-    const start = page.indexOf('class="target-choice-toggle"');
+    const start = page.indexOf('class="combo-btn target-choice-trigger"');
+    return page.slice(start, page.indexOf("</button>", start));
+  };
+  const targetPickerToggleHTML = (page) => {
+    const start = page.indexOf('class="combo-btn target-picker-trigger"');
     return page.slice(start, page.indexOf("</button>", start));
   };
   assert(html.includes('data-act="target-mode"') && html.includes('data-act="target-pick"'), "target toolbar should expose linked mode and target-attribute selectors");
@@ -505,10 +527,12 @@ function targetSelectionInterface() {
   assert(css.includes(".target-stage") && css.includes(".formula-target-toggle {\n  align-self: end;"), "the gameplay block should align the selectors and More button on the same baseline");
   assert(css.includes("grid-template-columns: repeat(4, auto) auto;") && css.includes("justify-content: start;"), "the gameplay selectors should size to their content instead of stretching across the row");
   assert(css.includes(".formula-target-primary select,\n.target-buff-controls select {\n  appearance: none;") && css.includes("background-image:\n    linear-gradient(45deg, transparent 50%, var(--muted) 50%)"), "the gameplay selectors should reuse the standard custom caret style");
-  assert(css.includes(".element-icon {") && css.includes("width: 1em;") && css.includes("height: 1em;") && css.includes(".element-icon-image {") && css.includes("filter: grayscale(1) brightness(0.55) contrast(10);") && css.includes(".element-icon--aero {") && !css.includes(".target-control-icon--element") && !css.includes(".target-resistance-icon {"), "all attribute icons should share one text-relative high-contrast element component");
+  assert(css.includes(".element-icon {") && css.includes("width: 1em;") && css.includes("height: 1em;") && css.includes(".element-icon-image {") && css.includes("filter: grayscale(1) brightness(0.55) contrast(10);") && css.includes(".element-icon--aero {") && css.includes(".element-icon--none {") && !css.includes(".target-control-icon--element") && !css.includes(".target-resistance-icon {"), "all attribute icons should share one high-contrast element treatment, including the neutral option");
   assert(html.includes("→ 目标 "), "target summary should label the text after the arrow as the target");
-  assert(css.includes(".target-choice-toggle {\n  display: flex;") && css.includes(".target-choice.show-preview .target-choice-tooltip {") && appSource.includes("showTargetChoicePreview") && appSource.includes('"target-choice-toggle"'), "Token and enhancement selectors should use a fixed-height custom menu with floating formula-card previews");
-  assert(css.includes(".target-choice-pop {\n  z-index: 80;\n  top: calc(100% + 4px);\n  padding: 5px;") && css.includes("background: rgba(54, 54, 54, 0.82);") && css.includes("backdrop-filter: blur(24px) saturate(140%);") && css.includes(".target-choice-pop .target-choice-option {\n  position: relative;\n  width: 100%;\n  min-height: 24px;\n  padding: 2px 10px;") && css.includes(".target-choice-pop .target-choice-option.sel::before {\n  content: \"✓\";"), "Token and enhancement menus should match the native skill-selector popup styling");
+  assert(css.includes(".combo-btn {") && css.includes(".combo-pop {") && css.includes(".combo-search {") && css.includes(".combo-opt {") && css.includes(".target-choice.show-preview .target-choice-tooltip {") && appSource.includes("showTargetChoicePreview"), "icon target selectors should reuse the character and weapon combo component while keeping floating Buff previews");
+  assert(!css.includes(".target-choice-toggle {") && !css.includes(".target-choice-pop {") && !css.includes("background: rgba(54, 54, 54, 0.82);"), "target selectors should not maintain a separate popup skin");
+  assert(css.includes(".formula-target-field .combo-btn,\n.target-buff-select .combo-btn {\n  height: 30px;\n  min-height: 30px;") && css.includes(".formula-target-field .combo-ic,\n.target-buff-select .combo-ic {\n  width: 22px;\n  height: 22px;"), "target combo icons should use the compact weapon size without increasing the 30px control height");
+  assert(html.includes('class="combo target-choice target-picker-combo"') && html.includes('class="combo-btn target-picker-trigger"') && targetPickerHTML(html).includes('class="combo-search"') && targetPickerHTML(html).includes('class="combo-list"'), "target attributes should use the complete character and weapon combo structure");
   assert(!html.includes('class="res-help') && !html.includes("目标属性抗性参考"), "the old resistance reference table should be removed");
   assert(targetLevelHTML(html).includes('data-act="target-level"') && !targetLevelHTML(html).includes("disabled") && !html.includes('data-act="target-resistance"'), "Open World enemy level should stay editable in the primary gameplay row while six-resistance overrides stay inside More");
   const openWorldTargets = targets.targetsFor("openWorld", "default");
@@ -516,8 +540,10 @@ function targetSelectionInterface() {
   const openWorldGroups = targets.groupedTargets("openWorld", "default");
   expectEqual(openWorldGroups.length, 1, "Open World attribute group count");
   expectEqual(openWorldGroups[0].items.map(targets.targetOptionName).join(","), "无属性,冷凝,热熔,导电,气动,衍射,湮灭", "Open World attribute labels");
+  assert(targetPickerToggleHTML(html).includes('src="assets/icons/elements/physical.webp"') && targetPickerHTML(html).includes('class="combo-ic target-combo-ic element-icon--none"'), "Open World neutral attribute should use its local physical icon instead of an empty slot");
+  assert(["physical", ...targets.elements()].every((name) => targetPickerHTML(html).includes(`src="assets/icons/elements/${name}.webp"`)), "every Open World attribute option should render a local icon");
   const attributeLabels = new Set(["无属性", ...targets.elements().map((element) => window.WUWA_LANGUAGES.element(element))]);
-  ["toa", "whiwa", "dpmatrix"].forEach((mode) => targets.seasons(mode).forEach((season) => {
+  ["toa", "dpmatrix"].forEach((mode) => targets.seasons(mode).forEach((season) => {
     targets.targetPaths(mode, season.id).forEach((targetPath) => {
       targets.groupedTargets(mode, season.id, targetPath.id).forEach((group) => {
         const labels = group.items.map(targets.targetOptionName);
@@ -525,6 +551,10 @@ function targetSelectionInterface() {
         expectEqual(new Set(labels).size, labels.length, `${mode} target attributes should be deduplicated within each wave`);
       });
     });
+  }));
+  targets.seasons("whiwa").forEach((season) => targets.targetPaths("whiwa", season.id).forEach((targetPath) => {
+    const choices = targets.groupedTargets("whiwa", season.id, targetPath.id).flatMap((group) => group.items);
+    expectEqual(choices.map((item) => item.id).join(","), targetPath.items.map((item) => item.id).join(","), `Whiwa ${season.id} ${targetPath.id} target order`);
   }));
   assert(html.includes("目标属性") && !targetPickerHTML(html).includes("%") && !targetPickerHTML(html).includes("级") && !targetPickerHTML(html).includes("先锋幼岩") && !targetPickerHTML(html).includes("optgroup"), "Open World target picker should expose attributes without resistance values, levels, or monster names");
   const glacioTarget = openWorldTargets.find((item) => targets.targetOptionName(item) === "冷凝");
@@ -534,8 +564,8 @@ function targetSelectionInterface() {
   __T.render();
   html = String(board.innerHTML);
   assert(html.includes("冷凝 90级") && html.includes("衍射抗性10%"), "target summary should show the selected attribute and automatically derived current resistance");
-  assert(targetPickerHTML(html).includes('class="element-icon element-icon--glacio target-control-icon"') && targetPickerHTML(html).includes('class="element-icon-image" src="assets/icons/elements/glacio.webp"'), "Open World attribute selection should show its local element icon through the shared component");
-  assert(html.indexOf('class="formula-target-pick"') < html.indexOf('class="formula-target-level"') && html.indexOf('class="formula-target-level"') < html.indexOf('class="formula-target-cost"') && html.indexOf('class="formula-target-cost"') < html.indexOf('class="formula-target-toggle'), "enemy level should stay on the primary row before Cost and More");
+  assert(targetPickerToggleHTML(html).includes('class="combo-ic target-combo-ic element-icon--glacio"') && targetPickerToggleHTML(html).includes('class="element-icon-image" src="assets/icons/elements/glacio.webp"'), "Open World attribute selection should show its local icon through the shared combo component");
+  assert(html.indexOf('class="formula-target-pick ') < html.indexOf('class="formula-target-level"') && html.indexOf('class="formula-target-level"') < html.indexOf('class="formula-target-cost"') && html.indexOf('class="formula-target-cost"') < html.indexOf('class="formula-target-toggle'), "enemy level should stay on the primary row before Cost and More");
   expectEqual((html.match(/data-act="offset-cost"/g) || []).length, 1, "skill mode gameplay Cost selector count");
   assert(html.includes('<option value="10027" selected>4C</option>'), "gameplay Cost selector should keep compact 1C/3C/4C labels");
 
@@ -553,7 +583,7 @@ function targetSelectionInterface() {
     const levelHTML = targetLevelHTML(html);
     assert(mode === "openWorld"
       ? levelHTML.includes('data-act="target-level"') && !levelHTML.includes("disabled")
-      : levelHTML.includes("disabled") && !levelHTML.includes('data-act="target-level"'), `${mode} enemy-level editability`);
+      : !levelHTML && !html.includes('data-act="target-level"'), `${mode} enemy-level visibility`);
   }
 
   __T.state.enemy.harmonyBase = 2149;
@@ -580,13 +610,13 @@ function targetSelectionInterface() {
   const toaChoices = targets.groupedTargets("toa", __T.state.enemy.targetSeasonId, targets.selectedPathId(__T.state.enemy), toaTarget.id).flatMap((group) => group.items);
   expectEqual(toaPaths.length, 6, "ToA current season tower/floor choices");
   assert(html.includes('data-act="target-season"') && html.includes('data-act="target-path"') && html.includes("逆境深塔") && html.includes("残响之塔 → 4层"), "ToA should expose season and only the retained tower/floor choices in the primary row");
-  assert(targetLevelHTML(html).includes("disabled") && !targetLevelHTML(html).includes('data-act="target-level"'), "ToA enemy level should be fixed by the selected floor");
+  assert(!targetLevelHTML(html) && !html.includes('data-act="target-level"'), "ToA should hide its fixed enemy-level control");
   const fixedToaLevel = targets.context(__T.state.enemy, "spectro").enemyLevel;
   __T.state.enemy.targetLevelOverride = fixedToaLevel + 7;
   expectEqual(targets.context(__T.state.enemy, "spectro").enemyLevel, fixedToaLevel, "ToA should ignore stale manual enemy-level overrides");
   assert(html.includes('data-act="target-buff-toggle"') && html.includes("自动生效"), "ToA fixed and triggered stage effects should appear in the gameplay block");
   expectEqual(new Set(toaChoices.map(targets.targetOptionName)).size, toaChoices.length, "ToA target attributes should be deduplicated");
-  assert(toaPicker.includes(`src="assets/icons/elements/${toaTarget.element}.webp"`) && (!toaTargetName || !toaPicker.includes(toaTargetName)) && !html.includes("target-control-icon--matrix"), "ToA should show only the selected attribute and its element icon");
+  assert(targetPickerToggleHTML(html).includes(`src="assets/icons/elements/${toaTarget.element}.webp"`) && (!toaTargetName || !toaPicker.includes(toaTargetName)) && !html.includes("target-gameplay-combo-ic--matrix"), "ToA should show only the selected attribute and its element icon");
 
   targets.selectMode(__T.state.enemy, "whiwa");
   __T.render();
@@ -595,9 +625,16 @@ function targetSelectionInterface() {
   assert(html.includes('data-act="target-season"') && html.includes('data-act="target-buff-choice"') && html.includes("信物"), "Whiwa should expose season and a single Token selector");
   const whiwaSelected = targets.target(__T.state.enemy.targetId);
   const whiwaTargetName = window.WUWA_LANGUAGES.localeData("zh-CN", "targetNames", whiwaSelected.nameId)?.name || "";
-  assert(targetPickerHTML(html).includes(`src="assets/icons/elements/${whiwaSelected.element}.webp"`) && (!whiwaTargetName || !targetPickerHTML(html).includes(whiwaTargetName)), "Whiwa should show only the selected attribute and its element icon");
-  assert(html.includes('class="combo-pop target-choice-pop"') && html.includes('class="combo-opt target-choice-option') && html.includes('class="combo-lbl"') && html.includes('class="combo-caret"'), "Whiwa Token selector should reuse the standard custom dropdown styles");
-  assert(html.includes('class="target-choice-group-label">金色信物') && html.includes('class="target-choice-group-label">紫色信物'), "Whiwa Token selector should group the gold and purple options");
+  const whiwaPath = targets.targetPaths("whiwa", __T.state.enemy.targetSeasonId).find((path) => path.id === targets.selectedPathId(__T.state.enemy));
+  const whiwaGroups = targets.groupedTargets("whiwa", __T.state.enemy.targetSeasonId, whiwaPath.id, whiwaSelected.id);
+  const whiwaChoices = whiwaGroups.flatMap((group) => group.items);
+  const whiwaRenderedIds = [...targetPickerHTML(html).matchAll(/data-act="target-pick" data-value="([^"]+)"/g)].map((match) => match[1]);
+  expectEqual(whiwaChoices.map((item) => item.id).join(","), whiwaPath.items.map((item) => item.id).join(","), "Whiwa target attributes should preserve source wave order");
+  expectEqual(whiwaRenderedIds.join(","), whiwaPath.items.map((item) => item.id).join(","), "Whiwa target picker should render every source target in order");
+  assert(whiwaGroups.some((group) => new Set(group.items.map(targets.targetOptionName)).size < group.items.length), "Whiwa target picker should retain repeated attributes within a wave");
+  assert(targetPickerToggleHTML(html).includes(`src="assets/icons/elements/${whiwaSelected.element}.webp"`) && (!whiwaTargetName || !targetPickerHTML(html).includes(whiwaTargetName)), "Whiwa should show only the selected attribute and its element icon");
+  assert(html.includes('class="combo target-choice"') && html.includes('class="combo-btn target-choice-trigger"') && html.includes('class="combo-search"') && html.includes('class="combo-list"') && html.includes('class="combo-opt'), "Whiwa Token selector should use the same full combo structure as character and weapon selectors");
+  assert(html.includes('class="combo-group-label" role="presentation">金色信物') && html.includes('class="combo-group-label" role="presentation">紫色信物'), "Whiwa Token selector should group the gold and purple options");
   for (const name of ["眷属-珍奇契约", "镌刻者—长夜孤灯", "希冀者—长夜孤灯", "编造者—长夜孤灯", "慰藉者—长夜孤灯", "狂欢者—船长印章"]) {
     assert(html.includes(name), `Whiwa Token selector should include current purple Token ${name}`);
   }
@@ -613,7 +650,7 @@ function targetSelectionInterface() {
     __T.render();
     html = String(board.innerHTML);
     const tokenIcon = window.WUWA_ICON_ASSETS.targetGameplay.whiwa[String(token.localeRef.itemId)];
-    const qualityClass = qualityId === 5 ? "target-control-icon--gold" : "target-control-icon--purple";
+    const qualityClass = qualityId === 5 ? "target-gameplay-combo-ic--gold" : "target-gameplay-combo-ic--purple";
     const selectedToggle = targetChoiceToggleHTML(html);
     assert(tokenIcon && selectedToggle.includes(`src="${tokenIcon}"`) && selectedToggle.includes(qualityClass), `Whiwa quality ${qualityId} Token should show its local icon and rarity treatment without changing the control height`);
   }
@@ -638,13 +675,13 @@ function targetSelectionInterface() {
   const matrixTargetName = window.WUWA_LANGUAGES.localeData("zh-CN", "targetNames", matrixTarget.nameId)?.name || "";
   const matrixBuffIcon = window.WUWA_ICON_ASSETS.targetGameplay.dpmatrix[String(matrixBuff.localeRef.buffId)];
   const matrixToggle = targetChoiceToggleHTML(html);
-  assert(matrixBuffIcon && targetPickerHTML(html).includes(`src="assets/icons/elements/${matrixTarget.element}.webp"`) && (!matrixTargetName || !targetPickerHTML(html).includes(matrixTargetName)) && matrixToggle.includes(`src="${matrixBuffIcon}"`) && matrixToggle.includes("target-control-icon--matrix"), "Matrix should show only the selected attribute icon and the chosen enhancement icon without changing the control height");
+  assert(matrixBuffIcon && targetPickerToggleHTML(html).includes(`src="assets/icons/elements/${matrixTarget.element}.webp"`) && (!matrixTargetName || !targetPickerHTML(html).includes(matrixTargetName)) && matrixToggle.includes(`src="${matrixBuffIcon}"`) && matrixToggle.includes("target-gameplay-combo-ic--matrix"), "Matrix should show only the selected attribute icon and the chosen enhancement icon through the shared combo component");
 
   __T.state.showTargetExtras = true;
   __T.render();
   html = String(board.innerHTML);
-  assert(html.includes('data-act="target-season"') && targetLevelHTML(html).includes("disabled") && !html.includes('data-act="target-custom"'), "seasonal modes should expose a fixed enemy level in the primary row without a redundant custom-target mode");
-  assert(html.indexOf('data-act="target-season"') < html.indexOf('class="target-summary"') && html.indexOf('class="formula-target-level"') < html.indexOf('class="target-summary"'), "season and fixed enemy level should remain in the primary gameplay row");
+  assert(html.includes('data-act="target-season"') && !targetLevelHTML(html) && !html.includes('data-act="target-custom"'), "seasonal modes should hide the fixed enemy-level control without adding a custom-target mode");
+  assert(html.indexOf('data-act="target-season"') < html.indexOf('class="target-summary"') && !html.includes('class="formula-target-level"'), "season should remain in the primary gameplay row without a fixed enemy-level field");
   expectEqual((html.match(/data-act="target-resistance"/g) || []).length, 6, "More should expose all six attribute resistance inputs");
   expectEqual((html.match(/target-resistance-icon/g) || []).length, 6, "More should show six resistance icons through the shared element component");
   assert(html.includes("完整六属性抗性") && html.includes("目标数据更新于") && !html.includes("target-source-parts"), "More should show the complete resistance array and update date without an extra metadata row");
@@ -4872,6 +4909,7 @@ function perStackLocalizationValuesMatch() {
 function iconAssetsUseSonataSets() {
   const assets = window.WUWA_ICON_ASSETS || {};
   assert(assets.sonatas && !assets.echoes, "icon assets should use sonata set icons, not lead echo icons");
+  assert(assets.elements?.none === "assets/icons/elements/physical.webp" && fs.existsSync(path.join(root, assets.elements.none)), "the neutral target attribute should use a local physical icon");
   const stableCharacters = Object.values(window.WUWA.chars).filter((c) => !c.betaVersion);
   const missingCharacters = stableCharacters.filter((c) => !c.portrait || assets.characters?.[c.id] !== c.portrait || !fs.existsSync(path.join(root, c.portrait))).map((c) => c.id);
   assert(!missingCharacters.length, `stable character icons should be local and attached: ${missingCharacters.join(", ")}`);
@@ -5016,6 +5054,7 @@ const checks = [
   ["core data keeps display text out", coreDataDoesNotContainDisplayTextFields],
   ["state/resource tokens are language-neutral", stateAndResourceTokensAreLanguageNeutral],
   ["initial render completes", initialRenderCompletes],
+  ["skill selector uses selected-level multiplier", skillSelectorUsesSelectedLevelMultiplier],
   ["data-driven target selection interface", targetSelectionInterface],
   ["fixed target API samples", targetApiFixtureRegressions],
   ["target snapshot coverage", targetSnapshotCoverage],

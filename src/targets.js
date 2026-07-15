@@ -436,6 +436,7 @@ window.WUWA_TARGETS = (() => {
       groups.get(label).push(item);
     });
     return Array.from(groups, ([label, items]) => {
+      if (mode === "whiwa") return { label, items };
       const choices = new Map();
       items.slice().sort((a, b) => Number(a.waveId) - Number(b.waveId) || targetOptionOrder(a) - targetOptionOrder(b)).forEach((item) => {
         const key = targetOptionKey(item);

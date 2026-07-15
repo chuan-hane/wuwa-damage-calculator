@@ -10,6 +10,7 @@ const targetDataFile = path.join(root, "data", "core", "targets.js");
 const targetApiBase = String(process.env.WUWA_TARGET_API_BASE || "").replace(/\/+$/, "");
 
 const elementFileNames = {
+  none: "physical",
   glacio: "glacio",
   fusion: "fusion",
   electro: "electro",

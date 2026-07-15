@@ -13,6 +13,7 @@ window.WUWA_LANGUAGES.extend("zh-CN", {
       unselectedLead: "未选择首位",
       searchCharacter: "搜索角色…",
       searchWeapon: "搜索武器…",
+      searchOption: "搜索选项…",
       weaponFallback: "武",
       emptyFallback: "空",
       signature: "专武",

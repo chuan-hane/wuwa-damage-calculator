@@ -183,6 +183,7 @@ window.WUWA_ICON_ASSETS = {
     "350433": "assets/icons/sonatas/song_of_feathered_trace.webp"
   },
   "elements": {
+    "none": "assets/icons/elements/physical.webp",
     "glacio": "assets/icons/elements/glacio.webp",
     "fusion": "assets/icons/elements/fusion.webp",
     "electro": "assets/icons/elements/electro.webp",

@@ -13,6 +13,7 @@ window.WUWA_LANGUAGES.extend("en-US", {
       unselectedLead: "No Lead Echo",
       searchCharacter: "Search Resonators...",
       searchWeapon: "Search weapons...",
+      searchOption: "Search options...",
       weaponFallback: "W",
       emptyFallback: "-",
       signature: "Signature",
