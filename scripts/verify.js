@@ -1627,6 +1627,13 @@ function v35CharacterEntryRegressions() {
   assert(e.zone === "attackPercent" && e.scope === "team" && e.defaultActive === false, "Firstlight's Herald conditional team ATK should stay manually confirmed");
   const landscapeCap = allBuffs(s).find((b) => b.id === "b_landscape_effect_cap");
   assert(landscapeCap?.defaultActive === false, "Suisui effect-cap increase should require confirmation that an abnormal effect was inflicted in the field");
+  resetTeam(["yangyang_xuanling", "suisui"]);
+  const landscapeCapSlot = __T.state.slots[1];
+  __T.setBuffToggle(landscapeCapSlot, 1, "b_landscape_effect_cap", true);
+  __T.state.effectCalc = { key: "havocBane", providerIdx: 0, stacks: 3, stackMode: "manual", deepen: 0 };
+  assert(__T.buffStatus(landscapeCapSlot, 1, buff(landscapeCapSlot, "b_landscape_effect_cap")).gated === "不适用于虚湮效应", "Suisui effect-cap increase should be gated in Havoc Bane settlement");
+  __T.state.effectCalc = { key: "frost", providerIdx: 1, stacks: 3, stackMode: "manual", deepen: 0 };
+  assert(!__T.buffStatus(landscapeCapSlot, 1, buff(landscapeCapSlot, "b_landscape_effect_cap")).gated, "Suisui effect-cap increase should remain available for Glacio Chafe");
   const reflectingFinal = allBuffs(s).find((b) => b.id === "b_outro_reflecting_final");
   assert(reflectingFinal?.defaultActive === false && reflectingFinal.triggerOutro === true && reflectingFinal.requiresAllStates?.join(",") === "ceaseless_landscape_active,reflecting_shadows_active" && reflectingFinal.requiresResourceAtLeast?.id === "floral_epistle" && reflectingFinal.requiresResourceAtLeast?.value === 400, "Suisui 400 Floral Epistle final damage should require manual Outro confirmation, both states, and the resource threshold");
   const flowerAtk = allBuffs(s).find((b) => b.id === "b_outro_flower_atk");

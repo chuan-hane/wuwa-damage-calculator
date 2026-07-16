@@ -1123,6 +1123,10 @@ window.WUWA_SETTLEMENT = (() => {
       if (buff.effect && buff.defaultActive !== false && !isSupportOutroBuff(slot, idx, buff, outputIdx) && !supportStateNeedsConfirmation(slot, idx, buff, outputIdx)) return "仅效应伤害";
       if (buff.seq && slot.seq < buff.seq) return `需 ${buff.seq} 链`;
       if (buff.maxSeq != null && slot.seq > buff.maxSeq) return `已被高链效果替换`;
+      if (buff.zone === "effectCapBonus") {
+        const effect = EFFECT_DEFS[effectKeyOf(state.effectCalc?.key)];
+        if (effect && effect.kind !== "none" && !effectCapTargetMatches(buff.effects, effect)) return `不适用于${L.effect(effect)}`;
+      }
       if (!buffStateRequirementsReady(slot, buff) && !supportStateNeedsConfirmation(slot, idx, buff, outputIdx)) return `需处于${buffStateRequirementLabelForSlot(slot, buff)}`;
       const resourceGate = buffResourceGateReason(slot, buff);
       if (resourceGate) return resourceGate;
