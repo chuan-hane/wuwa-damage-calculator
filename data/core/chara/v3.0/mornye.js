@@ -117,7 +117,7 @@ WUWA.register({
     {
       "id": "air",
       "category": "basicAttack",
-      "damageType": "basic",
+      "damageType": "midAir",
       "multiplier": 98.61,
       "formula": "98.61%",
       "impliedStates": [
@@ -127,7 +127,7 @@ WUWA.register({
     {
       "id": "dodge",
       "category": "basicAttack",
-      "damageType": "basic",
+      "damageType": "dodgeCounter",
       "multiplier": 162.23,
       "formula": "162.23%",
       "impliedStates": [
@@ -137,7 +137,7 @@ WUWA.register({
     {
       "id": "wide_dodge",
       "category": "basicAttack",
-      "damageType": "basic",
+      "damageType": "dodgeCounter",
       "multiplier": 103.4,
       "formula": "25.85% × 4",
       "impliedStates": [
@@ -296,7 +296,9 @@ WUWA.register({
         },
         {
           "value": "target_2_option_2",
-          "formulaKind": "coherenceInterference"
+          "formulaKind": "coherenceInterference",
+          "maxStacks": 4,
+          "perStackRate": 0.12
         }
       ]
     }
@@ -386,13 +388,12 @@ WUWA.register({
       "zone": "finalDmg",
       "scope": "self",
       "requiresState": "target_2_option_2",
-      "maxStacks": 3,
+      "maxStacks": 4,
       "defaultStacks": 0,
-      "defaultActive": false,
       "stackGroup": "stack_group_1",
       "scaleBy": {
         "stat": "breakAmp",
-        "rate": 0.36
+        "rate": 0.48
       }
     },
     {
@@ -400,6 +401,8 @@ WUWA.register({
       "zone": "amplify",
       "value": 25,
       "scope": "team",
+      "triggerOutro": true,
+      "defaultActive": false,
       "duration": 30
     }
   ],

@@ -13,7 +13,7 @@ window.WUWA_RULES = (() => {
     damageBonus: "属性/全加成", typeBonus: "类型加成", typeBonusScale: "类型加成来源提升", amplify: "伤害加深",
     vulnerability: "易伤", skillMultBonus: "技能倍率提升", finalDmg: "最终伤害提升", fixedCrit: "固定双暴",
     resShred: "减抗", defShred: "减防", defIgnore: "防御无视",
-    energyRegen: "共鸣效率", healingBonus: "治疗效果加成",
+    energyRegen: "共鸣效率", healingBonus: "治疗效果加成", healingReceived: "受到的治疗效果",
     breakAmp: "谐度破坏增幅", discordEff: "偏谐值累积效率",
     effectExtraRate: "效应额外倍率",
   };

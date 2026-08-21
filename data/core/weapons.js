@@ -2671,5 +2671,149 @@ window.WUWA_DATA.weapons = [
         "duration": 6
       }
     ]
+  },
+  {
+    "id": "glint_of_clouds",
+    "type": 2,
+    "quality": 5,
+    "icon": "",
+    "attack90": "500",
+    "secondaryStat": "critRate",
+    "secondary90": "36.00%",
+    "effects": [
+      {
+        "id": "e0",
+        "zone": "attackPercent",
+        "value": 12,
+        "rankValues": [
+          12,
+          15,
+          18,
+          21,
+          24
+        ],
+        "scope": "self"
+      },
+      {
+        "id": "e1",
+        "zone": "damageBonus",
+        "element": "aero",
+        "value": 56,
+        "rankValues": [
+          56,
+          70,
+          84,
+          98,
+          112
+        ],
+        "scope": "self",
+        "maxStacks": 5,
+        "defaultStacks": 0,
+        "defaultActive": false,
+        "duration": 2,
+        "durationAtMaxStacks": 30
+      },
+      {
+        "id": "e2",
+        "zone": "defIgnore",
+        "element": "aero",
+        "value": 10,
+        "rankValues": [
+          10,
+          12.5,
+          15,
+          17.5,
+          20
+        ],
+        "scope": "self",
+        "requiresBuffStacks": {
+          "id": "e1",
+          "stacks": 5
+        },
+        "duration": 30
+      }
+    ]
+  },
+  {
+    "id": "thousandfold_deliverance",
+    "type": 1,
+    "quality": 5,
+    "icon": "",
+    "attack90": "412",
+    "secondaryStat": "hpPercent",
+    "secondary90": "72.23%",
+    "effects": [
+      {
+        "id": "e0",
+        "zone": "damageBonus",
+        "value": 12,
+        "rankValues": [
+          12,
+          15,
+          18,
+          21,
+          24
+        ],
+        "scope": "self"
+      },
+      {
+        "id": "e1",
+        "zone": "critDamage",
+        "value": 24,
+        "rankValues": [
+          24,
+          30,
+          36,
+          42,
+          48
+        ],
+        "scope": "self",
+        "maxStacks": 6,
+        "defaultStacks": 0,
+        "defaultActive": false,
+        "duration": 7
+      },
+      {
+        "id": "e2",
+        "zone": "critRate",
+        "value": 12,
+        "rankValues": [
+          12,
+          15,
+          18,
+          21,
+          24
+        ],
+        "scope": "self",
+        "damageType": "heavy",
+        "requiresBuffStacks": {
+          "id": "e1",
+          "stacks": 6
+        },
+        "duration": 7
+      },
+      {
+        "id": "e3",
+        "zone": "defIgnore",
+        "value": 30,
+        "rankValues": [
+          30,
+          35,
+          40,
+          45,
+          50
+        ],
+        "scope": "self",
+        "damageType": "heavy",
+        "maxStacks": 2,
+        "defaultStacks": 0,
+        "defaultActive": false,
+        "requiresBuffStacks": {
+          "id": "e1",
+          "stacks": 1
+        },
+        "duration": 2
+      }
+    ]
   }
 ];

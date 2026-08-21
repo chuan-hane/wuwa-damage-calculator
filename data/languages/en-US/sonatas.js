@@ -1433,6 +1433,105 @@ window.WUWA_LANGUAGES.extend("en-US", {
             }
           ]
         }
+      },
+      "360234": {
+        "name": "Heart of Evil's Purge",
+        "p2": {
+          "label": "Aero DMG Bonus",
+          "trigger": "Default",
+          "excerpt": "2-piece: Aero DMG Bonus +10%",
+          "desc": "2-piece: Aero DMG +10%."
+        },
+        "p5": [
+          {
+            "label": "Crit. DMG",
+            "trigger": "After inflicting Tune Strain - Shifting",
+            "excerpt": "After inflicting Tune Strain - Shifting, Crit. DMG +20%",
+            "desc": "Inflicting Tune Strain - Shifting increases Crit. DMG by 20% and Aero DMG Bonus by 30% for 15s."
+          },
+          {
+            "label": "Aero DMG Bonus",
+            "trigger": "After inflicting Tune Strain - Shifting",
+            "excerpt": "After inflicting Tune Strain - Shifting, Aero DMG Bonus +30%",
+            "desc": "Inflicting Tune Strain - Shifting increases Crit. DMG by 20% and Aero DMG Bonus by 30% for 15s."
+          }
+        ],
+        "leads": [
+          {
+            "echo": "Calamity Effigy",
+            "buffs": [
+              {
+                "label": "Aero DMG Bonus",
+                "trigger": "Equipped in the main slot",
+                "excerpt": "Aero DMG Bonus +10% when equipped in the main slot",
+                "desc": "Transform into Calamity Effigy to deal 405.00% Aero DMG.\nThe Resonator with this Echo equipped in the main slot gains 10.00% Aero DMG Bonus, and additionally gains 10.00% Aero DMG Bonus for 15s when inflicting Tune Strain - Shifting on the target.\nCD: 25s"
+              },
+              {
+                "label": "Aero DMG Bonus",
+                "trigger": "After inflicting Tune Strain - Shifting",
+                "excerpt": "After inflicting Tune Strain - Shifting, Aero DMG Bonus +10%",
+                "desc": "Transform into Calamity Effigy to deal 405.00% Aero DMG.\nThe Resonator with this Echo equipped in the main slot gains 10.00% Aero DMG Bonus, and additionally gains 10.00% Aero DMG Bonus for 15s when inflicting Tune Strain - Shifting on the target.\nCD: 25s"
+              }
+            ]
+          }
+        ],
+        "lead": {
+          "echo": "Myriad Snare: Rustfire Chassis",
+          "buffs": [
+            {
+              "label": "Fusion DMG Bonus",
+              "trigger": "Equipped in the main slot",
+              "excerpt": "Fusion DMG Bonus +12% when equipped in the main slot",
+              "desc": "Summon Myriad Snare: Rustfire Chassis, dealing Fusion DMG equal to 10.20% of the Max HP on initial impact. During its duration, it repeatedly crushes enemies along its path up to 19 times, dealing Fusion DMG equal to 0.37% of the Max HP each time.\nResonators with this Echo equipped in the main slot gain 12.00% Fusion DMG Bonus and 12.00% Heavy Attack DMG Bonus.\nCD: 20s"
+            },
+            {
+              "label": "Heavy Attack DMG Bonus",
+              "trigger": "Equipped in the main slot",
+              "excerpt": "Heavy Attack DMG Bonus +12% when equipped in the main slot",
+              "desc": "Summon Myriad Snare: Rustfire Chassis, dealing Fusion DMG equal to 10.20% of the Max HP on initial impact. During its duration, it repeatedly crushes enemies along its path up to 19 times, dealing Fusion DMG equal to 0.37% of the Max HP each time.\nResonators with this Echo equipped in the main slot gain 12.00% Fusion DMG Bonus and 12.00% Heavy Attack DMG Bonus.\nCD: 20s"
+            }
+          ]
+        }
+      },
+      "360235": {
+        "name": "Lamp of Nether Road",
+        "p2": {
+          "label": "HP",
+          "trigger": "Default",
+          "excerpt": "2-piece: HP +10%",
+          "desc": "2-piece: HP +10%."
+        },
+        "p5": [
+          {
+            "label": "Crit. Rate",
+            "trigger": "Upon gaining a Shield",
+            "excerpt": "Upon gaining a Shield, Crit. Rate +5%, max 4 stacks",
+            "desc": "Upon gaining a Shield, gain 5% increase in Crit. Rate for 5s, max 4 stacks. This effect can be triggered every 0.5s. At max stacks, gain 15% Fusion DMG Bonus."
+          },
+          {
+            "label": "Fusion DMG Bonus",
+            "trigger": "At max Shield-buff stacks",
+            "excerpt": "At 4 Shield-buff stacks, Fusion DMG Bonus +15%",
+            "desc": "Upon gaining a Shield, gain 5% increase in Crit. Rate for 5s, max 4 stacks. This effect can be triggered every 0.5s. At max stacks, gain 15% Fusion DMG Bonus."
+          }
+        ],
+        "lead": {
+          "echo": "Myriad Snare: Rustfire Chassis",
+          "buffs": [
+            {
+              "label": "Fusion DMG Bonus",
+              "trigger": "Equipped in the main slot",
+              "excerpt": "Fusion DMG Bonus +12% when equipped in the main slot",
+              "desc": "Summon Myriad Snare: Rustfire Chassis, dealing Fusion DMG equal to 10.20% of the Max HP on initial impact. During its duration, it repeatedly crushes enemies along its path up to 19 times, dealing Fusion DMG equal to 0.37% of the Max HP each time.\nResonators with this Echo equipped in the main slot gain 12.00% Fusion DMG Bonus and 12.00% Heavy Attack DMG Bonus.\nCD: 20s"
+            },
+            {
+              "label": "Heavy Attack DMG Bonus",
+              "trigger": "Equipped in the main slot",
+              "excerpt": "Heavy Attack DMG Bonus +12% when equipped in the main slot",
+              "desc": "Summon Myriad Snare: Rustfire Chassis, dealing Fusion DMG equal to 10.20% of the Max HP on initial impact. During its duration, it repeatedly crushes enemies along its path up to 19 times, dealing Fusion DMG equal to 0.37% of the Max HP each time.\nResonators with this Echo equipped in the main slot gain 12.00% Fusion DMG Bonus and 12.00% Heavy Attack DMG Bonus.\nCD: 20s"
+            }
+          ]
+        }
       }
     }
   }

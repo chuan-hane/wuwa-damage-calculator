@@ -33,12 +33,22 @@ window.WUWA_BUFF_VIEW = (() => {
     }
 
     function scaleCapText(slot, buff) {
-      if (!buff.scaleBy) return "";
+      if (!buff.scaleBy && !buff.multAddByStat) return "";
       const info = scaleByInfo(slot, buff);
       if (!info || info.cap == null) return "";
       const unit = buff.zone === "attackFlat" ? "" : "%";
       if (L.isKorean()) return ` (상한 ${tnum(info.cap)}${unit})`;
       return L.isEnglish() ? ` (cap ${tnum(info.cap)}${unit})` : `（上限${tnum(info.cap)}${unit}）`;
+    }
+
+    function fullStackValue(slot, buff) {
+      if (!buff.scaleBy && !buff.multAddByStat) return num(buff.value);
+      const info = scaleByInfo(slot, buff);
+      if (!info) return 0;
+      let value = info.raw;
+      if (info.min != null) value = Math.max(value, info.min);
+      if (info.cap != null) value = Math.min(value, info.cap);
+      return value;
     }
 
     function buffFormulaText(slot, buff, idx) {
@@ -55,21 +65,22 @@ window.WUWA_BUFF_VIEW = (() => {
       return `×(1+${v}%)${cap}`;
     }
 
-    function buffRow(slot, idx, buff) {
+    function buffRow(slot, idx, buff, showStackControl = true) {
       const st = buffStatus(slot, idx, buff);
       const canConfirm = st.precondition && !st.gated;
       const checked = st.toggleOn ? "checked" : "";
       const statusClass = st.gated ? "blocked" : st.precondition ? (st.toggleOn ? "manual on" : "manual") : "auto";
       const statusText = st.gated ? "" : st.precondition ? (st.toggleOn ? L.text("已确认") : L.text("需确认触发条件")) : "";
-      const dynamicValue = buff.maxStacks || buff.scaleBy;
+      const dynamicValue = buff.maxStacks || buff.scaleBy || buff.multAddByStat;
       const val = dynamicValue
         ? `<b class="b-val" id="bval_${idx}_${esc(buff.id)}">${esc(buffFormulaText(slot, buff, idx))}</b>`
         : `<b class="b-val">${esc(buffFormulaText(slot, buff, idx))}</b>`;
       const cur = buffStackCount(slot, buff, idx);
       const stackKey = buffStackStorageKey(buff);
       const stackCap = buffStackCap(slot, buff);
-      const stackRow = buff.maxStacks
-        ? `<div class="b-stack">${esc(buffStackRangeText(buff))} ${tnum(buff.value / buff.maxStacks)}${buff.zone === "attackFlat" ? "" : "%"} · ${L.text("最高")} ${L.stackText(stackCap)} · ${L.text("当前")} <input type="number" min="0" max="${stackCap}" data-act="stack" data-slot="${idx}" data-buff="${esc(buff.id)}" data-stack-key="${esc(stackKey)}" value="${cur}" ${st.gated ? "disabled" : ""} /> ${L.stackUnit(cur)}</div>`
+      const perStackValue = buff.maxStacks ? fullStackValue(slot, buff) / buff.maxStacks : 0;
+      const stackRow = buff.maxStacks && showStackControl
+        ? `<div class="b-stack">${esc(buffStackRangeText(buff))} ${tnum(perStackValue)}${buff.zone === "attackFlat" ? "" : "%"} · ${L.text("最高")} ${L.stackText(stackCap)} · ${L.text("当前")} <input type="number" min="0" max="${stackCap}" data-act="stack" data-slot="${idx}" data-buff="${esc(buff.id)}" data-stack-key="${esc(stackKey)}" value="${cur}" ${st.gated ? "disabled" : ""} /> ${L.stackUnit(cur)}</div>`
         : "";
       const control = canConfirm
         ? `<input type="checkbox" data-act="toggle" data-slot="${idx}" data-buff="${buff.id}" ${checked} aria-label="${esc(L.buffLabel(buff))}${esc(L.text("前置已满足"))}" />`
@@ -109,7 +120,7 @@ window.WUWA_BUFF_VIEW = (() => {
         combatBuffs(slot).forEach((buff) => {
           const st = buffStatus(slot, idx, buff);
           if (st.gated) { summary.blocked += 1; return; }
-          if (buff.maxStacks || buff.scaleBy) summary.variable += 1;
+          if (buff.maxStacks || buff.scaleBy || buff.multAddByStat) summary.variable += 1;
           if (st.precondition && !st.toggleOn) summary.pending += 1;
           else if (st.applies) summary.applied += 1;
         });
@@ -137,6 +148,7 @@ window.WUWA_BUFF_VIEW = (() => {
         });
       });
       const order = [...PROVIDER_ORDER.filter((p) => zones[p]), ...Object.keys(zones).filter((p) => !PROVIDER_ORDER.includes(p))];
+      const shownStackGroups = new Set();
       return order.map((prov) => {
         const meta = PROVIDER_META[prov] || { cls: "other", label: L.provider(prov) };
         const byChar = {}, charOrder = [];
@@ -145,7 +157,13 @@ window.WUWA_BUFF_VIEW = (() => {
         const body = charOrder.map((k) => {
           const list = byChar[k], c = ch(list[0].slot.char);
           const head = showChar ? `<div class="buff-char">${esc(L.charName(c))}</div>` : "";
-          return head + list.map((e) => buffRow(e.slot, e.idx, e.buff)).join("");
+          return head + list.map((e) => {
+            const group = e.buff.stackGroup;
+            const groupKey = group ? `${e.idx}:${group}` : null;
+            const showStackControl = !groupKey || !shownStackGroups.has(groupKey);
+            if (groupKey) shownStackGroups.add(groupKey);
+            return buffRow(e.slot, e.idx, e.buff, showStackControl);
+          }).join("");
         }).join("");
         return `<div class="buff-zone buff-zone--${meta.cls}">
       <div class="buff-zone-h"><span class="buff-zone-dot" aria-hidden="true"></span><span class="buff-zone-name">${esc(meta.label)}</span></div>

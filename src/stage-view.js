@@ -4,7 +4,7 @@ window.WUWA_STAGE_VIEW = (() => {
   function create({
     state, W, ch, wp, WEAPONS, SONATAS, leadChoicesForEcho, syncEchoLead,
     ECHO_COSTS, echoMainOptions, echoSubOptions, echoSubValues, echoFixedMain, ensureEchoDetail, echoDetailSummary, statLabel, echoStats,
-    availableSkills, selectedSkill, resourceControlsForSlot, resolvedSkill, stateControlsHTML,
+    availableSkills, selectedSkill, resourceControlsForSlot, resolvedSkill, skillLayersForSlot, stateControlsHTML,
     panelEntryTableHTML, autoResolutionHTML, settlementBuffRowsHTML,
   }) {
     const { skillLevelRatio, skillMultValue, EFFECT_DEFS, EFFECT_ORDER, HARMONY_BASE_OPTIONS, effectKeyOf, num } = window.WUWA_RULES;
@@ -20,6 +20,27 @@ window.WUWA_STAGE_VIEW = (() => {
       1, 2, 3, 4, 5, 6, 7, 16, 8, 10, 11, 13, 15, 12, 14, 17, 18, 19, 20, 21, 22, 23, 25, 33, 26, 27, 28, 29, 30, 31, 24,
     ].map((id, idx) => [id, idx]));
     const charSortValue = (c) => Number(c?.debut ?? -Infinity);
+
+    function skillLevelCategory(sk) {
+      return sk?.levelCategory || sk?.category || "";
+    }
+
+    function skillLevelRatioFor(slot, sk) {
+      if (sk?.fixedLevel) return 1;
+      const level = num(slot.skillLevels?.[skillLevelCategory(sk)], 10);
+      return skillLevelRatio(level);
+    }
+
+    function skillOptionLayers(slot, sk, currentId) {
+      if (!sk?.perStack) return 0;
+      if (sk.stackResource) return num(skillLayersForSlot(slot, sk));
+      if (sk.id === currentId && slot.layers != null) return num(slot.layers);
+      let layers = sk.defaultLayers ?? sk.stackMax;
+      asList(sk.defaultLayersBySeq).forEach((rule) => {
+        if (num(slot.seq) >= num(rule.seq)) layers = rule.layers;
+      });
+      return num(layers);
+    }
 
     function skillStatKey(stat) {
       if (stat === "生命" || stat === "hp") return "hp";
@@ -132,8 +153,8 @@ window.WUWA_STAGE_VIEW = (() => {
       availableSkills(slot).forEach((s) => { (cats[s.category] = cats[s.category] || []).push(s); });
       return Object.entries(cats).map(([cat, arr]) =>
         `<optgroup label="${esc(L.category(cat))}">` + arr.map((s) => {
-          const level = num(slot.skillLevels?.[s.category], 10);
-          const multiplier = skillMultValue(s.multiplier, skillLevelRatio(level));
+          const layers = skillOptionLayers(slot, s, currentId);
+          const multiplier = skillMultValue(num(s.multiplier) + num(s.perStack) * layers, skillLevelRatioFor(slot, s));
           return `<option value="${s.id}" ${s.id === currentId ? "selected" : ""}>${esc(L.skillOptionName(s))} (${esc(`${tnum(multiplier)}%`)})</option>`;
         }).join("") + `</optgroup>`
       ).join("");
@@ -660,7 +681,7 @@ window.WUWA_STAGE_VIEW = (() => {
       const damageMode = activeDamageMode();
       const responseCanCrit = isHarmonyResponse && r.totals?.fixedCritRate != null;
       const critMul = isHarmonyResponse && !responseCanCrit ? 1 : damageMode === "expected" ? 1 + r.cr * (r.cd - 1) : damageMode === "crit" ? r.cd : 1;
-      const lvRatio = r.sk ? skillLevelRatio(r.skLevel) : 1;
+      const lvRatio = r.sk?.fixedLevel ? 1 : r.sk ? skillLevelRatio(r.skLevel) : 1;
       const rawSkillMult = r.sk ? num(r.sk.multiplier) : 0;
       const stackMult = r.sk?.perStack ? num(r.sk.perStack) * num(r.layers) * (1 + num(r.perStackBonus) / 100) : 0;
       const levelMult = r.sk ? skillMultValue(rawSkillMult + stackMult, lvRatio) : 0;
@@ -1115,7 +1136,8 @@ window.WUWA_STAGE_VIEW = (() => {
         const opts = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((level) => `<option value="${level}" ${level === lv ? "selected" : ""}>${esc(L.t("common.levelShort", { value: level }))}</option>`).join("");
         return `<label class="result-inline-field${wide ? " result-inline-field--wide" : ""}"><span>${esc(L.text("响应等级"))}</span><select data-act="offset-skilllevel">${opts}</select></label>`;
       }
-      return `<label class="result-inline-field${wide ? " result-inline-field--wide" : ""}"><span>${esc(L.text("层数"))}</span><input type="number" min="0" step="1" data-act="offset-stacks" value="${esc(o.stacks || 0)}" /></label>`;
+      const max = o.stackCap > 0 ? ` max="${esc(o.stackCap)}"` : "";
+      return `<label class="result-inline-field${wide ? " result-inline-field--wide" : ""}"><span>${esc(L.text("层数"))}</span><input type="number" min="0"${max} step="1" data-act="offset-stacks" value="${esc(o.stacks || 0)}" /></label>`;
     }
 
     function plainText(value) {
@@ -1486,13 +1508,19 @@ window.WUWA_STAGE_VIEW = (() => {
     function calcControlsHTML(r) {
       const oi = state.outputIdx;
       const s1 = state.slots[oi];
-      const cat0 = (r.selectedSk || r.sk) ? (r.selectedSk || r.sk).category : "";
-      const curLv = (cat0 && s1.skillLevels && s1.skillLevels[cat0]) || 10;
+      const currentSkill = r.selectedSk || r.sk;
+      const cat0 = skillLevelCategory(currentSkill);
+      const fixedLevel = !!currentSkill?.fixedLevel;
+      const curLv = fixedLevel ? 10 : (cat0 && s1.skillLevels && s1.skillLevels[cat0]) || 10;
+      const levelAttrs = fixedLevel ? "disabled" : `data-act="skilllevel" data-slot="${oi}"`;
+      const levelOptions = fixedLevel
+        ? `<option selected>${esc(L.text("固定"))}</option>`
+        : [1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((level) => `<option value="${level}" ${level === curLv ? "selected" : ""}>${esc(L.t("common.levelShort", { value: level }))}</option>`).join("");
       return `<div class="settlement-content">
     <div class="card-head"><span>${esc(L.text("本次结算"))}</span><small>${esc(L.text("技能"))} / ${esc(L.text("入场"))} / ${esc(L.text("条件"))}</small></div>
     <div class="skill-control-row">
       <div class="field"><label>${esc(L.text("技能"))}</label><select data-act="skill" data-slot="${oi}">${skillOptions(s1)}</select></div>
-      <div class="field"><label>${esc(L.text("技能等级"))}${cat0 ? ` (${esc(L.category(cat0))})` : ""}</label><select data-act="skilllevel" data-slot="${oi}">${[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((level) => `<option value="${level}" ${level === curLv ? "selected" : ""}>${esc(L.t("common.levelShort", { value: level }))}</option>`).join("")}</select></div>
+      <div class="field"><label>${esc(L.text("技能等级"))}${cat0 ? ` (${esc(L.category(cat0))})` : ""}</label><select ${levelAttrs}>${levelOptions}</select></div>
     </div>
     <div id="dmg-type">${typeTagHTML(r)}</div>
     <div id="layer-fields" class="field-grid field-grid--compact">${layerFieldsHTML()}</div>

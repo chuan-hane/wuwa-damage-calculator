@@ -55,7 +55,9 @@ window.WUWA_ICON_ASSETS = {
     "rebecca": "assets/icons/characters/rebecca.webp",
     "rover_electro": "assets/icons/characters/rover_electro.webp",
     "suisui": "assets/icons/characters/suisui.webp",
-    "yangyang_xuanling": "assets/icons/characters/yangyang_xuanling.webp"
+    "yangyang_xuanling": "assets/icons/characters/yangyang_xuanling.webp",
+    "qingxiao": "assets/icons/characters/qingxiao.webp",
+    "jingran": "assets/icons/characters/jingran.webp"
   },
   "weapons": {
     "autumntrace": "assets/icons/weapons/autumntrace.webp",
@@ -146,7 +148,9 @@ window.WUWA_ICON_ASSETS = {
     "skull_thrasher": "assets/icons/weapons/skull_thrasher.webp",
     "freeze_frame": "assets/icons/weapons/freeze_frame.webp",
     "azure_oath": "assets/icons/weapons/azure_oath.webp",
-    "firstlights_herald": "assets/icons/weapons/firstlights_herald.webp"
+    "firstlights_herald": "assets/icons/weapons/firstlights_herald.webp",
+    "glint_of_clouds": "assets/icons/weapons/glint_of_clouds.webp",
+    "thousandfold_deliverance": "assets/icons/weapons/thousandfold_deliverance.webp"
   },
   "sonatas": {
     "1": "assets/icons/sonatas/freezing_frost.webp",
@@ -180,7 +184,9 @@ window.WUWA_ICON_ASSETS = {
     "30": "assets/icons/sonatas/wishes_of_quiet_snowfall.webp",
     "31": "assets/icons/sonatas/reel_of_spliced_memories.webp",
     "33": "assets/icons/sonatas/halo_of_starry_radiance.webp",
-    "350433": "assets/icons/sonatas/song_of_feathered_trace.webp"
+    "350433": "assets/icons/sonatas/song_of_feathered_trace.webp",
+    "360234": "assets/icons/sonatas/heart_of_evils_purge.webp",
+    "360235": "assets/icons/sonatas/lamp_of_nether_road.webp"
   },
   "elements": {
     "none": "assets/icons/elements/physical.webp",
@@ -211,7 +217,11 @@ window.WUWA_ICON_ASSETS = {
       "26": "assets/icons/targets/gameplay/dpmatrix_26.webp",
       "27": "assets/icons/targets/gameplay/dpmatrix_27.webp",
       "28": "assets/icons/targets/gameplay/dpmatrix_28.webp",
-      "29": "assets/icons/targets/gameplay/dpmatrix_29.webp"
+      "29": "assets/icons/targets/gameplay/dpmatrix_29.webp",
+      "30": "assets/icons/targets/gameplay/dpmatrix_30.webp",
+      "31": "assets/icons/targets/gameplay/dpmatrix_31.webp",
+      "32": "assets/icons/targets/gameplay/dpmatrix_32.webp",
+      "33": "assets/icons/targets/gameplay/dpmatrix_33.webp"
     }
   }
 };

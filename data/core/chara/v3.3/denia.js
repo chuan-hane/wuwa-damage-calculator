@@ -46,7 +46,7 @@ WUWA.register({
       "defaultValue": "max"
     },
     {
-      "id": "symmorphEnergy",
+      "id": "conformalCharge",
       "max": 100,
       "defaultValue": "max"
     }
@@ -105,7 +105,7 @@ WUWA.register({
     {
       "id": "sc_air",
       "category": "basicAttack",
-      "damageType": "basic",
+      "damageType": "midAir",
       "multiplier": 73.97,
       "formula": "29.59% + 44.38%",
       "impliedStates": [
@@ -115,7 +115,7 @@ WUWA.register({
     {
       "id": "sc_dodge",
       "category": "basicAttack",
-      "damageType": "basic",
+      "damageType": "dodgeCounter",
       "multiplier": 148.05,
       "formula": "49.35% × 3",
       "impliedStates": [
@@ -185,7 +185,7 @@ WUWA.register({
     {
       "id": "bd_dodge",
       "category": "basicAttack",
-      "damageType": "basic",
+      "damageType": "dodgeCounter",
       "multiplier": 108.08,
       "formula": "108.08%",
       "impliedStates": [
@@ -195,7 +195,7 @@ WUWA.register({
     {
       "id": "bd_air1",
       "category": "basicAttack",
-      "damageType": "basic",
+      "damageType": "midAir",
       "multiplier": 36.51,
       "formula": "36.51%",
       "impliedStates": [
@@ -205,7 +205,7 @@ WUWA.register({
     {
       "id": "bd_air2",
       "category": "basicAttack",
-      "damageType": "basic",
+      "damageType": "midAir",
       "multiplier": 93.79,
       "formula": "37.51% + 14.07% × 4",
       "impliedStates": [
@@ -215,7 +215,7 @@ WUWA.register({
     {
       "id": "bd_air3",
       "category": "basicAttack",
-      "damageType": "basic",
+      "damageType": "midAir",
       "multiplier": 62.39,
       "formula": "62.39%",
       "impliedStates": [
@@ -225,7 +225,7 @@ WUWA.register({
     {
       "id": "bd_air4",
       "category": "basicAttack",
-      "damageType": "basic",
+      "damageType": "midAir",
       "multiplier": 118.46,
       "formula": "35.54% + 82.92%",
       "impliedStates": [
@@ -401,10 +401,7 @@ WUWA.register({
       "category": "resonanceSkill",
       "damageType": "resonanceLiberation",
       "multiplier": 112.01,
-      "perStack": 150,
-      "stackResource": "darkCore",
-      "stackLabel": "黯核",
-      "formula": "112.01% + 150% × 黯核",
+      "formula": "112.01%",
       "requiresResource": "darkCore",
       "impliedStates": [
         "form_1_option_2"
@@ -426,8 +423,8 @@ WUWA.register({
       "damageType": "resonanceLiberation",
       "multiplier": 795.24,
       "formula": "198.81% × 4",
-      "requiresResource": "symmorphEnergy",
-      "requiresResourceFull": "symmorphEnergy",
+      "requiresResource": "conformalCharge",
+      "requiresResourceFull": "conformalCharge",
       "impliedStates": [
         "form_1_option_2"
       ]
@@ -501,6 +498,18 @@ WUWA.register({
   "skillEvents": [
     {
       "skills": [
+        "sc_lib",
+        "bd_lib",
+        "sc_intro",
+        "bd_intro",
+        "erosion_field"
+      ],
+      "event": "applyFusionBurst",
+      "stacks": 2,
+      "requiresState": "mode_1_option_1"
+    },
+    {
+      "skills": [
         "sc_na3",
         "sc_na4",
         "bd_na3",
@@ -510,15 +519,20 @@ WUWA.register({
         "void_bd_na3",
         "void_bd_na4",
         "void_bd_air3",
-        "void_bd_air4",
-        "sc_lib",
-        "bd_lib",
-        "sc_intro",
-        "bd_intro",
+        "void_bd_air4"
+      ],
+      "event": "applyFusionBurst",
+      "stacks": 1,
+      "requiresState": "mode_1_option_1"
+    },
+    {
+      "skills": [
         "erosion_field"
       ],
       "event": "applyFusionBurst",
-      "stacks": 2
+      "stacks": "max",
+      "seq": 6,
+      "requiresState": "mode_1_option_1"
     }
   ],
   "validSubs": [
@@ -589,7 +603,9 @@ WUWA.register({
         },
         {
           "value": "target_1_option_2",
-          "formulaKind": "coherenceInterference"
+          "formulaKind": "coherenceInterference",
+          "maxStacks": 4,
+          "perStackRate": 0.12
         }
       ]
     }
@@ -676,13 +692,12 @@ WUWA.register({
       "requiresAllStates": [
         "mode_1_option_2"
       ],
-      "maxStacks": 3,
+      "maxStacks": 4,
       "defaultStacks": 0,
-      "defaultActive": false,
       "stackGroup": "stack_group_1",
       "scaleBy": {
         "stat": "breakAmp",
-        "rate": 0.36
+        "rate": 0.48
       }
     },
     {
@@ -692,6 +707,8 @@ WUWA.register({
       "value": 60,
       "scope": "team",
       "requiresState": "mode_1_option_1",
+      "triggerOutro": true,
+      "defaultActive": false,
       "duration": 30
     },
     {
@@ -700,6 +717,8 @@ WUWA.register({
       "value": 15,
       "scope": "team",
       "requiresState": "mode_1_option_2",
+      "triggerOutro": true,
+      "defaultActive": false,
       "duration": 16
     },
     {
@@ -708,8 +727,20 @@ WUWA.register({
       "value": 25,
       "scope": "team",
       "requiresState": "mode_1_option_2",
+      "triggerOutro": true,
       "defaultActive": false,
       "duration": 16
+    },
+    {
+      "id": "b_banish_dark_core_mult",
+      "multAddByResource": {
+        "id": "darkCore",
+        "rate": 150
+      },
+      "scope": "self",
+      "skills": [
+        "bd_banish2"
+      ]
     }
   ],
   "chain": [
@@ -846,20 +877,6 @@ WUWA.register({
           "skills": [
             "erosion_field"
           ]
-        },
-        {
-          "id": "k6_tune_extra_stack",
-          "zone": "finalDmg",
-          "scope": "self",
-          "requiresState": "target_1_option_2",
-          "requiresAllStates": [
-            "mode_1_option_2"
-          ],
-          "defaultActive": false,
-          "scaleBy": {
-            "stat": "breakAmp",
-            "rate": 0.12
-          }
         }
       ]
     }

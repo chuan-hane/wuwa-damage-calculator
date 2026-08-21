@@ -61,7 +61,7 @@ window.WUWA_RENDER_HELPERS = (() => {
   }
   function multiplierPartsForResult(r) {
     const parsed = parseFormulaParts(r.sk, r.layers) || [{ percent: r.sk ? r.sk.multiplier + (r.sk.perStack ? r.sk.perStack * r.layers : 0) : 0, count: 1 }];
-    const lvRatio = skillLevelRatio(r.skLevel);
+    const lvRatio = r.sk?.fixedLevel ? 1 : skillLevelRatio(r.skLevel);
     const splitParts = parsed
       .map((p) => ({ percent: skillMultValue(p.percent * (p.stack ? 1 + (r.perStackBonus || 0) / 100 : 1), lvRatio), count: p.count }))
       .filter((p) => p.count > 0 && p.percent !== 0);
@@ -84,6 +84,13 @@ window.WUWA_RENDER_HELPERS = (() => {
 
   function durationText(buff) {
     const d = num(buff.duration);
+    const max = num(buff.durationAtMaxStacks);
+    if (d > 0 && max > 0) {
+      if (L.isEnglish()) return `${L.durationSeconds(d)} · ${L.durationSeconds(max)} at max stacks`;
+      if (L.isKorean()) return `${L.durationSeconds(d)} · 최대 스택 ${L.durationSeconds(max)}`;
+      if (L.isJapanese()) return `${L.durationSeconds(d)} · 最大スタック時${L.durationSeconds(max)}`;
+      return `${L.durationSeconds(d)} · 满层 ${max} 秒`;
+    }
     if (d > 0) return L.durationSeconds(d);
     const m = String(buff.desc || "").match(/持续\s*([\d.]+)\s*秒/);
     if (m) return L.durationSeconds(parseFloat(m[1]));

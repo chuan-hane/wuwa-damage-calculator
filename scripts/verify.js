@@ -106,6 +106,8 @@ const validScaleStats = new Set([
   "共鸣效率", "暴击", "暴击率", "暴击伤害", "攻击", "生命", "防御", "治疗效果加成", "谐度破坏增幅", "偏谐值累积效率",
 ]);
 const validSkillStats = new Set(["attack", "hp", "defense"]);
+const validSkillCategories = new Set(["basicAttack", "resonanceSkill", "resonanceLiberation", "forteCircuit", "introSkill", "outroSkill", "echoSkill", "resonanceChain"]);
+const validFixedStats = new Set(["defense"]);
 const validEventKeys = new Set([
   "introEntry", "castBasicAttack", "castResonanceSkill", "castResonanceLiberation",
   "castForteCircuit", "castIntroSkill", "castOutroSkill", "castEchoSkill", "castResonanceChain",
@@ -121,6 +123,16 @@ const validElements = new Set(window.WUWA_RULES.ELEMENTS);
 function validateBuffShape(owner, b, siblingIds, bad) {
   if (b.zone && !validBuffZones.has(b.zone)) bad.push(`${owner}: zone ${b.zone} unsupported`);
   if (b.scaleBy && !validScaleStats.has(b.scaleBy.stat)) bad.push(`${owner}: scaleBy.stat ${b.scaleBy.stat} unsupported`);
+  if (b.multAddByStat && !validScaleStats.has(b.multAddByStat.stat)) bad.push(`${owner}: multAddByStat.stat ${b.multAddByStat.stat} unsupported`);
+  if (b.multAddByStat) {
+    const scale = b.multAddByStat;
+    if (!Number.isFinite(Number(scale.threshold)) || Number(scale.threshold) < 0) bad.push(`${owner}: multAddByStat.threshold invalid`);
+    if (!Number.isFinite(Number(scale.step)) || Number(scale.step) <= 0) bad.push(`${owner}: multAddByStat.step invalid`);
+    if (!Number.isFinite(Number(scale.perStep ?? scale.rate))) bad.push(`${owner}: multAddByStat.perStep invalid`);
+    if (scale.perStepByLevel && (scale.perStepByLevel.length !== 10 || scale.perStepByLevel.some((value) => !Number.isFinite(Number(value))))) bad.push(`${owner}: multAddByStat.perStepByLevel must contain 10 numeric values`);
+    if (scale.levelCategory && !validSkillCategories.has(scale.levelCategory)) bad.push(`${owner}: multAddByStat.levelCategory ${scale.levelCategory} unsupported`);
+    if (scale.maxSteps != null && (!Number.isFinite(Number(scale.maxSteps)) || Number(scale.maxSteps) <= 0)) bad.push(`${owner}: multAddByStat.maxSteps invalid`);
+  }
   if (b.requiresSourceStat && !validScaleStats.has(b.requiresSourceStat.stat)) bad.push(`${owner}: requiresSourceStat.stat ${b.requiresSourceStat.stat} unsupported`);
   validateEvents(`${owner}: triggerEvents`, b.triggerEvents, bad);
   for (const rule of [].concat(b.triggerRules || [])) validateEvents(`${owner}: triggerRules.events`, rule.events, bad);
@@ -433,6 +445,12 @@ function skillSelectorUsesSelectedLevelMultiplier() {
   const detailHtml = html.slice(detailStart, html.indexOf('<div id="layer-fields"', detailStart));
   assert(html.includes('<option value="na1" selected>第一段 (45.5%)</option>'), "skill selector should show the selected level's actual multiplier");
   assert(!detailHtml.includes('class="formula"') && !detailHtml.includes("0.68452") && !detailHtml.includes("66.47% ×"), "skill detail should hide the internal level-10 conversion formula");
+
+  resetTeam(["phrolova"]);
+  __T.state.slots[0].seq = 2;
+  __T.state.slots[0].toggles[__T.stateChoiceKey("mechanic_1")] = "mechanic_1_option_1";
+  __T.render();
+  assert(String(board.innerHTML).includes('<option value="scarlet_coda"') && String(board.innerHTML).includes(' (1815.86%)</option>'), "skill selector should apply sequence-dependent default layers to unselected skills");
 }
 
 function splitDamageRendersUnderMainDamage() {
@@ -498,7 +516,7 @@ function targetSelectionInterface() {
   const targets = window.WUWA_TARGETS;
   expectEqual(targets.sortedSeasons("toa").slice(0, 3).map((item) => item.id).join(","), "39,38,37", "ToA seasons should sort newest to oldest above the current season");
   expectEqual(targets.sortedSeasons("whiwa").slice(0, 2).map((item) => item.id).join(","), "20,19", "Whiwa seasons should sort newest to oldest above the current season");
-  expectEqual(targets.sortedSeasons("dpmatrix").slice(0, 2).map((item) => item.id).join(","), "6,5", "Matrix seasons should sort newest to oldest");
+  expectEqual(targets.sortedSeasons("dpmatrix").slice(0, 2).map((item) => item.id).join(","), "7,6", "Matrix seasons should sort newest to oldest");
   const targetPickerHTML = (page) => {
     const start = page.indexOf('class="formula-target-pick ');
     const end = [page.indexOf('class="formula-target-level"', start), page.indexOf('class="formula-target-cost"', start)]
@@ -614,7 +632,7 @@ function targetSelectionInterface() {
   const fixedToaLevel = targets.context(__T.state.enemy, "spectro").enemyLevel;
   __T.state.enemy.targetLevelOverride = fixedToaLevel + 7;
   expectEqual(targets.context(__T.state.enemy, "spectro").enemyLevel, fixedToaLevel, "ToA should ignore stale manual enemy-level overrides");
-  assert(html.includes('data-act="target-buff-toggle"') && html.includes("自动生效"), "ToA fixed and triggered stage effects should appear in the gameplay block");
+  assert(html.includes('data-act="target-buff-toggle"'), "ToA current stage controls should appear in the gameplay block");
   expectEqual(new Set(toaChoices.map(targets.targetOptionName)).size, toaChoices.length, "ToA target attributes should be deduplicated");
   assert(targetPickerToggleHTML(html).includes(`src="assets/icons/elements/${toaTarget.element}.webp"`) && (!toaTargetName || !toaPicker.includes(toaTargetName)) && !html.includes("target-gameplay-combo-ic--matrix"), "ToA should show only the selected attribute and its element icon");
 
@@ -707,25 +725,46 @@ function targetApiFixtureRegressions() {
   assert(toa.resistance.sourceKind === "stageFinal" && toa.resistance.includesModeModifiers && !toa.resistance.modifiers.some((modifier) => modifier.kind === "modeBase"), "ToA final resistance should never receive another mode-base stack");
   assert(targetSync.toaSeasonCoverage(targetFixtures.toa).complete, "complete ToA fixture should be accepted");
   assert(!targetSync.toaSeasonCoverage(targetFixtures.toaIncomplete).complete, "ToA fixture without level and resistance fields should be excluded");
-  const futureToaLevels = targetSync.toaLevelMap(targetFixtures.toaFutureLevels, 38);
-  assert(targetSync.toaLevelCoverage(targetFixtures.toaFuture, futureToaLevels).complete, "reviewed future ToA level fixture should cover every target");
-  const futureToaTargets = {};
-  const futureToaGameplay = {};
-  const fixtureMonsterDetails = new Map([[targetFixtures.monster.Id, targetFixtures.monster]]);
-  const futureToaIds = targetSync.buildToaSeason(targetFixtures.toaFuture, 38, futureToaTargets, [], futureToaGameplay, fixtureMonsterDetails, futureToaLevels);
-  expectEqual(futureToaIds.length, 2, "future ToA fixture target count");
-  const futureMultiAttribute = Object.values(futureToaTargets).find((target) => target.recordId === 415);
-  expectEqual(futureMultiAttribute.level, 100, "future ToA reviewed enemy level");
-  expectEqual(futureMultiAttribute.resistances.glacio, 20, "future ToA composed base resistance");
-  expectEqual(futureMultiAttribute.resistances.fusion, 10, "future ToA explicit resistance reduction");
-  expectEqual(futureMultiAttribute.resistances.electro, 30, "future ToA explicit resistance increase");
-  expectEqual(futureMultiAttribute.resistances.havoc, 60, "future ToA matching resistance");
-  assert(futureMultiAttribute.resistance.sourceKind === "composed" && futureMultiAttribute.resistance.includesModeModifiers, "future ToA should identify complete composed resistance");
-  expectEqual(futureMultiAttribute.resistance.modifiers.filter((modifier) => modifier.kind === "modeBase").length, 1, "future ToA mode base application count");
-  const futureConditional = Object.values(futureToaTargets).find((target) => target.recordId === 417);
-  expectEqual(futureConditional.resistances.glacio, 35, "future ToA conditional resistance should default active once");
-  expectEqual(futureConditional.resistances.havoc, 75, "future ToA conditional matching resistance should default active once");
-  assert(futureConditional.gameplay.controlIds.some((id) => id.endsWith("resistance-removed")), "future ToA conditional resistance should expose a removal control");
+  assert(targetSync.toaSeasonCoverage(targetFixtures.toaCurrent).complete, "current ToA fixture should include final levels and six-attribute resistance");
+  expectEqual(
+    targetSync.toaCalibrationSeasonId(
+      [{ id: 38 }, { id: 39 }],
+      new Map([["38", targetFixtures.toaCurrent], ["39", targetFixtures.toaComposed]])
+    ),
+    "38",
+    "ToA resistance calibration should use the latest complete stage-final season"
+  );
+  const currentToaTargets = {};
+  const currentToaGameplay = {};
+  const currentToaIds = targetSync.buildToaSeason(targetFixtures.toaCurrent, 38, currentToaTargets, [], currentToaGameplay);
+  expectEqual(currentToaIds.length, 2, "current ToA fixture target count");
+  const currentMultiAttribute = Object.values(currentToaTargets).find((target) => target.recordId === 415);
+  expectEqual(currentMultiAttribute.level, 100, "current ToA enemy level");
+  expectEqual(currentMultiAttribute.resistances.glacio, 20, "current ToA final base resistance");
+  expectEqual(currentMultiAttribute.resistances.fusion, 10, "current ToA explicit resistance reduction");
+  expectEqual(currentMultiAttribute.resistances.electro, 30, "current ToA explicit resistance increase");
+  expectEqual(currentMultiAttribute.resistances.aero, 70, "current ToA matching resistance");
+  assert(currentMultiAttribute.resistance.sourceKind === "stageFinal" && currentMultiAttribute.resistance.includesModeModifiers, "current ToA should identify stage-final resistance");
+  expectEqual(currentMultiAttribute.resistance.modifiers.filter((modifier) => modifier.kind === "modeBase").length, 0, "current ToA final resistance must not receive a mode-base restack");
+  const currentConditional = Object.values(currentToaTargets).find((target) => target.recordId === 417);
+  expectEqual(currentConditional.resistances.glacio, 35, "current ToA conditional resistance should default active once");
+  expectEqual(currentConditional.resistances.electro, 75, "current ToA conditional matching resistance should default active once");
+  assert(currentConditional.gameplay.controlIds.some((id) => id.endsWith("resistance-removed")), "current ToA conditional resistance should expose a removal control");
+
+  const composedToaLevels = targetSync.toaLevelMap(targetFixtures.toaComposedLevels, 39);
+  assert(targetSync.toaLevelCoverage(targetFixtures.toaComposed, composedToaLevels).complete, "reviewed current ToA level fixture should cover every target");
+  const composedToaTargets = {};
+  const composedToaGameplay = {};
+  const composedMonsterDetails = new Map([[targetFixtures.toaComposedMonster.Id, targetFixtures.toaComposedMonster]]);
+  const composedToaIds = targetSync.buildToaSeason(targetFixtures.toaComposed, 39, composedToaTargets, [], composedToaGameplay, composedMonsterDetails, composedToaLevels);
+  expectEqual(composedToaIds.length, 1, "current composed ToA fixture target count");
+  const composedToa = composedToaTargets[composedToaIds[0]];
+  expectEqual(composedToa.level, 90, "current composed ToA reviewed enemy level");
+  expectEqual(composedToa.resistances.glacio, 20, "current composed ToA mode-base resistance");
+  expectEqual(composedToa.resistances.fusion, 60, "current composed ToA matching resistance");
+  expectEqual(composedToa.resistances.electro, 10, "current composed ToA explicit resistance reduction");
+  assert(composedToa.resistance.sourceKind === "composed" && composedToa.resistance.includesModeModifiers, "current ToA should identify complete composed resistance");
+  expectEqual(composedToa.resistance.modifiers.filter((modifier) => modifier.kind === "modeBase").length, 1, "current ToA mode base application count");
   const conditionalRecord = JSON.parse(JSON.stringify(targetFixtures.toa.sample));
   conditionalRecord.id = 400;
   conditionalRecord.areaNum = 2;
@@ -752,24 +791,33 @@ function targetApiFixtureRegressions() {
   const tokenQualities = whiwa.gameplay.choiceGroups[0].optionIds.map((id) => whiwaGameplayBuffs[id].qualityId).sort();
   expectEqual(tokenQualities.join(","), "4,4,4,4,4,4,5,5,5", "Whiwa fixture complete purple and gold Token qualities");
 
-  const futureWhiwaTargets = {};
-  const futureWhiwaGameplay = {};
-  const futureWhiwaIds = targetSync.buildWhiwaSeason(targetFixtures.whiwaFuture, 20, futureWhiwaTargets, monsterDetails, futureWhiwaGameplay);
-  const futureWhiwa = futureWhiwaTargets[futureWhiwaIds[0]];
-  expectEqual(futureWhiwa.level, 90, "future Whiwa order 9 fixture level");
-  expectEqual(futureWhiwa.resistances.aero, 40, "future Whiwa explicit attribute resistance increase");
-  expectEqual(futureWhiwa.resistance.modifiers.filter((modifier) => modifier.kind === "modeBase").length, 1, "future Whiwa mode base application count");
-  const futureTokenGroup = futureWhiwa.gameplay.choiceGroups[0];
-  expectEqual(futureTokenGroup.optionIds.length, 9, "future Whiwa complete Token option count");
-  const futureCaptain = futureWhiwaGameplay[futureTokenGroup.optionIds.find((id) => id.includes(":71500094:"))];
-  assert(futureCaptain.effects.some((effect) => effect.zone === "amplify" && effect.value === 25), "future Whiwa purple Token structure");
-  const futureShuttle = futureWhiwaGameplay[futureTokenGroup.optionIds.find((id) => id.includes(":71500096:"))];
-  assert(futureShuttle.effects.some((effect) => effect.effect === "fusion" && effect.value === 100), "future Whiwa Fusion Burst Token structure");
+  const currentWhiwaTargets = {};
+  const currentWhiwaGameplay = {};
+  const currentWhiwaIds = targetSync.buildWhiwaSeason(targetFixtures.whiwaCurrent, 20, currentWhiwaTargets, monsterDetails, currentWhiwaGameplay);
+  const currentWhiwa = currentWhiwaTargets[currentWhiwaIds[0]];
+  expectEqual(currentWhiwa.level, 90, "current Whiwa order 9 fixture level");
+  expectEqual(currentWhiwa.resistances.aero, 40, "current Whiwa explicit attribute resistance increase");
+  expectEqual(currentWhiwa.resistance.modifiers.filter((modifier) => modifier.kind === "modeBase").length, 1, "current Whiwa mode base application count");
+  const currentTokenGroup = currentWhiwa.gameplay.choiceGroups[0];
+  expectEqual(currentTokenGroup.optionIds.length, 9, "current Whiwa complete Token option count");
+  const currentCaptain = currentWhiwaGameplay[currentTokenGroup.optionIds.find((id) => id.includes(":71500094:"))];
+  assert(currentCaptain.effects.some((effect) => effect.zone === "amplify" && effect.value === 25), "current Whiwa purple Token structure");
+  const currentShuttle = currentWhiwaGameplay[currentTokenGroup.optionIds.find((id) => id.includes(":71500096:"))];
+  assert(currentShuttle.effects.some((effect) => effect.effect === "fusion" && effect.value === 100), "current Whiwa Fusion Burst Token structure");
+
+  const historicalMatrixTargets = {};
+  const historicalMatrixGameplay = {};
+  const historicalMatrixIds = targetSync.buildMatrixSeason(targetFixtures.dpmatrixHistorical, 6, historicalMatrixTargets, historicalMatrixGameplay);
+  expectEqual(historicalMatrixIds.length, 3, "historical Matrix fixture should retain all three player-facing waves");
+  expectEqual(Object.keys(historicalMatrixGameplay).length, 7, "historical Matrix fixture should retain its reviewed enhancement structure");
 
   const matrixTargets = {};
-  const matrixIds = targetSync.buildMatrixSeason(targetFixtures.dpmatrix, 6, matrixTargets);
-  expectEqual(matrixIds.length, 3, "Matrix fixture should expose all three player-facing waves");
+  const matrixGameplay = {};
+  const matrixIds = targetSync.buildMatrixSeason(targetFixtures.dpmatrix, 7, matrixTargets, matrixGameplay);
+  expectEqual(matrixIds.length, 15, "Matrix fixture should expose all 15 current player-facing targets");
   expectEqual(Array.from(new Set(matrixIds.map((id) => matrixTargets[id].stageId))).sort().join(","), "1,2,3", "Matrix fixture wave choices");
+  expectEqual([1, 2, 3].map((round) => matrixIds.filter((id) => matrixTargets[id].stageId === round).length).join(","), "5,5,5", "Matrix fixture targets per round");
+  expectEqual([1, 2, 3].map((round) => Array.from(new Set(matrixIds.filter((id) => matrixTargets[id].stageId === round).map((id) => matrixTargets[id].level))).join("/")).join(","), "100,110,120", "Matrix fixture levels per round");
   matrixIds.forEach((id) => {
     const target = matrixTargets[id];
     expectEqual(target.resistances[target.element], 40, `Matrix ${id} matching resistance`);
@@ -777,6 +825,15 @@ function targetApiFixtureRegressions() {
       expectEqual(target.resistances[element], 20, `Matrix ${id} base ${element} resistance`);
     });
   });
+  expectEqual(Object.keys(matrixGameplay).length, 7, "Matrix current reviewed enhancement structure count");
+  const matrixNegative = matrixGameplay["dpmatrix:7:30:enhancement"];
+  const matrixEcho = matrixGameplay["dpmatrix:7:31:enhancement"];
+  const matrixTune = matrixGameplay["dpmatrix:7:32:enhancement"];
+  const matrixGeneral = matrixGameplay["dpmatrix:7:33:enhancement"];
+  assert(matrixNegative.effects.some((effect) => effect.effect === "frost" && effect.value === 80), "Matrix Negative Status enhancement should include Glacio Chafe final DMG");
+  assert(matrixEcho.effects.some((effect) => effect.damageTypes?.includes("echoSkill") && effect.value === 30) && matrixEcho.effects.some((effect) => effect.element === "havoc" && effect.value === 20) && matrixEcho.effects.some((effect) => effect.damageTypes?.includes("resonanceSkill") && effect.value === 20), "Matrix Echo Skill enhancement should retain all three fixed effects");
+  assert(matrixTune.effects.length === 0 && Object.values(matrixGameplay).filter((buff) => buff.parentId === matrixTune.id).length === 2, "Matrix Tune Break enhancement should expose two independent trigger confirmations");
+  assert(matrixGeneral.effects.some((effect) => !effect.damageTypes && effect.value === 20) && matrixGeneral.effects.some((effect) => effect.damageTypes?.includes("heavy") && effect.value === 20), "Matrix General enhancement should include all-DMG and Heavy Attack effects");
 }
 
 function targetSnapshotCoverage() {
@@ -788,6 +845,9 @@ function targetSnapshotCoverage() {
     assert(!snapshotText.includes(`"${key}"`), `target snapshot should omit connection metadata: ${key}`);
   }
   assert(data.snapshot.syncedAt && data.snapshot.currentSeasons.toa && data.snapshot.currentSeasons.whiwa && data.snapshot.currentSeasons.dpmatrix, "target snapshot should record sync time and current seasons");
+  for (const mode of ["toa", "whiwa", "dpmatrix"]) {
+    expectEqual(data.snapshot.currentSeasons[mode], data.modes[mode].currentSeasonId, `${mode} snapshot metadata should match the mode default`);
+  }
   assert(targets.length > 0, "target snapshot should contain targets");
   targets.forEach((target) => {
     assert(Number.isFinite(target.level), `${target.id}: target level missing`);
@@ -797,21 +857,26 @@ function targetSnapshotCoverage() {
 
   const toaSeasonIds = new Set(data.modes.toa.seasons.map((season) => Number(season.id)));
   assert(Array.from(toaSeasonIds).every((id) => id >= 32), "ToA seasons without complete level and resistance data should be omitted");
-  assert(toaSeasonIds.has(38) && toaSeasonIds.has(39), "reviewed future ToA seasons should be included");
-  expectEqual(data.modes.toa.currentSeasonId, "37", "future ToA seasons should not replace the current default");
+  assert(toaSeasonIds.has(38) && toaSeasonIds.has(39), "current and calibration ToA seasons should be included");
+  expectEqual(data.modes.toa.currentSeasonId, "39", "ToA should default to the current season");
   assert((data.snapshot.exclusions.toaSeasons || []).some((item) => Number(item.seasonId) === 31), "snapshot should record excluded incomplete ToA seasons");
   assert((data.snapshot.exclusions.toaRecords || []).every((item) => item.reason === "unparsedResistanceModifier"), "snapshot should only omit ToA records whose resistance modifier is not structurally proven");
   const toaTargets = targets.filter((target) => target.mode === "toa");
   assert(toaTargets.every((target) => (target.areaId === 1 && target.stageId === 4) || (target.areaId === 2 && [1, 2, 3, 4].includes(target.stageId)) || (target.areaId === 3 && target.stageId === 4)), "ToA snapshot should keep only left 4, middle 1-4, and right 4");
-  const futureToaTargets = toaTargets.filter((target) => ["38", "39"].includes(target.seasonId));
-  assert(futureToaTargets.every((target) => target.level === (target.areaId === 2 ? 100 : 90)), "future ToA target levels should match the reviewed tower/floor mapping");
-  assert(futureToaTargets.every((target) => target.resistance.sourceKind === "composed" && target.resistance.includesModeModifiers), "future ToA targets should carry complete composed resistance metadata");
-  assert(futureToaTargets.every((target) => target.resistance.modifiers.filter((modifier) => modifier.kind === "modeBase").length === 1), "future ToA mode resistance should be applied exactly once");
+  const calibrationToaTargets = toaTargets.filter((target) => target.seasonId === "38");
+  assert(calibrationToaTargets.every((target) => target.level === (target.areaId === 2 ? 100 : 90)), "ToA calibration target levels should match the stage-final data");
+  assert(calibrationToaTargets.every((target) => target.resistance.sourceKind === "stageFinal" && target.resistance.includesModeModifiers), "ToA calibration targets should carry stage-final resistance metadata");
+  assert(calibrationToaTargets.every((target) => !target.resistance.modifiers.some((modifier) => modifier.kind === "modeBase")), "ToA calibration resistance should not be restacked");
+  const currentToaTargets = toaTargets.filter((target) => target.seasonId === "39");
+  assert(currentToaTargets.length === 14, "current ToA season should retain all 14 reviewed targets");
+  assert(currentToaTargets.every((target) => target.level === (target.areaId === 2 ? 100 : 90)), "current ToA target levels should match the reviewed tower/floor mapping");
+  assert(currentToaTargets.every((target) => target.resistance.sourceKind === "composed" && target.resistance.includesModeModifiers), "current ToA targets should carry complete composed resistance metadata");
+  assert(currentToaTargets.every((target) => target.resistance.modifiers.filter((modifier) => modifier.kind === "modeBase").length === 1), "current ToA mode resistance should be applied exactly once");
   const whiwaTargets = targets.filter((target) => target.mode === "whiwa");
   assert(whiwaTargets.every((target) => [9, 10, 11, 12].includes(target.stageOrder)), "Whiwa floors 1-8 should be omitted");
   assert(whiwaTargets.every((target) => target.level === (target.stageOrder === 12 ? 100 : 90)), "Whiwa snapshot should use level 90 for orders 9-11 and level 100 for endless");
-  assert(data.modes.whiwa.seasons.some((season) => Number(season.id) === 20), "reviewed future Whiwa season should be included");
-  expectEqual(data.modes.whiwa.currentSeasonId, "19", "future Whiwa season should not replace the current default");
+  assert(data.modes.whiwa.seasons.some((season) => Number(season.id) === 20), "current Whiwa season should be included");
+  expectEqual(data.modes.whiwa.currentSeasonId, "20", "Whiwa should default to the current season");
   const whiwaTokens = Object.values(data.gameplayBuffs).filter((buff) => buff.mode === "whiwa" && buff.control === "option");
   for (const seasonId of ["19", "20"]) {
     const seasonalTokens = whiwaTokens.filter((buff) => buff.id.startsWith(`whiwa:${seasonId}:`));
@@ -820,12 +885,18 @@ function targetSnapshotCoverage() {
   }
   expectEqual(data.snapshot.synthesis.gameplayBuffs.whiwaSelectableTokenCounts.purple, 6, "Whiwa snapshot selectable purple Token metadata");
   expectEqual(data.snapshot.synthesis.gameplayBuffs.whiwaSelectableTokenCounts.gold, 3, "Whiwa snapshot selectable gold Token metadata");
-  assert(data.snapshot.synthesis.toa.calibratedTargetCount === 13, "ToA composed resistance calibration should cover all current retained targets");
+  expectEqual(data.snapshot.synthesis.toa.calibrationSeasonId, 38, "ToA composed resistance should remain calibrated against the latest complete stage-final season");
+  assert(data.snapshot.synthesis.toa.calibratedTargetCount === 13, "ToA composed resistance calibration should cover all retained calibration targets");
   assert(data.snapshot.synthesis.gameplayBuffs.reviewedSeasons.toa.join(",") === "37,38,39", "reviewed ToA season metadata");
   assert(data.snapshot.synthesis.gameplayBuffs.reviewedSeasons.whiwa.join(",") === "19,20", "reviewed Whiwa season metadata");
+  assert(data.snapshot.synthesis.gameplayBuffs.reviewedSeasons.dpmatrix.join(",") === "6,7", "reviewed Matrix season metadata");
 
-  const currentMatrix = targets.filter((target) => target.mode === "dpmatrix" && target.seasonId === data.modes.dpmatrix.currentSeasonId && target.areaId === 12);
+  const currentMatrix = targets.filter((target) => target.mode === "dpmatrix" && target.seasonId === data.modes.dpmatrix.currentSeasonId && target.areaId === 14);
+  expectEqual(currentMatrix.length, 15, "current Matrix season should retain all 15 visible targets");
   expectEqual(Array.from(new Set(currentMatrix.map((target) => target.stageId))).sort().join(","), "1,2,3", "current Matrix season should expose three wave choices");
+  expectEqual([1, 2, 3].map((round) => currentMatrix.filter((target) => target.stageId === round).length).join(","), "5,5,5", "current Matrix season target count per wave");
+  expectEqual([1, 2, 3].map((round) => Array.from(new Set(currentMatrix.filter((target) => target.stageId === round).map((target) => target.level))).join("/")).join(","), "100,110,120", "current Matrix season level per wave");
+  assert(data.modes.dpmatrix.seasons.some((season) => season.id === "6" && season.current === false && season.targetIds.length === 15), "historical Matrix season 6 should remain available");
   const openWorldTargets = targets.filter((target) => target.mode === "openWorld");
   assert(openWorldTargets.every((target) => target.level === 90), "open-world targets should default to level 90");
   assert(Object.keys(data.gameplayBuffs).length > 0, "snapshot should include structured gameplay Buffs");
@@ -836,14 +907,17 @@ function targetSnapshotCoverage() {
     window.WUWA_TARGETS.selectMode(enemy, mode);
     expectEqual(enemy.targetSeasonId, window.WUWA_TARGETS.currentSeasonId(mode), `${mode} should default to the current season`);
   }
-  const futureEnemy = {};
-  window.WUWA_TARGETS.ensureSelection(futureEnemy);
-  window.WUWA_TARGETS.selectMode(futureEnemy, "toa");
-  window.WUWA_TARGETS.selectSeason(futureEnemy, "38");
-  assert(futureEnemy.targetSeasonId === "38" && window.WUWA_TARGETS.target(futureEnemy.targetId)?.seasonId === "38", "future ToA season should be selectable");
-  window.WUWA_TARGETS.selectMode(futureEnemy, "whiwa");
-  window.WUWA_TARGETS.selectSeason(futureEnemy, "20");
-  assert(futureEnemy.targetSeasonId === "20" && window.WUWA_TARGETS.target(futureEnemy.targetId)?.seasonId === "20", "future Whiwa season should be selectable");
+  const historicalEnemy = {};
+  window.WUWA_TARGETS.ensureSelection(historicalEnemy);
+  window.WUWA_TARGETS.selectMode(historicalEnemy, "toa");
+  window.WUWA_TARGETS.selectSeason(historicalEnemy, "38");
+  assert(historicalEnemy.targetSeasonId === "38" && window.WUWA_TARGETS.target(historicalEnemy.targetId)?.seasonId === "38", "historical ToA season should remain selectable");
+  window.WUWA_TARGETS.selectMode(historicalEnemy, "whiwa");
+  window.WUWA_TARGETS.selectSeason(historicalEnemy, "19");
+  assert(historicalEnemy.targetSeasonId === "19" && window.WUWA_TARGETS.target(historicalEnemy.targetId)?.seasonId === "19", "historical Whiwa season should remain selectable");
+  window.WUWA_TARGETS.selectMode(historicalEnemy, "dpmatrix");
+  window.WUWA_TARGETS.selectSeason(historicalEnemy, "6");
+  assert(historicalEnemy.targetSeasonId === "6" && window.WUWA_TARGETS.target(historicalEnemy.targetId)?.seasonId === "6", "historical Matrix season should remain selectable");
 
   const encounters = new Map();
   targets.filter((target) => target.mode !== "openWorld").forEach((target) => {
@@ -931,24 +1005,39 @@ function gameplayBuffRegressions() {
   __T.state.slots[0].skill = "na1";
   const matrixGroup = matrix.gameplay.choiceGroups[0];
   const matrixBase = __T.compute().totals.finalDmg;
-  const general = matrixGroup.optionIds.find((id) => id.includes(":29:"));
+  const general = matrixGroup.optionIds.find((id) => id.includes(":33:"));
   window.WUWA_TARGETS.setGameplayChoice(__T.state.enemy, matrixGroup.id, general);
   expectEqual(__T.compute().totals.finalDmg - matrixBase, 20, "Matrix General Enhancement should add its unconditional final DMG");
-  const negative = matrixGroup.optionIds.find((id) => id.includes(":26:"));
+  expectEqual(window.WUWA_TARGETS.gameplayAggregate(__T.state.enemy, { resultMode: "skill", damageElement: "spectro", damageTypes: ["heavy"] }).finalDmg, 40, "Matrix General Enhancement should add its Heavy Attack effect independently");
+  const negative = matrixGroup.optionIds.find((id) => id.includes(":30:"));
   window.WUWA_TARGETS.setGameplayChoice(__T.state.enemy, matrixGroup.id, negative);
   expectEqual(__T.compute().totals.finalDmg, matrixBase, "Matrix triggered enhancement effects should default inactive");
+  expectEqual(window.WUWA_TARGETS.gameplayAggregate(__T.state.enemy, { resultMode: "effect", effectKey: "frost", damageTypes: [] }).finalDmg, 80, "Matrix Negative Status enhancement should apply its fixed Glacio Chafe effect only to effect damage");
   const negativeChildren = Object.values(data.gameplayBuffs).filter((buff) => buff.parentId === negative);
+  expectEqual(negativeChildren.length, 1, "Matrix Negative Status enhancement trigger count");
   window.WUWA_TARGETS.setGameplayValue(__T.state.enemy, negativeChildren[0].id, true);
   expectEqual(__T.compute().totals.finalDmg - matrixBase, 25, "Matrix first confirmed trigger");
-  window.WUWA_TARGETS.setGameplayValue(__T.state.enemy, negativeChildren[1].id, true);
-  expectEqual(__T.compute().totals.finalDmg - matrixBase, 55, "Matrix independent confirmed triggers should add without merging their conditions");
+  const echoEnhancement = matrixGroup.optionIds.find((id) => id.includes(":31:"));
+  window.WUWA_TARGETS.setGameplayChoice(__T.state.enemy, matrixGroup.id, echoEnhancement);
+  expectEqual(window.WUWA_TARGETS.gameplayAggregate(__T.state.enemy, { resultMode: "skill", damageElement: "havoc", damageTypes: ["echoSkill", "resonanceSkill"] }).finalDmg, 70, "Matrix Echo Skill enhancement should combine only its applicable fixed effects");
+  const tuneEnhancement = matrixGroup.optionIds.find((id) => id.includes(":32:"));
+  window.WUWA_TARGETS.setGameplayChoice(__T.state.enemy, matrixGroup.id, tuneEnhancement);
+  expectEqual(__T.compute().totals.finalDmg, matrixBase, "Matrix Tune Break triggers should default inactive");
+  const tuneChildren = Object.values(data.gameplayBuffs).filter((buff) => buff.parentId === tuneEnhancement);
+  expectEqual(tuneChildren.length, 2, "Matrix Tune Break independent trigger count");
+  window.WUWA_TARGETS.setGameplayValue(__T.state.enemy, tuneChildren[0].id, true);
+  expectEqual(__T.compute().totals.finalDmg - matrixBase, 25, "Matrix Tunability trigger should apply independently");
+  window.WUWA_TARGETS.setGameplayValue(__T.state.enemy, tuneChildren[1].id, true);
+  expectEqual(__T.compute().totals.finalDmg - matrixBase, 55, "Matrix Tune Strain trigger should add without merging conditions");
+  window.WUWA_TARGETS.setGameplayChoice(__T.state.enemy, matrixGroup.id, general);
+  expectEqual(__T.compute().totals.finalDmg - matrixBase, 20, "Matrix enhancement switching should not retain prior trigger effects");
 
   resetTeam(["jinhsi"]);
   const whiwa = currentTarget("whiwa", (target) => target.stageOrder === 9);
   selectSnapshotTarget(whiwa);
   const tokenGroup = whiwa.gameplay.choiceGroups[0];
   const tokenBase = __T.compute().totals.amplify;
-  const captainSeal = tokenGroup.optionIds.find((id) => id.includes(":71500090:"));
+  const captainSeal = tokenGroup.optionIds.find((id) => id.includes(":71500094:"));
   window.WUWA_TARGETS.setGameplayChoice(__T.state.enemy, tokenGroup.id, captainSeal);
   expectEqual(__T.compute().totals.amplify - tokenBase, 25, "Whiwa Token should apply once when selected");
   const finalDmgBase = __T.compute().totals.finalDmg;
@@ -975,12 +1064,9 @@ function gameplayBuffRegressions() {
   expectEqual(window.WUWA_TARGETS.gameplayAggregate(__T.state.enemy, { ...skillContext, damageTypes: ["echoSkill"] }).finalDmg, 40, "Whiwa Fabricator should add its Echo Skill final DMG effect only to Echo Skills");
 
   resetTeam(["jinhsi"]);
-  const toaLeft = currentTarget("toa", (target) => target.recordId === 402);
-  selectSnapshotTarget(toaLeft);
-  expectEqual(__T.compute().totals.defIgnore, 25, "ToA fixed stage DEF Ignore should apply automatically");
-
-  const toaMiddle = currentTarget("toa", (target) => target.recordId === 405);
+  const toaMiddle = currentTarget("toa", (target) => target.recordId === 429);
   selectSnapshotTarget(toaMiddle);
+  expectEqual(window.WUWA_TARGETS.gameplayAggregate(__T.state.enemy, skillContext).finalDmg, 15, "ToA fixed stage final DMG should apply automatically");
   expectEqual(window.WUWA_TARGETS.context(__T.state.enemy, "glacio").resistance, 35, "ToA conditional All-Attribute RES should default active exactly once");
   const middleControls = toaMiddle.gameplay.controlIds.map((id) => data.gameplayBuffs[id]);
   const removal = middleControls.find((buff) => buff.id.endsWith("resistance-removed"));
@@ -988,40 +1074,25 @@ function gameplayBuffRegressions() {
   expectEqual(window.WUWA_TARGETS.context(__T.state.enemy, "glacio").resistance, 20, "confirming the ToA removal condition should restore stage-final RES");
   window.WUWA_TARGETS.setGameplayValue(__T.state.enemy, removal.id, false);
   expectEqual(window.WUWA_TARGETS.context(__T.state.enemy, "glacio").resistance, 35, "clearing the removal confirmation should restore automatic RES");
-  const ramp = middleControls.find((buff) => buff.control === "range");
+  const ramp = middleControls.find((buff) => buff.id.endsWith("time-ramp"));
   const rampBase = __T.compute().totals.finalDmg;
   window.WUWA_TARGETS.setGameplayValue(__T.state.enemy, ramp.id, 60);
   expectEqual(__T.compute().totals.finalDmg - rampBase, 60, "ToA timed stage effect should use the selected proven value");
 
   resetTeam(["jinhsi"]);
-  const futureToa = Object.values(data.targets).find((target) => target.mode === "toa" && target.seasonId === "38" && target.recordId === 417);
-  selectSnapshotTarget(futureToa);
-  const futureResistance = window.WUWA_TARGETS.context(__T.state.enemy, "glacio").resistance;
-  const futureControls = futureToa.gameplay.controlIds.map((id) => data.gameplayBuffs[id]);
-  const futureRemoval = futureControls.find((buff) => buff.id.endsWith("resistance-removed"));
-  window.WUWA_TARGETS.setGameplayValue(__T.state.enemy, futureRemoval.id, true);
-  expectEqual(window.WUWA_TARGETS.context(__T.state.enemy, "glacio").resistance, futureResistance - 15, "future ToA confirmed removal should subtract the default resistance exactly once");
-  window.WUWA_TARGETS.setGameplayValue(__T.state.enemy, futureRemoval.id, false);
-  expectEqual(window.WUWA_TARGETS.context(__T.state.enemy, "glacio").resistance, futureResistance, "future ToA cleared removal should restore the composed target resistance");
-  const futureRamp = futureControls.find((buff) => buff.id.endsWith("time-ramp"));
-  const futureRampBase = __T.compute().totals.finalDmg;
-  window.WUWA_TARGETS.setGameplayValue(__T.state.enemy, futureRamp.id, 60);
-  expectEqual(__T.compute().totals.finalDmg - futureRampBase, 60, "future ToA timed stage effect should use the selected value");
-
-  resetTeam(["jinhsi"]);
-  const futureWhiwa = Object.values(data.targets).find((target) => target.mode === "whiwa" && target.seasonId === "20" && target.stageOrder === 9);
-  selectSnapshotTarget(futureWhiwa);
-  const futureTokenGroup = futureWhiwa.gameplay.choiceGroups[0];
-  const futureAmplifyBase = __T.compute().totals.amplify;
-  const futureCaptain = futureTokenGroup.optionIds.find((id) => id.includes(":71500094:"));
-  window.WUWA_TARGETS.setGameplayChoice(__T.state.enemy, futureTokenGroup.id, futureCaptain);
-  expectEqual(__T.compute().totals.amplify - futureAmplifyBase, 25, "future Whiwa purple Token should apply once when selected");
-  const futureMirror = futureTokenGroup.optionIds.find((id) => id.includes(":71500095:"));
-  window.WUWA_TARGETS.setGameplayChoice(__T.state.enemy, futureTokenGroup.id, futureMirror);
-  const futureMirrorBase = __T.compute().totals.finalDmg;
-  const futureMirrorTrigger = Object.values(data.gameplayBuffs).find((buff) => buff.parentId === futureMirror);
-  window.WUWA_TARGETS.setGameplayValue(__T.state.enemy, futureMirrorTrigger.id, true);
-  expectEqual(__T.compute().totals.finalDmg - futureMirrorBase, 60, "future Whiwa triggered Token should require confirmation and apply once");
+  const historicalWhiwa = Object.values(data.targets).find((target) => target.mode === "whiwa" && target.seasonId === "19" && target.stageOrder === 9);
+  selectSnapshotTarget(historicalWhiwa);
+  const historicalTokenGroup = historicalWhiwa.gameplay.choiceGroups[0];
+  const historicalAmplifyBase = __T.compute().totals.amplify;
+  const historicalCaptain = historicalTokenGroup.optionIds.find((id) => id.includes(":71500090:"));
+  window.WUWA_TARGETS.setGameplayChoice(__T.state.enemy, historicalTokenGroup.id, historicalCaptain);
+  expectEqual(__T.compute().totals.amplify - historicalAmplifyBase, 25, "historical Whiwa purple Token should remain usable");
+  const historicalMirror = historicalTokenGroup.optionIds.find((id) => id.includes(":71500091:"));
+  window.WUWA_TARGETS.setGameplayChoice(__T.state.enemy, historicalTokenGroup.id, historicalMirror);
+  const historicalMirrorBase = __T.compute().totals.finalDmg;
+  const historicalMirrorTrigger = Object.values(data.gameplayBuffs).find((buff) => buff.parentId === historicalMirror);
+  window.WUWA_TARGETS.setGameplayValue(__T.state.enemy, historicalMirrorTrigger.id, true);
+  expectEqual(__T.compute().totals.finalDmg - historicalMirrorBase, 60, "historical Whiwa triggered Token should remain usable");
 }
 
 function targetLocalesAndOfflineRuntime() {
@@ -1515,9 +1586,12 @@ function characterPickerSortsNewestFirst() {
     const id = match[1];
     if (window.WUWA.chars[id] && !picked.includes(id)) picked.push(id);
   }
-  const firstThree = new Set(picked.slice(0, 3));
-  assert(["rover_electro", "yangyang_xuanling", "suisui"].every((id) => firstThree.has(id)), `character picker should list the newest 3.5 characters first: ${picked.slice(0, 5).join(", ")}`);
-  assert(Number(window.WUWA.chars[picked[3]]?.debut) <= 3.4, "older stable characters should follow the 3.5 characters");
+  assert(!Object.values(window.WUWA.chars).some((c) => c.betaVersion), "released v3.6 data should leave no beta characters mounted");
+  const latestStable = new Set(picked.slice(0, 2));
+  assert(["qingxiao", "jingran"].every((id) => latestStable.has(id)), `character picker should list the stable 3.6 characters first: ${picked.slice(0, 5).join(", ")}`);
+  const v35 = new Set(picked.slice(2, 5));
+  assert(["rover_electro", "yangyang_xuanling", "suisui"].every((id) => v35.has(id)), `stable 3.5 characters should follow the 3.6 characters: ${picked.slice(0, 7).join(", ")}`);
+  assert(Number(window.WUWA.chars[picked[5]]?.debut) <= 3.4, "older stable characters should follow the 3.5 characters");
 }
 
 function v35CharacterEntryRegressions() {
@@ -1575,8 +1649,8 @@ function v35CharacterEntryRegressions() {
   assert(featheredOath?.value === 150 && featheredOath.maxStacks === 6, "Yangyang: Xuanling Feathered Oath should total 150% Crit. DMG at six stacks");
   vowSlot.skill = "azure_heavy";
   let runtimeOath = buff(vowSlot, "b_windbound_heavy_cd");
-  assert(__T.buffStatus(vowSlot, 0, runtimeOath).toggleOn, "Yangyang: Xuanling Feathered Oath should default checked when its precondition is confirmable");
-  expectEqual(__T.buffStackCount(vowSlot, runtimeOath, 0), 6, "Yangyang: Xuanling Feathered Oath should default to full stacks when enabled");
+  assert(!__T.buffStatus(vowSlot, 0, runtimeOath).toggleOn, "Yangyang: Xuanling Feathered Oath should start unchecked while its precondition is unconfirmed");
+  expectEqual(__T.buffStackCount(vowSlot, runtimeOath, 0), 0, "Yangyang: Xuanling Feathered Oath should preserve its explicit zero-stack default");
   __T.setBuffToggle(vowSlot, 0, runtimeOath.id, true);
   vowSlot.toggles.stk_b_windbound_heavy_cd = 1;
   expectEqual(__T.buffFormulaText(vowSlot, runtimeOath, 0), "+25%", "Yangyang: Xuanling Feathered Oath should grant 25% Crit. DMG per stack");
@@ -1615,10 +1689,8 @@ function v35CharacterEntryRegressions() {
   ySlot.weapon = "azure_oath";
   ySlot.skill = "azure_heavy";
   assert(__T.resolvedSkill(ySlot)?.triggerEvents?.includes("applyHavocBane"), "Yangyang: Xuanling Azure Heavy should still attach Havoc Bane");
-  assert(__T.buffStatus(ySlot, 0, buff(ySlot, "w_e1")).applies, "Azure Oath heavy deepen should default checked");
-  assert(__T.buffStatus(ySlot, 0, buff(ySlot, "w_e2")).applies, "Azure Oath defense ignore should default checked");
-  __T.setBuffToggle(ySlot, 0, "w_e1", false);
-  assert(!__T.buffStatus(ySlot, 0, buff(ySlot, "w_e1")).applies, "Azure Oath heavy deepen should remain manually disableable");
+  assert(!__T.buffStatus(ySlot, 0, buff(ySlot, "w_e1")).applies, "Azure Oath heavy deepen should start unchecked until its post-hit window is confirmed");
+  assert(!__T.buffStatus(ySlot, 0, buff(ySlot, "w_e2")).applies, "Azure Oath defense ignore should start unchecked until its post-hit window is confirmed");
   __T.setBuffToggle(ySlot, 0, "w_e1", true);
   __T.setBuffToggle(ySlot, 0, "w_e2", true);
   assert(__T.buffStatus(ySlot, 0, buff(ySlot, "w_e1")).applies, "Azure Oath heavy deepen should apply after confirmation");
@@ -1644,7 +1716,9 @@ function v35CharacterEntryRegressions() {
 
   resetTeam(["chisa", "suisui"]);
   const suisuiSlot = __T.state.slots[1];
-  assert(__T.buffStatus(suisuiSlot, 1, buff(suisuiSlot, "b_outro_all_amp")).applies, "Suisui Outro deepen should default checked for support");
+  assert(!__T.buffStatus(suisuiSlot, 1, buff(suisuiSlot, "b_outro_all_amp")).applies, "Suisui Outro deepen should start unchecked for support");
+  __T.setBuffToggle(suisuiSlot, 1, "b_outro_all_amp", true);
+  assert(__T.buffStatus(suisuiSlot, 1, buff(suisuiSlot, "b_outro_all_amp")).applies, "Suisui Outro deepen should apply after support-trigger confirmation");
   suisuiSlot.resources.floral_epistle = 399;
   __T.setBuffToggle(suisuiSlot, 1, "b_outro_reflecting_final", true);
   assert(!__T.buffStatus(suisuiSlot, 1, buff(suisuiSlot, "b_outro_reflecting_final")).applies, "Suisui 400 Floral Epistle effect should stay gated at 399");
@@ -1657,7 +1731,7 @@ function v35CharacterEntryRegressions() {
   assert(__T.buffStatus(suisuiSlot, 1, buff(suisuiSlot, "b_outro_flower_atk")).applies, "Suisui 600 Floral Epistle effect should apply after its consumption trigger and Outro are confirmed even when no stack remains");
   suisuiSlot.seq = 2;
   const c2EffectCrit = buff(suisuiSlot, "c2_effect_cd");
-  assert(__T.buffStatus(suisuiSlot, 1, c2EffectCrit).applies, "Suisui C2 Crit. DMG should default checked");
+  assert(!__T.buffStatus(suisuiSlot, 1, c2EffectCrit).applies, "Suisui C2 Crit. DMG should start unchecked until the consumed abnormal-effect stack is confirmed");
   __T.setBuffToggle(suisuiSlot, 1, c2EffectCrit.id, true);
   assert(__T.buffStatus(suisuiSlot, 1, buff(suisuiSlot, "c2_effect_cd")).applies, "Suisui C2 Crit. DMG should apply after confirmation even when the consumed stack is gone");
 
@@ -1776,7 +1850,7 @@ function roverElectroEntryRegressions() {
   slot.echo.combo = "single5";
   const voidThunder = __T.slotBuffs(slot).find((item) => item.id === "son_3_p5_0");
   assert(voidThunder, "Rover: Electro trigger regression should find the Void Thunder 5-piece effect");
-  assert(__T.buffStatus(slot, 0, voidThunder).precondition && __T.buffStatus(slot, 0, voidThunder).applies, "Void Thunder should default checked when its casting precondition remains confirmable");
+  assert(__T.buffStatus(slot, 0, voidThunder).precondition && !__T.buffStatus(slot, 0, voidThunder).applies, "Void Thunder should start unchecked while its casting precondition is unconfirmed");
   slot.toggles[modeKey] = "normal_resonance";
   slot.skill = "overload_tap";
   slot.layers = null;
@@ -1892,6 +1966,10 @@ function characterSchemasAreLinked() {
   for (const c of Object.values(window.WUWA.chars)) {
     const skillIds = new Set((c.skills || []).map((s) => s.id));
     const resourceKeys = new Set((c.resources || []).flatMap((r) => [r.id, r.label].filter(Boolean)));
+    for (const [stat, value] of Object.entries(c.fixedStats || {})) {
+      if (!validFixedStats.has(stat)) bad.push(`${c.id}: fixedStats ${stat} unsupported`);
+      if (!Number.isFinite(Number(value))) bad.push(`${c.id}: fixedStats ${stat} invalid`);
+    }
     const weaponId = c.defaultWeaponId ?? c.signatureWeaponId;
     if (expectedDebuts[c.id] != null && Number(c.debut) !== expectedDebuts[c.id]) bad.push(`${c.id}: debut ${c.debut} should be ${expectedDebuts[c.id]}`);
     const betaVersion = validateBetaVersion(`character ${c.id}`, c, bad);
@@ -1926,6 +2004,8 @@ function characterSchemasAreLinked() {
       if (!/^[a-z0-9_]+$/.test(sk.id)) bad.push(`${c.id}.${sk.id}: skill id must be lower_snake_case`);
       if (/^(a|s)\d+$/.test(sk.id)) bad.push(`${c.id}.${sk.id}: skill id must not be an anonymous sequence id`);
       if (sk.stat && !validSkillStats.has(sk.stat)) bad.push(`${c.id}.${sk.id}: stat ${sk.stat} unsupported`);
+      if (sk.levelCategory && !validSkillCategories.has(sk.levelCategory)) bad.push(`${c.id}.${sk.id}: levelCategory ${sk.levelCategory} unsupported`);
+      if (sk.fixedLevel != null && typeof sk.fixedLevel !== "boolean") bad.push(`${c.id}.${sk.id}: fixedLevel must be boolean`);
       if (sk.element && !validElements.has(sk.element)) bad.push(`${c.id}.${sk.id}: element ${sk.element} unsupported`);
       for (const legacyId of [].concat(sk.legacyIds || [])) {
         if (legacyId === sk.id) bad.push(`${c.id}.${sk.id}: legacyIds should not repeat current id`);
@@ -2184,6 +2264,8 @@ function allPlainResourceGatesAreReviewed() {
     "chisa.c1_fixed_havoc",
     "yangyang_xuanling.c6_shadow",
     "yangyang_xuanling.wraith_of_sound",
+    "jingran.skill_yin_followup",
+    "jingran.skill_yang_followup",
   ]);
   const bad = [];
   for (const c of Object.values(window.WUWA.chars)) {
@@ -2489,9 +2571,7 @@ function sonataEffectAttachmentBuffsAreManual() {
   slot.echo.combo = "single5";
   slot.echo.primary = 14;
   const selfBuff = buff(slot, "son_14_gusts_of_welkin_self_aero");
-  assert(__T.buffStatus(slot, 0, selfBuff).applies, "Gusts of Welkin 5pc should default checked");
-  __T.setBuffToggle(slot, 0, "son_14_gusts_of_welkin_self_aero", false);
-  assert(!__T.buffStatus(slot, 0, selfBuff).applies, "Gusts of Welkin 5pc should remain manually disableable");
+  assert(!__T.buffStatus(slot, 0, selfBuff).applies, "Gusts of Welkin 5pc should start unchecked until its effect-attachment window is confirmed");
   __T.setBuffToggle(slot, 0, "son_14_gusts_of_welkin_self_aero", true);
   assert(__T.buffStatus(slot, 0, selfBuff).applies, "Gusts of Welkin 5pc should apply after confirmation");
 }
@@ -2544,7 +2624,7 @@ function weaponBuffScopesUseBeneficiary() {
   support.weapon = "static_mist";
   b = buff(support, "w_e0");
   const st = __T.buffStatus(support, 1, b);
-  assert(st.precondition && !st.gated, "support outro weapon buff for the incoming character should remain confirmable");
+  assert(st.precondition && !st.gated && !st.applies, "support outro weapon buff for the incoming character should remain confirmable and start unchecked");
 }
 
 function stateDefFor(c, stateName) {
@@ -2808,9 +2888,7 @@ function introEntryIsSkillDriven() {
   let b = buff(slot, "b1");
   __T.render();
   assert(!String(board.innerHTML).includes('data-act="intro-entry"'), "intro-entry control should stay removed for intro-triggered buffs");
-  assert(__T.buffStatus(slot, 0, b).precondition && __T.buffStatus(slot, 0, b).applies, "intro-triggered buff should default checked before an intro skill is selected");
-  __T.setBuffToggle(slot, 0, b.id, false);
-  assert(!__T.buffStatus(slot, 0, b).applies, "intro-triggered buff should stay user-disableable before an intro skill is selected");
+  assert(__T.buffStatus(slot, 0, b).precondition && !__T.buffStatus(slot, 0, b).applies, "intro-triggered buff should start unchecked before an intro skill is selected");
   slot.skill = "intro";
   assert(__T.buffStatus(slot, 0, b).applies, "intro skill should automatically provide intro-entry events");
 }
@@ -2899,9 +2977,7 @@ function reportedCharacterFixes() {
   slot = __T.state.slots[0];
   slot.skill = "skill_targeted";
   b = buff(slot, "son_11_eternal_radiance_crit");
-  assert(__T.buffStatus(slot, 0, b).applies && __T.buffStatus(slot, 0, b).precondition, "Zani Eternal Radiance crit should default checked");
-  __T.setBuffToggle(slot, 0, "son_11_eternal_radiance_crit", false);
-  assert(!__T.buffStatus(slot, 0, b).applies, "Zani Eternal Radiance crit should remain manually disableable");
+  assert(!__T.buffStatus(slot, 0, b).applies && __T.buffStatus(slot, 0, b).precondition, "Zani Eternal Radiance crit should start unchecked until its post-hit window is confirmed");
   __T.setBuffToggle(slot, 0, "son_11_eternal_radiance_crit", true);
   assert(__T.buffStatus(slot, 0, b).applies, "Eternal Radiance crit should apply after confirmation");
   b = buff(slot, "son_11_eternal_radiance_spectro");
@@ -2997,17 +3073,13 @@ function reportedCharacterFixes() {
   slot.seq = 4;
   slot.skill = "heavy";
   b = buff(slot, "k4_all");
-  assert(__T.buffStatus(slot, 0, b).precondition && __T.buffStatus(slot, 0, b).applies, "Cartethyia chain 4 post-effect buff should default checked");
-  __T.setBuffToggle(slot, 0, b.id, false);
-  assert(!__T.buffStatus(slot, 0, b).applies, "Cartethyia chain 4 post-effect buff should remain manually disableable");
+  assert(__T.buffStatus(slot, 0, b).precondition && !__T.buffStatus(slot, 0, b).applies, "Cartethyia chain 4 post-effect buff should start unchecked until the prior effect is confirmed");
   __T.setBuffToggle(slot, 0, b.id, true);
   assert(__T.buffStatus(slot, 0, b).applies, "Cartethyia chain 4 post-effect buff should apply after confirmation");
   slot.toggles[__T.stateChoiceKey("形态")] = "芙露德莉斯";
   slot.skill = "lib_tideblade";
   b = buff(slot, "w_e1");
-  assert(__T.buffStatus(slot, 0, b).applies, "Cartethyia signature weapon defense ignore should default checked on later damage");
-  __T.setBuffToggle(slot, 0, b.id, false);
-  assert(!__T.buffStatus(slot, 0, b).applies, "Cartethyia signature weapon defense ignore should remain manually disableable");
+  assert(!__T.buffStatus(slot, 0, b).applies, "Cartethyia signature weapon defense ignore should start unchecked on later damage until its trigger is confirmed");
   slot.toggles[__T.stateChoiceKey("形态")] = "卡提希娅";
   slot.skill = "na1";
   assert(__T.buffStatus(slot, 0, b).applies, "Cartethyia signature weapon defense ignore should trigger from basic damage");
@@ -3040,12 +3112,10 @@ function reportedCharacterFixes() {
   slot.toggles[__T.stateChoiceKey("干涉标记")] = "干涉标记";
   slot.toggles[__T.stateChoiceKey("谐度干涉")] = "谐度干涉·集谐";
   assert(__T.buffStatus(slot, 0, b).applies, "Mornye Interference Mark target vulnerability should apply after target states are confirmed");
-  slot.toggles[__T.stateChoiceKey("谐度干涉")] = "谐度干涉·集谐";
-  slot.toggles.b_tune_response = true;
   b = buff(slot, "b_tune_response");
-  slot.toggles[`stk_${b.stackGroup}`] = 3;
-  assert(__T.buffStatus(slot, 0, b).applies, "Mornye Tune Strain - Interfered final damage should be modeled");
-  assert(__T.buffFormulaText(slot, b, 0).includes("+18%"), "Mornye Tune Strain - Interfered should scale from active Tune Break Boost buffs per stack");
+  slot.toggles[`stk_${b.stackGroup}`] = 4;
+  assert(__T.buffStatus(slot, 0, b).applies, "Mornye Tune Strain - Interfered final damage should apply from the confirmed target state without a second toggle");
+  assert(__T.buffFormulaText(slot, b, 0).includes("+24%"), "Mornye four-stack Tune Strain - Interfered should scale from active Tune Break Boost buffs per stack");
   slot.skill = "rupture_beam";
   slot.toggles[__T.stateChoiceKey("谐度干涉")] = "谐度干涉·震谐";
   r = __T.compute();
@@ -3076,29 +3146,32 @@ function reportedCharacterFixes() {
   expectEqual(sigrikaRuneSum, 4, "Sigrika should hold 2 additional runes at 50 Full Stop");
   slot.resources.period = 100;
   b = buff(slot, "b_blessing_aero");
-  assert(__T.buffStatus(slot, 0, b).precondition && __T.buffStatus(slot, 0, b).applies, "Sigrika Semantic Blessing should default checked");
-  expectEqual(__T.buffStackCount(slot, b, 0), 6, "Sigrika Semantic Blessing should default to full linked stacks when enabled");
+  assert(__T.buffStatus(slot, 0, b).precondition && !__T.buffStatus(slot, 0, b).applies, "Sigrika Semantic Blessing should start unchecked until its post-hit window is confirmed");
+  expectEqual(__T.buffStackCount(slot, b, 0), 0, "Sigrika Semantic Blessing should preserve its explicit zero-stack default");
   const echoBlessing = buff(slot, "b_blessing_echo");
   const fullAeroBlessing = buff(slot, "b_blessing_full_aero");
-  expectEqual(__T.buffStackCount(slot, echoBlessing, 0), 6, "Sigrika Semantic Blessing effects should share their default stack count");
-  assert(__T.buffStatus(slot, 0, fullAeroBlessing).applies, "Sigrika full-stack bonus should follow the default max stack count");
+  expectEqual(__T.buffStackCount(slot, echoBlessing, 0), 0, "Sigrika Semantic Blessing effects should share their zero-stack default");
+  assert(!__T.buffStatus(slot, 0, fullAeroBlessing).applies, "Sigrika full-stack bonus should stay off before stacks are confirmed");
+  __T.setBuffToggle(slot, 0, b.id, true);
+  slot.toggles.stk_sigrika_blessing = 6;
+  assert(__T.buffStatus(slot, 0, b).applies, "Sigrika Semantic Blessing should apply after confirmation");
+  expectEqual(__T.buffStackCount(slot, echoBlessing, 0), 6, "Sigrika Semantic Blessing linked effects should share a confirmed stack count");
+  assert(__T.buffStatus(slot, 0, fullAeroBlessing).applies, "Sigrika full-stack bonus should follow a confirmed max stack count");
   slot.toggles.stk_sigrika_blessing = 3;
   expectEqual(__T.buffStackCount(slot, b, 0), 3, "Sigrika Semantic Blessing should update its shared stack count");
   expectEqual(__T.buffStackCount(slot, echoBlessing, 0), 3, "Sigrika Semantic Blessing linked effects should update together");
   expectEqual(__T.buffFormulaText(slot, b, 0), "+9%", "Sigrika Semantic Blessing formula should follow its shared stack count");
   assert(!__T.buffStatus(slot, 0, fullAeroBlessing).applies, "Sigrika full-stack bonus should turn off below the linked stack threshold");
-  delete slot.toggles.stk_sigrika_blessing;
-  assert(__T.buffStatus(slot, 0, fullAeroBlessing).applies, "Sigrika full-stack bonus should restore with the linked max stack count");
-  __T.setBuffToggle(slot, 0, b.id, true);
-  assert(__T.buffStatus(slot, 0, b).applies, "Sigrika Semantic Blessing should apply after confirmation");
-  expectEqual(__T.buffStackCount(slot, b, 0), 6, "Sigrika Semantic Blessing should use max stacks after confirmation");
+  slot.toggles.stk_sigrika_blessing = 6;
+  assert(__T.buffStatus(slot, 0, fullAeroBlessing).applies, "Sigrika full-stack bonus should restore at six confirmed stacks");
+  expectEqual(__T.buffStackCount(slot, b, 0), 6, "Sigrika Semantic Blessing should retain six confirmed stacks");
   assert(!__T.buffStatus(slot, 0, buff(slot, "b_er_echo")).applies, "Sigrika ER conversion should not apply below 125% energy regen");
   const trueNameCrit = buff(slot, "son_29_sound_of_true_name_echo_crit");
-  assert(__T.buffStatus(slot, 0, trueNameCrit).applies, "Sound of True Name 5-piece Echo Skill crit should default checked");
+  assert(!__T.buffStatus(slot, 0, trueNameCrit).applies, "Sound of True Name 5-piece Echo Skill crit should start unchecked until the Echo Skill hit is confirmed");
   __T.setBuffToggle(slot, 0, trueNameCrit.id, true);
   assert(__T.buffStatus(slot, 0, trueNameCrit).applies, "Sound of True Name 5-piece Echo Skill crit should apply after confirmation");
   const trueNameAero = buff(slot, "son_29_sound_of_true_name_aero");
-  assert(__T.buffStatus(slot, 0, trueNameAero).applies, "Sound of True Name 5-piece Aero bonus should default checked");
+  assert(!__T.buffStatus(slot, 0, trueNameAero).applies, "Sound of True Name 5-piece Aero bonus should start unchecked until the Echo Skill hit is confirmed");
   __T.setBuffToggle(slot, 0, trueNameAero.id, true);
   assert(__T.buffStatus(slot, 0, trueNameAero).applies, "Sound of True Name 5-piece Aero bonus should apply after confirmation");
   slot.resources.hopeRune = 1;
@@ -3127,9 +3200,7 @@ function reportedCharacterFixes() {
   slot.seq = 4;
   slot.skill = "a10";
   b = buff(slot, "k4");
-  assert(__T.buffStatus(slot, 0, b).applies, "Zhezhi chain 4 should default checked");
-  __T.setBuffToggle(slot, 0, b.id, false);
-  assert(!__T.buffStatus(slot, 0, b).applies, "Zhezhi chain 4 should remain manually disableable");
+  assert(!__T.buffStatus(slot, 0, b).applies, "Zhezhi chain 4 should start unchecked until the Liberation trigger is confirmed");
   __T.setBuffToggle(slot, 0, b.id, true);
   assert(__T.buffStatus(slot, 0, b).applies, "Zhezhi chain 4 should apply after confirmation");
 
@@ -3300,7 +3371,9 @@ function reportedCharacterFixes() {
   slot = __T.state.slots[0];
   slot.skill = "skill_windqueller";
   b = buff(slot, "b3");
-  assert(__T.buffStatus(slot, 0, b).applies, "Jiyan Windqueller bonus should default checked outside Qingloong Mode");
+  assert(!__T.buffStatus(slot, 0, b).applies, "Jiyan Windqueller bonus should start unchecked outside Qingloong Mode");
+  __T.setBuffToggle(slot, 0, b.id, true);
+  assert(__T.buffStatus(slot, 0, b).applies, "Jiyan Windqueller bonus should apply after confirmation outside Qingloong Mode");
   slot.toggles = {};
   slot.toggles[__T.stateChoiceKey("破阵状态")] = "破阵状态";
   assert(__T.buffStatus(slot, 0, b).applies, "Jiyan Windqueller bonus should apply in Qingloong Mode");
@@ -3331,12 +3404,12 @@ function reportedCharacterFixes() {
   resetTeam(["jinhsi", "chisa"]);
   const chisaSupport = __T.state.slots[1];
   b = buff(chisaSupport, "b_thread_def");
-  assert(__T.buffStatus(chisaSupport, 1, b).applies, "Chisa Thread defense ignore should default checked");
+  assert(!__T.buffStatus(chisaSupport, 1, b).applies, "Chisa Thread defense ignore should start unchecked");
   __T.setBuffToggle(chisaSupport, 1, "b_thread_def", true);
   assert(__T.buffStatus(chisaSupport, 1, b).applies, "Chisa Thread defense ignore should apply after confirmation");
   chisaSupport.seq = 2;
   b = buff(chisaSupport, "c2_dmg");
-  assert(__T.buffStatus(chisaSupport, 1, b).applies, "Chisa chain 2 Thread bonus should default checked");
+  assert(!__T.buffStatus(chisaSupport, 1, b).applies, "Chisa chain 2 Thread bonus should start unchecked");
   __T.setBuffToggle(chisaSupport, 1, "c2_dmg", true);
   assert(__T.buffStatus(chisaSupport, 1, b).applies, "Chisa chain 2 Thread bonus should apply after confirmation");
 
@@ -3346,7 +3419,7 @@ function reportedCharacterFixes() {
   chisaSlot.seq = 6;
   b = buff(chisaSlot, "c6_effect_amp");
   let st = __T.buffStatus(chisaSlot, 1, b);
-  assert(st.precondition && !st.gated && st.applies, "effect-only support state buff should expose a default-checked confirmation control");
+  assert(st.precondition && !st.gated && !st.applies, "effect-only support state buff should expose an unchecked confirmation control");
   __T.setBuffToggle(chisaSlot, 1, "c6_effect_amp", true);
   assert(chisaSlot.toggles[__T.stateChoiceKey(chisaVoidSnare.id)] === stateOptionValueFor(chisa, "虚无绞痕·终焉"), "confirming Chisa effect amp should write the provider target state");
   r = __T.compute();
@@ -3357,8 +3430,13 @@ function reportedCharacterFixes() {
   slot.seq = 3;
   slot.skill = "forte_illuminous_epiphany_stella";
   b = buff(slot, "k3");
-  assert(__T.buffStatus(slot, 0, b).applies, "Jinhsi Sequence 3 attack buff should default checked after the sequence unlocks");
-  expectEqual(__T.buffStackCount(slot, b, 0), 2, "an enabled sequence stack buff should default to full stacks when the current action does not provide a stack count");
+  assert(!__T.buffStatus(slot, 0, b).applies, "Jinhsi Sequence 3 attack buff should start unchecked after the sequence unlocks");
+  expectEqual(__T.buffStackCount(slot, b, 0), 0, "a sequence stack buff should preserve its explicit zero-stack default");
+  __T.setBuffToggle(slot, 0, b.id, true);
+  slot.toggles.stk_k3 = 2;
+  assert(__T.buffStatus(slot, 0, b).applies, "Jinhsi Sequence 3 attack buff should apply after confirmation");
+  expectEqual(__T.buffStackCount(slot, b, 0), 2, "a confirmed sequence stack buff should use the selected stack count");
+  delete slot.toggles.stk_k3;
   slot.skill = "loong_intro";
   expectEqual(__T.buffStackCount(slot, b, 0), 1, "an enabled sequence stack buff should still follow the current action's explicit stack count");
   slot.seq = 6;
@@ -3549,7 +3627,7 @@ function reportedCharacterFixes() {
   assert(html.includes("灵性 (0-100)"), "Iuno New Moon should keep the Spirituality resource visible at zero");
   slot.skill = "rs_chuyin";
   b = buff(slot, "b2");
-  assert(__T.buffStatus(slot, 0, b).applies, "Iuno Pale Light should default checked before a qualifying shield or Intro trigger");
+  assert(!__T.buffStatus(slot, 0, b).applies, "Iuno Pale Light should stay unchecked before a qualifying shield or Intro trigger");
   expectEqual(__T.buffFormulaText(slot, b, 0), "×(1+0%)", "Iuno Pale Light should stay at zero stacks before a qualifying trigger");
   slot.toggles[__T.stateChoiceKey("满月领域")] = "满月领域";
   assert(__T.buffStatus(slot, 0, b).applies, "Iuno shield should grant Pale Light stacks inside Full Moon Domain");
@@ -3890,11 +3968,13 @@ function modalEffectAndOffsetControlRegressions() {
   assert(String(board.innerHTML).includes("黯核 (0-3)"), "Denia Dark Core control should show the base cap before sequence 3");
   assert(String(board.innerHTML).includes("虚质粒子 (0-100)"), "Denia Void Particle control should show its numeric cap");
   let r = __T.compute();
-  expectEqual(r.layers, 3, "Denia Dark Core should default to its current cap");
+  expectEqual(r.layers, 0, "Denia Dark Core should not be represented as skill hit layers");
+  expectEqual(r.multAdd, 450, "Denia Banish stage 2 should add 150% multiplier for each of the three default Dark Cores");
   expectEqual(Math.round(r.panel.baseMult * 100) / 100, 562.01, "Denia Banish stage 2 should scale from the persistent Dark Core value");
   slot.resources.darkCore = 1;
   r = __T.compute();
-  expectEqual(r.layers, 1, "Denia Banish stage 2 should read Dark Core from the character resource");
+  expectEqual(r.layers, 0, "Denia Banish stage 2 should keep hit layers separate from Dark Core");
+  expectEqual(r.multAdd, 150, "Denia Banish stage 2 should read one Dark Core from the character resource");
   expectEqual(Math.round(r.panel.baseMult * 100) / 100, 262.01, "Denia Banish stage 2 should update when Dark Core changes");
   slot.resources.darkCore = 0;
   r = __T.compute();
@@ -3935,9 +4015,12 @@ function modalEffectAndOffsetControlRegressions() {
   assert(offsetValues.has(`state|${deniaTargetState.id}|${deniaInterference}`), "Denia Tune Strain Interference should stay available in the offset-system calculator");
   slot.toggles[__T.stateChoiceKey("共鸣模态")] = "共鸣模态·聚爆";
   assert(effectOptions().includes("fusion"), "Denia Fusion mode should expose Fusion effect damage");
+  slot.toggles[__T.stateChoiceKey("形态")] = "布景之形";
   slot.skill = "sc_na3";
   __T.state.effectCalc = { key: "fusion", providerIdx: 0, stacks: 0, stackMode: "action", deepen: 0 };
-  expectEqual(__T.compute().effect.actionStacks, 2, "Denia listed Forte actions should apply 2 Fusion Burst stacks on hit");
+  expectEqual(__T.compute().effect.actionStacks, 1, "Denia listed Basic and Mid-air actions should apply 1 Fusion Burst stack on hit");
+  slot.skill = "sc_lib";
+  expectEqual(__T.compute().effect.actionStacks, 2, "Denia Intro, Liberation, and Erosion Field actions should apply 2 Fusion Burst stacks on hit");
 
   resetTeam(["aemeath"]);
   slot = __T.state.slots[0];
@@ -4265,7 +4348,7 @@ function hiyukiCharacterRegressions() {
   const frostWeapon = buff(slot, "w_e3");
   assert(frostWeapon.effect === "frost", "Hiyuki signature weapon effect damage deepen should target Frost effect damage");
   let st = __T.buffStatus(slot, 0, frostWeapon);
-  assert(st.precondition && !st.gated && st.applies, "Hiyuki signature effect deepen should default checked");
+  assert(st.precondition && !st.gated && !st.applies, "Hiyuki signature effect deepen should start unchecked");
   __T.setBuffToggle(slot, 0, frostWeapon.id, true);
   r = __T.compute();
   assert(r.effect.buffDeepen >= 80, "Confirmed Hiyuki signature effect deepen should feed the Frost effect calculation");
@@ -4273,7 +4356,7 @@ function hiyukiCharacterRegressions() {
   resetTeam(["hiyuki"]);
   const snowCrit = buff(__T.state.slots[0], "son_30_wishes_of_quiet_snowfall_crit");
   st = __T.buffStatus(__T.state.slots[0], 0, snowCrit);
-  assert(st.precondition && st.applies, "Wishes of Quiet Snowfall crit should default checked");
+  assert(st.precondition && !st.applies, "Wishes of Quiet Snowfall crit should start unchecked");
   __T.setBuffToggle(__T.state.slots[0], 0, snowCrit.id, true);
   assert(__T.buffStatus(__T.state.slots[0], 0, snowCrit).applies, "Wishes of Quiet Snowfall crit should apply after confirmation");
 }
@@ -4287,7 +4370,7 @@ function newCharacterWeaponRegressions() {
   assert(defIgnore && defIgnore.zone === "defIgnore" && defIgnore.value === 32 && defIgnore.damageType === "resonanceLiberation", "Aemeath signature weapon should include Liberation defense ignore");
   assert(resIgnore && resIgnore.zone === "resShred" && resIgnore.value === 10 && resIgnore.element === "fusion", "Aemeath signature weapon should include Fusion resistance ignore");
   let st = __T.buffStatus(slot, 0, defIgnore);
-  assert(st.precondition && st.applies, "Aemeath signature post-offset defense ignore should default checked");
+  assert(st.precondition && !st.applies, "Aemeath signature post-offset defense ignore should start unchecked");
   __T.setBuffToggle(slot, 0, defIgnore.id, true);
   __T.setBuffToggle(slot, 0, resIgnore.id, true);
   let r = __T.compute();
@@ -4314,14 +4397,11 @@ function newCharacterWeaponRegressions() {
   const glacio = buff(slot, "w_e2");
   assert(glacio && glacio.zone === "damageBonus" && glacio.value === 30 && glacio.element === "glacio", "Lucilla signature weapon should include post-Frost Glacio damage bonus");
   st = __T.buffStatus(slot, 0, glacio);
-  assert(st.precondition && st.applies, "Lucilla signature post-Frost Glacio bonus should default checked");
-  const defaultGlacio = __T.compute().rawTotals.damageBonus;
-  __T.setBuffToggle(slot, 0, glacio.id, false);
+  assert(st.precondition && !st.applies, "Lucilla signature post-Frost Glacio bonus should start unchecked");
   const disabledGlacio = __T.compute().rawTotals.damageBonus;
-  expectEqual(defaultGlacio - disabledGlacio, 30, "Lucilla signature weapon should remain manually disableable");
   __T.setBuffToggle(slot, 0, glacio.id, true);
   r = __T.compute();
-  expectEqual(r.rawTotals.damageBonus, defaultGlacio, "Re-enabled Lucilla signature weapon should restore Glacio damage bonus");
+  expectEqual(r.rawTotals.damageBonus - disabledGlacio, 30, "Confirmed Lucilla signature weapon should add its Glacio damage bonus");
 }
 
 function modernEchoDefaultRegressions() {
@@ -4343,6 +4423,572 @@ function modernEchoDefaultRegressions() {
     expectEqual(e.secondary, secondary, `${id} default secondary echo set`);
     if (lead) expectEqual(e.lead, lead, `${id} default lead echo`);
   });
+}
+
+function v36EquipmentRegressions() {
+  const glintOfClouds = weapons.find((weapon) => weapon.id === "glint_of_clouds");
+  assert(glintOfClouds?.betaVersion == null, "Glint of Clouds should be stable v3.6 data");
+  assert(glintOfClouds.attack90 === "500" && glintOfClouds.secondaryStat === "critRate" && glintOfClouds.secondary90 === "36.00%", "Glint of Clouds should use its official level-90 panel");
+  const cloudAero = glintOfClouds.effects.find((effect) => effect.id === "e1");
+  const cloudIgnore = glintOfClouds.effects.find((effect) => effect.id === "e2");
+  assert(cloudAero.value === 56 && cloudAero.maxStacks === 5 && cloudAero.defaultStacks === 0 && !cloudAero.triggerEvents && cloudAero.duration === 2 && cloudAero.durationAtMaxStacks === 30, "Glint of Clouds should use its official manually confirmed five-stack Aero window and 30-second max-stack duration");
+  assert(cloudIgnore.value === 10 && cloudIgnore.requiresBuffStacks?.id === "e1" && cloudIgnore.requiresBuffStacks?.stacks === 5, "Glint of Clouds should unlock 10% Aero DEF Ignore at five stacks");
+
+  const thousandfold = weapons.find((weapon) => weapon.id === "thousandfold_deliverance");
+  assert(thousandfold?.betaVersion == null, "Thousandfold Deliverance should be stable v3.6 data");
+  assert(thousandfold.attack90 === "412" && thousandfold.secondaryStat === "hpPercent" && thousandfold.secondary90 === "72.23%", "Thousandfold Deliverance should use its official level-90 panel");
+  const naturesOrder = thousandfold.effects.find((effect) => effect.id === "e1");
+  const naturesOrderHeavyCrit = thousandfold.effects.find((effect) => effect.id === "e2");
+  const cradleOfLife = thousandfold.effects.find((effect) => effect.id === "e3");
+  assert(naturesOrder.zone === "critDamage" && naturesOrder.value === 24 && naturesOrder.maxStacks === 6 && naturesOrder.defaultStacks === 0 && naturesOrder.defaultActive === false && !naturesOrder.triggerEvents, "Thousandfold Deliverance should grant 4% Crit. DMG per manually confirmed Nature's Order stack");
+  assert(naturesOrderHeavyCrit.zone === "critRate" && naturesOrderHeavyCrit.value === 12 && naturesOrderHeavyCrit.damageType === "heavy" && naturesOrderHeavyCrit.requiresBuffStacks?.id === "e1" && naturesOrderHeavyCrit.requiresBuffStacks?.stacks === 6, "Thousandfold Deliverance should grant 12% Heavy Attack Crit. Rate at six Nature's Order stacks");
+  assert(cradleOfLife.value === 30 && cradleOfLife.maxStacks === 2 && cradleOfLife.defaultStacks === 0 && cradleOfLife.defaultActive === false && cradleOfLife.damageType === "heavy", "Thousandfold Deliverance should consume up to two independently tracked Cradle of Life stacks for 30% Heavy DEF Ignore");
+
+  const weaponNames = {
+    "zh-CN": ["云琅", "千般渡", "迅刀", "长刃"],
+    "en-US": ["Glint of Clouds", "Thousandfold Deliverance", "Sword", "Broadblade"],
+    "ko": ["옥빛 구름", "수많은 인도", "직검", "대검"],
+    "ja-JP": ["雲琅", "幾千の導き", "迅刀", "長刃"],
+  };
+  Object.entries(weaponNames).forEach(([locale, [cloudName, thousandfoldName, cloudType, thousandfoldType]]) => {
+    const cloudLocale = window.WUWA_LANGUAGES.localeData(locale, "weapons", "glint_of_clouds");
+    const thousandfoldLocale = window.WUWA_LANGUAGES.localeData(locale, "weapons", "thousandfold_deliverance");
+    assert(cloudLocale?.name === cloudName && cloudLocale.typeName === cloudType, `${locale} Glint of Clouds should use formal localized metadata`);
+    assert(thousandfoldLocale?.name === thousandfoldName && thousandfoldLocale.typeName === thousandfoldType, `${locale} Thousandfold Deliverance should use formal localized metadata`);
+  });
+
+  const heart = findSonata(360234);
+  const lamp = findSonata(360235);
+  assert(heart?.betaVersion == null && heart.fetterGroupId === 34 && heart.icon === "assets/icons/sonatas/heart_of_evils_purge.webp", "Heart of Evil's Purge should be stable v3.6 data with a local icon");
+  assert(lamp?.betaVersion == null && lamp.fetterGroupId === 35 && lamp.icon === "assets/icons/sonatas/lamp_of_nether_road.webp", "Lamp of Nether Road should be stable v3.6 data with a local icon");
+  const calamity = [].concat(heart.leads || []).find((lead) => lead.id === "calamity_effigy");
+  assert(calamity?.betaVersion == null && calamity.cost === 4, "Calamity Effigy should be stable v3.6 lead Echo data");
+  assert(calamity.buffs?.[0]?.value === 10 && calamity.buffs?.[1]?.value === 10 && calamity.buffs?.[1]?.defaultActive === false && !calamity.buffs?.[1]?.triggerEvents && calamity.buffs?.[1]?.duration === 15, "Calamity Effigy should grant 10% main-slot Aero and a manually confirmed 15-second 10% post-Shifting bonus");
+  const echoNames = {
+    "zh-CN": "天傀劫煞",
+    "en-US": "Calamity Effigy",
+    "ko": "하늘의 기관 인형 · 겁살",
+    "ja-JP": "天傀劫殺",
+  };
+  Object.entries(echoNames).forEach(([locale, name]) => {
+    const localized = window.WUWA_LANGUAGES.localeData(locale, "sonatas", 360234);
+    assert(localized?.leads?.[0]?.echo === name, `${locale} Calamity Effigy should use its formal localized name`);
+  });
+
+  resetTeam(["yangyang"]);
+  let slot = __T.state.slots[0];
+  slot.weapon = "glint_of_clouds";
+  slot.skill = "heavy";
+  let aeroBuff = buff(slot, "w_e1");
+  let ignoreBuff = buff(slot, "w_e2");
+  assert(__T.buffStatus(slot, 0, aeroBuff).precondition && !__T.buffStatus(slot, 0, aeroBuff).applies, "Glint of Clouds Shifting bonus should start unchecked");
+  expectEqual(__T.buffStackCount(slot, aeroBuff, 0), 0, "Glint of Clouds should preserve its zero-stack default");
+  const cloudBaseline = __T.compute();
+  __T.setBuffToggle(slot, 0, aeroBuff.id, true);
+  slot.toggles.stk_w_e1 = 5;
+  const cloudMax = __T.compute();
+  expectEqual(cloudMax.rawTotals.damageBonus - cloudBaseline.rawTotals.damageBonus, 56, "Glint of Clouds five stacks should add 56% Aero DMG Bonus");
+  expectEqual(cloudMax.rawTotals.defIgnore - cloudBaseline.rawTotals.defIgnore, 10, "Glint of Clouds five stacks should unlock 10% Aero DEF Ignore");
+  assert(__T.buffStatus(slot, 0, ignoreBuff).applies, "Glint of Clouds DEF Ignore should follow the confirmed five-stack Aero bonus");
+  __T.render();
+  assert(String(board.innerHTML).includes("持续 2 秒 · 满层 30 秒"), "Glint of Clouds should display its normal and max-stack durations");
+
+  resetTeam(["encore"]);
+  slot = __T.state.slots[0];
+  slot.weapon = "thousandfold_deliverance";
+  slot.resources.mayhem = 0;
+  slot.skill = "heavy";
+  assert(__T.resolvedSkill(slot)?.damageType === "heavy", `Thousandfold Deliverance regression should select Heavy Attack, got ${__T.resolvedSkill(slot)?.id}/${__T.resolvedSkill(slot)?.damageType}`);
+  const natureBuff = buff(slot, "w_e1");
+  const natureHeavyCrit = buff(slot, "w_e2");
+  const cradleBuff = buff(slot, "w_e3");
+  assert(!__T.buffStatus(slot, 0, natureBuff).applies && !__T.buffStatus(slot, 0, natureHeavyCrit).applies && !__T.buffStatus(slot, 0, cradleBuff).applies, "Thousandfold Deliverance conditional stacks should start unchecked");
+  expectEqual(__T.buffStackCount(slot, natureBuff, 0), 0, "Nature's Order should preserve its zero-stack default");
+  expectEqual(__T.buffStackCount(slot, cradleBuff, 0), 0, "Cradle of Life should preserve its zero-stack default");
+  const thousandfoldBaseline = __T.compute();
+  __T.setBuffToggle(slot, 0, natureBuff.id, true);
+  slot.toggles.stk_w_e1 = 1;
+  const natureOne = __T.compute();
+  expectEqual(natureOne.rawTotals.critDamage - thousandfoldBaseline.rawTotals.critDamage, 4, "One Nature's Order stack should add 4% Crit. DMG");
+  expectEqual(natureOne.rawTotals.critRate - thousandfoldBaseline.rawTotals.critRate, 0, "One Nature's Order stack should not grant Heavy Attack Crit. Rate");
+  expectEqual(natureOne.rawTotals.defIgnore - thousandfoldBaseline.rawTotals.defIgnore, 0, "Nature's Order should not imply unconsumed Cradle of Life stacks");
+  assert(__T.buffStatus(slot, 0, cradleBuff).precondition && !__T.buffStatus(slot, 0, cradleBuff).applies, "Cradle of Life should remain independently confirmable after Nature's Order is active");
+  __T.setBuffToggle(slot, 0, cradleBuff.id, true);
+  slot.toggles.stk_w_e3 = 1;
+  expectEqual(__T.compute().rawTotals.defIgnore - thousandfoldBaseline.rawTotals.defIgnore, 15, "One confirmed Cradle of Life stack should add 15% Heavy Attack DEF Ignore");
+  slot.toggles.stk_w_e1 = 6;
+  slot.toggles.stk_w_e3 = 2;
+  const natureMax = __T.compute();
+  expectEqual(natureMax.rawTotals.critDamage - thousandfoldBaseline.rawTotals.critDamage, 24, "Six Nature's Order stacks should add 24% Crit. DMG");
+  expectEqual(natureMax.rawTotals.critRate - thousandfoldBaseline.rawTotals.critRate, 12, "Six Nature's Order stacks should add 12% Heavy Attack Crit. Rate");
+  assert(__T.buffStatus(slot, 0, natureHeavyCrit).applies, "Thousandfold Deliverance Heavy Attack Crit. Rate should follow six confirmed Nature's Order stacks");
+  assert(__T.buffStatus(slot, 0, cradleBuff).applies, "Cradle of Life should apply after its own stack window is confirmed");
+  expectEqual(__T.buffStackCount(slot, cradleBuff, 0), 2, "Cradle of Life should use two confirmed stacks");
+  expectEqual(natureMax.rawTotals.defIgnore - thousandfoldBaseline.rawTotals.defIgnore, 30, "Two Cradle of Life stacks should add 30% Heavy Attack DEF Ignore");
+  __T.render();
+  expectEqual((String(board.innerHTML).match(/data-stack-key="stk_w_e1"/g) || []).length, 1, "Nature's Order should render one stack input");
+  expectEqual((String(board.innerHTML).match(/data-stack-key="stk_w_e3"/g) || []).length, 1, "Cradle of Life should render its own stack input");
+
+  slot.echo.combo = "single5";
+  slot.echo.primary = 360235;
+  const lampCrit = buff(slot, "son_360235_lamp_of_nether_road_crit");
+  const lampFusion = buff(slot, "son_360235_lamp_of_nether_road_fusion");
+  assert(__T.buffStatus(slot, 0, lampCrit).precondition && !__T.buffStatus(slot, 0, lampCrit).applies, "Lamp of Nether Road shield stacks should start unchecked");
+  expectEqual(__T.buffStackCount(slot, lampCrit, 0), 0, "Lamp of Nether Road should preserve its zero-stack default");
+  __T.setBuffToggle(slot, 0, lampCrit.id, true);
+  slot.toggles.stk_lamp_of_nether_road = 4;
+  expectEqual(__T.buffFormulaText(slot, lampCrit, 0), "+20%", "Lamp of Nether Road should grant 20% Crit. Rate at four stacks");
+  assert(__T.buffStatus(slot, 0, lampFusion).applies, "Lamp of Nether Road should unlock 15% Fusion DMG Bonus at four stacks");
+}
+
+function v36QingxiaoRegressions() {
+  const c = window.WUWA.chars.qingxiao;
+  assert(c?.debut === 3.6 && c.betaVersion == null, "Qingxiao should be stable v3.6 data");
+  assert(c.element === "aero" && c.weaponType === 2 && c.signatureWeaponId === "glint_of_clouds", "Qingxiao should use Aero, Sword, and Glint of Clouds");
+  assert(c.base.hp === 10300 && c.base.attack === 462 && c.base.defense === 1112 && c.base.breakAmp === 10, "Qingxiao should use the official level-90 panel and 10% base Tune Break Boost");
+  assert(c.base.tree.attackPct === 12 && c.base.tree.critDamage === 16, "Qingxiao should total the official ATK and Crit. DMG stat nodes");
+  assert(c.portrait === "assets/icons/characters/qingxiao.webp" && fs.existsSync(path.join(root, c.portrait)), "Qingxiao should use the local official character icon");
+
+  const gatheredMind = c.resources.find((resource) => resource.id === "gathered_mind");
+  const worldInChorus = c.resources.find((resource) => resource.id === "world_in_chorus");
+  const exorcisingSeal = c.resources.find((resource) => resource.id === "exorcising_seal");
+  assert(gatheredMind?.max === 15 && gatheredMind.maxBySeq?.[0]?.seq === 2 && gatheredMind.maxBySeq?.[0]?.max === 25, "Qingxiao Gathered Mind should rise from 15 to 25 at Sequence 2");
+  assert(worldInChorus?.max === 25 && worldInChorus.defaultValue === 0, "Qingxiao World in Chorus should cap at 25 and start at zero");
+  assert(exorcisingSeal?.max === 25 && exorcisingSeal.defaultValue === "max", "Qingxiao Exorcising Seal should cap and default to 25");
+
+  assert(c.skills.length === 22 && !(c.skills || []).some((item) => item.id === "sword_glide"), "Qingxiao should expose only the 22 official damage entries and omit the non-damaging Sword Glide movement action");
+  assert(skill(c, "heavy").multiplier === 438.41 && skill(c, "heavy").requiresAllResourcesAtLeast?.length === 2, "Qingxiao Stringblade Heavy should use its official multiplier and require full Qin Heart plus Sword Cadence");
+  assert(skill(c, "forte_heavy").multiplier === 695.9 && skill(c, "forte_heavy").requiresResourceFull === "heart_sword_intent", "Qingxiao Heaven's Reckoning should use its official multiplier and require full Heart Sword Intent");
+  assert(skill(c, "lib").multiplier === 1670.11 && skill(c, "lib").formula === "33.41% × 10 + 1336.01%" && skill(c, "outro").multiplier === 800 && skill(c, "outro").fixedLevel === true, "Qingxiao Liberation and fixed-level direct-damage Outro should use official values");
+  assert(skill(c, "c1_juque").seq === 1 && skill(c, "c1_juque").multiplier === 400 && skill(c, "c1_juque").triggeredDamage === true && skill(c, "c1_juque").fixedLevel === true, "Qingxiao Sequence 1 Juque Perdition should be a separately settleable fixed 400% action");
+  assert(c.buffs.find((item) => item.id === "b_ephemeral_unready_mult")?.zone === "skillMultBonus" && c.buffs.find((item) => item.id === "b_heavens_clarity_mult")?.zone === "skillMultBonus", "Qingxiao Forte DMG Multiplier increases should use the multiplicative skill zone");
+  const worldInChorusBuff = c.chain[2]?.buffs?.find((item) => item.id === "k3_world_in_chorus_mult");
+  assert(worldInChorusBuff?.zone === "skillMultBonus" && worldInChorusBuff.value === 75 && worldInChorusBuff.maxStacks === 25 && worldInChorusBuff.stackResource === "world_in_chorus", "Qingxiao World in Chorus should grant 3% skill multiplier increase per resource stack");
+  assert(!c.skillEvents?.length, "Qingxiao post-hit Tune Strain - Shifting application must not make the current damage inherit post-hit buffs");
+  assert(!(c.skills || []).some((item) => item.targetEvents), "Qingxiao should not store unconsumed post-damage target events");
+
+  const localizedNames = {
+    "zh-CN": "清宵",
+    "en-US": "Qingxiao",
+    "ko": "청초",
+    "ja-JP": "清宵",
+  };
+  Object.entries(localizedNames).forEach(([locale, name]) => {
+    const localized = window.WUWA_LANGUAGES.localeData(locale, "chars", "qingxiao");
+    assert(localized?.name === name && localized.skills?.length === c.skills.length && localized.chain?.length === 6, `${locale} Qingxiao text should cover every skill and sequence`);
+  });
+
+  const echo = window.WUWA_EQUIPMENT.defaultEchoForChar(c);
+  assert(echo.combo === "single5" && echo.primary === 360234 && echo.lead === "360234:calamity_effigy", "Qingxiao should default to Heart of Evil's Purge with Calamity Effigy");
+
+  resetTeam(["qingxiao"]);
+  let slot = __T.state.slots[0];
+  assert(slot.weapon === "glint_of_clouds" && __T.resolvedSkill(slot)?.id === "forte_heavy", "Qingxiao should default to Glint of Clouds and Heaven's Reckoning");
+  let ids = new Set(__T.availableSkills(slot).map((item) => item.id));
+  assert(ids.has("ephemeral_na1") && ids.has("forte_heavy") && !ids.has("na1") && !ids.has("heavy"), "Qingxiao Ephemeral Transcendence should expose only its form-specific attacks");
+  slot.toggles[__T.stateChoiceKey("combat_form")] = "normal_form";
+  ids = new Set(__T.availableSkills(slot).map((item) => item.id));
+  assert(ids.has("na1") && ids.has("heavy") && !ids.has("ephemeral_na1") && !ids.has("forte_heavy"), "Qingxiao normal form should expose only its normal attacks");
+  slot.skill = "heavy";
+  slot.resources.qin_heart = 99;
+  assert(__T.compute().resourceBlocked, "Qingxiao Stringblade Heavy should be blocked below full Qin Heart");
+  slot.resources.qin_heart = 100;
+  slot.resources.sword_cadence = 99;
+  assert(__T.compute().resourceBlocked, "Qingxiao Stringblade Heavy should be blocked below full Sword Cadence");
+  slot.resources.sword_cadence = 100;
+  assert(!__T.compute().resourceBlocked, "Qingxiao Stringblade Heavy should unlock when both resources are full");
+
+  slot.toggles[__T.stateChoiceKey("combat_form")] = "ephemeral_transcendence";
+  slot.skill = "ephemeral_na1";
+  const unreadyMultiplier = buff(slot, "b_ephemeral_unready_mult");
+  slot.resources.heart_sword_intent = 99;
+  assert(__T.buffStatus(slot, 0, unreadyMultiplier).applies, "Qingxiao Ephemeral attacks should gain their pre-unlock multiplier below full Heart Sword Intent");
+  let multiplierResult = __T.compute();
+  expectEqual(multiplierResult.panel.baseMult, 89.79, "Qingxiao Ephemeral Stage 1 base multiplier should remain unchanged by a multiplier increase");
+  expectEqual(multiplierResult.rawTotals.skillMultBonus, 100, "Qingxiao pre-unlock multiplier should enter the 100% multiplicative skill zone");
+  expectEqual(Math.round(multiplierResult.panel.skillMult * 10000) / 10000, 1.7958, "Qingxiao Ephemeral Stage 1 should double to 179.58%");
+  slot.resources.heart_sword_intent = 100;
+  assert(__T.buffStatus(slot, 0, unreadyMultiplier).gated && !__T.buffStatus(slot, 0, unreadyMultiplier).applies, "Qingxiao pre-unlock multiplier should stop at full Heart Sword Intent");
+  expectEqual(__T.compute().panel.baseMult, 89.79, "Qingxiao Ephemeral Stage 1 should keep only its base multiplier after Heaven's Reckoning unlocks");
+
+  slot.skill = "forte_heavy";
+  const clarityMultiplier = buff(slot, "b_heavens_clarity_mult");
+  assert(__T.buffStatus(slot, 0, clarityMultiplier).precondition && !__T.buffStatus(slot, 0, clarityMultiplier).applies, "Qingxiao Heaven's Clarity multiplier should start unchecked");
+  __T.setBuffToggle(slot, 0, clarityMultiplier.id, true);
+  multiplierResult = __T.compute();
+  expectEqual(multiplierResult.panel.baseMult, 695.9, "Heaven's Clarity should not add flat multiplier points");
+  expectEqual(multiplierResult.rawTotals.skillMultBonus, 100, "Heaven's Clarity should grant 100% skill multiplier increase");
+  expectEqual(Math.round(multiplierResult.panel.skillMult * 1000) / 1000, 13.918, "Heaven's Clarity should double Heaven's Reckoning to 1391.8%");
+  const cloudAero = buff(slot, "w_e1");
+  const heartCrit = buff(slot, "son_360234_heart_of_evils_purge_crit_damage");
+  const heartAero = buff(slot, "son_360234_heart_of_evils_purge_aero_bonus");
+  const calamityAero = __T.slotBuffs(slot).find((item) => item.id.includes("se_calamity_effigy_shifting_aero"));
+  assert(calamityAero, "Qingxiao should mount Calamity Effigy's Shifting bonus");
+  assert(__T.buffStatus(slot, 0, cloudAero).precondition && !__T.buffStatus(slot, 0, cloudAero).applies, "Glint of Clouds should remain a manually confirmed post-hit window");
+  assert(__T.buffStatus(slot, 0, heartCrit).precondition && !__T.buffStatus(slot, 0, heartCrit).applies && __T.buffStatus(slot, 0, heartAero).precondition && !__T.buffStatus(slot, 0, heartAero).applies, "Heart of Evil's Purge should remain a post-hit window");
+  assert(__T.buffStatus(slot, 0, calamityAero).precondition && !__T.buffStatus(slot, 0, calamityAero).applies, "Calamity Effigy's Shifting bonus should remain a post-hit window");
+
+  slot.toggles[__T.stateChoiceKey("target_mindlock")] = "target_has_mindlock";
+  const mindlockBase = buff(slot, "b_mindlock_base");
+  const mindlockFirstSeven = buff(slot, "b_mindlock_first_seven");
+  assert(__T.buffStatus(slot, 0, mindlockBase).applies && __T.buffStatus(slot, 0, mindlockFirstSeven).applies, "Qingxiao Mindlock amplification should follow the explicitly selected target state");
+  expectEqual(__T.buffStackCount(slot, mindlockBase, 0), 0, "Qingxiao Mindlock should preserve its zero-stack default");
+  slot.toggles.stk_mindlock = 7;
+  expectEqual(__T.compute().rawTotals.amplify, 49, "Qingxiao first seven Mindlock stacks should amplify specified damage by 49%");
+  slot.toggles.stk_mindlock = 15;
+  expectEqual(__T.compute().rawTotals.amplify, 65, "Qingxiao fifteen Mindlock stacks should amplify specified damage by 65%");
+  slot.seq = 2;
+  slot.toggles.stk_mindlock = 25;
+  expectEqual(__T.compute().rawTotals.amplify, 85, "Qingxiao Sequence 2 should support 25 Mindlock stacks for 85% amplification");
+  __T.render();
+  expectEqual((String(board.innerHTML).match(/data-stack-key="stk_mindlock"/g) || []).length, 1, "Shared Mindlock effects should render one stack input");
+
+  resetTeam(["qingxiao"]);
+  slot = __T.state.slots[0];
+  slot.skill = "forte_heavy";
+  slot.toggles[__T.stateChoiceKey("target_tune_strain")] = "target_tune_interfered";
+  __T.state.offsetCalc = {
+    key: "state",
+    providerIdx: 0,
+    skillId: null,
+    stateId: "target_tune_strain",
+    stateValue: "target_tune_interfered",
+    stacks: 4,
+    deepen: 0,
+  };
+  const tuneResponse = buff(slot, "b_tune_response");
+  slot.toggles.stk_tune_interference = 4;
+  assert(__T.buffStatus(slot, 0, tuneResponse).applies, "Qingxiao Interfered response should follow the explicitly selected target state");
+  let responseResult = __T.compute();
+  expectEqual(responseResult.offset.stackCap, 4, "Qingxiao should raise the target Interfered stack cap from three to four");
+  expectEqual(responseResult.offset.finalDmgGain, 4.8, "Qingxiao four-stack Interfered response should convert 10% Tune Break Boost into 4.8% Final DMG");
+  expectEqual(Math.round(responseResult.rawTotals.finalDmg * 100) / 100, 4.8, "Qingxiao four-stack response Buff card should show 4.8% Final DMG");
+  expectEqual(Math.round(responseResult.totals.finalDmg * 100) / 100, 4.8, "Qingxiao Interfered response should feed the main damage formula exactly once");
+  __T.state.offsetCalc.stacks = 9;
+  expectEqual(__T.compute().offset.stacks, 4, "Qingxiao Interfered response should clamp manual input to its four-stack cap");
+  __T.state.offsetCalc.stacks = 4;
+  __T.state.resultMode = "offset";
+  __T.render();
+  assert(String(board.innerHTML).includes('data-act="offset-stacks"') && String(board.innerHTML).includes('max="4"'), "Qingxiao Interfered stack input should expose its four-stack cap");
+  __T.state.resultMode = "skill";
+  slot.seq = 3;
+  slot.resources.world_in_chorus = 25;
+  multiplierResult = __T.compute();
+  expectEqual(multiplierResult.panel.baseMult, 695.9, "World in Chorus should not add flat multiplier points");
+  expectEqual(multiplierResult.rawTotals.skillMultBonus, 75, "Qingxiao Sequence 3 should grant 75% skill multiplier increase from 25 World in Chorus stacks");
+  expectEqual(Math.round(multiplierResult.panel.skillMult * 100000) / 100000, 12.17825, "Qingxiao Sequence 3 should multiply Heaven's Reckoning by 1.75");
+  slot.seq = 6;
+  responseResult = __T.compute();
+  expectEqual(responseResult.offset.perStackRate, 0.144, "Qingxiao Sequence 6 should raise each Interfered response by 20%");
+  expectEqual(Math.round(responseResult.offset.finalDmgGain * 100) / 100, 5.76, "Qingxiao Sequence 6 should raise the four-stack Interfered response to 5.76% Final DMG");
+  expectEqual(Math.round(responseResult.rawTotals.finalDmg * 100) / 100, 5.76, "Qingxiao Sequence 6 Buff cards should show the full 5.76% response");
+  expectEqual(Math.round(responseResult.totals.finalDmg * 100) / 100, 5.76, "Qingxiao Sequence 6 response should feed the main damage formula exactly once");
+  expectEqual(responseResult.rawTotals.vulnerability, 40, "Qingxiao Sequence 6 should apply 40% target vulnerability to Heaven's Reckoning");
+  __T.render();
+  expectEqual((String(board.innerHTML).match(/data-stack-key="stk_tune_interference"/g) || []).length, 1, "Shared Interfered response effects should render one stack input across providers");
+  assert(!String(board.innerHTML).includes("NaN"), "Dynamic Interfered response stack rows should render a numeric per-stack value");
+
+  slot.skill = "c1_juque";
+  slot.toggles[__T.stateChoiceKey("target_mindlock")] = "target_has_mindlock";
+  slot.skillLevels.resonanceChain = 1;
+  slot.resources.exorcising_seal = 7;
+  slot.toggles.stk_mindlock = 7;
+  let juqueResult = __T.compute();
+  expectEqual(juqueResult.panel.baseMult, 400, "Qingxiao Juque Perdition should ignore the synthetic Resonance Chain level selector");
+  const juqueSealBuff = buff(slot, "k1_juque_vulnerability");
+  assert(__T.buffStatus(slot, 0, juqueSealBuff).applies, "Qingxiao Juque Perdition should automatically consume its Exorcising Seal damage-taken effect");
+  expectEqual(__T.buffStackCount(slot, juqueSealBuff, 0), 7, "Qingxiao Juque Perdition should read the actual Exorcising Seal resource");
+  expectEqual(juqueResult.rawTotals.amplify, 98, "Qingxiao Sequence 6 should apply both 49% seven-stack Mindlock deepen effects to Juque Perdition");
+  expectEqual(juqueResult.rawTotals.vulnerability, 68, "Qingxiao Juque Perdition should combine 7 removed Seals with the Sequence 6 vulnerability");
+  slot.resources.exorcising_seal = 25;
+  slot.toggles.stk_mindlock = 25;
+  juqueResult = __T.compute();
+  expectEqual(juqueResult.rawTotals.amplify, 170, "Qingxiao Sequence 6 should apply both full 85% Mindlock deepen effects to Juque Perdition");
+  expectEqual(juqueResult.rawTotals.vulnerability, 140, "Qingxiao Juque Perdition should combine 25 removed Seals with the Sequence 6 vulnerability");
+
+  resetTeam(["qingxiao"]);
+  slot = __T.state.slots[0];
+  slot.seq = 2;
+  slot.toggles[__T.stateChoiceKey("combat_form")] = "normal_form";
+  slot.skill = "heavy";
+  multiplierResult = __T.compute();
+  expectEqual(multiplierResult.rawTotals.skillMultBonus, 40, "Qingxiao Sequence 2 should use the skill multiplier increase zone");
+  expectEqual(Math.round(multiplierResult.panel.skillMult * 100000) / 100000, 6.13774, "Qingxiao Sequence 2 should multiply Stringblade by 1.4");
+  slot.seq = 5;
+  slot.skill = "skill_judgement";
+  multiplierResult = __T.compute();
+  expectEqual(multiplierResult.rawTotals.skillMultBonus, 100, "Qingxiao Sequence 5 should use the skill multiplier increase zone");
+  expectEqual(Math.round(multiplierResult.panel.skillMult * 10000) / 10000, 2.7836, "Qingxiao Sequence 5 should double Severing Note: Judgement");
+  slot.seq = 0;
+  slot.skill = "outro";
+  slot.skillLevels.outroSkill = 1;
+  expectEqual(__T.compute().panel.baseMult, 800, "Qingxiao fixed Outro damage should ignore skill level changes");
+  __T.render();
+  assert(String(board.innerHTML).includes(`<select disabled><option selected>${window.WUWA_LANGUAGES.text("固定")}</option></select>`), "Qingxiao fixed Outro should render a disabled fixed-level control");
+
+  resetTeam(["jinhsi", "qingxiao"]);
+  const support = __T.state.slots[1];
+  support.seq = 4;
+  const supportSequence4 = buff(support, "k4_team_atk");
+  assert(__T.buffStatus(support, 1, supportSequence4).precondition && !__T.buffStatus(support, 1, supportSequence4).applies, "Qingxiao Sequence 4 should remain manually confirmable when Qingxiao is not the current output slot");
+}
+
+function v36JingranRegressions() {
+  const c = window.WUWA.chars.jingran;
+  assert(c?.debut === 3.6 && c.betaVersion == null, "Jingran should be stable v3.6 data");
+  assert(c.element === "fusion" && c.weaponType === 1 && c.signatureWeaponId === "thousandfold_deliverance", "Jingran should use Fusion, Broadblade, and Thousandfold Deliverance");
+  assert(c.base.hp === 15375 && c.base.attack === 312 && c.base.defense === 0 && c.fixedStats?.defense === 0, "Jingran should use the official level-90 HP, ATK, and fixed zero DEF");
+  assert(c.base.tree.hpPct === 12 && c.base.tree.critRate === 8, "Jingran should total the official HP and Crit. Rate stat nodes");
+  assert(c.validSubs?.includes("hpFlat") && c.validSubs?.includes("hpPct"), "Jingran detailed Echo options should expose both flat and percentage HP");
+  assert(c.portrait === "assets/icons/characters/jingran.webp" && fs.existsSync(path.join(root, c.portrait)), "Jingran should use the local official character icon");
+
+  const qi = c.resources.find((resource) => resource.id === "qi");
+  const fireOfLife = c.resources.find((resource) => resource.id === "fire_of_life");
+  const ghostShroud = c.resources.find((resource) => resource.id === "ghost_shroud");
+  assert(qi?.max === 300 && qi.defaultValue === "max", "Jingran Qi should cap and default to 300");
+  assert(fireOfLife?.max === 100 && fireOfLife.defaultValue === 0, "Jingran Fire of Life should cap at 100 and start at zero");
+  assert(ghostShroud?.max === 50 && ghostShroud.defaultValue === 25, "Jingran Ghost Shroud should cap at 50 and enter combat at 25");
+
+  assert(c.skills.length === 23, "Jingran should expose all current damage actions, direct-damage Outro, and Sequence 6 summon");
+  assert(skill(c, "shadow_step").fixedDamage === 55, "Jingran Shadow Step should use its fixed 30 + 25 damage");
+  assert(skill(c, "yin_dodge").multiplier === 198.8 && skill(c, "yang_dodge").multiplier === 248.57, "Jingran official Dodge Counter multipliers should stay with their corrected Yin and Yang forms");
+  assert(skill(c, "lib").multiplier === 745.2 && skill(c, "lib_chimei").multiplier === 83.51, "Jingran Liberation actions should use official level-10 values");
+  assert(skill(c, "forte_soul_raid").multiplier === 234.29 && skill(c, "forte_stardome").multiplier === 240.38, "Jingran enhanced Heavy Attacks should use official level-10 values");
+  const sequence6Chimei = skill(c, "c6_chimei");
+  assert(skill(c, "outro").multiplier === 795 && skill(c, "outro").fixedLevel === true && sequence6Chimei.seq === 6 && sequence6Chimei.perStack === 83.51 && sequence6Chimei.stackMax === 8 && sequence6Chimei.defaultLayers === 1 && sequence6Chimei.levelCategory === "resonanceLiberation", "Jingran should settle the fixed Outro and one-to-eight Sequence 6 summons using the Liberation level");
+
+  const soulScale = c.buffs.find((item) => item.id === "b_fire_of_life_soul_raid_mult")?.multAddByStat;
+  const stardomeScale = c.buffs.find((item) => item.id === "b_fire_of_life_stardome_mult")?.multAddByStat;
+  assert(soulScale?.threshold === 25000 && soulScale.step === 1000 && soulScale.perStep === 21.1 && soulScale.perStepByLevel?.[0] === 10.64 && soulScale.perStepByLevel?.[9] === 21.1 && soulScale.levelCategory === "forteCircuit" && soulScale.maxSteps === 25, "Jingran Soul Raid Fire of Life multiplier should use the official level-aware 25-step HP scaling");
+  assert(stardomeScale?.threshold === 25000 && stardomeScale.step === 1000 && stardomeScale.perStep === 21.65 && stardomeScale.perStepByLevel?.[0] === 10.89 && stardomeScale.perStepByLevel?.[9] === 21.65 && stardomeScale.levelCategory === "forteCircuit" && stardomeScale.maxSteps === 25, "Jingran Stardome Meander Fire of Life multiplier should use the official level-aware 25-step HP scaling");
+  assert(c.buffs.find((item) => item.id === "b_hp_healing")?.zone === "healingReceived", "Jingran incoming Healing conversion must stay separate from Healing Bonus");
+  assert(c.chain[1]?.buffs?.[0]?.value === 46 && c.chain[1]?.buffs?.[1]?.value === 180, "Jingran Sequence 2 should use the official 46% multiplier increase and 180% DMG Amplification");
+  assert(c.chain[2]?.buffs?.[0]?.scaleBy?.rate === 0.014 && c.chain[2]?.buffs?.[0]?.scaleBy?.cap === 700 && c.chain[2]?.buffs?.[0]?.duration === 15, "Jingran Sequence 3 should raise the HP-to-ATK conversion from 36/1,000 to 50/1,000 for 15s");
+
+  const localizedNames = {
+    "zh-CN": "景燃",
+    "en-US": "Jingran",
+    "ko": "경연",
+    "ja-JP": "景燃",
+  };
+  Object.entries(localizedNames).forEach(([locale, name]) => {
+    const localized = window.WUWA_LANGUAGES.localeData(locale, "chars", "jingran");
+    assert(localized?.name === name && localized.skills?.length === c.skills.length && localized.buffs?.length === c.buffs.length && localized.chain?.length === 6, `${locale} Jingran text should cover every skill, base buff, and sequence`);
+  });
+
+  const echo = window.WUWA_EQUIPMENT.defaultEchoForChar(c);
+  assert(echo.combo === "single5" && echo.primary === 360235 && echo.lead === "360235:myriad_snare_rustfire_chassis", "Jingran should default to Lamp of Nether Road with Myriad Snare: Rustfire Chassis");
+
+  resetTeam(["jingran"]);
+  let slot = __T.state.slots[0];
+  assert(slot.weapon === "thousandfold_deliverance" && __T.resolvedSkill(slot)?.id === "forte_stardome", "Jingran should default to Thousandfold Deliverance and Stardome Meander");
+  slot.echo.fields.defFlat = 999;
+  slot.echo.fields.defPct = 99;
+  let fixedDefenseResult = __T.compute();
+  expectEqual(fixedDefenseResult.panel.totalDef, 0, "Jingran fixed zero DEF should ignore flat and percentage Echo DEF");
+  expectEqual(fixedDefenseResult.panel.displayDef, 0, "Jingran displayed DEF should remain fixed at zero");
+  let ids = new Set(__T.availableSkills(slot).map((item) => item.id));
+  assert(ids.has("yang_na1") && ids.has("forte_stardome") && !ids.has("yin_na1") && !ids.has("forte_soul_raid"), "Jingran Yang Font should expose only Yang-form attacks");
+  slot.toggles[__T.stateChoiceKey("duality_mode")] = "yin_vessel";
+  ids = new Set(__T.availableSkills(slot).map((item) => item.id));
+  assert(ids.has("yin_na1") && ids.has("forte_soul_raid") && !ids.has("yang_na1") && !ids.has("forte_stardome"), "Jingran Yin Vessel should expose only Yin-form attacks");
+
+  slot.toggles[__T.stateChoiceKey("duality_mode")] = "yang_font";
+  slot.skill = "forte_stardome";
+  slot.resources.qi = 299;
+  assert(__T.compute().resourceBlocked, "Jingran Stardome Meander should remain blocked below 300 Qi");
+  slot.resources.qi = 300;
+  assert(!__T.compute().resourceBlocked, "Jingran Stardome Meander should unlock at 300 Qi");
+
+  const stardomeBuff = buff(slot, "b_fire_of_life_stardome_mult");
+  slot.toggles[__T.stateChoiceKey("yinghuo_state")] = "yinghuo_active";
+  slot.resources.fire_of_life = 0;
+  assert(__T.buffStatus(slot, 0, stardomeBuff).gated && !__T.buffStatus(slot, 0, stardomeBuff).applies, "Jingran Fire of Life multiplier should require a nonzero resource value");
+  expectEqual(__T.compute().panel.baseMult, 240.38, "Jingran Stardome Meander should keep its base multiplier without Fire of Life");
+  slot.resources.fire_of_life = 1;
+  assert(__T.buffStatus(slot, 0, stardomeBuff).applies, "Jingran Fire of Life multiplier should auto-apply only when Yinghuo and resource requirements are both satisfied");
+  let result = __T.compute();
+  const expectedSteps = Math.min(25, Math.max(0, Math.floor((result.panel.totalHp - 25000) / 1000)));
+  assert(Math.abs(result.panel.baseMult - (240.38 + expectedSteps * 21.65)) < 1e-9, "Jingran Stardome Meander should add one official level-10 multiplier step per full 1,000 HP above 25,000");
+  const fortuneBuff = buff(slot, "b_fortune_in_disguise");
+  __T.setBuffToggle(slot, 0, fortuneBuff.id, true);
+  slot.toggles.stk_fortune_in_disguise = 1;
+  const fortunePerStack = String(Math.round((Math.min(125, result.panel.totalHp * 0.0025) / 50) * 100) / 100);
+  __T.render();
+  assert(String(board.innerHTML).includes(`每层 ${fortunePerStack}%`), "Jingran Fortune in Disguise stack row should show the current HP-scaled value per stack");
+
+  slot.echo.fields.hpPct = 500;
+  result = __T.compute();
+  assert(Math.abs(result.panel.baseMult - 781.63) < 1e-9, "Jingran Stardome Meander Fire of Life multiplier should cap at 541.25%");
+  expectEqual(__T.buffFormulaText(slot, stardomeBuff, 0), "+541.25%（上限541.25%）", "Jingran Stardome Meander dynamic multiplier badge should show its official cap");
+  expectEqual(__T.buffFormulaText(slot, buff(slot, "b_hp_fusion"), 0), "+75%（上限75%）", "Jingran HP-to-Fusion conversion should cap at 75%");
+  expectEqual(__T.buffFormulaText(slot, buff(slot, "b_hp_healing"), 0), "+310%（上限310%）", "Jingran incoming Healing conversion should cap at 310%");
+  expectEqual(__T.buffFormulaText(slot, buff(slot, "b_hp_attack"), 0), "+1800（上限1800）", "Jingran HP-to-ATK conversion should cap at 1,800");
+
+  slot.skillLevels.forteCircuit = 1;
+  slot.resources.fire_of_life = 0;
+  const level1BaseMult = __T.compute().panel.baseMult;
+  slot.resources.fire_of_life = 1;
+  const level1Scaled = __T.compute();
+  assert(Math.abs(level1Scaled.panel.baseMult - level1BaseMult - 272.25) < 1e-9, "Jingran level-1 Stardome Fire of Life multiplier should use 25 × 10.89%, not the level-10 rate");
+  expectEqual(__T.buffFormulaText(slot, stardomeBuff, 0), "+272.25%（上限272.25%）", "Jingran level-1 dynamic multiplier badge should use the level-aware cap");
+  slot.skillLevels.forteCircuit = 10;
+
+  slot.seq = 2;
+  result = __T.compute();
+  expectEqual(result.rawTotals.skillMultBonus, 46, "Jingran Sequence 2 should increase Stardome Meander and its Fire of Life scaling by 46%");
+  assert(Math.abs(result.panel.skillMult - result.panel.baseMult * 1.46 / 100) < 1e-9, "Jingran Sequence 2 should multiply the combined base and Fire of Life multiplier");
+
+  slot.seq = 0;
+  slot.toggles[__T.stateChoiceKey("duality_mode")] = "yin_vessel";
+  slot.skill = "forte_soul_raid";
+  result = __T.compute();
+  assert(Math.abs(result.panel.baseMult - 761.79) < 1e-9, "Jingran Soul Raid Fire of Life multiplier should cap at 527.5%");
+  expectEqual(__T.buffFormulaText(slot, buff(slot, "b_fire_of_life_soul_raid_mult"), 0), "+527.5%（上限527.5%）", "Jingran Soul Raid dynamic multiplier badge should show its official cap");
+
+  slot.seq = 3;
+  const beforeSequence3 = __T.compute().panel.totalAtk;
+  const sequence3Attack = buff(slot, "k3_hp_attack_extra");
+  assert(__T.buffStatus(slot, 0, sequence3Attack).precondition && !__T.buffStatus(slot, 0, sequence3Attack).applies, "Jingran Sequence 3 HP-to-ATK replacement should start unchecked until Liberation is confirmed");
+  __T.setBuffToggle(slot, 0, sequence3Attack.id, true);
+  const afterSequence3 = __T.compute().panel.totalAtk;
+  assert(Math.abs(afterSequence3 - beforeSequence3 - 700) < 1e-9, "Jingran Sequence 3 should add the capped 700 ATK difference after Liberation");
+
+  slot.seq = 6;
+  slot.skill = "c6_chimei";
+  slot.skillLevels.resonanceLiberation = 1;
+  slot.skillLevels.resonanceChain = 10;
+  result = __T.compute();
+  expectEqual(result.rawTotals.vulnerability, 40, "Jingran Sequence 6 should apply 40% Heavy Attack vulnerability");
+  expectEqual(result.rawTotals.skillMultBonus, 80, "Jingran Sequence 6 should increase Chimei Wangliang's multiplier by 80%");
+  expectEqual(result.layers, 1, "Jingran Sequence 6 Chimei Wangliang should default to one summon");
+  expectEqual(result.panel.baseMult, 42, "Jingran Sequence 6 summon should inherit level 1 from Resonance Liberation");
+  __T.render();
+  const c6Option = String(board.innerHTML).match(new RegExp('<option value="c6_chimei"[^>]*>[^<]*</option>'))?.[0] || "";
+  assert(c6Option.includes("(42%)") && !c6Option.includes("(0%)"), "Jingran Sequence 6 summon option should show its current one-summon multiplier");
+  slot.skillLevels.resonanceLiberation = 10;
+  slot.layers = 8;
+  result = __T.compute();
+  expectEqual(result.layers, 8, "Jingran Sequence 6 Chimei Wangliang should allow the official maximum of eight summons");
+  expectEqual(Math.round(result.panel.baseMult * 100) / 100, 668.08, "Eight Chimei Wangliang summons should total 668.08% before the Sequence 6 multiplier increase");
+  slot.skill = "outro";
+  slot.skillLevels.outroSkill = 1;
+  expectEqual(__T.compute().panel.baseMult, 795, "Jingran fixed Outro damage should ignore skill level changes");
+}
+
+function deniaAndMornyeReauditRegressions() {
+  const denia = window.WUWA.chars.denia;
+  const mornye = window.WUWA.chars.mornye;
+  const banish = skill(denia, "bd_banish2");
+  assert(banish.perStack == null && banish.stackResource == null && banish.formula === "112.01%", "Denia Banish Stage 2 should keep only its level-scaled base multiplier");
+  const darkCoreMult = denia.buffs.find((item) => item.id === "b_banish_dark_core_mult");
+  assert(darkCoreMult?.multAddByResource?.id === "darkCore" && darkCoreMult.multAddByResource.rate === 150 && darkCoreMult.skills?.includes("bd_banish2"), "Denia Dark Core should add an unscaled 150 multiplier points per resource");
+  assert(denia.resources.some((resource) => resource.id === "conformalCharge") && !denia.resources.some((resource) => resource.id === "symmorphEnergy"), "Denia Conformal Charge should use its formal English resource id");
+  assert(skill(denia, "sc_air").damageType === "midAir" && ["bd_air1", "bd_air2", "bd_air3", "bd_air4"].every((id) => skill(denia, id).damageType === "midAir"), "Denia non-Void Mid-air Attacks should use the midAir damage type");
+  assert(skill(denia, "sc_dodge").damageType === "dodgeCounter" && skill(denia, "bd_dodge").damageType === "dodgeCounter", "Denia non-Void Dodge Counters should use the dodgeCounter damage type");
+  const deniaFusionEvents = denia.skillEvents.filter((event) => event.event === "applyFusionBurst");
+  assert(deniaFusionEvents.some((event) => event.stacks === 1 && event.requiresState === "mode_1_option_1" && event.skills?.includes("sc_na3")), "Denia Basic and Mid-air triggers should apply one Fusion Burst stack only in Fusion Burst mode");
+  assert(deniaFusionEvents.some((event) => event.stacks === 2 && event.requiresState === "mode_1_option_1" && event.skills?.includes("sc_lib")), "Denia Intro, Liberation, and Erosion Field triggers should apply two Fusion Burst stacks only in Fusion Burst mode");
+  assert(deniaFusionEvents.some((event) => event.seq === 6 && event.stacks === "max" && event.skills?.includes("erosion_field")), "Denia Sequence 6 Erosion Field should trigger Fusion Burst at the current stack cap");
+  const deniaInterfered = denia.combatStates.find((state) => state.id === "target_1")?.options?.find((option) => option.value === "target_1_option_2");
+  const deniaResponse = denia.buffs.find((item) => item.id === "b_tune_response");
+  assert(deniaInterfered?.maxStacks === 4 && deniaInterfered.perStackRate === 0.12, "Denia should raise Tune Strain - Interfered to a four-stack cap at 0.12% per Tune Break Boost point");
+  assert(deniaResponse?.maxStacks === 4 && deniaResponse.scaleBy?.rate === 0.48 && deniaResponse.defaultActive == null, "Denia response Buff should mirror four stacks and follow the confirmed target state automatically");
+  assert(!allBuffs(denia).some((item) => item.id === "k6_tune_extra_stack"), "Denia Sequence 6 extra Interfered application should not be modeled as direct Final DMG");
+  ["b_outro_fusion", "b_outro_tune_all", "b_outro_tune_extra"].forEach((id) => {
+    const item = denia.buffs.find((buff) => buff.id === id);
+    assert(item?.triggerOutro === true && item.defaultActive === false, `Denia ${id} should use language-neutral manual Outro gating`);
+  });
+  const mornyeOutro = mornye.buffs.find((item) => item.id === "b_outro");
+  assert(mornyeOutro?.triggerOutro === true && mornyeOutro.defaultActive === false, "Mornye Outro should use language-neutral manual gating");
+  assert(skill(mornye, "air").damageType === "midAir", "Mornye Mid-air Attack should use the midAir damage type");
+  assert(skill(mornye, "dodge").damageType === "dodgeCounter" && skill(mornye, "wide_dodge").damageType === "dodgeCounter", "Both Mornye Dodge Counters should use the dodgeCounter damage type");
+  const mornyeInterfered = mornye.combatStates.find((state) => state.id === "target_2")?.options?.find((option) => option.value === "target_2_option_2");
+  const mornyeResponse = mornye.buffs.find((item) => item.id === "b_tune_response");
+  assert(mornyeInterfered?.maxStacks === 4 && mornyeInterfered.perStackRate === 0.12, "Mornye should raise Tune Strain - Interfered to a four-stack cap at 0.12% per Tune Break Boost point");
+  assert(mornyeResponse?.maxStacks === 4 && mornyeResponse.scaleBy?.rate === 0.48 && mornyeResponse.defaultActive == null, "Mornye response Buff should mirror four stacks and follow the confirmed target state automatically");
+
+  for (const locale of SUPPORTED_LANGS) {
+    const deniaPack = window.WUWA_LANGUAGES.localeData(locale, "chars", "denia");
+    const mornyePack = window.WUWA_LANGUAGES.localeData(locale, "chars", "mornye");
+    assert(deniaPack?.buffs?.length === denia.buffs.length, `${locale} Denia Buff text should cover the Dark Core multiplier`);
+    assert(deniaPack?.chain?.[5]?.buffs?.length === denia.chain[5].buffs.length, `${locale} Denia Sequence 6 text should omit the removed fake Final DMG Buff`);
+    assert(mornyePack?.buffs?.length === mornye.buffs.length, `${locale} Mornye Buff text should remain aligned`);
+    assert(String(mornyePack.buffs[1].desc).includes("0.5") && String(mornyePack.buffs[1].desc).includes("80"), `${locale} Mornye Crit. Rate conversion description should show 0.5% and cap 80%`);
+    assert(String(mornyePack.buffs[2].desc).includes("1") && String(mornyePack.buffs[2].desc).includes("160"), `${locale} Mornye Crit. DMG conversion description should show 1% and cap 160%`);
+  }
+
+  resetTeam(["denia"]);
+  let slot = __T.state.slots[0];
+  slot.skill = "bd_banish2";
+  slot.resources.darkCore = 3;
+  slot.skillLevels.resonanceSkill = 1;
+  let result = __T.compute();
+  expectEqual(result.multAdd, 450, "Denia three Dark Cores should add 450 unscaled multiplier points");
+  expectEqual(result.panel.baseMult, 506.33, "Denia level-1 Banish Stage 2 with three Dark Cores should total 506.33%");
+  slot.seq = 3;
+  slot.resources.darkCore = 5;
+  result = __T.compute();
+  expectEqual(result.multAdd, 750, "Denia Sequence 3 five Dark Cores should add 750 unscaled multiplier points");
+  expectEqual(result.panel.baseMult, 806.33, "Denia level-1 Banish Stage 2 with five Dark Cores should total 806.33%");
+
+  slot.seq = 0;
+  slot.toggles[__T.stateChoiceKey("mode_1")] = "mode_1_option_2";
+  slot.toggles[__T.stateChoiceKey("target_1")] = "target_1_option_2";
+  slot.toggles.stk_stack_group_1 = 4;
+  __T.state.offsetCalc = {
+    key: "state",
+    providerIdx: 0,
+    skillId: null,
+    stateId: "target_1",
+    stateValue: "target_1_option_2",
+    stacks: 9,
+    deepen: 0,
+  };
+  result = __T.compute();
+  assert(__T.buffStatus(slot, 0, buff(slot, "b_tune_response")).applies, "Denia response Buff should auto-apply after the target Interfered state is selected");
+  expectEqual(result.offset.stackCap, 4, "Denia should expose the raised four-stack Interfered cap");
+  expectEqual(result.offset.stacks, 4, "Denia should clamp Interfered input to four stacks");
+  expectEqual(result.offset.finalDmgGain, 4.8, "Denia four-stack Interfered response should convert 10% Tune Break Boost into 4.8% Final DMG");
+
+  resetTeam(["jinhsi", "denia"]);
+  for (const locale of SUPPORTED_LANGS) {
+    __T.state.lang = locale;
+    __T.render();
+    const support = __T.state.slots[1];
+    const outro = buff(support, "b_outro_fusion");
+    const status = __T.buffStatus(support, 1, outro);
+    assert(status.precondition && !status.applies, `${locale} Denia support Outro should start unchecked`);
+  }
+  resetTeam(["jinhsi", "mornye"]);
+  for (const locale of SUPPORTED_LANGS) {
+    __T.state.lang = locale;
+    __T.render();
+    const support = __T.state.slots[1];
+    const outro = buff(support, "b_outro");
+    const status = __T.buffStatus(support, 1, outro);
+    assert(status.precondition && !status.applies, `${locale} Mornye support Outro should start unchecked`);
+  }
+  resetTeam(["mornye"]);
+  slot = __T.state.slots[0];
+  slot.toggles[__T.stateChoiceKey("target_2")] = "target_2_option_2";
+  slot.toggles.stk_stack_group_1 = 4;
+  __T.state.offsetCalc = {
+    key: "state",
+    providerIdx: 0,
+    skillId: null,
+    stateId: "target_2",
+    stateValue: "target_2_option_2",
+    stacks: 9,
+    deepen: 0,
+  };
+  result = __T.compute();
+  assert(__T.buffStatus(slot, 0, buff(slot, "b_tune_response")).applies, "Mornye response Buff should auto-apply after the target Interfered state is selected");
+  expectEqual(result.offset.stackCap, 4, "Mornye should expose the raised four-stack Interfered cap");
+  expectEqual(result.offset.stacks, 4, "Mornye should clamp Interfered input to four stacks");
+  expectEqual(result.offset.finalDmgGain, 4.8, "Mornye four-stack Interfered response should convert 10% Tune Break Boost into 4.8% Final DMG");
+  __T.state.lang = "zh-CN";
+  __T.render();
 }
 
 function p1WeaponEffectRegressions() {
@@ -4498,10 +5144,14 @@ function sixCharacterAuditRegressions() {
   slot.skill = "azure_heavy";
   expectEqual(__T.compute().effect.actionStacks, 3, "Yangyang: Xuanling C3 Azure heavy should apply 2 base plus 1 extra Havoc Bane stacks");
   slot.skill = "lib";
-  expectEqual(__T.compute().effect.actionStacks, 6, "Yangyang: Xuanling Liberation should use the default-checked confirmable cap increase");
+  expectEqual(__T.compute().effect.actionStacks, 3, "Yangyang: Xuanling Liberation should use the base Havoc Bane cap before confirmation");
+  __T.setBuffToggle(slot, 0, "c3_havoc_cap", true);
+  expectEqual(__T.compute().effect.actionStacks, 6, "Yangyang: Xuanling Liberation should use the expanded cap after confirmation");
   const azureBreath = buff(slot, "b_desperate_breath_azure");
   slot.skill = "azure_heavy";
-  assert(!azureBreath.triggerSkills && __T.buffStatus(slot, 0, azureBreath).precondition && __T.buffStatus(slot, 0, azureBreath).applies, "Yangyang: Xuanling Bated Breath should default checked while retaining its cooldown precondition");
+  assert(!azureBreath.triggerSkills && __T.buffStatus(slot, 0, azureBreath).precondition && !__T.buffStatus(slot, 0, azureBreath).applies, "Yangyang: Xuanling Bated Breath should start unchecked while retaining its cooldown precondition");
+  __T.setBuffToggle(slot, 0, azureBreath.id, true);
+  assert(__T.buffStatus(slot, 0, azureBreath).applies, "Yangyang: Xuanling Bated Breath should apply after cooldown-window confirmation");
   ["lib_shadow", "c1_shadow", "c2_shadow", "c6_shadow", "wraith_of_sound"].forEach((id) => {
     assert(skill(yangyang, id).triggeredDamage === true, `Yangyang: Xuanling ${id} should be modeled as triggered damage`);
   });
@@ -4570,9 +5220,11 @@ function v3FullAuditRegressions() {
   slot = __T.state.slots[0];
   slot.seq = 6;
   slot.toggles[__T.stateChoiceKey("mode_1")] = "mode_1_option_1";
-  __T.state.effectCalc = { key: "fusion", providerIdx: 0, stacks: 10, stackMode: "manual", deepen: 0 };
+  __T.state.effectCalc = { key: "fusion", providerIdx: 0, stacks: 0, stackMode: "action", deepen: 0 };
   slot.skill = "erosion_field";
-  expectEqual(__T.compute().effect.extraRate, 200, "Denia C6 Fusion Burst extra multiplier should apply to Erosion Field");
+  r = __T.compute();
+  expectEqual(r.effect.actionStacks, 10, "Denia C6 Erosion Field should trigger Fusion Burst at the current 10-stack cap");
+  expectEqual(r.effect.extraRate, 200, "Denia C6 Fusion Burst extra multiplier should apply to Erosion Field");
   slot.skill = "sc_lib";
   expectEqual(__T.compute().effect.extraRate, 0, "Denia C6 Fusion Burst extra multiplier should not apply to unrelated Fusion Burst triggers");
 
@@ -4602,6 +5254,7 @@ function v3FullAuditRegressions() {
   slot.toggles[__T.stateChoiceKey("mode_1")] = "mode_1_option_2";
   let zoom = buff(slot, "b_zoom");
   __T.setBuffToggle(slot, 0, zoom.id, true);
+  slot.toggles.stk_stack_group_1 = 1;
   expectEqual(__T.buffStackCount(slot, zoom, 0), 1, "Lucilla Zoom should cap at 1 stack before Sequence 2");
   resetTeam(["lucilla"]);
   slot = __T.state.slots[0];
@@ -4609,6 +5262,7 @@ function v3FullAuditRegressions() {
   slot.toggles[__T.stateChoiceKey("mode_1")] = "mode_1_option_2";
   zoom = buff(slot, "b_zoom");
   __T.setBuffToggle(slot, 0, zoom.id, true);
+  slot.toggles.stk_stack_group_1 = 4;
   expectEqual(__T.buffStackCount(slot, zoom, 0), 4, "Lucilla Zoom should cap at 4 stacks from Sequence 2");
   assert(__T.resourceControlsForSlot(slot).some((ctrl) => ctrl.id === "filmRoll" && ctrl.max === 10), "Lucilla Sequence 2 should expose 10 Film Roll stacks");
 
@@ -4673,11 +5327,11 @@ function v2FullAuditRegressions() {
   slot.skill = "na1";
   assert(__T.buffStatus(slot, 0, buff(slot, "k4_res")).applies, "Phoebe Sequence 4 Spectro RES reduction should auto-trigger on Basic Attack");
   slot.skill = "heavy";
-  assert(__T.buffStatus(slot, 0, buff(slot, "k4_res")).applies, "Phoebe Sequence 4 Spectro RES reduction confirmation should default checked after another action");
+  assert(!__T.buffStatus(slot, 0, buff(slot, "k4_res")).applies, "Phoebe Sequence 4 Spectro RES reduction should start unchecked after another action");
   __T.render();
-  assert(String(board.innerHTML).includes('data-buff="k4_res" checked'), "confirmable Buff checkbox should render checked by default");
-  __T.setBuffToggle(slot, 0, "k4_res", false);
-  assert(!__T.buffStatus(slot, 0, buff(slot, "k4_res")).applies, "Phoebe Sequence 4 Spectro RES reduction should allow manual disable after another action");
+  assert(String(board.innerHTML).includes('data-buff="k4_res"') && !String(board.innerHTML).includes('data-buff="k4_res" checked'), "confirmable Buff checkbox should render unchecked by default");
+  __T.setBuffToggle(slot, 0, "k4_res", true);
+  assert(__T.buffStatus(slot, 0, buff(slot, "k4_res")).applies, "Phoebe Sequence 4 Spectro RES reduction should apply after confirmation");
   slot.seq = 0;
   slot.skill = "starflash_absolution";
   slot.toggles[__T.stateChoiceKey("mode_1")] = "mode_1_option_1";
@@ -5127,6 +5781,10 @@ const checks = [
   ["Hiyuki character regressions", hiyukiCharacterRegressions],
   ["new character weapon regressions", newCharacterWeaponRegressions],
   ["modern echo default regressions", modernEchoDefaultRegressions],
+  ["v3.6 equipment regressions", v36EquipmentRegressions],
+  ["v3.6 Qingxiao regressions", v36QingxiaoRegressions],
+  ["v3.6 Jingran regressions", v36JingranRegressions],
+  ["Denia and Mornye re-audit regressions", deniaAndMornyeReauditRegressions],
   ["P1 weapon effect regressions", p1WeaponEffectRegressions],
   ["six-character audit regressions", sixCharacterAuditRegressions],
   ["v3 full audit regressions", v3FullAuditRegressions],

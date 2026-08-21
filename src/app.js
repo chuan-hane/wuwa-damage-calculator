@@ -81,7 +81,7 @@ const state = {
 TARGETS.ensureSelection(state.enemy);
 
 const {
-  slotBuffs, availableSkills, selectedSkill, resourceKey, resourceControlsForSlot, resolvedSkill,
+  slotBuffs, availableSkills, selectedSkill, resourceKey, resourceControlsForSlot, resolvedSkill, skillLayersForSlot,
   stateKey, stateChoiceKey, stateControlsHTML,
   buffStackCount, buffStatus, setBuffToggle, scaleByInfo, buffValue, compute,
 } = window.WUWA_SETTLEMENT.create({
@@ -102,7 +102,7 @@ const {
 } = window.WUWA_STAGE_VIEW.create({
   state, W, ch, wp, WEAPONS, SONATAS, leadChoicesForEcho, syncEchoLead,
   ECHO_COSTS, echoMainOptions, echoSubOptions, echoSubValues, echoFixedMain, ensureEchoDetail, echoDetailSummary, statLabel, echoStats,
-  availableSkills, selectedSkill, resourceControlsForSlot, resolvedSkill, stateControlsHTML,
+  availableSkills, selectedSkill, resourceControlsForSlot, resolvedSkill, skillLayersForSlot, stateControlsHTML,
   panelEntryTableHTML, autoResolutionHTML, settlementBuffRowsHTML,
 });
 
@@ -216,7 +216,7 @@ function repaint() {
   // 叠层 / 按属性换算 buff 的「当前公式」实时刷新（纯文本，不动输入框）
   state.slots.forEach((slot, idx) => {
     slotBuffs(slot).forEach((b) => {
-      if (b.maxStacks || b.scaleBy) setHTML(`bval_${idx}_${b.id}`, esc(buffFormulaText(slot, b, idx)));
+      if (b.maxStacks || b.scaleBy || b.multAddByStat) setHTML(`bval_${idx}_${b.id}`, esc(buffFormulaText(slot, b, idx)));
     });
   });
 }
@@ -618,7 +618,7 @@ const ACTIONS = {
     const r = compute();
     if (r.offset?.kind === "response" && r.offset.skill && state.slots[r.offset.providerIdx]) {
       const slot = state.slots[r.offset.providerIdx];
-      (slot.skillLevels = slot.skillLevels || {})[r.offset.skill.category] = +el.value;
+      (slot.skillLevels = slot.skillLevels || {})[r.offset.skill.levelCategory || r.offset.skill.category] = +el.value;
     }
     render();
   }; },
@@ -660,7 +660,7 @@ const ACTIONS = {
   "rank-set": (el, idx) => { el.onchange = () => { state.slots[idx].rank = +el.value; render(); }; },
   "seq-set": (el, idx) => { el.onchange = () => { state.slots[idx].seq = +el.value; render(); }; },
   skill: (el, idx) => { el.onchange = () => { state.slots[idx].skill = el.value; state.slots[idx].layers = null; render(); }; },
-  skilllevel: (el, idx) => { el.onchange = () => { const s = state.slots[idx]; const sk = selectedSkill(s); if (sk) (s.skillLevels = s.skillLevels || {})[sk.category] = +el.value; render(); }; },
+  skilllevel: (el, idx) => { el.onchange = () => { const s = state.slots[idx]; const sk = selectedSkill(s); if (sk && !sk.fixedLevel) (s.skillLevels = s.skillLevels || {})[sk.levelCategory || sk.category] = +el.value; render(); }; },
   layers: (el, idx) => { el.oninput = () => { state.slots[idx].layers = num(el.value); repaint(); }; },
   "char-resource": (el, idx) => {
     const update = () => {
