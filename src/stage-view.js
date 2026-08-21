@@ -170,6 +170,10 @@ window.WUWA_STAGE_VIEW = (() => {
       return `<img class="echo-set-icon" src="${esc(set.icon)}" alt="" onerror="this.style.visibility='hidden'" />`;
     }
 
+    function sonataComboIconHTML(set) {
+      return `<span class="combo-ic echo-detail-set-icon">${sonataIconHTML(set)}</span>`;
+    }
+
     function formulaCardTipHTML(tip) {
       return tip ? `<div class="formula-card-tip" role="tooltip">${esc(tip)}</div>` : "";
     }
@@ -404,7 +408,7 @@ window.WUWA_STAGE_VIEW = (() => {
     function teamLeadEchoPickerHTML(e, idx) {
       syncEchoLead(e);
       const choices = leadChoicesForEcho(e);
-      if (!choices.length) return `<div class="team-gear-summary team-gear-summary--muted">${esc(L.text("未录首位单体"))}</div>`;
+      if (!choices.length) return `<div class="team-gear-summary team-gear-summary--muted">${esc(L.t("common.unselectedLead"))}</div>`;
       const current = choices.find((choice) => choice.key === e.lead);
       if (e.detailMode) {
         return `<div class="team-gear-summary"><span class="team-gear-label">${esc(leadEchoDisplayName(current))}</span></div>`;
@@ -455,13 +459,6 @@ window.WUWA_STAGE_VIEW = (() => {
       return DAMAGE_MODES[state.damageMode] ? state.damageMode : "expected";
     }
 
-    function detailSetOptions(selected) {
-      return SONATAS.slice()
-        .sort((a, b) => sonataSortValue(a) - sonataSortValue(b))
-        .map((set) => `<option value="${set.id}" ${set.id === selected ? "selected" : ""}>${esc(L.sonataName(set) + betaVersionSuffix(set))}</option>`)
-        .join("");
-    }
-
     function detailCostOptions(slot, echoIdx, selected) {
       const echoes = slot.echo.detail?.echoes || [];
       const otherCost = echoes.reduce((total, item, i) => total + (i === echoIdx ? 0 : num(item.cost)), 0);
@@ -474,10 +471,10 @@ window.WUWA_STAGE_VIEW = (() => {
       return options.map((opt) => `<option value="${esc(opt.key)}" ${opt.key === selected ? "selected" : ""}>${esc(opt.label)} ${tnum(opt.value)}${opt.key.endsWith("Flat") ? "" : "%"}</option>`).join("");
     }
 
-    function detailLeadOptions(slot, item) {
-      const choices = leadChoicesForEcho({ detailMode: true, detail: { echoes: [{ set: item.set }] } });
-      if (!choices.length) return `<option value="">${esc(L.t("common.unselected"))} · ${num(item.cost) || 4}c</option>`;
-      return choices.map((choice) => `<option value="${esc(choice.key)}" ${choice.key === slot.echo.lead ? "selected" : ""}>${esc(leadEchoDisplayName(choice))} · ${choice.cost}c</option>`).join("");
+    function detailLeadOptions(slot) {
+      const choices = leadChoicesForEcho(slot.echo);
+      if (!choices.length) return `<option value="">${esc(L.t("common.unselectedLead"))}</option>`;
+      return choices.map((choice) => `<option value="${esc(choice.key)}" ${choice.key === slot.echo.lead ? "selected" : ""}>${esc(leadEchoDisplayName(choice))}</option>`).join("");
     }
 
     function detailSubRows(slot, idx, echoIdx, item, c) {
@@ -486,7 +483,7 @@ window.WUWA_STAGE_VIEW = (() => {
         const values = echoSubValues(sub.key);
         const usedKeys = new Set((item.subs || []).map((other, otherIdx) => otherIdx === subIdx ? "" : other.key).filter(Boolean));
         return `<div class="echo-detail-sub">
-        <select data-act="detail-sub-key" data-slot="${idx}" data-echo-index="${echoIdx}" data-sub-index="${subIdx}" aria-label="${esc(L.text("副词条"))}">
+        <select class="echo-detail-sub-key${sub.key ? "" : " is-placeholder"}" data-act="detail-sub-key" data-slot="${idx}" data-echo-index="${echoIdx}" data-sub-index="${subIdx}" aria-label="${esc(L.text("副词条"))}">
           <option value="">${esc(L.text("副词条"))}</option>
           ${options.map((opt) => `<option value="${esc(opt.key)}" ${opt.key === sub.key ? "selected" : ""} ${usedKeys.has(opt.key) ? "disabled" : ""}>${esc(opt.label)}</option>`).join("")}
         </select>
@@ -499,10 +496,23 @@ window.WUWA_STAGE_VIEW = (() => {
 
     function echoDetailSetPicker(slot, idx, echoIdx, item) {
       const set = sonataById(item.set);
-      return `<label class="echo-detail-field echo-detail-field--set">
+      const label = set ? L.sonataName(set) : L.t("common.unselected");
+      const options = SONATAS.slice()
+        .sort((a, b) => sonataSortValue(a) - sonataSortValue(b))
+        .map((option) => {
+          const name = L.sonataName(option);
+          const search = `${option.name || ""} ${L.officialName("sonatas", option.id)} ${name} ${betaVersionLabel(option)}`.trim().toLowerCase();
+          return `<li class="combo-opt${option.id === item.set ? " sel" : ""}" data-act="detail-echo-set" data-slot="${idx}" data-echo-index="${echoIdx}" data-value="${option.id}" data-search="${esc(search)}" role="option" aria-selected="${option.id === item.set}">
+          ${sonataComboIconHTML(option)}<span class="combo-opt-lbl">${esc(name)}</span>${betaBadgeHTML(option)}
+        </li>`;
+        }).join("");
+      return `<div class="echo-detail-field echo-detail-field--set">
       <span>${esc(L.text("套装"))}</span>
-      <span class="echo-detail-set-select">${sonataIconHTML(set)}<select data-act="detail-echo-set" data-slot="${idx}" data-echo-index="${echoIdx}" aria-label="${esc(L.text("声骸套装"))}">${detailSetOptions(item.set)}</select>${betaBadgeHTML(set)}</span>
-    </label>`;
+      <div class="combo echo-detail-set-combo">
+        <button type="button" class="combo-btn" data-act="combo-toggle" aria-haspopup="listbox">${sonataComboIconHTML(set)}<span class="combo-lbl">${esc(label)}</span>${betaBadgeHTML(set)}<span class="combo-caret" aria-hidden="true"></span></button>
+        <div class="combo-pop" role="listbox" aria-label="${esc(L.text("声骸套装"))}"><input type="text" class="combo-search" placeholder="${esc(L.t("common.searchOption"))}" data-act="combo-search" /><ul class="combo-list">${options}</ul></div>
+      </div>
+    </div>`;
     }
 
     function echoDetailPieceHTML(slot, idx, echoIdx, item, c, isLead) {
@@ -510,12 +520,17 @@ window.WUWA_STAGE_VIEW = (() => {
       return `<div class="echo-detail-card">
       <div class="echo-detail-title">${esc(isLead ? L.text("首位声骸") : L.text(`声骸 ${echoIdx + 1}`))}</div>
       ${echoDetailSetPicker(slot, idx, echoIdx, item)}
-      ${isLead ? `<label class="echo-detail-field"><span>${esc(L.text("首位"))}</span><select data-act="detail-lead" data-slot="${idx}" aria-label="${esc(L.text("首位声骸"))}">${detailLeadOptions(slot, item)}</select></label>` : ""}
-      ${isLead ? "" : `<label class="echo-detail-field"><span>${esc(L.t("common.cost"))}</span><select data-act="detail-echo-cost" data-slot="${idx}" data-echo-index="${echoIdx}" aria-label="${esc(L.t("common.cost"))}">${detailCostOptions(slot, echoIdx, item.cost)}</select></label>`}
+      <label class="echo-detail-field"><span>${esc(L.t("common.cost"))}</span><select data-act="detail-echo-cost" data-slot="${idx}" data-echo-index="${echoIdx}" aria-label="${esc(L.t("common.cost"))}">${detailCostOptions(slot, echoIdx, item.cost)}</select></label>
+      ${isLead ? `<label class="echo-detail-field"><span>${esc(L.text("首位"))}</span><select data-act="detail-lead" data-slot="${idx}" aria-label="${esc(L.text("首位声骸"))}">${detailLeadOptions(slot)}</select></label>` : ""}
       <label class="echo-detail-field"><span>${esc(L.text("主词条"))}</span><select data-act="detail-echo-main" data-slot="${idx}" data-echo-index="${echoIdx}" aria-label="${esc(L.text("主词条"))}">${detailMainOptions(item, c)}</select></label>
       <div class="echo-detail-fixed">${esc(L.text("固定"))}: ${esc(L.text(fixed.label))} ${esc(tnum(fixed.value))}</div>
       <div class="echo-detail-subs">${detailSubRows(slot, idx, echoIdx, item, c)}</div>
     </div>`;
+    }
+
+    function echoDetailSummaryValuesHTML(values, fallback) {
+      if (!values.length) return `<span class="echo-detail-summary-empty">${esc(fallback)}</span>`;
+      return values.map((value) => `<span class="echo-detail-effect-chip">${esc(value)}</span>`).join("");
     }
 
     function echoDetailSummaryHTML(slot, c) {
@@ -523,18 +538,20 @@ window.WUWA_STAGE_VIEW = (() => {
       const buffs = window.WUWA_EQUIPMENT.sonataBuffs(slot);
       const setEffects = buffs.filter((b) => b.pieceTag !== "首位单体效果").map((b) => `${L.pieceTag(b.pieceTag)} · ${L.buffLabel(b)}`);
       const leadEffects = buffs.filter((b) => b.pieceTag === "首位单体效果").map((b) => L.buffLabel(b));
-      const fieldText = Object.entries(summary.fields)
+      const fields = Object.entries(summary.fields)
         .filter(([, v]) => num(v))
-        .slice(0, 6)
-        .map(([key, value]) => `${statLabel(key, c)} ${tnum(value)}${key.endsWith("Flat") ? "" : "%"}`)
-        .join(" / ");
+        .map(([key, value]) => `<span class="echo-detail-stat-chip"><span>${esc(statLabel(key, c))}</span><b>${esc(tnum(value))}${key.endsWith("Flat") ? "" : "%"}</b></span>`)
+        .join("");
       return `<div class="echo-detail-card echo-detail-card--summary">
-      <div class="echo-detail-title">${esc(L.text("声骸汇总"))}</div>
-      <div class="echo-detail-summary-line">${esc(L.t("common.cost"))} ${summary.totalCost}/12</div>
-      <div class="echo-detail-summary-line">${esc(L.text("命中词条"))} ${summary.hitSubs}/${summary.selectedSubs}</div>
-      <div class="echo-detail-summary-text"><b>${esc(L.text("套装效果"))}</b>${esc(setEffects.join(" / ") || L.text("未触发"))}</div>
-      <div class="echo-detail-summary-text"><b>${esc(L.text("首位效果"))}</b>${esc(leadEffects.join(" / ") || L.t("common.unselected"))}</div>
-      <div class="echo-detail-summary-text"><b>${esc(L.text("面板汇总"))}</b>${esc(fieldText || L.text("无"))}</div>
+      <div class="echo-detail-summary-head">
+        <div class="echo-detail-title">${esc(L.text("声骸汇总"))}</div>
+        <div class="echo-detail-summary-cost"><span>${esc(L.t("common.cost"))}</span><b>${esc(tnum(summary.totalCost))}<small>/12</small></b></div>
+      </div>
+      <div class="echo-detail-summary-grid">
+        <section class="echo-detail-summary-section"><h3>${esc(L.text("套装效果"))}</h3><div class="echo-detail-summary-values">${echoDetailSummaryValuesHTML(setEffects, L.text("未触发"))}</div></section>
+        <section class="echo-detail-summary-section"><h3>${esc(L.text("首位效果"))}</h3><div class="echo-detail-summary-values">${echoDetailSummaryValuesHTML(leadEffects, L.t("common.unselectedLead"))}</div></section>
+        <section class="echo-detail-summary-section echo-detail-summary-section--fields"><h3>${esc(L.text("面板汇总"))}</h3><div class="echo-detail-stat-list">${fields || `<span class="echo-detail-summary-empty">${esc(L.text("无"))}</span>`}</div></section>
+      </div>
     </div>`;
     }
 

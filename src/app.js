@@ -543,27 +543,20 @@ function detailEchoAt(idx, echoIdx) {
   return slot.echo.detail.echoes[echoIdx];
 }
 
-function syncDetailLead(slot) {
-  const first = slot.echo.detail?.echoes?.[0];
-  const choices = leadChoicesForEcho({ detailMode: true, detail: { echoes: first ? [{ set: first.set }] : [] } });
-  if (!choices.length) return;
-  if (!choices.some((choice) => choice.key === slot.echo.lead)) slot.echo.lead = choices[0].key;
-  const choice = choices.find((item) => item.key === slot.echo.lead);
-  if (!choice || !first) return;
-  const costChanged = first.cost !== choice.cost;
-  first.cost = choice.cost;
-  const mainOptions = echoMainOptions(first.cost, slot.char ? ch(slot.char) : null);
-  if (costChanged || !mainOptions.some((opt) => opt.key === first.main)) first.main = mainOptions[0]?.key || "";
-}
-
 function updateDetailEcho(idx, echoIdx, update) {
   const slot = state.slots[idx];
   const c = slot.char ? ch(slot.char) : null;
   const item = detailEchoAt(idx, echoIdx);
   update(item, slot, c);
   ensureEchoDetail(slot, c);
-  syncDetailLead(slot);
   render();
+}
+
+function bindDetailEchoSet(el, idx) {
+  el.onclick = (ev) => {
+    ev.stopPropagation();
+    updateDetailEcho(idx, +el.dataset.echoIndex, (item) => { item.set = +el.dataset.value; });
+  };
 }
 
 function closeTargetChoices() {
@@ -707,7 +700,7 @@ const ACTIONS = {
   "panel-rm": (el, idx) => { el.onclick = () => { const s = state.slots[idx]; s.extraPanelRows = (s.extraPanelRows || []).filter((x) => x !== el.dataset.key); render(); }; },
   elead: (el, idx) => { el.onchange = () => { state.slots[idx].echo.lead = el.value || null; render(); }; },
   "echo-detail": (el, idx) => { el.onchange = () => { const slot = state.slots[idx]; slot.echo.detailMode = el.checked; if (el.checked) ensureEchoDetail(slot, slot.char ? ch(slot.char) : null); render(); }; },
-  "detail-echo-set": (el, idx) => { el.onchange = () => updateDetailEcho(idx, +el.dataset.echoIndex, (item) => { item.set = +el.value; }); },
+  "detail-echo-set": bindDetailEchoSet,
   "detail-echo-cost": (el, idx) => { el.onchange = () => {
     const echoIdx = +el.dataset.echoIndex;
     const nextCost = +el.value;
@@ -720,15 +713,7 @@ const ACTIONS = {
   "detail-echo-main": (el, idx) => { el.onchange = () => updateDetailEcho(idx, +el.dataset.echoIndex, (item) => { item.main = el.value; }); },
   "detail-sub-key": (el, idx) => { el.onchange = () => updateDetailEcho(idx, +el.dataset.echoIndex, (item) => { const subIdx = +el.dataset.subIndex; const sub = item.subs[subIdx]; const duplicate = el.value && item.subs.some((other, otherIdx) => otherIdx !== subIdx && other.key === el.value); sub.key = duplicate ? "" : el.value; sub.value = echoSubValues(sub.key)[0] || 0; }); },
   "detail-sub-value": (el, idx) => { el.onchange = () => updateDetailEcho(idx, +el.dataset.echoIndex, (item) => { item.subs[+el.dataset.subIndex].value = num(el.value); }); },
-  "detail-lead": (el, idx) => { el.onchange = () => updateDetailEcho(idx, 0, (item, slot) => {
-    const choices = leadChoicesForEcho({ detailMode: true, detail: { echoes: [{ set: item.set }] } });
-    const choice = choices.find((option) => option.key === el.value);
-    slot.echo.lead = choice?.key || null;
-    if (choice) {
-      item.cost = choice.cost;
-      item.main = "";
-    }
-  }); },
+  "detail-lead": (el, idx) => { el.onchange = () => updateDetailEcho(idx, 0, (_item, slot) => { slot.echo.lead = el.value || null; }); },
   efield: (el, idx) => { el.oninput = () => { state.slots[idx].echo.fields[el.dataset.key] = num(el.value); repaint(); }; },
 };
 

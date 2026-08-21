@@ -56,7 +56,7 @@ window.WUWA_PANEL_VIEW = (() => {
       pushEcho("atkPct", es.attackPercent); pushEcho("hpPct", es.hpPercent); pushEcho("defPct", es.defensePercent);
       pushEcho("crit", es.critRate); pushEcho("critDmg", es.critDamage);
       pushEcho("er", es.energyRegen); pushEcho("heal", es.healingBonus);
-      pushEcho("breakAmp", es.breakAmp); pushEcho("discordEff", es.discordEff);
+      pushEcho("discordEff", es.discordEff);
       ELEMENTS.forEach((el) => { if (es.elem[el]) D.elem[el].push(["声骸", es.elem[el]]); });
       TYPES.forEach((t) => { if (es.type[t]) D.type[t].push(["声骸", es.type[t]]); });
       if (es.flatAtk) D.atkAdd.push(["声骸固定", es.flatAtk]);
@@ -123,12 +123,11 @@ window.WUWA_PANEL_VIEW = (() => {
       );
     }
 
-    function breakAmpRow(D, id = "breakAmp", removeKey = null) {
-      return { id, label: "谐度破坏增幅", total: tnum(sum(D.breakAmp)), formula: `谐度破坏增幅 = ${parts(D.breakAmp)}`, title: parts(D.breakAmp), fields: [{ key: "breakAmp" }], removeKey };
+    function breakAmpRow(D) {
+      return { id: "breakAmp", label: "谐度破坏增幅", total: tnum(sum(D.breakAmp)), formula: `谐度破坏增幅 = ${parts(D.breakAmp)}`, title: parts(D.breakAmp), fields: [] };
     }
 
-    function extraPanelRow(key, c, b, D) {
-      if (key === "breakAmp") return breakAmpRow(D, "x_breakAmp", key);
+    function extraPanelRow(key, c, D) {
       if (key === "discordEff") return { id: "x_discordEff", label: "偏谐值累积效率", total: tnum(sum(D.discordEff)) + "%", formula: `偏谐值累积效率 = ${pctFormulaLead(D.discordEff)}`, title: parts(D.discordEff, "%"), fields: [{ key: "discordEff", suffix: "%" }], removeKey: key };
       if (key === "heal") { const row = { id: "x_heal", label: "治疗效果加成", total: tnum(sum(D.heal)) + "%", formula: `治疗效果加成 = ${pctFormulaLead(D.heal)}`, title: parts(D.heal, "%"), fields: [{ key: "heal", suffix: "%" }], removeKey: key }; return row; }
       if (key.startsWith("type:")) { const row = typeBonusRow(key.slice(5), D, "x_"); row.removeKey = key; return row; }
@@ -140,7 +139,6 @@ window.WUWA_PANEL_VIEW = (() => {
       if (slot.echo?.detailMode) return [];
       const shown = new Set(slot.extraPanelRows || []);
       const out = [];
-      if (!shown.has("breakAmp") && !charBreakAmpRelevant(c)) out.push(["breakAmp", "谐度破坏增幅"]);
       if (!shown.has("discordEff")) out.push(["discordEff", "偏谐值累积效率"]);
       const ptType = TYPE_BY_KEY[primaryTypeKey(c)];
       TYPE_ADD_ORDER.filter((t) => t !== ptType).forEach((t) => {
@@ -162,7 +160,6 @@ window.WUWA_PANEL_VIEW = (() => {
       const primaryType = primaryTypeKey(c);
       if (fields.discordEff) out.push("discordEff");
       if (fields.heal) out.push("heal");
-      if (fields.breakAmp && !charBreakAmpRelevant(c)) out.push("breakAmp");
       TYPE_ADD_ORDER.forEach((t) => {
         const key = TYPE_FIELD_BY_DAMAGE[t];
         if (key && key !== primaryType && fields[key]) out.push("type:" + t);
@@ -191,8 +188,7 @@ window.WUWA_PANEL_VIEW = (() => {
       if (hasFixedBreakAmp) rows.splice(4, 0, breakAmpRow(D));
       const extraKeys = slot.echo?.detailMode ? autoDetailPanelKeys(c, slot) : (slot.extraPanelRows || []);
       extraKeys.forEach((key) => {
-        if (key === "breakAmp" && hasFixedBreakAmp) return;
-        const row = extraPanelRow(key, c, b, D);
+        const row = extraPanelRow(key, c, D);
         if (row) {
           if (slot.echo?.detailMode) row.removeKey = null;
           rows.push(row);
