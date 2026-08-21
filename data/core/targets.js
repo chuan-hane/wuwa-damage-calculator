@@ -4,11 +4,11 @@ window.WUWA_TARGET_DATA = {
   "schemaVersion": 2,
   "snapshot": {
     "apiVersion": "2.0.0",
-    "syncedAt": "2026-07-14T10:24:16.289Z",
+    "syncedAt": "2026-08-21T03:55:30.000Z",
     "currentSeasons": {
-      "toa": "37",
-      "whiwa": "19",
-      "dpmatrix": "6"
+      "toa": "39",
+      "whiwa": "20",
+      "dpmatrix": "7"
     },
     "resistanceUnits": {
       "monster": {
@@ -29,12 +29,11 @@ window.WUWA_TARGET_DATA = {
       "toa": {
         "stageFinalIncludesModeModifiers": true,
         "composedSeasons": [
-          38,
           39
         ],
         "composedBaseAllResistance": 10,
         "composedMatchingElementResistance": 10,
-        "calibrationSeasonId": 37,
+        "calibrationSeasonId": 38,
         "calibratedTargetCount": 13,
         "unconditionalResistanceBuffs": "apply",
         "conditionalResistanceBuffs": "applyDefaultAndExposeRemovalControl",
@@ -86,7 +85,8 @@ window.WUWA_TARGET_DATA = {
             20
           ],
           "dpmatrix": [
-            6
+            6,
+            7
           ]
         },
         "triggeredEffectsDefaultActive": false,
@@ -803,7 +803,7 @@ window.WUWA_TARGET_DATA = {
       ]
     },
     "toa": {
-      "currentSeasonId": "37",
+      "currentSeasonId": "39",
       "currentStrategy": "apiCurrentFlag",
       "seasons": [
         {
@@ -913,7 +913,7 @@ window.WUWA_TARGET_DATA = {
         },
         {
           "id": "37",
-          "current": true,
+          "current": false,
           "start": "2026-06-22",
           "finish": "2026-07-20",
           "targetIds": [
@@ -955,7 +955,7 @@ window.WUWA_TARGET_DATA = {
         },
         {
           "id": "39",
-          "current": false,
+          "current": true,
           "start": "2026-08-17",
           "finish": "2026-09-14",
           "targetIds": [
@@ -978,7 +978,7 @@ window.WUWA_TARGET_DATA = {
       ]
     },
     "whiwa": {
-      "currentSeasonId": "19",
+      "currentSeasonId": "20",
       "currentStrategy": "apiCurrentFlag",
       "seasons": [
         {
@@ -2178,7 +2178,7 @@ window.WUWA_TARGET_DATA = {
         },
         {
           "id": "19",
-          "current": true,
+          "current": false,
           "start": "2026-07-05",
           "finish": "2026-08-02",
           "targetIds": [
@@ -2241,7 +2241,7 @@ window.WUWA_TARGET_DATA = {
         },
         {
           "id": "20",
-          "current": false,
+          "current": true,
           "start": "2026-08-02",
           "finish": "2026-08-30",
           "targetIds": [
@@ -2305,7 +2305,7 @@ window.WUWA_TARGET_DATA = {
       ]
     },
     "dpmatrix": {
-      "currentSeasonId": "6",
+      "currentSeasonId": "7",
       "currentStrategy": "highestSeasonId",
       "seasons": [
         {
@@ -2419,7 +2419,7 @@ window.WUWA_TARGET_DATA = {
         },
         {
           "id": "6",
-          "current": true,
+          "current": false,
           "start": null,
           "finish": null,
           "targetIds": [
@@ -2438,6 +2438,29 @@ window.WUWA_TARGET_DATA = {
             "dpmatrix:6:12:3:13:125",
             "dpmatrix:6:12:3:14:126",
             "dpmatrix:6:12:3:15:127"
+          ]
+        },
+        {
+          "id": "7",
+          "current": true,
+          "start": null,
+          "finish": null,
+          "targetIds": [
+            "dpmatrix:7:14:1:1:135",
+            "dpmatrix:7:14:1:2:136",
+            "dpmatrix:7:14:1:3:137",
+            "dpmatrix:7:14:1:4:138",
+            "dpmatrix:7:14:1:5:139",
+            "dpmatrix:7:14:2:6:140",
+            "dpmatrix:7:14:2:7:141",
+            "dpmatrix:7:14:2:8:142",
+            "dpmatrix:7:14:2:9:143",
+            "dpmatrix:7:14:2:10:144",
+            "dpmatrix:7:14:3:11:145",
+            "dpmatrix:7:14:3:12:146",
+            "dpmatrix:7:14:3:13:147",
+            "dpmatrix:7:14:3:14:148",
+            "dpmatrix:7:14:3:15:149"
           ]
         }
       ]
@@ -5062,6 +5085,180 @@ window.WUWA_TARGET_DATA = {
         "clause": -1
       },
       "parentId": "dpmatrix:6:28:enhancement"
+    },
+    "dpmatrix:7:33:enhancement": {
+      "id": "dpmatrix:7:33:enhancement",
+      "mode": "dpmatrix",
+      "control": "option",
+      "effects": [
+        {
+          "zone": "finalDmg",
+          "value": 20,
+          "modes": [
+            "skill"
+          ]
+        },
+        {
+          "zone": "finalDmg",
+          "value": 20,
+          "damageTypes": [
+            "heavy"
+          ],
+          "modes": [
+            "skill"
+          ]
+        }
+      ],
+      "localeRef": {
+        "kind": "matrixBuff",
+        "seasonId": "7",
+        "levelId": 14,
+        "buffId": 33,
+        "clause": null
+      }
+    },
+    "dpmatrix:7:30:enhancement": {
+      "id": "dpmatrix:7:30:enhancement",
+      "mode": "dpmatrix",
+      "control": "option",
+      "effects": [
+        {
+          "zone": "finalDmg",
+          "value": 80,
+          "effect": "frost",
+          "modes": [
+            "effect"
+          ]
+        }
+      ],
+      "localeRef": {
+        "kind": "matrixBuff",
+        "seasonId": "7",
+        "levelId": 14,
+        "buffId": 30,
+        "clause": null
+      }
+    },
+    "dpmatrix:7:30:negative-status": {
+      "id": "dpmatrix:7:30:negative-status",
+      "mode": "dpmatrix",
+      "control": "toggle",
+      "effects": [
+        {
+          "zone": "finalDmg",
+          "value": 25,
+          "modes": [
+            "skill"
+          ]
+        }
+      ],
+      "localeRef": {
+        "kind": "matrixBuff",
+        "seasonId": "7",
+        "levelId": 14,
+        "buffId": 30,
+        "clause": 0
+      },
+      "parentId": "dpmatrix:7:30:enhancement"
+    },
+    "dpmatrix:7:31:enhancement": {
+      "id": "dpmatrix:7:31:enhancement",
+      "mode": "dpmatrix",
+      "control": "option",
+      "effects": [
+        {
+          "zone": "finalDmg",
+          "value": 30,
+          "damageTypes": [
+            "echoSkill"
+          ],
+          "modes": [
+            "skill"
+          ]
+        },
+        {
+          "zone": "finalDmg",
+          "value": 20,
+          "element": "havoc",
+          "modes": [
+            "skill"
+          ]
+        },
+        {
+          "zone": "finalDmg",
+          "value": 20,
+          "damageTypes": [
+            "resonanceSkill"
+          ],
+          "modes": [
+            "skill"
+          ]
+        }
+      ],
+      "localeRef": {
+        "kind": "matrixBuff",
+        "seasonId": "7",
+        "levelId": 14,
+        "buffId": 31,
+        "clause": null
+      }
+    },
+    "dpmatrix:7:32:enhancement": {
+      "id": "dpmatrix:7:32:enhancement",
+      "mode": "dpmatrix",
+      "control": "option",
+      "effects": [],
+      "localeRef": {
+        "kind": "matrixBuff",
+        "seasonId": "7",
+        "levelId": 14,
+        "buffId": 32,
+        "clause": null
+      }
+    },
+    "dpmatrix:7:32:tune-shifting": {
+      "id": "dpmatrix:7:32:tune-shifting",
+      "mode": "dpmatrix",
+      "control": "toggle",
+      "effects": [
+        {
+          "zone": "finalDmg",
+          "value": 25,
+          "modes": [
+            "skill"
+          ]
+        }
+      ],
+      "localeRef": {
+        "kind": "matrixBuff",
+        "seasonId": "7",
+        "levelId": 14,
+        "buffId": 32,
+        "clause": 0
+      },
+      "parentId": "dpmatrix:7:32:enhancement"
+    },
+    "dpmatrix:7:32:tune-strain": {
+      "id": "dpmatrix:7:32:tune-strain",
+      "mode": "dpmatrix",
+      "control": "toggle",
+      "effects": [
+        {
+          "zone": "finalDmg",
+          "value": 30,
+          "modes": [
+            "skill"
+          ]
+        }
+      ],
+      "localeRef": {
+        "kind": "matrixBuff",
+        "seasonId": "7",
+        "levelId": 14,
+        "buffId": 32,
+        "clause": -1
+      },
+      "parentId": "dpmatrix:7:32:enhancement"
     }
   },
   "targets": {
@@ -17538,21 +17735,9 @@ window.WUWA_TARGET_DATA = {
         "havoc": 10
       },
       "resistance": {
-        "sourceKind": "composed",
+        "sourceKind": "stageFinal",
         "includesModeModifiers": true,
-        "intrinsicSource": "monster",
         "modifiers": [
-          {
-            "kind": "modeBase",
-            "value": 10,
-            "sourceId": "toaModeBase"
-          },
-          {
-            "kind": "attributeResistanceAdjustment",
-            "element": "fusion",
-            "value": 10,
-            "sourceId": "toaMatchingElement"
-          },
           {
             "kind": "attributeResistanceAdjustment",
             "element": "havoc",
@@ -17590,21 +17775,9 @@ window.WUWA_TARGET_DATA = {
         "havoc": 10
       },
       "resistance": {
-        "sourceKind": "composed",
+        "sourceKind": "stageFinal",
         "includesModeModifiers": true,
-        "intrinsicSource": "monster",
         "modifiers": [
-          {
-            "kind": "modeBase",
-            "value": 10,
-            "sourceId": "toaModeBase"
-          },
-          {
-            "kind": "attributeResistanceAdjustment",
-            "element": "fusion",
-            "value": 10,
-            "sourceId": "toaMatchingElement"
-          },
           {
             "kind": "attributeResistanceAdjustment",
             "element": "havoc",
@@ -17642,21 +17815,9 @@ window.WUWA_TARGET_DATA = {
         "havoc": 20
       },
       "resistance": {
-        "sourceKind": "composed",
+        "sourceKind": "stageFinal",
         "includesModeModifiers": true,
-        "intrinsicSource": "monster",
         "modifiers": [
-          {
-            "kind": "modeBase",
-            "value": 10,
-            "sourceId": "toaModeBase"
-          },
-          {
-            "kind": "attributeResistanceAdjustment",
-            "element": "aero",
-            "value": 10,
-            "sourceId": "toaMatchingElement"
-          },
           {
             "kind": "attributeResistanceAdjustment",
             "element": "fusion",
@@ -17714,21 +17875,9 @@ window.WUWA_TARGET_DATA = {
         "havoc": 20
       },
       "resistance": {
-        "sourceKind": "composed",
+        "sourceKind": "stageFinal",
         "includesModeModifiers": true,
-        "intrinsicSource": "monster",
         "modifiers": [
-          {
-            "kind": "modeBase",
-            "value": 10,
-            "sourceId": "toaModeBase"
-          },
-          {
-            "kind": "attributeResistanceAdjustment",
-            "element": "electro",
-            "value": 10,
-            "sourceId": "toaMatchingElement"
-          },
           {
             "kind": "attributeResistanceAdjustment",
             "element": "fusion",
@@ -17786,21 +17935,9 @@ window.WUWA_TARGET_DATA = {
         "havoc": 20
       },
       "resistance": {
-        "sourceKind": "composed",
+        "sourceKind": "stageFinal",
         "includesModeModifiers": true,
-        "intrinsicSource": "monster",
         "modifiers": [
-          {
-            "kind": "modeBase",
-            "value": 10,
-            "sourceId": "toaModeBase"
-          },
-          {
-            "kind": "attributeResistanceAdjustment",
-            "element": "electro",
-            "value": 10,
-            "sourceId": "toaMatchingElement"
-          },
           {
             "kind": "attributeResistanceAdjustment",
             "element": "fusion",
@@ -17858,21 +17995,9 @@ window.WUWA_TARGET_DATA = {
         "havoc": 20
       },
       "resistance": {
-        "sourceKind": "composed",
+        "sourceKind": "stageFinal",
         "includesModeModifiers": true,
-        "intrinsicSource": "monster",
         "modifiers": [
-          {
-            "kind": "modeBase",
-            "value": 10,
-            "sourceId": "toaModeBase"
-          },
-          {
-            "kind": "attributeResistanceAdjustment",
-            "element": "aero",
-            "value": 10,
-            "sourceId": "toaMatchingElement"
-          },
           {
             "kind": "attributeResistanceAdjustment",
             "element": "fusion",
@@ -17930,21 +18055,9 @@ window.WUWA_TARGET_DATA = {
         "havoc": 35
       },
       "resistance": {
-        "sourceKind": "composed",
+        "sourceKind": "stageFinal",
         "includesModeModifiers": true,
-        "intrinsicSource": "monster",
         "modifiers": [
-          {
-            "kind": "modeBase",
-            "value": 10,
-            "sourceId": "toaModeBase"
-          },
-          {
-            "kind": "attributeResistanceAdjustment",
-            "element": "electro",
-            "value": 10,
-            "sourceId": "toaMatchingElement"
-          },
           {
             "kind": "attributeResistanceAdjustment",
             "element": "glacio",
@@ -18015,21 +18128,9 @@ window.WUWA_TARGET_DATA = {
         "havoc": 35
       },
       "resistance": {
-        "sourceKind": "composed",
+        "sourceKind": "stageFinal",
         "includesModeModifiers": true,
-        "intrinsicSource": "monster",
         "modifiers": [
-          {
-            "kind": "modeBase",
-            "value": 10,
-            "sourceId": "toaModeBase"
-          },
-          {
-            "kind": "attributeResistanceAdjustment",
-            "element": "electro",
-            "value": 10,
-            "sourceId": "toaMatchingElement"
-          },
           {
             "kind": "attributeResistanceAdjustment",
             "element": "glacio",
@@ -18100,21 +18201,9 @@ window.WUWA_TARGET_DATA = {
         "havoc": 35
       },
       "resistance": {
-        "sourceKind": "composed",
+        "sourceKind": "stageFinal",
         "includesModeModifiers": true,
-        "intrinsicSource": "monster",
         "modifiers": [
-          {
-            "kind": "modeBase",
-            "value": 10,
-            "sourceId": "toaModeBase"
-          },
-          {
-            "kind": "attributeResistanceAdjustment",
-            "element": "electro",
-            "value": 10,
-            "sourceId": "toaMatchingElement"
-          },
           {
             "kind": "attributeResistanceAdjustment",
             "element": "glacio",
@@ -18185,21 +18274,9 @@ window.WUWA_TARGET_DATA = {
         "havoc": 35
       },
       "resistance": {
-        "sourceKind": "composed",
+        "sourceKind": "stageFinal",
         "includesModeModifiers": true,
-        "intrinsicSource": "monster",
         "modifiers": [
-          {
-            "kind": "modeBase",
-            "value": 10,
-            "sourceId": "toaModeBase"
-          },
-          {
-            "kind": "attributeResistanceAdjustment",
-            "element": "electro",
-            "value": 10,
-            "sourceId": "toaMatchingElement"
-          },
           {
             "kind": "attributeResistanceAdjustment",
             "element": "glacio",
@@ -18270,21 +18347,9 @@ window.WUWA_TARGET_DATA = {
         "havoc": 35
       },
       "resistance": {
-        "sourceKind": "composed",
+        "sourceKind": "stageFinal",
         "includesModeModifiers": true,
-        "intrinsicSource": "monster",
         "modifiers": [
-          {
-            "kind": "modeBase",
-            "value": 10,
-            "sourceId": "toaModeBase"
-          },
-          {
-            "kind": "attributeResistanceAdjustment",
-            "element": "electro",
-            "value": 10,
-            "sourceId": "toaMatchingElement"
-          },
           {
             "kind": "attributeResistanceAdjustment",
             "element": "glacio",
@@ -18355,21 +18420,9 @@ window.WUWA_TARGET_DATA = {
         "havoc": 35
       },
       "resistance": {
-        "sourceKind": "composed",
+        "sourceKind": "stageFinal",
         "includesModeModifiers": true,
-        "intrinsicSource": "monster",
         "modifiers": [
-          {
-            "kind": "modeBase",
-            "value": 10,
-            "sourceId": "toaModeBase"
-          },
-          {
-            "kind": "attributeResistanceAdjustment",
-            "element": "electro",
-            "value": 10,
-            "sourceId": "toaMatchingElement"
-          },
           {
             "kind": "attributeResistanceAdjustment",
             "element": "glacio",
@@ -18440,21 +18493,9 @@ window.WUWA_TARGET_DATA = {
         "havoc": 20
       },
       "resistance": {
-        "sourceKind": "composed",
+        "sourceKind": "stageFinal",
         "includesModeModifiers": true,
-        "intrinsicSource": "monster",
         "modifiers": [
-          {
-            "kind": "modeBase",
-            "value": 10,
-            "sourceId": "toaModeBase"
-          },
-          {
-            "kind": "attributeResistanceAdjustment",
-            "element": "glacio",
-            "value": 10,
-            "sourceId": "toaMatchingElement"
-          },
           {
             "kind": "attributeResistanceAdjustment",
             "element": "aero",
@@ -76456,6 +76497,816 @@ window.WUWA_TARGET_DATA = {
               "dpmatrix:6:26:enhancement",
               "dpmatrix:6:27:enhancement",
               "dpmatrix:6:28:enhancement"
+            ],
+            "defaultOptionId": null
+          }
+        ]
+      }
+    },
+    "dpmatrix:7:14:1:1:135": {
+      "id": "dpmatrix:7:14:1:1:135",
+      "mode": "dpmatrix",
+      "seasonId": "7",
+      "areaId": 14,
+      "stageId": 1,
+      "waveId": 1,
+      "recordId": 135,
+      "monsterId": 650000047,
+      "nameId": "matrix:650000047",
+      "element": "spectro",
+      "level": 100,
+      "resistances": {
+        "glacio": 20,
+        "fusion": 20,
+        "electro": 20,
+        "aero": 20,
+        "spectro": 40,
+        "havoc": 20
+      },
+      "resistance": {
+        "sourceKind": "composedFinal",
+        "includesModeModifiers": true,
+        "modifiers": [
+          {
+            "kind": "modeBase",
+            "value": 20,
+            "sourceId": "dpmatrixTestedBase"
+          },
+          {
+            "kind": "attributeResistanceAdjustment",
+            "element": "spectro",
+            "value": 20,
+            "sourceId": "dpmatrixTestedMatching"
+          }
+        ]
+      },
+      "gameplay": {
+        "fixedIds": [],
+        "controlIds": [],
+        "choiceGroups": [
+          {
+            "id": "dpmatrix:7:enhancement",
+            "optionIds": [
+              "dpmatrix:7:33:enhancement",
+              "dpmatrix:7:30:enhancement",
+              "dpmatrix:7:31:enhancement",
+              "dpmatrix:7:32:enhancement"
+            ],
+            "defaultOptionId": null
+          }
+        ]
+      }
+    },
+    "dpmatrix:7:14:1:2:136": {
+      "id": "dpmatrix:7:14:1:2:136",
+      "mode": "dpmatrix",
+      "seasonId": "7",
+      "areaId": 14,
+      "stageId": 1,
+      "waveId": 2,
+      "recordId": 136,
+      "monsterId": 243750011,
+      "nameId": "matrix:243750011",
+      "element": "fusion",
+      "level": 100,
+      "resistances": {
+        "glacio": 20,
+        "fusion": 40,
+        "electro": 20,
+        "aero": 20,
+        "spectro": 20,
+        "havoc": 20
+      },
+      "resistance": {
+        "sourceKind": "composedFinal",
+        "includesModeModifiers": true,
+        "modifiers": [
+          {
+            "kind": "modeBase",
+            "value": 20,
+            "sourceId": "dpmatrixTestedBase"
+          },
+          {
+            "kind": "attributeResistanceAdjustment",
+            "element": "fusion",
+            "value": 20,
+            "sourceId": "dpmatrixTestedMatching"
+          }
+        ]
+      },
+      "gameplay": {
+        "fixedIds": [],
+        "controlIds": [],
+        "choiceGroups": [
+          {
+            "id": "dpmatrix:7:enhancement",
+            "optionIds": [
+              "dpmatrix:7:33:enhancement",
+              "dpmatrix:7:30:enhancement",
+              "dpmatrix:7:31:enhancement",
+              "dpmatrix:7:32:enhancement"
+            ],
+            "defaultOptionId": null
+          }
+        ]
+      }
+    },
+    "dpmatrix:7:14:1:3:137": {
+      "id": "dpmatrix:7:14:1:3:137",
+      "mode": "dpmatrix",
+      "seasonId": "7",
+      "areaId": 14,
+      "stageId": 1,
+      "waveId": 3,
+      "recordId": 137,
+      "monsterId": 607750001,
+      "nameId": "matrix:607750001",
+      "element": "glacio",
+      "level": 100,
+      "resistances": {
+        "glacio": 40,
+        "fusion": 20,
+        "electro": 20,
+        "aero": 20,
+        "spectro": 20,
+        "havoc": 20
+      },
+      "resistance": {
+        "sourceKind": "composedFinal",
+        "includesModeModifiers": true,
+        "modifiers": [
+          {
+            "kind": "modeBase",
+            "value": 20,
+            "sourceId": "dpmatrixTestedBase"
+          },
+          {
+            "kind": "attributeResistanceAdjustment",
+            "element": "glacio",
+            "value": 20,
+            "sourceId": "dpmatrixTestedMatching"
+          }
+        ]
+      },
+      "gameplay": {
+        "fixedIds": [],
+        "controlIds": [],
+        "choiceGroups": [
+          {
+            "id": "dpmatrix:7:enhancement",
+            "optionIds": [
+              "dpmatrix:7:33:enhancement",
+              "dpmatrix:7:30:enhancement",
+              "dpmatrix:7:31:enhancement",
+              "dpmatrix:7:32:enhancement"
+            ],
+            "defaultOptionId": null
+          }
+        ]
+      }
+    },
+    "dpmatrix:7:14:1:4:138": {
+      "id": "dpmatrix:7:14:1:4:138",
+      "mode": "dpmatrix",
+      "seasonId": "7",
+      "areaId": 14,
+      "stageId": 1,
+      "waveId": 4,
+      "recordId": 138,
+      "monsterId": 650000045,
+      "nameId": "matrix:650000045",
+      "element": "electro",
+      "level": 100,
+      "resistances": {
+        "glacio": 20,
+        "fusion": 20,
+        "electro": 40,
+        "aero": 20,
+        "spectro": 20,
+        "havoc": 20
+      },
+      "resistance": {
+        "sourceKind": "composedFinal",
+        "includesModeModifiers": true,
+        "modifiers": [
+          {
+            "kind": "modeBase",
+            "value": 20,
+            "sourceId": "dpmatrixTestedBase"
+          },
+          {
+            "kind": "attributeResistanceAdjustment",
+            "element": "electro",
+            "value": 20,
+            "sourceId": "dpmatrixTestedMatching"
+          }
+        ]
+      },
+      "gameplay": {
+        "fixedIds": [],
+        "controlIds": [],
+        "choiceGroups": [
+          {
+            "id": "dpmatrix:7:enhancement",
+            "optionIds": [
+              "dpmatrix:7:33:enhancement",
+              "dpmatrix:7:30:enhancement",
+              "dpmatrix:7:31:enhancement",
+              "dpmatrix:7:32:enhancement"
+            ],
+            "defaultOptionId": null
+          }
+        ]
+      }
+    },
+    "dpmatrix:7:14:1:5:139": {
+      "id": "dpmatrix:7:14:1:5:139",
+      "mode": "dpmatrix",
+      "seasonId": "7",
+      "areaId": 14,
+      "stageId": 1,
+      "waveId": 5,
+      "recordId": 139,
+      "monsterId": 401800000,
+      "nameId": "matrix:401800000",
+      "element": "spectro",
+      "level": 100,
+      "resistances": {
+        "glacio": 20,
+        "fusion": 20,
+        "electro": 20,
+        "aero": 20,
+        "spectro": 40,
+        "havoc": 20
+      },
+      "resistance": {
+        "sourceKind": "composedFinal",
+        "includesModeModifiers": true,
+        "modifiers": [
+          {
+            "kind": "modeBase",
+            "value": 20,
+            "sourceId": "dpmatrixTestedBase"
+          },
+          {
+            "kind": "attributeResistanceAdjustment",
+            "element": "spectro",
+            "value": 20,
+            "sourceId": "dpmatrixTestedMatching"
+          }
+        ]
+      },
+      "gameplay": {
+        "fixedIds": [],
+        "controlIds": [],
+        "choiceGroups": [
+          {
+            "id": "dpmatrix:7:enhancement",
+            "optionIds": [
+              "dpmatrix:7:33:enhancement",
+              "dpmatrix:7:30:enhancement",
+              "dpmatrix:7:31:enhancement",
+              "dpmatrix:7:32:enhancement"
+            ],
+            "defaultOptionId": null
+          }
+        ]
+      }
+    },
+    "dpmatrix:7:14:2:6:140": {
+      "id": "dpmatrix:7:14:2:6:140",
+      "mode": "dpmatrix",
+      "seasonId": "7",
+      "areaId": 14,
+      "stageId": 2,
+      "waveId": 6,
+      "recordId": 140,
+      "monsterId": 650000047,
+      "nameId": "matrix:650000047",
+      "element": "spectro",
+      "level": 110,
+      "resistances": {
+        "glacio": 20,
+        "fusion": 20,
+        "electro": 20,
+        "aero": 20,
+        "spectro": 40,
+        "havoc": 20
+      },
+      "resistance": {
+        "sourceKind": "composedFinal",
+        "includesModeModifiers": true,
+        "modifiers": [
+          {
+            "kind": "modeBase",
+            "value": 20,
+            "sourceId": "dpmatrixTestedBase"
+          },
+          {
+            "kind": "attributeResistanceAdjustment",
+            "element": "spectro",
+            "value": 20,
+            "sourceId": "dpmatrixTestedMatching"
+          }
+        ]
+      },
+      "gameplay": {
+        "fixedIds": [],
+        "controlIds": [],
+        "choiceGroups": [
+          {
+            "id": "dpmatrix:7:enhancement",
+            "optionIds": [
+              "dpmatrix:7:33:enhancement",
+              "dpmatrix:7:30:enhancement",
+              "dpmatrix:7:31:enhancement",
+              "dpmatrix:7:32:enhancement"
+            ],
+            "defaultOptionId": null
+          }
+        ]
+      }
+    },
+    "dpmatrix:7:14:2:7:141": {
+      "id": "dpmatrix:7:14:2:7:141",
+      "mode": "dpmatrix",
+      "seasonId": "7",
+      "areaId": 14,
+      "stageId": 2,
+      "waveId": 7,
+      "recordId": 141,
+      "monsterId": 243750011,
+      "nameId": "matrix:243750011",
+      "element": "fusion",
+      "level": 110,
+      "resistances": {
+        "glacio": 20,
+        "fusion": 40,
+        "electro": 20,
+        "aero": 20,
+        "spectro": 20,
+        "havoc": 20
+      },
+      "resistance": {
+        "sourceKind": "composedFinal",
+        "includesModeModifiers": true,
+        "modifiers": [
+          {
+            "kind": "modeBase",
+            "value": 20,
+            "sourceId": "dpmatrixTestedBase"
+          },
+          {
+            "kind": "attributeResistanceAdjustment",
+            "element": "fusion",
+            "value": 20,
+            "sourceId": "dpmatrixTestedMatching"
+          }
+        ]
+      },
+      "gameplay": {
+        "fixedIds": [],
+        "controlIds": [],
+        "choiceGroups": [
+          {
+            "id": "dpmatrix:7:enhancement",
+            "optionIds": [
+              "dpmatrix:7:33:enhancement",
+              "dpmatrix:7:30:enhancement",
+              "dpmatrix:7:31:enhancement",
+              "dpmatrix:7:32:enhancement"
+            ],
+            "defaultOptionId": null
+          }
+        ]
+      }
+    },
+    "dpmatrix:7:14:2:8:142": {
+      "id": "dpmatrix:7:14:2:8:142",
+      "mode": "dpmatrix",
+      "seasonId": "7",
+      "areaId": 14,
+      "stageId": 2,
+      "waveId": 8,
+      "recordId": 142,
+      "monsterId": 607750001,
+      "nameId": "matrix:607750001",
+      "element": "glacio",
+      "level": 110,
+      "resistances": {
+        "glacio": 40,
+        "fusion": 20,
+        "electro": 20,
+        "aero": 20,
+        "spectro": 20,
+        "havoc": 20
+      },
+      "resistance": {
+        "sourceKind": "composedFinal",
+        "includesModeModifiers": true,
+        "modifiers": [
+          {
+            "kind": "modeBase",
+            "value": 20,
+            "sourceId": "dpmatrixTestedBase"
+          },
+          {
+            "kind": "attributeResistanceAdjustment",
+            "element": "glacio",
+            "value": 20,
+            "sourceId": "dpmatrixTestedMatching"
+          }
+        ]
+      },
+      "gameplay": {
+        "fixedIds": [],
+        "controlIds": [],
+        "choiceGroups": [
+          {
+            "id": "dpmatrix:7:enhancement",
+            "optionIds": [
+              "dpmatrix:7:33:enhancement",
+              "dpmatrix:7:30:enhancement",
+              "dpmatrix:7:31:enhancement",
+              "dpmatrix:7:32:enhancement"
+            ],
+            "defaultOptionId": null
+          }
+        ]
+      }
+    },
+    "dpmatrix:7:14:2:9:143": {
+      "id": "dpmatrix:7:14:2:9:143",
+      "mode": "dpmatrix",
+      "seasonId": "7",
+      "areaId": 14,
+      "stageId": 2,
+      "waveId": 9,
+      "recordId": 143,
+      "monsterId": 650000045,
+      "nameId": "matrix:650000045",
+      "element": "electro",
+      "level": 110,
+      "resistances": {
+        "glacio": 20,
+        "fusion": 20,
+        "electro": 40,
+        "aero": 20,
+        "spectro": 20,
+        "havoc": 20
+      },
+      "resistance": {
+        "sourceKind": "composedFinal",
+        "includesModeModifiers": true,
+        "modifiers": [
+          {
+            "kind": "modeBase",
+            "value": 20,
+            "sourceId": "dpmatrixTestedBase"
+          },
+          {
+            "kind": "attributeResistanceAdjustment",
+            "element": "electro",
+            "value": 20,
+            "sourceId": "dpmatrixTestedMatching"
+          }
+        ]
+      },
+      "gameplay": {
+        "fixedIds": [],
+        "controlIds": [],
+        "choiceGroups": [
+          {
+            "id": "dpmatrix:7:enhancement",
+            "optionIds": [
+              "dpmatrix:7:33:enhancement",
+              "dpmatrix:7:30:enhancement",
+              "dpmatrix:7:31:enhancement",
+              "dpmatrix:7:32:enhancement"
+            ],
+            "defaultOptionId": null
+          }
+        ]
+      }
+    },
+    "dpmatrix:7:14:2:10:144": {
+      "id": "dpmatrix:7:14:2:10:144",
+      "mode": "dpmatrix",
+      "seasonId": "7",
+      "areaId": 14,
+      "stageId": 2,
+      "waveId": 10,
+      "recordId": 144,
+      "monsterId": 401800000,
+      "nameId": "matrix:401800000",
+      "element": "spectro",
+      "level": 110,
+      "resistances": {
+        "glacio": 20,
+        "fusion": 20,
+        "electro": 20,
+        "aero": 20,
+        "spectro": 40,
+        "havoc": 20
+      },
+      "resistance": {
+        "sourceKind": "composedFinal",
+        "includesModeModifiers": true,
+        "modifiers": [
+          {
+            "kind": "modeBase",
+            "value": 20,
+            "sourceId": "dpmatrixTestedBase"
+          },
+          {
+            "kind": "attributeResistanceAdjustment",
+            "element": "spectro",
+            "value": 20,
+            "sourceId": "dpmatrixTestedMatching"
+          }
+        ]
+      },
+      "gameplay": {
+        "fixedIds": [],
+        "controlIds": [],
+        "choiceGroups": [
+          {
+            "id": "dpmatrix:7:enhancement",
+            "optionIds": [
+              "dpmatrix:7:33:enhancement",
+              "dpmatrix:7:30:enhancement",
+              "dpmatrix:7:31:enhancement",
+              "dpmatrix:7:32:enhancement"
+            ],
+            "defaultOptionId": null
+          }
+        ]
+      }
+    },
+    "dpmatrix:7:14:3:11:145": {
+      "id": "dpmatrix:7:14:3:11:145",
+      "mode": "dpmatrix",
+      "seasonId": "7",
+      "areaId": 14,
+      "stageId": 3,
+      "waveId": 11,
+      "recordId": 145,
+      "monsterId": 650000047,
+      "nameId": "matrix:650000047",
+      "element": "spectro",
+      "level": 120,
+      "resistances": {
+        "glacio": 20,
+        "fusion": 20,
+        "electro": 20,
+        "aero": 20,
+        "spectro": 40,
+        "havoc": 20
+      },
+      "resistance": {
+        "sourceKind": "composedFinal",
+        "includesModeModifiers": true,
+        "modifiers": [
+          {
+            "kind": "modeBase",
+            "value": 20,
+            "sourceId": "dpmatrixTestedBase"
+          },
+          {
+            "kind": "attributeResistanceAdjustment",
+            "element": "spectro",
+            "value": 20,
+            "sourceId": "dpmatrixTestedMatching"
+          }
+        ]
+      },
+      "gameplay": {
+        "fixedIds": [],
+        "controlIds": [],
+        "choiceGroups": [
+          {
+            "id": "dpmatrix:7:enhancement",
+            "optionIds": [
+              "dpmatrix:7:33:enhancement",
+              "dpmatrix:7:30:enhancement",
+              "dpmatrix:7:31:enhancement",
+              "dpmatrix:7:32:enhancement"
+            ],
+            "defaultOptionId": null
+          }
+        ]
+      }
+    },
+    "dpmatrix:7:14:3:12:146": {
+      "id": "dpmatrix:7:14:3:12:146",
+      "mode": "dpmatrix",
+      "seasonId": "7",
+      "areaId": 14,
+      "stageId": 3,
+      "waveId": 12,
+      "recordId": 146,
+      "monsterId": 243750011,
+      "nameId": "matrix:243750011",
+      "element": "fusion",
+      "level": 120,
+      "resistances": {
+        "glacio": 20,
+        "fusion": 40,
+        "electro": 20,
+        "aero": 20,
+        "spectro": 20,
+        "havoc": 20
+      },
+      "resistance": {
+        "sourceKind": "composedFinal",
+        "includesModeModifiers": true,
+        "modifiers": [
+          {
+            "kind": "modeBase",
+            "value": 20,
+            "sourceId": "dpmatrixTestedBase"
+          },
+          {
+            "kind": "attributeResistanceAdjustment",
+            "element": "fusion",
+            "value": 20,
+            "sourceId": "dpmatrixTestedMatching"
+          }
+        ]
+      },
+      "gameplay": {
+        "fixedIds": [],
+        "controlIds": [],
+        "choiceGroups": [
+          {
+            "id": "dpmatrix:7:enhancement",
+            "optionIds": [
+              "dpmatrix:7:33:enhancement",
+              "dpmatrix:7:30:enhancement",
+              "dpmatrix:7:31:enhancement",
+              "dpmatrix:7:32:enhancement"
+            ],
+            "defaultOptionId": null
+          }
+        ]
+      }
+    },
+    "dpmatrix:7:14:3:13:147": {
+      "id": "dpmatrix:7:14:3:13:147",
+      "mode": "dpmatrix",
+      "seasonId": "7",
+      "areaId": 14,
+      "stageId": 3,
+      "waveId": 13,
+      "recordId": 147,
+      "monsterId": 607750001,
+      "nameId": "matrix:607750001",
+      "element": "glacio",
+      "level": 120,
+      "resistances": {
+        "glacio": 40,
+        "fusion": 20,
+        "electro": 20,
+        "aero": 20,
+        "spectro": 20,
+        "havoc": 20
+      },
+      "resistance": {
+        "sourceKind": "composedFinal",
+        "includesModeModifiers": true,
+        "modifiers": [
+          {
+            "kind": "modeBase",
+            "value": 20,
+            "sourceId": "dpmatrixTestedBase"
+          },
+          {
+            "kind": "attributeResistanceAdjustment",
+            "element": "glacio",
+            "value": 20,
+            "sourceId": "dpmatrixTestedMatching"
+          }
+        ]
+      },
+      "gameplay": {
+        "fixedIds": [],
+        "controlIds": [],
+        "choiceGroups": [
+          {
+            "id": "dpmatrix:7:enhancement",
+            "optionIds": [
+              "dpmatrix:7:33:enhancement",
+              "dpmatrix:7:30:enhancement",
+              "dpmatrix:7:31:enhancement",
+              "dpmatrix:7:32:enhancement"
+            ],
+            "defaultOptionId": null
+          }
+        ]
+      }
+    },
+    "dpmatrix:7:14:3:14:148": {
+      "id": "dpmatrix:7:14:3:14:148",
+      "mode": "dpmatrix",
+      "seasonId": "7",
+      "areaId": 14,
+      "stageId": 3,
+      "waveId": 14,
+      "recordId": 148,
+      "monsterId": 650000045,
+      "nameId": "matrix:650000045",
+      "element": "electro",
+      "level": 120,
+      "resistances": {
+        "glacio": 20,
+        "fusion": 20,
+        "electro": 40,
+        "aero": 20,
+        "spectro": 20,
+        "havoc": 20
+      },
+      "resistance": {
+        "sourceKind": "composedFinal",
+        "includesModeModifiers": true,
+        "modifiers": [
+          {
+            "kind": "modeBase",
+            "value": 20,
+            "sourceId": "dpmatrixTestedBase"
+          },
+          {
+            "kind": "attributeResistanceAdjustment",
+            "element": "electro",
+            "value": 20,
+            "sourceId": "dpmatrixTestedMatching"
+          }
+        ]
+      },
+      "gameplay": {
+        "fixedIds": [],
+        "controlIds": [],
+        "choiceGroups": [
+          {
+            "id": "dpmatrix:7:enhancement",
+            "optionIds": [
+              "dpmatrix:7:33:enhancement",
+              "dpmatrix:7:30:enhancement",
+              "dpmatrix:7:31:enhancement",
+              "dpmatrix:7:32:enhancement"
+            ],
+            "defaultOptionId": null
+          }
+        ]
+      }
+    },
+    "dpmatrix:7:14:3:15:149": {
+      "id": "dpmatrix:7:14:3:15:149",
+      "mode": "dpmatrix",
+      "seasonId": "7",
+      "areaId": 14,
+      "stageId": 3,
+      "waveId": 15,
+      "recordId": 149,
+      "monsterId": 401800000,
+      "nameId": "matrix:401800000",
+      "element": "spectro",
+      "level": 120,
+      "resistances": {
+        "glacio": 20,
+        "fusion": 20,
+        "electro": 20,
+        "aero": 20,
+        "spectro": 40,
+        "havoc": 20
+      },
+      "resistance": {
+        "sourceKind": "composedFinal",
+        "includesModeModifiers": true,
+        "modifiers": [
+          {
+            "kind": "modeBase",
+            "value": 20,
+            "sourceId": "dpmatrixTestedBase"
+          },
+          {
+            "kind": "attributeResistanceAdjustment",
+            "element": "spectro",
+            "value": 20,
+            "sourceId": "dpmatrixTestedMatching"
+          }
+        ]
+      },
+      "gameplay": {
+        "fixedIds": [],
+        "controlIds": [],
+        "choiceGroups": [
+          {
+            "id": "dpmatrix:7:enhancement",
+            "optionIds": [
+              "dpmatrix:7:33:enhancement",
+              "dpmatrix:7:30:enhancement",
+              "dpmatrix:7:31:enhancement",
+              "dpmatrix:7:32:enhancement"
             ],
             "defaultOptionId": null
           }

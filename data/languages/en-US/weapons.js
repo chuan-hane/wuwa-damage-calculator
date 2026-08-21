@@ -1549,6 +1549,57 @@ window.WUWA_LANGUAGES.extend("en-US", {
             "conditionText": "When the wielder has both Snow Taint and Ripples, nearby team members' ATK is increased by 20%/25%/30%/35%/40%."
           }
         ]
+      },
+      "glint_of_clouds": {
+        "name": "Glint of Clouds",
+        "typeName": "Sword",
+        "resonanceName": "Evil's Scourge",
+        "description": "ATK is increased by 12%/15%/18%/21%/24%. Inflicting Tune Strain - Shifting grants 11.2%/14%/16.8%/19.6%/22.4% Aero DMG Bonus for 2/2/2/2/2s, stacking up to 5/5/5/5/5 times. This effect can be triggered once every 0.5/0.5/0.5/0.5/0.5s. Upon reaching the max stack limit, gain the following effects:\n- This Aero DMG Bonus effect's duration is extended to 30/30/30/30/30s.\n- Aero DMG ignores 10%/12.5%/15%/17.5%/20% of the target's DEF during this effect.",
+        "effects": [
+          {
+            "label": "ATK",
+            "excerpt": "ATK +12%",
+            "conditionText": "ATK is increased by 12%/15%/18%/21%/24%."
+          },
+          {
+            "label": "Aero DMG Bonus",
+            "excerpt": "After inflicting Tune Strain - Shifting, Aero DMG Bonus +11.2% per stack; 30s at max stacks",
+            "conditionText": "Inflicting Tune Strain - Shifting grants 11.2%/14%/16.8%/19.6%/22.4% Aero DMG Bonus for 2s, stacking up to 5 times and triggering once every 0.5s. At max stacks, the duration is extended to 30s."
+          },
+          {
+            "label": "DEF Ignore",
+            "excerpt": "At 5 Aero stacks, Aero DMG ignores 10% DEF",
+            "conditionText": "At max Aero DMG Bonus stacks, Aero DMG ignores 10%/12.5%/15%/17.5%/20% of the target's DEF while the effect persists."
+          }
+        ]
+      },
+      "thousandfold_deliverance": {
+        "name": "Thousandfold Deliverance",
+        "typeName": "Broadblade",
+        "resonanceName": "Hark, Spirits and Stars",
+        "description": "Grants 12%/15%/18%/21%/24% All-Attribute DMG Bonus. Casting Intro Skill or gaining a Shield as the active Resonator grants 1 stack of Nature's Order and 1 stack of Cradle of Life. This effect can be triggered via gaining a Shield once every 0.5s, stacking up to 6/6/6/6/6 {Cus:Sap,S=time P=times SapTag=1}, lasting for 7/7/7/7/7s. Switching to another Resonator ends both Nature's Order and Cradle of Life immediately.\nNature's Order: Crit. DMG is increased by 4%/5%/6%/7%/8%, up to 24%/30%/36%/42%/48%. When Nature's Order reaches 6/6/6/6/6 {Cus:Sap,S=stack P=stacks SapTag=A}, the Crit. Rate of Heavy Attack DMG is increased by 12%/15%/18%/21%/24%.\nCradle of Life: Casting Heavy Attack consumes up to 2/2/2/2/2 stacks of Cradle of Life. For every 1/1/1/1/1 {Cus:Sap,S=stack P=stacks SapTag=6} of Cradle of Life consumed, Heavy Attack DMG ignores 15%/17.5%/20%/22.5%/25% of the target's DEF, up to 30%/35%/40%/45%/50%. The effect lasts for 2/2/2/2/2s.",
+        "effects": [
+          {
+            "label": "All-Attribute DMG Bonus",
+            "excerpt": "All-Attribute DMG Bonus +12%",
+            "conditionText": "Grants 12%/15%/18%/21%/24% All-Attribute DMG Bonus."
+          },
+          {
+            "label": "Crit. DMG",
+            "excerpt": "After Intro Skill or gaining a Shield, Crit. DMG +4% per stack",
+            "conditionText": "Casting Intro Skill or gaining a Shield as the active Resonator grants 1 stack of Nature's Order, up to 6 stacks for 7s. Switching Resonators ends the effect. Each stack increases Crit. DMG by 4%/5%/6%/7%/8%, up to 24%/30%/36%/42%/48%."
+          },
+          {
+            "label": "Heavy Attack Crit. Rate",
+            "excerpt": "At 6 Nature's Order stacks, Heavy Attack Crit. Rate +12%",
+            "conditionText": "When Nature's Order reaches 6 stacks, the Crit. Rate of Heavy Attack DMG is increased by 12%/15%/18%/21%/24%."
+          },
+          {
+            "label": "Heavy Attack DEF Ignore",
+            "excerpt": "On Heavy Attack, each Cradle of Life stack consumed ignores 15% DEF",
+            "conditionText": "Cradle of Life gains the same stacks as Nature's Order. Casting Heavy Attack consumes up to 2 stacks. Each stack consumed makes Heavy Attack DMG ignore 15%/17.5%/20%/22.5%/25% DEF, up to 30%/35%/40%/45%/50%, for 2s."
+          }
+        ]
       }
     }
   }

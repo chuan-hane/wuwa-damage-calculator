@@ -243,14 +243,14 @@ window.WUWA_LANGUAGES.extend("en-US", {
             "label": "ATK",
             "trigger": "In Entropy Shift: Breakdown Form",
             "excerpt": "ATK +30%",
-            "desc": "Final Act - Stagecraft Form"
+            "desc": "While in Entropy Shift: Breakdown Form, ATK is increased by 30%."
           },
           {
             "source": "Forte Circuit: Void Particle",
             "label": "\"Flawless\" - Void Particle - Basic Attack - Breakdown Form Stage 1 DMG Multiplier Increase",
-            "trigger": "In Target Tune Strain · Interfered",
+            "trigger": "When a Breakdown Form Basic Attack consumes Void Particle",
             "excerpt": "\"Flawless\" - Void Particle - Basic Attack - Breakdown Form Stage 1 DMG Multiplier Increase +50%",
-            "desc": "When Conformal Charge is full, consume all Conformal Charge and Void Particle to perform this skill."
+            "desc": "When Void Particle is above 0, a Breakdown Form Basic Attack consumes it, is considered Resonance Liberation DMG, and gains 50% DMG Multiplier Increase."
           },
           {
             "source": "Inherent Skill: Etched Colors",
@@ -276,30 +276,37 @@ window.WUWA_LANGUAGES.extend("en-US", {
           {
             "source": "Tune Break: Shattered Hours",
             "label": "Final DMG Bonus",
-            "trigger": "In Resonance Mode - Tune Strain",
+            "trigger": "Responding to Tune Strain - Interfered",
             "excerpt": "Each Tune Strain - Interfered stack converts Tune Break Boost into Final DMG Bonus",
             "desc": "Each Tune Strain - Interfered stack converts Tune Break Boost into Final DMG Bonus."
           },
           {
             "source": "Outro Skill: Unfinished Lies",
             "label": "DMG Increase",
-            "trigger": "In Resonance Mode - Fusion Burst",
+            "trigger": "After casting Outro Skill in Resonance Mode - Fusion Burst",
             "excerpt": "DMG Increase +60%",
-            "desc": "DMG Increase +60%"
+            "desc": "After Denia casts Outro Skill in Resonance Mode - Fusion Burst, targets near the active Resonator take 60% more Fusion Burst DMG for 30s."
           },
           {
             "source": "Outro Skill: Unfinished Lies",
             "label": "DMG Increase",
-            "trigger": "In Resonance Mode - Tune Strain",
+            "trigger": "After casting Outro Skill in Resonance Mode - Tune Strain",
             "excerpt": "DMG Increase +15%",
-            "desc": "DMG Increase +15%"
+            "desc": "After Denia casts Outro Skill in Resonance Mode - Tune Strain, the incoming Resonator gains 15% DMG Amplification for 16s."
           },
           {
             "source": "Outro Skill: Unfinished Lies",
             "label": "DMG Increase",
-            "trigger": "In Resonance Mode - Tune Strain",
+            "trigger": "After the Outro beneficiary inflicts Tune Strain - Shifting",
             "excerpt": "DMG Increase +25%",
-            "desc": "DMG Increase +25%"
+            "desc": "If the Outro beneficiary inflicts Tune Strain - Shifting during the effect, their total DMG Amplification is increased from 15% to 40%."
+          },
+          {
+            "source": "Resonance Skill: Banish - Breakdown Form",
+            "label": "DMG Multiplier Increase",
+            "trigger": "When casting Banish - Breakdown Form Stage 2",
+            "excerpt": "Each Dark Core adds 150% to the Stage 2 DMG Multiplier",
+            "desc": "When casting Banish - Breakdown Form Stage 2, each Dark Core increases this skill's DMG Multiplier by 150%."
           }
         ],
         "chain": [
@@ -389,11 +396,6 @@ window.WUWA_LANGUAGES.extend("en-US", {
                 "label": "Fusion Burst Extra Multiplier",
                 "trigger": "In Resonance Mode - Fusion Burst",
                 "excerpt": "Fusion Burst Extra Multiplier +200%"
-              },
-              {
-                "label": "Final DMG Bonus",
-                "trigger": "In Resonance Mode - Tune Strain",
-                "excerpt": "Final DMG Bonus +0%"
               }
             ]
           }

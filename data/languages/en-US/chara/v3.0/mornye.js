@@ -144,23 +144,23 @@ window.WUWA_LANGUAGES.extend("en-US", {
           {
             "source": "Inherent Skill: Blueprint",
             "label": "Energy Regen",
-            "trigger": "In Off-Tune Interference · Tune Strain",
+            "trigger": "Default",
             "excerpt": "Energy Regen +10%",
-            "desc": "Energy Regen +10%"
+            "desc": "Mornye's Energy Regen is increased by 10%."
           },
           {
             "source": "Resonance Liberation: Critical Protocol",
             "label": "Crit. Rate",
-            "trigger": "In Off-Tune Interference · Tune Strain",
+            "trigger": "When casting Resonance Liberation",
             "excerpt": "Crit. Rate based on Energy Regen, cap 80%",
-            "desc": "The DMG Multiplier of Resonance Liberation - Critical Protocol is increased by 40%."
+            "desc": "For every 1% of Mornye's Energy Regen exceeding 100%, Critical Protocol gains 0.5% Crit. Rate, up to 80%."
           },
           {
             "source": "Resonance Liberation: Critical Protocol",
             "label": "Crit. DMG",
-            "trigger": "In Off-Tune Interference · Tune Strain",
+            "trigger": "When casting Resonance Liberation",
             "excerpt": "Crit. DMG based on Energy Regen, cap 160%",
-            "desc": "The DMG Multiplier of Resonance Liberation - Critical Protocol is increased by 40%."
+            "desc": "For every 1% of Mornye's Energy Regen exceeding 100%, Critical Protocol gains 1% Crit. DMG, up to 160%."
           },
           {
             "source": "Forte Circuit: Syntony Field",
@@ -172,9 +172,9 @@ window.WUWA_LANGUAGES.extend("en-US", {
           {
             "source": "Resonance Liberation: High Syntony Field",
             "label": "DEF",
-            "trigger": "In Syntony Field · High Syntony Field",
+            "trigger": "Within High Syntony Field",
             "excerpt": "DEF +20%",
-            "desc": "When casting this skill, if a Syntony Field is present, remove it and generate a High Syntony Field."
+            "desc": "High Syntony Field increases the DEF of all nearby Resonators in the team by 20%."
           },
           {
             "source": "Forte Circuit: Interfered Marker",
@@ -186,16 +186,16 @@ window.WUWA_LANGUAGES.extend("en-US", {
           {
             "source": "Tune Break: Decoupling",
             "label": "Final DMG Bonus",
-            "trigger": "In Off-Tune Interference · Tune Strain",
+            "trigger": "Responding to Tune Strain - Interfered",
             "excerpt": "Each Tune Strain - Interfered stack converts Tune Break Boost into Final DMG Bonus",
             "desc": "Each Tune Strain - Interfered stack converts Tune Break Boost into Final DMG Bonus."
           },
           {
             "source": "Outro Skill: Recursion",
             "label": "DMG Increase",
-            "trigger": "In Off-Tune Interference · Tune Strain",
+            "trigger": "After casting Outro Skill",
             "excerpt": "DMG Increase +25%",
-            "desc": "DMG Increase +25%"
+            "desc": "After Mornye casts Outro Skill, Resonators in the team gain 25% All-DMG Amplification for 30s."
           }
         ],
         "chain": [

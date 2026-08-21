@@ -473,6 +473,18 @@ window.WUWA_SETTLEMENT = (() => {
       return legacy ? levels[legacy] : 10;
     }
 
+    function skillLevelCategory(sk) {
+      return sk?.levelCategory || sk?.category || "";
+    }
+
+    function skillLevelForSkill(slot, sk) {
+      return sk?.fixedLevel ? 10 : skillLevelFor(slot, skillLevelCategory(sk));
+    }
+
+    function skillLevelRatioFor(slot, sk) {
+      return sk?.fixedLevel ? 1 : skillLevelRatio(skillLevelForSkill(slot, sk));
+    }
+
     function eventKeyOf(eventName) {
       return EVENT_ALIAS[eventName] || eventName;
     }
@@ -888,15 +900,15 @@ window.WUWA_SETTLEMENT = (() => {
       return slotBuffs(slot).filter((other) => other.exclusiveGroup === buff.exclusiveGroup && buffSeqUnlocked(slot, other));
     }
 
-    function buffToggleOn(slot, buff) {
+    function buffToggleOn(slot, buff, defaultOn = true) {
       const own = explicitBuffToggle(slot, buff);
       if (own != null) return own === true;
-      if (!buff.exclusiveGroup) return true;
+      if (!buff.exclusiveGroup) return defaultOn;
       const group = exclusiveBuffGroup(slot, buff);
       const selected = group.find((other) => explicitBuffToggle(slot, other) === true);
       if (selected) return selected.id === buff.id;
       if (group.some((other) => explicitBuffToggle(slot, other) != null)) return false;
-      return group[0]?.id === buff.id;
+      return defaultOn && group[0]?.id === buff.id;
     }
 
     function buffSeqUnlocked(slot, buff) {
@@ -1051,8 +1063,9 @@ window.WUWA_SETTLEMENT = (() => {
     }
 
     function manualBuffStackFallback(slot, buff) {
+      if (buff.defaultStacks != null) return num(buff.defaultStacks);
       if (buff.maxStacks && buffToggleOn(slot, buff)) return buffStackCap(slot, buff) || buff.maxStacks;
-      return num(buff.defaultStacks ?? buff.maxStacks);
+      return num(buff.maxStacks);
     }
 
     function buffStackCount(slot, buff, idx = state.slots.indexOf(slot), outputIdx = state.outputIdx, ctxOverride = null) {
@@ -1151,7 +1164,7 @@ window.WUWA_SETTLEMENT = (() => {
       const isDps = idx === outputIdx;
       const gated = buffGateReason(slot, idx, buff, seen, outputIdx, ctx, isDps);
       const precondition = buffNeedsPrecondition(slot, idx, buff, outputIdx, ctx);
-      const toggleOn = precondition ? buffToggleOn(slot, buff) : true;
+      const toggleOn = precondition ? buffToggleOn(slot, buff, false) : true;
       return { gated, precondition, toggleOn, applies: !gated && toggleOn };
     }
 
@@ -1204,6 +1217,11 @@ window.WUWA_SETTLEMENT = (() => {
       return key === "hp" || key === "defense" ? key : "attack";
     }
 
+    function fixedCharacterStat(c, key) {
+      const value = c?.fixedStats?.[key];
+      return value == null ? null : num(value);
+    }
+
     const SOURCE_STAT_ZONE = {
       energyRegen: "energyRegen",
       critRate: "critRate",
@@ -1226,7 +1244,7 @@ window.WUWA_SETTLEMENT = (() => {
       if (!zone) return 0;
       const idx = state.slots.indexOf(slot);
       return slotBuffs(slot).reduce((total, buff) => {
-        if (buff.provider !== "声骸" || buff.zone !== zone || buff.scaleBy || buff.requiresSourceStat) return total;
+        if (buff.provider !== "声骸" || buff.zone !== zone || buff.scaleBy || buff.multAddByStat || buff.requiresSourceStat) return total;
         if (!buffStatus(slot, idx, buff).applies) return total;
         return total + buffValue(slot, buff, idx);
       }, 0);
@@ -1236,6 +1254,8 @@ window.WUWA_SETTLEMENT = (() => {
       const c = ch(slot.char);
       if (!c) return 0;
       const key = sourceStatKey(stat);
+      const fixed = fixedCharacterStat(c, key);
+      if (fixed != null) return fixed;
       const tree = c.base.tree || {};
       const w = wp(slot.weapon);
       const es = echoStats(slot);
@@ -1257,17 +1277,43 @@ window.WUWA_SETTLEMENT = (() => {
       return 0;
     }
 
-    function activeSourceStatBuffValue(slot, key, currentBuff) {
-      const zone = SOURCE_STAT_ZONE[key];
-      if (!zone) return 0;
+    function activeBuffZoneValue(slot, zone, currentBuff) {
       const outputIdx = state.slots.indexOf(slot);
       return state.slots.reduce((sum, providerSlot, providerIdx) => {
         return sum + slotBuffs(providerSlot).reduce((total, buff) => {
-          if (buff === currentBuff || buff.id === "w_sec" || buff.zone !== zone || buff.scaleBy || buff.provider === "声骸") return total;
+          if (buff === currentBuff || buff.id === "w_sec" || buff.zone !== zone || buff.scaleBy || buff.multAddByStat || buff.provider === "声骸") return total;
           if (!buffStatus(providerSlot, providerIdx, buff, new Set(), outputIdx).applies) return total;
           return total + buffValue(providerSlot, buff, providerIdx);
         }, 0);
       }, 0);
+    }
+
+    function activeSourceStatBuffValue(slot, key, currentBuff) {
+      const zone = SOURCE_STAT_ZONE[key];
+      if (!zone) return 0;
+      return activeBuffZoneValue(slot, zone, currentBuff);
+    }
+
+    function activeCompositeStatBuffValue(slot, key, currentBuff) {
+      const c = ch(slot.char);
+      if (!c) return 0;
+      if (fixedCharacterStat(c, key) != null) return 0;
+      if (key === "hp") return c.base.hp * activeSourceStatBuffValue(slot, "hpPercent", currentBuff) / 100;
+      if (key === "defense") return c.base.defense * activeSourceStatBuffValue(slot, "defensePercent", currentBuff) / 100;
+      if (key !== "attack") return activeSourceStatBuffValue(slot, key, currentBuff);
+      const w = wp(slot.weapon);
+      const baseAtk = c.base.attack + (w ? num(w.attack90) : 0);
+      return baseAtk * activeSourceStatBuffValue(slot, "attackPercent", currentBuff) / 100
+        + activeBuffZoneValue(slot, "attackFlat", currentBuff);
+    }
+
+    function scaleLevelValue(slot, scale, key, fallback) {
+      const values = asList(scale?.[key + "ByLevel"]);
+      if (!values.length) return num(scale?.[key] ?? fallback);
+      const sk = resolvedSkill(slot);
+      const level = skillLevelFor(slot, scale.levelCategory || skillLevelCategory(sk));
+      const index = Math.min(Math.max(Math.round(level), 1), values.length) - 1;
+      return num(values[index]);
     }
 
     function sourceStatRequirementReady(slot, buff) {
@@ -1405,21 +1451,32 @@ window.WUWA_SETTLEMENT = (() => {
     }
 
     function scaleByInfo(slot, buff, outputIdx = state.outputIdx) {
-      const scale = buff.scaleBy;
+      const scale = buff.scaleBy || buff.multAddByStat;
       if (!scale) return null;
       const sourceSlot = scaleBySourceSlot(slot, scale, outputIdx);
       const key = sourceStatKey(scale.stat);
-      const base = sourceStatValue(sourceSlot, key) + (scale.includeActiveBuffs ? activeSourceStatBuffValue(sourceSlot, key, buff) : 0);
+      const base = sourceStatValue(sourceSlot, key) + (scale.includeActiveBuffs ? activeCompositeStatBuffValue(sourceSlot, key, buff) : 0);
       const source = base + num(scale.statBonus);
-      const raw = source * num(scale.rate);
+      const threshold = num(scale.threshold);
+      const step = num(scale.step);
+      const scaledSource = Math.max(0, source - threshold);
+      const steps = step > 0 ? Math.floor(scaledSource / step) : scaledSource;
+      const unitRate = step > 0
+        ? scaleLevelValue(sourceSlot, scale, "perStep", scale.rate)
+        : scaleLevelValue(sourceSlot, scale, "rate", scale.perStep);
+      const raw = steps * unitRate;
+      const derivedCap = scale.maxSteps == null ? null : num(scale.maxSteps) * unitRate;
       return {
         key,
         label: SOURCE_STAT_LABEL[key] || scale.stat,
         base,
         source,
         raw,
+        threshold,
+        step,
+        steps,
         min: scale.min == null ? null : num(scale.min),
-        cap: scale.cap == null ? null : num(scale.cap),
+        cap: scale.cap == null ? derivedCap : num(scale.cap),
       };
     }
 
@@ -1431,7 +1488,7 @@ window.WUWA_SETTLEMENT = (() => {
         v = num(value) * num(scale.rate ?? scale.perPoint);
         if (scale.cap != null) v = Math.min(v, num(scale.cap));
       }
-      if (buff.scaleBy) {
+      if (buff.scaleBy || buff.multAddByStat) {
         const info = scaleByInfo(slot, buff, outputIdx);
         v = info.raw;
         if (info.min != null) v = Math.max(v, info.min);
@@ -1692,7 +1749,7 @@ window.WUWA_SETTLEMENT = (() => {
         if (!ref || !refReady || stacks < req.stacks) gated = `需${req.label || req.id}${req.stacks}层`;
       }
       const precondition = buffNeedsPrecondition(slot, idx, buff, outputIdx);
-      const toggleOn = precondition ? buffToggleOn(slot, buff) : true;
+      const toggleOn = precondition ? buffToggleOn(slot, buff, false) : true;
       return { gated, precondition, toggleOn, applies: !gated && toggleOn };
     }
 
@@ -1994,9 +2051,8 @@ window.WUWA_SETTLEMENT = (() => {
       const providerChar = ch(providerSlot?.char);
       const sk = asList(providerChar?.skills).find((skill) => skillIdMatches(skill, entry.skillId));
       const harmonyBase = Math.max(0, num(state.enemy.harmonyBase, 10027));
-      const levelCategory = sk?.category;
-      const skLevel = skillLevelFor(providerSlot, levelCategory);
-      const lvRatio = skillLevelRatio(skLevel);
+      const skLevel = skillLevelForSkill(providerSlot, sk);
+      const lvRatio = skillLevelRatioFor(providerSlot, sk);
       const baseMult = sk ? skillMultValue(sk.multiplier, lvRatio) : 0;
       const ctx = dpsContext(providerIdx, sk);
       const harmony = harmonyResponseAggregate(providerIdx, ctx);
@@ -2044,11 +2100,19 @@ window.WUWA_SETTLEMENT = (() => {
       const expectedOpt = combatStateOptionForValue(def, entry.stateValue);
       const currentOpt = combatStateOptionForValue(def, current);
       const fallbackStacks = providerSlot?.toggles?.["stk_" + entry.stateValue] ?? providerSlot?.toggles?.["stk_" + entry.stateId] ?? 0;
-      const stacks = Math.max(0, Math.round(num(calc.stacks, fallbackStacks)));
+      let stackCap = Math.max(0, Math.round(num(expectedOpt?.maxStacks)));
+      asList(expectedOpt?.maxStacksBySeq).forEach((rule) => {
+        if (num(providerSlot?.seq) >= num(rule.seq)) stackCap = Math.max(0, Math.round(num(rule.max ?? rule.stacks ?? rule.value)));
+      });
+      const requestedStacks = Math.max(0, Math.round(num(calc.stacks, fallbackStacks)));
+      const stacks = stackCap ? Math.min(requestedStacks, stackCap) : requestedStacks;
       const breakAmpInfo = outputBreakAmpInfo(providerIdx);
       const breakAmp = breakAmpInfo.value;
       const formulaKind = offsetStateFormulaKind(entry.stateValue, expectedOpt);
-      const perStackRate = formulaKind === "coherenceInterference" ? 0.12 : 0;
+      let perStackRate = formulaKind === "coherenceInterference" ? num(expectedOpt?.perStackRate, 0.12) : 0;
+      asList(expectedOpt?.perStackRateBySeq).forEach((rule) => {
+        if (num(providerSlot?.seq) >= num(rule.seq)) perStackRate = num(rule.rate ?? rule.value, perStackRate);
+      });
       const finalDmgGain = stacks * breakAmp * perStackRate;
       return {
         available: true, enabled: true, valid: confirmed, kind: "state", key: "state", formulaKind,
@@ -2056,7 +2120,7 @@ window.WUWA_SETTLEMENT = (() => {
         stateId: entry.stateId, stateLabel: entry.stateLabel, stateValue: entry.stateValue, currentState: current,
         stateValueLabel: expectedOpt ? L.combatOptionLabel(expectedOpt) : L.text(entry.label || entry.stateValue),
         currentStateLabel: currentOpt ? L.combatOptionLabel(currentOpt) : L.text(current || "未确认"),
-        stacks, breakAmp, perStackRate, finalDmgGain, sources: { breakAmp: breakAmpInfo.sources }, status: confirmed ? "已确认" : "未确认",
+        stacks, stackCap, breakAmp, perStackRate, finalDmgGain, sources: { breakAmp: breakAmpInfo.sources }, status: confirmed ? "已确认" : "未确认",
       };
     }
 
@@ -2092,7 +2156,10 @@ window.WUWA_SETTLEMENT = (() => {
       const atkPct = (tree.attackPct || 0) + b.attackPercent + es.attackPercent;
       const totalAtk = baseAtk * (1 + atkPct / 100) + es.flatAtk + b.attackFlat;
       const totalHp = c.base.hp * (1 + ((tree.hpPct || 0) + b.hpPercent + es.hpPercent) / 100) + es.flatHp;
-      const totalDef = c.base.defense * (1 + ((tree.defPct || 0) + b.defensePercent + es.defensePercent) / 100) + es.flatDef;
+      const fixedDefense = fixedCharacterStat(c, "defense");
+      const totalDef = fixedDefense == null
+        ? c.base.defense * (1 + ((tree.defPct || 0) + b.defensePercent + es.defensePercent) / 100) + es.flatDef
+        : fixedDefense;
       const displayAtk = Math.floor(totalAtk);
       const displayHp = Math.floor(totalHp);
       const displayDef = Math.floor(totalDef);
@@ -2108,9 +2175,9 @@ window.WUWA_SETTLEMENT = (() => {
       const harmonyBase = Math.max(0, num(state.enemy.harmonyBase, 10027));
 
       const layers = skillLayersForSlot(s1, sk);
-      const levelCategory = (selectedSk && selectedSk.category) || (sk && sk.category);
-      const skLevel = skillLevelFor(s1, levelCategory);
-      const lvRatio = skillLevelRatio(skLevel);
+      const levelSkill = selectedSk || sk;
+      const skLevel = skillLevelForSkill(s1, levelSkill);
+      const lvRatio = skillLevelRatioFor(s1, levelSkill);
       const resourceReady = skillResourceReady(s1, selectedSk);
       const resourceBlocked = !!selectedSk && !resourceReady && !sk;
       let perStackBonus = 0;
@@ -2130,6 +2197,7 @@ window.WUWA_SETTLEMENT = (() => {
         let value = 0;
         if (buff.multAdd) value += num(buff.multAdd);
         if (buff.multAddByResource) value += buffValue(slot, buff, idx);
+        if (buff.multAddByStat) value += buffValue(slot, buff, idx);
         if (buff.multScaleAdd) value += skillMultValue(levelMult * num(buff.multScaleAdd) / 100, 1);
         if (!value) return;
         multAdd += value;
@@ -2228,7 +2296,7 @@ window.WUWA_SETTLEMENT = (() => {
     }
 
     return {
-      slotBuffs, availableSkills, selectedSkill, resourceKey, resourceControlsForSlot, resolvedSkill,
+      slotBuffs, availableSkills, selectedSkill, resourceKey, resourceControlsForSlot, resolvedSkill, skillLayersForSlot,
       stateKey, stateChoiceKey, stateControlsHTML,
       buffStackCount, buffStatus, setBuffToggle, scaleByInfo, buffValue, compute,
     };

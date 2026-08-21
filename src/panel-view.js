@@ -178,10 +178,13 @@ window.WUWA_PANEL_VIEW = (() => {
       const add = (v) => (v ? ` + 声骸固定 ${tnum(v)}` : "");
       const addParts = (arr) => (arr.length ? ` + ${parts(arr)}` : "");
       const hasFixedBreakAmp = charBreakAmpRelevant(c);
+      const fixedDef = c.fixedStats?.defense;
       const rows = [
         { id: "hp", label: "生命", total: fmt(r.panel.displayHp), formula: `生命 = ${baseWithEchoFormula(tnum(b.hp), D.hpPct)}`, title: `角色基础 ${tnum(b.hp)}${D.hpPct.length ? ` × (1 + ${parts(D.hpPct, "%")})` : ""}${add(D.hpAdd)}`, fields: [{ key: "hpFlat" }, { key: "hpPct", suffix: "%" }] },
         { id: "atk", label: "攻击", total: fmt(r.panel.displayAtk), formula: `攻击 = ${baseFlatFormula(`(${tnum(b.attack)} + ${tnum(w ? num(w.attack90) : 0)})`, D.atkPct)}`, title: `(${parts(D.atkFlat)})${D.atkPct.length ? ` × (1 + ${parts(D.atkPct, "%")})` : ""}${addParts(D.atkAdd)}`, fields: [{ key: "atkFlat" }] },
-        { id: "def", label: "防御", total: fmt(r.panel.displayDef), formula: `防御 = ${baseWithEchoFormula(tnum(b.defense), D.defPct)}`, title: `角色基础 ${tnum(b.defense)}${D.defPct.length ? ` × (1 + ${parts(D.defPct, "%")})` : ""}${add(D.defAdd)}`, fields: [{ key: "defFlat" }, { key: "defPct", suffix: "%" }] },
+        fixedDef == null
+          ? { id: "def", label: "防御", total: fmt(r.panel.displayDef), formula: `防御 = ${baseWithEchoFormula(tnum(b.defense), D.defPct)}`, title: `角色基础 ${tnum(b.defense)}${D.defPct.length ? ` × (1 + ${parts(D.defPct, "%")})` : ""}${add(D.defAdd)}`, fields: [{ key: "defFlat" }, { key: "defPct", suffix: "%" }] }
+          : { id: "def", label: "防御", total: fmt(r.panel.displayDef), formula: `防御 = ${tnum(fixedDef)}`, title: tnum(fixedDef), fields: [] },
         { id: "er", label: "共鸣效率", total: tnum(sum(D.er)) + "%", formula: `共鸣效率 = ${pctFormulaLead(D.er)}`, title: parts(D.er, "%"), fields: [{ key: "energyRegen", suffix: "%" }] },
         { id: "crit", label: "暴击率", total: r.panel.critRate.toFixed(1) + "%", formula: `暴击率 = ${pctFormulaLead(D.crit)}`, title: parts(D.crit, "%"), fields: [{ key: "critRate", suffix: "%" }] },
         { id: "critDmg", label: "暴击伤害", total: r.panel.critDamage.toFixed(1) + "%", formula: `暴击伤害 = ${pctFormulaLead(D.critDmg)}`, title: parts(D.critDmg, "%"), fields: [{ key: "critDamage", suffix: "%" }] },

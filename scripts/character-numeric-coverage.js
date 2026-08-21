@@ -74,7 +74,7 @@ const REVIEWED_CHAIN_NUMERIC_COVERAGE = {
   "aemeath:5": { hash: "76fc6e48804a", refs: [], reason: "Starflux reset, fatal-damage state, shield, revival, HP, and Energy restoration are setup or survival mechanics." },
   "luukherssen:2": { hash: "5b948762d204", refs: ["buff:k2_lib_mult", "buff:k2_doctor_amp"], reason: "Liberation +60 is direct; Tune Break Boost converts 1:1 to amplification with the cap raised from 30 to 60." },
   "denia:2": { hash: "c496e3c32910", refs: ["buff:k2_fusion_bonus", "buff:k2_res", "buff:k2_break", "buff:k2_banish"], reason: "Damage bonuses, RES ignore, Tune Break Boost and Banish multiplier are structured; 100% Off-Tune Level is a target-gauge mechanic." },
-  "denia:6": { hash: "4a53dd04d43d", refs: ["buff:k6_atk", "buff:k6_fusion", "buff:k6_fusion_extra", "buff:k6_tune_extra_stack"], reason: "The 200% Fusion Burst multiplier is an effect-specific extra rate; ATK, Fusion bonus and Tune Strain stack are separately structured." },
+  "denia:6": { hash: "4a53dd04d43d", refs: ["buff:k6_atk", "buff:k6_fusion", "buff:k6_fusion_extra", "event:applyFusionBurst"], reason: "ATK, Fusion bonus, and the 200% Fusion Burst multiplier are structured; Erosion Field applies Fusion Burst at the current cap, while the extra Interfered stack is an application mechanic rather than direct Final DMG." },
   "hiyuki:4": { hash: "1b023f524621", refs: ["buff:k4_team_amp"], reason: "The 20% team damage increase is structured; 18% Max HP restoration is healing-only." },
   "lucy:5": { hash: "0558ffe4a91a", refs: [], reason: "Optical Illusion cap, emergency stack and shield are defensive mechanics." },
   "rebecca:4": { hash: "d3217cee50cc", refs: ["buff:k4_mode_cd", "buff:k4_mode_def"], reason: "The 60% increase applies to the mechanic's source values and is expanded to +18 Crit DMG and +9 DEF ignore." },
@@ -83,6 +83,9 @@ const REVIEWED_CHAIN_NUMERIC_COVERAGE = {
   "suisui:3": { hash: "573613beda5a", refs: [], reason: "Action shortcut and Concerto or Floral Epistle restoration affect setup and rotation." },
   "suisui:4": { hash: "f01375051c0e", refs: [], reason: "Healing increase is healing-only." },
   "yangyang_xuanling:5": { hash: "6f7e81611b36", refs: [], reason: "Fatal-damage recovery and immunity are survival-only." },
+  "qingxiao:6": { hash: "d28a2687f8a4", refs: ["buff:k6_selected_vulnerability", "buff:k6_juque_mindlock_taken_base", "buff:k6_juque_mindlock_taken_first_seven", "buff:k6_juque_mindlock_damage_base", "buff:k6_juque_mindlock_damage_first_seven", "buff:k6_tune_response_extra"], reason: "The two Mindlock pairs and 40% vulnerability are structured directly; the 20% response increase is represented by raising the per-stack coefficient from 0.12 to 0.144 and by the matching extra response Buff." },
+  "jingran:2": { hash: "13517a1590e8", refs: ["buff:k2_heavy_mult", "buff:k2_netherworld_boon"], reason: "The 46% multiplier increase and 180% amplification are structured; restoring 25% Max Resonance Energy affects rotation only." },
+  "jingran:5": { hash: "69c56fcc6452", refs: [], reason: "Fatal-damage prevention and the 50% Max HP Shield are survival-only." },
 };
 
 // Reviewed exceptions for damage-relevant numeric clauses in official skill
@@ -104,13 +107,16 @@ const REVIEWED_SKILL_NUMERIC_COVERAGE = {
   "mornye:1004403": { hash: "b874f2702c4c", refs: ["buff:b_lib_cr", "buff:b_lib_cd"], reason: "Energy Regen above 100 converts at 0.5 Crit Rate and 1 Crit DMG per point with caps 80 and 160." },
   "aemeath:1004607": { hash: "0db54bcecb40", refs: ["buff:b_duet_tune_trail", "buff:b_fusion_trail_extra", "buff:b_stardust_fusion_extra"], reason: "Trail-dependent 4% and 10% rates are stored as totals divided by their shared stack caps; the mode bonus is a separate 200% effect rate." },
   "sigrika:1005105": { hash: "f3db24e86a9a", refs: ["buff:b_blessing_aero", "buff:b_blessing_echo", "buff:b_blessing_full_aero", "buff:b_blessing_full_echo", "buff:b_er_echo"], reason: "Per-stack, full-stack, and Energy Regen conversion bonuses are split into five structures sharing the mechanic." },
-  "denia:1005307": { hash: "88372188b03d", refs: ["buff:b_void_particle_mult", "skill:erosion_field", "event:applyFusionBurst"], reason: "The 50% Breakdown multiplier, Erosion Field action, and 2-stack Fusion Burst application on every listed action are structured." },
+  "denia:1005302": { hash: "fce624042714", refs: ["skill:bd_banish2", "resource:darkCore", "buff:b_banish_dark_core_mult"], reason: "Banish Stage 2 keeps its level-scaled base multiplier, while each Dark Core adds an unscaled 150 multiplier points through the structured resource Buff." },
+  "denia:1005307": { hash: "88372188b03d", refs: ["buff:b_void_particle_mult", "skill:erosion_field", "event:applyFusionBurst"], reason: "The 50% Breakdown multiplier and Erosion Field action are structured; Basic and Mid-air triggers apply one Fusion Burst stack, while Intro, Liberation, and Erosion Field apply two." },
   "denia:1005309": { hash: "295b9081283c", refs: ["buff:b_outro_tune_all", "buff:b_outro_tune_extra"], reason: "The conditional 40% total is represented as the base 15% plus a manually confirmed 25% increment." },
   "lucy:1004907": { hash: "82fe7b73d984", refs: ["buff:b_algo_spectro", "skill:heavy_multithread_sql"], reason: "The 65% Spectro bonus is a state buff; the 270% SQL multiplier add is materialized in the enhanced Heavy Attack formula." },
   "lucilla:1005007": { hash: "1853b256232c", refs: ["event:applyGlacioChafe", "resource:filmRoll", "skill:oblivion_frost"], reason: "Oblivion applies 1 Glacio Chafe stack directly; the separate off-field 2-application passive consumes Film Roll and remains a manual effect input because it is triggered by another Resonator." },
   "rover_electro:1005504": { hash: "37d269f55ca0", refs: ["event:applyElectroFlare"], reason: "Both Overshock variants explicitly apply 10 Electro Flare stacks through a shared skill event." },
   "suisui:1005709": { hash: "f07249bb337b", refs: ["buff:b_outro_all_amp", "buff:b_outro_reflecting_final", "buff:b_outro_flower_atk"], reason: "The base amplification and both Energy Regen conversions are represented independently with their thresholds and caps." },
   "yangyang_xuanling:1005405": { hash: "d9206de1e37f", refs: ["event:applyHavocBane", "state:one_with_wind"], reason: "Sword Stance Flow applies 6 Havoc Bane stacks only after One with the Wind is explicitly confirmed." },
+  "jingran:1005906": { hash: "d558e479e422", refs: ["buff:b_fortune_in_disguise"], reason: "The per-stack 0.05% rate is represented by the HP conversion rate divided across 50 shared Fortune in Disguise stacks; the structured cap reaches 2.5% per stack and 125% total." },
+  "jingran:1005907": { hash: "c0735b45ef42", refs: ["buff:b_hp_fusion", "buff:b_hp_attack", "buff:b_fire_of_life_soul_raid_mult", "buff:b_fire_of_life_stardome_mult", "resource:fire_of_life", "state:yinghuo_state"], reason: "Fire of Life gates two HP-step multiplier additions, while the 1.5% per 1,000 Max HP Fusion bonus and 36 ATK conversion are separate structured HP conversions." },
 };
 
 module.exports = { REVIEWED_CHAIN_NUMERIC_COVERAGE, REVIEWED_SKILL_NUMERIC_COVERAGE };

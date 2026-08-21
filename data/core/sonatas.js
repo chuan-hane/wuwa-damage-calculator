@@ -1847,5 +1847,141 @@ window.WUWA_SONATAS = [
         }
       ]
     }
+  },
+  {
+    "id": 360234,
+    "fetterGroupId": 34,
+    "element": "aero",
+    "icon": "assets/icons/sonatas/heart_of_evils_purge.webp",
+    "p2": {
+      "id": "heart_of_evils_purge_aero",
+      "zone": "damageBonus",
+      "element": "aero",
+      "value": 10,
+      "scope": "self"
+    },
+    "p5": [
+      {
+        "id": "heart_of_evils_purge_crit_damage",
+        "zone": "critDamage",
+        "value": 20,
+        "scope": "self",
+        "defaultActive": false,
+        "duration": 15
+      },
+      {
+        "id": "heart_of_evils_purge_aero_bonus",
+        "zone": "damageBonus",
+        "element": "aero",
+        "value": 30,
+        "scope": "self",
+        "defaultActive": false,
+        "duration": 15
+      }
+    ],
+    "leads": [
+      {
+        "id": "calamity_effigy",
+        "cost": 4,
+        "buffs": [
+          {
+            "id": "se_calamity_effigy_aero",
+            "zone": "damageBonus",
+            "element": "aero",
+            "value": 10,
+            "scope": "self"
+          },
+          {
+            "id": "se_calamity_effigy_shifting_aero",
+            "zone": "damageBonus",
+            "element": "aero",
+            "value": 10,
+            "scope": "self",
+            "defaultActive": false,
+            "duration": 15
+          }
+        ]
+      }
+    ],
+    "lead": {
+      "id": "myriad_snare_rustfire_chassis",
+      "cost": 4,
+      "buffs": [
+        {
+          "id": "se_myriad_snare_rustfire_chassis_fusion",
+          "zone": "damageBonus",
+          "element": "fusion",
+          "value": 12,
+          "scope": "self"
+        },
+        {
+          "id": "se_myriad_snare_rustfire_chassis_heavy",
+          "zone": "typeBonus",
+          "damageType": "heavy",
+          "value": 12,
+          "scope": "self"
+        }
+      ]
+    }
+  },
+  {
+    "id": 360235,
+    "fetterGroupId": 35,
+    "element": "fusion",
+    "icon": "assets/icons/sonatas/lamp_of_nether_road.webp",
+    "p2": {
+      "id": "lamp_of_nether_road_hp",
+      "zone": "hpPercent",
+      "value": 10,
+      "scope": "self"
+    },
+    "p5": [
+      {
+        "id": "lamp_of_nether_road_crit",
+        "zone": "critRate",
+        "value": 20,
+        "scope": "self",
+        "maxStacks": 4,
+        "stackGroup": "lamp_of_nether_road",
+        "defaultStacks": 0,
+        "defaultActive": false,
+        "triggerEvents": [
+          "shield"
+        ],
+        "triggerStacks": 1,
+        "duration": 5
+      },
+      {
+        "id": "lamp_of_nether_road_fusion",
+        "zone": "damageBonus",
+        "element": "fusion",
+        "value": 15,
+        "scope": "self",
+        "requiresBuffStacks": {
+          "id": "lamp_of_nether_road_crit",
+          "stacks": 4
+        }
+      }
+    ],
+    "lead": {
+      "id": "myriad_snare_rustfire_chassis",
+      "cost": 4,
+      "buffs": [
+        {
+          "id": "se_myriad_snare_rustfire_chassis_fusion",
+          "zone": "damageBonus",
+          "element": "fusion",
+          "value": 12,
+          "scope": "self"
+        },
+        {
+          "id": "se_myriad_snare_rustfire_chassis_heavy",
+          "zone": "typeBonus",
+          "damageType": "heavy",
+          "value": 12,
+          "scope": "self"
+        }
+      ]
+    }
   }
 ];

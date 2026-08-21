@@ -117,6 +117,9 @@ window.WUWA_LANGUAGES.extend("en-US", { data: {
     },
     "dpmatrix:6": {
       "name": "S2 Phase 1"
+    },
+    "dpmatrix:7": {
+      "name": "S2 Phase Two"
     }
   },
   "targetAreas": {
@@ -340,6 +343,9 @@ window.WUWA_LANGUAGES.extend("en-US", { data: {
       "name": "Singularity Expansion"
     },
     "dpmatrix:6:12": {
+      "name": "Singularity Expansion"
+    },
+    "dpmatrix:7:14": {
       "name": "Singularity Expansion"
     }
   },
@@ -1509,6 +1515,12 @@ window.WUWA_LANGUAGES.extend("en-US", { data: {
     },
     "matrix:650000047": {
       "name": "Mourning Aix"
+    },
+    "matrix:243750011": {
+      "name": "Myriad Snare: Rustfire Chassis"
+    },
+    "matrix:650000045": {
+      "name": "Tempest Mephis"
     }
   },
   "targetBuffs": {
@@ -1967,6 +1979,34 @@ window.WUWA_LANGUAGES.extend("en-US", { data: {
     "dpmatrix:6:28:tune-shifting": {
       "name": "Inflicting Tunability - Shifting increases total DMG by 25% for 30s",
       "desc": "Resonators' total Tune Rupture DMG is increased by 150%. Inflicting Tunability - Shifting increases total DMG by 25% for 30s."
+    },
+    "dpmatrix:7:33:enhancement": {
+      "name": "General Enhancement",
+      "desc": "Enemies take 20% more total DMG. Enemies take 20% more total Heavy Attack DMG."
+    },
+    "dpmatrix:7:30:enhancement": {
+      "name": "Enhancement: Negative Status",
+      "desc": "When inflicted with Negative Statuses, the target's total DMG taken is increased by 25% for 30s. Enemies take 80% more total Glacio Chafe DMG."
+    },
+    "dpmatrix:7:30:negative-status": {
+      "name": "When inflicted with Negative Statuses, the target's total DMG taken is increased by 25% for 30s",
+      "desc": "When inflicted with Negative Statuses, the target's total DMG taken is increased by 25% for 30s. Enemies take 80% more total Glacio Chafe DMG."
+    },
+    "dpmatrix:7:31:enhancement": {
+      "name": "Enhancement: Echo Skill",
+      "desc": "Total Echo Skill DMG is increased by 30%. Total Havoc DMG is increased by 20%. Total Resonance Skill DMG is increased by 20%."
+    },
+    "dpmatrix:7:32:enhancement": {
+      "name": "Enhancement: Tune Break",
+      "desc": "When a Resonator inflicts Tunability - Shifting, the total DMG dealt by all Resonators in the team is increased by 25% for 30s. When a Resonator inflicts Tune Strain - Shifting, their total DMG is increased by 30% for 15s."
+    },
+    "dpmatrix:7:32:tune-shifting": {
+      "name": "When a Resonator inflicts Tunability - Shifting, the total DMG dealt by all Resonators in the team is increased by 25% for 30s",
+      "desc": "When a Resonator inflicts Tunability - Shifting, the total DMG dealt by all Resonators in the team is increased by 25% for 30s. When a Resonator inflicts Tune Strain - Shifting, their total DMG is increased by 30% for 15s."
+    },
+    "dpmatrix:7:32:tune-strain": {
+      "name": "When a Resonator inflicts Tune Strain - Shifting, their total DMG is increased by 30% for 15s",
+      "desc": "When a Resonator inflicts Tunability - Shifting, the total DMG dealt by all Resonators in the team is increased by 25% for 30s. When a Resonator inflicts Tune Strain - Shifting, their total DMG is increased by 30% for 15s."
     }
   }
 } });

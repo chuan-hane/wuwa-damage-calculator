@@ -52,30 +52,39 @@
       "monsters": [{ "id": 310000430, "name": "幽翎火", "whiteGreenProps": [] }]
     }
   },
-  "toaFuture": {
+  "toaCurrent": {
     "multiAttribute": {
       "id": 415,
       "season": 38,
       "areaNum": 2,
-      "areaName": "危险之塔",
+      "areaName": "深境之塔",
       "floor": 1,
       "buffs": [
         {
           "id": 92007148,
           "name": "",
-          "desc": "敌方热熔、衍射抗性降低10%，气动、导电抗性提高10%"
+          "desc": "敌方热熔抗性和衍射抗性降低10%，气动抗性和导电抗性提升10%"
         },
         {
           "id": 92008186,
           "name": "",
-          "desc": "角色获得30%热熔和衍射伤害加成。附加谐度·偏移后，攻击提升30%。"
+          "desc": "热熔和衍射伤害加成提升30%。角色附加谐度·偏移时，攻击提升30%，持续30秒。"
         }
       ],
       "monsters": [
         {
-          "id": 310000430,
-          "name": "幽翎火",
-          "elements": [{ "id": 6 }]
+          "id": 330000050,
+          "name": "飞廉之猩",
+          "elements": [{ "id": 4 }],
+          "whiteGreenProps": [
+            { "key": "Lv", "value": 100, "isPercent": false },
+            { "key": "DamageResistanceElement1", "value": 20, "isPercent": true },
+            { "key": "DamageResistanceElement2", "value": 20, "isPercent": true },
+            { "key": "DamageResistanceElement3", "value": 20, "isPercent": true },
+            { "key": "DamageResistanceElement4", "value": 60, "isPercent": true },
+            { "key": "DamageResistanceElement5", "value": 20, "isPercent": true },
+            { "key": "DamageResistanceElement6", "value": 20, "isPercent": true }
+          ]
         }
       ]
     },
@@ -83,40 +92,87 @@
       "id": 417,
       "season": 38,
       "areaNum": 2,
-      "areaName": "危险之塔",
+      "areaName": "深境之塔",
       "floor": 3,
       "buffs": [
         {
-          "id": 92008198,
-          "name": "",
-          "desc": "敌方初始全属性抗性提升15%。目标处于异常效应或谐度·偏移状态时移除。"
-        },
-        {
           "id": 92008205,
           "name": "",
-          "desc": "战斗60秒后，每5秒造成伤害最终提升5%，上限60%。"
+          "desc": "战斗开始60秒后，角色攻击命中敌人时会使敌人受到伤害最终提升5%，每经过5秒该效果值提升5%，最高提升至60%。"
+        },
+        {
+          "id": 92008198,
+          "name": "",
+          "desc": "敌方全属性抗性提升15%。敌方处于异常效应状态或谐度·偏移时，移除该效果。"
         },
         {
           "id": 92008191,
           "name": "",
-          "desc": "施放谐度破坏技能后，造成伤害最终提升10%，最多3层。附加虚湮后，造成伤害最终提升45%。"
+          "desc": "角色施放谐度破坏技后，全队伤害最终提升10%，该效果每15秒可触发一次，可叠加3层。角色附加虚湮效应后，自身造成伤害最终提升45%，持续30秒。"
         }
       ],
       "monsters": [
         {
-          "id": 310000430,
-          "name": "幽翎火",
-          "elements": [{ "id": 6 }]
+          "id": 320000220,
+          "name": "巡游骑士",
+          "elements": [{ "id": 3 }],
+          "whiteGreenProps": [
+            { "key": "Lv", "value": 100, "isPercent": false },
+            { "key": "DamageResistanceElement1", "value": 20, "isPercent": true },
+            { "key": "DamageResistanceElement2", "value": 20, "isPercent": true },
+            { "key": "DamageResistanceElement3", "value": 60, "isPercent": true },
+            { "key": "DamageResistanceElement4", "value": 20, "isPercent": true },
+            { "key": "DamageResistanceElement5", "value": 20, "isPercent": true },
+            { "key": "DamageResistanceElement6", "value": 20, "isPercent": true }
+          ]
         }
       ]
     }
   },
-  "toaFutureLevels": {
+  "toaComposedMonster": {
+    "Id": 320000080,
+    "Properties": {
+      "DamageResistanceElement1": { "Value": 1000 },
+      "DamageResistanceElement2": { "Value": 4000 },
+      "DamageResistanceElement3": { "Value": 1000 },
+      "DamageResistanceElement4": { "Value": 1000 },
+      "DamageResistanceElement5": { "Value": 1000 },
+      "DamageResistanceElement6": { "Value": 1000 }
+    }
+  },
+  "toaComposed": {
+    "sample": {
+      "id": 426,
+      "season": 39,
+      "areaNum": 1,
+      "areaName": "残响之塔",
+      "floor": 4,
+      "buffs": [
+        {
+          "id": 92007112,
+          "name": "",
+          "desc": "敌方导电抗性降低10%"
+        },
+        {
+          "id": 92008119,
+          "name": "",
+          "desc": "暴击伤害提升20%。角色施放变奏技能时，共鸣解放伤害和重击伤害加成提升30%，持续15秒。"
+        }
+      ],
+      "monsters": [
+        {
+          "id": 320000080,
+          "name": "绿熔蜥",
+          "elements": [{ "id": 2 }]
+        }
+      ]
+    }
+  },
+  "toaComposedLevels": {
     "area": {
-      "2": {
+      "1": {
         "floor": {
-          "1": { "id": 415, "monsters": { "310000430": { "level": 100 } } },
-          "3": { "id": 417, "monsters": { "310000430": { "level": 100 } } }
+          "4": { "id": 426, "monsters": { "320000080": { "level": 90 } } }
         }
       }
     }
@@ -155,7 +211,7 @@
       }
     ]
   },
-  "whiwaFuture": {
+  "whiwaCurrent": {
     "season": 20,
     "buffItems": [
       { "itemId": 71500094, "item": { "qualityId": 4 } },
@@ -190,7 +246,7 @@
       }
     ]
   },
-  "dpmatrix": {
+  "dpmatrixHistorical": {
     "Season": 6,
     "Levels": [
       {
@@ -199,16 +255,253 @@
         "MaxLoopCount": 99,
         "NewTowerBuffCount": 1,
         "NewTowerBuffs": [
-          { "Id": 29, "Name": "通用强化", "Desc": "敌人受到伤害最终提升20%，敌人受到共鸣技能伤害最终提升20%。" },
-          { "Id": 26, "Name": "异常效应强化", "Desc": "角色附加异常效应时，使目标受到伤害最终提升25%，持续30秒。角色附加虚湮效应时，自身造成伤害最终提升30%，持续15秒。" },
-          { "Id": 27, "Name": "声骸技能强化", "Desc": "我方声骸技能伤害最终提升30%，热熔伤害最终提升20%，重击伤害最终提升20%。" },
-          { "Id": 28, "Name": "谐度破坏强化", "Desc": "角色震谐伤害最终提升150%。角色附加谐度·偏移状态时，伤害最终提升25%，持续30秒。" }
+          {
+            "Id": 29,
+            "Name": "通用强化",
+            "Desc": "敌人受到伤害最终提升20%，敌人受到共鸣技能伤害最终提升20%。"
+          },
+          {
+            "Id": 26,
+            "Name": "异常效应强化",
+            "Desc": "角色附加异常效应时，使目标受到伤害最终提升25%，持续30秒。角色附加虚湮效应时，自身造成伤害最终提升30%，持续15秒。"
+          },
+          {
+            "Id": 27,
+            "Name": "声骸技能强化",
+            "Desc": "我方声骸技能伤害最终提升30%，热熔伤害最终提升20%，重击伤害最终提升20%。"
+          },
+          {
+            "Id": 28,
+            "Name": "谐度破坏强化",
+            "Desc": "角色震谐伤害最终提升150%。角色附加谐度·偏移状态时，伤害最终提升25%，持续30秒。"
+          }
         ],
         "Waves": [
-          { "Id": 107, "Round": 1, "Wave": 1, "MonsterId": 24000046, "MonsterLevel": 100, "ElementId": 3, "Name": "第一轮目标", "IsShowInView": true },
-          { "Id": 108, "Round": 2, "Wave": 1, "MonsterId": 650000047, "MonsterLevel": 100, "ElementId": 5, "Name": "第二轮目标", "IsShowInView": true },
-          { "Id": 109, "Round": 3, "Wave": 1, "MonsterId": 665000020, "MonsterLevel": 100, "ElementId": 4, "Name": "第三轮目标", "IsShowInView": true },
-          { "Id": 110, "Round": 4, "Wave": 1, "MonsterId": 947700006, "MonsterLevel": 100, "ElementId": 2, "Name": "隐藏目标", "IsShowInView": false }
+          {
+            "Id": 107,
+            "Round": 1,
+            "Wave": 1,
+            "MonsterId": 24000046,
+            "MonsterLevel": 100,
+            "ElementId": 3,
+            "Name": "第一轮目标",
+            "IsShowInView": true
+          },
+          {
+            "Id": 108,
+            "Round": 2,
+            "Wave": 1,
+            "MonsterId": 650000047,
+            "MonsterLevel": 100,
+            "ElementId": 5,
+            "Name": "第二轮目标",
+            "IsShowInView": true
+          },
+          {
+            "Id": 109,
+            "Round": 3,
+            "Wave": 1,
+            "MonsterId": 665000020,
+            "MonsterLevel": 100,
+            "ElementId": 4,
+            "Name": "第三轮目标",
+            "IsShowInView": true
+          },
+          {
+            "Id": 110,
+            "Round": 4,
+            "Wave": 1,
+            "MonsterId": 947700006,
+            "MonsterLevel": 100,
+            "ElementId": 2,
+            "Name": "隐藏目标",
+            "IsShowInView": false
+          }
+        ]
+      }
+    ]
+  },
+  "dpmatrix": {
+    "Season": 7,
+    "Levels": [
+      {
+        "Id": 14,
+        "Name": "奇点扩张",
+        "MaxLoopCount": 99,
+        "NewTowerBuffCount": 1,
+        "NewTowerBuffs": [
+          {
+            "Id": 33,
+            "Name": "通用强化",
+            "Desc": "敌人受到伤害最终提升20%，敌人受到重击伤害最终提升20%。"
+          },
+          {
+            "Id": 30,
+            "Name": "异常效应强化",
+            "Desc": "角色附加异常效应时，使目标受到伤害最终提升25%，持续30秒；<br>敌人受到霜渐效应伤害最终提升80%。"
+          },
+          {
+            "Id": 31,
+            "Name": "声骸技能强化",
+            "Desc": "我方声骸技能伤害最终提升30%，湮灭伤害最终提升20%，共鸣技能伤害最终提升20%。"
+          },
+          {
+            "Id": 32,
+            "Name": "谐度破坏强化",
+            "Desc": "角色附加谐度·偏移状态时，全队伤害最终提升25%，持续30秒。角色附加集谐·偏移状态时，伤害最终提升30%，持续15秒。"
+          }
+        ],
+        "Waves": [
+          {
+            "Id": 135,
+            "Round": 1,
+            "Wave": 1,
+            "MonsterId": 650000047,
+            "MonsterLevel": 100,
+            "ElementId": 5,
+            "Name": "哀声鸷",
+            "IsShowInView": true
+          },
+          {
+            "Id": 136,
+            "Round": 1,
+            "Wave": 2,
+            "MonsterId": 243750011,
+            "MonsterLevel": 100,
+            "ElementId": 2,
+            "Name": "万囮牢·朽躯",
+            "IsShowInView": true
+          },
+          {
+            "Id": 137,
+            "Round": 1,
+            "Wave": 3,
+            "MonsterId": 607750001,
+            "MonsterLevel": 100,
+            "ElementId": 1,
+            "Name": "异构武装",
+            "IsShowInView": true
+          },
+          {
+            "Id": 138,
+            "Round": 1,
+            "Wave": 4,
+            "MonsterId": 650000045,
+            "MonsterLevel": 100,
+            "ElementId": 3,
+            "Name": "朔雷之鳞",
+            "IsShowInView": true
+          },
+          {
+            "Id": 139,
+            "Round": 1,
+            "Wave": 5,
+            "MonsterId": 401800000,
+            "MonsterLevel": 100,
+            "ElementId": 5,
+            "Name": "矩阵奇藏",
+            "IsShowInView": true
+          },
+          {
+            "Id": 140,
+            "Round": 2,
+            "Wave": 6,
+            "MonsterId": 650000047,
+            "MonsterLevel": 110,
+            "ElementId": 5,
+            "Name": "哀声鸷",
+            "IsShowInView": true
+          },
+          {
+            "Id": 141,
+            "Round": 2,
+            "Wave": 7,
+            "MonsterId": 243750011,
+            "MonsterLevel": 110,
+            "ElementId": 2,
+            "Name": "万囮牢·朽躯",
+            "IsShowInView": true
+          },
+          {
+            "Id": 142,
+            "Round": 2,
+            "Wave": 8,
+            "MonsterId": 607750001,
+            "MonsterLevel": 110,
+            "ElementId": 1,
+            "Name": "异构武装",
+            "IsShowInView": true
+          },
+          {
+            "Id": 143,
+            "Round": 2,
+            "Wave": 9,
+            "MonsterId": 650000045,
+            "MonsterLevel": 110,
+            "ElementId": 3,
+            "Name": "朔雷之鳞",
+            "IsShowInView": true
+          },
+          {
+            "Id": 144,
+            "Round": 2,
+            "Wave": 10,
+            "MonsterId": 401800000,
+            "MonsterLevel": 110,
+            "ElementId": 5,
+            "Name": "矩阵奇藏",
+            "IsShowInView": true
+          },
+          {
+            "Id": 145,
+            "Round": 3,
+            "Wave": 11,
+            "MonsterId": 650000047,
+            "MonsterLevel": 120,
+            "ElementId": 5,
+            "Name": "哀声鸷",
+            "IsShowInView": true
+          },
+          {
+            "Id": 146,
+            "Round": 3,
+            "Wave": 12,
+            "MonsterId": 243750011,
+            "MonsterLevel": 120,
+            "ElementId": 2,
+            "Name": "万囮牢·朽躯",
+            "IsShowInView": true
+          },
+          {
+            "Id": 147,
+            "Round": 3,
+            "Wave": 13,
+            "MonsterId": 607750001,
+            "MonsterLevel": 120,
+            "ElementId": 1,
+            "Name": "异构武装",
+            "IsShowInView": true
+          },
+          {
+            "Id": 148,
+            "Round": 3,
+            "Wave": 14,
+            "MonsterId": 650000045,
+            "MonsterLevel": 120,
+            "ElementId": 3,
+            "Name": "朔雷之鳞",
+            "IsShowInView": true
+          },
+          {
+            "Id": 149,
+            "Round": 3,
+            "Wave": 15,
+            "MonsterId": 401800000,
+            "MonsterLevel": 120,
+            "ElementId": 5,
+            "Name": "矩阵奇藏",
+            "IsShowInView": true
+          }
         ]
       }
     ]

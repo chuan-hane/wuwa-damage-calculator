@@ -117,6 +117,9 @@ window.WUWA_LANGUAGES.extend("zh-CN", { data: {
     },
     "dpmatrix:6": {
       "name": "S2第一阶段"
+    },
+    "dpmatrix:7": {
+      "name": "S2第二阶段"
     }
   },
   "targetAreas": {
@@ -340,6 +343,9 @@ window.WUWA_LANGUAGES.extend("zh-CN", { data: {
       "name": "奇点扩张"
     },
     "dpmatrix:6:12": {
+      "name": "奇点扩张"
+    },
+    "dpmatrix:7:14": {
       "name": "奇点扩张"
     }
   },
@@ -1509,6 +1515,12 @@ window.WUWA_LANGUAGES.extend("zh-CN", { data: {
     },
     "matrix:650000047": {
       "name": "哀声鸷"
+    },
+    "matrix:243750011": {
+      "name": "万囮牢·朽躯"
+    },
+    "matrix:650000045": {
+      "name": "朔雷之鳞"
     }
   },
   "targetBuffs": {
@@ -1967,6 +1979,34 @@ window.WUWA_LANGUAGES.extend("zh-CN", { data: {
     "dpmatrix:6:28:tune-shifting": {
       "name": "角色附加谐度·偏移状态时，伤害最终提升25%，持续30秒",
       "desc": "角色震谐伤害最终提升150%。 角色附加谐度·偏移状态时，伤害最终提升25%，持续30秒。"
+    },
+    "dpmatrix:7:33:enhancement": {
+      "name": "通用强化",
+      "desc": "敌人受到伤害最终提升20%，敌人受到重击伤害最终提升20%。"
+    },
+    "dpmatrix:7:30:enhancement": {
+      "name": "异常效应强化",
+      "desc": "角色附加异常效应时，使目标受到伤害最终提升25%，持续30秒； 敌人受到霜渐效应伤害最终提升80%。"
+    },
+    "dpmatrix:7:30:negative-status": {
+      "name": "角色附加异常效应时，使目标受到伤害最终提升25%，持续30秒",
+      "desc": "角色附加异常效应时，使目标受到伤害最终提升25%，持续30秒； 敌人受到霜渐效应伤害最终提升80%。"
+    },
+    "dpmatrix:7:31:enhancement": {
+      "name": "声骸技能强化",
+      "desc": "我方声骸技能伤害最终提升30%，湮灭伤害最终提升20%，共鸣技能伤害最终提升20%。"
+    },
+    "dpmatrix:7:32:enhancement": {
+      "name": "谐度破坏强化",
+      "desc": "角色附加谐度·偏移状态时，全队伤害最终提升25%，持续30秒。角色附加集谐·偏移状态时，伤害最终提升30%，持续15秒。"
+    },
+    "dpmatrix:7:32:tune-shifting": {
+      "name": "角色附加谐度·偏移状态时，全队伤害最终提升25%，持续30秒",
+      "desc": "角色附加谐度·偏移状态时，全队伤害最终提升25%，持续30秒。角色附加集谐·偏移状态时，伤害最终提升30%，持续15秒。"
+    },
+    "dpmatrix:7:32:tune-strain": {
+      "name": "角色附加集谐·偏移状态时，伤害最终提升30%，持续15秒",
+      "desc": "角色附加谐度·偏移状态时，全队伤害最终提升25%，持续30秒。角色附加集谐·偏移状态时，伤害最终提升30%，持续15秒。"
     }
   }
 } });
