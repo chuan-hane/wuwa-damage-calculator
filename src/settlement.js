@@ -1526,12 +1526,10 @@ window.WUWA_SETTLEMENT = (() => {
       const tree = c.base.tree || {};
       const base = c.base.breakAmp ?? 0;
       const treeValue = tree.breakAmp || 0;
-      const echoValue = num(echoStats(slot).breakAmp);
-      let total = base + treeValue + echoValue;
+      let total = base + treeValue;
       const sources = [];
       if (base) sources.push({ source: "角色基础", label: "谐度破坏增幅", value: base, suffix: "%", signed: false });
       if (treeValue) sources.push({ source: "属性树", label: "谐度破坏增幅", value: treeValue, suffix: "%", signed: true });
-      if (echoValue) sources.push({ source: "声骸", label: "谐度破坏增幅", value: echoValue, suffix: "%", signed: true });
       state.slots.forEach((providerSlot, providerIdx) => {
         slotBuffs(providerSlot).forEach((buff) => {
           if (buff.zone !== "breakAmp") return;

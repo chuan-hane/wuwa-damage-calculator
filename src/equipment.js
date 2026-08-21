@@ -31,7 +31,6 @@ window.WUWA_EQUIPMENT = (() => {
     critRate: [6.3, 6.9, 7.5, 8.1, 8.7, 9.3, 9.9, 10.5],
     critDamage: [12.6, 13.8, 15, 16.2, 17.4, 18.6, 19.8, 21],
     energyRegen: [6.8, 7.6, 8.4, 9.2, 10, 10.8, 11.6, 12.4],
-    breakAmp: [6.4, 7.1, 7.9, 8.6, 9.4, 10.1, 10.9, 11.6],
     basicDmg: [6.4, 7.1, 7.9, 8.6, 9.4, 10.1, 10.9, 11.6],
     heavyDmg: [6.4, 7.1, 7.9, 8.6, 9.4, 10.1, 10.9, 11.6],
     skillDmg: [6.4, 7.1, 7.9, 8.6, 9.4, 10.1, 10.9, 11.6],
@@ -101,6 +100,7 @@ window.WUWA_EQUIPMENT = (() => {
   function leadChoicesForEcho(e) {
     if (!e) return [];
     const ids = e.detailMode ? [e.detail?.echoes?.[0]?.set] : [e.primary];
+    const detailCost = e.detailMode ? num(e.detail?.echoes?.[0]?.cost) : 0;
     if (!e.detailMode && e.combo === "split32") ids.push(e.secondary);
     const uniqueIds = ids.filter((id, i, arr) => id && arr.indexOf(id) === i);
     return uniqueIds
@@ -113,7 +113,7 @@ window.WUWA_EQUIPMENT = (() => {
           lead,
           cost: leadEchoCost(lead),
           key: `${set.id}:${lead.id || lead.echo || i}`,
-        }));
+        })).filter((choice) => !detailCost || choice.cost === detailCost);
       });
   }
 
@@ -158,15 +158,7 @@ window.WUWA_EQUIPMENT = (() => {
     const costs = [4, 3, 3, 1, 1];
     e.detail = e.detail || {};
     e.detail.echoes = Array.from({ length: 5 }, (_, i) => normalizeDetailedEcho((e.detail.echoes || [])[i], sets[i], costs[i], c));
-    const leadSet = e.detail.echoes[0]?.set;
-    const leadChoices = leadChoicesForEcho({ detailMode: true, detail: { echoes: [{ set: leadSet }] } });
-    if (leadChoices.length && !leadChoices.some((choice) => choice.key === e.lead)) e.lead = leadChoices[0].key;
-    const leadChoice = leadChoices.find((choice) => choice.key === e.lead);
-    if (leadChoice && e.detail.echoes[0]) {
-      const costChanged = e.detail.echoes[0].cost !== leadChoice.cost;
-      e.detail.echoes[0].cost = leadChoice.cost;
-      e.detail.echoes[0].main = normalizedMainKey(leadChoice.cost, costChanged ? "" : e.detail.echoes[0].main, c);
-    }
+    syncEchoLead(e);
     return e.detail;
   }
 
@@ -196,19 +188,11 @@ window.WUWA_EQUIPMENT = (() => {
 
   function echoDetailSummary(slot, c) {
     const detail = ensureEchoDetail(slot, c);
-    const useful = new Set(["atkFlat", "critRate", "critDamage", "elem", ...characterDamageElements(c).map((element) => `elem:${element}`), ...(c?.validSubs || [])]);
-    let selectedSubs = 0;
-    let hitSubs = 0;
     let totalCost = 0;
     (detail?.echoes || []).forEach((item) => {
       totalCost += num(item.cost);
-      (item.subs || []).forEach((sub) => {
-        if (!sub.key) return;
-        selectedSubs += 1;
-        if (useful.has(sub.key)) hitSubs += 1;
-      });
     });
-    return { totalCost, selectedSubs, hitSubs, fields: echoDetailFields(slot, c) || {} };
+    return { totalCost, fields: echoDetailFields(slot, c) || {} };
   }
 
   function defaultEchoForChar(c) {
@@ -346,7 +330,7 @@ window.WUWA_EQUIPMENT = (() => {
   }
 
   function echoStats(slot, c) {
-    const out = { ...zeros(), flatAtk: 0, flatHp: 0, flatDef: 0, energyRegen: 0, healingBonus: 0, breakAmp: 0, discordEff: 0, elem: {}, type: {} };
+    const out = { ...zeros(), flatAtk: 0, flatHp: 0, flatDef: 0, energyRegen: 0, healingBonus: 0, discordEff: 0, elem: {}, type: {} };
     ELEMENTS.forEach((el) => (out.elem[el] = 0));
     TYPES.forEach((t) => (out.type[t] = 0));
     const e = slot.echo;
@@ -361,6 +345,7 @@ window.WUWA_EQUIPMENT = (() => {
       if (def.elem) { addKnown(out.elem, charElem, v); return; }
       if (def.flat) { out[def.flat] += v; return; }
       if (def.zone === "typeBonus") { addKnown(out.type, def.type, v); return; }
+      if (def.zone === "breakAmp") return;
       out[def.zone] += v;
     });
     return out;
