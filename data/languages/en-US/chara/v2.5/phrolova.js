@@ -199,14 +199,9 @@ window.WUWA_LANGUAGES.extend("en-US", {
             "desc": "The DMG Multiplier of Scarlet Coda is increased by 75%. Aftersound now additionally increases the DMG Multiplier of Scarlet Coda by 75%.\nCasting Scarlet Coda grants 14 stacks of Aftersound.",
             "buffs": [
               {
-                "label": "Movement of Life and Death - Scarlet Coda DMG Multiplier Increase",
-                "trigger": "In Composition Active",
-                "excerpt": "Movement of Life and Death - Scarlet Coda DMG Multiplier Increase +75%"
-              },
-              {
-                "label": "Movement of Life and Death - Scarlet Coda DMG Extra Multiplier",
-                "trigger": "In Composition Active",
-                "excerpt": "Movement of Life and Death - Scarlet Coda DMG Extra Multiplier +75%"
+                "label": "DMG Multiplier Increase",
+                "trigger": "Default",
+                "excerpt": "Scarlet Coda and its Aftersound multiplier increase by 75%"
               }
             ]
           },

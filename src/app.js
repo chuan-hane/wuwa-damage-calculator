@@ -216,7 +216,7 @@ function repaint() {
   // 叠层 / 按属性换算 buff 的「当前公式」实时刷新（纯文本，不动输入框）
   state.slots.forEach((slot, idx) => {
     slotBuffs(slot).forEach((b) => {
-      if (b.maxStacks || b.scaleBy || b.multAddByStat) setHTML(`bval_${idx}_${b.id}`, esc(buffFormulaText(slot, b, idx)));
+      if (b.maxStacks || b.scaleBy || b.multAddByStat || b.multScaleAddByResource) setHTML(`bval_${idx}_${b.id}`, esc(buffFormulaText(slot, b, idx)));
     });
   });
 }
@@ -474,7 +474,11 @@ function updateOffsetKey(value) {
 function updateOffsetInput(el) {
   const act = el.dataset.act;
   state.offsetCalc = state.offsetCalc || {};
-  if (act === "offset-stacks") state.offsetCalc.stacks = clampNumberInput(el, state.offsetCalc.stacks || 0);
+  if (act === "offset-stacks") {
+    state.offsetCalc.stacks = clampNumberInput(el, state.offsetCalc.stacks || 0);
+    const slot = state.slots[state.offsetCalc.providerIdx];
+    if (slot && state.offsetCalc.stateValue) slot.toggles["stk_" + state.offsetCalc.stateValue] = state.offsetCalc.stacks;
+  }
   repaint();
 }
 

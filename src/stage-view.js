@@ -7,7 +7,7 @@ window.WUWA_STAGE_VIEW = (() => {
     availableSkills, selectedSkill, resourceControlsForSlot, resolvedSkill, skillLayersForSlot, stateControlsHTML,
     panelEntryTableHTML, autoResolutionHTML, settlementBuffRowsHTML,
   }) {
-    const { skillLevelRatio, skillMultValue, EFFECT_DEFS, EFFECT_ORDER, HARMONY_BASE_OPTIONS, effectKeyOf, num } = window.WUWA_RULES;
+    const { skillMultValue, skillValueAtLevel, EFFECT_DEFS, EFFECT_ORDER, HARMONY_BASE_OPTIONS, effectKeyOf, num } = window.WUWA_RULES;
     const L = window.WUWA_LANGUAGES;
     const TARGETS = window.WUWA_TARGETS;
     const {
@@ -23,12 +23,6 @@ window.WUWA_STAGE_VIEW = (() => {
 
     function skillLevelCategory(sk) {
       return sk?.levelCategory || sk?.category || "";
-    }
-
-    function skillLevelRatioFor(slot, sk) {
-      if (sk?.fixedLevel) return 1;
-      const level = num(slot.skillLevels?.[skillLevelCategory(sk)], 10);
-      return skillLevelRatio(level);
     }
 
     function skillOptionLayers(slot, sk, currentId) {
@@ -154,7 +148,8 @@ window.WUWA_STAGE_VIEW = (() => {
       return Object.entries(cats).map(([cat, arr]) =>
         `<optgroup label="${esc(L.category(cat))}">` + arr.map((s) => {
           const layers = skillOptionLayers(slot, s, currentId);
-          const multiplier = skillMultValue(num(s.multiplier) + num(s.perStack) * layers, skillLevelRatioFor(slot, s));
+          const level = num(slot.skillLevels?.[skillLevelCategory(s)], 10);
+          const multiplier = skillMultValue(skillValueAtLevel(s, "multiplier", level) + skillValueAtLevel(s, "perStack", level) * layers);
           return `<option value="${s.id}" ${s.id === currentId ? "selected" : ""}>${esc(L.skillOptionName(s))} (${esc(`${tnum(multiplier)}%`)})</option>`;
         }).join("") + `</optgroup>`
       ).join("");
@@ -698,10 +693,9 @@ window.WUWA_STAGE_VIEW = (() => {
       const damageMode = activeDamageMode();
       const responseCanCrit = isHarmonyResponse && r.totals?.fixedCritRate != null;
       const critMul = isHarmonyResponse && !responseCanCrit ? 1 : damageMode === "expected" ? 1 + r.cr * (r.cd - 1) : damageMode === "crit" ? r.cd : 1;
-      const lvRatio = r.sk?.fixedLevel ? 1 : r.sk ? skillLevelRatio(r.skLevel) : 1;
-      const rawSkillMult = r.sk ? num(r.sk.multiplier) : 0;
-      const stackMult = r.sk?.perStack ? num(r.sk.perStack) * num(r.layers) * (1 + num(r.perStackBonus) / 100) : 0;
-      const levelMult = r.sk ? skillMultValue(rawSkillMult + stackMult, lvRatio) : 0;
+      const rawSkillMult = skillValueAtLevel(r.sk, "multiplier", r.skLevel);
+      const stackMult = skillValueAtLevel(r.sk, "perStack", r.skLevel) * num(r.layers);
+      const levelMult = r.sk ? skillMultValue(rawSkillMult + stackMult) : 0;
       const skType = r.sk?.damageType;
       const damageElement = r.damageElement || r.sk?.damageElement || r.sk?.element || c?.element;
       const treeElemBonus = damageElement === c?.element ? tree.elemBonus : 0;
@@ -710,12 +704,11 @@ window.WUWA_STAGE_VIEW = (() => {
       const statTip = isHarmonyResponse
         ? formulaSourceTip([staticFormulaSource(offsetCostLabel(r.harmonyBase), "谐度基础值", r.harmonyBase, "", false, true)])
         : formulaSourceTip(panelStatSourceParts(s1, r.panel.stat, r.es, normalSources));
-      const baseLevelMult = r.sk ? skillMultValue(rawSkillMult, lvRatio) : 0;
+      const baseLevelMult = rawSkillMult;
       const skillOrigin = `${L.text("技能")}·${r.sk ? L.skillName(r.sk) : "—"}·${L.t("common.levelShort", { value: r.skLevel || 10 })}`;
       const skillTip = formulaSourceTip([
         staticFormulaSource(skillOrigin, "基础倍率", baseLevelMult, "%", false, true),
         staticFormulaSource(r.sk?.stackLabel || r.sk?.stackResource || "层数", "层数倍率", levelMult - baseLevelMult),
-        sourceParts(activeSources, "perStackBonus"),
         sourceParts(activeSources, "multAdd"),
         sourceParts(activeSources, "skillMultBonus"),
       ]);
@@ -988,6 +981,10 @@ window.WUWA_STAGE_VIEW = (() => {
       const multValue = e.kind === "attack" ? `${tnum(e.rate)}%` : L.text("层数基础");
       const rateParts = e.kind === "attack" ? [`${esc(L.effectShort(e.def))} ${L.stackText(e.stacks)} ${tnum(e.baseRate)}%`] : [];
       if (e.kind === "attack" && e.rageCap != null) rateParts.push(`${L.text("爆发")} ${L.stackText(e.rageStacks)} ${tnum(e.rageRate)}%`);
+      if (e.kind === "attack" && e.multiplierBonus) {
+        const baseRates = rateParts.join(" + ");
+        rateParts.splice(0, rateParts.length, `(${baseRates}) × (1 + ${tnum(e.multiplierBonus)}%)`);
+      }
       if (e.kind === "attack" && e.extraRate) rateParts.push(`${L.text("额外")} ${tnum(e.extraRate)}%`);
       const multDetail = e.kind === "attack" ? rateParts.join(" + ") : `${esc(L.effectShort(e.def))} ${L.stackText(e.stacks)}`;
       const provider = e.providerName ? `${e.providerName} ${L.stat("攻击")}` : L.text("提供者攻击");
@@ -1002,6 +999,7 @@ window.WUWA_STAGE_VIEW = (() => {
           staticFormulaSource(`${L.effectShort(e.def)}·${L.stackText(e.stacks)}`, "层数倍率", e.baseRate || 0, "%", false, true),
           e.rageCap != null ? staticFormulaSource(`${L.text("爆发")}·${L.stackText(e.rageStacks)}`, "层数倍率", e.rageRate || 0, "%", false) : null,
           sourceParts(sources, "effectExtraRate"),
+          sourceParts(sources, "skillMultBonus"),
         ])
         : formulaSourceTip([staticFormulaSource(L.effectShort(e.def), "层数", e.stacks, L.text("层"), false, true)]);
       const deepenTip = formulaSourceTip([
@@ -1232,13 +1230,13 @@ window.WUWA_STAGE_VIEW = (() => {
           const compactState = o.currentStateLabel || o.stateValueLabel || compactOffsetStateName(o.currentState || o.stateValue || "集谐·干涉");
           const stateHint = o.valid ? "" : `<div class="formula-state-hint">${L.text("需先确认目标处于")}${esc(L.text(o.stateValueLabel || compactOffsetStateName(o.stateValue || "集谐·干涉")))}${L.text("，才应用该收益。")}</div>`;
           const finalGainTip = formulaSourceTip([
-            staticFormulaSource(L.text(compactState), "层数", o.stacks, L.text("层"), false, true),
+            staticFormulaSource(L.text(compactState), "层数", o.effectiveStacks, L.text("层"), false, true),
             sourceParts(o.sources, "breakAmp"),
             staticFormulaSource("固定", "每点增幅", o.perStackRate, "%", false, true),
           ]);
           return `${formulaStripHTML([
             { k: "状态", v: esc(L.text(compactState || "未确认")), sub: o.valid ? "已确认" : "未确认", tip: L.sourceJoin(L.text("目标"), L.text(compactState || "未确认")) },
-            { k: "层数", v: esc(L.stackText(tnum(o.stacks))), sub: "集谐干涉", tip: formulaSourceTip([staticFormulaSource(L.text(compactState), "层数", o.stacks, L.text("层"), false, true)]) },
+            { k: "层数", v: esc(o.bonusStacks ? `${tnum(o.stacks)} + ${tnum(o.bonusStacks)}` : L.stackText(tnum(o.stacks))), sub: "集谐干涉", tip: formulaSourceTip([staticFormulaSource(L.text(compactState), "层数", o.effectiveStacks, L.text("层"), false, true)]) },
             { k: "谐度增幅", v: esc(L.pointText(tnum(o.breakAmp))), sub: "角色面板", tip: offsetBreakAmpTip(o) },
             { k: "每层", v: esc(`${tnum(o.perStackRate)}%`), sub: L.text("每点增幅"), tip: formulaSourceTip([staticFormulaSource("固定", "每点增幅", o.perStackRate, "%", false, true)]) },
             { k: "最终提升", v: esc(`+${tnum(o.finalDmgGain)}%`), sub: L.text("最终乘区"), tip: finalGainTip },

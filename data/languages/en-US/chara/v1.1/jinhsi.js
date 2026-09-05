@@ -161,14 +161,9 @@ window.WUWA_LANGUAGES.extend("en-US", {
             "desc": "The DMG Multiplier of Resonance Skill Illuminous Epiphany is increased by 45% and the additional DMG Multiplier gained by consuming Incandescence is increased by 45%.",
             "buffs": [
               {
-                "label": "Luminal Synthesis - Illuminous Epiphany: Stella Glamor DMG Multiplier Increase",
+                "label": "DMG Multiplier Increase",
                 "trigger": "Default",
-                "excerpt": "Luminal Synthesis - Illuminous Epiphany: Stella Glamor DMG Multiplier Increase +45%"
-              },
-              {
-                "label": "Luminal Synthesis - Illuminous Epiphany: Stella Glamor DMG Extra Multiplier",
-                "trigger": "Default",
-                "excerpt": "Luminal Synthesis - Illuminous Epiphany: Stella Glamor DMG Extra Multiplier +45%"
+                "excerpt": "Illuminous Epiphany and its Incandescence multiplier increase by 45%"
               }
             ]
           }

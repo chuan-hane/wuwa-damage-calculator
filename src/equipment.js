@@ -7,7 +7,6 @@ window.WUWA_EQUIPMENT = (() => {
   const L = window.WUWA_LANGUAGES;
 
   const asList = (v) => Array.isArray(v) ? v : (v ? [v] : []);
-  const pushUniq = (arr, v) => { if (v && !arr.includes(v)) arr.push(v); };
   const son = (id) => SONATAS.find((s) => s.id === id) || null;
   const wp = (id) => WEAPONS.find((w) => w.id === id);
   const ECHO_COSTS = [1, 3, 4];
@@ -209,61 +208,13 @@ window.WUWA_EQUIPMENT = (() => {
     }, c && c.element);
   }
 
-  function inferredWeaponTriggerEvents(text) {
-    const s = String(text || "");
-    const out = [];
-    if (/施放变奏技能|使用变奏技能登场/.test(s)) {
-      pushUniq(out, "introEntry");
-      pushUniq(out, "castIntroSkill");
-    }
-    if (/角色登场后/.test(s)) pushUniq(out, "introEntry");
-    if (/施放共鸣技能/.test(s)) pushUniq(out, "castResonanceSkill");
-    if (/施放共鸣解放/.test(s)) pushUniq(out, "castResonanceLiberation");
-    if (/共鸣技能造成治疗|造成治疗|提供治疗/.test(s)) pushUniq(out, "heal");
-    return out;
-  }
-
-  function escapeRegExp(text) {
-    return String(text || "").replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-  }
-
-  function effectLabelPattern(e) {
-    const label = e.label && escapeRegExp(e.label);
-    return label ? new RegExp(label) : null;
-  }
-
-  function weaponEffectScope(e) {
-    if (e.scope) return e.scope;
-    const text = e.conditionText || "";
-    const labelPattern = effectLabelPattern(e);
-    if (/施放延奏技能[后时].*(入场角色|队伍中登场角色)/.test(text)) return "team";
-    if (labelPattern && new RegExp(`自身.{0,18}${labelPattern.source}`).test(text)) return "self";
-    if (labelPattern && new RegExp(`(附近队伍中所有角色|队伍中所有角色|队伍中的角色|附近队伍中登场角色|队伍中登场角色|全队|入场角色|该角色).{0,18}${labelPattern.source}`).test(text)) return "team";
-    if (/使(附近队伍中所有角色|队伍中所有角色|队伍中的角色|队伍中登场角色|全队|入场角色)/.test(text)) return "team";
-    if (/队伍中的角色.*该角色.*(提升|加成|加深)/.test(text)) return "team";
-    if (/队伍中的角色.{0,24}施放.*后，自身/.test(text)) return "self";
-    if (/(附近队伍中所有角色|队伍中所有角色|队伍中的角色|附近队伍中登场角色|队伍中登场角色|全队).{0,24}(攻击|生命|防御|暴击|共鸣|伤害|全属性|热熔|冷凝|导电|气动|衍射|湮灭|声骸技能).{0,8}(提升|加成|加深)/.test(text)) return "team";
-    return "self";
-  }
-
-  function weaponEffectTriggersOutro(e) {
-    return /施放延奏技能[后时].*(入场角色|队伍中登场角色)/.test(e.conditionText || "");
-  }
-
-  function parseRanks(text, fallback) {
-    const groups = (text || "").match(/[\d.]+%?(?:\/[\d.]+%?){4}/g) || [];
-    for (const g of groups) { const n = g.split("/").map(parseFloat); if (Math.abs(n[0] - fallback) < 0.01) return n; }
-    for (const g of groups) { if (g.includes("%")) return g.split("/").map(parseFloat); }
-    return [fallback];
-  }
-
   function descForRank(text, rank) {
     const r = Math.min(Math.max(rank || 1, 1), 5);
     return (text || "").replace(/[\d.]+%?(?:\/[\d.]+%?){4}/g, (g) => g.split("/")[r - 1] || g);
   }
 
   function rankValuesForEffect(e) {
-    if (!Array.isArray(e.rankValues)) return parseRanks(e.conditionText, num(e.value));
+    if (!Array.isArray(e.rankValues)) return [num(e.value)];
     return e.rankValues.map(num);
   }
 
@@ -292,9 +243,8 @@ window.WUWA_EQUIPMENT = (() => {
     (w.effects || []).forEach((e) => {
       if (!ZONE_LABEL[e.zone]) return;
       const ranks = rankValuesForEffect(e);
-      const triggerEvents = [...asList(e.triggerEvents), ...inferredWeaponTriggerEvents(e.conditionText)];
-      const isOutroEntryBuff = weaponEffectTriggersOutro(e);
-      out.push({ id: "w_" + e.id, source: `${w.name} ${L.t("common.rank", { value: r })}`, label: e.label, zone: e.zone, value: ranks[Math.min(r - 1, ranks.length - 1)], damageType: e.damageType || null, element: e.element || null, effect: e.effect || null, scope: weaponEffectScope(e), duration: e.duration || null, durationAtMaxStacks: e.durationAtMaxStacks || null, maxStacks: e.maxStacks || null, defaultStacks: e.defaultStacks ?? null, defaultActive: e.defaultActive, trigger: e.trigger || null, triggerEvents, triggerSkills: e.triggerSkills || null, triggerDamageTypes: e.triggerDamageTypes || null, triggerStacks: e.triggerStacks ?? null, triggerOutro: e.triggerOutro || isOutroEntryBuff || null, requiresBuffStacks: weaponStackRequirement(e.requiresBuffStacks), requiresEffectStacks: e.requiresEffectStacks || null, requiresAnyEffectStacks: e.requiresAnyEffectStacks || null, excerpt: e.excerpt ? descForRank(e.excerpt, r) : null, desc: descForRank(e.conditionText || w.description, r) });
+      const triggerEvents = asList(e.triggerEvents);
+      out.push({ id: "w_" + e.id, source: `${w.name} ${L.t("common.rank", { value: r })}`, label: e.label, zone: e.zone, value: ranks[Math.min(r - 1, ranks.length - 1)], damageType: e.damageType || null, element: e.element || null, effect: e.effect || null, scope: e.scope || "self", duration: e.duration || null, durationAtMaxStacks: e.durationAtMaxStacks || null, maxStacks: e.maxStacks || null, defaultStacks: e.defaultStacks ?? null, defaultActive: e.defaultActive, trigger: e.trigger || null, triggerEvents, triggerSkills: e.triggerSkills || null, triggerDamageTypes: e.triggerDamageTypes || null, triggerStacks: e.triggerStacks ?? null, triggerOutro: e.triggerOutro || null, requiresBuffStacks: weaponStackRequirement(e.requiresBuffStacks), requiresEffectStacks: e.requiresEffectStacks || null, requiresAnyEffectStacks: e.requiresAnyEffectStacks || null, excerpt: e.excerpt ? descForRank(e.excerpt, r) : null, desc: descForRank(e.conditionText || w.description, r) });
     });
     return out;
   }

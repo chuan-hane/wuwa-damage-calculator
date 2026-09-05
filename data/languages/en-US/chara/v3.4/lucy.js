@@ -205,6 +205,13 @@ window.WUWA_LANGUAGES.extend("en-US", {
             "trigger": "In Target Hack · Interfered",
             "excerpt": "DMG Increase +20%",
             "desc": "Grants all Resonators in the team Countermeasure Program for 25s."
+          },
+          {
+            "source": "Forte Circuit: Algorithm Compaction",
+            "label": "DMG Multiplier Increase",
+            "trigger": "When consuming SQL for Heavy Attack - Multi-threading",
+            "excerpt": "Consuming SQL increases Heavy Attack - Multi-threading DMG Multiplier by 270%",
+            "desc": "When casting Heavy Attack - Multi-threading, if Lucy has SQL, increase this attack's DMG Multiplier by 270% and remove SQL."
           }
         ],
         "chain": [
@@ -224,9 +231,9 @@ window.WUWA_LANGUAGES.extend("en-US", {
             "desc": "While casting Resonance Liberation - Netrunner and Resonance Liberation - Old Net Deep Dive, Lucy's starting RAM is increased to 32.\nAfter casting Resonance Skill - Pulse Interference, deal 1 additional instance of Spectro DMG equal to 450% of Lucy's ATK, considered Heavy Attack DMG.\nWhen this instance of damage hits the target, apply all of the following Spoofing Program effects: Spoofing Program: Cyberware Malfunction,\nSpoofing Program: Breach Protocol, Spoofing Program: Cripple Movement, Spoofing Program: Weapon Glitch, and Spoofing Program: Cyberpsychosis. Only the continuous status effects are applied.\nForte Circuit - Depths of Blackwall is enhanced: When casting Heavy Attack - Multi-threading, if Lucy has SQL, the DMG Multiplier increase is raised from 270% to 560%.",
             "buffs": [
               {
-                "label": "Locked Thread - Heavy Attack: Multithreading DMG (SQL) DMG Multiplier Increase",
-                "trigger": "In Target Hack · Interfered",
-                "excerpt": "Locked Thread - Heavy Attack: Multithreading DMG (SQL) DMG Multiplier Increase +290%"
+                "label": "DMG Multiplier Increase",
+                "trigger": "When consuming SQL for Heavy Attack - Multi-threading",
+                "excerpt": "SQL increases Heavy Attack - Multi-threading DMG Multiplier by 560% in total"
               }
             ]
           },

@@ -172,14 +172,9 @@ window.WUWA_LANGUAGES.extend("en-US", {
             "desc": "Every time Heavy Attack, Intro Skill Tactical Strike or Resonance Skill Windqueller is used, Jiyan gains 1 stack(s) of \"Momentum\", stacking up to 2 times.\r\nResonance Liberation Emerald Storm: Finale will consume all \"Momentum\", and each stack consumed increases the DMG multiplier of Resonance Liberation Emerald Storm: Finale by 120%.",
             "buffs": [
               {
-                "label": "Qingloong at War - Emerald Storm: Finale Damage DMG Multiplier Increase",
-                "trigger": "After casting Qingloong at War - Emerald Storm: Finale Damage",
-                "excerpt": "Qingloong at War - Emerald Storm: Finale Damage DMG Multiplier Increase +120%"
-              },
-              {
-                "label": "Qingloong at War - Emerald Storm: Finale Damage DMG Multiplier Increase",
-                "trigger": "After casting Qingloong at War - Emerald Storm: Finale Damage",
-                "excerpt": "Qingloong at War - Emerald Storm: Finale Damage DMG Multiplier Increase +120%"
+                "label": "DMG Multiplier Increase",
+                "trigger": "When consuming Momentum",
+                "excerpt": "Each Momentum stack increases Emerald Storm: Finale DMG Multiplier by 120%, up to 2 stacks"
               }
             ]
           }

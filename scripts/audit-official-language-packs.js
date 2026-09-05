@@ -30,6 +30,7 @@ function jsFilesUnder(dir) {
 
 function cleanHtml(value) {
   return String(value || "")
+    .replace(/\r\n?/g, "\n")
     .replace(/<br\s*\/?>/gi, "\n")
     .replace(/<size=[^>]+>/gi, "")
     .replace(/<\/?color[^>]*>/gi, "")
@@ -151,6 +152,7 @@ function calculatorRelevantSkillClauses(value) {
 
 function collectNumericValues(value, key = "", out = []) {
   if (key === "seq") return out;
+  if (["multiplierByLevel", "perStackByLevel", "segmentsByLevel"].includes(key)) return out;
   if (typeof value === "number" && Number.isFinite(value)) out.push(value);
   else if (typeof value === "string" && key === "formula") {
     (value.match(/\d+(?:\.\d+)?/g) || []).forEach((part) => out.push(Number(part)));
@@ -201,7 +203,8 @@ function officialSkillStructuredCoverage(char, enPack, official, skillMatches) {
     const desc = cleanHtml(enPack?.buffs?.[idx]?.desc);
     const sourceMatches = normName(source).includes(normName(official.SkillName));
     const descriptionMatches = desc.length >= 12 && (officialDescription.includes(desc) || desc.includes(officialDescription));
-    if (!sourceMatches && !descriptionMatches) return;
+    const actionMatches = asList(buff.skills).some((skillId) => actionIds.has(skillId));
+    if (!sourceMatches && !descriptionMatches && !actionMatches) return;
     entries.push({ ref: `buff:${buff.id}`, value: buff });
   });
   (char.skillEvents || []).forEach((event, idx) => {
@@ -453,6 +456,14 @@ async function auditCharacters(bad, stats) {
       const matched = candidates.some((candidate) => Number.isFinite(candidate) && Math.abs(candidate - officialTotal) <= 0.02);
       if (!matched) bad.push(`character ${id}.${sk.id}: multiplier ${sk.multiplier} formula ${sk.formula} != official ${asList(match.attr.values)[9]}`);
       else stats.matchedMultiplierEntries += 1;
+      if (sk.fixedLevel) return;
+      const values = sk.perStack && sk.multiplier === 0 ? sk.perStackByLevel : sk.multiplierByLevel;
+      asList(match.attr.values).slice(0, 10).forEach((formula, levelIndex) => {
+        const total = formulaTotal(formula);
+        if (total != null && (values?.[levelIndex] == null || Math.abs(values[levelIndex] - total) > 0.0001)) {
+          bad.push(`character ${id}.${sk.id}: level ${levelIndex + 1} multiplier ${values?.[levelIndex]} != ${total}`);
+        }
+      });
     });
     (enDetail.Skills || []).forEach((official) => {
       const clauses = calculatorRelevantSkillClauses(official.SkillDescribe);

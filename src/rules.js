@@ -51,6 +51,13 @@ window.WUWA_RULES = (() => {
   const skillMultValue = (percent, ratio = 1) => Math.round(percent * ratio * 100) / 100;
 
   const num = (v, d = 0) => { const n = parseFloat(v); return Number.isNaN(n) ? d : n; };
+  function skillValueAtLevel(skill, key, level = 10) {
+    if (!skill) return 0;
+    if (skill.fixedLevel) return num(skill[key]);
+    const index = Math.min(Math.max(Math.round(num(level, 10)), 1), 10) - 1;
+    const values = skill[key + "ByLevel"];
+    return values ? num(values[index]) : skillMultValue(num(skill[key]), skillLevelRatio(level));
+  }
   const zeros = () => Object.fromEntries(ZONES.map((z) => [z, 0]));
   const FORMULA_MULTIPLY_ZONES = new Set(["amplify", "vulnerability", "skillMultBonus", "finalDmg"]);
 
@@ -116,7 +123,7 @@ window.WUWA_RULES = (() => {
 
   return {
     ZONES, ZONE_LABEL, STAT_DEF, CORE_SUBS, SEC_ZONE, ELEMENTS, TYPES,
-    SKILL_LEVEL_RATIO, skillLevelRatio, skillMultValue, num, zeros, FORMULA_MULTIPLY_ZONES,
+    SKILL_LEVEL_RATIO, skillLevelRatio, skillMultValue, skillValueAtLevel, num, zeros, FORMULA_MULTIPLY_ZONES,
     TYPE_FIELD_BY_DAMAGE, TYPE_BY_KEY, TYPE_ADD_ORDER, ELEM_ADD_ORDER,
     EFFECT_DEFS, EFFECT_ORDER, HARMONY_BASE_OPTIONS, effectKeyOf,
   };

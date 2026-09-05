@@ -57,28 +57,35 @@ WUWA.register({
       "category": "basicAttack",
       "damageType": "basic",
       "multiplier": 41.46,
-      "formula": "20.73% × 2"
+      "formula": "20.73% × 2",
+      "multiplierByLevel": [20.86,22.56,24.28,26.68,28.38,30.34,33.08,35.82,38.56,41.46],
+      "segmentsByLevel": [[[10.43,2]],[[11.28,2]],[[12.14,2]],[[13.34,2]],[[14.19,2]],[[15.17,2]],[[16.54,2]],[[17.91,2]],[[19.28,2]],[[20.73,2]]]
     },
     {
       "id": "na2",
       "category": "basicAttack",
       "damageType": "basic",
       "multiplier": 66.9,
-      "formula": "33.45% × 2"
+      "formula": "33.45% × 2",
+      "multiplierByLevel": [33.66,36.42,39.18,43.04,45.8,48.98,53.38,57.8,62.22,66.9],
+      "segmentsByLevel": [[[16.83,2]],[[18.21,2]],[[19.59,2]],[[21.52,2]],[[22.9,2]],[[24.49,2]],[[26.69,2]],[[28.9,2]],[[31.11,2]],[[33.45,2]]]
     },
     {
       "id": "na3",
       "category": "basicAttack",
       "damageType": "basic",
       "multiplier": 47.02,
-      "formula": "23.51% × 2"
+      "formula": "23.51% × 2",
+      "multiplierByLevel": [23.66,25.6,27.54,30.26,32.2,34.42,37.52,40.62,43.74,47.02],
+      "segmentsByLevel": [[[11.83,2]],[[12.8,2]],[[13.77,2]],[[15.13,2]],[[16.1,2]],[[17.21,2]],[[18.76,2]],[[20.31,2]],[[21.87,2]],[[23.51,2]]]
     },
     {
       "id": "na4",
       "category": "basicAttack",
       "damageType": "basic",
       "multiplier": 93.64,
-      "formula": "93.64%"
+      "formula": "93.64%",
+      "multiplierByLevel": [47.1,50.97,54.83,60.24,64.1,68.54,74.72,80.9,87.08,93.64]
     },
     {
       "id": "heavy_yi",
@@ -98,7 +105,8 @@ WUWA.register({
       ],
       "triggerEvents": [
         "gainLesserYang"
-      ]
+      ],
+      "multiplierByLevel": [90,97.38,104.76,115.1,122.48,130.96,142.77,154.58,166.39,178.93]
     },
     {
       "id": "heavy_xiaoguo",
@@ -118,42 +126,50 @@ WUWA.register({
       ],
       "triggerEvents": [
         "gainLesserYang"
-      ]
+      ],
+      "multiplierByLevel": [45,48.69,52.38,57.55,61.24,65.48,71.39,77.29,83.2,89.47]
     },
     {
       "id": "plunge",
       "category": "basicAttack",
       "damageType": "basic",
       "multiplier": 73.96,
-      "formula": "73.96%"
+      "formula": "73.96%",
+      "multiplierByLevel": [37.2,40.26,43.31,47.58,50.63,54.13,59.02,63.9,68.78,73.96]
     },
     {
       "id": "dodge",
       "category": "basicAttack",
       "damageType": "basic",
       "multiplier": 47.02,
-      "formula": "23.51% × 2"
+      "formula": "23.51% × 2",
+      "multiplierByLevel": [23.66,25.6,27.54,30.26,32.2,34.42,37.52,40.62,43.74,47.02],
+      "segmentsByLevel": [[[11.83,2]],[[12.8,2]],[[13.77,2]],[[15.13,2]],[[16.1,2]],[[17.21,2]],[[18.76,2]],[[20.31,2]],[[21.87,2]],[[23.51,2]]]
     },
     {
       "id": "skill",
       "category": "resonanceSkill",
       "damageType": "resonanceSkill",
       "multiplier": 58.4,
-      "formula": "58.40%"
+      "formula": "58.40%",
+      "multiplierByLevel": [29.37,31.78,34.19,37.56,39.97,42.74,46.59,50.45,54.3,58.4]
     },
     {
       "id": "skill_pull_tick",
       "category": "resonanceSkill",
       "damageType": "resonanceSkill",
       "multiplier": 58.4,
-      "formula": "5.84% × 10"
+      "formula": "5.84% × 10",
+      "multiplierByLevel": [29.4,31.8,34.2,37.6,40,42.8,46.6,50.5,54.3,58.4],
+      "segmentsByLevel": [[[2.94,10]],[[3.18,10]],[[3.42,10]],[[3.76,10]],[[4,10]],[[4.28,10]],[[4.66,10]],[[5.05,10]],[[5.43,10]],[[5.84,10]]]
     },
     {
       "id": "lib",
       "category": "resonanceLiberation",
       "damageType": "resonanceLiberation",
       "multiplier": 357.86,
-      "formula": "357.86%"
+      "formula": "357.86%",
+      "multiplierByLevel": [180,194.76,209.52,230.19,244.95,261.92,285.54,309.15,332.77,357.86]
     },
     {
       "id": "intro",
@@ -165,7 +181,8 @@ WUWA.register({
         "introEntry",
         "applyElectroFlare",
         "heal"
-      ]
+      ],
+      "multiplierByLevel": [65.94,71.35,76.76,84.33,89.74,95.95,104.61,113.26,121.91,131.1]
     },
     {
       "id": "forte_lib",
@@ -184,7 +201,8 @@ WUWA.register({
           "value": 1
         }
       ],
-      "fallbackSkillId": "lib"
+      "fallbackSkillId": "lib",
+      "multiplierByLevel": [270,292.14,314.28,345.28,367.42,392.88,428.31,463.73,499.15,536.79]
     },
     {
       "id": "field_tick",
@@ -199,7 +217,8 @@ WUWA.register({
       ],
       "triggerEvents": [
         "applyElectroFlare"
-      ]
+      ],
+      "multiplierByLevel": [10,10.82,11.64,12.79,13.61,14.56,15.87,17.18,18.49,19.89]
     }
   ],
   "defaultSkillId": "forte_lib",
@@ -282,7 +301,9 @@ WUWA.register({
       "zone": "amplify",
       "value": 15,
       "scope": "team",
-      "duration": 30
+      "duration": 30,
+      "triggerOutro": true,
+      "defaultActive": false
     }
   ],
   "chain": [

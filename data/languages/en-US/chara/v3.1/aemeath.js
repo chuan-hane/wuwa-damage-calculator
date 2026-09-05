@@ -276,16 +276,16 @@ window.WUWA_LANGUAGES.extend("en-US", {
           },
           {
             "source": "Forte Circuit: Seraphic Duet",
-            "label": "Fusion Burst Extra Multiplier",
+            "label": "Fusion Burst DMG Multiplier Increase",
             "trigger": "In Resonance Mode - Fusion Burst",
-            "excerpt": "Fusion Burst Extra Multiplier +10% per stack",
+            "excerpt": "Fusion Burst DMG Multiplier Increase +10% per stack",
             "desc": "The next Seraphic Duet cast within 30s after casting this skill doesn't consume Rupturous Trail/Fusion Trail."
           },
           {
             "source": "Forte Circuit: Stardust Resonance",
-            "label": "Fusion Burst Extra Multiplier",
+            "label": "Fusion Burst DMG Multiplier Increase",
             "trigger": "In Resonance Mode - Fusion Burst",
-            "excerpt": "Fusion Burst Extra Multiplier +200%",
+            "excerpt": "Fusion Burst DMG Multiplier Increase +200%",
             "desc": "- Enter Stardust Resonance for 30s."
           },
           {
@@ -344,14 +344,14 @@ window.WUWA_LANGUAGES.extend("en-US", {
                 "excerpt": "To Sculpt the Silence - Seraphic Duet Bonus DMG (Per Instance) DMG Multiplier Increase +20% per stack"
               },
               {
-                "label": "Fusion Burst Extra Multiplier",
+                "label": "Fusion Burst DMG Multiplier Increase",
                 "trigger": "In Resonance Mode - Fusion Burst",
-                "excerpt": "Fusion Burst Extra Multiplier +200%"
+                "excerpt": "Fusion Burst DMG Multiplier Increase +200%"
               },
               {
-                "label": "Fusion Burst Extra Multiplier",
+                "label": "Fusion Burst DMG Multiplier Increase",
                 "trigger": "In Resonance Mode - Fusion Burst",
-                "excerpt": "Fusion Burst Extra Multiplier +5% per stack"
+                "excerpt": "Fusion Burst DMG Multiplier Increase +5% per stack"
               }
             ]
           },
