@@ -22,7 +22,8 @@ window.WUWA_DATA.weapons = [
           53,
           64
         ],
-        "defaultActive": false
+        "defaultActive": false,
+        "scope": "self"
       }
     ]
   },
@@ -40,14 +41,36 @@ window.WUWA_DATA.weapons = [
         "zone": "typeBonus",
         "value": 20,
         "defaultActive": false,
-        "damageType": "heavy"
+        "damageType": "heavy",
+        "scope": "self",
+        "triggerEvents": [
+          "castResonanceSkill"
+        ],
+        "rankValues": [
+          20,
+          31,
+          42,
+          53,
+          64
+        ]
       },
       {
         "id": "e1",
         "zone": "typeBonus",
         "value": 20,
         "defaultActive": false,
-        "damageType": "basic"
+        "damageType": "basic",
+        "scope": "self",
+        "triggerEvents": [
+          "castResonanceSkill"
+        ],
+        "rankValues": [
+          20,
+          31,
+          42,
+          53,
+          64
+        ]
       }
     ]
   },
@@ -74,7 +97,8 @@ window.WUWA_DATA.weapons = [
           69
         ],
         "defaultActive": false,
-        "damageType": "resonanceSkill"
+        "damageType": "resonanceSkill",
+        "scope": "self"
       }
     ]
   },
@@ -92,7 +116,18 @@ window.WUWA_DATA.weapons = [
         "zone": "typeBonus",
         "value": 18,
         "defaultActive": false,
-        "damageType": "resonanceLiberation"
+        "damageType": "resonanceLiberation",
+        "scope": "self",
+        "triggerEvents": [
+          "castResonanceSkill"
+        ],
+        "rankValues": [
+          18,
+          27,
+          36,
+          45,
+          54
+        ]
       }
     ]
   },
@@ -109,7 +144,18 @@ window.WUWA_DATA.weapons = [
         "id": "e0",
         "zone": "attackPercent",
         "value": 15,
-        "defaultActive": false
+        "defaultActive": false,
+        "scope": "self",
+        "triggerEvents": [
+          "castResonanceLiberation"
+        ],
+        "rankValues": [
+          15,
+          23.25,
+          31.5,
+          39.75,
+          48
+        ]
       }
     ]
   },
@@ -176,7 +222,15 @@ window.WUWA_DATA.weapons = [
         "id": "e0",
         "zone": "attackPercent",
         "value": 12,
-        "defaultActive": true
+        "defaultActive": true,
+        "scope": "self",
+        "rankValues": [
+          12,
+          15,
+          18,
+          21,
+          24
+        ]
       }
     ]
   },
@@ -194,7 +248,15 @@ window.WUWA_DATA.weapons = [
         "zone": "typeBonus",
         "value": 18,
         "defaultActive": false,
-        "damageType": "heavy"
+        "damageType": "heavy",
+        "scope": "self",
+        "rankValues": [
+          18,
+          22.5,
+          27,
+          31.5,
+          36
+        ]
       }
     ]
   },
@@ -220,7 +282,8 @@ window.WUWA_DATA.weapons = [
           21,
           24
         ],
-        "defaultActive": false
+        "defaultActive": false,
+        "scope": "self"
       }
     ]
   },
@@ -237,7 +300,15 @@ window.WUWA_DATA.weapons = [
         "id": "e0",
         "zone": "attackPercent",
         "value": 8,
-        "defaultActive": false
+        "defaultActive": false,
+        "scope": "self",
+        "rankValues": [
+          8,
+          10,
+          12,
+          14,
+          16
+        ]
       }
     ]
   },
@@ -254,7 +325,15 @@ window.WUWA_DATA.weapons = [
         "id": "e0",
         "zone": "attackPercent",
         "value": 12,
-        "defaultActive": false
+        "defaultActive": false,
+        "scope": "self",
+        "rankValues": [
+          12,
+          15,
+          18,
+          21,
+          24
+        ]
       }
     ]
   },
@@ -271,13 +350,37 @@ window.WUWA_DATA.weapons = [
         "id": "e0",
         "zone": "attackPercent",
         "value": 8,
-        "defaultActive": false
+        "defaultActive": false,
+        "scope": "self",
+        "triggerEvents": [
+          "introEntry",
+          "castIntroSkill"
+        ],
+        "rankValues": [
+          8,
+          10,
+          12,
+          14,
+          16
+        ]
       },
       {
         "id": "e1",
         "zone": "defensePercent",
         "value": 15,
-        "defaultActive": false
+        "defaultActive": false,
+        "scope": "self",
+        "triggerEvents": [
+          "introEntry",
+          "castIntroSkill"
+        ],
+        "rankValues": [
+          15,
+          18.75,
+          22.5,
+          26.25,
+          30
+        ]
       }
     ]
   },
@@ -294,7 +397,19 @@ window.WUWA_DATA.weapons = [
         "id": "e0",
         "zone": "attackPercent",
         "value": 15,
-        "defaultActive": false
+        "defaultActive": false,
+        "scope": "self",
+        "triggerEvents": [
+          "introEntry",
+          "castIntroSkill"
+        ],
+        "rankValues": [
+          15,
+          18.75,
+          22.5,
+          26.25,
+          30
+        ]
       }
     ]
   },
@@ -312,7 +427,19 @@ window.WUWA_DATA.weapons = [
         "zone": "typeBonus",
         "value": 20,
         "defaultActive": false,
-        "damageType": "resonanceSkill"
+        "damageType": "resonanceSkill",
+        "scope": "self",
+        "triggerEvents": [
+          "introEntry",
+          "castIntroSkill"
+        ],
+        "rankValues": [
+          20,
+          25,
+          30,
+          35,
+          40
+        ]
       }
     ]
   },
@@ -330,7 +457,19 @@ window.WUWA_DATA.weapons = [
         "zone": "typeBonus",
         "value": 20,
         "defaultActive": false,
-        "damageType": "resonanceLiberation"
+        "damageType": "resonanceLiberation",
+        "scope": "self",
+        "triggerEvents": [
+          "introEntry",
+          "castIntroSkill"
+        ],
+        "rankValues": [
+          20,
+          25,
+          30,
+          35,
+          40
+        ]
       }
     ]
   },
@@ -347,13 +486,37 @@ window.WUWA_DATA.weapons = [
         "id": "e0",
         "zone": "attackPercent",
         "value": 8,
-        "defaultActive": false
+        "defaultActive": false,
+        "scope": "self",
+        "triggerEvents": [
+          "introEntry",
+          "castIntroSkill"
+        ],
+        "rankValues": [
+          8,
+          10,
+          12,
+          14,
+          16
+        ]
       },
       {
         "id": "e1",
         "zone": "hpPercent",
         "value": 10,
-        "defaultActive": false
+        "defaultActive": false,
+        "scope": "self",
+        "triggerEvents": [
+          "introEntry",
+          "castIntroSkill"
+        ],
+        "rankValues": [
+          10,
+          12.5,
+          15,
+          17.5,
+          20
+        ]
       }
     ]
   },
@@ -379,7 +542,11 @@ window.WUWA_DATA.weapons = [
           21,
           24
         ],
-        "defaultActive": false
+        "defaultActive": false,
+        "scope": "self",
+        "triggerEvents": [
+          "castResonanceSkill"
+        ]
       }
     ]
   },
@@ -405,7 +572,11 @@ window.WUWA_DATA.weapons = [
           21,
           24
         ],
-        "defaultActive": false
+        "defaultActive": false,
+        "scope": "self",
+        "triggerEvents": [
+          "introEntry"
+        ]
       }
     ]
   },
@@ -431,7 +602,8 @@ window.WUWA_DATA.weapons = [
           21,
           24
         ],
-        "defaultActive": false
+        "defaultActive": false,
+        "scope": "self"
       }
     ]
   },
@@ -457,7 +629,11 @@ window.WUWA_DATA.weapons = [
           13.5,
           15
         ],
-        "defaultActive": false
+        "defaultActive": false,
+        "scope": "self",
+        "triggerEvents": [
+          "castResonanceLiberation"
+        ]
       },
       {
         "id": "e1",
@@ -472,7 +648,11 @@ window.WUWA_DATA.weapons = [
           13.5,
           15
         ],
-        "defaultActive": false
+        "defaultActive": false,
+        "scope": "self",
+        "triggerEvents": [
+          "castResonanceLiberation"
+        ]
       }
     ]
   },
@@ -498,7 +678,8 @@ window.WUWA_DATA.weapons = [
           15.75,
           18
         ],
-        "defaultActive": false
+        "defaultActive": false,
+        "scope": "self"
       }
     ]
   },
@@ -525,7 +706,11 @@ window.WUWA_DATA.weapons = [
           42
         ],
         "defaultActive": false,
-        "damageType": "resonanceLiberation"
+        "damageType": "resonanceLiberation",
+        "scope": "self",
+        "triggerEvents": [
+          "castResonanceSkill"
+        ]
       }
     ]
   },
@@ -551,7 +736,11 @@ window.WUWA_DATA.weapons = [
           21,
           24
         ],
-        "defaultActive": false
+        "defaultActive": false,
+        "scope": "self",
+        "triggerEvents": [
+          "castResonanceSkill"
+        ]
       }
     ]
   },
@@ -568,7 +757,16 @@ window.WUWA_DATA.weapons = [
         "id": "e0",
         "zone": "attackPercent",
         "value": 10,
-        "defaultActive": false
+        "defaultActive": false,
+        "scope": "team",
+        "triggerOutro": true,
+        "rankValues": [
+          10,
+          12.5,
+          15,
+          17.5,
+          20
+        ]
       }
     ]
   },
@@ -586,14 +784,30 @@ window.WUWA_DATA.weapons = [
         "zone": "typeBonus",
         "value": 10,
         "defaultActive": false,
-        "damageType": "basic"
+        "damageType": "basic",
+        "scope": "self",
+        "rankValues": [
+          10,
+          12.5,
+          15,
+          17.5,
+          20
+        ]
       },
       {
         "id": "e1",
         "zone": "typeBonus",
         "value": 10,
         "defaultActive": false,
-        "damageType": "resonanceSkill"
+        "damageType": "resonanceSkill",
+        "scope": "self",
+        "rankValues": [
+          10,
+          12.5,
+          15,
+          17.5,
+          20
+        ]
       }
     ]
   },
@@ -620,7 +834,8 @@ window.WUWA_DATA.weapons = [
           32
         ],
         "defaultActive": false,
-        "damageType": "basic"
+        "damageType": "basic",
+        "scope": "self"
       }
     ]
   },
@@ -637,7 +852,15 @@ window.WUWA_DATA.weapons = [
         "id": "e0",
         "zone": "damageBonus",
         "value": 12,
-        "defaultActive": true
+        "defaultActive": true,
+        "scope": "self",
+        "rankValues": [
+          12,
+          15,
+          18,
+          21,
+          24
+        ]
       },
       {
         "id": "e1",
@@ -653,7 +876,12 @@ window.WUWA_DATA.weapons = [
           96
         ],
         "defaultActive": false,
-        "damageType": "heavy"
+        "damageType": "heavy",
+        "scope": "self",
+        "triggerEvents": [
+          "introEntry",
+          "castIntroSkill"
+        ]
       }
     ]
   },
@@ -670,7 +898,15 @@ window.WUWA_DATA.weapons = [
         "id": "e0",
         "zone": "damageBonus",
         "value": 12,
-        "defaultActive": true
+        "defaultActive": true,
+        "scope": "self",
+        "rankValues": [
+          12,
+          15,
+          18,
+          21,
+          24
+        ]
       },
       {
         "id": "e1",
@@ -685,7 +921,8 @@ window.WUWA_DATA.weapons = [
           42,
           48
         ],
-        "defaultActive": false
+        "defaultActive": false,
+        "scope": "self"
       }
     ]
   },
@@ -702,21 +939,52 @@ window.WUWA_DATA.weapons = [
         "id": "e0",
         "zone": "damageBonus",
         "value": 12,
-        "defaultActive": true
+        "defaultActive": true,
+        "scope": "self",
+        "rankValues": [
+          12,
+          15,
+          18,
+          21,
+          24
+        ]
       },
       {
         "id": "e1",
         "zone": "typeBonus",
         "value": 24,
         "defaultActive": false,
-        "damageType": "resonanceSkill"
+        "damageType": "resonanceSkill",
+        "scope": "self",
+        "triggerEvents": [
+          "introEntry",
+          "castIntroSkill"
+        ],
+        "rankValues": [
+          24,
+          30,
+          36,
+          42,
+          48
+        ]
       },
       {
         "id": "e2",
         "zone": "typeBonus",
         "value": 24,
         "defaultActive": false,
-        "damageType": "resonanceSkill"
+        "damageType": "resonanceSkill",
+        "scope": "self",
+        "triggerEvents": [
+          "castResonanceSkill"
+        ],
+        "rankValues": [
+          24,
+          30,
+          36,
+          42,
+          48
+        ]
       }
     ]
   },
@@ -733,7 +1001,15 @@ window.WUWA_DATA.weapons = [
         "id": "e0",
         "zone": "attackPercent",
         "value": 12,
-        "defaultActive": true
+        "defaultActive": true,
+        "scope": "self",
+        "rankValues": [
+          12,
+          15,
+          18,
+          21,
+          24
+        ]
       },
       {
         "id": "e1",
@@ -749,7 +1025,8 @@ window.WUWA_DATA.weapons = [
           112
         ],
         "defaultActive": false,
-        "damageType": "resonanceSkill"
+        "damageType": "resonanceSkill",
+        "scope": "self"
       }
     ]
   },
@@ -766,7 +1043,15 @@ window.WUWA_DATA.weapons = [
         "id": "e0",
         "zone": "attackPercent",
         "value": 12,
-        "defaultActive": true
+        "defaultActive": true,
+        "scope": "self",
+        "rankValues": [
+          12,
+          15,
+          18,
+          21,
+          24
+        ]
       },
       {
         "id": "e1",
@@ -782,7 +1067,11 @@ window.WUWA_DATA.weapons = [
           72
         ],
         "defaultActive": false,
-        "damageType": "basic"
+        "damageType": "basic",
+        "scope": "self",
+        "triggerEvents": [
+          "castResonanceSkill"
+        ]
       },
       {
         "id": "e2",
@@ -793,7 +1082,15 @@ window.WUWA_DATA.weapons = [
           "id": "e1",
           "stacks": 3
         },
-        "damageType": "basic"
+        "damageType": "basic",
+        "scope": "self",
+        "rankValues": [
+          52,
+          65,
+          78,
+          91,
+          104
+        ]
       }
     ]
   },
@@ -810,14 +1107,33 @@ window.WUWA_DATA.weapons = [
         "id": "e0",
         "zone": "damageBonus",
         "value": 12,
-        "defaultActive": true
+        "defaultActive": true,
+        "scope": "self",
+        "rankValues": [
+          12,
+          15,
+          18,
+          21,
+          24
+        ]
       },
       {
         "id": "e1",
         "zone": "typeBonus",
         "value": 48,
         "defaultActive": false,
-        "damageType": "resonanceLiberation"
+        "damageType": "resonanceLiberation",
+        "scope": "self",
+        "triggerEvents": [
+          "castResonanceLiberation"
+        ],
+        "rankValues": [
+          48,
+          60,
+          72,
+          84,
+          96
+        ]
       }
     ]
   },
@@ -833,13 +1149,32 @@ window.WUWA_DATA.weapons = [
       {
         "id": "e_hp",
         "zone": "hpPercent",
-        "value": 12
+        "value": 12,
+        "scope": "self",
+        "rankValues": [
+          12,
+          15,
+          18,
+          21,
+          24
+        ]
       },
       {
         "id": "e0",
         "zone": "attackPercent",
         "value": 14,
-        "defaultActive": false
+        "defaultActive": false,
+        "scope": "team",
+        "triggerEvents": [
+          "heal"
+        ],
+        "rankValues": [
+          14,
+          17.5,
+          21,
+          24.5,
+          28
+        ]
       }
     ]
   },
@@ -856,7 +1191,18 @@ window.WUWA_DATA.weapons = [
         "id": "e0",
         "zone": "attackPercent",
         "value": 10,
-        "defaultActive": false
+        "defaultActive": false,
+        "scope": "self",
+        "triggerEvents": [
+          "castResonanceSkill"
+        ],
+        "rankValues": [
+          10,
+          12.5,
+          15,
+          17.5,
+          20
+        ]
       }
     ]
   },
@@ -873,7 +1219,18 @@ window.WUWA_DATA.weapons = [
         "id": "e0",
         "zone": "attackPercent",
         "value": 10,
-        "defaultActive": false
+        "defaultActive": false,
+        "scope": "self",
+        "triggerEvents": [
+          "castResonanceSkill"
+        ],
+        "rankValues": [
+          10,
+          12.5,
+          15,
+          17.5,
+          20
+        ]
       }
     ]
   },
@@ -890,7 +1247,18 @@ window.WUWA_DATA.weapons = [
         "id": "e0",
         "zone": "attackPercent",
         "value": 10,
-        "defaultActive": false
+        "defaultActive": false,
+        "scope": "self",
+        "triggerEvents": [
+          "castResonanceSkill"
+        ],
+        "rankValues": [
+          10,
+          12.5,
+          15,
+          17.5,
+          20
+        ]
       }
     ]
   },
@@ -907,7 +1275,18 @@ window.WUWA_DATA.weapons = [
         "id": "e0",
         "zone": "attackPercent",
         "value": 10,
-        "defaultActive": false
+        "defaultActive": false,
+        "scope": "self",
+        "triggerEvents": [
+          "castResonanceSkill"
+        ],
+        "rankValues": [
+          10,
+          12.5,
+          15,
+          17.5,
+          20
+        ]
       }
     ]
   },
@@ -924,7 +1303,18 @@ window.WUWA_DATA.weapons = [
         "id": "e0",
         "zone": "attackPercent",
         "value": 10,
-        "defaultActive": false
+        "defaultActive": false,
+        "scope": "self",
+        "triggerEvents": [
+          "castResonanceSkill"
+        ],
+        "rankValues": [
+          10,
+          12.5,
+          15,
+          17.5,
+          20
+        ]
       }
     ]
   },
@@ -950,7 +1340,8 @@ window.WUWA_DATA.weapons = [
           35,
           40
         ],
-        "defaultActive": false
+        "defaultActive": false,
+        "scope": "self"
       },
       {
         "id": "e1",
@@ -960,7 +1351,15 @@ window.WUWA_DATA.weapons = [
         "requiresBuffStacks": {
           "id": "e0",
           "stacks": 10
-        }
+        },
+        "scope": "self",
+        "rankValues": [
+          6,
+          7.5,
+          9,
+          10.5,
+          12
+        ]
       }
     ]
   },
@@ -977,7 +1376,15 @@ window.WUWA_DATA.weapons = [
         "id": "e0",
         "zone": "attackPercent",
         "value": 12,
-        "defaultActive": true
+        "defaultActive": true,
+        "scope": "self",
+        "rankValues": [
+          12,
+          15,
+          18,
+          21,
+          24
+        ]
       },
       {
         "id": "e1",
@@ -996,7 +1403,8 @@ window.WUWA_DATA.weapons = [
         "triggerDamageTypes": [
           "basic"
         ],
-        "damageType": "basic"
+        "damageType": "basic",
+        "scope": "self"
       },
       {
         "id": "e2",
@@ -1006,7 +1414,15 @@ window.WUWA_DATA.weapons = [
         "triggerEvents": [
           "consumeConcerto"
         ],
-        "damageType": "basic"
+        "damageType": "basic",
+        "scope": "self",
+        "rankValues": [
+          40,
+          50,
+          60,
+          70,
+          80
+        ]
       }
     ]
   },
@@ -1023,7 +1439,18 @@ window.WUWA_DATA.weapons = [
         "id": "e0",
         "zone": "healingBonus",
         "value": 16,
-        "defaultActive": false
+        "defaultActive": false,
+        "scope": "self",
+        "triggerEvents": [
+          "castResonanceLiberation"
+        ],
+        "rankValues": [
+          16,
+          20,
+          24,
+          28,
+          32
+        ]
       }
     ]
   },
@@ -1049,7 +1476,8 @@ window.WUWA_DATA.weapons = [
           28,
           32
         ],
-        "defaultActive": false
+        "defaultActive": false,
+        "scope": "self"
       }
     ]
   },
@@ -1075,7 +1503,8 @@ window.WUWA_DATA.weapons = [
           28,
           32
         ],
-        "defaultActive": false
+        "defaultActive": false,
+        "scope": "self"
       }
     ]
   },
@@ -1101,7 +1530,8 @@ window.WUWA_DATA.weapons = [
           28,
           32
         ],
-        "defaultActive": false
+        "defaultActive": false,
+        "scope": "self"
       }
     ]
   },
@@ -1127,7 +1557,8 @@ window.WUWA_DATA.weapons = [
           28,
           32
         ],
-        "defaultActive": false
+        "defaultActive": false,
+        "scope": "self"
       }
     ]
   },
@@ -1153,7 +1584,8 @@ window.WUWA_DATA.weapons = [
           28,
           32
         ],
-        "defaultActive": false
+        "defaultActive": false,
+        "scope": "self"
       }
     ]
   },
@@ -1170,7 +1602,15 @@ window.WUWA_DATA.weapons = [
         "id": "e0",
         "zone": "attackPercent",
         "value": 12,
-        "defaultActive": true
+        "defaultActive": true,
+        "scope": "self",
+        "rankValues": [
+          12,
+          15,
+          18,
+          21,
+          24
+        ]
       },
       {
         "id": "e1",
@@ -1185,7 +1625,15 @@ window.WUWA_DATA.weapons = [
           "castBasicAttack",
           "castIntroSkill"
         ],
-        "damageType": "heavy"
+        "damageType": "heavy",
+        "scope": "self",
+        "rankValues": [
+          48,
+          60,
+          72,
+          84,
+          96
+        ]
       }
     ]
   },
@@ -1202,14 +1650,34 @@ window.WUWA_DATA.weapons = [
         "id": "e0",
         "zone": "attackPercent",
         "value": 12,
-        "defaultActive": true
+        "defaultActive": true,
+        "scope": "self",
+        "rankValues": [
+          12,
+          15,
+          18,
+          21,
+          24
+        ]
       },
       {
         "id": "e1",
         "zone": "typeBonus",
         "value": 48,
         "defaultActive": false,
-        "damageType": "resonanceSkill"
+        "damageType": "resonanceSkill",
+        "scope": "self",
+        "triggerEvents": [
+          "introEntry",
+          "castIntroSkill"
+        ],
+        "rankValues": [
+          48,
+          60,
+          72,
+          84,
+          96
+        ]
       }
     ]
   },
@@ -1226,14 +1694,30 @@ window.WUWA_DATA.weapons = [
         "id": "e0",
         "zone": "critRate",
         "value": 8,
-        "defaultActive": true
+        "defaultActive": true,
+        "scope": "self",
+        "rankValues": [
+          8,
+          10,
+          12,
+          14,
+          16
+        ]
       },
       {
         "id": "e1",
         "zone": "typeBonus",
         "value": 24,
         "defaultActive": false,
-        "damageType": "basic"
+        "damageType": "basic",
+        "scope": "self",
+        "rankValues": [
+          24,
+          30,
+          36,
+          42,
+          48
+        ]
       }
     ]
   },
@@ -1250,7 +1734,15 @@ window.WUWA_DATA.weapons = [
         "id": "e0",
         "zone": "attackPercent",
         "value": 12,
-        "defaultActive": true
+        "defaultActive": true,
+        "scope": "self",
+        "rankValues": [
+          12,
+          15,
+          18,
+          21,
+          24
+        ]
       },
       {
         "id": "e1",
@@ -1266,7 +1758,8 @@ window.WUWA_DATA.weapons = [
           84
         ],
         "defaultActive": false,
-        "damageType": "heavy"
+        "damageType": "heavy",
+        "scope": "self"
       },
       {
         "id": "e2",
@@ -1282,7 +1775,8 @@ window.WUWA_DATA.weapons = [
           84
         ],
         "defaultActive": false,
-        "damageType": "basic"
+        "damageType": "basic",
+        "scope": "self"
       },
       {
         "id": "e3",
@@ -1297,7 +1791,9 @@ window.WUWA_DATA.weapons = [
         ],
         "effect": "lightNoise",
         "defaultActive": false,
-        "duration": 30
+        "duration": 30,
+        "scope": "team",
+        "triggerOutro": true
       }
     ]
   },
@@ -1324,7 +1820,8 @@ window.WUWA_DATA.weapons = [
           40
         ],
         "defaultActive": false,
-        "element": "spectro"
+        "element": "spectro",
+        "scope": "self"
       }
     ]
   },
@@ -1341,14 +1838,30 @@ window.WUWA_DATA.weapons = [
         "id": "e0",
         "zone": "attackPercent",
         "value": 12,
-        "defaultActive": true
+        "defaultActive": true,
+        "scope": "self",
+        "rankValues": [
+          12,
+          15,
+          18,
+          21,
+          24
+        ]
       },
       {
         "id": "e1",
         "zone": "typeBonus",
         "value": 40,
         "defaultActive": false,
-        "damageType": "basic"
+        "damageType": "basic",
+        "scope": "self",
+        "rankValues": [
+          40,
+          50,
+          60,
+          70,
+          80
+        ]
       },
       {
         "id": "e2",
@@ -1363,7 +1876,8 @@ window.WUWA_DATA.weapons = [
         ],
         "element": "havoc",
         "defaultActive": false,
-        "duration": 10
+        "duration": 10,
+        "scope": "self"
       }
     ]
   },
@@ -1381,7 +1895,18 @@ window.WUWA_DATA.weapons = [
         "zone": "typeBonus",
         "value": 10,
         "defaultActive": false,
-        "damageType": "resonanceSkill"
+        "damageType": "resonanceSkill",
+        "scope": "self",
+        "triggerEvents": [
+          "heal"
+        ],
+        "rankValues": [
+          10,
+          14,
+          18,
+          22,
+          26
+        ]
       }
     ]
   },
@@ -1398,7 +1923,15 @@ window.WUWA_DATA.weapons = [
         "id": "e0",
         "zone": "attackPercent",
         "value": 12,
-        "defaultActive": true
+        "defaultActive": true,
+        "scope": "self",
+        "rankValues": [
+          12,
+          15,
+          18,
+          21,
+          24
+        ]
       },
       {
         "id": "e1",
@@ -1415,7 +1948,8 @@ window.WUWA_DATA.weapons = [
         "duration": 6,
         "triggerDamageTypes": [
           "basic"
-        ]
+        ],
+        "scope": "self"
       },
       {
         "id": "e2",
@@ -1433,7 +1967,8 @@ window.WUWA_DATA.weapons = [
         "duration": 6,
         "triggerDamageTypes": [
           "basic"
-        ]
+        ],
+        "scope": "self"
       }
     ]
   },
@@ -1450,7 +1985,15 @@ window.WUWA_DATA.weapons = [
         "id": "e0",
         "zone": "attackPercent",
         "value": 12,
-        "defaultActive": true
+        "defaultActive": true,
+        "scope": "self",
+        "rankValues": [
+          12,
+          15,
+          18,
+          21,
+          24
+        ]
       },
       {
         "id": "e1",
@@ -1465,7 +2008,8 @@ window.WUWA_DATA.weapons = [
         ],
         "element": "aero",
         "defaultActive": false,
-        "duration": 10
+        "duration": 10,
+        "scope": "self"
       },
       {
         "id": "e2",
@@ -1484,7 +2028,8 @@ window.WUWA_DATA.weapons = [
           "stacks": 1
         },
         "defaultActive": false,
-        "duration": 20
+        "duration": 20,
+        "scope": "self"
       }
     ]
   },
@@ -1501,7 +2046,15 @@ window.WUWA_DATA.weapons = [
         "id": "e0",
         "zone": "hpPercent",
         "value": 12,
-        "defaultActive": true
+        "defaultActive": true,
+        "scope": "self",
+        "rankValues": [
+          12,
+          15,
+          18,
+          21,
+          24
+        ]
       },
       {
         "id": "e1",
@@ -1512,7 +2065,16 @@ window.WUWA_DATA.weapons = [
           "basic"
         ],
         "triggerEvents": [
-          "castIntroSkill"
+          "castIntroSkill",
+          "introEntry"
+        ],
+        "scope": "self",
+        "rankValues": [
+          8,
+          10,
+          12,
+          14,
+          16
         ]
       },
       {
@@ -1522,7 +2084,15 @@ window.WUWA_DATA.weapons = [
         "requiresEffectStacks": {
           "effect": "windErosion",
           "stacks": 1
-        }
+        },
+        "scope": "self",
+        "rankValues": [
+          20,
+          25,
+          30,
+          35,
+          40
+        ]
       }
     ]
   },
@@ -1539,7 +2109,15 @@ window.WUWA_DATA.weapons = [
         "id": "e0",
         "zone": "attackPercent",
         "value": 12,
-        "defaultActive": true
+        "defaultActive": true,
+        "scope": "self",
+        "rankValues": [
+          12,
+          15,
+          18,
+          21,
+          24
+        ]
       },
       {
         "id": "e1",
@@ -1554,7 +2132,12 @@ window.WUWA_DATA.weapons = [
         ],
         "damageType": "resonanceLiberation",
         "defaultActive": false,
-        "duration": 6
+        "duration": 6,
+        "scope": "self",
+        "triggerEvents": [
+          "introEntry",
+          "castIntroSkill"
+        ]
       },
       {
         "id": "e2",
@@ -1569,7 +2152,8 @@ window.WUWA_DATA.weapons = [
         ],
         "element": "fusion",
         "defaultActive": false,
-        "duration": 30
+        "duration": 30,
+        "scope": "team"
       }
     ]
   },
@@ -1586,7 +2170,15 @@ window.WUWA_DATA.weapons = [
         "id": "e0",
         "zone": "attackPercent",
         "value": 12,
-        "defaultActive": true
+        "defaultActive": true,
+        "scope": "self",
+        "rankValues": [
+          12,
+          15,
+          18,
+          21,
+          24
+        ]
       },
       {
         "id": "e1",
@@ -1594,7 +2186,15 @@ window.WUWA_DATA.weapons = [
         "value": 32,
         "defaultActive": false,
         "duration": 12,
-        "damageType": "resonanceSkill"
+        "damageType": "resonanceSkill",
+        "scope": "self",
+        "rankValues": [
+          32,
+          40,
+          48,
+          56,
+          64
+        ]
       },
       {
         "id": "e2",
@@ -1602,14 +2202,30 @@ window.WUWA_DATA.weapons = [
         "value": 32,
         "defaultActive": false,
         "duration": 12,
-        "damageType": "echoSkill"
+        "damageType": "echoSkill",
+        "scope": "self",
+        "rankValues": [
+          32,
+          40,
+          48,
+          56,
+          64
+        ]
       },
       {
         "id": "e3",
         "zone": "defIgnore",
         "value": 8,
         "defaultActive": false,
-        "duration": 12
+        "duration": 12,
+        "scope": "self",
+        "rankValues": [
+          8,
+          10,
+          12,
+          14,
+          16
+        ]
       }
     ]
   },
@@ -1626,14 +2242,34 @@ window.WUWA_DATA.weapons = [
         "id": "e0",
         "zone": "attackPercent",
         "value": 12,
-        "defaultActive": true
+        "defaultActive": true,
+        "scope": "self",
+        "rankValues": [
+          12,
+          15,
+          18,
+          21,
+          24
+        ]
       },
       {
         "id": "e1",
         "zone": "typeBonus",
         "value": 20,
         "defaultActive": false,
-        "damageType": "resonanceLiberation"
+        "damageType": "resonanceLiberation",
+        "scope": "self",
+        "triggerEvents": [
+          "introEntry",
+          "castIntroSkill"
+        ],
+        "rankValues": [
+          20,
+          25,
+          30,
+          35,
+          40
+        ]
       },
       {
         "id": "e2",
@@ -1650,7 +2286,12 @@ window.WUWA_DATA.weapons = [
           54,
           60
         ],
-        "damageType": "resonanceLiberation"
+        "damageType": "resonanceLiberation",
+        "scope": "self",
+        "triggerEvents": [
+          "introEntry",
+          "castIntroSkill"
+        ]
       }
     ]
   },
@@ -1667,14 +2308,34 @@ window.WUWA_DATA.weapons = [
         "id": "e0",
         "zone": "attackPercent",
         "value": 12,
-        "defaultActive": true
+        "defaultActive": true,
+        "scope": "self",
+        "rankValues": [
+          12,
+          15,
+          18,
+          21,
+          24
+        ]
       },
       {
         "id": "e1",
         "zone": "typeBonus",
         "value": 20,
         "defaultActive": false,
-        "damageType": "heavy"
+        "damageType": "heavy",
+        "scope": "self",
+        "triggerEvents": [
+          "introEntry",
+          "castIntroSkill"
+        ],
+        "rankValues": [
+          20,
+          25,
+          30,
+          35,
+          40
+        ]
       },
       {
         "id": "e2",
@@ -1690,7 +2351,8 @@ window.WUWA_DATA.weapons = [
           60
         ],
         "defaultActive": false,
-        "damageType": "heavy"
+        "damageType": "heavy",
+        "scope": "self"
       }
     ]
   },
@@ -1708,13 +2370,35 @@ window.WUWA_DATA.weapons = [
         "zone": "typeBonus",
         "value": 10.8,
         "defaultActive": false,
-        "damageType": "heavy"
+        "damageType": "heavy",
+        "scope": "self",
+        "triggerEvents": [
+          "castResonanceLiberation"
+        ],
+        "rankValues": [
+          10.8,
+          16.7,
+          22.6,
+          28.6,
+          34.5
+        ]
       },
       {
         "id": "e1",
         "zone": "attackPercent",
         "value": 7.2,
-        "defaultActive": false
+        "defaultActive": false,
+        "scope": "self",
+        "triggerEvents": [
+          "castResonanceLiberation"
+        ],
+        "rankValues": [
+          7.2,
+          11.1,
+          15.1,
+          19,
+          23
+        ]
       }
     ]
   },
@@ -1732,13 +2416,35 @@ window.WUWA_DATA.weapons = [
         "zone": "typeBonus",
         "value": 10.8,
         "defaultActive": false,
-        "damageType": "resonanceLiberation"
+        "damageType": "resonanceLiberation",
+        "scope": "self",
+        "triggerEvents": [
+          "castResonanceLiberation"
+        ],
+        "rankValues": [
+          10.8,
+          16.7,
+          22.6,
+          28.6,
+          34.5
+        ]
       },
       {
         "id": "e1",
         "zone": "attackPercent",
         "value": 7.2,
-        "defaultActive": false
+        "defaultActive": false,
+        "scope": "self",
+        "triggerEvents": [
+          "castResonanceLiberation"
+        ],
+        "rankValues": [
+          7.2,
+          11.1,
+          15.1,
+          19,
+          23
+        ]
       }
     ]
   },
@@ -1765,7 +2471,8 @@ window.WUWA_DATA.weapons = [
           28.8
         ],
         "defaultActive": false,
-        "damageType": "heavy"
+        "damageType": "heavy",
+        "scope": "self"
       },
       {
         "id": "e1",
@@ -1780,7 +2487,8 @@ window.WUWA_DATA.weapons = [
           23.6,
           28.8
         ],
-        "defaultActive": false
+        "defaultActive": false,
+        "scope": "self"
       }
     ]
   },
@@ -1798,13 +2506,35 @@ window.WUWA_DATA.weapons = [
         "zone": "typeBonus",
         "value": 10.8,
         "defaultActive": false,
-        "damageType": "resonanceLiberation"
+        "damageType": "resonanceLiberation",
+        "scope": "self",
+        "triggerEvents": [
+          "castResonanceLiberation"
+        ],
+        "rankValues": [
+          10.8,
+          16.7,
+          22.6,
+          28.6,
+          34.5
+        ]
       },
       {
         "id": "e1",
         "zone": "attackPercent",
         "value": 7.2,
-        "defaultActive": false
+        "defaultActive": false,
+        "scope": "self",
+        "triggerEvents": [
+          "castResonanceLiberation"
+        ],
+        "rankValues": [
+          7.2,
+          11.1,
+          15.1,
+          19,
+          23
+        ]
       }
     ]
   },
@@ -1822,13 +2552,35 @@ window.WUWA_DATA.weapons = [
         "zone": "typeBonus",
         "value": 9,
         "defaultActive": false,
-        "damageType": "basic"
+        "damageType": "basic",
+        "scope": "self",
+        "triggerEvents": [
+          "castResonanceSkill"
+        ],
+        "rankValues": [
+          9,
+          13.9,
+          18.9,
+          23.8,
+          28.8
+        ]
       },
       {
         "id": "e1",
         "zone": "attackPercent",
         "value": 9,
-        "defaultActive": false
+        "defaultActive": false,
+        "scope": "self",
+        "triggerEvents": [
+          "castResonanceSkill"
+        ],
+        "rankValues": [
+          9,
+          13.9,
+          18.9,
+          23.8,
+          28.8
+        ]
       }
     ]
   },
@@ -1845,7 +2597,15 @@ window.WUWA_DATA.weapons = [
         "id": "e0",
         "zone": "attackPercent",
         "value": 12,
-        "defaultActive": true
+        "defaultActive": true,
+        "scope": "self",
+        "rankValues": [
+          12,
+          15,
+          18,
+          21,
+          24
+        ]
       },
       {
         "id": "e1",
@@ -1860,7 +2620,8 @@ window.WUWA_DATA.weapons = [
         ],
         "damageType": "heavy",
         "defaultActive": false,
-        "duration": 6
+        "duration": 6,
+        "scope": "self"
       },
       {
         "id": "e2",
@@ -1875,7 +2636,8 @@ window.WUWA_DATA.weapons = [
         ],
         "damageType": "echoSkill",
         "defaultActive": false,
-        "duration": 6
+        "duration": 6,
+        "scope": "self"
       },
       {
         "id": "e3",
@@ -1888,7 +2650,8 @@ window.WUWA_DATA.weapons = [
           14,
           16
         ],
-        "defaultActive": false
+        "defaultActive": false,
+        "scope": "self"
       }
     ]
   },
@@ -1905,7 +2668,15 @@ window.WUWA_DATA.weapons = [
         "id": "e0",
         "zone": "attackPercent",
         "value": 12,
-        "defaultActive": true
+        "defaultActive": true,
+        "scope": "self",
+        "rankValues": [
+          12,
+          15,
+          18,
+          21,
+          24
+        ]
       },
       {
         "id": "e1",
@@ -1922,7 +2693,12 @@ window.WUWA_DATA.weapons = [
         "maxStacks": 2,
         "defaultStacks": 0,
         "defaultActive": false,
-        "duration": 12
+        "duration": 12,
+        "scope": "self",
+        "triggerEvents": [
+          "introEntry",
+          "castIntroSkill"
+        ]
       },
       {
         "id": "e2",
@@ -1937,7 +2713,12 @@ window.WUWA_DATA.weapons = [
         ],
         "damageType": "echoSkill",
         "defaultActive": false,
-        "duration": 30
+        "duration": 30,
+        "scope": "team",
+        "triggerEvents": [
+          "introEntry",
+          "castIntroSkill"
+        ]
       }
     ]
   },
@@ -1954,7 +2735,15 @@ window.WUWA_DATA.weapons = [
         "id": "e0",
         "zone": "attackPercent",
         "value": 12,
-        "defaultActive": true
+        "defaultActive": true,
+        "scope": "self",
+        "rankValues": [
+          12,
+          15,
+          18,
+          21,
+          24
+        ]
       },
       {
         "id": "e1",
@@ -1970,7 +2759,12 @@ window.WUWA_DATA.weapons = [
           48
         ],
         "defaultActive": false,
-        "damageType": "resonanceLiberation"
+        "damageType": "resonanceLiberation",
+        "scope": "self",
+        "triggerEvents": [
+          "introEntry",
+          "castIntroSkill"
+        ]
       },
       {
         "id": "e2",
@@ -1980,7 +2774,15 @@ window.WUWA_DATA.weapons = [
         "requiresBuffStacks": {
           "id": "e1",
           "stacks": 3
-        }
+        },
+        "scope": "team",
+        "rankValues": [
+          24,
+          30,
+          36,
+          42,
+          48
+        ]
       }
     ]
   },
@@ -1998,14 +2800,34 @@ window.WUWA_DATA.weapons = [
         "id": "e0",
         "zone": "attackPercent",
         "value": 12,
-        "defaultActive": true
+        "defaultActive": true,
+        "scope": "self",
+        "rankValues": [
+          12,
+          15,
+          18,
+          21,
+          24
+        ]
       },
       {
         "id": "e1",
         "zone": "typeBonus",
         "value": 36,
         "defaultActive": false,
-        "damageType": "basic"
+        "damageType": "basic",
+        "scope": "self",
+        "triggerEvents": [
+          "introEntry",
+          "castIntroSkill"
+        ],
+        "rankValues": [
+          36,
+          45,
+          54,
+          63,
+          72
+        ]
       },
       {
         "id": "e2",
@@ -2020,7 +2842,8 @@ window.WUWA_DATA.weapons = [
           42,
           48
         ],
-        "defaultActive": false
+        "defaultActive": false,
+        "scope": "team"
       }
     ]
   },
@@ -2037,7 +2860,18 @@ window.WUWA_DATA.weapons = [
         "id": "e0",
         "zone": "critDamage",
         "value": 20,
-        "defaultActive": false
+        "defaultActive": false,
+        "scope": "team",
+        "triggerEvents": [
+          "heal"
+        ],
+        "rankValues": [
+          20,
+          25,
+          30,
+          35,
+          40
+        ]
       },
       {
         "id": "e1",
@@ -2050,7 +2884,8 @@ window.WUWA_DATA.weapons = [
           28,
           32
         ],
-        "defaultActive": true
+        "defaultActive": true,
+        "scope": "self"
       }
     ]
   },
@@ -2067,14 +2902,30 @@ window.WUWA_DATA.weapons = [
         "id": "e0",
         "zone": "attackPercent",
         "value": 12,
-        "defaultActive": true
+        "defaultActive": true,
+        "scope": "self",
+        "rankValues": [
+          12,
+          15,
+          18,
+          21,
+          24
+        ]
       },
       {
         "id": "e1",
         "zone": "typeBonus",
         "value": 24,
         "defaultActive": false,
-        "damageType": "resonanceLiberation"
+        "damageType": "resonanceLiberation",
+        "scope": "self",
+        "rankValues": [
+          24,
+          27,
+          30,
+          33,
+          36
+        ]
       }
     ]
   },
@@ -2091,14 +2942,30 @@ window.WUWA_DATA.weapons = [
         "id": "e0",
         "zone": "attackPercent",
         "value": 12,
-        "defaultActive": true
+        "defaultActive": true,
+        "scope": "self",
+        "rankValues": [
+          12,
+          15,
+          18,
+          21,
+          24
+        ]
       },
       {
         "id": "e1",
         "zone": "typeBonus",
         "value": 24,
         "defaultActive": false,
-        "damageType": "resonanceSkill"
+        "damageType": "resonanceSkill",
+        "scope": "self",
+        "rankValues": [
+          24,
+          27,
+          30,
+          33,
+          36
+        ]
       }
     ]
   },
@@ -2115,13 +2982,29 @@ window.WUWA_DATA.weapons = [
         "id": "e0",
         "zone": "attackPercent",
         "value": 12,
-        "defaultActive": true
+        "defaultActive": true,
+        "scope": "self",
+        "rankValues": [
+          12,
+          15,
+          18,
+          21,
+          24
+        ]
       },
       {
         "id": "e1",
         "zone": "damageBonus",
         "value": 20,
-        "defaultActive": false
+        "defaultActive": false,
+        "scope": "self",
+        "rankValues": [
+          20,
+          22.5,
+          25,
+          27.5,
+          30
+        ]
       }
     ]
   },
@@ -2138,7 +3021,15 @@ window.WUWA_DATA.weapons = [
         "id": "e0",
         "zone": "attackPercent",
         "value": 12,
-        "defaultActive": true
+        "defaultActive": true,
+        "scope": "self",
+        "rankValues": [
+          12,
+          15,
+          18,
+          21,
+          24
+        ]
       },
       {
         "id": "e1",
@@ -2154,7 +3045,8 @@ window.WUWA_DATA.weapons = [
           36
         ],
         "defaultActive": false,
-        "damageType": "basic"
+        "damageType": "basic",
+        "scope": "self"
       }
     ]
   },
@@ -2171,20 +3063,44 @@ window.WUWA_DATA.weapons = [
         "id": "e0",
         "zone": "attackPercent",
         "value": 12,
-        "defaultActive": true
+        "defaultActive": true,
+        "scope": "self",
+        "rankValues": [
+          12,
+          15,
+          18,
+          21,
+          24
+        ]
       },
       {
         "id": "e1",
         "zone": "typeBonus",
         "value": 12,
         "defaultActive": false,
-        "damageType": "basic"
+        "damageType": "basic",
+        "scope": "self",
+        "rankValues": [
+          12,
+          13.5,
+          15,
+          16.5,
+          18
+        ]
       },
       {
         "id": "e2",
         "zone": "attackPercent",
         "value": 12,
-        "defaultActive": false
+        "defaultActive": false,
+        "scope": "self",
+        "rankValues": [
+          12,
+          13.5,
+          15,
+          16.5,
+          18
+        ]
       }
     ]
   },
@@ -2201,7 +3117,15 @@ window.WUWA_DATA.weapons = [
         "id": "e0",
         "zone": "damageBonus",
         "value": 12,
-        "defaultActive": true
+        "defaultActive": true,
+        "scope": "self",
+        "rankValues": [
+          12,
+          15,
+          18,
+          21,
+          24
+        ]
       },
       {
         "id": "e1",
@@ -2216,7 +3140,8 @@ window.WUWA_DATA.weapons = [
         ],
         "damageType": "resonanceLiberation",
         "defaultActive": false,
-        "duration": 8
+        "duration": 8,
+        "scope": "self"
       },
       {
         "id": "e2",
@@ -2232,7 +3157,8 @@ window.WUWA_DATA.weapons = [
         "element": "fusion",
         "damageType": "resonanceLiberation",
         "defaultActive": false,
-        "duration": 8
+        "duration": 8,
+        "scope": "self"
       }
     ]
   },
@@ -2249,7 +3175,15 @@ window.WUWA_DATA.weapons = [
         "id": "e0",
         "zone": "attackPercent",
         "value": 12,
-        "defaultActive": true
+        "defaultActive": true,
+        "scope": "self",
+        "rankValues": [
+          12,
+          15,
+          18,
+          21,
+          24
+        ]
       },
       {
         "id": "e1",
@@ -2264,7 +3198,8 @@ window.WUWA_DATA.weapons = [
         ],
         "element": "spectro",
         "defaultActive": false,
-        "duration": 4
+        "duration": 4,
+        "scope": "self"
       },
       {
         "id": "e2",
@@ -2279,7 +3214,8 @@ window.WUWA_DATA.weapons = [
         ],
         "damageType": "basic",
         "defaultActive": false,
-        "duration": 6
+        "duration": 6,
+        "scope": "self"
       },
       {
         "id": "e3",
@@ -2294,7 +3230,8 @@ window.WUWA_DATA.weapons = [
         ],
         "damageType": "basic",
         "defaultActive": false,
-        "duration": 6
+        "duration": 6,
+        "scope": "self"
       }
     ]
   },
@@ -2311,7 +3248,15 @@ window.WUWA_DATA.weapons = [
         "id": "e0",
         "zone": "attackPercent",
         "value": 12,
-        "defaultActive": true
+        "defaultActive": true,
+        "scope": "self",
+        "rankValues": [
+          12,
+          15,
+          18,
+          21,
+          24
+        ]
       },
       {
         "id": "e1",
@@ -2326,7 +3271,12 @@ window.WUWA_DATA.weapons = [
         ],
         "damageType": "echoSkill",
         "defaultActive": false,
-        "duration": 15
+        "duration": 15,
+        "scope": "self",
+        "triggerEvents": [
+          "introEntry",
+          "castIntroSkill"
+        ]
       },
       {
         "id": "e2",
@@ -2341,7 +3291,8 @@ window.WUWA_DATA.weapons = [
         ],
         "element": "aero",
         "defaultActive": false,
-        "duration": 6
+        "duration": 6,
+        "scope": "self"
       }
     ]
   },
@@ -2358,20 +3309,44 @@ window.WUWA_DATA.weapons = [
         "id": "e0",
         "zone": "attackPercent",
         "value": 12,
-        "defaultActive": true
+        "defaultActive": true,
+        "scope": "self",
+        "rankValues": [
+          12,
+          15,
+          18,
+          21,
+          24
+        ]
       },
       {
         "id": "e1",
         "zone": "typeBonus",
         "value": 36,
         "defaultActive": false,
-        "damageType": "resonanceLiberation"
+        "damageType": "resonanceLiberation",
+        "scope": "self",
+        "rankValues": [
+          36,
+          45,
+          54,
+          63,
+          72
+        ]
       },
       {
         "id": "e2",
         "zone": "attackPercent",
         "value": 24,
-        "defaultActive": false
+        "defaultActive": false,
+        "scope": "team",
+        "rankValues": [
+          24,
+          30,
+          36,
+          42,
+          48
+        ]
       }
     ]
   },
@@ -2388,7 +3363,15 @@ window.WUWA_DATA.weapons = [
         "id": "e0",
         "zone": "attackPercent",
         "value": 12,
-        "defaultActive": true
+        "defaultActive": true,
+        "scope": "self",
+        "rankValues": [
+          12,
+          15,
+          18,
+          21,
+          24
+        ]
       },
       {
         "id": "e1",
@@ -2403,7 +3386,8 @@ window.WUWA_DATA.weapons = [
         ],
         "element": "glacio",
         "defaultActive": false,
-        "duration": 6
+        "duration": 6,
+        "scope": "self"
       },
       {
         "id": "e2",
@@ -2418,7 +3402,8 @@ window.WUWA_DATA.weapons = [
         ],
         "damageType": "resonanceLiberation",
         "defaultActive": false,
-        "duration": 6
+        "duration": 6,
+        "scope": "self"
       },
       {
         "id": "e3",
@@ -2433,7 +3418,8 @@ window.WUWA_DATA.weapons = [
         ],
         "effect": "frost",
         "defaultActive": false,
-        "duration": 6
+        "duration": 6,
+        "scope": "team"
       }
     ]
   },
@@ -2450,7 +3436,15 @@ window.WUWA_DATA.weapons = [
         "id": "e0",
         "zone": "attackPercent",
         "value": 12,
-        "defaultActive": true
+        "defaultActive": true,
+        "scope": "self",
+        "rankValues": [
+          12,
+          15,
+          18,
+          21,
+          24
+        ]
       },
       {
         "id": "e1",
@@ -2467,7 +3461,11 @@ window.WUWA_DATA.weapons = [
         ],
         "element": "spectro",
         "defaultActive": false,
-        "duration": 14
+        "duration": 14,
+        "scope": "self",
+        "triggerEvents": [
+          "castResonanceSkill"
+        ]
       },
       {
         "id": "e2",
@@ -2482,7 +3480,8 @@ window.WUWA_DATA.weapons = [
         ],
         "damageType": "heavy",
         "defaultActive": false,
-        "duration": 14
+        "duration": 14,
+        "scope": "self"
       },
       {
         "id": "e3",
@@ -2497,7 +3496,8 @@ window.WUWA_DATA.weapons = [
         ],
         "damageType": "heavy",
         "defaultActive": false,
-        "duration": 14
+        "duration": 14,
+        "scope": "self"
       }
     ]
   },
@@ -2514,27 +3514,63 @@ window.WUWA_DATA.weapons = [
         "id": "e0",
         "zone": "attackPercent",
         "value": 12,
-        "defaultActive": true
+        "defaultActive": true,
+        "scope": "self",
+        "rankValues": [
+          12,
+          15,
+          18,
+          21,
+          24
+        ]
       },
       {
         "id": "e1",
         "zone": "typeBonus",
         "value": 24,
         "defaultActive": false,
-        "damageType": "basic"
+        "damageType": "basic",
+        "scope": "self",
+        "triggerEvents": [
+          "introEntry",
+          "castIntroSkill"
+        ],
+        "rankValues": [
+          24,
+          30,
+          36,
+          42,
+          48
+        ]
       },
       {
         "id": "e2",
         "zone": "typeBonus",
         "value": 12,
         "defaultActive": false,
-        "damageType": "basic"
+        "damageType": "basic",
+        "scope": "self",
+        "rankValues": [
+          12,
+          15,
+          18,
+          21,
+          24
+        ]
       },
       {
         "id": "e3",
         "zone": "attackPercent",
         "value": 24,
-        "defaultActive": false
+        "defaultActive": false,
+        "scope": "team",
+        "rankValues": [
+          24,
+          30,
+          36,
+          42,
+          48
+        ]
       }
     ]
   },
@@ -2551,14 +3587,30 @@ window.WUWA_DATA.weapons = [
         "id": "e0",
         "zone": "attackPercent",
         "value": 12,
-        "defaultActive": true
+        "defaultActive": true,
+        "scope": "self",
+        "rankValues": [
+          12,
+          15,
+          18,
+          21,
+          24
+        ]
       },
       {
         "id": "e1",
         "zone": "attackPercent",
         "value": 24,
         "defaultActive": false,
-        "duration": 30
+        "duration": 30,
+        "scope": "team",
+        "rankValues": [
+          24,
+          30,
+          36,
+          42,
+          48
+        ]
       },
       {
         "id": "e2",
@@ -2573,7 +3625,8 @@ window.WUWA_DATA.weapons = [
         ],
         "element": "glacio",
         "defaultActive": false,
-        "duration": 12
+        "duration": 12,
+        "scope": "self"
       }
     ]
   },
@@ -2771,7 +3824,11 @@ window.WUWA_DATA.weapons = [
         "maxStacks": 6,
         "defaultStacks": 0,
         "defaultActive": false,
-        "duration": 7
+        "duration": 7,
+        "triggerEvents": [
+          "introEntry",
+          "castIntroSkill"
+        ]
       },
       {
         "id": "e2",

@@ -1,7 +1,7 @@
 "use strict";
 
 window.WUWA_RENDER_HELPERS = (() => {
-  const { num, skillLevelRatio, skillMultValue } = window.WUWA_RULES;
+  const { num, skillLevelRatio, skillMultValue, skillValueAtLevel } = window.WUWA_RULES;
   const L = window.WUWA_LANGUAGES;
 
   const fmt = (n) => Math.floor(num(n)).toLocaleString("en-US");
@@ -55,15 +55,27 @@ window.WUWA_RENDER_HELPERS = (() => {
       const countKey = String(m[2] || "").trim();
       if (countKey) count = Number.isFinite(num(countKey, NaN)) ? num(countKey) : (countKey === sk.stackLabel ? layers : NaN);
       if (!Number.isFinite(count)) return null;
-      return { percent: num(m[1]), count, stack: countKey === sk.stackLabel };
+      return { percent: num(m[1]), count };
     });
     return parsed.every(Boolean) ? parsed : null;
   }
   function multiplierPartsForResult(r) {
+    if (r.sk?.multiplierByLevel || r.sk?.fixedLevel) {
+      const index = Math.min(Math.max(Math.round(num(r.skLevel, 10)), 1), 10) - 1;
+      const recorded = r.sk.segmentsByLevel?.[index];
+      const base = skillValueAtLevel(r.sk, "multiplier", r.skLevel);
+      let parts = [{ percent: base, count: 1 }];
+      if (recorded) parts = recorded.map(([percent, count]) => ({ percent, count }));
+      else if (r.sk.fixedLevel && !r.sk.perStack) parts = parseFormulaParts(r.sk, r.layers) || parts;
+      if (r.sk.perStack) parts.push({ percent: skillValueAtLevel(r.sk, "perStack", r.skLevel), count: r.layers });
+      if (r.multAdd) parts.push({ percent: r.multAdd, count: 1 });
+      const nonzero = parts.filter((part) => part.percent && part.count > 0);
+      return nonzero.length > 1 || nonzero.some((part) => part.count !== 1) ? nonzero : [];
+    }
     const parsed = parseFormulaParts(r.sk, r.layers) || [{ percent: r.sk ? r.sk.multiplier + (r.sk.perStack ? r.sk.perStack * r.layers : 0) : 0, count: 1 }];
     const lvRatio = r.sk?.fixedLevel ? 1 : skillLevelRatio(r.skLevel);
     const splitParts = parsed
-      .map((p) => ({ percent: skillMultValue(p.percent * (p.stack ? 1 + (r.perStackBonus || 0) / 100 : 1), lvRatio), count: p.count }))
+      .map((p) => ({ percent: skillMultValue(p.percent, lvRatio), count: p.count }))
       .filter((p) => p.count > 0 && p.percent !== 0);
     if (r.multAdd) splitParts.push({ percent: r.multAdd, count: 1 });
     return splitParts.length > 1 || splitParts.some((part) => part.count !== 1) ? splitParts : [];

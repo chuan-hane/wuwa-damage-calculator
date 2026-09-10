@@ -37,7 +37,8 @@ WUWA.register({
       "category": "basicAttack",
       "damageType": "basic",
       "multiplier": 73.18,
-      "formula": "73.18%"
+      "formula": "73.18%",
+      "multiplierByLevel": [36.81,39.83,42.85,47.07,50.09,53.56,58.39,63.22,68.05,73.18]
     },
     {
       "id": "na2",
@@ -47,7 +48,9 @@ WUWA.register({
       "category": "basicAttack",
       "damageType": "basic",
       "multiplier": 114.42,
-      "formula": "38.14% × 3"
+      "formula": "38.14% × 3",
+      "multiplierByLevel": [57.57,62.28,66.99,73.59,78.33,83.76,91.29,98.85,106.41,114.42],
+      "segmentsByLevel": [[[19.19,3]],[[20.76,3]],[[22.33,3]],[[24.53,3]],[[26.11,3]],[[27.92,3]],[[30.43,3]],[[32.95,3]],[[35.47,3]],[[38.14,3]]]
     },
     {
       "id": "na3",
@@ -57,7 +60,9 @@ WUWA.register({
       "category": "basicAttack",
       "damageType": "basic",
       "multiplier": 169,
-      "formula": "33.80% × 2 + 101.40%"
+      "formula": "33.80% × 2 + 101.40%",
+      "multiplierByLevel": [85,91.99,98.95,108.7,115.69,123.7,134.85,146,157.15,169],
+      "segmentsByLevel": [[[17,2],[51,1]],[[18.4,2],[55.19,1]],[[19.79,2],[59.37,1]],[[21.74,2],[65.22,1]],[[23.14,2],[69.41,1]],[[24.74,2],[74.22,1]],[[26.97,2],[80.91,1]],[[29.2,2],[87.6,1]],[[31.43,2],[94.29,1]],[[33.8,2],[101.4,1]]]
     },
     {
       "id": "na4",
@@ -67,7 +72,9 @@ WUWA.register({
       "category": "basicAttack",
       "damageType": "basic",
       "multiplier": 208.38,
-      "formula": "104.19% × 2"
+      "formula": "104.19% × 2",
+      "multiplierByLevel": [104.82,113.4,122,134.04,142.62,152.52,166.26,180.02,193.76,208.38],
+      "segmentsByLevel": [[[52.41,2]],[[56.7,2]],[[61,2]],[[67.02,2]],[[71.31,2]],[[76.26,2]],[[83.13,2]],[[90.01,2]],[[96.88,2]],[[104.19,2]]]
     },
     {
       "id": "heavy",
@@ -77,7 +84,8 @@ WUWA.register({
       "category": "basicAttack",
       "damageType": "heavy",
       "multiplier": 168.99,
-      "formula": "168.99%"
+      "formula": "168.99%",
+      "multiplierByLevel": [85,91.97,98.94,108.7,115.67,123.69,134.84,145.99,157.14,168.99]
     },
     {
       "id": "air",
@@ -87,7 +95,8 @@ WUWA.register({
       "category": "basicAttack",
       "damageType": "basic",
       "multiplier": 104.78,
-      "formula": "104.78%"
+      "formula": "104.78%",
+      "multiplierByLevel": [52.7,57.03,61.35,67.4,71.72,76.69,83.6,90.52,97.43,104.78]
     },
     {
       "id": "dodge",
@@ -97,7 +106,9 @@ WUWA.register({
       "category": "basicAttack",
       "damageType": "basic",
       "multiplier": 206.7,
-      "formula": "68.90% × 3"
+      "formula": "68.90% × 3",
+      "multiplierByLevel": [103.98,112.5,121.02,132.96,141.48,151.29,164.91,178.56,192.21,206.7],
+      "segmentsByLevel": [[[34.66,3]],[[37.5,3]],[[40.34,3]],[[44.32,3]],[[47.16,3]],[[50.43,3]],[[54.97,3]],[[59.52,3]],[[64.07,3]],[[68.9,3]]]
     },
     {
       "id": "skill",
@@ -107,7 +118,9 @@ WUWA.register({
       "category": "resonanceSkill",
       "damageType": "resonanceSkill",
       "multiplier": 491.76,
-      "formula": "61.47% × 8"
+      "formula": "61.47% × 8",
+      "multiplierByLevel": [247.36,267.68,287.92,316.32,336.56,359.92,392.4,424.8,457.28,491.76],
+      "segmentsByLevel": [[[30.92,8]],[[33.46,8]],[[35.99,8]],[[39.54,8]],[[42.07,8]],[[44.99,8]],[[49.05,8]],[[53.1,8]],[[57.16,8]],[[61.47,8]]]
     },
     {
       "id": "lib",
@@ -117,7 +130,9 @@ WUWA.register({
       "category": "resonanceLiberation",
       "damageType": "heavy",
       "multiplier": 835.02,
-      "formula": "278.34% × 3"
+      "formula": "278.34% × 3",
+      "multiplierByLevel": [420,454.44,488.88,537.12,571.56,611.16,666.27,721.35,776.46,835.02],
+      "segmentsByLevel": [[[140,3]],[[151.48,3]],[[162.96,3]],[[179.04,3]],[[190.52,3]],[[203.72,3]],[[222.09,3]],[[240.45,3]],[[258.82,3]],[[278.34,3]]]
     },
     {
       "id": "intro",
@@ -130,7 +145,8 @@ WUWA.register({
       "formula": "168.99%",
       "triggerEvents": [
         "introEntry"
-      ]
+      ],
+      "multiplierByLevel": [85,91.97,98.94,108.7,115.67,123.69,134.84,145.99,157.14,168.99]
     },
     {
       "id": "forte_1",
@@ -151,7 +167,8 @@ WUWA.register({
       ],
       "triggerEvents": [
         "castBasicAttack"
-      ]
+      ],
+      "multiplierByLevel": [162,175.29,188.57,207.17,220.45,235.73,256.99,278.24,299.49,322.08]
     },
     {
       "id": "forte_2",
@@ -172,7 +189,8 @@ WUWA.register({
       ],
       "triggerEvents": [
         "castBasicAttack"
-      ]
+      ],
+      "multiplierByLevel": [171,185.03,199.05,218.68,232.7,248.83,271.26,293.7,316.13,339.97]
     },
     {
       "id": "forte_3",
@@ -193,7 +211,8 @@ WUWA.register({
       ],
       "triggerEvents": [
         "castBasicAttack"
-      ]
+      ],
+      "multiplierByLevel": [180,194.76,209.52,230.19,244.95,261.92,285.54,309.15,332.77,357.86]
     },
     {
       "id": "forte_3_2",
@@ -211,7 +230,8 @@ WUWA.register({
       ],
       "triggerEvents": [
         "castBasicAttack"
-      ]
+      ],
+      "multiplierByLevel": [180,194.76,209.52,230.19,244.95,261.92,285.54,309.15,332.77,357.86]
     },
     {
       "id": "magic_box",
@@ -222,7 +242,8 @@ WUWA.register({
       "formula": "100",
       "fixedDamage": 100,
       "requiresResource": "magic_box_ready",
-      "defaultResourceActive": false
+      "defaultResourceActive": false,
+      "fixedLevel": true
     }
   ],
   "defaultSkillId": "forte_1",
@@ -282,7 +303,9 @@ WUWA.register({
       "element": "havoc",
       "value": 20,
       "scope": "team",
-      "duration": 14
+      "duration": 14,
+      "triggerOutro": true,
+      "defaultActive": false
     },
     {
       "id": "b_outro_basic",
@@ -290,7 +313,9 @@ WUWA.register({
       "damageType": "basic",
       "value": 25,
       "scope": "team",
-      "duration": 14
+      "duration": 14,
+      "triggerOutro": true,
+      "defaultActive": false
     }
   ],
   "chain": [

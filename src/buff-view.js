@@ -53,7 +53,7 @@ window.WUWA_BUFF_VIEW = (() => {
 
     function buffFormulaText(slot, buff, idx) {
       if (buff.multScaleAdd) return `+${tnum(num(buff.multScaleAdd))}%${L.text("当前倍率")}`;
-      if (buff.perStackBonus) return `+${tnum(num(buff.perStackBonus))}%${L.text("层数倍率")}`;
+      if (buff.multScaleAddByResource) return `+${tnum(buffValue(slot, buff, idx))}%${L.text("当前倍率")}`;
       if (buff.zone === "fixedCrit") return `CR ${tnum(num(buff.critRate))}% · CD ${tnum(num(buff.critDamage))}%`;
       if (buff.zone === "typeBonusScale") return `×${tnum(1 + num(buff.value) / 100)}`;
       const v = tnum(buff.multAdd ? num(buff.multAdd) : buffValue(slot, buff, idx));
@@ -71,7 +71,7 @@ window.WUWA_BUFF_VIEW = (() => {
       const checked = st.toggleOn ? "checked" : "";
       const statusClass = st.gated ? "blocked" : st.precondition ? (st.toggleOn ? "manual on" : "manual") : "auto";
       const statusText = st.gated ? "" : st.precondition ? (st.toggleOn ? L.text("已确认") : L.text("需确认触发条件")) : "";
-      const dynamicValue = buff.maxStacks || buff.scaleBy || buff.multAddByStat;
+      const dynamicValue = buff.maxStacks || buff.scaleBy || buff.multAddByStat || buff.multScaleAddByResource;
       const val = dynamicValue
         ? `<b class="b-val" id="bval_${idx}_${esc(buff.id)}">${esc(buffFormulaText(slot, buff, idx))}</b>`
         : `<b class="b-val">${esc(buffFormulaText(slot, buff, idx))}</b>`;
@@ -79,7 +79,7 @@ window.WUWA_BUFF_VIEW = (() => {
       const stackKey = buffStackStorageKey(buff);
       const stackCap = buffStackCap(slot, buff);
       const perStackValue = buff.maxStacks ? fullStackValue(slot, buff) / buff.maxStacks : 0;
-      const stackRow = buff.maxStacks && showStackControl
+      const stackRow = buff.maxStacks && !buff.stackResource && !buff.stackState && showStackControl
         ? `<div class="b-stack">${esc(buffStackRangeText(buff))} ${tnum(perStackValue)}${buff.zone === "attackFlat" ? "" : "%"} · ${L.text("最高")} ${L.stackText(stackCap)} · ${L.text("当前")} <input type="number" min="0" max="${stackCap}" data-act="stack" data-slot="${idx}" data-buff="${esc(buff.id)}" data-stack-key="${esc(stackKey)}" value="${cur}" ${st.gated ? "disabled" : ""} /> ${L.stackUnit(cur)}</div>`
         : "";
       const control = canConfirm
@@ -120,7 +120,7 @@ window.WUWA_BUFF_VIEW = (() => {
         combatBuffs(slot).forEach((buff) => {
           const st = buffStatus(slot, idx, buff);
           if (st.gated) { summary.blocked += 1; return; }
-          if (buff.maxStacks || buff.scaleBy || buff.multAddByStat) summary.variable += 1;
+          if (buff.maxStacks || buff.scaleBy || buff.multAddByStat || buff.multScaleAddByResource) summary.variable += 1;
           if (st.precondition && !st.toggleOn) summary.pending += 1;
           else if (st.applies) summary.applied += 1;
         });

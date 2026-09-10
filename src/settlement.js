@@ -3,7 +3,7 @@
 window.WUWA_SETTLEMENT = (() => {
   function create({ state, ch, wp, echoStats, weaponBuffs, sonataBuffs, esc, targetContext, targetGameplay }) {
     const {
-      SEC_ZONE, skillLevelRatio, skillMultValue, num, zeros, EFFECT_DEFS, EFFECT_ORDER, effectKeyOf,
+      SEC_ZONE, skillMultValue, skillValueAtLevel, num, zeros, EFFECT_DEFS, EFFECT_ORDER, effectKeyOf,
     } = window.WUWA_RULES;
     const L = window.WUWA_LANGUAGES;
     const resolveTarget = (damageElement) => targetContext
@@ -134,7 +134,8 @@ window.WUWA_SETTLEMENT = (() => {
     }
 
     function visibleFallbackSkill(slot, sk, skills, seen = new Set()) {
-      if (!sk?.fallbackSkillId || skillResourceReady(slot, sk) || seen.has(sk.id)) return null;
+      if (!sk?.fallbackSkillId || seen.has(sk.id)) return null;
+      if (skillResourceReady(slot, sk) && skillMatchesSelectedCombatStates(slot, sk)) return null;
       const fallback = fallbackSkillInState(sk, skills);
       if (!fallback) return null;
       return visibleFallbackSkill(slot, fallback, skills, new Set([...seen, sk.id])) || fallback;
@@ -479,10 +480,6 @@ window.WUWA_SETTLEMENT = (() => {
 
     function skillLevelForSkill(slot, sk) {
       return sk?.fixedLevel ? 10 : skillLevelFor(slot, skillLevelCategory(sk));
-    }
-
-    function skillLevelRatioFor(slot, sk) {
-      return sk?.fixedLevel ? 1 : skillLevelRatio(skillLevelForSkill(slot, sk));
     }
 
     function eventKeyOf(eventName) {
@@ -880,7 +877,7 @@ window.WUWA_SETTLEMENT = (() => {
     }
 
     function isSupportOutroBuff(slot, idx, buff, outputIdx = state.outputIdx) {
-      return idx !== outputIdx && (String(buff.source).startsWith("延奏") || buff.triggerOutro === true);
+      return idx !== outputIdx && buff.triggerOutro === true;
     }
 
     function affectsOwnOutroAction(buff, ctx) {
@@ -1068,7 +1065,44 @@ window.WUWA_SETTLEMENT = (() => {
       return num(buff.maxStacks);
     }
 
+    function tuneStrainStackCap() {
+      const providers = new Set();
+      return 1 + state.slots.reduce((total, slot) => {
+        const c = ch(slot.char);
+        if (!c?.tuneStrainCapBonus || providers.has(c.id)) return total;
+        if (!stateRequirementReady(slot, c.tuneStrainCapRequiresState)) return total;
+        providers.add(c.id);
+        return total + num(c.tuneStrainCapBonus);
+      }, 0);
+    }
+
+    function stateStackInfo(slot, stateValue) {
+      const def = combatStateDefFor(slot, stateValue);
+      const opt = combatStateOptionForValue(def, stateValue);
+      const cap = opt?.formulaKind === "coherenceInterference"
+        ? tuneStrainStackCap()
+        : Math.max(0, Math.round(num(opt?.maxStacks)));
+      const calc = state.offsetCalc || {};
+      const idx = state.slots.indexOf(slot);
+      const selected = calc.key === "state" && calc.stateId === def?.id && calc.stateValue === stateValue
+        && (calc.providerIdx == null || calc.providerIdx === idx);
+      const value = selected ? calc.stacks : slot.toggles["stk_" + stateValue];
+      const stacks = Math.min(Math.max(0, Math.round(num(value))), cap);
+      let bonusStacks = 0;
+      asList(opt?.bonusStacksBySeq).forEach((rule) => {
+        if (num(slot.seq) >= num(rule.seq)) bonusStacks = num(rule.stacks);
+      });
+      if (!stacks) bonusStacks = 0;
+      return { stacks, stackCap: cap, bonusStacks, effectiveStacks: stacks + bonusStacks };
+    }
+
     function buffStackCount(slot, buff, idx = state.slots.indexOf(slot), outputIdx = state.outputIdx, ctxOverride = null) {
+      if (buff.stackResource) {
+        const value = characterResourceValue(slot, buff.stackResource);
+        const stacks = Math.floor(num(value) / Math.max(1, num(buff.stackResourceStep, 1)));
+        return Math.min(Math.max(0, stacks), buffStackCap(slot, buff));
+      }
+      if (buff.stackState) return stateStackInfo(slot, buff.stackState).effectiveStacks;
       const key = buffStackStorageKey(buff);
       const linked = buff.stackGroup
         ? slotBuffs(slot).filter((other) => other.stackGroup === buff.stackGroup && buffSeqUnlocked(slot, other))
@@ -1151,7 +1185,7 @@ window.WUWA_SETTLEMENT = (() => {
       if (buff.requiresAnyEffectStacks && !anyEffectStackRequirementReadyForBuff(buff) && buffToggleOn(slot, buff)) return `需${anyEffectStackRequirementLabel(buff.requiresAnyEffectStacks)}`;
       if (buffClearedByCurrentSkill(slot, buff, ctx)) return "被当前技能清除";
       if (!isDps && buff.scope !== "team") return "仅自身输出时生效";
-      if (isDps && (String(buff.source).startsWith("延奏") || buff.triggerOutro === true) && !affectsOwnOutroAction(buff, ctx)) return "延奏不给自己";
+      if (isDps && buff.triggerOutro === true && !affectsOwnOutroAction(buff, ctx)) return "延奏不给自己";
       if (buff.skills && !skillRefsMatch(ctx.skill, buff.skills)) return "仅 " + skillRefsLabel(slot, buff.skills);
       if (buff.element && buff.element !== ctx.element) return "需输出位为" + L.element(buff.element);
       if (buff.damageType && !damageRequirementMatches(ctx, buff.damageType)) return "需当前技能为" + asList(buff.damageType).map(L.damageType).join("/");
@@ -1482,8 +1516,8 @@ window.WUWA_SETTLEMENT = (() => {
 
     function buffValue(slot, buff, idx = state.slots.indexOf(slot), outputIdx = state.outputIdx, ctxOverride = null) {
       let v = num(buff.value);
-      if (buff.multAddByResource) {
-        const scale = buff.multAddByResource;
+      if (buff.multAddByResource || buff.multScaleAddByResource) {
+        const scale = buff.multAddByResource || buff.multScaleAddByResource;
         const value = characterResourceValue(slot, scale.id || scale.resource);
         v = num(value) * num(scale.rate ?? scale.perPoint);
         if (scale.cap != null) v = Math.min(v, num(scale.cap));
@@ -1704,7 +1738,7 @@ window.WUWA_SETTLEMENT = (() => {
       return num(def.rageRates[stacks], 0);
     }
 
-    function effectBaseInfo(def, stacks, totalAtk, rageStacks = 0, extraRate = 0) {
+    function effectBaseInfo(def, stacks, totalAtk, rageStacks = 0, extraRate = 0, multiplierBonus = 0) {
       if (def.kind === "fixed") {
         return { valid: true, base: fixedEffectValue(def, stacks), source: "fixed" };
       }
@@ -1712,8 +1746,8 @@ window.WUWA_SETTLEMENT = (() => {
       const baseRate = stacks <= 0 ? 0 : effectRate(def, stacks);
       if (baseRate == null) return { valid: false, rate: null, source: "attack" };
       const rageRate = effectRageRate(def, rageStacks);
-      const rate = baseRate + rageRate + num(extraRate);
-      return { valid: true, base: totalAtk * rate / 100, rate, baseRate, rageRate, extraRate: num(extraRate), rageStacks, attack: totalAtk, source: "attack" };
+      const rate = (baseRate + rageRate) * (1 + multiplierBonus / 100) + num(extraRate);
+      return { valid: true, base: totalAtk * rate / 100, rate, baseRate, rageRate, multiplierBonus, extraRate: num(extraRate), rageStacks, attack: totalAtk, source: "attack" };
     }
 
     function effectRequirementMatches(effect, effectKey) {
@@ -1734,7 +1768,7 @@ window.WUWA_SETTLEMENT = (() => {
       else if (!sourceCharRequirementReady(slot, buff)) gated = `需${sourceCharRequirementLabel(buff)}`;
       else if (!activeCharRequirementReady(buff)) gated = `需${activeCharRequirementLabel(buff)}为登场角色`;
       else if (!isDps && buff.scope !== "team") gated = "仅自身输出时生效";
-      else if (isDps && (String(buff.source).startsWith("延奏") || buff.triggerOutro === true) && !affectsOwnOutroAction(buff, ctx)) gated = "延奏不给自己";
+      else if (isDps && buff.triggerOutro === true && !affectsOwnOutroAction(buff, ctx)) gated = "延奏不给自己";
       else if (buff.skills && !skillRefsMatch(ctx.skill, buff.skills)) gated = "仅 " + skillRefsLabel(slot, buff.skills);
       else if (buff.element && buff.element !== def.element) gated = "需目标效应为" + L.element(buff.element);
       else if (buff.damageType && !damageRequirementMatches(ctx, buff.damageType)) gated = "需当前技能为" + asList(buff.damageType).map(L.damageType).join("/");
@@ -1754,7 +1788,7 @@ window.WUWA_SETTLEMENT = (() => {
     function effectAggregate(effectKey, def, outputIdx = state.outputIdx) {
       const t = {
         deepen: num(state.effectCalc?.deepen), manualDeepen: num(state.effectCalc?.deepen), buffDeepen: 0,
-        finalDmg: 0, buffFinalDmg: 0, extraRate: 0,
+        finalDmg: 0, buffFinalDmg: 0, extraRate: 0, multiplierBonus: 0,
         resShred: 0, defShred: 0, defIgnore: 0,
         fixedCritRate: null, fixedCritDamage: null,
         sources: {},
@@ -1781,6 +1815,11 @@ window.WUWA_SETTLEMENT = (() => {
           }
           if (effectSpecific && buff.zone === "effectExtraRate") {
             t.extraRate += v;
+            addBuffSource(t.sources, buff.zone, slot, buff, v);
+            return;
+          }
+          if (effectSpecific && buff.zone === "skillMultBonus") {
+            t.multiplierBonus += v;
             addBuffSource(t.sources, buff.zone, slot, buff, v);
             return;
           }
@@ -1833,7 +1872,7 @@ window.WUWA_SETTLEMENT = (() => {
         };
       }
       const b = effectAggregate(key, def, providerIdx);
-      const baseInfo = effectBaseInfo(def, stacks, effectAtk, rageStacks, b.extraRate);
+      const baseInfo = effectBaseInfo(def, stacks, effectAtk, rageStacks, b.extraRate, b.multiplierBonus);
       const target = resolveTarget(def.element);
       const defReduction = Math.min(Math.max((state.enemy.defShred + b.defShred) / 100, 0), 0.95);
       const defIgnore = Math.min(Math.max((state.enemy.defIgnore + b.defIgnore) / 100, 0), 0.95);
@@ -1855,7 +1894,7 @@ window.WUWA_SETTLEMENT = (() => {
         stacks, actionStacks, cap, capBase: capInfo.base, capBonus: capInfo.bonus,
         rageStacks, rageCap: def.rageRates ? cap : null,
         base: baseInfo.base ?? null, rate: baseInfo.rate, baseRate: baseInfo.baseRate,
-        rageRate: baseInfo.rageRate, extraRate: baseInfo.extraRate || 0, attack: baseInfo.attack,
+        rageRate: baseInfo.rageRate, extraRate: baseInfo.extraRate || 0, multiplierBonus: b.multiplierBonus, attack: baseInfo.attack,
         valid: baseInfo.valid, deepen: b.deepen, manualDeepen: b.manualDeepen, buffDeepen: b.buffDeepen,
         finalDmg: b.finalDmg, buffFinalDmg: b.buffFinalDmg, finalDmgFactor,
         sources: b.sources, attackSources: attackInfo.sources,
@@ -2050,8 +2089,7 @@ window.WUWA_SETTLEMENT = (() => {
       const sk = asList(providerChar?.skills).find((skill) => skillIdMatches(skill, entry.skillId));
       const harmonyBase = Math.max(0, num(state.enemy.harmonyBase, 10027));
       const skLevel = skillLevelForSkill(providerSlot, sk);
-      const lvRatio = skillLevelRatioFor(providerSlot, sk);
-      const baseMult = sk ? skillMultValue(sk.multiplier, lvRatio) : 0;
+      const baseMult = skillValueAtLevel(sk, "multiplier", skLevel);
       const ctx = dpsContext(providerIdx, sk);
       const harmony = harmonyResponseAggregate(providerIdx, ctx);
       const formulaKind = offsetResponseFormulaKind(sk, entry.damageType);
@@ -2087,7 +2125,6 @@ window.WUWA_SETTLEMENT = (() => {
     }
 
     function computeOffsetState(entry, entries) {
-      const calc = state.offsetCalc || {};
       const providerIdx = offsetProviderIndex(entry);
       const providers = offsetProvidersForEntry(entry);
       const providerSlot = state.slots[providerIdx];
@@ -2097,13 +2134,7 @@ window.WUWA_SETTLEMENT = (() => {
       const confirmed = def ? stateValueMatches(current, entry.stateValue, def) : false;
       const expectedOpt = combatStateOptionForValue(def, entry.stateValue);
       const currentOpt = combatStateOptionForValue(def, current);
-      const fallbackStacks = providerSlot?.toggles?.["stk_" + entry.stateValue] ?? providerSlot?.toggles?.["stk_" + entry.stateId] ?? 0;
-      let stackCap = Math.max(0, Math.round(num(expectedOpt?.maxStacks)));
-      asList(expectedOpt?.maxStacksBySeq).forEach((rule) => {
-        if (num(providerSlot?.seq) >= num(rule.seq)) stackCap = Math.max(0, Math.round(num(rule.max ?? rule.stacks ?? rule.value)));
-      });
-      const requestedStacks = Math.max(0, Math.round(num(calc.stacks, fallbackStacks)));
-      const stacks = stackCap ? Math.min(requestedStacks, stackCap) : requestedStacks;
+      const { stacks, stackCap, bonusStacks, effectiveStacks } = stateStackInfo(providerSlot, entry.stateValue);
       const breakAmpInfo = outputBreakAmpInfo(providerIdx);
       const breakAmp = breakAmpInfo.value;
       const formulaKind = offsetStateFormulaKind(entry.stateValue, expectedOpt);
@@ -2111,14 +2142,14 @@ window.WUWA_SETTLEMENT = (() => {
       asList(expectedOpt?.perStackRateBySeq).forEach((rule) => {
         if (num(providerSlot?.seq) >= num(rule.seq)) perStackRate = num(rule.rate ?? rule.value, perStackRate);
       });
-      const finalDmgGain = stacks * breakAmp * perStackRate;
+      const finalDmgGain = effectiveStacks * breakAmp * perStackRate;
       return {
         available: true, enabled: true, valid: confirmed, kind: "state", key: "state", formulaKind,
         entries, providers, providerIdx, providerName: providerChar?.name || "", label: entry.label,
         stateId: entry.stateId, stateLabel: entry.stateLabel, stateValue: entry.stateValue, currentState: current,
         stateValueLabel: expectedOpt ? L.combatOptionLabel(expectedOpt) : L.text(entry.label || entry.stateValue),
         currentStateLabel: currentOpt ? L.combatOptionLabel(currentOpt) : L.text(current || "未确认"),
-        stacks, stackCap, breakAmp, perStackRate, finalDmgGain, sources: { breakAmp: breakAmpInfo.sources }, status: confirmed ? "已确认" : "未确认",
+        stacks, stackCap, bonusStacks, effectiveStacks, breakAmp, perStackRate, finalDmgGain, sources: { breakAmp: breakAmpInfo.sources }, status: confirmed ? "已确认" : "未确认",
       };
     }
 
@@ -2175,19 +2206,10 @@ window.WUWA_SETTLEMENT = (() => {
       const layers = skillLayersForSlot(s1, sk);
       const levelSkill = selectedSk || sk;
       const skLevel = skillLevelForSkill(s1, levelSkill);
-      const lvRatio = skillLevelRatioFor(s1, levelSkill);
       const resourceReady = skillResourceReady(s1, selectedSk);
       const resourceBlocked = !!selectedSk && !resourceReady && !sk;
-      let perStackBonus = 0;
-      const perStackBonusSources = [];
-      state.slots.forEach((slot, idx) => slotBuffs(slot).forEach((buff) => {
-        if (!buff.perStackBonus || !buffStatus(slot, idx, buff).applies) return;
-        const value = num(buff.perStackBonus);
-        perStackBonus += value;
-        perStackBonusSources.push(buffSourcePart(slot, buff, value, { perStackBonus: value }));
-      }));
-      const stackMult = sk && sk.perStack ? sk.perStack * layers * (1 + perStackBonus / 100) : 0;
-      const levelMult = sk ? skillMultValue(sk.multiplier + stackMult, lvRatio) : 0;
+      const stackMult = skillValueAtLevel(sk, "perStack", skLevel) * layers;
+      const levelMult = sk ? skillMultValue(skillValueAtLevel(sk, "multiplier", skLevel) + stackMult) : 0;
       let multAdd = 0;
       const multAddSources = [];
       state.slots.forEach((slot, idx) => slotBuffs(slot).forEach((buff) => {
@@ -2197,6 +2219,7 @@ window.WUWA_SETTLEMENT = (() => {
         if (buff.multAddByResource) value += buffValue(slot, buff, idx);
         if (buff.multAddByStat) value += buffValue(slot, buff, idx);
         if (buff.multScaleAdd) value += skillMultValue(levelMult * num(buff.multScaleAdd) / 100, 1);
+        if (buff.multScaleAddByResource) value += skillMultValue(levelMult * buffValue(slot, buff, idx) / 100, 1);
         if (!value) return;
         multAdd += value;
         multAddSources.push(buffSourcePart(slot, buff, value, { multAdd: value }));
@@ -2210,7 +2233,6 @@ window.WUWA_SETTLEMENT = (() => {
       const formulaSources = {
         ...(formulaTotals.sources || {}),
         multAdd: multAddSources,
-        perStackBonus: perStackBonusSources,
       };
       const skillMultBonus = formulaTotals.skillMultBonus || 0;
       const skillMult = (baseMult * (1 + skillMultBonus / 100)) / 100;
@@ -2270,7 +2292,7 @@ window.WUWA_SETTLEMENT = (() => {
           totalDefIgnore,
         },
         damageModel: isFixedDamage ? "fixed" : isHarmonyResponse ? "harmonyResponse" : "normal", damageElement, target, breakAmp, breakAmpFactor, harmonyBase, fixedDamage,
-        normal, expected, critHit, sk, selectedSk, layers, skLevel, perStackBonus, multAdd, resourceReady, resourceBlocked, damageScalar, effect, offset,
+        normal, expected, critHit, sk, selectedSk, layers, skLevel, multAdd, resourceReady, resourceBlocked, damageScalar, effect, offset,
       };
     }
 

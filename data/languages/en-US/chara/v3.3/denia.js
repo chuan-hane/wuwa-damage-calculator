@@ -305,8 +305,8 @@ window.WUWA_LANGUAGES.extend("en-US", {
             "source": "Resonance Skill: Banish - Breakdown Form",
             "label": "DMG Multiplier Increase",
             "trigger": "When casting Banish - Breakdown Form Stage 2",
-            "excerpt": "Each Dark Core adds 150% to the Stage 2 DMG Multiplier",
-            "desc": "When casting Banish - Breakdown Form Stage 2, each Dark Core increases this skill's DMG Multiplier by 150%."
+            "excerpt": "Each Dark Core consumed increases the DMG Multiplier of Banish - Breakdown Form Stage 2 by 150%",
+            "desc": "Banish - Breakdown Form Stage 2 consumes all Dark Cores, dealing Fusion DMG. For each Dark Core consumed, the DMG Multiplier of the attack is increased by 150%."
           }
         ],
         "chain": [
@@ -393,9 +393,9 @@ window.WUWA_LANGUAGES.extend("en-US", {
                 "excerpt": "Fusion DMG Bonus +60%"
               },
               {
-                "label": "Fusion Burst Extra Multiplier",
+                "label": "Fusion Burst DMG Multiplier Increase",
                 "trigger": "In Resonance Mode - Fusion Burst",
-                "excerpt": "Fusion Burst Extra Multiplier +200%"
+                "excerpt": "Fusion Burst DMG Multiplier Increase +200%"
               }
             ]
           }

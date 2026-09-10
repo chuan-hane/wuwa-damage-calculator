@@ -230,14 +230,9 @@ window.WUWA_LANGUAGES.extend("en-US", {
             "desc": "The DMG Multipliers of Heavy Slash - Daybreak, Heavy Slash- Dawning, Heavy Slash - Nightfall, and Heavy Slash - Lightsmash are increased by 40%. Every Blaze consumed increases the DMG Multiplier of Heavy Slash - Nightfall by 40% on hit.\nGain following effects when in Inferno Mode:\n- When Blaze is lower than 70, restore 70 Blazes immediately. This effect is triggered once in Inferno Mode.\n- Within 8s after entering Inferno Mode, Zani will remain standing with at least 1 HP if hit by a fatal blow.",
             "buffs": [
               {
-                "label": "There Will Be A Light - Heavy Slash - Daybreak DMG Multiplier Increase",
-                "trigger": "In Blazing Ember",
-                "excerpt": "There Will Be A Light - Heavy Slash - Daybreak DMG Multiplier Increase +40%"
-              },
-              {
-                "label": "There Will Be A Light - Heavy Slash - Nightfall DMG Extra Multiplier",
-                "trigger": "In Blazing Ember",
-                "excerpt": "There Will Be A Light - Heavy Slash - Nightfall DMG Extra Multiplier +40%"
+                "label": "DMG Multiplier Increase",
+                "trigger": "Default",
+                "excerpt": "Heavy Slash and its Blaze multiplier increase by 40%"
               }
             ]
           }

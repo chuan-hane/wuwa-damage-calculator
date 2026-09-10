@@ -78,7 +78,7 @@ global.document = { getElementById: () => board, onclick: null, documentElement:
 
 const app = fs.readFileSync(path.join(root, "src/app.js"), "utf8").replace(
   /\nrender\(\);\s*$/,
-  "\nglobalThis.__T = { state, pickCharacter, compute, slotBuffs, availableSkills, resourceKey, resourceControlsForSlot, resolvedSkill, buffStatus, setBuffToggle, buffStackCount, stateChoiceKey, stateControlsHTML, buffFormulaText, render, syncOffsetFromStateChoice };",
+  "\nglobalThis.__T = { state, pickCharacter, compute, slotBuffs, availableSkills, resourceKey, resourceControlsForSlot, resolvedSkill, buffStatus, setBuffToggle, buffStackCount, stateChoiceKey, stateControlsHTML, buffFormulaText, buffValue, scaleByInfo, render, syncOffsetFromStateChoice };",
 );
 eval(app);
 
@@ -357,6 +357,7 @@ function stateAndResourceTokensAreLanguageNeutral() {
       check(owner, "requiresResource", b.requiresResource);
       check(owner, "stackGroup", b.stackGroup);
       checkResourceRequirement(owner, "multAddByResource", b.multAddByResource);
+      checkResourceRequirement(owner, "multScaleAddByResource", b.multScaleAddByResource);
     }
   }
   assert(!bad.length, `state/resource tokens must be language-neutral:\n${bad.join("\n")}`);
@@ -1992,6 +1993,8 @@ function characterSchemasAreLinked() {
     for (const key of [].concat(c.effectTypes || [])) {
       if (!validEffectKeys.has(key)) bad.push(`${c.id}: effectTypes ${key} unsupported`);
     }
+    if (c.tuneStrainCapBonus != null && (!Number.isInteger(c.tuneStrainCapBonus) || c.tuneStrainCapBonus < 0)) bad.push(`${c.id}: invalid Tune Strain cap bonus`);
+    if (c.tuneStrainCapRequiresState && !stateDefFor(c, c.tuneStrainCapRequiresState)) bad.push(`${c.id}: Tune Strain cap state missing`);
     for (const [idx, resource] of (c.resources || []).entries()) {
       for (const rule of [].concat(resource.maxByState || resource.capByState || [])) {
         const stateName = rule.state || rule.requiresState;
@@ -2006,6 +2009,20 @@ function characterSchemasAreLinked() {
       if (sk.stat && !validSkillStats.has(sk.stat)) bad.push(`${c.id}.${sk.id}: stat ${sk.stat} unsupported`);
       if (sk.levelCategory && !validSkillCategories.has(sk.levelCategory)) bad.push(`${c.id}.${sk.id}: levelCategory ${sk.levelCategory} unsupported`);
       if (sk.fixedLevel != null && typeof sk.fixedLevel !== "boolean") bad.push(`${c.id}.${sk.id}: fixedLevel must be boolean`);
+      for (const key of ["multiplier", "perStack"]) {
+        if (key === "perStack" && sk.perStack == null) continue;
+        const values = sk[key + "ByLevel"];
+        if (!sk.fixedLevel && (!Array.isArray(values) || values.length !== 10 || values.some((value) => !Number.isFinite(value) || value < 0))) bad.push(`${c.id}.${sk.id}: ${key} needs ten numeric level values`);
+        if (values && Math.abs(values[9] - sk[key]) > 0.02001) bad.push(`${c.id}.${sk.id}: ${key} level 10 differs from its base value`);
+      }
+      if (sk.segmentsByLevel) {
+        if (sk.segmentsByLevel.length !== 10) bad.push(`${c.id}.${sk.id}: segmentsByLevel needs ten levels`);
+        sk.segmentsByLevel.forEach((segments, level) => {
+          if (segments.some((part) => part.length !== 2 || !Number.isFinite(part[0]) || !Number.isFinite(part[1]) || part[0] < 0 || part[1] <= 0)) bad.push(`${c.id}.${sk.id}: invalid segment at level ${level + 1}`);
+          const sum = segments.reduce((total, [percent, count]) => total + percent * count, 0);
+          if (Math.abs(sum - sk.multiplierByLevel?.[level]) > 0.02001) bad.push(`${c.id}.${sk.id}: segment sum differs at level ${level + 1}`);
+        });
+      }
       if (sk.element && !validElements.has(sk.element)) bad.push(`${c.id}.${sk.id}: element ${sk.element} unsupported`);
       for (const legacyId of [].concat(sk.legacyIds || [])) {
         if (legacyId === sk.id) bad.push(`${c.id}.${sk.id}: legacyIds should not repeat current id`);
@@ -2101,6 +2118,8 @@ function characterSchemasAreLinked() {
       }
       if (b.stackResource && !resourceKeys.has(b.stackResource)) bad.push(`${c.id}.${b.id}: stackResource ${b.stackResource} missing`);
       if (b.multAddByResource && !resourceKeys.has(b.multAddByResource.id || b.multAddByResource.resource)) bad.push(`${c.id}.${b.id}: multAddByResource ${(b.multAddByResource.id || b.multAddByResource.resource)} missing`);
+      if (b.multScaleAddByResource && !resourceKeys.has(b.multScaleAddByResource.id)) bad.push(`${c.id}.${b.id}: multScaleAddByResource missing`);
+      if (b.stackState && !stateDefFor(c, b.stackState)) bad.push(`${c.id}.${b.id}: stackState missing`);
     }
   }
   assert(!bad.length, bad.join("\n"));
@@ -2752,7 +2771,7 @@ function baselineA() {
   __T.state.slots[0].seq = 6;
   disableDefaultConfirmedBuffs([0]);
   r = __T.compute();
-  expectEqual(r.expected, 185889, "baseline A 6-chain expected");
+  expectEqual(r.expected, 133811, "baseline A 6-chain expected");
 
   resetTeam();
   __T.state.slots[0].toggles[__T.stateChoiceKey("form_1")] = "form_1_option_2";
@@ -2769,7 +2788,7 @@ function baselineA() {
   __T.state.slots[0].seq = 6;
   disableDefaultConfirmedBuffs([0]);
   r = __T.compute();
-  expectEqual(r.expected, 284785, "baseline A 6-chain outro-confirmed expected");
+  expectEqual(r.expected, 205000, "baseline A 6-chain outro-confirmed expected");
 }
 
 function baselineB() {
@@ -3126,9 +3145,9 @@ function reportedCharacterFixes() {
   slot.toggles[__T.stateChoiceKey("谐度干涉")] = "谐度干涉·集谐";
   assert(__T.buffStatus(slot, 0, b).applies, "Mornye Interference Mark target vulnerability should apply after target states are confirmed");
   b = buff(slot, "b_tune_response");
-  slot.toggles[`stk_${b.stackGroup}`] = 4;
+  slot.toggles.stk_target_2_option_2 = 4;
   assert(__T.buffStatus(slot, 0, b).applies, "Mornye Tune Strain - Interfered final damage should apply from the confirmed target state without a second toggle");
-  assert(__T.buffFormulaText(slot, b, 0).includes("+24%"), "Mornye four-stack Tune Strain - Interfered should scale from active Tune Break Boost buffs per stack");
+  assert(__T.buffFormulaText(slot, b, 0).includes("+18%"), "Mornye and Lynae should cap Interfered at three stacks and scale from active Tune Break Boost");
   slot.skill = "rupture_beam";
   slot.toggles[__T.stateChoiceKey("谐度干涉")] = "谐度干涉·震谐";
   r = __T.compute();
@@ -3459,12 +3478,12 @@ function reportedCharacterFixes() {
   assert(String(board.innerHTML).includes('data-key="incandescence"') && String(board.innerHTML).includes("韶光 (0-50)"), "Jinhsi Incandescence should render as a persistent character resource control");
   assert(String(board.innerHTML).includes("6链·寒尽又逢春"), "chain buff source text should include the sequence number");
   slot.resources.incandescence = 50;
-  b = buff(slot, "k6_stack");
-  expectEqual(__T.buffFormulaText(slot, b, 0), "+45%层数倍率", "Jinhsi chain 6 stack badge");
+  b = buff(slot, "k6_mult");
+  expectEqual(__T.buffFormulaText(slot, b, 0), "×(1+45%)", "Jinhsi chain 6 combined multiplier badge");
   r = __T.compute();
   expectEqual(r.layers, 50, "Jinhsi Stella Glamor should read Incandescence from the character resource");
-  expectEqual(r.perStackBonus, 45, "Jinhsi chain 6 should boost Incandescence multiplier gain");
-  expectEqual(r.panel.baseMult, 3577.07, "Jinhsi chain 6 should include boosted Incandescence gain before skill multiplier bonus");
+  assert(!allBuffs(window.WUWA.chars.jinhsi).some((b) => b.perStackBonus), "Jinhsi chain 6 should not multiply Incandescence twice");
+  expectEqual(r.panel.baseMult, 2574.92, "Jinhsi chain 6 should preserve the base and resource subtotal before its single multiplier bonus");
   slot.resources.incandescence = 10;
   r = __T.compute();
   expectEqual(r.layers, 10, "Jinhsi Incandescence edits should update the skill layers");
@@ -3982,13 +4001,13 @@ function modalEffectAndOffsetControlRegressions() {
   assert(String(board.innerHTML).includes("虚质粒子 (0-100)"), "Denia Void Particle control should show its numeric cap");
   let r = __T.compute();
   expectEqual(r.layers, 0, "Denia Dark Core should not be represented as skill hit layers");
-  expectEqual(r.multAdd, 450, "Denia Banish stage 2 should add 150% multiplier for each of the three default Dark Cores");
-  expectEqual(Math.round(r.panel.baseMult * 100) / 100, 562.01, "Denia Banish stage 2 should scale from the persistent Dark Core value");
+  expectEqual(r.multAdd, 504.05, "Denia three Dark Cores should increase the level-10 base multiplier by 450%");
+  expectEqual(Math.round(r.panel.baseMult * 100) / 100, 616.06, "Denia Banish stage 2 should scale from the persistent Dark Core value");
   slot.resources.darkCore = 1;
   r = __T.compute();
   expectEqual(r.layers, 0, "Denia Banish stage 2 should keep hit layers separate from Dark Core");
-  expectEqual(r.multAdd, 150, "Denia Banish stage 2 should read one Dark Core from the character resource");
-  expectEqual(Math.round(r.panel.baseMult * 100) / 100, 262.01, "Denia Banish stage 2 should update when Dark Core changes");
+  expectEqual(r.multAdd, 168.02, "Denia one Dark Core should increase the level-10 base multiplier by 150%");
+  expectEqual(Math.round(r.panel.baseMult * 100) / 100, 280.03, "Denia Banish stage 2 should update when Dark Core changes");
   slot.resources.darkCore = 0;
   r = __T.compute();
   assert(r.resourceBlocked, "Denia Banish stage 2 should be blocked at zero Dark Core");
@@ -4299,8 +4318,8 @@ function lynaeCharacterRegressions() {
   expectEqual(r.offset.kind, "state", "Tune Strain Interfered should render as an offset-system state entry");
   expectEqual(r.offset.formulaKind, "coherenceInterference", "Tune Strain Interfered should use the coherence-interference formula kind");
   assert(r.offset.valid && r.offset.status === "已确认", "Confirmed Tune Strain Interfered state should be reflected in the offset-system calculator");
-  expectEqual(r.offset.finalDmgGain, 18, "Tune Strain Interfered formula should scale stacks by Tune Break Boost");
-  expectEqual(r.offsetFinalDmg, 18, "Tune Strain Interfered final damage gain should feed the main damage formula");
+  expectEqual(r.offset.finalDmgGain, 12, "Lynae alone should cap Interfered at two stacks before scaling by Tune Break Boost");
+  expectEqual(r.offsetFinalDmg, 12, "Tune Strain Interfered final damage gain should feed the main damage formula");
   assert(r.expected > noInterferenceDamage, "Increasing Tune Strain Interfered stacks should increase the main selected damage");
   slot.toggles[`stk_${strainBuff.stackGroup}`] = 3;
   slot.toggles.b_tune_strain_response = true;
@@ -4308,8 +4327,8 @@ function lynaeCharacterRegressions() {
   slot.toggles.w_e2 = false;
   r = __T.compute();
   assert(__T.buffStatus(slot, 0, strainBuff).applies, "Lynae Tune Strain - Interfered final damage buff should apply after target state confirmation");
-  assert(__T.buffFormulaText(slot, strainBuff, 0).includes("+18%"), "Lynae Tune Strain - Interfered should scale 3 stacks from active Tune Break Boost");
-  expectEqual(r.totals.finalDmg, 18, "Offset-system Tune Strain final damage should not double count the legacy buff card value");
+  assert(__T.buffFormulaText(slot, strainBuff, 0).includes("+12%"), "Lynae Tune Strain - Interfered should scale two capped stacks from active Tune Break Boost");
+  expectEqual(r.totals.finalDmg, 12, "Offset-system Tune Strain final damage should not double count the legacy buff card value");
   __T.render();
   const strainHtml = String(board.innerHTML);
   const strainFormulaHTML = strainHtml.slice(strainHtml.indexOf('id="result-formula"'), strainHtml.indexOf('id="settlement-stage"'));
@@ -4453,7 +4472,7 @@ function v36EquipmentRegressions() {
   const naturesOrder = thousandfold.effects.find((effect) => effect.id === "e1");
   const naturesOrderHeavyCrit = thousandfold.effects.find((effect) => effect.id === "e2");
   const cradleOfLife = thousandfold.effects.find((effect) => effect.id === "e3");
-  assert(naturesOrder.zone === "critDamage" && naturesOrder.value === 24 && naturesOrder.maxStacks === 6 && naturesOrder.defaultStacks === 0 && naturesOrder.defaultActive === false && !naturesOrder.triggerEvents, "Thousandfold Deliverance should grant 4% Crit. DMG per manually confirmed Nature's Order stack");
+  assert(naturesOrder.zone === "critDamage" && naturesOrder.value === 24 && naturesOrder.maxStacks === 6 && naturesOrder.defaultStacks === 0 && naturesOrder.defaultActive === false && naturesOrder.triggerEvents?.includes("introEntry"), "Thousandfold Deliverance should grant 4% Crit. DMG per manually confirmed Nature's Order stack");
   assert(naturesOrderHeavyCrit.zone === "critRate" && naturesOrderHeavyCrit.value === 12 && naturesOrderHeavyCrit.damageType === "heavy" && naturesOrderHeavyCrit.requiresBuffStacks?.id === "e1" && naturesOrderHeavyCrit.requiresBuffStacks?.stacks === 6, "Thousandfold Deliverance should grant 12% Heavy Attack Crit. Rate at six Nature's Order stacks");
   assert(cradleOfLife.value === 30 && cradleOfLife.maxStacks === 2 && cradleOfLife.defaultStacks === 0 && cradleOfLife.defaultActive === false && cradleOfLife.damageType === "heavy", "Thousandfold Deliverance should consume up to two independently tracked Cradle of Life stacks for 30% Heavy DEF Ignore");
 
@@ -4656,7 +4675,7 @@ function v36QingxiaoRegressions() {
   __T.render();
   expectEqual((String(board.innerHTML).match(/data-stack-key="stk_mindlock"/g) || []).length, 1, "Shared Mindlock effects should render one stack input");
 
-  resetTeam(["qingxiao"]);
+  resetTeam(["qingxiao", "mornye", "lynae"]);
   slot = __T.state.slots[0];
   slot.skill = "forte_heavy";
   slot.toggles[__T.stateChoiceKey("target_tune_strain")] = "target_tune_interfered";
@@ -4673,7 +4692,7 @@ function v36QingxiaoRegressions() {
   slot.toggles.stk_tune_interference = 4;
   assert(__T.buffStatus(slot, 0, tuneResponse).applies, "Qingxiao Interfered response should follow the explicitly selected target state");
   let responseResult = __T.compute();
-  expectEqual(responseResult.offset.stackCap, 4, "Qingxiao should raise the target Interfered stack cap from three to four");
+  expectEqual(responseResult.offset.stackCap, 4, "Qingxiao, Mornye, and Lynae should each add one to the base one-stack Interfered cap");
   expectEqual(responseResult.offset.finalDmgGain, 4.8, "Qingxiao four-stack Interfered response should convert 10% Tune Break Boost into 4.8% Final DMG");
   expectEqual(Math.round(responseResult.rawTotals.finalDmg * 100) / 100, 4.8, "Qingxiao four-stack response Buff card should show 4.8% Final DMG");
   expectEqual(Math.round(responseResult.totals.finalDmg * 100) / 100, 4.8, "Qingxiao Interfered response should feed the main damage formula exactly once");
@@ -4698,7 +4717,7 @@ function v36QingxiaoRegressions() {
   expectEqual(Math.round(responseResult.totals.finalDmg * 100) / 100, 5.76, "Qingxiao Sequence 6 response should feed the main damage formula exactly once");
   expectEqual(responseResult.rawTotals.vulnerability, 40, "Qingxiao Sequence 6 should apply 40% target vulnerability to Heaven's Reckoning");
   __T.render();
-  expectEqual((String(board.innerHTML).match(/data-stack-key="stk_tune_interference"/g) || []).length, 1, "Shared Interfered response effects should render one stack input across providers");
+  expectEqual((String(board.innerHTML).match(/data-stack-key="stk_tune_interference"/g) || []).length, 0, "Interfered response Buffs should read the target stack control without another input");
   assert(!String(board.innerHTML).includes("NaN"), "Dynamic Interfered response stack rows should render a numeric per-stack value");
 
   slot.skill = "c1_juque";
@@ -4895,10 +4914,10 @@ function deniaAndMornyeReauditRegressions() {
   const banish = skill(denia, "bd_banish2");
   assert(banish.perStack == null && banish.stackResource == null && banish.formula === "112.01%", "Denia Banish Stage 2 should keep only its level-scaled base multiplier");
   const darkCoreMult = denia.buffs.find((item) => item.id === "b_banish_dark_core_mult");
-  assert(darkCoreMult?.multAddByResource?.id === "darkCore" && darkCoreMult.multAddByResource.rate === 150 && darkCoreMult.skills?.includes("bd_banish2"), "Denia Dark Core should add an unscaled 150 multiplier points per resource");
+  assert(darkCoreMult?.multScaleAddByResource?.id === "darkCore" && darkCoreMult.multScaleAddByResource.rate === 150 && darkCoreMult.skills?.includes("bd_banish2"), "Denia Dark Core should add 150% of the level-specific base multiplier per resource");
   assert(denia.resources.some((resource) => resource.id === "conformalCharge") && !denia.resources.some((resource) => resource.id === "symmorphEnergy"), "Denia Conformal Charge should use its formal English resource id");
-  assert(skill(denia, "sc_air").damageType === "midAir" && ["bd_air1", "bd_air2", "bd_air3", "bd_air4"].every((id) => skill(denia, id).damageType === "midAir"), "Denia non-Void Mid-air Attacks should use the midAir damage type");
-  assert(skill(denia, "sc_dodge").damageType === "dodgeCounter" && skill(denia, "bd_dodge").damageType === "dodgeCounter", "Denia non-Void Dodge Counters should use the dodgeCounter damage type");
+  assert(skill(denia, "sc_air").damageType === "basic" && ["bd_air1", "bd_air2", "bd_air3", "bd_air4"].every((id) => skill(denia, id).damageType === "basic"), "Denia non-Void Mid-air Attacks should use Basic Attack damage");
+  assert(skill(denia, "sc_dodge").damageType === "basic" && skill(denia, "bd_dodge").damageType === "basic", "Denia non-Void Dodge Counters should use Basic Attack damage");
   const deniaFusionEvents = denia.skillEvents.filter((event) => event.event === "applyFusionBurst");
   assert(deniaFusionEvents.some((event) => event.stacks === 1 && event.requiresState === "mode_1_option_1" && event.skills?.includes("sc_na3")), "Denia Basic and Mid-air triggers should apply one Fusion Burst stack only in Fusion Burst mode");
   assert(deniaFusionEvents.some((event) => event.stacks === 2 && event.requiresState === "mode_1_option_1" && event.skills?.includes("sc_lib")), "Denia Intro, Liberation, and Erosion Field triggers should apply two Fusion Burst stacks only in Fusion Burst mode");
@@ -4914,8 +4933,8 @@ function deniaAndMornyeReauditRegressions() {
   });
   const mornyeOutro = mornye.buffs.find((item) => item.id === "b_outro");
   assert(mornyeOutro?.triggerOutro === true && mornyeOutro.defaultActive === false, "Mornye Outro should use language-neutral manual gating");
-  assert(skill(mornye, "air").damageType === "midAir", "Mornye Mid-air Attack should use the midAir damage type");
-  assert(skill(mornye, "dodge").damageType === "dodgeCounter" && skill(mornye, "wide_dodge").damageType === "dodgeCounter", "Both Mornye Dodge Counters should use the dodgeCounter damage type");
+  assert(skill(mornye, "air").damageType === "basic", "Mornye Mid-air Attack should use Basic Attack damage");
+  assert(skill(mornye, "dodge").damageType === "basic" && skill(mornye, "wide_dodge").damageType === "basic", "Both Mornye Dodge Counters should use Basic Attack damage");
   const mornyeInterfered = mornye.combatStates.find((state) => state.id === "target_2")?.options?.find((option) => option.value === "target_2_option_2");
   const mornyeResponse = mornye.buffs.find((item) => item.id === "b_tune_response");
   assert(mornyeInterfered?.maxStacks === 4 && mornyeInterfered.perStackRate === 0.12, "Mornye should raise Tune Strain - Interfered to a four-stack cap at 0.12% per Tune Break Boost point");
@@ -4937,13 +4956,13 @@ function deniaAndMornyeReauditRegressions() {
   slot.resources.darkCore = 3;
   slot.skillLevels.resonanceSkill = 1;
   let result = __T.compute();
-  expectEqual(result.multAdd, 450, "Denia three Dark Cores should add 450 unscaled multiplier points");
-  expectEqual(result.panel.baseMult, 506.33, "Denia level-1 Banish Stage 2 with three Dark Cores should total 506.33%");
+  expectEqual(result.multAdd, 253.53, "Denia three Dark Cores should add 450% of the level-1 base multiplier");
+  expectEqual(result.panel.baseMult, 309.87, "Denia level-1 Banish Stage 2 with three Dark Cores should total 309.87%");
   slot.seq = 3;
   slot.resources.darkCore = 5;
   result = __T.compute();
-  expectEqual(result.multAdd, 750, "Denia Sequence 3 five Dark Cores should add 750 unscaled multiplier points");
-  expectEqual(result.panel.baseMult, 806.33, "Denia level-1 Banish Stage 2 with five Dark Cores should total 806.33%");
+  expectEqual(result.multAdd, 422.55, "Denia five Dark Cores should add 750% of the level-1 base multiplier");
+  expectEqual(result.panel.baseMult, 478.89, "Denia level-1 Banish Stage 2 with five Dark Cores should total 478.89%");
 
   slot.seq = 0;
   slot.toggles[__T.stateChoiceKey("mode_1")] = "mode_1_option_2";
@@ -4960,9 +4979,9 @@ function deniaAndMornyeReauditRegressions() {
   };
   result = __T.compute();
   assert(__T.buffStatus(slot, 0, buff(slot, "b_tune_response")).applies, "Denia response Buff should auto-apply after the target Interfered state is selected");
-  expectEqual(result.offset.stackCap, 4, "Denia should expose the raised four-stack Interfered cap");
-  expectEqual(result.offset.stacks, 4, "Denia should clamp Interfered input to four stacks");
-  expectEqual(result.offset.finalDmgGain, 4.8, "Denia four-stack Interfered response should convert 10% Tune Break Boost into 4.8% Final DMG");
+  expectEqual(result.offset.stackCap, 2, "Denia alone should add one to the base one-stack Interfered cap");
+  expectEqual(result.offset.stacks, 2, "Denia alone should clamp Interfered input to two stacks");
+  expectEqual(result.offset.finalDmgGain, 2.4, "Denia two-stack Interfered response should convert 10% Tune Break Boost into 2.4% Final DMG");
 
   resetTeam(["jinhsi", "denia"]);
   for (const locale of SUPPORTED_LANGS) {
@@ -4997,9 +5016,9 @@ function deniaAndMornyeReauditRegressions() {
   };
   result = __T.compute();
   assert(__T.buffStatus(slot, 0, buff(slot, "b_tune_response")).applies, "Mornye response Buff should auto-apply after the target Interfered state is selected");
-  expectEqual(result.offset.stackCap, 4, "Mornye should expose the raised four-stack Interfered cap");
-  expectEqual(result.offset.stacks, 4, "Mornye should clamp Interfered input to four stacks");
-  expectEqual(result.offset.finalDmgGain, 4.8, "Mornye four-stack Interfered response should convert 10% Tune Break Boost into 4.8% Final DMG");
+  expectEqual(result.offset.stackCap, 2, "Mornye alone should add one to the base one-stack Interfered cap");
+  expectEqual(result.offset.stacks, 2, "Mornye alone should clamp Interfered input to two stacks");
+  expectEqual(result.offset.finalDmgGain, 2.4, "Mornye two-stack Interfered response should convert 10% Tune Break Boost into 2.4% Final DMG");
   __T.state.lang = "zh-CN";
   __T.render();
 }
@@ -5237,9 +5256,10 @@ function v3FullAuditRegressions() {
   slot.skill = "erosion_field";
   r = __T.compute();
   expectEqual(r.effect.actionStacks, 10, "Denia C6 Erosion Field should trigger Fusion Burst at the current 10-stack cap");
-  expectEqual(r.effect.extraRate, 200, "Denia C6 Fusion Burst extra multiplier should apply to Erosion Field");
+  expectEqual(r.effect.multiplierBonus, 200, "Denia C6 should multiply Erosion Field Fusion Burst by 3");
+  expectEqual(r.effect.rate, 2095.89, "Denia C6 10-stack Fusion Burst should use 698.63% multiplied by 3");
   slot.skill = "sc_lib";
-  expectEqual(__T.compute().effect.extraRate, 0, "Denia C6 Fusion Burst extra multiplier should not apply to unrelated Fusion Burst triggers");
+  expectEqual(__T.compute().effect.multiplierBonus, 0, "Denia C6 Fusion Burst multiplier should not apply to unrelated triggers");
 
   resetTeam(["hiyuki"]);
   slot = __T.state.slots[0];
@@ -5721,6 +5741,192 @@ function resonanceChainActionCoverageRegressions() {
   expectEqual(__T.compute().effect.extraRate, 0, "Hiyuki chain 6 team trigger should require Hiyuki to be active");
 }
 
+function characterAuditLanguageInvariance() {
+  const L = window.WUWA_LANGUAGES;
+  for (const id of window.WUWA.order) {
+    for (const seq of [0, 6]) {
+      resetTeam([id]);
+      __T.state.slots[0].seq = seq;
+      const config = structuredClone(__T.state);
+      let baseline;
+      for (const lang of SUPPORTED_LANGS) {
+        Object.assign(__T.state, structuredClone(config), { lang });
+        L.set(lang);
+        L.applyData(window.WUWA, window.WUWA_DATA, window.WUWA_SONATAS);
+        const result = __T.compute();
+        const values = JSON.stringify({
+          normal: result.normal, expected: result.expected, crit: result.critHit,
+          skill: result.sk?.id, panel: result.panel,
+          totals: Object.fromEntries(Object.entries(result.rawTotals).filter(([, value]) => typeof value === "number")),
+        });
+        if (baseline == null) baseline = values;
+        expectEqual(values, baseline, `${id} sequence ${seq} damage must remain identical in ${lang}`);
+      }
+    }
+  }
+  __T.state.lang = "zh-CN";
+  __T.render();
+}
+
+function weaponAuditLanguageInvariance() {
+  const L = window.WUWA_LANGUAGES;
+  const baseline = new Map();
+  const displayFields = new Set(["label", "source", "excerpt", "desc", "trigger"]);
+  const cases = window.WUWA_DATA.weapons.flatMap((weapon) => [1, 2, 3, 4, 5].map((rank) => [weapon.id, rank]));
+  for (const lang of SUPPORTED_LANGS) {
+    L.set(lang);
+    L.applyData(window.WUWA, window.WUWA_DATA, window.WUWA_SONATAS);
+    cases.forEach(([id, rank]) => {
+      const key = `${id}:${rank}`;
+      const buffs = window.WUWA_EQUIPMENT.weaponBuffs(id, rank);
+      const values = JSON.stringify(buffs.map((b) => Object.fromEntries(Object.entries(b).filter(([field]) => !displayFields.has(field)))));
+      if (!baseline.has(key)) baseline.set(key, values);
+      expectEqual(values, baseline.get(key), `${key} weapon mechanics must remain identical in ${lang}`);
+    });
+  }
+  __T.state.lang = "zh-CN";
+  __T.render();
+}
+
+function fullCharacterAuditRegressions() {
+  const near = (actual, expected, message) => assert(Math.abs(actual - expected) < 0.0001, `${message}: expected ${expected}, got ${actual}`);
+  const stateChoice = (slot, id, value) => { slot.toggles[__T.stateChoiceKey(id)] = value; };
+  const effectiveMultiplier = () => __T.compute().panel.skillMult * 100;
+  const W = window.WUWA;
+
+  for (const [id, seq, skillId, stateId, stateValue, resource, layers, expected] of [
+    ["jinhsi", 6, "forte_illuminous_epiphany_stella", "form_1", "form_1_option_2", "incandescence", 50, 3733.634],
+    ["zani", 6, "forte_nightfall", "form_1", "form_1_option_1", "blaze", 40, 1113.882],
+    ["phrolova", 2, "scarlet_coda", "mechanic_1", "mechanic_1_option_1", null, 14, 3177.755],
+  ]) {
+    resetTeam([id]);
+    const slot = __T.state.slots[0];
+    slot.seq = seq;
+    slot.skill = skillId;
+    stateChoice(slot, stateId, stateValue);
+    if (resource) slot.resources[resource] = layers;
+    else slot.layers = layers;
+    near(effectiveMultiplier(), expected, `${id} should multiply its base and resource components once`);
+    assert(!allBuffs(W.chars[id]).some((b) => b.perStackBonus), `${id} should have no duplicate resource multiplier`);
+  }
+
+  resetTeam(["jiyan"]);
+  let slot = __T.state.slots[0];
+  slot.seq = 6;
+  slot.skill = "forte_finale";
+  __T.setBuffToggle(slot, 0, "k6_momentum", true);
+  for (const [stacks, multiplier] of [[0, 714.55], [1, 1572.01], [2, 2429.47]]) {
+    slot.toggles.stk_k6_momentum = stacks;
+    near(effectiveMultiplier(), multiplier, `Jiyan Finale with ${stacks} Momentum stacks`);
+  }
+
+  resetTeam(["lucy"]);
+  slot = __T.state.slots[0];
+  stateChoice(slot, "status_1", "status_1_option_1");
+  slot.skill = "heavy_multithread_sql";
+  slot.toggles[__T.resourceKey("SQL")] = true;
+  near(effectiveMultiplier(), 882.82, "Lucy SQL should multiply Multi-threading by 3.7");
+  slot.seq = 2;
+  near(effectiveMultiplier(), 1574.76, "Lucy Sequence 2 SQL should multiply Multi-threading by 6.6");
+  slot.skillLevels.basicAttack = 1;
+  near(effectiveMultiplier(), 792, "Lucy Sequence 2 SQL should preserve its multiplier at skill level 1");
+
+  resetTeam(["denia", "mornye"]);
+  slot = __T.state.slots[0];
+  stateChoice(slot, "mode_1", "mode_1_option_2");
+  stateChoice(slot, "buff_1", "buff_1_option_2");
+  stateChoice(__T.state.slots[1], "field_1", "field_1_option_1");
+  expectEqual(__T.buffValue(slot, buff(slot, "b_etched_tune_scale"), 0), 40, "Denia should convert Mornye's active 50% Off-Tune Buildup bonus into 40 Tune Break Boost");
+
+  resetTeam(["qingxiao"]);
+  slot = __T.state.slots[0];
+  slot.seq = 3;
+  slot.resources.world_in_chorus = 0;
+  slot.toggles.stk_k3_world_in_chorus_mult = 25;
+  expectEqual(__T.buffValue(slot, buff(slot, "k3_world_in_chorus_mult"), 0), 0, "Stale manual Buff stacks must not override zero World in Chorus");
+  slot.resources.world_in_chorus = 7;
+  expectEqual(__T.buffValue(slot, buff(slot, "k3_world_in_chorus_mult"), 0), 21, "World in Chorus Buff should follow seven actual resource stacks");
+  __T.render();
+  assert(!String(board.innerHTML).includes('data-stack-key="stk_k3_world_in_chorus_mult"'), "Resource-driven Buffs should not expose an independent stack input");
+
+  for (const [id, stateId, value, modeId, modeValue] of [
+    ["lynae", "target_2", "target_2_option_2", "mode_1", "mode_1_option_2"],
+    ["luukherssen", "target_1", "target_1_option_1"],
+  ]) {
+    resetTeam([id]);
+    slot = __T.state.slots[0];
+    if (modeId) stateChoice(slot, modeId, modeValue);
+    stateChoice(slot, stateId, value);
+    __T.state.offsetCalc = { key: "state", providerIdx: 0, stateId, stateValue: value, stacks: 999 };
+    let result = __T.compute();
+    expectEqual(result.offset.stacks, 2, `${id} alone must clamp real Interfered stacks to two`);
+    expectEqual(result.offset.effectiveStacks, 2, `${id} base Interfered response uses real target stacks`);
+    if (id === "luukherssen") {
+      slot.seq = 6;
+      result = __T.compute();
+      expectEqual(result.offset.stacks, 2, "Luuk Herssen Sequence 6 must not change real target stacks");
+      expectEqual(result.offset.effectiveStacks, 4, "Luuk Herssen Sequence 6 should add two virtual stacks above the real cap");
+      near(result.offset.finalDmgGain, 4.8, "Luuk Herssen alone at Sequence 6 should calculate the four effective stacks once");
+    }
+  }
+
+  resetTeam(["luukherssen", "mornye", "denia"]);
+  slot = __T.state.slots[0];
+  stateChoice(slot, "target_1", "target_1_option_1");
+  __T.state.offsetCalc = { key: "state", providerIdx: 0, stateId: "target_1", stateValue: "target_1_option_1", stacks: 999 };
+  expectEqual(__T.compute().offset.stackCap, 3, "Denia in Fusion Burst mode must not raise the Tune Strain cap");
+  stateChoice(__T.state.slots[2], "mode_1", "mode_1_option_2");
+  expectEqual(__T.compute().offset.stackCap, 4, "Three active Tune Strain cap providers should raise the cap to four");
+  slot.seq = 6;
+  expectEqual(__T.compute().offset.effectiveStacks, 6, "Luuk Herssen Sequence 6 should add two virtual stacks to a full team's four real stacks");
+  near(__T.compute().offset.finalDmgGain, 7.2, "Full-team Luuk Herssen Sequence 6 should calculate six effective stacks once");
+  __T.state.offsetCalc.stacks = 0;
+  expectEqual(__T.compute().offset.effectiveStacks, 0, "Luuk Herssen Sequence 6 must not create interference on an unafflicted target");
+
+  resetTeam(["chixia"]);
+  slot = __T.state.slots[0];
+  slot.skill = "outro_leaping_flames";
+  slot.skillLevels.outroSkill = 1;
+  expectEqual(__T.compute().panel.baseMult, 530, "Chixia Outro's fixed multiplier must not scale down");
+  resetTeam(["calcharo"]);
+  slot = __T.state.slots[0];
+  slot.skill = "lib_necessary";
+  slot.skillLevels.introSkill = 1;
+  slot.skillLevels.resonanceLiberation = 10;
+  expectEqual(__T.compute().panel.baseMult, 397.62, "Calcharo Necessary Means must inherit Resonance Liberation level");
+  slot.skillLevels.resonanceLiberation = 1;
+  expectEqual(__T.compute().panel.baseMult, 200, "Calcharo Necessary Means should use its exact level-1 value");
+  expectEqual(window.WUWA_RULES.skillValueAtLevel(skill(W.chars.rebecca, "hack_meltdown"), "multiplier", 7), 1882.15, "Rebecca's level-7 response should use recorded damage instead of an approximate global ratio");
+
+  resetTeam(["lupa"]);
+  slot = __T.state.slots[0];
+  slot.resources.wolfSoul = 2;
+  slot.skill = "wolfdance";
+  expectEqual(__T.compute().sk.id, "wolfdance", "Lupa without Burning Matchpoint should keep the regular Wolfdance");
+  stateChoice(slot, "state_1", "state_1_option_1");
+  expectEqual(__T.compute().sk.id, "wolfdance_primal", "Lupa with Burning Matchpoint should select the enhanced Wolfdance");
+  stateChoice(slot, "state_1", "");
+  slot.seq = 6;
+  expectEqual(__T.compute().sk.id, "wolfdance_primal_c6", "Lupa Sequence 6 should allow enhanced Wolfdance without Burning Matchpoint");
+
+  resetTeam(["sigrika"]);
+  slot = __T.state.slots[0];
+  slot.resources.hopeRune = 1;
+  slot.resources.answerRune = 1;
+  slot.skill = "rune_source";
+  expectEqual(__T.compute().sk.id, "rune_source", "Sigrika's added Rune Outburst should not hide the initial Source damage");
+  expectEqual(__T.compute().panel.baseMult, 132.51, "Sigrika's initial Source damage should remain separately settleable");
+
+  resetTeam(["mornye"]);
+  slot = __T.state.slots[0];
+  slot.skill = "air";
+  const baseDamage = __T.compute().normal;
+  slot.echo.fields.basicDmg = 100;
+  assert(__T.compute().normal > baseDamage, "Mornye Mid-air Attack must receive Basic Attack damage bonus");
+  assert(skill(W.chars.rover_spectro, "dodge").damageType === "heavy" && skill(W.chars.yangyang, "dodge").damageType === "heavy", "Spectro Rover and Yangyang counters should use Heavy Attack damage");
+  expectEqual(skill(W.chars.jinhsi, "loong_heavy").damageType, "basic", "Jinhsi Incarnation Heavy Attack should use Basic Attack damage");
+}
+
 const checks = [
   ["index loads every character file", indexLoadsAllCharacterFiles],
   ["index loads every beta file", indexLoadsAllBetaFiles],
@@ -5798,6 +6004,9 @@ const checks = [
   ["v3.6 Qingxiao regressions", v36QingxiaoRegressions],
   ["v3.6 Jingran regressions", v36JingranRegressions],
   ["Denia and Mornye re-audit regressions", deniaAndMornyeReauditRegressions],
+  ["full character data audit fixes", fullCharacterAuditRegressions],
+  ["all character calculations are language independent", characterAuditLanguageInvariance],
+  ["all weapon ranks are language independent", weaponAuditLanguageInvariance],
   ["P1 weapon effect regressions", p1WeaponEffectRegressions],
   ["six-character audit regressions", sixCharacterAuditRegressions],
   ["v3 full audit regressions", v3FullAuditRegressions],
