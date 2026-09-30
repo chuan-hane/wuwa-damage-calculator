@@ -120,6 +120,18 @@ window.WUWA_LANGUAGES.extend("en-US", { data: {
     },
     "dpmatrix:7": {
       "name": "S2 Phase Two"
+    },
+    "toa:40": {
+      "name": "Season 40"
+    },
+    "whiwa:21": {
+      "name": "Season 21"
+    },
+    "whiwa:22": {
+      "name": "Season 22"
+    },
+    "dpmatrix:8": {
+      "name": "S2 Phase 3"
     }
   },
   "targetAreas": {
@@ -346,6 +358,30 @@ window.WUWA_LANGUAGES.extend("en-US", { data: {
       "name": "Singularity Expansion"
     },
     "dpmatrix:7:14": {
+      "name": "Singularity Expansion"
+    },
+    "toa:40:1": {
+      "name": "Resonant Tower"
+    },
+    "toa:40:2": {
+      "name": "Hazard Tower"
+    },
+    "toa:40:3": {
+      "name": "Echoing Tower"
+    },
+    "whiwa:21:2": {
+      "name": "Respawning Waters: Chasm"
+    },
+    "whiwa:21:3": {
+      "name": "Respawning Waters: Torrents"
+    },
+    "whiwa:22:2": {
+      "name": "Respawning Waters: Chasm"
+    },
+    "whiwa:22:3": {
+      "name": "Respawning Waters: Torrents"
+    },
+    "dpmatrix:8:16": {
       "name": "Singularity Expansion"
     }
   },
@@ -588,6 +624,30 @@ window.WUWA_LANGUAGES.extend("en-US", { data: {
       "name": "Seabane"
     },
     "whiwa:20:126": {
+      "name": "Infinite Torrents"
+    },
+    "whiwa:21:129": {
+      "name": "Riptide"
+    },
+    "whiwa:21:130": {
+      "name": "Tempest"
+    },
+    "whiwa:21:131": {
+      "name": "Seabane"
+    },
+    "whiwa:21:132": {
+      "name": "Infinite Torrents"
+    },
+    "whiwa:22:135": {
+      "name": "Riptide"
+    },
+    "whiwa:22:136": {
+      "name": "Tempest"
+    },
+    "whiwa:22:137": {
+      "name": "Seabane"
+    },
+    "whiwa:22:138": {
       "name": "Infinite Torrents"
     }
   },
@@ -1521,6 +1581,63 @@ window.WUWA_LANGUAGES.extend("en-US", { data: {
     },
     "matrix:650000045": {
       "name": "Tempest Mephis"
+    },
+    "matrix:602850001": {
+      "name": "Forbidden Bastion"
+    },
+    "matrix:650000041": {
+      "name": "Crownless"
+    },
+    "matrix:665850005": {
+      "name": "Calamity Effigy"
+    },
+    "monster:310001040": {
+      "name": "Bloomburst Puppet"
+    },
+    "monster:320000700": {
+      "name": "Formrender"
+    },
+    "monster:320000710": {
+      "name": "Soulfrayer"
+    },
+    "monster:340000330": {
+      "name": "Suhsin the Inevitable"
+    },
+    "monster:340000331": {
+      "name": "Suhsin the Inevitable"
+    },
+    "monster:340000332": {
+      "name": "Reminiscence: Suhsin the Inevitable"
+    },
+    "monster:340000113": {
+      "name": "Phantom of Sunken Reverie"
+    },
+    "monster:340000123": {
+      "name": "Vessel of the Fallen Dream"
+    },
+    "monster:340000142": {
+      "name": "Apex Champion of the Citadel"
+    },
+    "monster:340000172": {
+      "name": "Eternal Husk of Sovereign"
+    },
+    "monster:340000212": {
+      "name": "Star Gazer of Silent Void"
+    },
+    "monster:340000213": {
+      "name": "Star Gazer of Silent Void"
+    },
+    "monster:340000221": {
+      "name": "Feral Meltdown"
+    },
+    "monster:340000222": {
+      "name": "Feral Meltdown"
+    },
+    "monster:340000252": {
+      "name": "Stellar Wayfarer"
+    },
+    "monster:340000261": {
+      "name": "Desolate Apparition"
     }
   },
   "targetBuffs": {
@@ -2007,6 +2124,258 @@ window.WUWA_LANGUAGES.extend("en-US", { data: {
     "dpmatrix:7:32:tune-strain": {
       "name": "When a Resonator inflicts Tune Strain - Shifting, their total DMG is increased by 30% for 15s",
       "desc": "When a Resonator inflicts Tunability - Shifting, the total DMG dealt by all Resonators in the team is increased by 25% for 30s. When a Resonator inflicts Tune Strain - Shifting, their total DMG is increased by 30% for 15s."
+    },
+    "toa:40:438:92008110:def-ignore": {
+      "name": "Resonators ignore 25% of the enemy's DEF when dealing damage",
+      "desc": "Resonators ignore 25% of the enemy's DEF when dealing damage. When enemies are affected by Negative Statuses, their DMG taken is Amplified by 20%."
+    },
+    "toa:40:438:92008110:negative-status": {
+      "name": "When enemies are affected by Negative Statuses, their DMG taken is Amplified by 20%",
+      "desc": "Resonators ignore 25% of the enemy's DEF when dealing damage. When enemies are affected by Negative Statuses, their DMG taken is Amplified by 20%."
+    },
+    "toa:40:439:92008195:atk": {
+      "name": "ATK is increased by 30%",
+      "desc": "ATK is increased by 30%. Resonators gain 30% All DMG Bonus for 10s upon casting Intro Skill."
+    },
+    "toa:40:439:92008195:intro-all-dmg": {
+      "name": "Resonators gain 30% All DMG Bonus for 10s upon casting Intro Skill",
+      "desc": "ATK is increased by 30%. Resonators gain 30% All DMG Bonus for 10s upon casting Intro Skill."
+    },
+    "toa:40:440:92008195:atk": {
+      "name": "ATK is increased by 30%",
+      "desc": "ATK is increased by 30%. Resonators gain 30% All DMG Bonus for 10s upon casting Intro Skill."
+    },
+    "toa:40:440:92008195:intro-all-dmg": {
+      "name": "Resonators gain 30% All DMG Bonus for 10s upon casting Intro Skill",
+      "desc": "ATK is increased by 30%. Resonators gain 30% All DMG Bonus for 10s upon casting Intro Skill."
+    },
+    "toa:40:441:92008205:time-ramp": {
+      "name": "60s after the battle starts, after a Resonator's attacks hit an enemy, that enemy takes 5% more total DMG",
+      "desc": "60s after the battle starts, after a Resonator's attacks hit an enemy, that enemy takes 5% more total DMG. This value increases by 5% every 5s, up to a maximum of 60%."
+    },
+    "toa:40:441:92008197:fixed": {
+      "name": "Enemies take 20% more total DMG and 50% more total Electro DMG",
+      "desc": "Enemies take 20% more total DMG and 50% more total Electro DMG. Resonators gain 12% Fusion DMG Bonus for 3s upon gaining Shield, stacking up to 10 times. Retriggering the effect resets its duration."
+    },
+    "toa:40:441:92008197:shield-stacks": {
+      "name": "Resonators gain 12% Fusion DMG Bonus for 3s upon gaining Shield, stacking up to 10 times",
+      "desc": "Enemies take 20% more total DMG and 50% more total Electro DMG. Resonators gain 12% Fusion DMG Bonus for 3s upon gaining Shield, stacking up to 10 times. Retriggering the effect resets its duration."
+    },
+    "toa:40:442:92008205:time-ramp": {
+      "name": "60s after the battle starts, after a Resonator's attacks hit an enemy, that enemy takes 5% more total DMG",
+      "desc": "60s after the battle starts, after a Resonator's attacks hit an enemy, that enemy takes 5% more total DMG. This value increases by 5% every 5s, up to a maximum of 60%."
+    },
+    "toa:40:442:92008197:fixed": {
+      "name": "Enemies take 20% more total DMG and 50% more total Electro DMG",
+      "desc": "Enemies take 20% more total DMG and 50% more total Electro DMG. Resonators gain 12% Fusion DMG Bonus for 3s upon gaining Shield, stacking up to 10 times. Retriggering the effect resets its duration."
+    },
+    "toa:40:442:92008197:shield-stacks": {
+      "name": "Resonators gain 12% Fusion DMG Bonus for 3s upon gaining Shield, stacking up to 10 times",
+      "desc": "Enemies take 20% more total DMG and 50% more total Electro DMG. Resonators gain 12% Fusion DMG Bonus for 3s upon gaining Shield, stacking up to 10 times. Retriggering the effect resets its duration."
+    },
+    "toa:40:446:92008030:intro-atk": {
+      "name": "Casting Intro Skill increases ATK by 20% for 15s",
+      "desc": "Casting Intro Skill increases ATK by 20% for 15s. Casting Resonance Skill grants 30% Resonance Liberation DMG Bonus for 5s. Retriggering these effects resets their durations."
+    },
+    "toa:40:446:92008030:skill-liberation": {
+      "name": "Casting Resonance Skill grants 30% Resonance Liberation DMG Bonus for 5s",
+      "desc": "Casting Intro Skill increases ATK by 20% for 15s. Casting Resonance Skill grants 30% Resonance Liberation DMG Bonus for 5s. Retriggering these effects resets their durations."
+    },
+    "whiwa:21:71500011:token": {
+      "name": "Assistance: Rare Pact",
+      "desc": "Summons an Echo to support you in combat. It does not take damage from the Resonators. This Token has unlimited uses in Whimpering Wastes."
+    },
+    "whiwa:21:71501001:token": {
+      "name": "Inscriber - Lone Light in the Long Night",
+      "desc": "Enemies take 15% more total DMG and 50% more Tune Rupture DMG. This Token can be used up to 2 times in Whimpering Wastes."
+    },
+    "whiwa:21:71501002:token": {
+      "name": "Hopebearer - Lone Light in the Long Night",
+      "desc": "Enemies take 15% more total DMG. Resonators deal 15% more total DMG to enemies in Tune Strain - Interfered or Tune Strain - Shifting. This Token can be used up to 2 times in Whimpering Wastes."
+    },
+    "whiwa:21:71501002:concentrated-harmony": {
+      "name": "Resonators deal 15% more total DMG to enemies in Tune Strain - Interfered or Tune Strain - Shifting",
+      "desc": "Enemies take 15% more total DMG. Resonators deal 15% more total DMG to enemies in Tune Strain - Interfered or Tune Strain - Shifting. This Token can be used up to 2 times in Whimpering Wastes."
+    },
+    "whiwa:21:71501003:token": {
+      "name": "Fabricator - Lone Light in the Long Night",
+      "desc": "Enemies take 15% more total DMG. Echo Skill deals 25% more total DMG. This Token can be used up to 2 times in Whimpering Wastes."
+    },
+    "whiwa:21:71501004:token": {
+      "name": "Solacer - Lone Light in the Long Night",
+      "desc": "Enemies take 15% more total DMG. Inflicting Negative Status on the enemies increases total DMG by 15% for 30s. This Token can be used up to 2 times in Whimpering Wastes."
+    },
+    "whiwa:21:71501004:negative-status": {
+      "name": "Inflicting Negative Status on the enemies increases total DMG by 15% for 30s",
+      "desc": "Enemies take 15% more total DMG. Inflicting Negative Status on the enemies increases total DMG by 15% for 30s. This Token can be used up to 2 times in Whimpering Wastes."
+    },
+    "whiwa:21:71500098:token": {
+      "name": "Reveler Captain's Seal",
+      "desc": "Amplifies all Attribute DMG by 25%. This Token can be used up to 2 times in Whimpering Wastes."
+    },
+    "whiwa:21:71500099:token": {
+      "name": "Lamp That Illuminates the Illusion",
+      "desc": "Gaining Shield grants the Resonator 3% Fusion DMG Bonus and increases their total Heavy Attack DMG by 2.5% for 3s, stacking up to 15 times. Retriggering this effect refreshes the duration. This Token can be used up to 2 times in Whimpering Wastes."
+    },
+    "whiwa:21:71500099:shield-stacks": {
+      "name": "Gaining Shield grants the Resonator 3% Fusion DMG Bonus and increases their total Heavy Attack DMG by 2.5% for 3s, stacking up to 15 times",
+      "desc": "Gaining Shield grants the Resonator 3% Fusion DMG Bonus and increases their total Heavy Attack DMG by 2.5% for 3s, stacking up to 15 times. Retriggering this effect refreshes the duration. This Token can be used up to 2 times in Whimpering Wastes."
+    },
+    "whiwa:21:71500100:token": {
+      "name": "The Eye That Gazes into the Abyss",
+      "desc": "Enemies take 50% more total Glacio Chafe DMG. Inflicting Glacio Chafe on the enemies increases total Glacio DMG by 50% for 5s. This Token can be used up to 2 times in Whimpering Wastes."
+    },
+    "whiwa:21:71500100:glacio-chafe": {
+      "name": "Inflicting Glacio Chafe on the enemies increases total Glacio DMG by 50% for 5s",
+      "desc": "Enemies take 50% more total Glacio Chafe DMG. Inflicting Glacio Chafe on the enemies increases total Glacio DMG by 50% for 5s. This Token can be used up to 2 times in Whimpering Wastes."
+    },
+    "whiwa:21:71500101:token": {
+      "name": "The Scale of Heart and Soul",
+      "desc": "Inflicting Tune Strain - Shifting increases the Resonator's total DMG dealt by 40% for 30s. Dealing Tune Break DMG grants 30% All-Attribute DMG Bonus plus an additional 30% Aero DMG Bonus to all Resonators in the team for 30s. This Token can be used up to 2 times in Whimpering Wastes."
+    },
+    "whiwa:21:71500101:tune-strain": {
+      "name": "Inflicting Tune Strain - Shifting increases the Resonator's total DMG dealt by 40% for 30s",
+      "desc": "Inflicting Tune Strain - Shifting increases the Resonator's total DMG dealt by 40% for 30s. Dealing Tune Break DMG grants 30% All-Attribute DMG Bonus plus an additional 30% Aero DMG Bonus to all Resonators in the team for 30s. This Token can be used up to 2 times in Whimpering Wastes."
+    },
+    "whiwa:21:71500101:tune-break": {
+      "name": "Dealing Tune Break DMG grants 30% All-Attribute DMG Bonus plus an additional 30% Aero DMG Bonus to all Resonators in the team for 30s",
+      "desc": "Inflicting Tune Strain - Shifting increases the Resonator's total DMG dealt by 40% for 30s. Dealing Tune Break DMG grants 30% All-Attribute DMG Bonus plus an additional 30% Aero DMG Bonus to all Resonators in the team for 30s. This Token can be used up to 2 times in Whimpering Wastes."
+    },
+    "whiwa:21:129:tide-state": {
+      "name": "During this state, attacks that hit enemies cause them to take 60% more Total DMG for 5s",
+      "desc": "Dealing damage or defeating enemies restores Ember. The Burning Waves state starts when Ember is full, which lasts for 30s. During this state, attacks that hit enemies cause them to take 60% more Total DMG for 5s. When hit by a Resonator's skill, enemies in the Mistune state take an instance of Tune Break DMG and then exit the Mistune state."
+    },
+    "whiwa:21:130:tide-state": {
+      "name": "During this state, attacks that hit enemies cause them to take 60% more Total DMG for 5s",
+      "desc": "Dealing damage or defeating enemies restores Ember. The Burning Waves state starts when Ember is full, which lasts for 30s. During this state, attacks that hit enemies cause them to take 60% more Total DMG for 5s. When hit by a Resonator's skill, enemies in the Mistune state take an instance of Tune Break DMG and then exit the Mistune state."
+    },
+    "whiwa:21:131:tide-state": {
+      "name": "During this state, attacks that hit enemies cause them to take 60% more Total DMG for 5s",
+      "desc": "Dealing damage or defeating enemies restores Ember. The Burning Waves state starts when Ember is full, which lasts for 30s. During this state, attacks that hit enemies cause them to take 60% more Total DMG for 5s. When hit by a Resonator's skill, enemies in the Mistune state take an instance of Tune Break DMG and then exit the Mistune state."
+    },
+    "whiwa:21:132:tide-state": {
+      "name": "During this state, attacks that hit enemies cause them to take 60% more Total DMG for 5s",
+      "desc": "Total DMG taken by enemies is increased by 30%. Dealing damage or defeating enemies restores Ember. The Burning Waves state starts when Ember is full, which lasts for 30s. During this state, attacks that hit enemies cause them to take 60% more Total DMG for 5s. All Tokens have unlimited uses while inside the Infinite Torrents. When hit by a Resonator's skill, enemies in the Mistune state take an instance of Tune Break DMG and then exit the Mistune state."
+    },
+    "whiwa:21:132:endless-final": {
+      "name": "Total DMG taken by enemies is increased by 30%",
+      "desc": "Total DMG taken by enemies is increased by 30%. Dealing damage or defeating enemies restores Ember. The Burning Waves state starts when Ember is full, which lasts for 30s. During this state, attacks that hit enemies cause them to take 60% more Total DMG for 5s. All Tokens have unlimited uses while inside the Infinite Torrents. When hit by a Resonator's skill, enemies in the Mistune state take an instance of Tune Break DMG and then exit the Mistune state."
+    },
+    "whiwa:22:71500011:token": {
+      "name": "Assistance: Rare Pact",
+      "desc": "Summons an Echo to support you in combat. It does not take damage from the Resonators. This Token has unlimited uses in Whimpering Wastes."
+    },
+    "whiwa:22:71501001:token": {
+      "name": "Inscriber - Lone Light in the Long Night",
+      "desc": "Enemies take 15% more total DMG and 50% more Tune Rupture DMG. This Token can be used up to 2 times in Whimpering Wastes."
+    },
+    "whiwa:22:71501002:token": {
+      "name": "Hopebearer - Lone Light in the Long Night",
+      "desc": "Enemies take 15% more total DMG. Resonators deal 15% more total DMG to enemies in Tune Strain - Interfered or Tune Strain - Shifting. This Token can be used up to 2 times in Whimpering Wastes."
+    },
+    "whiwa:22:71501002:concentrated-harmony": {
+      "name": "Resonators deal 15% more total DMG to enemies in Tune Strain - Interfered or Tune Strain - Shifting",
+      "desc": "Enemies take 15% more total DMG. Resonators deal 15% more total DMG to enemies in Tune Strain - Interfered or Tune Strain - Shifting. This Token can be used up to 2 times in Whimpering Wastes."
+    },
+    "whiwa:22:71501003:token": {
+      "name": "Fabricator - Lone Light in the Long Night",
+      "desc": "Enemies take 15% more total DMG. Echo Skill deals 25% more total DMG. This Token can be used up to 2 times in Whimpering Wastes."
+    },
+    "whiwa:22:71501004:token": {
+      "name": "Solacer - Lone Light in the Long Night",
+      "desc": "Enemies take 15% more total DMG. Inflicting Negative Status on the enemies increases total DMG by 15% for 30s. This Token can be used up to 2 times in Whimpering Wastes."
+    },
+    "whiwa:22:71501004:negative-status": {
+      "name": "Inflicting Negative Status on the enemies increases total DMG by 15% for 30s",
+      "desc": "Enemies take 15% more total DMG. Inflicting Negative Status on the enemies increases total DMG by 15% for 30s. This Token can be used up to 2 times in Whimpering Wastes."
+    },
+    "whiwa:22:71500102:token": {
+      "name": "Reveler Captain's Seal",
+      "desc": "Amplifies all Attribute DMG by 25%. This Token can be used up to 2 times in Whimpering Wastes."
+    },
+    "whiwa:22:71500103:token": {
+      "name": "Lamp That Illuminates the Illusion",
+      "desc": "Gaining Shield grants the Resonator 3% Fusion DMG Bonus and increases their total Heavy Attack DMG by 2.5% for 3s, stacking up to 15 times. Retriggering this effect refreshes the duration. This Token can be used up to 2 times in Whimpering Wastes."
+    },
+    "whiwa:22:71500103:shield-stacks": {
+      "name": "Gaining Shield grants the Resonator 3% Fusion DMG Bonus and increases their total Heavy Attack DMG by 2.5% for 3s, stacking up to 15 times",
+      "desc": "Gaining Shield grants the Resonator 3% Fusion DMG Bonus and increases their total Heavy Attack DMG by 2.5% for 3s, stacking up to 15 times. Retriggering this effect refreshes the duration. This Token can be used up to 2 times in Whimpering Wastes."
+    },
+    "whiwa:22:71500104:token": {
+      "name": "The Wish with Husk Alone",
+      "desc": "Enemies take 30% more total Electro DMG. Resonators deal 30% more total Electro DMG for 15s upon casting Intro Skill. This Token can be used up to 2 times in Whimpering Wastes."
+    },
+    "whiwa:22:71500104:intro-electro": {
+      "name": "Resonators deal 30% more total Electro DMG for 15s upon casting Intro Skill",
+      "desc": "Enemies take 30% more total Electro DMG. Resonators deal 30% more total Electro DMG for 15s upon casting Intro Skill. This Token can be used up to 2 times in Whimpering Wastes."
+    },
+    "whiwa:22:71500105:token": {
+      "name": "The Scale of Heart and Soul",
+      "desc": "Inflicting Tune Strain - Shifting increases the Resonator's total DMG dealt by 40% for 30s. Dealing Tune Break DMG grants 30% All-Attribute DMG Bonus plus an additional 30% Aero DMG Bonus to all Resonators in the team for 30s. This Token can be used up to 2 times in Whimpering Wastes."
+    },
+    "whiwa:22:71500105:tune-strain": {
+      "name": "Inflicting Tune Strain - Shifting increases the Resonator's total DMG dealt by 40% for 30s",
+      "desc": "Inflicting Tune Strain - Shifting increases the Resonator's total DMG dealt by 40% for 30s. Dealing Tune Break DMG grants 30% All-Attribute DMG Bonus plus an additional 30% Aero DMG Bonus to all Resonators in the team for 30s. This Token can be used up to 2 times in Whimpering Wastes."
+    },
+    "whiwa:22:71500105:tune-break": {
+      "name": "Dealing Tune Break DMG grants 30% All-Attribute DMG Bonus plus an additional 30% Aero DMG Bonus to all Resonators in the team for 30s",
+      "desc": "Inflicting Tune Strain - Shifting increases the Resonator's total DMG dealt by 40% for 30s. Dealing Tune Break DMG grants 30% All-Attribute DMG Bonus plus an additional 30% Aero DMG Bonus to all Resonators in the team for 30s. This Token can be used up to 2 times in Whimpering Wastes."
+    },
+    "whiwa:22:135:tide-state": {
+      "name": "During this state, attacks that hit enemies cause them to take 60% more Total DMG for 5s",
+      "desc": "Dealing damage or defeating enemies restores Ember. The Burning Waves state starts when Ember is full, which lasts for 30s. During this state, attacks that hit enemies cause them to take 60% more Total DMG for 5s. When hit by a Resonator's skill, enemies in the Mistune state take an instance of Tune Break DMG and then exit the Mistune state."
+    },
+    "whiwa:22:136:tide-state": {
+      "name": "During this state, attacks that hit enemies cause them to take 60% more Total DMG for 5s",
+      "desc": "Dealing damage or defeating enemies restores Ember. The Burning Waves state starts when Ember is full, which lasts for 30s. During this state, attacks that hit enemies cause them to take 60% more Total DMG for 5s. When hit by a Resonator's skill, enemies in the Mistune state take an instance of Tune Break DMG and then exit the Mistune state."
+    },
+    "whiwa:22:137:tide-state": {
+      "name": "During this state, attacks that hit enemies cause them to take 60% more Total DMG for 5s",
+      "desc": "Dealing damage or defeating enemies restores Ember. The Burning Waves state starts when Ember is full, which lasts for 30s. During this state, attacks that hit enemies cause them to take 60% more Total DMG for 5s. When hit by a Resonator's skill, enemies in the Mistune state take an instance of Tune Break DMG and then exit the Mistune state."
+    },
+    "whiwa:22:138:tide-state": {
+      "name": "During this state, attacks that hit enemies cause them to take 60% more Total DMG for 5s",
+      "desc": "Total DMG taken by enemies is increased by 30%. Dealing damage or defeating enemies restores Ember. The Burning Waves state starts when Ember is full, which lasts for 30s. During this state, attacks that hit enemies cause them to take 60% more Total DMG for 5s. All Tokens have unlimited uses while inside the Infinite Torrents. When hit by a Resonator's skill, enemies in the Mistune state take an instance of Tune Break DMG and then exit the Mistune state."
+    },
+    "whiwa:22:138:endless-final": {
+      "name": "Total DMG taken by enemies is increased by 30%",
+      "desc": "Total DMG taken by enemies is increased by 30%. Dealing damage or defeating enemies restores Ember. The Burning Waves state starts when Ember is full, which lasts for 30s. During this state, attacks that hit enemies cause them to take 60% more Total DMG for 5s. All Tokens have unlimited uses while inside the Infinite Torrents. When hit by a Resonator's skill, enemies in the Mistune state take an instance of Tune Break DMG and then exit the Mistune state."
+    },
+    "dpmatrix:8:37:enhancement": {
+      "name": "General Enhancement",
+      "desc": "Enemies take 20% more total DMG. Enemies take 20% more total Basic Attack DMG."
+    },
+    "dpmatrix:8:34:enhancement": {
+      "name": "Enhancement: Negative Status",
+      "desc": "When inflicted with Negative Statuses, the target takes 25% more total DMG and an additional 30% more total Electro DMG for 30s."
+    },
+    "dpmatrix:8:34:negative-status": {
+      "name": "When inflicted with Negative Statuses, the target takes 25% more total DMG and an additional 30% more total Electro DMG for 30s",
+      "desc": "When inflicted with Negative Statuses, the target takes 25% more total DMG and an additional 30% more total Electro DMG for 30s."
+    },
+    "dpmatrix:8:35:enhancement": {
+      "name": "Basic DMG Enhancement",
+      "desc": "Total Echo Skill DMG is increased by 40%. When a Resonator triggers Unison Response, they deal 55% more total DMG for 30s. Resonators deal 11% more total DMG upon gaining a Shield for 2s, stacking up to 5 times. The stacks are cleared when the Resonator is switched out."
+    },
+    "dpmatrix:8:35:unison-response": {
+      "name": "When a Resonator triggers Unison Response, they deal 55% more total DMG for 30s",
+      "desc": "Total Echo Skill DMG is increased by 40%. When a Resonator triggers Unison Response, they deal 55% more total DMG for 30s. Resonators deal 11% more total DMG upon gaining a Shield for 2s, stacking up to 5 times. The stacks are cleared when the Resonator is switched out."
+    },
+    "dpmatrix:8:35:shield-stacks": {
+      "name": "Resonators deal 11% more total DMG upon gaining a Shield for 2s, stacking up to 5 times",
+      "desc": "Total Echo Skill DMG is increased by 40%. When a Resonator triggers Unison Response, they deal 55% more total DMG for 30s. Resonators deal 11% more total DMG upon gaining a Shield for 2s, stacking up to 5 times. The stacks are cleared when the Resonator is switched out."
+    },
+    "dpmatrix:8:36:enhancement": {
+      "name": "Enhancement: Tune Break",
+      "desc": "Inflicting Tunability - Shifting increases the total DMG dealt by all Resonators in the team by 25% for 30s. Inflicting Hack - Shifting increases the total DMG dealt by the Resonator by 30% for 30s."
+    },
+    "dpmatrix:8:36:tune-shifting": {
+      "name": "Inflicting Tunability - Shifting increases the total DMG dealt by all Resonators in the team by 25% for 30s",
+      "desc": "Inflicting Tunability - Shifting increases the total DMG dealt by all Resonators in the team by 25% for 30s. Inflicting Hack - Shifting increases the total DMG dealt by the Resonator by 30% for 30s."
+    },
+    "dpmatrix:8:36:hack-shifting": {
+      "name": "Inflicting Hack - Shifting increases the total DMG dealt by the Resonator by 30% for 30s",
+      "desc": "Inflicting Tunability - Shifting increases the total DMG dealt by all Resonators in the team by 25% for 30s. Inflicting Hack - Shifting increases the total DMG dealt by the Resonator by 30% for 30s."
     }
   }
 } });

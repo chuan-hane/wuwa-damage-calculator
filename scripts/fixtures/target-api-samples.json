@@ -505,5 +505,715 @@
         ]
       }
     ]
+  },
+  "toaV37": {
+    "record438": {
+      "id": 438,
+      "season": 40,
+      "areaNum": 1,
+      "floor": 4,
+      "buffs": [
+        {
+          "id": 92007113,
+          "name": "",
+          "desc": "敌方 气动抗性 降低10%"
+        },
+        {
+          "id": 92008110,
+          "name": "",
+          "desc": "角色造成伤害时，无视目标25%防御。敌方拥有异常效应时，受到伤害加深20%。"
+        }
+      ],
+      "monsters": [
+        {
+          "id": 320000220,
+          "name": "巡游骑士",
+          "elements": [
+            {
+              "id": 3
+            }
+          ],
+          "whiteGreenProps": [
+            {
+              "key": "Lv",
+              "value": 90,
+              "isPercent": false
+            },
+            {
+              "key": "DamageResistanceElement1",
+              "value": 20,
+              "isPercent": true
+            },
+            {
+              "key": "DamageResistanceElement2",
+              "value": 20,
+              "isPercent": true
+            },
+            {
+              "key": "DamageResistanceElement3",
+              "value": 60,
+              "isPercent": true
+            },
+            {
+              "key": "DamageResistanceElement4",
+              "value": 20,
+              "isPercent": true
+            },
+            {
+              "key": "DamageResistanceElement5",
+              "value": 20,
+              "isPercent": true
+            },
+            {
+              "key": "DamageResistanceElement6",
+              "value": 20,
+              "isPercent": true
+            }
+          ]
+        },
+        {
+          "id": 340000060,
+          "name": "聚械机偶",
+          "elements": [
+            {
+              "id": 3
+            }
+          ],
+          "whiteGreenProps": [
+            {
+              "key": "Lv",
+              "value": 90,
+              "isPercent": false
+            },
+            {
+              "key": "DamageResistanceElement1",
+              "value": 20,
+              "isPercent": true
+            },
+            {
+              "key": "DamageResistanceElement2",
+              "value": 20,
+              "isPercent": true
+            },
+            {
+              "key": "DamageResistanceElement3",
+              "value": 60,
+              "isPercent": true
+            },
+            {
+              "key": "DamageResistanceElement4",
+              "value": 20,
+              "isPercent": true
+            },
+            {
+              "key": "DamageResistanceElement5",
+              "value": 20,
+              "isPercent": true
+            },
+            {
+              "key": "DamageResistanceElement6",
+              "value": 20,
+              "isPercent": true
+            }
+          ]
+        }
+      ]
+    },
+    "record441": {
+      "id": 441,
+      "season": 40,
+      "areaNum": 2,
+      "floor": 3,
+      "buffs": [
+        {
+          "id": 92008205,
+          "name": "",
+          "desc": "战斗开始60秒后，角色攻击命中敌人时会使敌人受到伤害最终提升5%，每经过5秒该效果值提升5%，最高提升至60%。"
+        },
+        {
+          "id": 92008196,
+          "name": "",
+          "desc": "敌方全属性抗性提升15%。敌方受到的导电伤害或热熔伤害不受该效果影响。"
+        },
+        {
+          "id": 92008197,
+          "name": "",
+          "desc": "敌方受到伤害最终提升20%。敌方受到导电伤害最终提升50%。角色获得护盾时，角色热熔伤害加成提升12%，持续3秒，可叠加10层。重复获取时刷新持续时间。"
+        }
+      ],
+      "monsters": [
+        {
+          "id": 320000330,
+          "name": "荣光节使",
+          "elements": [
+            {
+              "id": 5
+            }
+          ],
+          "whiteGreenProps": [
+            {
+              "key": "Lv",
+              "value": 100,
+              "isPercent": false
+            },
+            {
+              "key": "DamageResistanceElement1",
+              "value": 20,
+              "isPercent": true
+            },
+            {
+              "key": "DamageResistanceElement2",
+              "value": 20,
+              "isPercent": true
+            },
+            {
+              "key": "DamageResistanceElement3",
+              "value": 20,
+              "isPercent": true
+            },
+            {
+              "key": "DamageResistanceElement4",
+              "value": 20,
+              "isPercent": true
+            },
+            {
+              "key": "DamageResistanceElement5",
+              "value": 60,
+              "isPercent": true
+            },
+            {
+              "key": "DamageResistanceElement6",
+              "value": 20,
+              "isPercent": true
+            }
+          ]
+        },
+        {
+          "id": 310000180,
+          "name": "游弋蝶",
+          "elements": [
+            {
+              "id": 5
+            }
+          ],
+          "whiteGreenProps": [
+            {
+              "key": "Lv",
+              "value": 100,
+              "isPercent": false
+            },
+            {
+              "key": "DamageResistanceElement1",
+              "value": 20,
+              "isPercent": true
+            },
+            {
+              "key": "DamageResistanceElement2",
+              "value": 20,
+              "isPercent": true
+            },
+            {
+              "key": "DamageResistanceElement3",
+              "value": 20,
+              "isPercent": true
+            },
+            {
+              "key": "DamageResistanceElement4",
+              "value": 20,
+              "isPercent": true
+            },
+            {
+              "key": "DamageResistanceElement5",
+              "value": 60,
+              "isPercent": true
+            },
+            {
+              "key": "DamageResistanceElement6",
+              "value": 20,
+              "isPercent": true
+            }
+          ]
+        },
+        {
+          "id": 320000660,
+          "name": "迷胧幻蛾",
+          "elements": [
+            {
+              "id": 5
+            }
+          ],
+          "whiteGreenProps": [
+            {
+              "key": "Lv",
+              "value": 100,
+              "isPercent": false
+            },
+            {
+              "key": "DamageResistanceElement1",
+              "value": 20,
+              "isPercent": true
+            },
+            {
+              "key": "DamageResistanceElement2",
+              "value": 20,
+              "isPercent": true
+            },
+            {
+              "key": "DamageResistanceElement3",
+              "value": 20,
+              "isPercent": true
+            },
+            {
+              "key": "DamageResistanceElement4",
+              "value": 20,
+              "isPercent": true
+            },
+            {
+              "key": "DamageResistanceElement5",
+              "value": 60,
+              "isPercent": true
+            },
+            {
+              "key": "DamageResistanceElement6",
+              "value": 20,
+              "isPercent": true
+            }
+          ]
+        },
+        {
+          "id": 320000210,
+          "name": "踏光兽",
+          "elements": [
+            {
+              "id": 5
+            }
+          ],
+          "whiteGreenProps": [
+            {
+              "key": "Lv",
+              "value": 100,
+              "isPercent": false
+            },
+            {
+              "key": "DamageResistanceElement1",
+              "value": 20,
+              "isPercent": true
+            },
+            {
+              "key": "DamageResistanceElement2",
+              "value": 20,
+              "isPercent": true
+            },
+            {
+              "key": "DamageResistanceElement3",
+              "value": 20,
+              "isPercent": true
+            },
+            {
+              "key": "DamageResistanceElement4",
+              "value": 20,
+              "isPercent": true
+            },
+            {
+              "key": "DamageResistanceElement5",
+              "value": 60,
+              "isPercent": true
+            },
+            {
+              "key": "DamageResistanceElement6",
+              "value": 20,
+              "isPercent": true
+            }
+          ]
+        },
+        {
+          "id": 330000070,
+          "name": "无归的谬误",
+          "elements": [
+            {
+              "id": 5
+            }
+          ],
+          "whiteGreenProps": [
+            {
+              "key": "Lv",
+              "value": 100,
+              "isPercent": false
+            },
+            {
+              "key": "DamageResistanceElement1",
+              "value": 20,
+              "isPercent": true
+            },
+            {
+              "key": "DamageResistanceElement2",
+              "value": 20,
+              "isPercent": true
+            },
+            {
+              "key": "DamageResistanceElement3",
+              "value": 20,
+              "isPercent": true
+            },
+            {
+              "key": "DamageResistanceElement4",
+              "value": 20,
+              "isPercent": true
+            },
+            {
+              "key": "DamageResistanceElement5",
+              "value": 60,
+              "isPercent": true
+            },
+            {
+              "key": "DamageResistanceElement6",
+              "value": 20,
+              "isPercent": true
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "whiwaV37": {
+    "season": 22,
+    "buffItems": [
+      {
+        "itemId": 71500102,
+        "item": {
+          "qualityId": 4
+        }
+      },
+      {
+        "itemId": 71500103,
+        "item": {
+          "qualityId": 5
+        }
+      },
+      {
+        "itemId": 71500104,
+        "item": {
+          "qualityId": 5
+        }
+      },
+      {
+        "itemId": 71500105,
+        "item": {
+          "qualityId": 5
+        }
+      }
+    ],
+    "stageGroups": [
+      {
+        "id": 2,
+        "levels": [
+          {
+            "id": 135,
+            "orderIndex": 9,
+            "title": "急潮",
+            "desc": "造成伤害或击杀目标后回复焚烬值。 焚烬值满时，进入焚潮状态，攻击命中敌人后，敌人5秒内受到伤害最终提升60%，焚潮状态持续30秒。 处于 失谐 状态敌人被角色技能命中时，将受到 谐度破坏伤害 ，随后退出 失谐 状态。",
+            "stages": [
+              {
+                "instId": 40268,
+                "buffs": [
+                  {
+                    "id": 680003214,
+                    "name": "热熔抗性",
+                    "desc": "热熔抗性增加20%"
+                  }
+                ],
+                "monsters": [
+                  {
+                    "id": 310000080,
+                    "name": "咔嚓嚓",
+                    "element": {
+                      "id": 2
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "monsterV37": {
+    "Id": 310000080,
+    "Properties": {
+      "DamageResistanceElement1": {
+        "Value": 1000
+      },
+      "DamageResistanceElement2": {
+        "Value": 4000
+      },
+      "DamageResistanceElement3": {
+        "Value": 1000
+      },
+      "DamageResistanceElement4": {
+        "Value": 1000
+      },
+      "DamageResistanceElement5": {
+        "Value": 1000
+      },
+      "DamageResistanceElement6": {
+        "Value": 1000
+      }
+    }
+  },
+  "dpmatrixV37": {
+    "Season": 8,
+    "Levels": [
+      {
+        "Id": 15,
+        "Name": "稳态协议",
+        "MaxLoopCount": 0,
+        "NewTowerBuffCount": 1,
+        "NewTowerBuffs": [
+          {
+            "Id": 37,
+            "Name": "通用强化",
+            "Desc": "敌人受到伤害最终提升20%，敌人受到普攻伤害最终提升20%。"
+          },
+          {
+            "Id": 34,
+            "Name": "异常效应强化",
+            "Desc": "角色附加异常效应时，使目标受到最终伤害提升25%，受到导电最终伤害额外提升30%，持续30秒。"
+          },
+          {
+            "Id": 35,
+            "Name": "基础伤害强化",
+            "Desc": "声骸技能伤害最终提升40%； 角色响应同奏时，造成伤害最终提升55%，持续30秒； 角色获得护盾时造成的最终伤害提升11%，最大可叠加5层，持续2秒，角色下场时清空；"
+          },
+          {
+            "Id": 36,
+            "Name": "谐度破坏强化",
+            "Desc": "角色附加谐度·偏移状态时，全队伤害最终提升25%，持续30秒。 角色附加骇破·偏移状态时，造成伤害最终提升30%，持续30秒。"
+          }
+        ],
+        "Waves": [
+          {
+            "Id": 151,
+            "Round": 1,
+            "Wave": 1,
+            "MonsterId": 650000050,
+            "MonsterLevel": 90,
+            "ElementId": 2,
+            "Name": "燎照之骑",
+            "IsShowInView": true
+          },
+          {
+            "Id": 152,
+            "Round": 1,
+            "Wave": 2,
+            "MonsterId": 602850001,
+            "MonsterLevel": 90,
+            "ElementId": 1,
+            "Name": "封庭械囿",
+            "IsShowInView": true
+          },
+          {
+            "Id": 153,
+            "Round": 1,
+            "Wave": 3,
+            "MonsterId": 650000041,
+            "MonsterLevel": 90,
+            "ElementId": 6,
+            "Name": "无冠者",
+            "IsShowInView": true
+          },
+          {
+            "Id": 154,
+            "Round": 1,
+            "Wave": 4,
+            "MonsterId": 665850005,
+            "MonsterLevel": 90,
+            "ElementId": 4,
+            "Name": "天傀劫煞",
+            "IsShowInView": true
+          }
+        ]
+      },
+      {
+        "Id": 16,
+        "Name": "奇点扩张",
+        "MaxLoopCount": 99,
+        "NewTowerBuffCount": 1,
+        "NewTowerBuffs": [
+          {
+            "Id": 37,
+            "Name": "通用强化",
+            "Desc": "敌人受到伤害最终提升20%，敌人受到普攻伤害最终提升20%。"
+          },
+          {
+            "Id": 34,
+            "Name": "异常效应强化",
+            "Desc": "角色附加异常效应时，使目标受到最终伤害提升25%，受到导电最终伤害额外提升30%，持续30秒。"
+          },
+          {
+            "Id": 35,
+            "Name": "基础伤害强化",
+            "Desc": "声骸技能伤害最终提升40%； 角色响应同奏时，造成伤害最终提升55%，持续30秒； 角色获得护盾时造成的最终伤害提升11%，最大可叠加5层，持续2秒，角色下场时清空；"
+          },
+          {
+            "Id": 36,
+            "Name": "谐度破坏强化",
+            "Desc": "角色附加谐度·偏移状态时，全队伤害最终提升25%，持续30秒。 角色附加骇破·偏移状态时，造成伤害最终提升30%，持续30秒。"
+          }
+        ],
+        "Waves": [
+          {
+            "Id": 155,
+            "Round": 1,
+            "Wave": 1,
+            "MonsterId": 650000050,
+            "MonsterLevel": 100,
+            "ElementId": 2,
+            "Name": "燎照之骑",
+            "IsShowInView": true
+          },
+          {
+            "Id": 156,
+            "Round": 1,
+            "Wave": 2,
+            "MonsterId": 602850001,
+            "MonsterLevel": 100,
+            "ElementId": 1,
+            "Name": "封庭械囿",
+            "IsShowInView": true
+          },
+          {
+            "Id": 157,
+            "Round": 1,
+            "Wave": 3,
+            "MonsterId": 650000041,
+            "MonsterLevel": 100,
+            "ElementId": 6,
+            "Name": "无冠者",
+            "IsShowInView": true
+          },
+          {
+            "Id": 158,
+            "Round": 1,
+            "Wave": 4,
+            "MonsterId": 665850005,
+            "MonsterLevel": 100,
+            "ElementId": 4,
+            "Name": "天傀劫煞",
+            "IsShowInView": true
+          },
+          {
+            "Id": 159,
+            "Round": 1,
+            "Wave": 5,
+            "MonsterId": 401800000,
+            "MonsterLevel": 100,
+            "ElementId": 5,
+            "Name": "矩阵奇藏",
+            "IsShowInView": true
+          },
+          {
+            "Id": 160,
+            "Round": 2,
+            "Wave": 6,
+            "MonsterId": 650000050,
+            "MonsterLevel": 110,
+            "ElementId": 2,
+            "Name": "燎照之骑",
+            "IsShowInView": true
+          },
+          {
+            "Id": 161,
+            "Round": 2,
+            "Wave": 7,
+            "MonsterId": 602850001,
+            "MonsterLevel": 110,
+            "ElementId": 1,
+            "Name": "封庭械囿",
+            "IsShowInView": true
+          },
+          {
+            "Id": 162,
+            "Round": 2,
+            "Wave": 8,
+            "MonsterId": 650000041,
+            "MonsterLevel": 110,
+            "ElementId": 6,
+            "Name": "无冠者",
+            "IsShowInView": true
+          },
+          {
+            "Id": 163,
+            "Round": 2,
+            "Wave": 9,
+            "MonsterId": 665850005,
+            "MonsterLevel": 110,
+            "ElementId": 4,
+            "Name": "天傀劫煞",
+            "IsShowInView": true
+          },
+          {
+            "Id": 164,
+            "Round": 2,
+            "Wave": 10,
+            "MonsterId": 401800000,
+            "MonsterLevel": 110,
+            "ElementId": 5,
+            "Name": "矩阵奇藏",
+            "IsShowInView": true
+          },
+          {
+            "Id": 165,
+            "Round": 3,
+            "Wave": 11,
+            "MonsterId": 650000050,
+            "MonsterLevel": 120,
+            "ElementId": 2,
+            "Name": "燎照之骑",
+            "IsShowInView": true
+          },
+          {
+            "Id": 166,
+            "Round": 3,
+            "Wave": 12,
+            "MonsterId": 602850001,
+            "MonsterLevel": 120,
+            "ElementId": 1,
+            "Name": "封庭械囿",
+            "IsShowInView": true
+          },
+          {
+            "Id": 167,
+            "Round": 3,
+            "Wave": 13,
+            "MonsterId": 650000041,
+            "MonsterLevel": 120,
+            "ElementId": 6,
+            "Name": "无冠者",
+            "IsShowInView": true
+          },
+          {
+            "Id": 168,
+            "Round": 3,
+            "Wave": 14,
+            "MonsterId": 665850005,
+            "MonsterLevel": 120,
+            "ElementId": 4,
+            "Name": "天傀劫煞",
+            "IsShowInView": true
+          },
+          {
+            "Id": 169,
+            "Round": 3,
+            "Wave": 15,
+            "MonsterId": 401800000,
+            "MonsterLevel": 120,
+            "ElementId": 5,
+            "Name": "矩阵奇藏",
+            "IsShowInView": true
+          }
+        ]
+      }
+    ]
   }
 }

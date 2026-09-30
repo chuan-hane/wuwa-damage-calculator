@@ -40,11 +40,13 @@ const WHIWA_PERSISTENT_PURPLE_TOKEN_IDS = [71500011, 71501001, 71501002, 7150100
 const WHIWA_REWARD_TOKEN_IDS_BY_SEASON = {
   19: [71500090, 71500091, 71500092, 71500093],
   20: [71500094, 71500095, 71500096, 71500097],
+  21: [71500098, 71500099, 71500100, 71500101],
+  22: [71500102, 71500103, 71500104, 71500105],
 };
 const REVIEWED_SEASONS = {
-  toa: new Set([37, 38, 39]),
-  whiwa: new Set([19, 20]),
-  dpmatrix: new Set([6, 7]),
+  toa: new Set([37, 38, 39, 40]),
+  whiwa: new Set([19, 20, 21, 22]),
+  dpmatrix: new Set([6, 7, 8]),
 };
 const TOA_COMPOSED_SEASONS = new Set([39]);
 const MODE_RULES = {
@@ -78,10 +80,14 @@ const CONDITIONAL_RESISTANCE_SCHEMAS = {
   92008198: { value: 15, suffix: "resistance-removed" },
 };
 
+const UNCONDITIONAL_RESISTANCE_SCHEMAS = {
+  92008196: { value: 15, elements: ["glacio", "aero", "spectro", "havoc"] },
+};
+
 const TOA_GAMEPLAY_SCHEMAS = {
   92008030: [
     { suffix: "intro-atk", control: "toggle", clause: 0, effects: [{ zone: "attackPercent", value: 20, modes: ["skill"] }] },
-    { suffix: "skill-liberation", control: "toggle", clause: -1, effects: [{ zone: "typeBonus", value: 30, damageTypes: ["resonanceLiberation"], modes: ["skill"] }] },
+    { suffix: "skill-liberation", control: "toggle", clause: 1, effects: [{ zone: "typeBonus", value: 30, damageTypes: ["resonanceLiberation"], modes: ["skill"] }] },
   ],
   92008110: [
     { suffix: "def-ignore", control: "fixed", clause: 0, effects: [{ zone: "defIgnore", value: 25, modes: ["skill", "effect"] }] },
@@ -140,6 +146,17 @@ const TOA_GAMEPLAY_SCHEMAS = {
   92008205: [
     { suffix: "time-ramp", control: "range", clause: 0, min: 0, max: 60, step: 5, defaultValue: 0, effects: [{ zone: "finalDmg", controlValue: true, modes: ["skill"] }] },
   ],
+  92008195: [
+    { suffix: "atk", control: "fixed", clause: 0, effects: [{ zone: "attackPercent", value: 30, modes: ["skill"] }] },
+    { suffix: "intro-all-dmg", control: "toggle", clause: -1, effects: [{ zone: "damageBonus", value: 30, modes: ["skill"] }] },
+  ],
+  92008197: [
+    { suffix: "fixed", control: "fixed", clause: 0, effects: [
+      { zone: "finalDmg", value: 20, modes: ["skill"] },
+      { zone: "finalDmg", value: 50, element: "electro", modes: ["skill"] },
+    ] },
+    { suffix: "shield-stacks", control: "range", clause: -2, min: 0, max: 10, step: 1, defaultValue: 0, effects: [{ zone: "damageBonus", value: 12, controlMultiplier: true, element: "fusion", modes: ["skill"] }] },
+  ],
   92008036: [
     { suffix: "intro-basic", control: "toggle", clause: 0, effects: [
       { zone: "critDamage", value: 20, modes: ["skill"] },
@@ -193,6 +210,40 @@ const WHIWA_TOKEN_SCHEMAS = {
       { zone: "damageBonus", value: 30, element: "aero", modes: ["skill"] },
     ] },
   ] },
+  71500098: { qualityId: 4, effects: [{ zone: "amplify", value: 25, modes: ["skill"] }] },
+  71500099: { qualityId: 5, effects: [], children: [
+    { suffix: "shield-stacks", control: "range", clause: 0, min: 0, max: 15, step: 1, defaultValue: 0, effects: [
+      { zone: "damageBonus", value: 3, controlMultiplier: true, element: "fusion", modes: ["skill"] },
+      { zone: "finalDmg", value: 2.5, controlMultiplier: true, damageTypes: ["heavy"], modes: ["skill"] },
+    ] },
+  ] },
+  71500100: { qualityId: 5, effects: [{ zone: "finalDmg", value: 50, effect: "frost", modes: ["effect"] }], children: [
+    { suffix: "glacio-chafe", control: "toggle", clause: 1, effects: [{ zone: "finalDmg", value: 50, element: "glacio", modes: ["skill"] }] },
+  ] },
+  71500101: { qualityId: 5, effects: [], children: [
+    { suffix: "tune-strain", control: "toggle", clause: 0, effects: [{ zone: "finalDmg", value: 40, modes: ["skill"] }] },
+    { suffix: "tune-break", control: "toggle", clause: 1, effects: [
+      { zone: "damageBonus", value: 30, modes: ["skill"] },
+      { zone: "damageBonus", value: 30, element: "aero", modes: ["skill"] },
+    ] },
+  ] },
+  71500102: { qualityId: 4, effects: [{ zone: "amplify", value: 25, modes: ["skill"] }] },
+  71500103: { qualityId: 5, effects: [], children: [
+    { suffix: "shield-stacks", control: "range", clause: 0, min: 0, max: 15, step: 1, defaultValue: 0, effects: [
+      { zone: "damageBonus", value: 3, controlMultiplier: true, element: "fusion", modes: ["skill"] },
+      { zone: "finalDmg", value: 2.5, controlMultiplier: true, damageTypes: ["heavy"], modes: ["skill"] },
+    ] },
+  ] },
+  71500104: { qualityId: 5, effects: [{ zone: "finalDmg", value: 30, element: "electro", modes: ["skill"] }], children: [
+    { suffix: "intro-electro", control: "toggle", clause: 1, effects: [{ zone: "finalDmg", value: 30, element: "electro", modes: ["skill"] }] },
+  ] },
+  71500105: { qualityId: 5, effects: [], children: [
+    { suffix: "tune-strain", control: "toggle", clause: 0, effects: [{ zone: "finalDmg", value: 40, modes: ["skill"] }] },
+    { suffix: "tune-break", control: "toggle", clause: 1, effects: [
+      { zone: "damageBonus", value: 30, modes: ["skill"] },
+      { zone: "damageBonus", value: 30, element: "aero", modes: ["skill"] },
+    ] },
+  ] },
 };
 
 const MATRIX_BUFF_SCHEMAS_BY_SEASON = {
@@ -230,6 +281,26 @@ const MATRIX_BUFF_SCHEMAS_BY_SEASON = {
     33: { effects: [
       { zone: "finalDmg", value: 20, modes: ["skill"] },
       { zone: "finalDmg", value: 20, damageTypes: ["heavy"], modes: ["skill"] },
+    ] },
+  },
+  8: {
+    34: { effects: [], children: [
+      { suffix: "negative-status", control: "toggle", clause: 0, effects: [
+        { zone: "finalDmg", value: 25, modes: ["skill"] },
+        { zone: "finalDmg", value: 30, element: "electro", modes: ["skill"] },
+      ] },
+    ] },
+    35: { effects: [{ zone: "finalDmg", value: 40, damageTypes: ["echoSkill"], modes: ["skill"] }], children: [
+      { suffix: "unison-response", control: "toggle", clause: 1, effects: [{ zone: "finalDmg", value: 55, modes: ["skill"] }] },
+      { suffix: "shield-stacks", control: "range", clause: 2, min: 0, max: 5, step: 1, defaultValue: 0, effects: [{ zone: "finalDmg", value: 11, controlMultiplier: true, modes: ["skill"] }] },
+    ] },
+    36: { effects: [], children: [
+      { suffix: "tune-shifting", control: "toggle", clause: 0, effects: [{ zone: "finalDmg", value: 25, modes: ["skill"] }] },
+      { suffix: "hack-shifting", control: "toggle", clause: 1, effects: [{ zone: "finalDmg", value: 30, modes: ["skill"] }] },
+    ] },
+    37: { effects: [
+      { zone: "finalDmg", value: 20, modes: ["skill"] },
+      { zone: "finalDmg", value: 20, damageTypes: ["basic"], modes: ["skill"] },
     ] },
   },
 };
@@ -651,6 +722,16 @@ function resistanceBuffInfo(buff) {
   const text = cleanText([buff?.name, buff?.desc].filter(Boolean).join(" "));
   const hasResistance = /(?:抗性|RES|耐性|내성)/i.test(text);
   if (!hasResistance) return { hasResistance: false, supported: true, modifiers: [] };
+  const unconditionalSchema = UNCONDITIONAL_RESISTANCE_SCHEMAS[Number(buff?.id)];
+  if (unconditionalSchema) {
+    const modifiers = unconditionalSchema.elements.map((element) => ({
+      kind: "attributeResistanceAdjustment",
+      element,
+      value: unconditionalSchema.value,
+      sourceId: Number(buff.id),
+    }));
+    return { hasResistance: true, supported: true, conditional: false, modifiers };
+  }
   const conditionalSchema = CONDITIONAL_RESISTANCE_SCHEMAS[Number(buff?.id)];
   if (conditionalSchema) {
     const modifiers = ELEMENTS.map((element) => ({
@@ -1377,7 +1458,8 @@ function validateToaGameplaySeason(seasonId, payload) {
   assert(payload, "toa " + seasonId + ": missing reviewed gameplay data");
   collectToaRecords(payload).filter(toaRecordIncluded).forEach((record) => {
     asArray(record.buffs).forEach((buff) => {
-      const handled = TOA_GAMEPLAY_SCHEMAS[Number(buff.id)] || resistanceBuffInfo(buff).supported;
+      const resistance = resistanceBuffInfo(buff);
+      const handled = TOA_GAMEPLAY_SCHEMAS[Number(buff.id)] || (resistance.hasResistance && resistance.supported);
       assert(handled, "toa " + seasonId + " Buff " + buff.id + " has no reviewed structure");
     });
   });
@@ -1400,7 +1482,7 @@ function validateWhiwaGameplaySeason(seasonId, whiwaPayload) {
 }
 
 function validateReviewedGameplaySchemas(currentEntries, details) {
-  const expectedCurrent = { toa: "39", whiwa: "20", dpmatrix: "7" };
+  const expectedCurrent = { toa: "40", whiwa: "22", dpmatrix: "8" };
   Object.entries(expectedCurrent).forEach(([mode, seasonId]) => {
     assert(String(seasonValue(currentEntries[mode], mode)) === seasonId, mode + " current season has no reviewed gameplay Buff schema");
   });
@@ -1425,8 +1507,9 @@ function validateKnownSamples(targets, gameplayBuffs) {
   assert(conditionalToa?.resistances.glacio === 35 && conditionalToa?.resistances.electro === 75, "toa conditional resistance default sample failed");
   for (const seasonId of ["39"]) {
     const futureToa = Object.values(targets).find((target) => target.mode === "toa" && target.seasonId === seasonId);
-    assert(futureToa?.resistance.sourceKind === "composed" && futureToa?.resistance.includesModeModifiers === true, "toa " + seasonId + " composed resistance metadata failed");
-    assert(futureToa.resistance.modifiers.filter((modifier) => modifier.kind === "modeBase").length === 1, "toa " + seasonId + " mode base should be composed exactly once");
+    assert(["stageFinal", "composed"].includes(futureToa?.resistance.sourceKind) && futureToa?.resistance.includesModeModifiers === true, "toa " + seasonId + " complete resistance metadata failed");
+    const modeBaseCount = futureToa.resistance.modifiers.filter((modifier) => modifier.kind === "modeBase").length;
+    assert(modeBaseCount === (futureToa.resistance.sourceKind === "composed" ? 1 : 0), "toa " + seasonId + " mode base should be composed exactly once only for intrinsic stats");
   }
   const toa38Conditional = Object.values(targets).find((target) => target.mode === "toa" && target.seasonId === "38" && target.recordId === 417);
   const toa39Conditional = Object.values(targets).find((target) => target.mode === "toa" && target.seasonId === "39" && target.recordId === 429);
@@ -1440,10 +1523,22 @@ function validateKnownSamples(targets, gameplayBuffs) {
     return counts;
   }, {});
   assert(gameplayCounts["toa:38"] === 14 && gameplayCounts["toa:39"] === 20 && gameplayCounts["whiwa:20"] === 20, "reviewed gameplay structure count failed");
-  const matrixTargets = Object.values(targets).filter((target) => target.mode === "dpmatrix" && target.seasonId === "7" && target.areaId === 14);
+  const currentToa = targets["toa:40:441:320000330"];
+  assert(currentToa?.level === 100 && currentToa.resistance.sourceKind === "stageFinal" && currentToa.resistance.includesModeModifiers === true, "toa 40 final-stat sample failed");
+  assert(currentToa.resistances.glacio === 35 && currentToa.resistances.fusion === 20 && currentToa.resistances.electro === 20 && currentToa.resistances.aero === 35 && currentToa.resistances.spectro === 75 && currentToa.resistances.havoc === 35, "toa 40 resistance exemption sample failed");
+  assert(!currentToa.resistance.modifiers.some((modifier) => modifier.kind === "modeBase"), "toa 40 final resistance must not be restacked");
+  assert(targets["toa:40:440:320000190"]?.level === 75, "toa 40 per-monster final level sample failed");
+  assert(Object.values(targets).filter((target) => target.mode === "toa" && target.seasonId === "40").length === 14, "toa 40 reviewed target count changed");
+  const currentWhiwa = targets["whiwa:22:135:40268:310000080"];
+  assert(currentWhiwa?.level === 90 && currentWhiwa.resistances.glacio === 20 && currentWhiwa.resistances.fusion === 70, "whiwa 22 intrinsic-plus-mode sample failed");
+  assert(currentWhiwa.gameplay.choiceGroups[0]?.optionIds.length === 9, "whiwa 22 complete Token sample failed");
+  assert(Object.values(targets).filter((target) => target.mode === "whiwa" && target.seasonId === "22").length === 54, "whiwa 22 reviewed target count changed");
+  assert(gameplayCounts["toa:40"] === 14 && gameplayCounts["whiwa:21"] === 20 && gameplayCounts["whiwa:22"] === 20, "current reviewed gameplay structure count failed");
+  const matrixTargets = Object.values(targets).filter((target) => target.mode === "dpmatrix" && target.seasonId === "8" && target.areaId === 16);
   const matrixRounds = new Set(matrixTargets.map((target) => target.stageId));
   assert(matrixTargets.length === 15 && matrixRounds.size === 3, "matrix current season must expose 15 targets across three rounds");
-  assert(gameplayCounts["dpmatrix:6"] === 7 && gameplayCounts["dpmatrix:7"] === 7, "matrix reviewed gameplay structure count failed");
+  matrixRounds.forEach((round) => assert(matrixTargets.filter((target) => target.stageId === round).length === 5, "matrix current round must expose five targets"));
+  assert(gameplayCounts["dpmatrix:6"] === 7 && gameplayCounts["dpmatrix:7"] === 7 && gameplayCounts["dpmatrix:8"] === 9, "matrix reviewed gameplay structure count failed");
   assert(Object.keys(gameplayBuffs).length > 0, "current gameplay Buff snapshot is empty");
 }
 
@@ -1481,11 +1576,10 @@ async function synchronize() {
   }
   validateReviewedGameplaySchemas(currentEntries, zhDetails);
   const includedToaIds = new Set(includedByMode.toa.map((entry) => String(seasonValue(entry, "toa"))));
-  const calibrationSeasonId = toaCalibrationSeasonId(includedByMode.toa, zhDetails.toa);
-  const toaLevelSeasonIds = uniqueIds([
-    calibrationSeasonId,
-    ...Array.from(TOA_COMPOSED_SEASONS).map(String).filter((seasonId) => includedToaIds.has(seasonId)),
-  ]);
+  const composedToaSeasonIds = Array.from(TOA_COMPOSED_SEASONS).map(String)
+    .filter((seasonId) => includedToaIds.has(seasonId) && !toaSeasonCoverage(zhDetails.toa.get(seasonId)).complete);
+  const calibrationSeasonId = composedToaSeasonIds.length ? toaCalibrationSeasonId(includedByMode.toa, zhDetails.toa) : null;
+  const toaLevelSeasonIds = uniqueIds([calibrationSeasonId, ...composedToaSeasonIds].filter(Boolean));
   const toaLevels = await fetchToaLevelMaps(toaLevelSeasonIds);
   const excludedToaSeasons = [];
   includedByMode.toa = includedByMode.toa.filter((entry) => {
@@ -1509,12 +1603,12 @@ async function synchronize() {
   referencedWhiwaMonsterIds(zhDetails.whiwa).forEach((id) => monsterIds.add(id));
   referencedComposedToaMonsterIds(zhDetails.toa).forEach((id) => monsterIds.add(id));
   const monsterDetails = await fetchMonsterDetails(Array.from(monsterIds).sort((a, b) => a - b));
-  const calibratedToaTargets = validateToaCompositionCalibration(
+  const calibratedToaTargets = calibrationSeasonId ? validateToaCompositionCalibration(
     zhDetails.toa.get(calibrationSeasonId),
     calibrationSeasonId,
     toaLevels.get(calibrationSeasonId),
     monsterDetails
-  );
+  ) : 0;
   const excludedOpenWorldTargets = zhLists.monsters
     .filter((monster) => !hasMonsterResistance(monsterDetails.get(Number(monster.Id))))
     .map((monster) => ({ monsterId: Number(monster.Id), reason: "missingResistanceFields" }));
@@ -1567,7 +1661,7 @@ async function synchronize() {
           composedSeasons: Array.from(TOA_COMPOSED_SEASONS),
           composedBaseAllResistance: MODE_RULES.toa.all,
           composedMatchingElementResistance: MODE_RULES.toa.matchingElement,
-          calibrationSeasonId: Number(calibrationSeasonId),
+          calibrationSeasonId: calibrationSeasonId == null ? null : Number(calibrationSeasonId),
           calibratedTargetCount: calibratedToaTargets,
           unconditionalResistanceBuffs: "apply",
           conditionalResistanceBuffs: "applyDefaultAndExposeRemovalControl",

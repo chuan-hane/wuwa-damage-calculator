@@ -111,7 +111,7 @@ window.WUWA_LANGUAGES.extend("en-US", {
         "chain": [
           {
             "name": "Like Clouds That Meet and Drift Apart",
-            "desc": "Crit. Rate is increased by 16%.\n\nThe max stack limit of Swordlight Ward is increased to 2. Casting Heavy Attack - Stringblade additionally grants 1 stacks of Swordlight Ward.\n\nUpon entering combat, gain 25 stack of Exorcising Seal.\nAfter Basic Attack - Stringblade, Mid-air Attack - Stringblade, or Basic Attack - Ephemeral Transcendence deals damage, if Qingxiao has Exorcising Seal, remove Exorcising Seal and trigger Juque Perdition, dealing Aero DMG equal to 400% of Qingxiao's ATK, considered Basic Attack DMG. This effect can be triggered up to once per second. For each stack of Exorcising Seal removed, the target takes 4% more DMG from Juque Perdition for 2s.\nExorcising Seal stacks up to 25 times.",
+            "desc": "Crit. Rate is increased by 16%.\n\nThe max stack limit of Swordlight Ward is increased to 2. Casting Heavy Attack - Stringblade additionally grants 1 stacks of Swordlight Ward.\n\nUpon entering combat, gain 25 stack of Exorcising Seal.\nAfter Basic Attack - Stringblade, Mid-air Attack - Stringblade, or Basic Attack - Ephemeral Transcendence deals damage, if Qingxiao has Exorcising Seal, remove all Exorcising Seal stacks and trigger Juque Perdition, dealing Aero DMG equal to 400% of Qingxiao's ATK, considered Basic Attack DMG. This effect can be triggered up to once per second. For each stack of Exorcising Seal removed, the target takes 4% more DMG from Juque Perdition for 2s.\nExorcising Seal stacks up to 25 times.",
             "buffs": [
               {
                 "label": "Crit. Rate",

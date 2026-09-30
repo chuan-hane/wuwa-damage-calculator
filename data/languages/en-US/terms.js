@@ -1,6 +1,15 @@
 "use strict";
 
 window.WUWA_LANGUAGES.extend("en-US", {
+  text: {
+    "抗性无视": "RES Ignore",
+    "需可响应同奏": "Requires Unison Response eligibility",
+    "需装备者登场": "Requires the wielder on the field",
+    "需指定队友": "Requires the specified teammate"
+  }
+});
+
+window.WUWA_LANGUAGES.extend("en-US", {
   elements: {
     fusion: "Fusion",
     glacio: "Glacio",
@@ -137,7 +146,8 @@ window.WUWA_LANGUAGES.extend("en-US", {
     vulnerability: "Vulnerability",
     skillMultBonus: "DMG Multiplier Increase",
     finalDmg: "Final DMG Bonus",
-    resShred: "RES Shred",
+   resShred: "RES Shred",
+    resIgnore: "RES Ignore",
     defShred: "DEF Shred",
     defIgnore: "DEF Ignore",
     energyRegen: "Energy Regen",
@@ -159,7 +169,8 @@ window.WUWA_LANGUAGES.extend("en-US", {
     "最终伤害提升": "Final DMG Bonus",
     "减抗": "RES Shred",
     "减防": "DEF Shred",
-    "防御无视": "DEF Ignore"
+    "防御无视": "DEF Ignore",
+    "抗性无视": "RES Ignore"
   },
   providers: {
     "技能树": "Skill Tree",

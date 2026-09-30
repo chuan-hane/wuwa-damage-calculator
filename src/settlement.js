@@ -204,7 +204,38 @@ window.WUWA_SETTLEMENT = (() => {
       return characterResourceDefs(slot).find((resource) => resource.id === idOrLabel || resource.label === idOrLabel) || null;
     }
 
+    function unisonResponder(slot) {
+      const config = ch(slot?.char)?.unison;
+      return !!config && manualStateRequirementReady(slot, config.requiresState);
+    }
+
+    function unisonReceiverReady(slot) {
+      if (!unisonResponder(slot)) return false;
+      const config = ch(slot.char).unison;
+      const clearedBy = config.boonClearedByBuff;
+      if (!clearedBy || slot.toggles[clearedBy] !== true) return true;
+      const buff = slotBuffs(slot).find((item) => item.id === clearedBy);
+      const action = stateCompatibleSkills(slot).find((sk) => skillIdMatches(sk, slot.skill));
+      return skillRefsMatch(action, buff?.clearedBySkills);
+    }
+
+    function unisonBoonCap() {
+      const providers = new Map();
+      state.slots.filter(unisonResponder).forEach((slot) => {
+        const config = ch(slot.char).unison;
+        let bonus = num(config.capBonus);
+        let contribution = 1 + num(config.bonusContribution);
+        asList(config.capBonusBySeq).forEach((rule) => { if (num(slot.seq) >= num(rule.seq)) bonus += num(rule.value); });
+        asList(config.bonusContributionBySeq).forEach((rule) => { if (num(slot.seq) >= num(rule.seq)) contribution += num(rule.value); });
+        const previous = providers.get(slot.char);
+        providers.set(slot.char, { bonus: Math.max(bonus, previous?.bonus || 0), contribution: Math.max(contribution, previous?.contribution || 0) });
+      });
+      const totals = [...providers.values()].reduce((sum, item) => ({ bonus: sum.bonus + item.bonus, contribution: sum.contribution + item.contribution }), { bonus: 0, contribution: 0 });
+      return Math.min(2 + totals.bonus, totals.contribution);
+    }
+
     function characterResourceCap(slot, resource) {
+      if (resource.shared === "unison") return unisonReceiverReady(slot) ? unisonBoonCap() : 0;
       let cap = num(resource.max ?? resource.cap ?? 0);
       asList(resource.maxBySeq || resource.capBySeq).forEach((rule) => {
         if (num(slot.seq) >= num(rule.seq)) cap = num(rule.max ?? rule.cap);
@@ -273,6 +304,19 @@ window.WUWA_SETTLEMENT = (() => {
       return normalizedCharacterResourceValues(slot)[resource.id];
     }
 
+    function setCharacterResourceValue(slot, id, value) {
+      const resource = characterResourceDef(slot, id);
+      if (!resource) return;
+      const bounded = Math.min(Math.max(num(value), characterResourceMin(resource)), characterResourceCap(slot, resource));
+      const receivers = resource.shared === "unison" ? state.slots : [slot];
+      receivers.forEach((receiver) => {
+        const own = characterResourceDef(receiver, id);
+        if (!own) return;
+        receiver.resources = receiver.resources || {};
+        receiver.resources[id] = Math.min(bounded, characterResourceCap(receiver, own));
+      });
+    }
+
     function characterResourceControlMax(slot, resource, values) {
       const cap = characterResourceCap(slot, resource);
       if (!resource.group) return cap;
@@ -293,8 +337,9 @@ window.WUWA_SETTLEMENT = (() => {
       return slot.toggles[stateKey(stateName)] === true;
     }
 
-    function resourceRequirementReady(slot, req) {
+    function resourceRequirementReady(slot, req, candidate = null) {
       if (asList(req?.alternateStates).some((stateName) => resourceAlternateStateReady(slot, stateName))) return true;
+      if (candidate && asList(req?.alternateEvents).some((event) => asList(ch(slot.char)?.skillEvents).some((rule) => (rule.event || rule.name || rule.value) === event && skillEventNameForSlot(slot, candidate, rule) === event))) return true;
       const resource = characterResourceDef(slot, req?.id || req?.label);
       if (!resource) return false;
       return characterResourceValue(slot, resource.id) >= resourceRequirementValue(slot, resource, req);
@@ -306,12 +351,13 @@ window.WUWA_SETTLEMENT = (() => {
       return characterResourceValue(slot, resource.id) < resourceRequirementValue(slot, resource, req);
     }
 
-    function buffResourceGateReason(slot, buff) {
+    function buffResourceGateReason(slot, buff, outputIdx) {
       const req = buff.requiresResourceAtLeast;
-      if (req && !resourceRequirementReady(slot, req)) {
-        const resource = characterResourceDef(slot, req.id || req.label);
+      const receiver = req?.target === "output" ? state.slots[outputIdx] : slot;
+      if (req && !resourceRequirementReady(receiver, req)) {
+        const resource = characterResourceDef(receiver, req.id || req.label);
         const label = resource?.label || req.label || req.id;
-        const threshold = resource ? resourceRequirementValue(slot, resource, req) : num(req.value);
+        const threshold = resource ? resourceRequirementValue(receiver, resource, req) : num(req.value);
         return `需${label}达到${threshold}`;
       }
       const below = buff.requiresResourceBelow;
@@ -324,7 +370,7 @@ window.WUWA_SETTLEMENT = (() => {
 
     function characterResourceControlsForSlot(slot) {
       const values = normalizedCharacterResourceValues(slot);
-      return characterResourceDefs(slot).map((resource) => ({
+      return characterResourceDefs(slot).filter((resource) => resource.shared !== "unison" || unisonReceiverReady(slot)).map((resource) => ({
         kind: "value",
         id: resource.id,
         label: resource.label,
@@ -336,6 +382,8 @@ window.WUWA_SETTLEMENT = (() => {
 
     function skillResourceReady(slot, sk) {
       if (!sk) return true;
+      if (sk.requiresUnison && !unisonReceiverReady(slot)) return false;
+      if (sk.requiresResourceBelow && !resourceBelowRequirementReady(slot, sk.requiresResourceBelow)) return false;
       if (sk.requiresResourceSumAtLeast) {
         const req = sk.requiresResourceSumAtLeast;
         const total = asList(req.ids || req.resources).reduce((sum, id) => sum + num(characterResourceValue(slot, id)), 0);
@@ -343,7 +391,7 @@ window.WUWA_SETTLEMENT = (() => {
       }
       const allResourceReqs = asList(sk.requiresAllResourcesAtLeast);
       if (allResourceReqs.length) {
-        return allResourceReqs.every((req) => resourceRequirementReady(slot, req));
+        return allResourceReqs.every((req) => resourceRequirementReady(slot, req, sk));
       }
       if (sk.requiresResourceFull) {
         const resource = characterResourceDef(slot, sk.requiresResourceFull);
@@ -351,7 +399,7 @@ window.WUWA_SETTLEMENT = (() => {
         return characterResourceValue(slot, resource.id) >= characterResourceCap(slot, resource);
       }
       if (sk.requiresResourceAtLeast) {
-        return resourceRequirementReady(slot, sk.requiresResourceAtLeast);
+        return resourceRequirementReady(slot, sk.requiresResourceAtLeast, sk);
       }
       const resource = characterResourceDef(slot, sk.requiresResource);
       if (resource) return characterResourceValue(slot, resource.id) > characterResourceMin(resource);
@@ -406,6 +454,12 @@ window.WUWA_SETTLEMENT = (() => {
       });
       const selected = selectedSkill(slot);
       if (selected?.requiresResource && !selected.requiresResourceFull && !selected.requiresResourceAtLeast && !selected.requiresAllResourcesAtLeast && !selected.requiresResourceSumAtLeast) add(selected);
+      asList(ch(slot.char)?.skillEvents).forEach((event) => {
+        if (!event.requiresResource) return;
+        if (event.skills && !skills.some((sk) => skillRefsMatch(sk, event.skills))) return;
+        if (!manualStateRequirementReady(slot, event.requiresState)) return;
+        add(event);
+      });
       return controls;
     }
 
@@ -511,11 +565,13 @@ window.WUWA_SETTLEMENT = (() => {
       if (typeof eventDef === "string") return eventDef;
       if (!eventDef || typeof eventDef !== "object") return null;
       if (eventDef.seq && num(slot.seq) < num(eventDef.seq)) return null;
+      if (eventDef.requiresUnison && !unisonReceiverReady(slot)) return null;
       if (eventDef.skills && !skillRefsMatch(sk, eventDef.skills)) return null;
       if (eventDef.damageTypes && !asList(eventDef.damageTypes).some((type) => damageTypesForSkill(sk).includes(type))) return null;
       if (!stateRequirementReady(slot, eventDef.requiresState)) return null;
       if (!allStateRequirementsReady(slot, eventDef.requiresAllStates)) return null;
       if (eventDef.requiresResourceAtLeast && !resourceRequirementReady(slot, eventDef.requiresResourceAtLeast)) return null;
+      if (eventDef.requiresResource && !manualResourceReady(slot, eventDef)) return null;
       return eventDef.event || eventDef.name || eventDef.value || null;
     }
 
@@ -1049,7 +1105,8 @@ window.WUWA_SETTLEMENT = (() => {
     function drivenBuffStackFallback(slot, buff, idx, outputIdx, ctxOverride = null) {
       if (!buffHasDrivenStackSource(buff)) return null;
       if (buff.stackResource) {
-        const value = characterResourceValue(slot, buff.stackResource);
+        const receiver = buff.stackResourceTarget === "output" ? state.slots[outputIdx] : slot;
+        const value = characterResourceValue(receiver, buff.stackResource);
         if (value != null) return Math.floor(value / Math.max(1, num(buff.stackResourceStep, 1)));
       }
       const info = directTriggerInfo(slot, idx, buff, outputIdx, ctxOverride);
@@ -1098,7 +1155,8 @@ window.WUWA_SETTLEMENT = (() => {
 
     function buffStackCount(slot, buff, idx = state.slots.indexOf(slot), outputIdx = state.outputIdx, ctxOverride = null) {
       if (buff.stackResource) {
-        const value = characterResourceValue(slot, buff.stackResource);
+        const receiver = buff.stackResourceTarget === "output" ? state.slots[outputIdx] : slot;
+        const value = characterResourceValue(receiver, buff.stackResource);
         const stacks = Math.floor(num(value) / Math.max(1, num(buff.stackResourceStep, 1)));
         return Math.min(Math.max(0, stacks), buffStackCap(slot, buff));
       }
@@ -1162,7 +1220,8 @@ window.WUWA_SETTLEMENT = (() => {
       const ref = slotBuffs(slot).find((b) => b.id === req.id);
       const refStatus = ref && !seen.has(buff.id) ? buffStatus(slot, idx, ref, new Set([...seen, buff.id]), outputIdx, ctx) : null;
       const stacks = ref ? buffStackCount(slot, ref, idx, outputIdx, ctx) : 0;
-      return (!ref || !refStatus || !refStatus.applies || stacks < req.stacks) ? `需${req.label || req.id}${req.stacks}层` : null;
+      const ready = refStatus && (refStatus.applies || (req.allowOffField && refStatus.gated === "仅自身输出时生效" && refStatus.toggleOn));
+      return (!ref || !ready || stacks < req.stacks) ? `需${req.label || req.id}${req.stacks}层` : null;
     }
 
     function buffGateReason(slot, idx, buff, seen, outputIdx, ctx, isDps) {
@@ -1170,12 +1229,15 @@ window.WUWA_SETTLEMENT = (() => {
       if (buff.effect && buff.defaultActive !== false && !isSupportOutroBuff(slot, idx, buff, outputIdx) && !supportStateNeedsConfirmation(slot, idx, buff, outputIdx)) return "仅效应伤害";
       if (buff.seq && slot.seq < buff.seq) return `需 ${buff.seq} 链`;
       if (buff.maxSeq != null && slot.seq > buff.maxSeq) return `已被高链效果替换`;
+      if (buff.requiresUnison && !unisonReceiverReady(state.slots[outputIdx])) return "需可响应同奏";
+      if (buff.requiresSourceActive && idx !== state.outputIdx) return "需装备者登场";
+      if (buff.requiresTeamChar && !state.slots.some((member) => asList(buff.requiresTeamChar).includes(member.char))) return "需指定队友";
       if (buff.zone === "effectCapBonus") {
         const effect = EFFECT_DEFS[effectKeyOf(state.effectCalc?.key)];
         if (effect && effect.kind !== "none" && !effectCapTargetMatches(buff.effects, effect)) return `不适用于${L.effect(effect)}`;
       }
       if (!buffStateRequirementsReady(slot, buff) && !supportStateNeedsConfirmation(slot, idx, buff, outputIdx)) return `需处于${buffStateRequirementLabelForSlot(slot, buff)}`;
-      const resourceGate = buffResourceGateReason(slot, buff);
+      const resourceGate = buffResourceGateReason(slot, buff, outputIdx);
       if (resourceGate) return resourceGate;
       if (!sourceStatRequirementReady(slot, buff)) return `需${sourceStatRequirementLabel(buff.requiresSourceStat)}`;
       if (!sourceCharRequirementReady(slot, buff)) return `需${sourceCharRequirementLabel(buff)}`;
@@ -1220,6 +1282,10 @@ window.WUWA_SETTLEMENT = (() => {
       }
       if (checked && buff) syncEffectStackRequirement(buff);
       slot.toggles[buffId] = checked;
+      if (checked && ch(slot.char)?.unison?.boonClearedByBuff === buffId) {
+        slot.resources = slot.resources || {};
+        slot.resources.unison_boon = 0;
+      }
     }
 
     const SOURCE_STAT_ALIAS = {
@@ -1535,6 +1601,20 @@ window.WUWA_SETTLEMENT = (() => {
       return v;
     }
 
+    function strongestBuffApplies(slot, idx, buff, outputIdx, effectKey = null, effectDef = null) {
+      if (!buff.nonStackingKey) return true;
+      const value = buffValue(slot, buff, idx, outputIdx);
+      return !state.slots.some((otherSlot, otherIdx) => slotBuffs(otherSlot).some((other) => {
+        if (other.nonStackingKey !== buff.nonStackingKey || (otherIdx === idx && other.id === buff.id)) return false;
+        const status = effectKey
+          ? effectBuffStatus(otherSlot, otherIdx, other, effectKey, effectDef, new Set(), outputIdx)
+          : buffStatus(otherSlot, otherIdx, other, new Set(), outputIdx);
+        if (!status.applies) return false;
+        const otherValue = buffValue(otherSlot, other, otherIdx, outputIdx);
+        return otherValue > value || (otherValue === value && otherIdx < idx);
+      }));
+    }
+
     function aggregate(outputIdx = state.outputIdx) {
       const t = zeros();
       t.sources = {};
@@ -1545,6 +1625,7 @@ window.WUWA_SETTLEMENT = (() => {
           const type = buff.type || buff.damageType;
           if (buff.zone === "typeBonus" && !damageRequirementMatches(ctx, type)) return;
           if (!buffStatus(slot, idx, buff, new Set(), outputIdx).applies || t[buff.zone] === undefined) return;
+          if (!strongestBuffApplies(slot, idx, buff, outputIdx)) return;
           const value = buffValue(slot, buff, idx, outputIdx);
           t[buff.zone] += value;
           addBuffSource(t.sources, buff.zone, slot, buff, value);
@@ -1763,6 +1844,7 @@ window.WUWA_SETTLEMENT = (() => {
       let gated = null;
       if (buff.effect && !effectRequirementMatches(buff.effect, effectKey)) gated = `仅${buff.effect}伤害`;
       else if (buff.seq && slot.seq < buff.seq) gated = `需 ${buff.seq} 链`;
+      else if (buff.requiresSourceActive && idx !== state.outputIdx) gated = "需装备者登场";
       else if (!buffStateRequirementsReady(slot, buff) && !supportStateNeedsConfirmation(slot, idx, buff, outputIdx)) gated = `需处于${buffStateRequirementLabel(buff)}`;
       else if (!sourceStatRequirementReady(slot, buff)) gated = `需${sourceStatRequirementLabel(buff.requiresSourceStat)}`;
       else if (!sourceCharRequirementReady(slot, buff)) gated = `需${sourceCharRequirementLabel(buff)}`;
@@ -1786,6 +1868,7 @@ window.WUWA_SETTLEMENT = (() => {
     }
 
     function effectAggregate(effectKey, def, outputIdx = state.outputIdx) {
+      const effectContext = { element: def.element, damageType: effectKey, damageTypes: [effectKey], skill: null };
       const t = {
         deepen: num(state.effectCalc?.deepen), manualDeepen: num(state.effectCalc?.deepen), buffDeepen: 0,
         finalDmg: 0, buffFinalDmg: 0, extraRate: 0, multiplierBonus: 0,
@@ -1798,8 +1881,9 @@ window.WUWA_SETTLEMENT = (() => {
           const effectSpecific = !!buff.effect;
           const defenseDebuff = !effectSpecific && EFFECT_DEFENSE_ZONES.has(buff.zone);
           if (!effectSpecific && !defenseDebuff) return;
-          const st = effectSpecific ? effectBuffStatus(slot, idx, buff, effectKey, def, new Set(), outputIdx) : buffStatus(slot, idx, buff, new Set(), outputIdx);
+          const st = effectSpecific ? effectBuffStatus(slot, idx, buff, effectKey, def, new Set(), outputIdx) : buffStatus(slot, idx, buff, new Set(), outputIdx, effectContext);
           if (!st.applies) return;
+          if (!strongestBuffApplies(slot, idx, buff, outputIdx, effectKey, def)) return;
           const v = buffValue(slot, buff, idx, outputIdx);
           if (effectSpecific && EFFECT_DEEPEN_ZONES.has(buff.zone)) {
             t.deepen += v;
@@ -2254,7 +2338,7 @@ window.WUWA_SETTLEMENT = (() => {
       const totalDefIgnore = state.enemy.defIgnore + formulaTotals.defIgnore;
       const defReduction = Math.min(Math.max(totalDefShred / 100, 0), 0.95);
       const defIgnore = Math.min(Math.max(totalDefIgnore / 100, 0), 0.95);
-      const res = target.resistance - state.enemy.resShred - formulaTotals.resShred;
+      const res = target.resistance - state.enemy.resShred - formulaTotals.resShred - num(formulaTotals.resIgnore);
       const levelTerm = 800 + 8 * state.enemy.charLevel;
       const enemyDef = (8 * target.enemyLevel + 792) * (1 - defReduction);
       const defFactor = levelTerm / (levelTerm + enemyDef * (1 - defIgnore));
@@ -2316,7 +2400,7 @@ window.WUWA_SETTLEMENT = (() => {
     }
 
     return {
-      slotBuffs, availableSkills, selectedSkill, resourceKey, resourceControlsForSlot, resolvedSkill, skillLayersForSlot,
+      slotBuffs, availableSkills, selectedSkill, resourceKey, resourceControlsForSlot, setCharacterResourceValue, resolvedSkill, skillLayersForSlot,
       stateKey, stateChoiceKey, stateControlsHTML,
       buffStackCount, buffStatus, setBuffToggle, scaleByInfo, buffValue, compute,
     };

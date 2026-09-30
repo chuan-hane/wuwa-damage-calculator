@@ -56,8 +56,10 @@ window.WUWA_ICON_ASSETS = {
     "rover_electro": "assets/icons/characters/rover_electro.webp",
     "suisui": "assets/icons/characters/suisui.webp",
     "yangyang_xuanling": "assets/icons/characters/yangyang_xuanling.webp",
+    "jingran": "assets/icons/characters/jingran.webp",
     "qingxiao": "assets/icons/characters/qingxiao.webp",
-    "jingran": "assets/icons/characters/jingran.webp"
+    "hsin": "assets/icons/characters/hsin.webp",
+    "suoming": "assets/icons/characters/suoming.webp"
   },
   "weapons": {
     "autumntrace": "assets/icons/weapons/autumntrace.webp",
@@ -150,7 +152,9 @@ window.WUWA_ICON_ASSETS = {
     "azure_oath": "assets/icons/weapons/azure_oath.webp",
     "firstlights_herald": "assets/icons/weapons/firstlights_herald.webp",
     "glint_of_clouds": "assets/icons/weapons/glint_of_clouds.webp",
-    "thousandfold_deliverance": "assets/icons/weapons/thousandfold_deliverance.webp"
+    "thousandfold_deliverance": "assets/icons/weapons/thousandfold_deliverance.webp",
+    "unspoken_rue": "assets/icons/weapons/unspoken_rue.webp",
+    "blooming_jadehaven": "assets/icons/weapons/blooming_jadehaven.webp"
   },
   "sonatas": {
     "1": "assets/icons/sonatas/freezing_frost.webp",
@@ -186,7 +190,10 @@ window.WUWA_ICON_ASSETS = {
     "33": "assets/icons/sonatas/halo_of_starry_radiance.webp",
     "350433": "assets/icons/sonatas/song_of_feathered_trace.webp",
     "360234": "assets/icons/sonatas/heart_of_evils_purge.webp",
-    "360235": "assets/icons/sonatas/lamp_of_nether_road.webp"
+    "360235": "assets/icons/sonatas/lamp_of_nether_road.webp",
+    "360236": "assets/icons/sonatas/heart_of_sworn_vigil.webp",
+    "360237": "assets/icons/sonatas/flash_of_electric_reflection.webp",
+    "360238": "assets/icons/sonatas/flower_of_tinged_yearning.webp"
   },
   "elements": {
     "none": "assets/icons/elements/physical.webp",
@@ -208,6 +215,14 @@ window.WUWA_ICON_ASSETS = {
       "71500095": "assets/icons/targets/gameplay/whiwa_71500095.webp",
       "71500096": "assets/icons/targets/gameplay/whiwa_71500096.webp",
       "71500097": "assets/icons/targets/gameplay/whiwa_71500097.webp",
+      "71500098": "assets/icons/targets/gameplay/whiwa_71500098.webp",
+      "71500099": "assets/icons/targets/gameplay/whiwa_71500099.webp",
+      "71500100": "assets/icons/targets/gameplay/whiwa_71500100.webp",
+      "71500101": "assets/icons/targets/gameplay/whiwa_71500101.webp",
+      "71500102": "assets/icons/targets/gameplay/whiwa_71500102.webp",
+      "71500103": "assets/icons/targets/gameplay/whiwa_71500103.webp",
+      "71500104": "assets/icons/targets/gameplay/whiwa_71500104.webp",
+      "71500105": "assets/icons/targets/gameplay/whiwa_71500105.webp",
       "71501001": "assets/icons/targets/gameplay/whiwa_71501001.webp",
       "71501002": "assets/icons/targets/gameplay/whiwa_71501002.webp",
       "71501003": "assets/icons/targets/gameplay/whiwa_71501003.webp",
@@ -221,7 +236,11 @@ window.WUWA_ICON_ASSETS = {
       "30": "assets/icons/targets/gameplay/dpmatrix_30.webp",
       "31": "assets/icons/targets/gameplay/dpmatrix_31.webp",
       "32": "assets/icons/targets/gameplay/dpmatrix_32.webp",
-      "33": "assets/icons/targets/gameplay/dpmatrix_33.webp"
+      "33": "assets/icons/targets/gameplay/dpmatrix_33.webp",
+      "34": "assets/icons/targets/gameplay/dpmatrix_34.webp",
+      "35": "assets/icons/targets/gameplay/dpmatrix_35.webp",
+      "36": "assets/icons/targets/gameplay/dpmatrix_36.webp",
+      "37": "assets/icons/targets/gameplay/dpmatrix_37.webp"
     }
   }
 };

@@ -3872,5 +3872,158 @@ window.WUWA_DATA.weapons = [
         "duration": 2
       }
     ]
+  },
+  {
+    "id": "unspoken_rue",
+    "type": 2,
+    "quality": 5,
+    "icon": "",
+    "attack90": "587",
+    "secondaryStat": "critRate",
+    "secondary90": "24.30%",
+    "effects": [
+      {
+        "id": "e0",
+        "zone": "attackPercent",
+        "value": 12,
+        "rankValues": [
+          12,
+          15,
+          18,
+          21,
+          24
+        ],
+        "scope": "self",
+        "duration": 0
+      },
+      {
+        "id": "e1",
+        "zone": "damageBonus",
+        "element": "electro",
+        "value": 30,
+        "rankValues": [
+          30,
+          37.5,
+          45,
+          52.5,
+          60
+        ],
+        "scope": "self",
+        "duration": 30,
+        "defaultActive": false
+      },
+      {
+        "id": "e2",
+        "zone": "damageBonus",
+        "element": "electro",
+        "value": 24,
+        "rankValues": [
+          24,
+          30,
+          36,
+          42,
+          48
+        ],
+        "scope": "team",
+        "duration": 30,
+        "defaultActive": false,
+        "exclusiveGroup": "unspoken_rue_mind",
+        "nonStackingKey": "unspoken_rue_binding_mind"
+      },
+      {
+        "id": "e3",
+        "zone": "damageBonus",
+        "element": "electro",
+        "value": 40,
+        "rankValues": [
+          40,
+          50,
+          60,
+          70,
+          80
+        ],
+        "scope": "self",
+        "duration": 14,
+        "defaultActive": false,
+        "exclusiveGroup": "unspoken_rue_mind",
+        "requiresSourceActive": true
+      }
+    ]
+  },
+  {
+    "id": "blooming_jadehaven",
+    "type": 5,
+    "quality": 5,
+    "icon": "",
+    "attack90": "587",
+    "secondaryStat": "critRate",
+    "secondary90": "24.30%",
+    "effects": [
+      {
+        "id": "e0",
+        "zone": "damageBonus",
+        "value": 12,
+        "rankValues": [
+          12,
+          15,
+          18,
+          21,
+          24
+        ],
+        "scope": "self",
+        "duration": 0
+      },
+      {
+        "id": "e1",
+        "zone": "amplify",
+        "damageType": "resonanceSkill",
+        "value": 36,
+        "rankValues": [
+          36,
+          45,
+          54,
+          63,
+          72
+        ],
+        "scope": "self",
+        "duration": 30,
+        "defaultActive": false
+      },
+      {
+        "id": "e2",
+        "zone": "resIgnore",
+        "damageType": "resonanceSkill",
+        "element": "electro",
+        "value": 10,
+        "rankValues": [
+          10,
+          13.5,
+          17,
+          20.5,
+          24
+        ],
+        "scope": "self",
+        "duration": 30,
+        "defaultActive": false
+      },
+      {
+        "id": "e3",
+        "zone": "amplify",
+        "effect": "electro",
+        "value": 30,
+        "rankValues": [
+          30,
+          37.5,
+          45,
+          52.5,
+          60
+        ],
+        "scope": "team",
+        "duration": 30,
+        "defaultActive": false,
+        "requiresSourceActive": true,
+        "nonStackingKey": "blooming_jadehaven_electro_flare"
+      }
+    ]
   }
 ];

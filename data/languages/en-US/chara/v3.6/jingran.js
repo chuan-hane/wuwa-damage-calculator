@@ -134,7 +134,7 @@ window.WUWA_LANGUAGES.extend("en-US", {
           },
           {
             "name": "World's Course Shifts, Each to Their Rightful Paths",
-            "desc": "When Jingran casts Heavy Attack - Soul Raid or Heavy Attack - Stardome Meander, gain 5 points of Ghost Shroud.\n\nWhen Jingran casts Resonance Liberation - Burial of Thousand Souls,Yang Changes, Yin Unites is replaced by Yin-Yang Everflow for 15s.\n\nYin-Yang Everflow\n\nJingran gains additional ATK based on Max HP: For every 1000 points of Jingran's Max HP, gain 50 additional ATK, up to 2500.",
+            "desc": "When Jingran casts Heavy Attack - Soul Raid or Heavy Attack - Stardome Meander, gain 5 points of Ghost Shroud.\n\nWhen Jingran casts Resonance Liberation - Burial of Thousand Souls, Yang Changes, Yin Unites is replaced by Yin-Yang Everflow for 15s.\n\nYin-Yang Everflow\n\nJingran gains additional ATK based on Max HP: For every 1000 points of Jingran's Max HP, gain 50 additional ATK, up to 2500.",
             "buffs": [
               {
                 "label": "ATK",

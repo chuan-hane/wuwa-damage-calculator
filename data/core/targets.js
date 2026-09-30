@@ -4,11 +4,11 @@ window.WUWA_TARGET_DATA = {
   "schemaVersion": 2,
   "snapshot": {
     "apiVersion": "2.0.0",
-    "syncedAt": "2026-08-21T03:55:30.000Z",
+    "syncedAt": "2026-09-30T04:45:02.249Z",
     "currentSeasons": {
-      "toa": "39",
-      "whiwa": "20",
-      "dpmatrix": "7"
+      "toa": "40",
+      "whiwa": "22",
+      "dpmatrix": "8"
     },
     "resistanceUnits": {
       "monster": {
@@ -78,15 +78,19 @@ window.WUWA_TARGET_DATA = {
           "toa": [
             37,
             38,
-            39
+            39,
+            40
           ],
           "whiwa": [
             19,
-            20
+            20,
+            21,
+            22
           ],
           "dpmatrix": [
             6,
-            7
+            7,
+            8
           ]
         },
         "triggeredEffectsDefaultActive": false,
@@ -115,6 +119,18 @@ window.WUWA_TARGET_DATA = {
             71500095,
             71500096,
             71500097
+          ],
+          "21": [
+            71500098,
+            71500099,
+            71500100,
+            71500101
+          ],
+          "22": [
+            71500102,
+            71500103,
+            71500104,
+            71500105
           ]
         },
         "whiwaSelectableTokenCounts": {
@@ -231,6 +247,30 @@ window.WUWA_TARGET_DATA = {
         },
         {
           "monsterId": 350000420,
+          "reason": "missingResistanceFields"
+        },
+        {
+          "monsterId": 310001030,
+          "reason": "missingResistanceFields"
+        },
+        {
+          "monsterId": 320000690,
+          "reason": "missingResistanceFields"
+        },
+        {
+          "monsterId": 340000320,
+          "reason": "missingResistanceFields"
+        },
+        {
+          "monsterId": 350000430,
+          "reason": "missingResistanceFields"
+        },
+        {
+          "monsterId": 350000460,
+          "reason": "missingResistanceFields"
+        },
+        {
+          "monsterId": 350000440,
           "reason": "missingResistanceFields"
         }
       ],
@@ -797,13 +837,29 @@ window.WUWA_TARGET_DATA = {
             "openWorld:320000670",
             "openWorld:320000680",
             "openWorld:340000300",
-            "openWorld:340000310"
+            "openWorld:340000310",
+            "openWorld:310001040",
+            "openWorld:320000700",
+            "openWorld:320000710",
+            "openWorld:340000330",
+            "openWorld:340000331",
+            "openWorld:340000332",
+            "openWorld:340000113",
+            "openWorld:340000123",
+            "openWorld:340000142",
+            "openWorld:340000172",
+            "openWorld:340000212",
+            "openWorld:340000213",
+            "openWorld:340000221",
+            "openWorld:340000222",
+            "openWorld:340000252",
+            "openWorld:340000261"
           ]
         }
       ]
     },
     "toa": {
-      "currentSeasonId": "39",
+      "currentSeasonId": "40",
       "currentStrategy": "apiCurrentFlag",
       "seasons": [
         {
@@ -955,7 +1011,7 @@ window.WUWA_TARGET_DATA = {
         },
         {
           "id": "39",
-          "current": true,
+          "current": false,
           "start": "2026-08-17",
           "finish": "2026-09-14",
           "targetIds": [
@@ -974,11 +1030,33 @@ window.WUWA_TARGET_DATA = {
             "toa:39:430:330000070",
             "toa:39:434:330000030"
           ]
+        },
+        {
+          "id": "40",
+          "current": true,
+          "start": "2026-09-14",
+          "finish": "2026-10-12",
+          "targetIds": [
+            "toa:40:438:320000220",
+            "toa:40:438:340000060",
+            "toa:40:439:330000030",
+            "toa:40:440:320000180",
+            "toa:40:440:320000190",
+            "toa:40:440:340000050",
+            "toa:40:441:320000330",
+            "toa:40:441:310000180",
+            "toa:40:441:320000660",
+            "toa:40:441:320000210",
+            "toa:40:441:330000070",
+            "toa:40:442:340000210",
+            "toa:40:442:330000060",
+            "toa:40:446:330000040"
+          ]
         }
       ]
     },
     "whiwa": {
-      "currentSeasonId": "20",
+      "currentSeasonId": "22",
       "currentStrategy": "apiCurrentFlag",
       "seasons": [
         {
@@ -2241,7 +2319,7 @@ window.WUWA_TARGET_DATA = {
         },
         {
           "id": "20",
-          "current": true,
+          "current": false,
           "start": "2026-08-02",
           "finish": "2026-08-30",
           "targetIds": [
@@ -2301,11 +2379,136 @@ window.WUWA_TARGET_DATA = {
             "whiwa:20:126:40251:310000440",
             "whiwa:20:126:40251:320000060"
           ]
+        },
+        {
+          "id": "21",
+          "current": false,
+          "start": "2026-08-30",
+          "finish": "2026-09-27",
+          "targetIds": [
+            "whiwa:21:129:40256:310000550",
+            "whiwa:21:129:40256:320000080",
+            "whiwa:21:129:40256:310000130",
+            "whiwa:21:129:40256:320000110",
+            "whiwa:21:129:40256:320000300",
+            "whiwa:21:129:40256:310000100",
+            "whiwa:21:129:40256:310000370",
+            "whiwa:21:129:40256:320000030",
+            "whiwa:21:129:40257:310000080",
+            "whiwa:21:129:40257:320000510",
+            "whiwa:21:129:40257:310000060",
+            "whiwa:21:129:40257:320000280",
+            "whiwa:21:129:40257:320000300",
+            "whiwa:21:129:40257:310000210",
+            "whiwa:21:129:40257:320000080",
+            "whiwa:21:129:40257:310000370",
+            "whiwa:21:129:40257:320000030",
+            "whiwa:21:130:40258:310000030",
+            "whiwa:21:130:40258:320000190",
+            "whiwa:21:130:40258:310000560",
+            "whiwa:21:130:40258:320000290",
+            "whiwa:21:130:40258:320000300",
+            "whiwa:21:130:40258:320000020",
+            "whiwa:21:130:40259:310000390",
+            "whiwa:21:130:40259:320000020",
+            "whiwa:21:130:40259:310000570",
+            "whiwa:21:130:40259:320000260",
+            "whiwa:21:130:40259:320000300",
+            "whiwa:21:130:40259:310000340",
+            "whiwa:21:130:40259:320000190",
+            "whiwa:21:130:40259:310000030",
+            "whiwa:21:131:40260:310000440",
+            "whiwa:21:131:40260:320000070",
+            "whiwa:21:131:40260:310000490",
+            "whiwa:21:131:40260:320000310",
+            "whiwa:21:131:40260:320000300",
+            "whiwa:21:131:40260:310000090",
+            "whiwa:21:131:40260:320000060",
+            "whiwa:21:131:40261:310000780",
+            "whiwa:21:131:40261:320000310",
+            "whiwa:21:131:40261:310000220",
+            "whiwa:21:131:40261:320000090",
+            "whiwa:21:131:40261:320000300",
+            "whiwa:21:131:40261:310000450",
+            "whiwa:21:131:40261:320000070",
+            "whiwa:21:131:40261:310000440",
+            "whiwa:21:131:40261:320000060",
+            "whiwa:21:132:40262:310000820",
+            "whiwa:21:132:40262:320000060",
+            "whiwa:21:132:40262:310000030",
+            "whiwa:21:132:40262:320000020",
+            "whiwa:21:132:40263:310000790",
+            "whiwa:21:132:40263:320000310",
+            "whiwa:21:132:40263:310000030",
+            "whiwa:21:132:40263:320000020"
+          ]
+        },
+        {
+          "id": "22",
+          "current": true,
+          "start": "2026-09-27",
+          "finish": "2026-10-26",
+          "targetIds": [
+            "whiwa:22:135:40268:310000080",
+            "whiwa:22:135:40268:320000510",
+            "whiwa:22:135:40268:310000060",
+            "whiwa:22:135:40268:320000280",
+            "whiwa:22:135:40268:320000300",
+            "whiwa:22:135:40268:310000210",
+            "whiwa:22:135:40268:320000080",
+            "whiwa:22:135:40269:310000550",
+            "whiwa:22:135:40269:320000080",
+            "whiwa:22:135:40269:310000130",
+            "whiwa:22:135:40269:320000110",
+            "whiwa:22:135:40269:320000300",
+            "whiwa:22:135:40269:310000100",
+            "whiwa:22:135:40269:310000060",
+            "whiwa:22:135:40269:320000280",
+            "whiwa:22:136:40270:310000040",
+            "whiwa:22:136:40270:320000020",
+            "whiwa:22:136:40270:310000340",
+            "whiwa:22:136:40270:320000190",
+            "whiwa:22:136:40270:320000300",
+            "whiwa:22:136:40270:310000570",
+            "whiwa:22:136:40270:310000500",
+            "whiwa:22:136:40270:320000260",
+            "whiwa:22:136:40271:310000030",
+            "whiwa:22:136:40271:320000190",
+            "whiwa:22:136:40271:310000560",
+            "whiwa:22:136:40271:320000290",
+            "whiwa:22:136:40271:320000300",
+            "whiwa:22:136:40271:320000020",
+            "whiwa:22:136:40271:310000500",
+            "whiwa:22:136:40271:320000260",
+            "whiwa:22:137:40272:310000450",
+            "whiwa:22:137:40272:320000060",
+            "whiwa:22:137:40272:310000220",
+            "whiwa:22:137:40272:320000090",
+            "whiwa:22:137:40272:320000300",
+            "whiwa:22:137:40272:310000430",
+            "whiwa:22:137:40272:320000070",
+            "whiwa:22:137:40273:310000460",
+            "whiwa:22:137:40273:320000070",
+            "whiwa:22:137:40273:310000490",
+            "whiwa:22:137:40273:320000310",
+            "whiwa:22:137:40273:320000300",
+            "whiwa:22:137:40273:310000090",
+            "whiwa:22:137:40273:320000060",
+            "whiwa:22:137:40273:310000430",
+            "whiwa:22:138:40274:310000460",
+            "whiwa:22:138:40274:320000070",
+            "whiwa:22:138:40274:310000440",
+            "whiwa:22:138:40274:320000060",
+            "whiwa:22:138:40275:310000450",
+            "whiwa:22:138:40275:320000090",
+            "whiwa:22:138:40275:310000440",
+            "whiwa:22:138:40275:320000060"
+          ]
         }
       ]
     },
     "dpmatrix": {
-      "currentSeasonId": "7",
+      "currentSeasonId": "8",
       "currentStrategy": "highestSeasonId",
       "seasons": [
         {
@@ -2442,7 +2645,7 @@ window.WUWA_TARGET_DATA = {
         },
         {
           "id": "7",
-          "current": true,
+          "current": false,
           "start": null,
           "finish": null,
           "targetIds": [
@@ -2461,6 +2664,29 @@ window.WUWA_TARGET_DATA = {
             "dpmatrix:7:14:3:13:147",
             "dpmatrix:7:14:3:14:148",
             "dpmatrix:7:14:3:15:149"
+          ]
+        },
+        {
+          "id": "8",
+          "current": true,
+          "start": null,
+          "finish": null,
+          "targetIds": [
+            "dpmatrix:8:16:1:1:155",
+            "dpmatrix:8:16:1:2:156",
+            "dpmatrix:8:16:1:3:157",
+            "dpmatrix:8:16:1:4:158",
+            "dpmatrix:8:16:1:5:159",
+            "dpmatrix:8:16:2:6:160",
+            "dpmatrix:8:16:2:7:161",
+            "dpmatrix:8:16:2:8:162",
+            "dpmatrix:8:16:2:9:163",
+            "dpmatrix:8:16:2:10:164",
+            "dpmatrix:8:16:3:11:165",
+            "dpmatrix:8:16:3:12:166",
+            "dpmatrix:8:16:3:13:167",
+            "dpmatrix:8:16:3:14:168",
+            "dpmatrix:8:16:3:15:169"
           ]
         }
       ]
@@ -5259,6 +5485,1434 @@ window.WUWA_TARGET_DATA = {
         "clause": -1
       },
       "parentId": "dpmatrix:7:32:enhancement"
+    },
+    "toa:40:438:92008110:def-ignore": {
+      "id": "toa:40:438:92008110:def-ignore",
+      "mode": "toa",
+      "control": "fixed",
+      "effects": [
+        {
+          "zone": "defIgnore",
+          "value": 25,
+          "modes": [
+            "skill",
+            "effect"
+          ]
+        }
+      ],
+      "localeRef": {
+        "kind": "toaBuff",
+        "seasonId": "40",
+        "recordId": 438,
+        "buffId": 92008110,
+        "clause": 0
+      }
+    },
+    "toa:40:438:92008110:negative-status": {
+      "id": "toa:40:438:92008110:negative-status",
+      "mode": "toa",
+      "control": "toggle",
+      "effects": [
+        {
+          "zone": "vulnerability",
+          "value": 20,
+          "modes": [
+            "skill"
+          ]
+        }
+      ],
+      "localeRef": {
+        "kind": "toaBuff",
+        "seasonId": "40",
+        "recordId": 438,
+        "buffId": 92008110,
+        "clause": -1
+      }
+    },
+    "toa:40:439:92008195:atk": {
+      "id": "toa:40:439:92008195:atk",
+      "mode": "toa",
+      "control": "fixed",
+      "effects": [
+        {
+          "zone": "attackPercent",
+          "value": 30,
+          "modes": [
+            "skill"
+          ]
+        }
+      ],
+      "localeRef": {
+        "kind": "toaBuff",
+        "seasonId": "40",
+        "recordId": 439,
+        "buffId": 92008195,
+        "clause": 0
+      }
+    },
+    "toa:40:439:92008195:intro-all-dmg": {
+      "id": "toa:40:439:92008195:intro-all-dmg",
+      "mode": "toa",
+      "control": "toggle",
+      "effects": [
+        {
+          "zone": "damageBonus",
+          "value": 30,
+          "modes": [
+            "skill"
+          ]
+        }
+      ],
+      "localeRef": {
+        "kind": "toaBuff",
+        "seasonId": "40",
+        "recordId": 439,
+        "buffId": 92008195,
+        "clause": -1
+      }
+    },
+    "toa:40:440:92008195:atk": {
+      "id": "toa:40:440:92008195:atk",
+      "mode": "toa",
+      "control": "fixed",
+      "effects": [
+        {
+          "zone": "attackPercent",
+          "value": 30,
+          "modes": [
+            "skill"
+          ]
+        }
+      ],
+      "localeRef": {
+        "kind": "toaBuff",
+        "seasonId": "40",
+        "recordId": 440,
+        "buffId": 92008195,
+        "clause": 0
+      }
+    },
+    "toa:40:440:92008195:intro-all-dmg": {
+      "id": "toa:40:440:92008195:intro-all-dmg",
+      "mode": "toa",
+      "control": "toggle",
+      "effects": [
+        {
+          "zone": "damageBonus",
+          "value": 30,
+          "modes": [
+            "skill"
+          ]
+        }
+      ],
+      "localeRef": {
+        "kind": "toaBuff",
+        "seasonId": "40",
+        "recordId": 440,
+        "buffId": 92008195,
+        "clause": -1
+      }
+    },
+    "toa:40:441:92008205:time-ramp": {
+      "id": "toa:40:441:92008205:time-ramp",
+      "mode": "toa",
+      "control": "range",
+      "effects": [
+        {
+          "zone": "finalDmg",
+          "controlValue": true,
+          "modes": [
+            "skill"
+          ]
+        }
+      ],
+      "localeRef": {
+        "kind": "toaBuff",
+        "seasonId": "40",
+        "recordId": 441,
+        "buffId": 92008205,
+        "clause": 0
+      },
+      "min": 0,
+      "max": 60,
+      "step": 5,
+      "defaultValue": 0
+    },
+    "toa:40:441:92008197:fixed": {
+      "id": "toa:40:441:92008197:fixed",
+      "mode": "toa",
+      "control": "fixed",
+      "effects": [
+        {
+          "zone": "finalDmg",
+          "value": 20,
+          "modes": [
+            "skill"
+          ]
+        },
+        {
+          "zone": "finalDmg",
+          "value": 50,
+          "element": "electro",
+          "modes": [
+            "skill"
+          ]
+        }
+      ],
+      "localeRef": {
+        "kind": "toaBuff",
+        "seasonId": "40",
+        "recordId": 441,
+        "buffId": 92008197,
+        "clause": 0
+      }
+    },
+    "toa:40:441:92008197:shield-stacks": {
+      "id": "toa:40:441:92008197:shield-stacks",
+      "mode": "toa",
+      "control": "range",
+      "effects": [
+        {
+          "zone": "damageBonus",
+          "value": 12,
+          "controlMultiplier": true,
+          "element": "fusion",
+          "modes": [
+            "skill"
+          ]
+        }
+      ],
+      "localeRef": {
+        "kind": "toaBuff",
+        "seasonId": "40",
+        "recordId": 441,
+        "buffId": 92008197,
+        "clause": -2
+      },
+      "min": 0,
+      "max": 10,
+      "step": 1,
+      "defaultValue": 0
+    },
+    "toa:40:442:92008205:time-ramp": {
+      "id": "toa:40:442:92008205:time-ramp",
+      "mode": "toa",
+      "control": "range",
+      "effects": [
+        {
+          "zone": "finalDmg",
+          "controlValue": true,
+          "modes": [
+            "skill"
+          ]
+        }
+      ],
+      "localeRef": {
+        "kind": "toaBuff",
+        "seasonId": "40",
+        "recordId": 442,
+        "buffId": 92008205,
+        "clause": 0
+      },
+      "min": 0,
+      "max": 60,
+      "step": 5,
+      "defaultValue": 0
+    },
+    "toa:40:442:92008197:fixed": {
+      "id": "toa:40:442:92008197:fixed",
+      "mode": "toa",
+      "control": "fixed",
+      "effects": [
+        {
+          "zone": "finalDmg",
+          "value": 20,
+          "modes": [
+            "skill"
+          ]
+        },
+        {
+          "zone": "finalDmg",
+          "value": 50,
+          "element": "electro",
+          "modes": [
+            "skill"
+          ]
+        }
+      ],
+      "localeRef": {
+        "kind": "toaBuff",
+        "seasonId": "40",
+        "recordId": 442,
+        "buffId": 92008197,
+        "clause": 0
+      }
+    },
+    "toa:40:442:92008197:shield-stacks": {
+      "id": "toa:40:442:92008197:shield-stacks",
+      "mode": "toa",
+      "control": "range",
+      "effects": [
+        {
+          "zone": "damageBonus",
+          "value": 12,
+          "controlMultiplier": true,
+          "element": "fusion",
+          "modes": [
+            "skill"
+          ]
+        }
+      ],
+      "localeRef": {
+        "kind": "toaBuff",
+        "seasonId": "40",
+        "recordId": 442,
+        "buffId": 92008197,
+        "clause": -2
+      },
+      "min": 0,
+      "max": 10,
+      "step": 1,
+      "defaultValue": 0
+    },
+    "toa:40:446:92008030:intro-atk": {
+      "id": "toa:40:446:92008030:intro-atk",
+      "mode": "toa",
+      "control": "toggle",
+      "effects": [
+        {
+          "zone": "attackPercent",
+          "value": 20,
+          "modes": [
+            "skill"
+          ]
+        }
+      ],
+      "localeRef": {
+        "kind": "toaBuff",
+        "seasonId": "40",
+        "recordId": 446,
+        "buffId": 92008030,
+        "clause": 0
+      }
+    },
+    "toa:40:446:92008030:skill-liberation": {
+      "id": "toa:40:446:92008030:skill-liberation",
+      "mode": "toa",
+      "control": "toggle",
+      "effects": [
+        {
+          "zone": "typeBonus",
+          "value": 30,
+          "damageTypes": [
+            "resonanceLiberation"
+          ],
+          "modes": [
+            "skill"
+          ]
+        }
+      ],
+      "localeRef": {
+        "kind": "toaBuff",
+        "seasonId": "40",
+        "recordId": 446,
+        "buffId": 92008030,
+        "clause": 1
+      }
+    },
+    "whiwa:21:71500011:token": {
+      "id": "whiwa:21:71500011:token",
+      "mode": "whiwa",
+      "control": "option",
+      "effects": [],
+      "localeRef": {
+        "kind": "whiwaItem",
+        "seasonId": "21",
+        "itemId": 71500011,
+        "clause": null
+      },
+      "qualityId": 4
+    },
+    "whiwa:21:71501001:token": {
+      "id": "whiwa:21:71501001:token",
+      "mode": "whiwa",
+      "control": "option",
+      "effects": [
+        {
+          "zone": "finalDmg",
+          "value": 15,
+          "modes": [
+            "skill"
+          ]
+        },
+        {
+          "zone": "vulnerability",
+          "value": 50,
+          "damageTypes": [
+            "tuneRupture",
+            "tuneRuptureDmg"
+          ],
+          "modes": [
+            "offset"
+          ]
+        }
+      ],
+      "localeRef": {
+        "kind": "whiwaItem",
+        "seasonId": "21",
+        "itemId": 71501001,
+        "clause": null
+      },
+      "qualityId": 4
+    },
+    "whiwa:21:71501002:token": {
+      "id": "whiwa:21:71501002:token",
+      "mode": "whiwa",
+      "control": "option",
+      "effects": [
+        {
+          "zone": "finalDmg",
+          "value": 15,
+          "modes": [
+            "skill"
+          ]
+        }
+      ],
+      "localeRef": {
+        "kind": "whiwaItem",
+        "seasonId": "21",
+        "itemId": 71501002,
+        "clause": null
+      },
+      "qualityId": 4
+    },
+    "whiwa:21:71501002:concentrated-harmony": {
+      "id": "whiwa:21:71501002:concentrated-harmony",
+      "mode": "whiwa",
+      "control": "toggle",
+      "effects": [
+        {
+          "zone": "finalDmg",
+          "value": 15,
+          "modes": [
+            "skill"
+          ]
+        }
+      ],
+      "localeRef": {
+        "kind": "whiwaItem",
+        "seasonId": "21",
+        "itemId": 71501002,
+        "clause": -1,
+        "dropLeadingCommaClause": true
+      },
+      "parentId": "whiwa:21:71501002:token"
+    },
+    "whiwa:21:71501003:token": {
+      "id": "whiwa:21:71501003:token",
+      "mode": "whiwa",
+      "control": "option",
+      "effects": [
+        {
+          "zone": "finalDmg",
+          "value": 15,
+          "modes": [
+            "skill"
+          ]
+        },
+        {
+          "zone": "finalDmg",
+          "value": 25,
+          "damageTypes": [
+            "echoSkill"
+          ],
+          "modes": [
+            "skill"
+          ]
+        }
+      ],
+      "localeRef": {
+        "kind": "whiwaItem",
+        "seasonId": "21",
+        "itemId": 71501003,
+        "clause": null
+      },
+      "qualityId": 4
+    },
+    "whiwa:21:71501004:token": {
+      "id": "whiwa:21:71501004:token",
+      "mode": "whiwa",
+      "control": "option",
+      "effects": [
+        {
+          "zone": "finalDmg",
+          "value": 15,
+          "modes": [
+            "skill"
+          ]
+        }
+      ],
+      "localeRef": {
+        "kind": "whiwaItem",
+        "seasonId": "21",
+        "itemId": 71501004,
+        "clause": null
+      },
+      "qualityId": 4
+    },
+    "whiwa:21:71501004:negative-status": {
+      "id": "whiwa:21:71501004:negative-status",
+      "mode": "whiwa",
+      "control": "toggle",
+      "effects": [
+        {
+          "zone": "finalDmg",
+          "value": 15,
+          "modes": [
+            "skill"
+          ]
+        }
+      ],
+      "localeRef": {
+        "kind": "whiwaItem",
+        "seasonId": "21",
+        "itemId": 71501004,
+        "clause": -1,
+        "dropLeadingCommaClause": true
+      },
+      "parentId": "whiwa:21:71501004:token"
+    },
+    "whiwa:21:71500098:token": {
+      "id": "whiwa:21:71500098:token",
+      "mode": "whiwa",
+      "control": "option",
+      "effects": [
+        {
+          "zone": "amplify",
+          "value": 25,
+          "modes": [
+            "skill"
+          ]
+        }
+      ],
+      "localeRef": {
+        "kind": "whiwaItem",
+        "seasonId": "21",
+        "itemId": 71500098,
+        "clause": null
+      },
+      "qualityId": 4
+    },
+    "whiwa:21:71500099:token": {
+      "id": "whiwa:21:71500099:token",
+      "mode": "whiwa",
+      "control": "option",
+      "effects": [],
+      "localeRef": {
+        "kind": "whiwaItem",
+        "seasonId": "21",
+        "itemId": 71500099,
+        "clause": null
+      },
+      "qualityId": 5
+    },
+    "whiwa:21:71500099:shield-stacks": {
+      "id": "whiwa:21:71500099:shield-stacks",
+      "mode": "whiwa",
+      "control": "range",
+      "effects": [
+        {
+          "zone": "damageBonus",
+          "value": 3,
+          "controlMultiplier": true,
+          "element": "fusion",
+          "modes": [
+            "skill"
+          ]
+        },
+        {
+          "zone": "finalDmg",
+          "value": 2.5,
+          "controlMultiplier": true,
+          "damageTypes": [
+            "heavy"
+          ],
+          "modes": [
+            "skill"
+          ]
+        }
+      ],
+      "localeRef": {
+        "kind": "whiwaItem",
+        "seasonId": "21",
+        "itemId": 71500099,
+        "clause": 0,
+        "dropLeadingCommaClause": false
+      },
+      "parentId": "whiwa:21:71500099:token",
+      "min": 0,
+      "max": 15,
+      "step": 1,
+      "defaultValue": 0
+    },
+    "whiwa:21:71500100:token": {
+      "id": "whiwa:21:71500100:token",
+      "mode": "whiwa",
+      "control": "option",
+      "effects": [
+        {
+          "zone": "finalDmg",
+          "value": 50,
+          "effect": "frost",
+          "modes": [
+            "effect"
+          ]
+        }
+      ],
+      "localeRef": {
+        "kind": "whiwaItem",
+        "seasonId": "21",
+        "itemId": 71500100,
+        "clause": null
+      },
+      "qualityId": 5
+    },
+    "whiwa:21:71500100:glacio-chafe": {
+      "id": "whiwa:21:71500100:glacio-chafe",
+      "mode": "whiwa",
+      "control": "toggle",
+      "effects": [
+        {
+          "zone": "finalDmg",
+          "value": 50,
+          "element": "glacio",
+          "modes": [
+            "skill"
+          ]
+        }
+      ],
+      "localeRef": {
+        "kind": "whiwaItem",
+        "seasonId": "21",
+        "itemId": 71500100,
+        "clause": 1,
+        "dropLeadingCommaClause": false
+      },
+      "parentId": "whiwa:21:71500100:token"
+    },
+    "whiwa:21:71500101:token": {
+      "id": "whiwa:21:71500101:token",
+      "mode": "whiwa",
+      "control": "option",
+      "effects": [],
+      "localeRef": {
+        "kind": "whiwaItem",
+        "seasonId": "21",
+        "itemId": 71500101,
+        "clause": null
+      },
+      "qualityId": 5
+    },
+    "whiwa:21:71500101:tune-strain": {
+      "id": "whiwa:21:71500101:tune-strain",
+      "mode": "whiwa",
+      "control": "toggle",
+      "effects": [
+        {
+          "zone": "finalDmg",
+          "value": 40,
+          "modes": [
+            "skill"
+          ]
+        }
+      ],
+      "localeRef": {
+        "kind": "whiwaItem",
+        "seasonId": "21",
+        "itemId": 71500101,
+        "clause": 0,
+        "dropLeadingCommaClause": false
+      },
+      "parentId": "whiwa:21:71500101:token"
+    },
+    "whiwa:21:71500101:tune-break": {
+      "id": "whiwa:21:71500101:tune-break",
+      "mode": "whiwa",
+      "control": "toggle",
+      "effects": [
+        {
+          "zone": "damageBonus",
+          "value": 30,
+          "modes": [
+            "skill"
+          ]
+        },
+        {
+          "zone": "damageBonus",
+          "value": 30,
+          "element": "aero",
+          "modes": [
+            "skill"
+          ]
+        }
+      ],
+      "localeRef": {
+        "kind": "whiwaItem",
+        "seasonId": "21",
+        "itemId": 71500101,
+        "clause": 1,
+        "dropLeadingCommaClause": false
+      },
+      "parentId": "whiwa:21:71500101:token"
+    },
+    "whiwa:21:129:tide-state": {
+      "id": "whiwa:21:129:tide-state",
+      "mode": "whiwa",
+      "control": "toggle",
+      "effects": [
+        {
+          "zone": "finalDmg",
+          "value": 60,
+          "modes": [
+            "skill"
+          ]
+        }
+      ],
+      "localeRef": {
+        "kind": "whiwaLevel",
+        "seasonId": "21",
+        "levelId": 129,
+        "clause": -2
+      }
+    },
+    "whiwa:21:130:tide-state": {
+      "id": "whiwa:21:130:tide-state",
+      "mode": "whiwa",
+      "control": "toggle",
+      "effects": [
+        {
+          "zone": "finalDmg",
+          "value": 60,
+          "modes": [
+            "skill"
+          ]
+        }
+      ],
+      "localeRef": {
+        "kind": "whiwaLevel",
+        "seasonId": "21",
+        "levelId": 130,
+        "clause": -2
+      }
+    },
+    "whiwa:21:131:tide-state": {
+      "id": "whiwa:21:131:tide-state",
+      "mode": "whiwa",
+      "control": "toggle",
+      "effects": [
+        {
+          "zone": "finalDmg",
+          "value": 60,
+          "modes": [
+            "skill"
+          ]
+        }
+      ],
+      "localeRef": {
+        "kind": "whiwaLevel",
+        "seasonId": "21",
+        "levelId": 131,
+        "clause": -2
+      }
+    },
+    "whiwa:21:132:tide-state": {
+      "id": "whiwa:21:132:tide-state",
+      "mode": "whiwa",
+      "control": "toggle",
+      "effects": [
+        {
+          "zone": "finalDmg",
+          "value": 60,
+          "modes": [
+            "skill"
+          ]
+        }
+      ],
+      "localeRef": {
+        "kind": "whiwaLevel",
+        "seasonId": "21",
+        "levelId": 132,
+        "clause": -3
+      }
+    },
+    "whiwa:21:132:endless-final": {
+      "id": "whiwa:21:132:endless-final",
+      "mode": "whiwa",
+      "control": "fixed",
+      "effects": [
+        {
+          "zone": "finalDmg",
+          "value": 30,
+          "modes": [
+            "skill"
+          ]
+        }
+      ],
+      "localeRef": {
+        "kind": "whiwaLevel",
+        "seasonId": "21",
+        "levelId": 132,
+        "clause": 0
+      }
+    },
+    "whiwa:22:71500011:token": {
+      "id": "whiwa:22:71500011:token",
+      "mode": "whiwa",
+      "control": "option",
+      "effects": [],
+      "localeRef": {
+        "kind": "whiwaItem",
+        "seasonId": "22",
+        "itemId": 71500011,
+        "clause": null
+      },
+      "qualityId": 4
+    },
+    "whiwa:22:71501001:token": {
+      "id": "whiwa:22:71501001:token",
+      "mode": "whiwa",
+      "control": "option",
+      "effects": [
+        {
+          "zone": "finalDmg",
+          "value": 15,
+          "modes": [
+            "skill"
+          ]
+        },
+        {
+          "zone": "vulnerability",
+          "value": 50,
+          "damageTypes": [
+            "tuneRupture",
+            "tuneRuptureDmg"
+          ],
+          "modes": [
+            "offset"
+          ]
+        }
+      ],
+      "localeRef": {
+        "kind": "whiwaItem",
+        "seasonId": "22",
+        "itemId": 71501001,
+        "clause": null
+      },
+      "qualityId": 4
+    },
+    "whiwa:22:71501002:token": {
+      "id": "whiwa:22:71501002:token",
+      "mode": "whiwa",
+      "control": "option",
+      "effects": [
+        {
+          "zone": "finalDmg",
+          "value": 15,
+          "modes": [
+            "skill"
+          ]
+        }
+      ],
+      "localeRef": {
+        "kind": "whiwaItem",
+        "seasonId": "22",
+        "itemId": 71501002,
+        "clause": null
+      },
+      "qualityId": 4
+    },
+    "whiwa:22:71501002:concentrated-harmony": {
+      "id": "whiwa:22:71501002:concentrated-harmony",
+      "mode": "whiwa",
+      "control": "toggle",
+      "effects": [
+        {
+          "zone": "finalDmg",
+          "value": 15,
+          "modes": [
+            "skill"
+          ]
+        }
+      ],
+      "localeRef": {
+        "kind": "whiwaItem",
+        "seasonId": "22",
+        "itemId": 71501002,
+        "clause": -1,
+        "dropLeadingCommaClause": true
+      },
+      "parentId": "whiwa:22:71501002:token"
+    },
+    "whiwa:22:71501003:token": {
+      "id": "whiwa:22:71501003:token",
+      "mode": "whiwa",
+      "control": "option",
+      "effects": [
+        {
+          "zone": "finalDmg",
+          "value": 15,
+          "modes": [
+            "skill"
+          ]
+        },
+        {
+          "zone": "finalDmg",
+          "value": 25,
+          "damageTypes": [
+            "echoSkill"
+          ],
+          "modes": [
+            "skill"
+          ]
+        }
+      ],
+      "localeRef": {
+        "kind": "whiwaItem",
+        "seasonId": "22",
+        "itemId": 71501003,
+        "clause": null
+      },
+      "qualityId": 4
+    },
+    "whiwa:22:71501004:token": {
+      "id": "whiwa:22:71501004:token",
+      "mode": "whiwa",
+      "control": "option",
+      "effects": [
+        {
+          "zone": "finalDmg",
+          "value": 15,
+          "modes": [
+            "skill"
+          ]
+        }
+      ],
+      "localeRef": {
+        "kind": "whiwaItem",
+        "seasonId": "22",
+        "itemId": 71501004,
+        "clause": null
+      },
+      "qualityId": 4
+    },
+    "whiwa:22:71501004:negative-status": {
+      "id": "whiwa:22:71501004:negative-status",
+      "mode": "whiwa",
+      "control": "toggle",
+      "effects": [
+        {
+          "zone": "finalDmg",
+          "value": 15,
+          "modes": [
+            "skill"
+          ]
+        }
+      ],
+      "localeRef": {
+        "kind": "whiwaItem",
+        "seasonId": "22",
+        "itemId": 71501004,
+        "clause": -1,
+        "dropLeadingCommaClause": true
+      },
+      "parentId": "whiwa:22:71501004:token"
+    },
+    "whiwa:22:71500102:token": {
+      "id": "whiwa:22:71500102:token",
+      "mode": "whiwa",
+      "control": "option",
+      "effects": [
+        {
+          "zone": "amplify",
+          "value": 25,
+          "modes": [
+            "skill"
+          ]
+        }
+      ],
+      "localeRef": {
+        "kind": "whiwaItem",
+        "seasonId": "22",
+        "itemId": 71500102,
+        "clause": null
+      },
+      "qualityId": 4
+    },
+    "whiwa:22:71500103:token": {
+      "id": "whiwa:22:71500103:token",
+      "mode": "whiwa",
+      "control": "option",
+      "effects": [],
+      "localeRef": {
+        "kind": "whiwaItem",
+        "seasonId": "22",
+        "itemId": 71500103,
+        "clause": null
+      },
+      "qualityId": 5
+    },
+    "whiwa:22:71500103:shield-stacks": {
+      "id": "whiwa:22:71500103:shield-stacks",
+      "mode": "whiwa",
+      "control": "range",
+      "effects": [
+        {
+          "zone": "damageBonus",
+          "value": 3,
+          "controlMultiplier": true,
+          "element": "fusion",
+          "modes": [
+            "skill"
+          ]
+        },
+        {
+          "zone": "finalDmg",
+          "value": 2.5,
+          "controlMultiplier": true,
+          "damageTypes": [
+            "heavy"
+          ],
+          "modes": [
+            "skill"
+          ]
+        }
+      ],
+      "localeRef": {
+        "kind": "whiwaItem",
+        "seasonId": "22",
+        "itemId": 71500103,
+        "clause": 0,
+        "dropLeadingCommaClause": false
+      },
+      "parentId": "whiwa:22:71500103:token",
+      "min": 0,
+      "max": 15,
+      "step": 1,
+      "defaultValue": 0
+    },
+    "whiwa:22:71500104:token": {
+      "id": "whiwa:22:71500104:token",
+      "mode": "whiwa",
+      "control": "option",
+      "effects": [
+        {
+          "zone": "finalDmg",
+          "value": 30,
+          "element": "electro",
+          "modes": [
+            "skill"
+          ]
+        }
+      ],
+      "localeRef": {
+        "kind": "whiwaItem",
+        "seasonId": "22",
+        "itemId": 71500104,
+        "clause": null
+      },
+      "qualityId": 5
+    },
+    "whiwa:22:71500104:intro-electro": {
+      "id": "whiwa:22:71500104:intro-electro",
+      "mode": "whiwa",
+      "control": "toggle",
+      "effects": [
+        {
+          "zone": "finalDmg",
+          "value": 30,
+          "element": "electro",
+          "modes": [
+            "skill"
+          ]
+        }
+      ],
+      "localeRef": {
+        "kind": "whiwaItem",
+        "seasonId": "22",
+        "itemId": 71500104,
+        "clause": 1,
+        "dropLeadingCommaClause": false
+      },
+      "parentId": "whiwa:22:71500104:token"
+    },
+    "whiwa:22:71500105:token": {
+      "id": "whiwa:22:71500105:token",
+      "mode": "whiwa",
+      "control": "option",
+      "effects": [],
+      "localeRef": {
+        "kind": "whiwaItem",
+        "seasonId": "22",
+        "itemId": 71500105,
+        "clause": null
+      },
+      "qualityId": 5
+    },
+    "whiwa:22:71500105:tune-strain": {
+      "id": "whiwa:22:71500105:tune-strain",
+      "mode": "whiwa",
+      "control": "toggle",
+      "effects": [
+        {
+          "zone": "finalDmg",
+          "value": 40,
+          "modes": [
+            "skill"
+          ]
+        }
+      ],
+      "localeRef": {
+        "kind": "whiwaItem",
+        "seasonId": "22",
+        "itemId": 71500105,
+        "clause": 0,
+        "dropLeadingCommaClause": false
+      },
+      "parentId": "whiwa:22:71500105:token"
+    },
+    "whiwa:22:71500105:tune-break": {
+      "id": "whiwa:22:71500105:tune-break",
+      "mode": "whiwa",
+      "control": "toggle",
+      "effects": [
+        {
+          "zone": "damageBonus",
+          "value": 30,
+          "modes": [
+            "skill"
+          ]
+        },
+        {
+          "zone": "damageBonus",
+          "value": 30,
+          "element": "aero",
+          "modes": [
+            "skill"
+          ]
+        }
+      ],
+      "localeRef": {
+        "kind": "whiwaItem",
+        "seasonId": "22",
+        "itemId": 71500105,
+        "clause": 1,
+        "dropLeadingCommaClause": false
+      },
+      "parentId": "whiwa:22:71500105:token"
+    },
+    "whiwa:22:135:tide-state": {
+      "id": "whiwa:22:135:tide-state",
+      "mode": "whiwa",
+      "control": "toggle",
+      "effects": [
+        {
+          "zone": "finalDmg",
+          "value": 60,
+          "modes": [
+            "skill"
+          ]
+        }
+      ],
+      "localeRef": {
+        "kind": "whiwaLevel",
+        "seasonId": "22",
+        "levelId": 135,
+        "clause": -2
+      }
+    },
+    "whiwa:22:136:tide-state": {
+      "id": "whiwa:22:136:tide-state",
+      "mode": "whiwa",
+      "control": "toggle",
+      "effects": [
+        {
+          "zone": "finalDmg",
+          "value": 60,
+          "modes": [
+            "skill"
+          ]
+        }
+      ],
+      "localeRef": {
+        "kind": "whiwaLevel",
+        "seasonId": "22",
+        "levelId": 136,
+        "clause": -2
+      }
+    },
+    "whiwa:22:137:tide-state": {
+      "id": "whiwa:22:137:tide-state",
+      "mode": "whiwa",
+      "control": "toggle",
+      "effects": [
+        {
+          "zone": "finalDmg",
+          "value": 60,
+          "modes": [
+            "skill"
+          ]
+        }
+      ],
+      "localeRef": {
+        "kind": "whiwaLevel",
+        "seasonId": "22",
+        "levelId": 137,
+        "clause": -2
+      }
+    },
+    "whiwa:22:138:tide-state": {
+      "id": "whiwa:22:138:tide-state",
+      "mode": "whiwa",
+      "control": "toggle",
+      "effects": [
+        {
+          "zone": "finalDmg",
+          "value": 60,
+          "modes": [
+            "skill"
+          ]
+        }
+      ],
+      "localeRef": {
+        "kind": "whiwaLevel",
+        "seasonId": "22",
+        "levelId": 138,
+        "clause": -3
+      }
+    },
+    "whiwa:22:138:endless-final": {
+      "id": "whiwa:22:138:endless-final",
+      "mode": "whiwa",
+      "control": "fixed",
+      "effects": [
+        {
+          "zone": "finalDmg",
+          "value": 30,
+          "modes": [
+            "skill"
+          ]
+        }
+      ],
+      "localeRef": {
+        "kind": "whiwaLevel",
+        "seasonId": "22",
+        "levelId": 138,
+        "clause": 0
+      }
+    },
+    "dpmatrix:8:37:enhancement": {
+      "id": "dpmatrix:8:37:enhancement",
+      "mode": "dpmatrix",
+      "control": "option",
+      "effects": [
+        {
+          "zone": "finalDmg",
+          "value": 20,
+          "modes": [
+            "skill"
+          ]
+        },
+        {
+          "zone": "finalDmg",
+          "value": 20,
+          "damageTypes": [
+            "basic"
+          ],
+          "modes": [
+            "skill"
+          ]
+        }
+      ],
+      "localeRef": {
+        "kind": "matrixBuff",
+        "seasonId": "8",
+        "levelId": 16,
+        "buffId": 37,
+        "clause": null
+      }
+    },
+    "dpmatrix:8:34:enhancement": {
+      "id": "dpmatrix:8:34:enhancement",
+      "mode": "dpmatrix",
+      "control": "option",
+      "effects": [],
+      "localeRef": {
+        "kind": "matrixBuff",
+        "seasonId": "8",
+        "levelId": 16,
+        "buffId": 34,
+        "clause": null
+      }
+    },
+    "dpmatrix:8:34:negative-status": {
+      "id": "dpmatrix:8:34:negative-status",
+      "mode": "dpmatrix",
+      "control": "toggle",
+      "effects": [
+        {
+          "zone": "finalDmg",
+          "value": 25,
+          "modes": [
+            "skill"
+          ]
+        },
+        {
+          "zone": "finalDmg",
+          "value": 30,
+          "element": "electro",
+          "modes": [
+            "skill"
+          ]
+        }
+      ],
+      "localeRef": {
+        "kind": "matrixBuff",
+        "seasonId": "8",
+        "levelId": 16,
+        "buffId": 34,
+        "clause": 0
+      },
+      "parentId": "dpmatrix:8:34:enhancement"
+    },
+    "dpmatrix:8:35:enhancement": {
+      "id": "dpmatrix:8:35:enhancement",
+      "mode": "dpmatrix",
+      "control": "option",
+      "effects": [
+        {
+          "zone": "finalDmg",
+          "value": 40,
+          "damageTypes": [
+            "echoSkill"
+          ],
+          "modes": [
+            "skill"
+          ]
+        }
+      ],
+      "localeRef": {
+        "kind": "matrixBuff",
+        "seasonId": "8",
+        "levelId": 16,
+        "buffId": 35,
+        "clause": null
+      }
+    },
+    "dpmatrix:8:35:unison-response": {
+      "id": "dpmatrix:8:35:unison-response",
+      "mode": "dpmatrix",
+      "control": "toggle",
+      "effects": [
+        {
+          "zone": "finalDmg",
+          "value": 55,
+          "modes": [
+            "skill"
+          ]
+        }
+      ],
+      "localeRef": {
+        "kind": "matrixBuff",
+        "seasonId": "8",
+        "levelId": 16,
+        "buffId": 35,
+        "clause": 1
+      },
+      "parentId": "dpmatrix:8:35:enhancement"
+    },
+    "dpmatrix:8:35:shield-stacks": {
+      "id": "dpmatrix:8:35:shield-stacks",
+      "mode": "dpmatrix",
+      "control": "range",
+      "effects": [
+        {
+          "zone": "finalDmg",
+          "value": 11,
+          "controlMultiplier": true,
+          "modes": [
+            "skill"
+          ]
+        }
+      ],
+      "localeRef": {
+        "kind": "matrixBuff",
+        "seasonId": "8",
+        "levelId": 16,
+        "buffId": 35,
+        "clause": 2
+      },
+      "parentId": "dpmatrix:8:35:enhancement",
+      "min": 0,
+      "max": 5,
+      "step": 1,
+      "defaultValue": 0
+    },
+    "dpmatrix:8:36:enhancement": {
+      "id": "dpmatrix:8:36:enhancement",
+      "mode": "dpmatrix",
+      "control": "option",
+      "effects": [],
+      "localeRef": {
+        "kind": "matrixBuff",
+        "seasonId": "8",
+        "levelId": 16,
+        "buffId": 36,
+        "clause": null
+      }
+    },
+    "dpmatrix:8:36:tune-shifting": {
+      "id": "dpmatrix:8:36:tune-shifting",
+      "mode": "dpmatrix",
+      "control": "toggle",
+      "effects": [
+        {
+          "zone": "finalDmg",
+          "value": 25,
+          "modes": [
+            "skill"
+          ]
+        }
+      ],
+      "localeRef": {
+        "kind": "matrixBuff",
+        "seasonId": "8",
+        "levelId": 16,
+        "buffId": 36,
+        "clause": 0
+      },
+      "parentId": "dpmatrix:8:36:enhancement"
+    },
+    "dpmatrix:8:36:hack-shifting": {
+      "id": "dpmatrix:8:36:hack-shifting",
+      "mode": "dpmatrix",
+      "control": "toggle",
+      "effects": [
+        {
+          "zone": "finalDmg",
+          "value": 30,
+          "modes": [
+            "skill"
+          ]
+        }
+      ],
+      "localeRef": {
+        "kind": "matrixBuff",
+        "seasonId": "8",
+        "levelId": 16,
+        "buffId": 36,
+        "clause": 1
+      },
+      "parentId": "dpmatrix:8:36:enhancement"
     }
   },
   "targets": {
@@ -77307,6 +78961,8891 @@ window.WUWA_TARGET_DATA = {
               "dpmatrix:7:30:enhancement",
               "dpmatrix:7:31:enhancement",
               "dpmatrix:7:32:enhancement"
+            ],
+            "defaultOptionId": null
+          }
+        ]
+      }
+    },
+    "openWorld:310001040": {
+      "id": "openWorld:310001040",
+      "mode": "openWorld",
+      "seasonId": "default",
+      "areaId": 1,
+      "stageId": 0,
+      "waveId": 0,
+      "monsterId": 310001040,
+      "nameId": "monster:310001040",
+      "element": "glacio",
+      "level": 90,
+      "resistances": {
+        "glacio": 10,
+        "fusion": 40,
+        "electro": 10,
+        "aero": 10,
+        "spectro": 10,
+        "havoc": 10
+      },
+      "resistance": {
+        "sourceKind": "monsterIntrinsic",
+        "includesModeModifiers": false,
+        "modifiers": []
+      },
+      "gameplay": {
+        "fixedIds": [],
+        "controlIds": [],
+        "choiceGroups": []
+      }
+    },
+    "openWorld:320000700": {
+      "id": "openWorld:320000700",
+      "mode": "openWorld",
+      "seasonId": "default",
+      "areaId": 2,
+      "stageId": 0,
+      "waveId": 0,
+      "monsterId": 320000700,
+      "nameId": "monster:320000700",
+      "element": "spectro",
+      "level": 90,
+      "resistances": {
+        "glacio": 10,
+        "fusion": 40,
+        "electro": 10,
+        "aero": 10,
+        "spectro": 10,
+        "havoc": 10
+      },
+      "resistance": {
+        "sourceKind": "monsterIntrinsic",
+        "includesModeModifiers": false,
+        "modifiers": []
+      },
+      "gameplay": {
+        "fixedIds": [],
+        "controlIds": [],
+        "choiceGroups": []
+      }
+    },
+    "openWorld:320000710": {
+      "id": "openWorld:320000710",
+      "mode": "openWorld",
+      "seasonId": "default",
+      "areaId": 2,
+      "stageId": 0,
+      "waveId": 0,
+      "monsterId": 320000710,
+      "nameId": "monster:320000710",
+      "element": "electro",
+      "level": 90,
+      "resistances": {
+        "glacio": 10,
+        "fusion": 10,
+        "electro": 40,
+        "aero": 10,
+        "spectro": 10,
+        "havoc": 10
+      },
+      "resistance": {
+        "sourceKind": "monsterIntrinsic",
+        "includesModeModifiers": false,
+        "modifiers": []
+      },
+      "gameplay": {
+        "fixedIds": [],
+        "controlIds": [],
+        "choiceGroups": []
+      }
+    },
+    "openWorld:340000330": {
+      "id": "openWorld:340000330",
+      "mode": "openWorld",
+      "seasonId": "default",
+      "areaId": 4,
+      "stageId": 0,
+      "waveId": 0,
+      "monsterId": 340000330,
+      "nameId": "monster:340000330",
+      "element": "electro",
+      "level": 90,
+      "resistances": {
+        "glacio": 10,
+        "fusion": 10,
+        "electro": 10,
+        "aero": 10,
+        "spectro": 10,
+        "havoc": 10
+      },
+      "resistance": {
+        "sourceKind": "monsterIntrinsic",
+        "includesModeModifiers": false,
+        "modifiers": []
+      },
+      "gameplay": {
+        "fixedIds": [],
+        "controlIds": [],
+        "choiceGroups": []
+      }
+    },
+    "openWorld:340000331": {
+      "id": "openWorld:340000331",
+      "mode": "openWorld",
+      "seasonId": "default",
+      "areaId": 4,
+      "stageId": 0,
+      "waveId": 0,
+      "monsterId": 340000331,
+      "nameId": "monster:340000331",
+      "element": "electro",
+      "level": 90,
+      "resistances": {
+        "glacio": 10,
+        "fusion": 10,
+        "electro": 10,
+        "aero": 10,
+        "spectro": 10,
+        "havoc": 10
+      },
+      "resistance": {
+        "sourceKind": "monsterIntrinsic",
+        "includesModeModifiers": false,
+        "modifiers": []
+      },
+      "gameplay": {
+        "fixedIds": [],
+        "controlIds": [],
+        "choiceGroups": []
+      }
+    },
+    "openWorld:340000332": {
+      "id": "openWorld:340000332",
+      "mode": "openWorld",
+      "seasonId": "default",
+      "areaId": 4,
+      "stageId": 0,
+      "waveId": 0,
+      "monsterId": 340000332,
+      "nameId": "monster:340000332",
+      "element": "electro",
+      "level": 90,
+      "resistances": {
+        "glacio": 10,
+        "fusion": 10,
+        "electro": 10,
+        "aero": 10,
+        "spectro": 10,
+        "havoc": 10
+      },
+      "resistance": {
+        "sourceKind": "monsterIntrinsic",
+        "includesModeModifiers": false,
+        "modifiers": []
+      },
+      "gameplay": {
+        "fixedIds": [],
+        "controlIds": [],
+        "choiceGroups": []
+      }
+    },
+    "openWorld:340000113": {
+      "id": "openWorld:340000113",
+      "mode": "openWorld",
+      "seasonId": "default",
+      "areaId": 2,
+      "stageId": 0,
+      "waveId": 0,
+      "monsterId": 340000113,
+      "nameId": "monster:340000113",
+      "element": "glacio",
+      "level": 90,
+      "resistances": {
+        "glacio": 40,
+        "fusion": 10,
+        "electro": 10,
+        "aero": 40,
+        "spectro": 10,
+        "havoc": 10
+      },
+      "resistance": {
+        "sourceKind": "monsterIntrinsic",
+        "includesModeModifiers": false,
+        "modifiers": []
+      },
+      "gameplay": {
+        "fixedIds": [],
+        "controlIds": [],
+        "choiceGroups": []
+      }
+    },
+    "openWorld:340000123": {
+      "id": "openWorld:340000123",
+      "mode": "openWorld",
+      "seasonId": "default",
+      "areaId": 4,
+      "stageId": 0,
+      "waveId": 0,
+      "monsterId": 340000123,
+      "nameId": "monster:340000123",
+      "element": "aero",
+      "level": 90,
+      "resistances": {
+        "glacio": 10,
+        "fusion": 10,
+        "electro": 10,
+        "aero": 40,
+        "spectro": 10,
+        "havoc": 10
+      },
+      "resistance": {
+        "sourceKind": "monsterIntrinsic",
+        "includesModeModifiers": false,
+        "modifiers": []
+      },
+      "gameplay": {
+        "fixedIds": [],
+        "controlIds": [],
+        "choiceGroups": []
+      }
+    },
+    "openWorld:340000142": {
+      "id": "openWorld:340000142",
+      "mode": "openWorld",
+      "seasonId": "default",
+      "areaId": 3,
+      "stageId": 0,
+      "waveId": 0,
+      "monsterId": 340000142,
+      "nameId": "monster:340000142",
+      "element": "fusion",
+      "level": 90,
+      "resistances": {
+        "glacio": 10,
+        "fusion": 40,
+        "electro": 10,
+        "aero": 10,
+        "spectro": 10,
+        "havoc": 10
+      },
+      "resistance": {
+        "sourceKind": "monsterIntrinsic",
+        "includesModeModifiers": false,
+        "modifiers": []
+      },
+      "gameplay": {
+        "fixedIds": [],
+        "controlIds": [],
+        "choiceGroups": []
+      }
+    },
+    "openWorld:340000172": {
+      "id": "openWorld:340000172",
+      "mode": "openWorld",
+      "seasonId": "default",
+      "areaId": 3,
+      "stageId": 0,
+      "waveId": 0,
+      "monsterId": 340000172,
+      "nameId": "monster:340000172",
+      "element": "electro",
+      "level": 90,
+      "resistances": {
+        "glacio": 10,
+        "fusion": 10,
+        "electro": 40,
+        "aero": 10,
+        "spectro": 10,
+        "havoc": 40
+      },
+      "resistance": {
+        "sourceKind": "monsterIntrinsic",
+        "includesModeModifiers": false,
+        "modifiers": []
+      },
+      "gameplay": {
+        "fixedIds": [],
+        "controlIds": [],
+        "choiceGroups": []
+      }
+    },
+    "openWorld:340000212": {
+      "id": "openWorld:340000212",
+      "mode": "openWorld",
+      "seasonId": "default",
+      "areaId": 3,
+      "stageId": 0,
+      "waveId": 0,
+      "monsterId": 340000212,
+      "nameId": "monster:340000212",
+      "element": "spectro",
+      "level": 90,
+      "resistances": {
+        "glacio": 10,
+        "fusion": 10,
+        "electro": 10,
+        "aero": 10,
+        "spectro": 40,
+        "havoc": 10
+      },
+      "resistance": {
+        "sourceKind": "monsterIntrinsic",
+        "includesModeModifiers": false,
+        "modifiers": []
+      },
+      "gameplay": {
+        "fixedIds": [],
+        "controlIds": [],
+        "choiceGroups": []
+      }
+    },
+    "openWorld:340000213": {
+      "id": "openWorld:340000213",
+      "mode": "openWorld",
+      "seasonId": "default",
+      "areaId": 3,
+      "stageId": 0,
+      "waveId": 0,
+      "monsterId": 340000213,
+      "nameId": "monster:340000213",
+      "element": null,
+      "level": 90,
+      "resistances": {
+        "glacio": 10,
+        "fusion": 10,
+        "electro": 10,
+        "aero": 10,
+        "spectro": 40,
+        "havoc": 10
+      },
+      "resistance": {
+        "sourceKind": "monsterIntrinsic",
+        "includesModeModifiers": false,
+        "modifiers": []
+      },
+      "gameplay": {
+        "fixedIds": [],
+        "controlIds": [],
+        "choiceGroups": []
+      }
+    },
+    "openWorld:340000221": {
+      "id": "openWorld:340000221",
+      "mode": "openWorld",
+      "seasonId": "default",
+      "areaId": 3,
+      "stageId": 0,
+      "waveId": 0,
+      "monsterId": 340000221,
+      "nameId": "monster:340000221",
+      "element": "fusion",
+      "level": 90,
+      "resistances": {
+        "glacio": 10,
+        "fusion": 40,
+        "electro": 10,
+        "aero": 10,
+        "spectro": 10,
+        "havoc": 10
+      },
+      "resistance": {
+        "sourceKind": "monsterIntrinsic",
+        "includesModeModifiers": false,
+        "modifiers": []
+      },
+      "gameplay": {
+        "fixedIds": [],
+        "controlIds": [],
+        "choiceGroups": []
+      }
+    },
+    "openWorld:340000222": {
+      "id": "openWorld:340000222",
+      "mode": "openWorld",
+      "seasonId": "default",
+      "areaId": 3,
+      "stageId": 0,
+      "waveId": 0,
+      "monsterId": 340000222,
+      "nameId": "monster:340000222",
+      "element": null,
+      "level": 90,
+      "resistances": {
+        "glacio": 10,
+        "fusion": 40,
+        "electro": 10,
+        "aero": 10,
+        "spectro": 10,
+        "havoc": 10
+      },
+      "resistance": {
+        "sourceKind": "monsterIntrinsic",
+        "includesModeModifiers": false,
+        "modifiers": []
+      },
+      "gameplay": {
+        "fixedIds": [],
+        "controlIds": [],
+        "choiceGroups": []
+      }
+    },
+    "openWorld:340000252": {
+      "id": "openWorld:340000252",
+      "mode": "openWorld",
+      "seasonId": "default",
+      "areaId": 4,
+      "stageId": 0,
+      "waveId": 0,
+      "monsterId": 340000252,
+      "nameId": "monster:340000252",
+      "element": null,
+      "level": 90,
+      "resistances": {
+        "glacio": 10,
+        "fusion": 10,
+        "electro": 10,
+        "aero": 10,
+        "spectro": 40,
+        "havoc": 10
+      },
+      "resistance": {
+        "sourceKind": "monsterIntrinsic",
+        "includesModeModifiers": false,
+        "modifiers": []
+      },
+      "gameplay": {
+        "fixedIds": [],
+        "controlIds": [],
+        "choiceGroups": []
+      }
+    },
+    "openWorld:340000261": {
+      "id": "openWorld:340000261",
+      "mode": "openWorld",
+      "seasonId": "default",
+      "areaId": 3,
+      "stageId": 0,
+      "waveId": 0,
+      "monsterId": 340000261,
+      "nameId": "monster:340000261",
+      "element": "aero",
+      "level": 90,
+      "resistances": {
+        "glacio": 10,
+        "fusion": 10,
+        "electro": 10,
+        "aero": 40,
+        "spectro": 10,
+        "havoc": 10
+      },
+      "resistance": {
+        "sourceKind": "monsterIntrinsic",
+        "includesModeModifiers": false,
+        "modifiers": []
+      },
+      "gameplay": {
+        "fixedIds": [],
+        "controlIds": [],
+        "choiceGroups": []
+      }
+    },
+    "toa:40:438:320000220": {
+      "id": "toa:40:438:320000220",
+      "mode": "toa",
+      "seasonId": "40",
+      "areaId": 1,
+      "stageId": 4,
+      "waveId": null,
+      "recordId": 438,
+      "monsterId": 320000220,
+      "nameId": "monster:320000220",
+      "element": "electro",
+      "level": 90,
+      "resistances": {
+        "glacio": 20,
+        "fusion": 20,
+        "electro": 60,
+        "aero": 10,
+        "spectro": 20,
+        "havoc": 20
+      },
+      "resistance": {
+        "sourceKind": "stageFinal",
+        "includesModeModifiers": true,
+        "modifiers": [
+          {
+            "kind": "attributeResistanceAdjustment",
+            "element": "aero",
+            "value": -10,
+            "sourceId": 92007113
+          }
+        ]
+      },
+      "gameplay": {
+        "fixedIds": [
+          "toa:40:438:92008110:def-ignore"
+        ],
+        "controlIds": [
+          "toa:40:438:92008110:negative-status"
+        ],
+        "choiceGroups": []
+      }
+    },
+    "toa:40:438:340000060": {
+      "id": "toa:40:438:340000060",
+      "mode": "toa",
+      "seasonId": "40",
+      "areaId": 1,
+      "stageId": 4,
+      "waveId": null,
+      "recordId": 438,
+      "monsterId": 340000060,
+      "nameId": "monster:340000060",
+      "element": "electro",
+      "level": 90,
+      "resistances": {
+        "glacio": 20,
+        "fusion": 20,
+        "electro": 60,
+        "aero": 10,
+        "spectro": 20,
+        "havoc": 20
+      },
+      "resistance": {
+        "sourceKind": "stageFinal",
+        "includesModeModifiers": true,
+        "modifiers": [
+          {
+            "kind": "attributeResistanceAdjustment",
+            "element": "aero",
+            "value": -10,
+            "sourceId": 92007113
+          }
+        ]
+      },
+      "gameplay": {
+        "fixedIds": [
+          "toa:40:438:92008110:def-ignore"
+        ],
+        "controlIds": [
+          "toa:40:438:92008110:negative-status"
+        ],
+        "choiceGroups": []
+      }
+    },
+    "toa:40:439:330000030": {
+      "id": "toa:40:439:330000030",
+      "mode": "toa",
+      "seasonId": "40",
+      "areaId": 2,
+      "stageId": 1,
+      "waveId": null,
+      "recordId": 439,
+      "monsterId": 330000030,
+      "nameId": "monster:330000030",
+      "element": "havoc",
+      "level": 100,
+      "resistances": {
+        "glacio": 30,
+        "fusion": 10,
+        "electro": 10,
+        "aero": 20,
+        "spectro": 20,
+        "havoc": 70
+      },
+      "resistance": {
+        "sourceKind": "stageFinal",
+        "includesModeModifiers": true,
+        "modifiers": [
+          {
+            "kind": "attributeResistanceAdjustment",
+            "element": "fusion",
+            "value": -10,
+            "sourceId": 92007152
+          },
+          {
+            "kind": "attributeResistanceAdjustment",
+            "element": "electro",
+            "value": -10,
+            "sourceId": 92007152
+          },
+          {
+            "kind": "attributeResistanceAdjustment",
+            "element": "glacio",
+            "value": 10,
+            "sourceId": 92007152
+          },
+          {
+            "kind": "attributeResistanceAdjustment",
+            "element": "havoc",
+            "value": 10,
+            "sourceId": 92007152
+          }
+        ]
+      },
+      "gameplay": {
+        "fixedIds": [
+          "toa:40:439:92008195:atk"
+        ],
+        "controlIds": [
+          "toa:40:439:92008195:intro-all-dmg"
+        ],
+        "choiceGroups": []
+      }
+    },
+    "toa:40:440:320000180": {
+      "id": "toa:40:440:320000180",
+      "mode": "toa",
+      "seasonId": "40",
+      "areaId": 2,
+      "stageId": 2,
+      "waveId": null,
+      "recordId": 440,
+      "monsterId": 320000180,
+      "nameId": "monster:320000180",
+      "element": "glacio",
+      "level": 100,
+      "resistances": {
+        "glacio": 70,
+        "fusion": 10,
+        "electro": 10,
+        "aero": 20,
+        "spectro": 20,
+        "havoc": 30
+      },
+      "resistance": {
+        "sourceKind": "stageFinal",
+        "includesModeModifiers": true,
+        "modifiers": [
+          {
+            "kind": "attributeResistanceAdjustment",
+            "element": "fusion",
+            "value": -10,
+            "sourceId": 92007152
+          },
+          {
+            "kind": "attributeResistanceAdjustment",
+            "element": "electro",
+            "value": -10,
+            "sourceId": 92007152
+          },
+          {
+            "kind": "attributeResistanceAdjustment",
+            "element": "glacio",
+            "value": 10,
+            "sourceId": 92007152
+          },
+          {
+            "kind": "attributeResistanceAdjustment",
+            "element": "havoc",
+            "value": 10,
+            "sourceId": 92007152
+          }
+        ]
+      },
+      "gameplay": {
+        "fixedIds": [
+          "toa:40:440:92008195:atk"
+        ],
+        "controlIds": [
+          "toa:40:440:92008195:intro-all-dmg"
+        ],
+        "choiceGroups": []
+      }
+    },
+    "toa:40:440:320000190": {
+      "id": "toa:40:440:320000190",
+      "mode": "toa",
+      "seasonId": "40",
+      "areaId": 2,
+      "stageId": 2,
+      "waveId": null,
+      "recordId": 440,
+      "monsterId": 320000190,
+      "nameId": "monster:320000190",
+      "element": "glacio",
+      "level": 75,
+      "resistances": {
+        "glacio": 70,
+        "fusion": 10,
+        "electro": 10,
+        "aero": 20,
+        "spectro": 20,
+        "havoc": 30
+      },
+      "resistance": {
+        "sourceKind": "stageFinal",
+        "includesModeModifiers": true,
+        "modifiers": [
+          {
+            "kind": "attributeResistanceAdjustment",
+            "element": "fusion",
+            "value": -10,
+            "sourceId": 92007152
+          },
+          {
+            "kind": "attributeResistanceAdjustment",
+            "element": "electro",
+            "value": -10,
+            "sourceId": 92007152
+          },
+          {
+            "kind": "attributeResistanceAdjustment",
+            "element": "glacio",
+            "value": 10,
+            "sourceId": 92007152
+          },
+          {
+            "kind": "attributeResistanceAdjustment",
+            "element": "havoc",
+            "value": 10,
+            "sourceId": 92007152
+          }
+        ]
+      },
+      "gameplay": {
+        "fixedIds": [
+          "toa:40:440:92008195:atk"
+        ],
+        "controlIds": [
+          "toa:40:440:92008195:intro-all-dmg"
+        ],
+        "choiceGroups": []
+      }
+    },
+    "toa:40:440:340000050": {
+      "id": "toa:40:440:340000050",
+      "mode": "toa",
+      "seasonId": "40",
+      "areaId": 2,
+      "stageId": 2,
+      "waveId": null,
+      "recordId": 440,
+      "monsterId": 340000050,
+      "nameId": "monster:340000050",
+      "element": "spectro",
+      "level": 100,
+      "resistances": {
+        "glacio": 30,
+        "fusion": 10,
+        "electro": 10,
+        "aero": 20,
+        "spectro": 60,
+        "havoc": 70
+      },
+      "resistance": {
+        "sourceKind": "stageFinal",
+        "includesModeModifiers": true,
+        "modifiers": [
+          {
+            "kind": "attributeResistanceAdjustment",
+            "element": "fusion",
+            "value": -10,
+            "sourceId": 92007152
+          },
+          {
+            "kind": "attributeResistanceAdjustment",
+            "element": "electro",
+            "value": -10,
+            "sourceId": 92007152
+          },
+          {
+            "kind": "attributeResistanceAdjustment",
+            "element": "glacio",
+            "value": 10,
+            "sourceId": 92007152
+          },
+          {
+            "kind": "attributeResistanceAdjustment",
+            "element": "havoc",
+            "value": 10,
+            "sourceId": 92007152
+          }
+        ]
+      },
+      "gameplay": {
+        "fixedIds": [
+          "toa:40:440:92008195:atk"
+        ],
+        "controlIds": [
+          "toa:40:440:92008195:intro-all-dmg"
+        ],
+        "choiceGroups": []
+      }
+    },
+    "toa:40:441:320000330": {
+      "id": "toa:40:441:320000330",
+      "mode": "toa",
+      "seasonId": "40",
+      "areaId": 2,
+      "stageId": 3,
+      "waveId": null,
+      "recordId": 441,
+      "monsterId": 320000330,
+      "nameId": "monster:320000330",
+      "element": "spectro",
+      "level": 100,
+      "resistances": {
+        "glacio": 35,
+        "fusion": 20,
+        "electro": 20,
+        "aero": 35,
+        "spectro": 75,
+        "havoc": 35
+      },
+      "resistance": {
+        "sourceKind": "stageFinal",
+        "includesModeModifiers": true,
+        "modifiers": [
+          {
+            "kind": "attributeResistanceAdjustment",
+            "element": "glacio",
+            "value": 15,
+            "sourceId": 92008196
+          },
+          {
+            "kind": "attributeResistanceAdjustment",
+            "element": "aero",
+            "value": 15,
+            "sourceId": 92008196
+          },
+          {
+            "kind": "attributeResistanceAdjustment",
+            "element": "spectro",
+            "value": 15,
+            "sourceId": 92008196
+          },
+          {
+            "kind": "attributeResistanceAdjustment",
+            "element": "havoc",
+            "value": 15,
+            "sourceId": 92008196
+          }
+        ]
+      },
+      "gameplay": {
+        "fixedIds": [
+          "toa:40:441:92008197:fixed"
+        ],
+        "controlIds": [
+          "toa:40:441:92008205:time-ramp",
+          "toa:40:441:92008197:shield-stacks"
+        ],
+        "choiceGroups": []
+      }
+    },
+    "toa:40:441:310000180": {
+      "id": "toa:40:441:310000180",
+      "mode": "toa",
+      "seasonId": "40",
+      "areaId": 2,
+      "stageId": 3,
+      "waveId": null,
+      "recordId": 441,
+      "monsterId": 310000180,
+      "nameId": "monster:310000180",
+      "element": "spectro",
+      "level": 100,
+      "resistances": {
+        "glacio": 35,
+        "fusion": 20,
+        "electro": 20,
+        "aero": 35,
+        "spectro": 75,
+        "havoc": 35
+      },
+      "resistance": {
+        "sourceKind": "stageFinal",
+        "includesModeModifiers": true,
+        "modifiers": [
+          {
+            "kind": "attributeResistanceAdjustment",
+            "element": "glacio",
+            "value": 15,
+            "sourceId": 92008196
+          },
+          {
+            "kind": "attributeResistanceAdjustment",
+            "element": "aero",
+            "value": 15,
+            "sourceId": 92008196
+          },
+          {
+            "kind": "attributeResistanceAdjustment",
+            "element": "spectro",
+            "value": 15,
+            "sourceId": 92008196
+          },
+          {
+            "kind": "attributeResistanceAdjustment",
+            "element": "havoc",
+            "value": 15,
+            "sourceId": 92008196
+          }
+        ]
+      },
+      "gameplay": {
+        "fixedIds": [
+          "toa:40:441:92008197:fixed"
+        ],
+        "controlIds": [
+          "toa:40:441:92008205:time-ramp",
+          "toa:40:441:92008197:shield-stacks"
+        ],
+        "choiceGroups": []
+      }
+    },
+    "toa:40:441:320000660": {
+      "id": "toa:40:441:320000660",
+      "mode": "toa",
+      "seasonId": "40",
+      "areaId": 2,
+      "stageId": 3,
+      "waveId": null,
+      "recordId": 441,
+      "monsterId": 320000660,
+      "nameId": "monster:320000660",
+      "element": "spectro",
+      "level": 100,
+      "resistances": {
+        "glacio": 35,
+        "fusion": 20,
+        "electro": 20,
+        "aero": 35,
+        "spectro": 75,
+        "havoc": 35
+      },
+      "resistance": {
+        "sourceKind": "stageFinal",
+        "includesModeModifiers": true,
+        "modifiers": [
+          {
+            "kind": "attributeResistanceAdjustment",
+            "element": "glacio",
+            "value": 15,
+            "sourceId": 92008196
+          },
+          {
+            "kind": "attributeResistanceAdjustment",
+            "element": "aero",
+            "value": 15,
+            "sourceId": 92008196
+          },
+          {
+            "kind": "attributeResistanceAdjustment",
+            "element": "spectro",
+            "value": 15,
+            "sourceId": 92008196
+          },
+          {
+            "kind": "attributeResistanceAdjustment",
+            "element": "havoc",
+            "value": 15,
+            "sourceId": 92008196
+          }
+        ]
+      },
+      "gameplay": {
+        "fixedIds": [
+          "toa:40:441:92008197:fixed"
+        ],
+        "controlIds": [
+          "toa:40:441:92008205:time-ramp",
+          "toa:40:441:92008197:shield-stacks"
+        ],
+        "choiceGroups": []
+      }
+    },
+    "toa:40:441:320000210": {
+      "id": "toa:40:441:320000210",
+      "mode": "toa",
+      "seasonId": "40",
+      "areaId": 2,
+      "stageId": 3,
+      "waveId": null,
+      "recordId": 441,
+      "monsterId": 320000210,
+      "nameId": "monster:320000210",
+      "element": "spectro",
+      "level": 100,
+      "resistances": {
+        "glacio": 35,
+        "fusion": 20,
+        "electro": 20,
+        "aero": 35,
+        "spectro": 75,
+        "havoc": 35
+      },
+      "resistance": {
+        "sourceKind": "stageFinal",
+        "includesModeModifiers": true,
+        "modifiers": [
+          {
+            "kind": "attributeResistanceAdjustment",
+            "element": "glacio",
+            "value": 15,
+            "sourceId": 92008196
+          },
+          {
+            "kind": "attributeResistanceAdjustment",
+            "element": "aero",
+            "value": 15,
+            "sourceId": 92008196
+          },
+          {
+            "kind": "attributeResistanceAdjustment",
+            "element": "spectro",
+            "value": 15,
+            "sourceId": 92008196
+          },
+          {
+            "kind": "attributeResistanceAdjustment",
+            "element": "havoc",
+            "value": 15,
+            "sourceId": 92008196
+          }
+        ]
+      },
+      "gameplay": {
+        "fixedIds": [
+          "toa:40:441:92008197:fixed"
+        ],
+        "controlIds": [
+          "toa:40:441:92008205:time-ramp",
+          "toa:40:441:92008197:shield-stacks"
+        ],
+        "choiceGroups": []
+      }
+    },
+    "toa:40:441:330000070": {
+      "id": "toa:40:441:330000070",
+      "mode": "toa",
+      "seasonId": "40",
+      "areaId": 2,
+      "stageId": 3,
+      "waveId": null,
+      "recordId": 441,
+      "monsterId": 330000070,
+      "nameId": "monster:330000070",
+      "element": "spectro",
+      "level": 100,
+      "resistances": {
+        "glacio": 35,
+        "fusion": 20,
+        "electro": 20,
+        "aero": 35,
+        "spectro": 75,
+        "havoc": 35
+      },
+      "resistance": {
+        "sourceKind": "stageFinal",
+        "includesModeModifiers": true,
+        "modifiers": [
+          {
+            "kind": "attributeResistanceAdjustment",
+            "element": "glacio",
+            "value": 15,
+            "sourceId": 92008196
+          },
+          {
+            "kind": "attributeResistanceAdjustment",
+            "element": "aero",
+            "value": 15,
+            "sourceId": 92008196
+          },
+          {
+            "kind": "attributeResistanceAdjustment",
+            "element": "spectro",
+            "value": 15,
+            "sourceId": 92008196
+          },
+          {
+            "kind": "attributeResistanceAdjustment",
+            "element": "havoc",
+            "value": 15,
+            "sourceId": 92008196
+          }
+        ]
+      },
+      "gameplay": {
+        "fixedIds": [
+          "toa:40:441:92008197:fixed"
+        ],
+        "controlIds": [
+          "toa:40:441:92008205:time-ramp",
+          "toa:40:441:92008197:shield-stacks"
+        ],
+        "choiceGroups": []
+      }
+    },
+    "toa:40:442:340000210": {
+      "id": "toa:40:442:340000210",
+      "mode": "toa",
+      "seasonId": "40",
+      "areaId": 2,
+      "stageId": 4,
+      "waveId": null,
+      "recordId": 442,
+      "monsterId": 340000210,
+      "nameId": "monster:340000210",
+      "element": "spectro",
+      "level": 100,
+      "resistances": {
+        "glacio": 35,
+        "fusion": 20,
+        "electro": 20,
+        "aero": 35,
+        "spectro": 75,
+        "havoc": 35
+      },
+      "resistance": {
+        "sourceKind": "stageFinal",
+        "includesModeModifiers": true,
+        "modifiers": [
+          {
+            "kind": "attributeResistanceAdjustment",
+            "element": "glacio",
+            "value": 15,
+            "sourceId": 92008196
+          },
+          {
+            "kind": "attributeResistanceAdjustment",
+            "element": "aero",
+            "value": 15,
+            "sourceId": 92008196
+          },
+          {
+            "kind": "attributeResistanceAdjustment",
+            "element": "spectro",
+            "value": 15,
+            "sourceId": 92008196
+          },
+          {
+            "kind": "attributeResistanceAdjustment",
+            "element": "havoc",
+            "value": 15,
+            "sourceId": 92008196
+          }
+        ]
+      },
+      "gameplay": {
+        "fixedIds": [
+          "toa:40:442:92008197:fixed"
+        ],
+        "controlIds": [
+          "toa:40:442:92008205:time-ramp",
+          "toa:40:442:92008197:shield-stacks"
+        ],
+        "choiceGroups": []
+      }
+    },
+    "toa:40:442:330000060": {
+      "id": "toa:40:442:330000060",
+      "mode": "toa",
+      "seasonId": "40",
+      "areaId": 2,
+      "stageId": 4,
+      "waveId": null,
+      "recordId": 442,
+      "monsterId": 330000060,
+      "nameId": "monster:330000060",
+      "element": "spectro",
+      "level": 100,
+      "resistances": {
+        "glacio": 35,
+        "fusion": 20,
+        "electro": 20,
+        "aero": 35,
+        "spectro": 75,
+        "havoc": 35
+      },
+      "resistance": {
+        "sourceKind": "stageFinal",
+        "includesModeModifiers": true,
+        "modifiers": [
+          {
+            "kind": "attributeResistanceAdjustment",
+            "element": "glacio",
+            "value": 15,
+            "sourceId": 92008196
+          },
+          {
+            "kind": "attributeResistanceAdjustment",
+            "element": "aero",
+            "value": 15,
+            "sourceId": 92008196
+          },
+          {
+            "kind": "attributeResistanceAdjustment",
+            "element": "spectro",
+            "value": 15,
+            "sourceId": 92008196
+          },
+          {
+            "kind": "attributeResistanceAdjustment",
+            "element": "havoc",
+            "value": 15,
+            "sourceId": 92008196
+          }
+        ]
+      },
+      "gameplay": {
+        "fixedIds": [
+          "toa:40:442:92008197:fixed"
+        ],
+        "controlIds": [
+          "toa:40:442:92008205:time-ramp",
+          "toa:40:442:92008197:shield-stacks"
+        ],
+        "choiceGroups": []
+      }
+    },
+    "toa:40:446:330000040": {
+      "id": "toa:40:446:330000040",
+      "mode": "toa",
+      "seasonId": "40",
+      "areaId": 3,
+      "stageId": 4,
+      "waveId": null,
+      "recordId": 446,
+      "monsterId": 330000040,
+      "nameId": "monster:330000040",
+      "element": "glacio",
+      "level": 90,
+      "resistances": {
+        "glacio": 60,
+        "fusion": 20,
+        "electro": 20,
+        "aero": 20,
+        "spectro": 20,
+        "havoc": 10
+      },
+      "resistance": {
+        "sourceKind": "stageFinal",
+        "includesModeModifiers": true,
+        "modifiers": [
+          {
+            "kind": "attributeResistanceAdjustment",
+            "element": "havoc",
+            "value": -10,
+            "sourceId": 92007115
+          }
+        ]
+      },
+      "gameplay": {
+        "fixedIds": [],
+        "controlIds": [
+          "toa:40:446:92008030:intro-atk",
+          "toa:40:446:92008030:skill-liberation"
+        ],
+        "choiceGroups": []
+      }
+    },
+    "whiwa:21:129:40256:310000550": {
+      "id": "whiwa:21:129:40256:310000550",
+      "mode": "whiwa",
+      "seasonId": "21",
+      "areaId": 2,
+      "stageId": 129,
+      "stageOrder": 9,
+      "waveId": 1,
+      "recordId": 40256,
+      "monsterId": 310000550,
+      "nameId": "monster:310000550",
+      "element": "aero",
+      "level": 90,
+      "resistances": {
+        "glacio": 20,
+        "fusion": 20,
+        "electro": 20,
+        "aero": 70,
+        "spectro": 20,
+        "havoc": 20
+      },
+      "resistance": {
+        "sourceKind": "composed",
+        "includesModeModifiers": true,
+        "intrinsicSource": "monster",
+        "modifiers": [
+          {
+            "kind": "modeBase",
+            "value": 10,
+            "sourceId": "whiwaTestedBase"
+          },
+          {
+            "kind": "attributeResistanceAdjustment",
+            "element": "aero",
+            "value": 20,
+            "sourceId": 680003216
+          }
+        ]
+      },
+      "gameplay": {
+        "fixedIds": [],
+        "controlIds": [
+          "whiwa:21:129:tide-state"
+        ],
+        "choiceGroups": [
+          {
+            "id": "whiwa:21:token",
+            "optionIds": [
+              "whiwa:21:71500011:token",
+              "whiwa:21:71501001:token",
+              "whiwa:21:71501002:token",
+              "whiwa:21:71501003:token",
+              "whiwa:21:71501004:token",
+              "whiwa:21:71500098:token",
+              "whiwa:21:71500099:token",
+              "whiwa:21:71500100:token",
+              "whiwa:21:71500101:token"
+            ],
+            "defaultOptionId": null
+          }
+        ]
+      }
+    },
+    "whiwa:21:129:40256:320000080": {
+      "id": "whiwa:21:129:40256:320000080",
+      "mode": "whiwa",
+      "seasonId": "21",
+      "areaId": 2,
+      "stageId": 129,
+      "stageOrder": 9,
+      "waveId": 1,
+      "recordId": 40256,
+      "monsterId": 320000080,
+      "nameId": "monster:320000080",
+      "element": "fusion",
+      "level": 90,
+      "resistances": {
+        "glacio": 20,
+        "fusion": 50,
+        "electro": 20,
+        "aero": 40,
+        "spectro": 20,
+        "havoc": 20
+      },
+      "resistance": {
+        "sourceKind": "composed",
+        "includesModeModifiers": true,
+        "intrinsicSource": "monster",
+        "modifiers": [
+          {
+            "kind": "modeBase",
+            "value": 10,
+            "sourceId": "whiwaTestedBase"
+          },
+          {
+            "kind": "attributeResistanceAdjustment",
+            "element": "aero",
+            "value": 20,
+            "sourceId": 680003216
+          }
+        ]
+      },
+      "gameplay": {
+        "fixedIds": [],
+        "controlIds": [
+          "whiwa:21:129:tide-state"
+        ],
+        "choiceGroups": [
+          {
+            "id": "whiwa:21:token",
+            "optionIds": [
+              "whiwa:21:71500011:token",
+              "whiwa:21:71501001:token",
+              "whiwa:21:71501002:token",
+              "whiwa:21:71501003:token",
+              "whiwa:21:71501004:token",
+              "whiwa:21:71500098:token",
+              "whiwa:21:71500099:token",
+              "whiwa:21:71500100:token",
+              "whiwa:21:71500101:token"
+            ],
+            "defaultOptionId": null
+          }
+        ]
+      }
+    },
+    "whiwa:21:129:40256:310000130": {
+      "id": "whiwa:21:129:40256:310000130",
+      "mode": "whiwa",
+      "seasonId": "21",
+      "areaId": 2,
+      "stageId": 129,
+      "stageOrder": 9,
+      "waveId": 1,
+      "recordId": 40256,
+      "monsterId": 310000130,
+      "nameId": "monster:310000130",
+      "element": "aero",
+      "level": 90,
+      "resistances": {
+        "glacio": 20,
+        "fusion": 20,
+        "electro": 20,
+        "aero": 70,
+        "spectro": 20,
+        "havoc": 20
+      },
+      "resistance": {
+        "sourceKind": "composed",
+        "includesModeModifiers": true,
+        "intrinsicSource": "monster",
+        "modifiers": [
+          {
+            "kind": "modeBase",
+            "value": 10,
+            "sourceId": "whiwaTestedBase"
+          },
+          {
+            "kind": "attributeResistanceAdjustment",
+            "element": "aero",
+            "value": 20,
+            "sourceId": 680003216
+          }
+        ]
+      },
+      "gameplay": {
+        "fixedIds": [],
+        "controlIds": [
+          "whiwa:21:129:tide-state"
+        ],
+        "choiceGroups": [
+          {
+            "id": "whiwa:21:token",
+            "optionIds": [
+              "whiwa:21:71500011:token",
+              "whiwa:21:71501001:token",
+              "whiwa:21:71501002:token",
+              "whiwa:21:71501003:token",
+              "whiwa:21:71501004:token",
+              "whiwa:21:71500098:token",
+              "whiwa:21:71500099:token",
+              "whiwa:21:71500100:token",
+              "whiwa:21:71500101:token"
+            ],
+            "defaultOptionId": null
+          }
+        ]
+      }
+    },
+    "whiwa:21:129:40256:320000110": {
+      "id": "whiwa:21:129:40256:320000110",
+      "mode": "whiwa",
+      "seasonId": "21",
+      "areaId": 2,
+      "stageId": 129,
+      "stageOrder": 9,
+      "waveId": 1,
+      "recordId": 40256,
+      "monsterId": 320000110,
+      "nameId": "monster:320000110",
+      "element": "aero",
+      "level": 90,
+      "resistances": {
+        "glacio": 20,
+        "fusion": 20,
+        "electro": 20,
+        "aero": 70,
+        "spectro": 20,
+        "havoc": 20
+      },
+      "resistance": {
+        "sourceKind": "composed",
+        "includesModeModifiers": true,
+        "intrinsicSource": "monster",
+        "modifiers": [
+          {
+            "kind": "modeBase",
+            "value": 10,
+            "sourceId": "whiwaTestedBase"
+          },
+          {
+            "kind": "attributeResistanceAdjustment",
+            "element": "aero",
+            "value": 20,
+            "sourceId": 680003216
+          }
+        ]
+      },
+      "gameplay": {
+        "fixedIds": [],
+        "controlIds": [
+          "whiwa:21:129:tide-state"
+        ],
+        "choiceGroups": [
+          {
+            "id": "whiwa:21:token",
+            "optionIds": [
+              "whiwa:21:71500011:token",
+              "whiwa:21:71501001:token",
+              "whiwa:21:71501002:token",
+              "whiwa:21:71501003:token",
+              "whiwa:21:71501004:token",
+              "whiwa:21:71500098:token",
+              "whiwa:21:71500099:token",
+              "whiwa:21:71500100:token",
+              "whiwa:21:71500101:token"
+            ],
+            "defaultOptionId": null
+          }
+        ]
+      }
+    },
+    "whiwa:21:129:40256:320000300": {
+      "id": "whiwa:21:129:40256:320000300",
+      "mode": "whiwa",
+      "seasonId": "21",
+      "areaId": 2,
+      "stageId": 129,
+      "stageOrder": 9,
+      "waveId": 1,
+      "recordId": 40256,
+      "monsterId": 320000300,
+      "nameId": "monster:320000300",
+      "element": null,
+      "level": 90,
+      "resistances": {
+        "glacio": 20,
+        "fusion": 20,
+        "electro": 20,
+        "aero": 40,
+        "spectro": 20,
+        "havoc": 20
+      },
+      "resistance": {
+        "sourceKind": "composed",
+        "includesModeModifiers": true,
+        "intrinsicSource": "monster",
+        "modifiers": [
+          {
+            "kind": "modeBase",
+            "value": 10,
+            "sourceId": "whiwaTestedBase"
+          },
+          {
+            "kind": "attributeResistanceAdjustment",
+            "element": "aero",
+            "value": 20,
+            "sourceId": 680003216
+          }
+        ]
+      },
+      "gameplay": {
+        "fixedIds": [],
+        "controlIds": [
+          "whiwa:21:129:tide-state"
+        ],
+        "choiceGroups": [
+          {
+            "id": "whiwa:21:token",
+            "optionIds": [
+              "whiwa:21:71500011:token",
+              "whiwa:21:71501001:token",
+              "whiwa:21:71501002:token",
+              "whiwa:21:71501003:token",
+              "whiwa:21:71501004:token",
+              "whiwa:21:71500098:token",
+              "whiwa:21:71500099:token",
+              "whiwa:21:71500100:token",
+              "whiwa:21:71500101:token"
+            ],
+            "defaultOptionId": null
+          }
+        ]
+      }
+    },
+    "whiwa:21:129:40256:310000100": {
+      "id": "whiwa:21:129:40256:310000100",
+      "mode": "whiwa",
+      "seasonId": "21",
+      "areaId": 2,
+      "stageId": 129,
+      "stageOrder": 9,
+      "waveId": 1,
+      "recordId": 40256,
+      "monsterId": 310000100,
+      "nameId": "monster:310000100",
+      "element": "aero",
+      "level": 90,
+      "resistances": {
+        "glacio": 20,
+        "fusion": 20,
+        "electro": 20,
+        "aero": 70,
+        "spectro": 20,
+        "havoc": 20
+      },
+      "resistance": {
+        "sourceKind": "composed",
+        "includesModeModifiers": true,
+        "intrinsicSource": "monster",
+        "modifiers": [
+          {
+            "kind": "modeBase",
+            "value": 10,
+            "sourceId": "whiwaTestedBase"
+          },
+          {
+            "kind": "attributeResistanceAdjustment",
+            "element": "aero",
+            "value": 20,
+            "sourceId": 680003216
+          }
+        ]
+      },
+      "gameplay": {
+        "fixedIds": [],
+        "controlIds": [
+          "whiwa:21:129:tide-state"
+        ],
+        "choiceGroups": [
+          {
+            "id": "whiwa:21:token",
+            "optionIds": [
+              "whiwa:21:71500011:token",
+              "whiwa:21:71501001:token",
+              "whiwa:21:71501002:token",
+              "whiwa:21:71501003:token",
+              "whiwa:21:71501004:token",
+              "whiwa:21:71500098:token",
+              "whiwa:21:71500099:token",
+              "whiwa:21:71500100:token",
+              "whiwa:21:71500101:token"
+            ],
+            "defaultOptionId": null
+          }
+        ]
+      }
+    },
+    "whiwa:21:129:40256:310000370": {
+      "id": "whiwa:21:129:40256:310000370",
+      "mode": "whiwa",
+      "seasonId": "21",
+      "areaId": 2,
+      "stageId": 129,
+      "stageOrder": 9,
+      "waveId": 1,
+      "recordId": 40256,
+      "monsterId": 310000370,
+      "nameId": "monster:310000370",
+      "element": "aero",
+      "level": 90,
+      "resistances": {
+        "glacio": 20,
+        "fusion": 20,
+        "electro": 20,
+        "aero": 70,
+        "spectro": 20,
+        "havoc": 20
+      },
+      "resistance": {
+        "sourceKind": "composed",
+        "includesModeModifiers": true,
+        "intrinsicSource": "monster",
+        "modifiers": [
+          {
+            "kind": "modeBase",
+            "value": 10,
+            "sourceId": "whiwaTestedBase"
+          },
+          {
+            "kind": "attributeResistanceAdjustment",
+            "element": "aero",
+            "value": 20,
+            "sourceId": 680003216
+          }
+        ]
+      },
+      "gameplay": {
+        "fixedIds": [],
+        "controlIds": [
+          "whiwa:21:129:tide-state"
+        ],
+        "choiceGroups": [
+          {
+            "id": "whiwa:21:token",
+            "optionIds": [
+              "whiwa:21:71500011:token",
+              "whiwa:21:71501001:token",
+              "whiwa:21:71501002:token",
+              "whiwa:21:71501003:token",
+              "whiwa:21:71501004:token",
+              "whiwa:21:71500098:token",
+              "whiwa:21:71500099:token",
+              "whiwa:21:71500100:token",
+              "whiwa:21:71500101:token"
+            ],
+            "defaultOptionId": null
+          }
+        ]
+      }
+    },
+    "whiwa:21:129:40256:320000030": {
+      "id": "whiwa:21:129:40256:320000030",
+      "mode": "whiwa",
+      "seasonId": "21",
+      "areaId": 2,
+      "stageId": 129,
+      "stageOrder": 9,
+      "waveId": 1,
+      "recordId": 40256,
+      "monsterId": 320000030,
+      "nameId": "monster:320000030",
+      "element": "aero",
+      "level": 90,
+      "resistances": {
+        "glacio": 20,
+        "fusion": 20,
+        "electro": 20,
+        "aero": 70,
+        "spectro": 20,
+        "havoc": 20
+      },
+      "resistance": {
+        "sourceKind": "composed",
+        "includesModeModifiers": true,
+        "intrinsicSource": "monster",
+        "modifiers": [
+          {
+            "kind": "modeBase",
+            "value": 10,
+            "sourceId": "whiwaTestedBase"
+          },
+          {
+            "kind": "attributeResistanceAdjustment",
+            "element": "aero",
+            "value": 20,
+            "sourceId": 680003216
+          }
+        ]
+      },
+      "gameplay": {
+        "fixedIds": [],
+        "controlIds": [
+          "whiwa:21:129:tide-state"
+        ],
+        "choiceGroups": [
+          {
+            "id": "whiwa:21:token",
+            "optionIds": [
+              "whiwa:21:71500011:token",
+              "whiwa:21:71501001:token",
+              "whiwa:21:71501002:token",
+              "whiwa:21:71501003:token",
+              "whiwa:21:71501004:token",
+              "whiwa:21:71500098:token",
+              "whiwa:21:71500099:token",
+              "whiwa:21:71500100:token",
+              "whiwa:21:71500101:token"
+            ],
+            "defaultOptionId": null
+          }
+        ]
+      }
+    },
+    "whiwa:21:129:40257:310000080": {
+      "id": "whiwa:21:129:40257:310000080",
+      "mode": "whiwa",
+      "seasonId": "21",
+      "areaId": 2,
+      "stageId": 129,
+      "stageOrder": 9,
+      "waveId": 2,
+      "recordId": 40257,
+      "monsterId": 310000080,
+      "nameId": "monster:310000080",
+      "element": "fusion",
+      "level": 90,
+      "resistances": {
+        "glacio": 20,
+        "fusion": 50,
+        "electro": 20,
+        "aero": 40,
+        "spectro": 20,
+        "havoc": 20
+      },
+      "resistance": {
+        "sourceKind": "composed",
+        "includesModeModifiers": true,
+        "intrinsicSource": "monster",
+        "modifiers": [
+          {
+            "kind": "modeBase",
+            "value": 10,
+            "sourceId": "whiwaTestedBase"
+          },
+          {
+            "kind": "attributeResistanceAdjustment",
+            "element": "aero",
+            "value": 20,
+            "sourceId": 680003216
+          }
+        ]
+      },
+      "gameplay": {
+        "fixedIds": [],
+        "controlIds": [
+          "whiwa:21:129:tide-state"
+        ],
+        "choiceGroups": [
+          {
+            "id": "whiwa:21:token",
+            "optionIds": [
+              "whiwa:21:71500011:token",
+              "whiwa:21:71501001:token",
+              "whiwa:21:71501002:token",
+              "whiwa:21:71501003:token",
+              "whiwa:21:71501004:token",
+              "whiwa:21:71500098:token",
+              "whiwa:21:71500099:token",
+              "whiwa:21:71500100:token",
+              "whiwa:21:71500101:token"
+            ],
+            "defaultOptionId": null
+          }
+        ]
+      }
+    },
+    "whiwa:21:129:40257:320000510": {
+      "id": "whiwa:21:129:40257:320000510",
+      "mode": "whiwa",
+      "seasonId": "21",
+      "areaId": 2,
+      "stageId": 129,
+      "stageOrder": 9,
+      "waveId": 2,
+      "recordId": 40257,
+      "monsterId": 320000510,
+      "nameId": "monster:320000510",
+      "element": "aero",
+      "level": 90,
+      "resistances": {
+        "glacio": 20,
+        "fusion": 20,
+        "electro": 20,
+        "aero": 70,
+        "spectro": 20,
+        "havoc": 20
+      },
+      "resistance": {
+        "sourceKind": "composed",
+        "includesModeModifiers": true,
+        "intrinsicSource": "monster",
+        "modifiers": [
+          {
+            "kind": "modeBase",
+            "value": 10,
+            "sourceId": "whiwaTestedBase"
+          },
+          {
+            "kind": "attributeResistanceAdjustment",
+            "element": "aero",
+            "value": 20,
+            "sourceId": 680003216
+          }
+        ]
+      },
+      "gameplay": {
+        "fixedIds": [],
+        "controlIds": [
+          "whiwa:21:129:tide-state"
+        ],
+        "choiceGroups": [
+          {
+            "id": "whiwa:21:token",
+            "optionIds": [
+              "whiwa:21:71500011:token",
+              "whiwa:21:71501001:token",
+              "whiwa:21:71501002:token",
+              "whiwa:21:71501003:token",
+              "whiwa:21:71501004:token",
+              "whiwa:21:71500098:token",
+              "whiwa:21:71500099:token",
+              "whiwa:21:71500100:token",
+              "whiwa:21:71500101:token"
+            ],
+            "defaultOptionId": null
+          }
+        ]
+      }
+    },
+    "whiwa:21:129:40257:310000060": {
+      "id": "whiwa:21:129:40257:310000060",
+      "mode": "whiwa",
+      "seasonId": "21",
+      "areaId": 2,
+      "stageId": 129,
+      "stageOrder": 9,
+      "waveId": 2,
+      "recordId": 40257,
+      "monsterId": 310000060,
+      "nameId": "monster:310000060",
+      "element": "fusion",
+      "level": 90,
+      "resistances": {
+        "glacio": 20,
+        "fusion": 50,
+        "electro": 20,
+        "aero": 40,
+        "spectro": 20,
+        "havoc": 20
+      },
+      "resistance": {
+        "sourceKind": "composed",
+        "includesModeModifiers": true,
+        "intrinsicSource": "monster",
+        "modifiers": [
+          {
+            "kind": "modeBase",
+            "value": 10,
+            "sourceId": "whiwaTestedBase"
+          },
+          {
+            "kind": "attributeResistanceAdjustment",
+            "element": "aero",
+            "value": 20,
+            "sourceId": 680003216
+          }
+        ]
+      },
+      "gameplay": {
+        "fixedIds": [],
+        "controlIds": [
+          "whiwa:21:129:tide-state"
+        ],
+        "choiceGroups": [
+          {
+            "id": "whiwa:21:token",
+            "optionIds": [
+              "whiwa:21:71500011:token",
+              "whiwa:21:71501001:token",
+              "whiwa:21:71501002:token",
+              "whiwa:21:71501003:token",
+              "whiwa:21:71501004:token",
+              "whiwa:21:71500098:token",
+              "whiwa:21:71500099:token",
+              "whiwa:21:71500100:token",
+              "whiwa:21:71500101:token"
+            ],
+            "defaultOptionId": null
+          }
+        ]
+      }
+    },
+    "whiwa:21:129:40257:320000280": {
+      "id": "whiwa:21:129:40257:320000280",
+      "mode": "whiwa",
+      "seasonId": "21",
+      "areaId": 2,
+      "stageId": 129,
+      "stageOrder": 9,
+      "waveId": 2,
+      "recordId": 40257,
+      "monsterId": 320000280,
+      "nameId": "monster:320000280",
+      "element": "fusion",
+      "level": 90,
+      "resistances": {
+        "glacio": 20,
+        "fusion": 50,
+        "electro": 20,
+        "aero": 40,
+        "spectro": 20,
+        "havoc": 20
+      },
+      "resistance": {
+        "sourceKind": "composed",
+        "includesModeModifiers": true,
+        "intrinsicSource": "monster",
+        "modifiers": [
+          {
+            "kind": "modeBase",
+            "value": 10,
+            "sourceId": "whiwaTestedBase"
+          },
+          {
+            "kind": "attributeResistanceAdjustment",
+            "element": "aero",
+            "value": 20,
+            "sourceId": 680003216
+          }
+        ]
+      },
+      "gameplay": {
+        "fixedIds": [],
+        "controlIds": [
+          "whiwa:21:129:tide-state"
+        ],
+        "choiceGroups": [
+          {
+            "id": "whiwa:21:token",
+            "optionIds": [
+              "whiwa:21:71500011:token",
+              "whiwa:21:71501001:token",
+              "whiwa:21:71501002:token",
+              "whiwa:21:71501003:token",
+              "whiwa:21:71501004:token",
+              "whiwa:21:71500098:token",
+              "whiwa:21:71500099:token",
+              "whiwa:21:71500100:token",
+              "whiwa:21:71500101:token"
+            ],
+            "defaultOptionId": null
+          }
+        ]
+      }
+    },
+    "whiwa:21:129:40257:320000300": {
+      "id": "whiwa:21:129:40257:320000300",
+      "mode": "whiwa",
+      "seasonId": "21",
+      "areaId": 2,
+      "stageId": 129,
+      "stageOrder": 9,
+      "waveId": 2,
+      "recordId": 40257,
+      "monsterId": 320000300,
+      "nameId": "monster:320000300",
+      "element": null,
+      "level": 90,
+      "resistances": {
+        "glacio": 20,
+        "fusion": 20,
+        "electro": 20,
+        "aero": 40,
+        "spectro": 20,
+        "havoc": 20
+      },
+      "resistance": {
+        "sourceKind": "composed",
+        "includesModeModifiers": true,
+        "intrinsicSource": "monster",
+        "modifiers": [
+          {
+            "kind": "modeBase",
+            "value": 10,
+            "sourceId": "whiwaTestedBase"
+          },
+          {
+            "kind": "attributeResistanceAdjustment",
+            "element": "aero",
+            "value": 20,
+            "sourceId": 680003216
+          }
+        ]
+      },
+      "gameplay": {
+        "fixedIds": [],
+        "controlIds": [
+          "whiwa:21:129:tide-state"
+        ],
+        "choiceGroups": [
+          {
+            "id": "whiwa:21:token",
+            "optionIds": [
+              "whiwa:21:71500011:token",
+              "whiwa:21:71501001:token",
+              "whiwa:21:71501002:token",
+              "whiwa:21:71501003:token",
+              "whiwa:21:71501004:token",
+              "whiwa:21:71500098:token",
+              "whiwa:21:71500099:token",
+              "whiwa:21:71500100:token",
+              "whiwa:21:71500101:token"
+            ],
+            "defaultOptionId": null
+          }
+        ]
+      }
+    },
+    "whiwa:21:129:40257:310000210": {
+      "id": "whiwa:21:129:40257:310000210",
+      "mode": "whiwa",
+      "seasonId": "21",
+      "areaId": 2,
+      "stageId": 129,
+      "stageOrder": 9,
+      "waveId": 2,
+      "recordId": 40257,
+      "monsterId": 310000210,
+      "nameId": "monster:310000210",
+      "element": "fusion",
+      "level": 90,
+      "resistances": {
+        "glacio": 20,
+        "fusion": 50,
+        "electro": 20,
+        "aero": 40,
+        "spectro": 20,
+        "havoc": 20
+      },
+      "resistance": {
+        "sourceKind": "composed",
+        "includesModeModifiers": true,
+        "intrinsicSource": "monster",
+        "modifiers": [
+          {
+            "kind": "modeBase",
+            "value": 10,
+            "sourceId": "whiwaTestedBase"
+          },
+          {
+            "kind": "attributeResistanceAdjustment",
+            "element": "aero",
+            "value": 20,
+            "sourceId": 680003216
+          }
+        ]
+      },
+      "gameplay": {
+        "fixedIds": [],
+        "controlIds": [
+          "whiwa:21:129:tide-state"
+        ],
+        "choiceGroups": [
+          {
+            "id": "whiwa:21:token",
+            "optionIds": [
+              "whiwa:21:71500011:token",
+              "whiwa:21:71501001:token",
+              "whiwa:21:71501002:token",
+              "whiwa:21:71501003:token",
+              "whiwa:21:71501004:token",
+              "whiwa:21:71500098:token",
+              "whiwa:21:71500099:token",
+              "whiwa:21:71500100:token",
+              "whiwa:21:71500101:token"
+            ],
+            "defaultOptionId": null
+          }
+        ]
+      }
+    },
+    "whiwa:21:129:40257:320000080": {
+      "id": "whiwa:21:129:40257:320000080",
+      "mode": "whiwa",
+      "seasonId": "21",
+      "areaId": 2,
+      "stageId": 129,
+      "stageOrder": 9,
+      "waveId": 2,
+      "recordId": 40257,
+      "monsterId": 320000080,
+      "nameId": "monster:320000080",
+      "element": "fusion",
+      "level": 90,
+      "resistances": {
+        "glacio": 20,
+        "fusion": 50,
+        "electro": 20,
+        "aero": 40,
+        "spectro": 20,
+        "havoc": 20
+      },
+      "resistance": {
+        "sourceKind": "composed",
+        "includesModeModifiers": true,
+        "intrinsicSource": "monster",
+        "modifiers": [
+          {
+            "kind": "modeBase",
+            "value": 10,
+            "sourceId": "whiwaTestedBase"
+          },
+          {
+            "kind": "attributeResistanceAdjustment",
+            "element": "aero",
+            "value": 20,
+            "sourceId": 680003216
+          }
+        ]
+      },
+      "gameplay": {
+        "fixedIds": [],
+        "controlIds": [
+          "whiwa:21:129:tide-state"
+        ],
+        "choiceGroups": [
+          {
+            "id": "whiwa:21:token",
+            "optionIds": [
+              "whiwa:21:71500011:token",
+              "whiwa:21:71501001:token",
+              "whiwa:21:71501002:token",
+              "whiwa:21:71501003:token",
+              "whiwa:21:71501004:token",
+              "whiwa:21:71500098:token",
+              "whiwa:21:71500099:token",
+              "whiwa:21:71500100:token",
+              "whiwa:21:71500101:token"
+            ],
+            "defaultOptionId": null
+          }
+        ]
+      }
+    },
+    "whiwa:21:129:40257:310000370": {
+      "id": "whiwa:21:129:40257:310000370",
+      "mode": "whiwa",
+      "seasonId": "21",
+      "areaId": 2,
+      "stageId": 129,
+      "stageOrder": 9,
+      "waveId": 2,
+      "recordId": 40257,
+      "monsterId": 310000370,
+      "nameId": "monster:310000370",
+      "element": "aero",
+      "level": 90,
+      "resistances": {
+        "glacio": 20,
+        "fusion": 20,
+        "electro": 20,
+        "aero": 70,
+        "spectro": 20,
+        "havoc": 20
+      },
+      "resistance": {
+        "sourceKind": "composed",
+        "includesModeModifiers": true,
+        "intrinsicSource": "monster",
+        "modifiers": [
+          {
+            "kind": "modeBase",
+            "value": 10,
+            "sourceId": "whiwaTestedBase"
+          },
+          {
+            "kind": "attributeResistanceAdjustment",
+            "element": "aero",
+            "value": 20,
+            "sourceId": 680003216
+          }
+        ]
+      },
+      "gameplay": {
+        "fixedIds": [],
+        "controlIds": [
+          "whiwa:21:129:tide-state"
+        ],
+        "choiceGroups": [
+          {
+            "id": "whiwa:21:token",
+            "optionIds": [
+              "whiwa:21:71500011:token",
+              "whiwa:21:71501001:token",
+              "whiwa:21:71501002:token",
+              "whiwa:21:71501003:token",
+              "whiwa:21:71501004:token",
+              "whiwa:21:71500098:token",
+              "whiwa:21:71500099:token",
+              "whiwa:21:71500100:token",
+              "whiwa:21:71500101:token"
+            ],
+            "defaultOptionId": null
+          }
+        ]
+      }
+    },
+    "whiwa:21:129:40257:320000030": {
+      "id": "whiwa:21:129:40257:320000030",
+      "mode": "whiwa",
+      "seasonId": "21",
+      "areaId": 2,
+      "stageId": 129,
+      "stageOrder": 9,
+      "waveId": 2,
+      "recordId": 40257,
+      "monsterId": 320000030,
+      "nameId": "monster:320000030",
+      "element": "aero",
+      "level": 90,
+      "resistances": {
+        "glacio": 20,
+        "fusion": 20,
+        "electro": 20,
+        "aero": 70,
+        "spectro": 20,
+        "havoc": 20
+      },
+      "resistance": {
+        "sourceKind": "composed",
+        "includesModeModifiers": true,
+        "intrinsicSource": "monster",
+        "modifiers": [
+          {
+            "kind": "modeBase",
+            "value": 10,
+            "sourceId": "whiwaTestedBase"
+          },
+          {
+            "kind": "attributeResistanceAdjustment",
+            "element": "aero",
+            "value": 20,
+            "sourceId": 680003216
+          }
+        ]
+      },
+      "gameplay": {
+        "fixedIds": [],
+        "controlIds": [
+          "whiwa:21:129:tide-state"
+        ],
+        "choiceGroups": [
+          {
+            "id": "whiwa:21:token",
+            "optionIds": [
+              "whiwa:21:71500011:token",
+              "whiwa:21:71501001:token",
+              "whiwa:21:71501002:token",
+              "whiwa:21:71501003:token",
+              "whiwa:21:71501004:token",
+              "whiwa:21:71500098:token",
+              "whiwa:21:71500099:token",
+              "whiwa:21:71500100:token",
+              "whiwa:21:71500101:token"
+            ],
+            "defaultOptionId": null
+          }
+        ]
+      }
+    },
+    "whiwa:21:130:40258:310000030": {
+      "id": "whiwa:21:130:40258:310000030",
+      "mode": "whiwa",
+      "seasonId": "21",
+      "areaId": 2,
+      "stageId": 130,
+      "stageOrder": 10,
+      "waveId": 1,
+      "recordId": 40258,
+      "monsterId": 310000030,
+      "nameId": "monster:310000030",
+      "element": "electro",
+      "level": 90,
+      "resistances": {
+        "glacio": 20,
+        "fusion": 20,
+        "electro": 70,
+        "aero": 20,
+        "spectro": 20,
+        "havoc": 20
+      },
+      "resistance": {
+        "sourceKind": "composed",
+        "includesModeModifiers": true,
+        "intrinsicSource": "monster",
+        "modifiers": [
+          {
+            "kind": "modeBase",
+            "value": 10,
+            "sourceId": "whiwaTestedBase"
+          },
+          {
+            "kind": "attributeResistanceAdjustment",
+            "element": "electro",
+            "value": 20,
+            "sourceId": 680003215
+          }
+        ]
+      },
+      "gameplay": {
+        "fixedIds": [],
+        "controlIds": [
+          "whiwa:21:130:tide-state"
+        ],
+        "choiceGroups": [
+          {
+            "id": "whiwa:21:token",
+            "optionIds": [
+              "whiwa:21:71500011:token",
+              "whiwa:21:71501001:token",
+              "whiwa:21:71501002:token",
+              "whiwa:21:71501003:token",
+              "whiwa:21:71501004:token",
+              "whiwa:21:71500098:token",
+              "whiwa:21:71500099:token",
+              "whiwa:21:71500100:token",
+              "whiwa:21:71500101:token"
+            ],
+            "defaultOptionId": null
+          }
+        ]
+      }
+    },
+    "whiwa:21:130:40258:320000190": {
+      "id": "whiwa:21:130:40258:320000190",
+      "mode": "whiwa",
+      "seasonId": "21",
+      "areaId": 2,
+      "stageId": 130,
+      "stageOrder": 10,
+      "waveId": 1,
+      "recordId": 40258,
+      "monsterId": 320000190,
+      "nameId": "monster:320000190",
+      "element": "glacio",
+      "level": 90,
+      "resistances": {
+        "glacio": 50,
+        "fusion": 20,
+        "electro": 40,
+        "aero": 20,
+        "spectro": 20,
+        "havoc": 20
+      },
+      "resistance": {
+        "sourceKind": "composed",
+        "includesModeModifiers": true,
+        "intrinsicSource": "monster",
+        "modifiers": [
+          {
+            "kind": "modeBase",
+            "value": 10,
+            "sourceId": "whiwaTestedBase"
+          },
+          {
+            "kind": "attributeResistanceAdjustment",
+            "element": "electro",
+            "value": 20,
+            "sourceId": 680003215
+          }
+        ]
+      },
+      "gameplay": {
+        "fixedIds": [],
+        "controlIds": [
+          "whiwa:21:130:tide-state"
+        ],
+        "choiceGroups": [
+          {
+            "id": "whiwa:21:token",
+            "optionIds": [
+              "whiwa:21:71500011:token",
+              "whiwa:21:71501001:token",
+              "whiwa:21:71501002:token",
+              "whiwa:21:71501003:token",
+              "whiwa:21:71501004:token",
+              "whiwa:21:71500098:token",
+              "whiwa:21:71500099:token",
+              "whiwa:21:71500100:token",
+              "whiwa:21:71500101:token"
+            ],
+            "defaultOptionId": null
+          }
+        ]
+      }
+    },
+    "whiwa:21:130:40258:310000560": {
+      "id": "whiwa:21:130:40258:310000560",
+      "mode": "whiwa",
+      "seasonId": "21",
+      "areaId": 2,
+      "stageId": 130,
+      "stageOrder": 10,
+      "waveId": 1,
+      "recordId": 40258,
+      "monsterId": 310000560,
+      "nameId": "monster:310000560",
+      "element": "electro",
+      "level": 90,
+      "resistances": {
+        "glacio": 20,
+        "fusion": 20,
+        "electro": 70,
+        "aero": 20,
+        "spectro": 20,
+        "havoc": 20
+      },
+      "resistance": {
+        "sourceKind": "composed",
+        "includesModeModifiers": true,
+        "intrinsicSource": "monster",
+        "modifiers": [
+          {
+            "kind": "modeBase",
+            "value": 10,
+            "sourceId": "whiwaTestedBase"
+          },
+          {
+            "kind": "attributeResistanceAdjustment",
+            "element": "electro",
+            "value": 20,
+            "sourceId": 680003215
+          }
+        ]
+      },
+      "gameplay": {
+        "fixedIds": [],
+        "controlIds": [
+          "whiwa:21:130:tide-state"
+        ],
+        "choiceGroups": [
+          {
+            "id": "whiwa:21:token",
+            "optionIds": [
+              "whiwa:21:71500011:token",
+              "whiwa:21:71501001:token",
+              "whiwa:21:71501002:token",
+              "whiwa:21:71501003:token",
+              "whiwa:21:71501004:token",
+              "whiwa:21:71500098:token",
+              "whiwa:21:71500099:token",
+              "whiwa:21:71500100:token",
+              "whiwa:21:71500101:token"
+            ],
+            "defaultOptionId": null
+          }
+        ]
+      }
+    },
+    "whiwa:21:130:40258:320000290": {
+      "id": "whiwa:21:130:40258:320000290",
+      "mode": "whiwa",
+      "seasonId": "21",
+      "areaId": 2,
+      "stageId": 130,
+      "stageOrder": 10,
+      "waveId": 1,
+      "recordId": 40258,
+      "monsterId": 320000290,
+      "nameId": "monster:320000290",
+      "element": "electro",
+      "level": 90,
+      "resistances": {
+        "glacio": 20,
+        "fusion": 20,
+        "electro": 70,
+        "aero": 20,
+        "spectro": 20,
+        "havoc": 20
+      },
+      "resistance": {
+        "sourceKind": "composed",
+        "includesModeModifiers": true,
+        "intrinsicSource": "monster",
+        "modifiers": [
+          {
+            "kind": "modeBase",
+            "value": 10,
+            "sourceId": "whiwaTestedBase"
+          },
+          {
+            "kind": "attributeResistanceAdjustment",
+            "element": "electro",
+            "value": 20,
+            "sourceId": 680003215
+          }
+        ]
+      },
+      "gameplay": {
+        "fixedIds": [],
+        "controlIds": [
+          "whiwa:21:130:tide-state"
+        ],
+        "choiceGroups": [
+          {
+            "id": "whiwa:21:token",
+            "optionIds": [
+              "whiwa:21:71500011:token",
+              "whiwa:21:71501001:token",
+              "whiwa:21:71501002:token",
+              "whiwa:21:71501003:token",
+              "whiwa:21:71501004:token",
+              "whiwa:21:71500098:token",
+              "whiwa:21:71500099:token",
+              "whiwa:21:71500100:token",
+              "whiwa:21:71500101:token"
+            ],
+            "defaultOptionId": null
+          }
+        ]
+      }
+    },
+    "whiwa:21:130:40258:320000300": {
+      "id": "whiwa:21:130:40258:320000300",
+      "mode": "whiwa",
+      "seasonId": "21",
+      "areaId": 2,
+      "stageId": 130,
+      "stageOrder": 10,
+      "waveId": 1,
+      "recordId": 40258,
+      "monsterId": 320000300,
+      "nameId": "monster:320000300",
+      "element": null,
+      "level": 90,
+      "resistances": {
+        "glacio": 20,
+        "fusion": 20,
+        "electro": 40,
+        "aero": 20,
+        "spectro": 20,
+        "havoc": 20
+      },
+      "resistance": {
+        "sourceKind": "composed",
+        "includesModeModifiers": true,
+        "intrinsicSource": "monster",
+        "modifiers": [
+          {
+            "kind": "modeBase",
+            "value": 10,
+            "sourceId": "whiwaTestedBase"
+          },
+          {
+            "kind": "attributeResistanceAdjustment",
+            "element": "electro",
+            "value": 20,
+            "sourceId": 680003215
+          }
+        ]
+      },
+      "gameplay": {
+        "fixedIds": [],
+        "controlIds": [
+          "whiwa:21:130:tide-state"
+        ],
+        "choiceGroups": [
+          {
+            "id": "whiwa:21:token",
+            "optionIds": [
+              "whiwa:21:71500011:token",
+              "whiwa:21:71501001:token",
+              "whiwa:21:71501002:token",
+              "whiwa:21:71501003:token",
+              "whiwa:21:71501004:token",
+              "whiwa:21:71500098:token",
+              "whiwa:21:71500099:token",
+              "whiwa:21:71500100:token",
+              "whiwa:21:71500101:token"
+            ],
+            "defaultOptionId": null
+          }
+        ]
+      }
+    },
+    "whiwa:21:130:40258:320000020": {
+      "id": "whiwa:21:130:40258:320000020",
+      "mode": "whiwa",
+      "seasonId": "21",
+      "areaId": 2,
+      "stageId": 130,
+      "stageOrder": 10,
+      "waveId": 1,
+      "recordId": 40258,
+      "monsterId": 320000020,
+      "nameId": "monster:320000020",
+      "element": "electro",
+      "level": 90,
+      "resistances": {
+        "glacio": 20,
+        "fusion": 20,
+        "electro": 70,
+        "aero": 20,
+        "spectro": 20,
+        "havoc": 20
+      },
+      "resistance": {
+        "sourceKind": "composed",
+        "includesModeModifiers": true,
+        "intrinsicSource": "monster",
+        "modifiers": [
+          {
+            "kind": "modeBase",
+            "value": 10,
+            "sourceId": "whiwaTestedBase"
+          },
+          {
+            "kind": "attributeResistanceAdjustment",
+            "element": "electro",
+            "value": 20,
+            "sourceId": 680003215
+          }
+        ]
+      },
+      "gameplay": {
+        "fixedIds": [],
+        "controlIds": [
+          "whiwa:21:130:tide-state"
+        ],
+        "choiceGroups": [
+          {
+            "id": "whiwa:21:token",
+            "optionIds": [
+              "whiwa:21:71500011:token",
+              "whiwa:21:71501001:token",
+              "whiwa:21:71501002:token",
+              "whiwa:21:71501003:token",
+              "whiwa:21:71501004:token",
+              "whiwa:21:71500098:token",
+              "whiwa:21:71500099:token",
+              "whiwa:21:71500100:token",
+              "whiwa:21:71500101:token"
+            ],
+            "defaultOptionId": null
+          }
+        ]
+      }
+    },
+    "whiwa:21:130:40259:310000390": {
+      "id": "whiwa:21:130:40259:310000390",
+      "mode": "whiwa",
+      "seasonId": "21",
+      "areaId": 2,
+      "stageId": 130,
+      "stageOrder": 10,
+      "waveId": 2,
+      "recordId": 40259,
+      "monsterId": 310000390,
+      "nameId": "monster:310000390",
+      "element": "glacio",
+      "level": 90,
+      "resistances": {
+        "glacio": 50,
+        "fusion": 20,
+        "electro": 40,
+        "aero": 20,
+        "spectro": 20,
+        "havoc": 20
+      },
+      "resistance": {
+        "sourceKind": "composed",
+        "includesModeModifiers": true,
+        "intrinsicSource": "monster",
+        "modifiers": [
+          {
+            "kind": "modeBase",
+            "value": 10,
+            "sourceId": "whiwaTestedBase"
+          },
+          {
+            "kind": "attributeResistanceAdjustment",
+            "element": "electro",
+            "value": 20,
+            "sourceId": 680003215
+          }
+        ]
+      },
+      "gameplay": {
+        "fixedIds": [],
+        "controlIds": [
+          "whiwa:21:130:tide-state"
+        ],
+        "choiceGroups": [
+          {
+            "id": "whiwa:21:token",
+            "optionIds": [
+              "whiwa:21:71500011:token",
+              "whiwa:21:71501001:token",
+              "whiwa:21:71501002:token",
+              "whiwa:21:71501003:token",
+              "whiwa:21:71501004:token",
+              "whiwa:21:71500098:token",
+              "whiwa:21:71500099:token",
+              "whiwa:21:71500100:token",
+              "whiwa:21:71500101:token"
+            ],
+            "defaultOptionId": null
+          }
+        ]
+      }
+    },
+    "whiwa:21:130:40259:320000020": {
+      "id": "whiwa:21:130:40259:320000020",
+      "mode": "whiwa",
+      "seasonId": "21",
+      "areaId": 2,
+      "stageId": 130,
+      "stageOrder": 10,
+      "waveId": 2,
+      "recordId": 40259,
+      "monsterId": 320000020,
+      "nameId": "monster:320000020",
+      "element": "electro",
+      "level": 90,
+      "resistances": {
+        "glacio": 20,
+        "fusion": 20,
+        "electro": 70,
+        "aero": 20,
+        "spectro": 20,
+        "havoc": 20
+      },
+      "resistance": {
+        "sourceKind": "composed",
+        "includesModeModifiers": true,
+        "intrinsicSource": "monster",
+        "modifiers": [
+          {
+            "kind": "modeBase",
+            "value": 10,
+            "sourceId": "whiwaTestedBase"
+          },
+          {
+            "kind": "attributeResistanceAdjustment",
+            "element": "electro",
+            "value": 20,
+            "sourceId": 680003215
+          }
+        ]
+      },
+      "gameplay": {
+        "fixedIds": [],
+        "controlIds": [
+          "whiwa:21:130:tide-state"
+        ],
+        "choiceGroups": [
+          {
+            "id": "whiwa:21:token",
+            "optionIds": [
+              "whiwa:21:71500011:token",
+              "whiwa:21:71501001:token",
+              "whiwa:21:71501002:token",
+              "whiwa:21:71501003:token",
+              "whiwa:21:71501004:token",
+              "whiwa:21:71500098:token",
+              "whiwa:21:71500099:token",
+              "whiwa:21:71500100:token",
+              "whiwa:21:71500101:token"
+            ],
+            "defaultOptionId": null
+          }
+        ]
+      }
+    },
+    "whiwa:21:130:40259:310000570": {
+      "id": "whiwa:21:130:40259:310000570",
+      "mode": "whiwa",
+      "seasonId": "21",
+      "areaId": 2,
+      "stageId": 130,
+      "stageOrder": 10,
+      "waveId": 2,
+      "recordId": 40259,
+      "monsterId": 310000570,
+      "nameId": "monster:310000570",
+      "element": "glacio",
+      "level": 90,
+      "resistances": {
+        "glacio": 50,
+        "fusion": 20,
+        "electro": 40,
+        "aero": 20,
+        "spectro": 20,
+        "havoc": 20
+      },
+      "resistance": {
+        "sourceKind": "composed",
+        "includesModeModifiers": true,
+        "intrinsicSource": "monster",
+        "modifiers": [
+          {
+            "kind": "modeBase",
+            "value": 10,
+            "sourceId": "whiwaTestedBase"
+          },
+          {
+            "kind": "attributeResistanceAdjustment",
+            "element": "electro",
+            "value": 20,
+            "sourceId": 680003215
+          }
+        ]
+      },
+      "gameplay": {
+        "fixedIds": [],
+        "controlIds": [
+          "whiwa:21:130:tide-state"
+        ],
+        "choiceGroups": [
+          {
+            "id": "whiwa:21:token",
+            "optionIds": [
+              "whiwa:21:71500011:token",
+              "whiwa:21:71501001:token",
+              "whiwa:21:71501002:token",
+              "whiwa:21:71501003:token",
+              "whiwa:21:71501004:token",
+              "whiwa:21:71500098:token",
+              "whiwa:21:71500099:token",
+              "whiwa:21:71500100:token",
+              "whiwa:21:71500101:token"
+            ],
+            "defaultOptionId": null
+          }
+        ]
+      }
+    },
+    "whiwa:21:130:40259:320000260": {
+      "id": "whiwa:21:130:40259:320000260",
+      "mode": "whiwa",
+      "seasonId": "21",
+      "areaId": 2,
+      "stageId": 130,
+      "stageOrder": 10,
+      "waveId": 2,
+      "recordId": 40259,
+      "monsterId": 320000260,
+      "nameId": "monster:320000260",
+      "element": "glacio",
+      "level": 90,
+      "resistances": {
+        "glacio": 50,
+        "fusion": 20,
+        "electro": 40,
+        "aero": 20,
+        "spectro": 20,
+        "havoc": 20
+      },
+      "resistance": {
+        "sourceKind": "composed",
+        "includesModeModifiers": true,
+        "intrinsicSource": "monster",
+        "modifiers": [
+          {
+            "kind": "modeBase",
+            "value": 10,
+            "sourceId": "whiwaTestedBase"
+          },
+          {
+            "kind": "attributeResistanceAdjustment",
+            "element": "electro",
+            "value": 20,
+            "sourceId": 680003215
+          }
+        ]
+      },
+      "gameplay": {
+        "fixedIds": [],
+        "controlIds": [
+          "whiwa:21:130:tide-state"
+        ],
+        "choiceGroups": [
+          {
+            "id": "whiwa:21:token",
+            "optionIds": [
+              "whiwa:21:71500011:token",
+              "whiwa:21:71501001:token",
+              "whiwa:21:71501002:token",
+              "whiwa:21:71501003:token",
+              "whiwa:21:71501004:token",
+              "whiwa:21:71500098:token",
+              "whiwa:21:71500099:token",
+              "whiwa:21:71500100:token",
+              "whiwa:21:71500101:token"
+            ],
+            "defaultOptionId": null
+          }
+        ]
+      }
+    },
+    "whiwa:21:130:40259:320000300": {
+      "id": "whiwa:21:130:40259:320000300",
+      "mode": "whiwa",
+      "seasonId": "21",
+      "areaId": 2,
+      "stageId": 130,
+      "stageOrder": 10,
+      "waveId": 2,
+      "recordId": 40259,
+      "monsterId": 320000300,
+      "nameId": "monster:320000300",
+      "element": null,
+      "level": 90,
+      "resistances": {
+        "glacio": 20,
+        "fusion": 20,
+        "electro": 40,
+        "aero": 20,
+        "spectro": 20,
+        "havoc": 20
+      },
+      "resistance": {
+        "sourceKind": "composed",
+        "includesModeModifiers": true,
+        "intrinsicSource": "monster",
+        "modifiers": [
+          {
+            "kind": "modeBase",
+            "value": 10,
+            "sourceId": "whiwaTestedBase"
+          },
+          {
+            "kind": "attributeResistanceAdjustment",
+            "element": "electro",
+            "value": 20,
+            "sourceId": 680003215
+          }
+        ]
+      },
+      "gameplay": {
+        "fixedIds": [],
+        "controlIds": [
+          "whiwa:21:130:tide-state"
+        ],
+        "choiceGroups": [
+          {
+            "id": "whiwa:21:token",
+            "optionIds": [
+              "whiwa:21:71500011:token",
+              "whiwa:21:71501001:token",
+              "whiwa:21:71501002:token",
+              "whiwa:21:71501003:token",
+              "whiwa:21:71501004:token",
+              "whiwa:21:71500098:token",
+              "whiwa:21:71500099:token",
+              "whiwa:21:71500100:token",
+              "whiwa:21:71500101:token"
+            ],
+            "defaultOptionId": null
+          }
+        ]
+      }
+    },
+    "whiwa:21:130:40259:310000340": {
+      "id": "whiwa:21:130:40259:310000340",
+      "mode": "whiwa",
+      "seasonId": "21",
+      "areaId": 2,
+      "stageId": 130,
+      "stageOrder": 10,
+      "waveId": 2,
+      "recordId": 40259,
+      "monsterId": 310000340,
+      "nameId": "monster:310000340",
+      "element": "glacio",
+      "level": 90,
+      "resistances": {
+        "glacio": 50,
+        "fusion": 20,
+        "electro": 40,
+        "aero": 20,
+        "spectro": 20,
+        "havoc": 20
+      },
+      "resistance": {
+        "sourceKind": "composed",
+        "includesModeModifiers": true,
+        "intrinsicSource": "monster",
+        "modifiers": [
+          {
+            "kind": "modeBase",
+            "value": 10,
+            "sourceId": "whiwaTestedBase"
+          },
+          {
+            "kind": "attributeResistanceAdjustment",
+            "element": "electro",
+            "value": 20,
+            "sourceId": 680003215
+          }
+        ]
+      },
+      "gameplay": {
+        "fixedIds": [],
+        "controlIds": [
+          "whiwa:21:130:tide-state"
+        ],
+        "choiceGroups": [
+          {
+            "id": "whiwa:21:token",
+            "optionIds": [
+              "whiwa:21:71500011:token",
+              "whiwa:21:71501001:token",
+              "whiwa:21:71501002:token",
+              "whiwa:21:71501003:token",
+              "whiwa:21:71501004:token",
+              "whiwa:21:71500098:token",
+              "whiwa:21:71500099:token",
+              "whiwa:21:71500100:token",
+              "whiwa:21:71500101:token"
+            ],
+            "defaultOptionId": null
+          }
+        ]
+      }
+    },
+    "whiwa:21:130:40259:320000190": {
+      "id": "whiwa:21:130:40259:320000190",
+      "mode": "whiwa",
+      "seasonId": "21",
+      "areaId": 2,
+      "stageId": 130,
+      "stageOrder": 10,
+      "waveId": 2,
+      "recordId": 40259,
+      "monsterId": 320000190,
+      "nameId": "monster:320000190",
+      "element": "glacio",
+      "level": 90,
+      "resistances": {
+        "glacio": 50,
+        "fusion": 20,
+        "electro": 40,
+        "aero": 20,
+        "spectro": 20,
+        "havoc": 20
+      },
+      "resistance": {
+        "sourceKind": "composed",
+        "includesModeModifiers": true,
+        "intrinsicSource": "monster",
+        "modifiers": [
+          {
+            "kind": "modeBase",
+            "value": 10,
+            "sourceId": "whiwaTestedBase"
+          },
+          {
+            "kind": "attributeResistanceAdjustment",
+            "element": "electro",
+            "value": 20,
+            "sourceId": 680003215
+          }
+        ]
+      },
+      "gameplay": {
+        "fixedIds": [],
+        "controlIds": [
+          "whiwa:21:130:tide-state"
+        ],
+        "choiceGroups": [
+          {
+            "id": "whiwa:21:token",
+            "optionIds": [
+              "whiwa:21:71500011:token",
+              "whiwa:21:71501001:token",
+              "whiwa:21:71501002:token",
+              "whiwa:21:71501003:token",
+              "whiwa:21:71501004:token",
+              "whiwa:21:71500098:token",
+              "whiwa:21:71500099:token",
+              "whiwa:21:71500100:token",
+              "whiwa:21:71500101:token"
+            ],
+            "defaultOptionId": null
+          }
+        ]
+      }
+    },
+    "whiwa:21:130:40259:310000030": {
+      "id": "whiwa:21:130:40259:310000030",
+      "mode": "whiwa",
+      "seasonId": "21",
+      "areaId": 2,
+      "stageId": 130,
+      "stageOrder": 10,
+      "waveId": 2,
+      "recordId": 40259,
+      "monsterId": 310000030,
+      "nameId": "monster:310000030",
+      "element": "electro",
+      "level": 90,
+      "resistances": {
+        "glacio": 20,
+        "fusion": 20,
+        "electro": 70,
+        "aero": 20,
+        "spectro": 20,
+        "havoc": 20
+      },
+      "resistance": {
+        "sourceKind": "composed",
+        "includesModeModifiers": true,
+        "intrinsicSource": "monster",
+        "modifiers": [
+          {
+            "kind": "modeBase",
+            "value": 10,
+            "sourceId": "whiwaTestedBase"
+          },
+          {
+            "kind": "attributeResistanceAdjustment",
+            "element": "electro",
+            "value": 20,
+            "sourceId": 680003215
+          }
+        ]
+      },
+      "gameplay": {
+        "fixedIds": [],
+        "controlIds": [
+          "whiwa:21:130:tide-state"
+        ],
+        "choiceGroups": [
+          {
+            "id": "whiwa:21:token",
+            "optionIds": [
+              "whiwa:21:71500011:token",
+              "whiwa:21:71501001:token",
+              "whiwa:21:71501002:token",
+              "whiwa:21:71501003:token",
+              "whiwa:21:71501004:token",
+              "whiwa:21:71500098:token",
+              "whiwa:21:71500099:token",
+              "whiwa:21:71500100:token",
+              "whiwa:21:71500101:token"
+            ],
+            "defaultOptionId": null
+          }
+        ]
+      }
+    },
+    "whiwa:21:131:40260:310000440": {
+      "id": "whiwa:21:131:40260:310000440",
+      "mode": "whiwa",
+      "seasonId": "21",
+      "areaId": 2,
+      "stageId": 131,
+      "stageOrder": 11,
+      "waveId": 1,
+      "recordId": 40260,
+      "monsterId": 310000440,
+      "nameId": "monster:310000440",
+      "element": "spectro",
+      "level": 90,
+      "resistances": {
+        "glacio": 20,
+        "fusion": 20,
+        "electro": 20,
+        "aero": 20,
+        "spectro": 70,
+        "havoc": 20
+      },
+      "resistance": {
+        "sourceKind": "composed",
+        "includesModeModifiers": true,
+        "intrinsicSource": "monster",
+        "modifiers": [
+          {
+            "kind": "modeBase",
+            "value": 10,
+            "sourceId": "whiwaTestedBase"
+          },
+          {
+            "kind": "attributeResistanceAdjustment",
+            "element": "spectro",
+            "value": 20,
+            "sourceId": 680003217
+          }
+        ]
+      },
+      "gameplay": {
+        "fixedIds": [],
+        "controlIds": [
+          "whiwa:21:131:tide-state"
+        ],
+        "choiceGroups": [
+          {
+            "id": "whiwa:21:token",
+            "optionIds": [
+              "whiwa:21:71500011:token",
+              "whiwa:21:71501001:token",
+              "whiwa:21:71501002:token",
+              "whiwa:21:71501003:token",
+              "whiwa:21:71501004:token",
+              "whiwa:21:71500098:token",
+              "whiwa:21:71500099:token",
+              "whiwa:21:71500100:token",
+              "whiwa:21:71500101:token"
+            ],
+            "defaultOptionId": null
+          }
+        ]
+      }
+    },
+    "whiwa:21:131:40260:320000070": {
+      "id": "whiwa:21:131:40260:320000070",
+      "mode": "whiwa",
+      "seasonId": "21",
+      "areaId": 2,
+      "stageId": 131,
+      "stageOrder": 11,
+      "waveId": 1,
+      "recordId": 40260,
+      "monsterId": 320000070,
+      "nameId": "monster:320000070",
+      "element": "havoc",
+      "level": 90,
+      "resistances": {
+        "glacio": 20,
+        "fusion": 20,
+        "electro": 20,
+        "aero": 20,
+        "spectro": 40,
+        "havoc": 50
+      },
+      "resistance": {
+        "sourceKind": "composed",
+        "includesModeModifiers": true,
+        "intrinsicSource": "monster",
+        "modifiers": [
+          {
+            "kind": "modeBase",
+            "value": 10,
+            "sourceId": "whiwaTestedBase"
+          },
+          {
+            "kind": "attributeResistanceAdjustment",
+            "element": "spectro",
+            "value": 20,
+            "sourceId": 680003217
+          }
+        ]
+      },
+      "gameplay": {
+        "fixedIds": [],
+        "controlIds": [
+          "whiwa:21:131:tide-state"
+        ],
+        "choiceGroups": [
+          {
+            "id": "whiwa:21:token",
+            "optionIds": [
+              "whiwa:21:71500011:token",
+              "whiwa:21:71501001:token",
+              "whiwa:21:71501002:token",
+              "whiwa:21:71501003:token",
+              "whiwa:21:71501004:token",
+              "whiwa:21:71500098:token",
+              "whiwa:21:71500099:token",
+              "whiwa:21:71500100:token",
+              "whiwa:21:71500101:token"
+            ],
+            "defaultOptionId": null
+          }
+        ]
+      }
+    },
+    "whiwa:21:131:40260:310000490": {
+      "id": "whiwa:21:131:40260:310000490",
+      "mode": "whiwa",
+      "seasonId": "21",
+      "areaId": 2,
+      "stageId": 131,
+      "stageOrder": 11,
+      "waveId": 1,
+      "recordId": 40260,
+      "monsterId": 310000490,
+      "nameId": "monster:310000490",
+      "element": "spectro",
+      "level": 90,
+      "resistances": {
+        "glacio": 20,
+        "fusion": 20,
+        "electro": 20,
+        "aero": 20,
+        "spectro": 70,
+        "havoc": 20
+      },
+      "resistance": {
+        "sourceKind": "composed",
+        "includesModeModifiers": true,
+        "intrinsicSource": "monster",
+        "modifiers": [
+          {
+            "kind": "modeBase",
+            "value": 10,
+            "sourceId": "whiwaTestedBase"
+          },
+          {
+            "kind": "attributeResistanceAdjustment",
+            "element": "spectro",
+            "value": 20,
+            "sourceId": 680003217
+          }
+        ]
+      },
+      "gameplay": {
+        "fixedIds": [],
+        "controlIds": [
+          "whiwa:21:131:tide-state"
+        ],
+        "choiceGroups": [
+          {
+            "id": "whiwa:21:token",
+            "optionIds": [
+              "whiwa:21:71500011:token",
+              "whiwa:21:71501001:token",
+              "whiwa:21:71501002:token",
+              "whiwa:21:71501003:token",
+              "whiwa:21:71501004:token",
+              "whiwa:21:71500098:token",
+              "whiwa:21:71500099:token",
+              "whiwa:21:71500100:token",
+              "whiwa:21:71500101:token"
+            ],
+            "defaultOptionId": null
+          }
+        ]
+      }
+    },
+    "whiwa:21:131:40260:320000310": {
+      "id": "whiwa:21:131:40260:320000310",
+      "mode": "whiwa",
+      "seasonId": "21",
+      "areaId": 2,
+      "stageId": 131,
+      "stageOrder": 11,
+      "waveId": 1,
+      "recordId": 40260,
+      "monsterId": 320000310,
+      "nameId": "monster:320000310",
+      "element": "spectro",
+      "level": 90,
+      "resistances": {
+        "glacio": 20,
+        "fusion": 20,
+        "electro": 20,
+        "aero": 20,
+        "spectro": 70,
+        "havoc": 20
+      },
+      "resistance": {
+        "sourceKind": "composed",
+        "includesModeModifiers": true,
+        "intrinsicSource": "monster",
+        "modifiers": [
+          {
+            "kind": "modeBase",
+            "value": 10,
+            "sourceId": "whiwaTestedBase"
+          },
+          {
+            "kind": "attributeResistanceAdjustment",
+            "element": "spectro",
+            "value": 20,
+            "sourceId": 680003217
+          }
+        ]
+      },
+      "gameplay": {
+        "fixedIds": [],
+        "controlIds": [
+          "whiwa:21:131:tide-state"
+        ],
+        "choiceGroups": [
+          {
+            "id": "whiwa:21:token",
+            "optionIds": [
+              "whiwa:21:71500011:token",
+              "whiwa:21:71501001:token",
+              "whiwa:21:71501002:token",
+              "whiwa:21:71501003:token",
+              "whiwa:21:71501004:token",
+              "whiwa:21:71500098:token",
+              "whiwa:21:71500099:token",
+              "whiwa:21:71500100:token",
+              "whiwa:21:71500101:token"
+            ],
+            "defaultOptionId": null
+          }
+        ]
+      }
+    },
+    "whiwa:21:131:40260:320000300": {
+      "id": "whiwa:21:131:40260:320000300",
+      "mode": "whiwa",
+      "seasonId": "21",
+      "areaId": 2,
+      "stageId": 131,
+      "stageOrder": 11,
+      "waveId": 1,
+      "recordId": 40260,
+      "monsterId": 320000300,
+      "nameId": "monster:320000300",
+      "element": null,
+      "level": 90,
+      "resistances": {
+        "glacio": 20,
+        "fusion": 20,
+        "electro": 20,
+        "aero": 20,
+        "spectro": 40,
+        "havoc": 20
+      },
+      "resistance": {
+        "sourceKind": "composed",
+        "includesModeModifiers": true,
+        "intrinsicSource": "monster",
+        "modifiers": [
+          {
+            "kind": "modeBase",
+            "value": 10,
+            "sourceId": "whiwaTestedBase"
+          },
+          {
+            "kind": "attributeResistanceAdjustment",
+            "element": "spectro",
+            "value": 20,
+            "sourceId": 680003217
+          }
+        ]
+      },
+      "gameplay": {
+        "fixedIds": [],
+        "controlIds": [
+          "whiwa:21:131:tide-state"
+        ],
+        "choiceGroups": [
+          {
+            "id": "whiwa:21:token",
+            "optionIds": [
+              "whiwa:21:71500011:token",
+              "whiwa:21:71501001:token",
+              "whiwa:21:71501002:token",
+              "whiwa:21:71501003:token",
+              "whiwa:21:71501004:token",
+              "whiwa:21:71500098:token",
+              "whiwa:21:71500099:token",
+              "whiwa:21:71500100:token",
+              "whiwa:21:71500101:token"
+            ],
+            "defaultOptionId": null
+          }
+        ]
+      }
+    },
+    "whiwa:21:131:40260:310000090": {
+      "id": "whiwa:21:131:40260:310000090",
+      "mode": "whiwa",
+      "seasonId": "21",
+      "areaId": 2,
+      "stageId": 131,
+      "stageOrder": 11,
+      "waveId": 1,
+      "recordId": 40260,
+      "monsterId": 310000090,
+      "nameId": "monster:310000090",
+      "element": "spectro",
+      "level": 90,
+      "resistances": {
+        "glacio": 20,
+        "fusion": 20,
+        "electro": 20,
+        "aero": 20,
+        "spectro": 70,
+        "havoc": 20
+      },
+      "resistance": {
+        "sourceKind": "composed",
+        "includesModeModifiers": true,
+        "intrinsicSource": "monster",
+        "modifiers": [
+          {
+            "kind": "modeBase",
+            "value": 10,
+            "sourceId": "whiwaTestedBase"
+          },
+          {
+            "kind": "attributeResistanceAdjustment",
+            "element": "spectro",
+            "value": 20,
+            "sourceId": 680003217
+          }
+        ]
+      },
+      "gameplay": {
+        "fixedIds": [],
+        "controlIds": [
+          "whiwa:21:131:tide-state"
+        ],
+        "choiceGroups": [
+          {
+            "id": "whiwa:21:token",
+            "optionIds": [
+              "whiwa:21:71500011:token",
+              "whiwa:21:71501001:token",
+              "whiwa:21:71501002:token",
+              "whiwa:21:71501003:token",
+              "whiwa:21:71501004:token",
+              "whiwa:21:71500098:token",
+              "whiwa:21:71500099:token",
+              "whiwa:21:71500100:token",
+              "whiwa:21:71500101:token"
+            ],
+            "defaultOptionId": null
+          }
+        ]
+      }
+    },
+    "whiwa:21:131:40260:320000060": {
+      "id": "whiwa:21:131:40260:320000060",
+      "mode": "whiwa",
+      "seasonId": "21",
+      "areaId": 2,
+      "stageId": 131,
+      "stageOrder": 11,
+      "waveId": 1,
+      "recordId": 40260,
+      "monsterId": 320000060,
+      "nameId": "monster:320000060",
+      "element": "spectro",
+      "level": 90,
+      "resistances": {
+        "glacio": 20,
+        "fusion": 20,
+        "electro": 20,
+        "aero": 20,
+        "spectro": 70,
+        "havoc": 20
+      },
+      "resistance": {
+        "sourceKind": "composed",
+        "includesModeModifiers": true,
+        "intrinsicSource": "monster",
+        "modifiers": [
+          {
+            "kind": "modeBase",
+            "value": 10,
+            "sourceId": "whiwaTestedBase"
+          },
+          {
+            "kind": "attributeResistanceAdjustment",
+            "element": "spectro",
+            "value": 20,
+            "sourceId": 680003217
+          }
+        ]
+      },
+      "gameplay": {
+        "fixedIds": [],
+        "controlIds": [
+          "whiwa:21:131:tide-state"
+        ],
+        "choiceGroups": [
+          {
+            "id": "whiwa:21:token",
+            "optionIds": [
+              "whiwa:21:71500011:token",
+              "whiwa:21:71501001:token",
+              "whiwa:21:71501002:token",
+              "whiwa:21:71501003:token",
+              "whiwa:21:71501004:token",
+              "whiwa:21:71500098:token",
+              "whiwa:21:71500099:token",
+              "whiwa:21:71500100:token",
+              "whiwa:21:71500101:token"
+            ],
+            "defaultOptionId": null
+          }
+        ]
+      }
+    },
+    "whiwa:21:131:40261:310000780": {
+      "id": "whiwa:21:131:40261:310000780",
+      "mode": "whiwa",
+      "seasonId": "21",
+      "areaId": 2,
+      "stageId": 131,
+      "stageOrder": 11,
+      "waveId": 2,
+      "recordId": 40261,
+      "monsterId": 310000780,
+      "nameId": "monster:310000780",
+      "element": "havoc",
+      "level": 90,
+      "resistances": {
+        "glacio": 20,
+        "fusion": 20,
+        "electro": 20,
+        "aero": 20,
+        "spectro": 40,
+        "havoc": 50
+      },
+      "resistance": {
+        "sourceKind": "composed",
+        "includesModeModifiers": true,
+        "intrinsicSource": "monster",
+        "modifiers": [
+          {
+            "kind": "modeBase",
+            "value": 10,
+            "sourceId": "whiwaTestedBase"
+          },
+          {
+            "kind": "attributeResistanceAdjustment",
+            "element": "spectro",
+            "value": 20,
+            "sourceId": 680003217
+          }
+        ]
+      },
+      "gameplay": {
+        "fixedIds": [],
+        "controlIds": [
+          "whiwa:21:131:tide-state"
+        ],
+        "choiceGroups": [
+          {
+            "id": "whiwa:21:token",
+            "optionIds": [
+              "whiwa:21:71500011:token",
+              "whiwa:21:71501001:token",
+              "whiwa:21:71501002:token",
+              "whiwa:21:71501003:token",
+              "whiwa:21:71501004:token",
+              "whiwa:21:71500098:token",
+              "whiwa:21:71500099:token",
+              "whiwa:21:71500100:token",
+              "whiwa:21:71500101:token"
+            ],
+            "defaultOptionId": null
+          }
+        ]
+      }
+    },
+    "whiwa:21:131:40261:320000310": {
+      "id": "whiwa:21:131:40261:320000310",
+      "mode": "whiwa",
+      "seasonId": "21",
+      "areaId": 2,
+      "stageId": 131,
+      "stageOrder": 11,
+      "waveId": 2,
+      "recordId": 40261,
+      "monsterId": 320000310,
+      "nameId": "monster:320000310",
+      "element": "spectro",
+      "level": 90,
+      "resistances": {
+        "glacio": 20,
+        "fusion": 20,
+        "electro": 20,
+        "aero": 20,
+        "spectro": 70,
+        "havoc": 20
+      },
+      "resistance": {
+        "sourceKind": "composed",
+        "includesModeModifiers": true,
+        "intrinsicSource": "monster",
+        "modifiers": [
+          {
+            "kind": "modeBase",
+            "value": 10,
+            "sourceId": "whiwaTestedBase"
+          },
+          {
+            "kind": "attributeResistanceAdjustment",
+            "element": "spectro",
+            "value": 20,
+            "sourceId": 680003217
+          }
+        ]
+      },
+      "gameplay": {
+        "fixedIds": [],
+        "controlIds": [
+          "whiwa:21:131:tide-state"
+        ],
+        "choiceGroups": [
+          {
+            "id": "whiwa:21:token",
+            "optionIds": [
+              "whiwa:21:71500011:token",
+              "whiwa:21:71501001:token",
+              "whiwa:21:71501002:token",
+              "whiwa:21:71501003:token",
+              "whiwa:21:71501004:token",
+              "whiwa:21:71500098:token",
+              "whiwa:21:71500099:token",
+              "whiwa:21:71500100:token",
+              "whiwa:21:71500101:token"
+            ],
+            "defaultOptionId": null
+          }
+        ]
+      }
+    },
+    "whiwa:21:131:40261:310000220": {
+      "id": "whiwa:21:131:40261:310000220",
+      "mode": "whiwa",
+      "seasonId": "21",
+      "areaId": 2,
+      "stageId": 131,
+      "stageOrder": 11,
+      "waveId": 2,
+      "recordId": 40261,
+      "monsterId": 310000220,
+      "nameId": "monster:310000220",
+      "element": "havoc",
+      "level": 90,
+      "resistances": {
+        "glacio": 20,
+        "fusion": 20,
+        "electro": 20,
+        "aero": 20,
+        "spectro": 40,
+        "havoc": 50
+      },
+      "resistance": {
+        "sourceKind": "composed",
+        "includesModeModifiers": true,
+        "intrinsicSource": "monster",
+        "modifiers": [
+          {
+            "kind": "modeBase",
+            "value": 10,
+            "sourceId": "whiwaTestedBase"
+          },
+          {
+            "kind": "attributeResistanceAdjustment",
+            "element": "spectro",
+            "value": 20,
+            "sourceId": 680003217
+          }
+        ]
+      },
+      "gameplay": {
+        "fixedIds": [],
+        "controlIds": [
+          "whiwa:21:131:tide-state"
+        ],
+        "choiceGroups": [
+          {
+            "id": "whiwa:21:token",
+            "optionIds": [
+              "whiwa:21:71500011:token",
+              "whiwa:21:71501001:token",
+              "whiwa:21:71501002:token",
+              "whiwa:21:71501003:token",
+              "whiwa:21:71501004:token",
+              "whiwa:21:71500098:token",
+              "whiwa:21:71500099:token",
+              "whiwa:21:71500100:token",
+              "whiwa:21:71500101:token"
+            ],
+            "defaultOptionId": null
+          }
+        ]
+      }
+    },
+    "whiwa:21:131:40261:320000090": {
+      "id": "whiwa:21:131:40261:320000090",
+      "mode": "whiwa",
+      "seasonId": "21",
+      "areaId": 2,
+      "stageId": 131,
+      "stageOrder": 11,
+      "waveId": 2,
+      "recordId": 40261,
+      "monsterId": 320000090,
+      "nameId": "monster:320000090",
+      "element": "havoc",
+      "level": 90,
+      "resistances": {
+        "glacio": 20,
+        "fusion": 20,
+        "electro": 20,
+        "aero": 20,
+        "spectro": 40,
+        "havoc": 50
+      },
+      "resistance": {
+        "sourceKind": "composed",
+        "includesModeModifiers": true,
+        "intrinsicSource": "monster",
+        "modifiers": [
+          {
+            "kind": "modeBase",
+            "value": 10,
+            "sourceId": "whiwaTestedBase"
+          },
+          {
+            "kind": "attributeResistanceAdjustment",
+            "element": "spectro",
+            "value": 20,
+            "sourceId": 680003217
+          }
+        ]
+      },
+      "gameplay": {
+        "fixedIds": [],
+        "controlIds": [
+          "whiwa:21:131:tide-state"
+        ],
+        "choiceGroups": [
+          {
+            "id": "whiwa:21:token",
+            "optionIds": [
+              "whiwa:21:71500011:token",
+              "whiwa:21:71501001:token",
+              "whiwa:21:71501002:token",
+              "whiwa:21:71501003:token",
+              "whiwa:21:71501004:token",
+              "whiwa:21:71500098:token",
+              "whiwa:21:71500099:token",
+              "whiwa:21:71500100:token",
+              "whiwa:21:71500101:token"
+            ],
+            "defaultOptionId": null
+          }
+        ]
+      }
+    },
+    "whiwa:21:131:40261:320000300": {
+      "id": "whiwa:21:131:40261:320000300",
+      "mode": "whiwa",
+      "seasonId": "21",
+      "areaId": 2,
+      "stageId": 131,
+      "stageOrder": 11,
+      "waveId": 2,
+      "recordId": 40261,
+      "monsterId": 320000300,
+      "nameId": "monster:320000300",
+      "element": null,
+      "level": 90,
+      "resistances": {
+        "glacio": 20,
+        "fusion": 20,
+        "electro": 20,
+        "aero": 20,
+        "spectro": 40,
+        "havoc": 20
+      },
+      "resistance": {
+        "sourceKind": "composed",
+        "includesModeModifiers": true,
+        "intrinsicSource": "monster",
+        "modifiers": [
+          {
+            "kind": "modeBase",
+            "value": 10,
+            "sourceId": "whiwaTestedBase"
+          },
+          {
+            "kind": "attributeResistanceAdjustment",
+            "element": "spectro",
+            "value": 20,
+            "sourceId": 680003217
+          }
+        ]
+      },
+      "gameplay": {
+        "fixedIds": [],
+        "controlIds": [
+          "whiwa:21:131:tide-state"
+        ],
+        "choiceGroups": [
+          {
+            "id": "whiwa:21:token",
+            "optionIds": [
+              "whiwa:21:71500011:token",
+              "whiwa:21:71501001:token",
+              "whiwa:21:71501002:token",
+              "whiwa:21:71501003:token",
+              "whiwa:21:71501004:token",
+              "whiwa:21:71500098:token",
+              "whiwa:21:71500099:token",
+              "whiwa:21:71500100:token",
+              "whiwa:21:71500101:token"
+            ],
+            "defaultOptionId": null
+          }
+        ]
+      }
+    },
+    "whiwa:21:131:40261:310000450": {
+      "id": "whiwa:21:131:40261:310000450",
+      "mode": "whiwa",
+      "seasonId": "21",
+      "areaId": 2,
+      "stageId": 131,
+      "stageOrder": 11,
+      "waveId": 2,
+      "recordId": 40261,
+      "monsterId": 310000450,
+      "nameId": "monster:310000450",
+      "element": "havoc",
+      "level": 90,
+      "resistances": {
+        "glacio": 20,
+        "fusion": 20,
+        "electro": 20,
+        "aero": 20,
+        "spectro": 40,
+        "havoc": 50
+      },
+      "resistance": {
+        "sourceKind": "composed",
+        "includesModeModifiers": true,
+        "intrinsicSource": "monster",
+        "modifiers": [
+          {
+            "kind": "modeBase",
+            "value": 10,
+            "sourceId": "whiwaTestedBase"
+          },
+          {
+            "kind": "attributeResistanceAdjustment",
+            "element": "spectro",
+            "value": 20,
+            "sourceId": 680003217
+          }
+        ]
+      },
+      "gameplay": {
+        "fixedIds": [],
+        "controlIds": [
+          "whiwa:21:131:tide-state"
+        ],
+        "choiceGroups": [
+          {
+            "id": "whiwa:21:token",
+            "optionIds": [
+              "whiwa:21:71500011:token",
+              "whiwa:21:71501001:token",
+              "whiwa:21:71501002:token",
+              "whiwa:21:71501003:token",
+              "whiwa:21:71501004:token",
+              "whiwa:21:71500098:token",
+              "whiwa:21:71500099:token",
+              "whiwa:21:71500100:token",
+              "whiwa:21:71500101:token"
+            ],
+            "defaultOptionId": null
+          }
+        ]
+      }
+    },
+    "whiwa:21:131:40261:320000070": {
+      "id": "whiwa:21:131:40261:320000070",
+      "mode": "whiwa",
+      "seasonId": "21",
+      "areaId": 2,
+      "stageId": 131,
+      "stageOrder": 11,
+      "waveId": 2,
+      "recordId": 40261,
+      "monsterId": 320000070,
+      "nameId": "monster:320000070",
+      "element": "havoc",
+      "level": 90,
+      "resistances": {
+        "glacio": 20,
+        "fusion": 20,
+        "electro": 20,
+        "aero": 20,
+        "spectro": 40,
+        "havoc": 50
+      },
+      "resistance": {
+        "sourceKind": "composed",
+        "includesModeModifiers": true,
+        "intrinsicSource": "monster",
+        "modifiers": [
+          {
+            "kind": "modeBase",
+            "value": 10,
+            "sourceId": "whiwaTestedBase"
+          },
+          {
+            "kind": "attributeResistanceAdjustment",
+            "element": "spectro",
+            "value": 20,
+            "sourceId": 680003217
+          }
+        ]
+      },
+      "gameplay": {
+        "fixedIds": [],
+        "controlIds": [
+          "whiwa:21:131:tide-state"
+        ],
+        "choiceGroups": [
+          {
+            "id": "whiwa:21:token",
+            "optionIds": [
+              "whiwa:21:71500011:token",
+              "whiwa:21:71501001:token",
+              "whiwa:21:71501002:token",
+              "whiwa:21:71501003:token",
+              "whiwa:21:71501004:token",
+              "whiwa:21:71500098:token",
+              "whiwa:21:71500099:token",
+              "whiwa:21:71500100:token",
+              "whiwa:21:71500101:token"
+            ],
+            "defaultOptionId": null
+          }
+        ]
+      }
+    },
+    "whiwa:21:131:40261:310000440": {
+      "id": "whiwa:21:131:40261:310000440",
+      "mode": "whiwa",
+      "seasonId": "21",
+      "areaId": 2,
+      "stageId": 131,
+      "stageOrder": 11,
+      "waveId": 2,
+      "recordId": 40261,
+      "monsterId": 310000440,
+      "nameId": "monster:310000440",
+      "element": "spectro",
+      "level": 90,
+      "resistances": {
+        "glacio": 20,
+        "fusion": 20,
+        "electro": 20,
+        "aero": 20,
+        "spectro": 70,
+        "havoc": 20
+      },
+      "resistance": {
+        "sourceKind": "composed",
+        "includesModeModifiers": true,
+        "intrinsicSource": "monster",
+        "modifiers": [
+          {
+            "kind": "modeBase",
+            "value": 10,
+            "sourceId": "whiwaTestedBase"
+          },
+          {
+            "kind": "attributeResistanceAdjustment",
+            "element": "spectro",
+            "value": 20,
+            "sourceId": 680003217
+          }
+        ]
+      },
+      "gameplay": {
+        "fixedIds": [],
+        "controlIds": [
+          "whiwa:21:131:tide-state"
+        ],
+        "choiceGroups": [
+          {
+            "id": "whiwa:21:token",
+            "optionIds": [
+              "whiwa:21:71500011:token",
+              "whiwa:21:71501001:token",
+              "whiwa:21:71501002:token",
+              "whiwa:21:71501003:token",
+              "whiwa:21:71501004:token",
+              "whiwa:21:71500098:token",
+              "whiwa:21:71500099:token",
+              "whiwa:21:71500100:token",
+              "whiwa:21:71500101:token"
+            ],
+            "defaultOptionId": null
+          }
+        ]
+      }
+    },
+    "whiwa:21:131:40261:320000060": {
+      "id": "whiwa:21:131:40261:320000060",
+      "mode": "whiwa",
+      "seasonId": "21",
+      "areaId": 2,
+      "stageId": 131,
+      "stageOrder": 11,
+      "waveId": 2,
+      "recordId": 40261,
+      "monsterId": 320000060,
+      "nameId": "monster:320000060",
+      "element": "spectro",
+      "level": 90,
+      "resistances": {
+        "glacio": 20,
+        "fusion": 20,
+        "electro": 20,
+        "aero": 20,
+        "spectro": 70,
+        "havoc": 20
+      },
+      "resistance": {
+        "sourceKind": "composed",
+        "includesModeModifiers": true,
+        "intrinsicSource": "monster",
+        "modifiers": [
+          {
+            "kind": "modeBase",
+            "value": 10,
+            "sourceId": "whiwaTestedBase"
+          },
+          {
+            "kind": "attributeResistanceAdjustment",
+            "element": "spectro",
+            "value": 20,
+            "sourceId": 680003217
+          }
+        ]
+      },
+      "gameplay": {
+        "fixedIds": [],
+        "controlIds": [
+          "whiwa:21:131:tide-state"
+        ],
+        "choiceGroups": [
+          {
+            "id": "whiwa:21:token",
+            "optionIds": [
+              "whiwa:21:71500011:token",
+              "whiwa:21:71501001:token",
+              "whiwa:21:71501002:token",
+              "whiwa:21:71501003:token",
+              "whiwa:21:71501004:token",
+              "whiwa:21:71500098:token",
+              "whiwa:21:71500099:token",
+              "whiwa:21:71500100:token",
+              "whiwa:21:71500101:token"
+            ],
+            "defaultOptionId": null
+          }
+        ]
+      }
+    },
+    "whiwa:21:132:40262:310000820": {
+      "id": "whiwa:21:132:40262:310000820",
+      "mode": "whiwa",
+      "seasonId": "21",
+      "areaId": 3,
+      "stageId": 132,
+      "stageOrder": 12,
+      "waveId": 1,
+      "recordId": 40262,
+      "monsterId": 310000820,
+      "nameId": "monster:310000820",
+      "element": "electro",
+      "level": 100,
+      "resistances": {
+        "glacio": 20,
+        "fusion": 20,
+        "electro": 50,
+        "aero": 20,
+        "spectro": 20,
+        "havoc": 20
+      },
+      "resistance": {
+        "sourceKind": "composed",
+        "includesModeModifiers": true,
+        "intrinsicSource": "monster",
+        "modifiers": [
+          {
+            "kind": "modeBase",
+            "value": 10,
+            "sourceId": "whiwaTestedBase"
+          }
+        ]
+      },
+      "gameplay": {
+        "fixedIds": [
+          "whiwa:21:132:endless-final"
+        ],
+        "controlIds": [
+          "whiwa:21:132:tide-state"
+        ],
+        "choiceGroups": [
+          {
+            "id": "whiwa:21:token",
+            "optionIds": [
+              "whiwa:21:71500011:token",
+              "whiwa:21:71501001:token",
+              "whiwa:21:71501002:token",
+              "whiwa:21:71501003:token",
+              "whiwa:21:71501004:token",
+              "whiwa:21:71500098:token",
+              "whiwa:21:71500099:token",
+              "whiwa:21:71500100:token",
+              "whiwa:21:71500101:token"
+            ],
+            "defaultOptionId": null
+          }
+        ]
+      }
+    },
+    "whiwa:21:132:40262:320000060": {
+      "id": "whiwa:21:132:40262:320000060",
+      "mode": "whiwa",
+      "seasonId": "21",
+      "areaId": 3,
+      "stageId": 132,
+      "stageOrder": 12,
+      "waveId": 1,
+      "recordId": 40262,
+      "monsterId": 320000060,
+      "nameId": "monster:320000060",
+      "element": "spectro",
+      "level": 100,
+      "resistances": {
+        "glacio": 20,
+        "fusion": 20,
+        "electro": 20,
+        "aero": 20,
+        "spectro": 50,
+        "havoc": 20
+      },
+      "resistance": {
+        "sourceKind": "composed",
+        "includesModeModifiers": true,
+        "intrinsicSource": "monster",
+        "modifiers": [
+          {
+            "kind": "modeBase",
+            "value": 10,
+            "sourceId": "whiwaTestedBase"
+          }
+        ]
+      },
+      "gameplay": {
+        "fixedIds": [
+          "whiwa:21:132:endless-final"
+        ],
+        "controlIds": [
+          "whiwa:21:132:tide-state"
+        ],
+        "choiceGroups": [
+          {
+            "id": "whiwa:21:token",
+            "optionIds": [
+              "whiwa:21:71500011:token",
+              "whiwa:21:71501001:token",
+              "whiwa:21:71501002:token",
+              "whiwa:21:71501003:token",
+              "whiwa:21:71501004:token",
+              "whiwa:21:71500098:token",
+              "whiwa:21:71500099:token",
+              "whiwa:21:71500100:token",
+              "whiwa:21:71500101:token"
+            ],
+            "defaultOptionId": null
+          }
+        ]
+      }
+    },
+    "whiwa:21:132:40262:310000030": {
+      "id": "whiwa:21:132:40262:310000030",
+      "mode": "whiwa",
+      "seasonId": "21",
+      "areaId": 3,
+      "stageId": 132,
+      "stageOrder": 12,
+      "waveId": 1,
+      "recordId": 40262,
+      "monsterId": 310000030,
+      "nameId": "monster:310000030",
+      "element": "electro",
+      "level": 100,
+      "resistances": {
+        "glacio": 20,
+        "fusion": 20,
+        "electro": 50,
+        "aero": 20,
+        "spectro": 20,
+        "havoc": 20
+      },
+      "resistance": {
+        "sourceKind": "composed",
+        "includesModeModifiers": true,
+        "intrinsicSource": "monster",
+        "modifiers": [
+          {
+            "kind": "modeBase",
+            "value": 10,
+            "sourceId": "whiwaTestedBase"
+          }
+        ]
+      },
+      "gameplay": {
+        "fixedIds": [
+          "whiwa:21:132:endless-final"
+        ],
+        "controlIds": [
+          "whiwa:21:132:tide-state"
+        ],
+        "choiceGroups": [
+          {
+            "id": "whiwa:21:token",
+            "optionIds": [
+              "whiwa:21:71500011:token",
+              "whiwa:21:71501001:token",
+              "whiwa:21:71501002:token",
+              "whiwa:21:71501003:token",
+              "whiwa:21:71501004:token",
+              "whiwa:21:71500098:token",
+              "whiwa:21:71500099:token",
+              "whiwa:21:71500100:token",
+              "whiwa:21:71500101:token"
+            ],
+            "defaultOptionId": null
+          }
+        ]
+      }
+    },
+    "whiwa:21:132:40262:320000020": {
+      "id": "whiwa:21:132:40262:320000020",
+      "mode": "whiwa",
+      "seasonId": "21",
+      "areaId": 3,
+      "stageId": 132,
+      "stageOrder": 12,
+      "waveId": 1,
+      "recordId": 40262,
+      "monsterId": 320000020,
+      "nameId": "monster:320000020",
+      "element": "electro",
+      "level": 100,
+      "resistances": {
+        "glacio": 20,
+        "fusion": 20,
+        "electro": 50,
+        "aero": 20,
+        "spectro": 20,
+        "havoc": 20
+      },
+      "resistance": {
+        "sourceKind": "composed",
+        "includesModeModifiers": true,
+        "intrinsicSource": "monster",
+        "modifiers": [
+          {
+            "kind": "modeBase",
+            "value": 10,
+            "sourceId": "whiwaTestedBase"
+          }
+        ]
+      },
+      "gameplay": {
+        "fixedIds": [
+          "whiwa:21:132:endless-final"
+        ],
+        "controlIds": [
+          "whiwa:21:132:tide-state"
+        ],
+        "choiceGroups": [
+          {
+            "id": "whiwa:21:token",
+            "optionIds": [
+              "whiwa:21:71500011:token",
+              "whiwa:21:71501001:token",
+              "whiwa:21:71501002:token",
+              "whiwa:21:71501003:token",
+              "whiwa:21:71501004:token",
+              "whiwa:21:71500098:token",
+              "whiwa:21:71500099:token",
+              "whiwa:21:71500100:token",
+              "whiwa:21:71500101:token"
+            ],
+            "defaultOptionId": null
+          }
+        ]
+      }
+    },
+    "whiwa:21:132:40263:310000790": {
+      "id": "whiwa:21:132:40263:310000790",
+      "mode": "whiwa",
+      "seasonId": "21",
+      "areaId": 3,
+      "stageId": 132,
+      "stageOrder": 12,
+      "waveId": 2,
+      "recordId": 40263,
+      "monsterId": 310000790,
+      "nameId": "monster:310000790",
+      "element": "spectro",
+      "level": 100,
+      "resistances": {
+        "glacio": 20,
+        "fusion": 20,
+        "electro": 20,
+        "aero": 20,
+        "spectro": 50,
+        "havoc": 20
+      },
+      "resistance": {
+        "sourceKind": "composed",
+        "includesModeModifiers": true,
+        "intrinsicSource": "monster",
+        "modifiers": [
+          {
+            "kind": "modeBase",
+            "value": 10,
+            "sourceId": "whiwaTestedBase"
+          }
+        ]
+      },
+      "gameplay": {
+        "fixedIds": [
+          "whiwa:21:132:endless-final"
+        ],
+        "controlIds": [
+          "whiwa:21:132:tide-state"
+        ],
+        "choiceGroups": [
+          {
+            "id": "whiwa:21:token",
+            "optionIds": [
+              "whiwa:21:71500011:token",
+              "whiwa:21:71501001:token",
+              "whiwa:21:71501002:token",
+              "whiwa:21:71501003:token",
+              "whiwa:21:71501004:token",
+              "whiwa:21:71500098:token",
+              "whiwa:21:71500099:token",
+              "whiwa:21:71500100:token",
+              "whiwa:21:71500101:token"
+            ],
+            "defaultOptionId": null
+          }
+        ]
+      }
+    },
+    "whiwa:21:132:40263:320000310": {
+      "id": "whiwa:21:132:40263:320000310",
+      "mode": "whiwa",
+      "seasonId": "21",
+      "areaId": 3,
+      "stageId": 132,
+      "stageOrder": 12,
+      "waveId": 2,
+      "recordId": 40263,
+      "monsterId": 320000310,
+      "nameId": "monster:320000310",
+      "element": "spectro",
+      "level": 100,
+      "resistances": {
+        "glacio": 20,
+        "fusion": 20,
+        "electro": 20,
+        "aero": 20,
+        "spectro": 50,
+        "havoc": 20
+      },
+      "resistance": {
+        "sourceKind": "composed",
+        "includesModeModifiers": true,
+        "intrinsicSource": "monster",
+        "modifiers": [
+          {
+            "kind": "modeBase",
+            "value": 10,
+            "sourceId": "whiwaTestedBase"
+          }
+        ]
+      },
+      "gameplay": {
+        "fixedIds": [
+          "whiwa:21:132:endless-final"
+        ],
+        "controlIds": [
+          "whiwa:21:132:tide-state"
+        ],
+        "choiceGroups": [
+          {
+            "id": "whiwa:21:token",
+            "optionIds": [
+              "whiwa:21:71500011:token",
+              "whiwa:21:71501001:token",
+              "whiwa:21:71501002:token",
+              "whiwa:21:71501003:token",
+              "whiwa:21:71501004:token",
+              "whiwa:21:71500098:token",
+              "whiwa:21:71500099:token",
+              "whiwa:21:71500100:token",
+              "whiwa:21:71500101:token"
+            ],
+            "defaultOptionId": null
+          }
+        ]
+      }
+    },
+    "whiwa:21:132:40263:310000030": {
+      "id": "whiwa:21:132:40263:310000030",
+      "mode": "whiwa",
+      "seasonId": "21",
+      "areaId": 3,
+      "stageId": 132,
+      "stageOrder": 12,
+      "waveId": 2,
+      "recordId": 40263,
+      "monsterId": 310000030,
+      "nameId": "monster:310000030",
+      "element": "electro",
+      "level": 100,
+      "resistances": {
+        "glacio": 20,
+        "fusion": 20,
+        "electro": 50,
+        "aero": 20,
+        "spectro": 20,
+        "havoc": 20
+      },
+      "resistance": {
+        "sourceKind": "composed",
+        "includesModeModifiers": true,
+        "intrinsicSource": "monster",
+        "modifiers": [
+          {
+            "kind": "modeBase",
+            "value": 10,
+            "sourceId": "whiwaTestedBase"
+          }
+        ]
+      },
+      "gameplay": {
+        "fixedIds": [
+          "whiwa:21:132:endless-final"
+        ],
+        "controlIds": [
+          "whiwa:21:132:tide-state"
+        ],
+        "choiceGroups": [
+          {
+            "id": "whiwa:21:token",
+            "optionIds": [
+              "whiwa:21:71500011:token",
+              "whiwa:21:71501001:token",
+              "whiwa:21:71501002:token",
+              "whiwa:21:71501003:token",
+              "whiwa:21:71501004:token",
+              "whiwa:21:71500098:token",
+              "whiwa:21:71500099:token",
+              "whiwa:21:71500100:token",
+              "whiwa:21:71500101:token"
+            ],
+            "defaultOptionId": null
+          }
+        ]
+      }
+    },
+    "whiwa:21:132:40263:320000020": {
+      "id": "whiwa:21:132:40263:320000020",
+      "mode": "whiwa",
+      "seasonId": "21",
+      "areaId": 3,
+      "stageId": 132,
+      "stageOrder": 12,
+      "waveId": 2,
+      "recordId": 40263,
+      "monsterId": 320000020,
+      "nameId": "monster:320000020",
+      "element": "electro",
+      "level": 100,
+      "resistances": {
+        "glacio": 20,
+        "fusion": 20,
+        "electro": 50,
+        "aero": 20,
+        "spectro": 20,
+        "havoc": 20
+      },
+      "resistance": {
+        "sourceKind": "composed",
+        "includesModeModifiers": true,
+        "intrinsicSource": "monster",
+        "modifiers": [
+          {
+            "kind": "modeBase",
+            "value": 10,
+            "sourceId": "whiwaTestedBase"
+          }
+        ]
+      },
+      "gameplay": {
+        "fixedIds": [
+          "whiwa:21:132:endless-final"
+        ],
+        "controlIds": [
+          "whiwa:21:132:tide-state"
+        ],
+        "choiceGroups": [
+          {
+            "id": "whiwa:21:token",
+            "optionIds": [
+              "whiwa:21:71500011:token",
+              "whiwa:21:71501001:token",
+              "whiwa:21:71501002:token",
+              "whiwa:21:71501003:token",
+              "whiwa:21:71501004:token",
+              "whiwa:21:71500098:token",
+              "whiwa:21:71500099:token",
+              "whiwa:21:71500100:token",
+              "whiwa:21:71500101:token"
+            ],
+            "defaultOptionId": null
+          }
+        ]
+      }
+    },
+    "whiwa:22:135:40268:310000080": {
+      "id": "whiwa:22:135:40268:310000080",
+      "mode": "whiwa",
+      "seasonId": "22",
+      "areaId": 2,
+      "stageId": 135,
+      "stageOrder": 9,
+      "waveId": 1,
+      "recordId": 40268,
+      "monsterId": 310000080,
+      "nameId": "monster:310000080",
+      "element": "fusion",
+      "level": 90,
+      "resistances": {
+        "glacio": 20,
+        "fusion": 70,
+        "electro": 20,
+        "aero": 20,
+        "spectro": 20,
+        "havoc": 20
+      },
+      "resistance": {
+        "sourceKind": "composed",
+        "includesModeModifiers": true,
+        "intrinsicSource": "monster",
+        "modifiers": [
+          {
+            "kind": "modeBase",
+            "value": 10,
+            "sourceId": "whiwaTestedBase"
+          },
+          {
+            "kind": "attributeResistanceAdjustment",
+            "element": "fusion",
+            "value": 20,
+            "sourceId": 680003214
+          }
+        ]
+      },
+      "gameplay": {
+        "fixedIds": [],
+        "controlIds": [
+          "whiwa:22:135:tide-state"
+        ],
+        "choiceGroups": [
+          {
+            "id": "whiwa:22:token",
+            "optionIds": [
+              "whiwa:22:71500011:token",
+              "whiwa:22:71501001:token",
+              "whiwa:22:71501002:token",
+              "whiwa:22:71501003:token",
+              "whiwa:22:71501004:token",
+              "whiwa:22:71500102:token",
+              "whiwa:22:71500103:token",
+              "whiwa:22:71500104:token",
+              "whiwa:22:71500105:token"
+            ],
+            "defaultOptionId": null
+          }
+        ]
+      }
+    },
+    "whiwa:22:135:40268:320000510": {
+      "id": "whiwa:22:135:40268:320000510",
+      "mode": "whiwa",
+      "seasonId": "22",
+      "areaId": 2,
+      "stageId": 135,
+      "stageOrder": 9,
+      "waveId": 1,
+      "recordId": 40268,
+      "monsterId": 320000510,
+      "nameId": "monster:320000510",
+      "element": "aero",
+      "level": 90,
+      "resistances": {
+        "glacio": 20,
+        "fusion": 40,
+        "electro": 20,
+        "aero": 50,
+        "spectro": 20,
+        "havoc": 20
+      },
+      "resistance": {
+        "sourceKind": "composed",
+        "includesModeModifiers": true,
+        "intrinsicSource": "monster",
+        "modifiers": [
+          {
+            "kind": "modeBase",
+            "value": 10,
+            "sourceId": "whiwaTestedBase"
+          },
+          {
+            "kind": "attributeResistanceAdjustment",
+            "element": "fusion",
+            "value": 20,
+            "sourceId": 680003214
+          }
+        ]
+      },
+      "gameplay": {
+        "fixedIds": [],
+        "controlIds": [
+          "whiwa:22:135:tide-state"
+        ],
+        "choiceGroups": [
+          {
+            "id": "whiwa:22:token",
+            "optionIds": [
+              "whiwa:22:71500011:token",
+              "whiwa:22:71501001:token",
+              "whiwa:22:71501002:token",
+              "whiwa:22:71501003:token",
+              "whiwa:22:71501004:token",
+              "whiwa:22:71500102:token",
+              "whiwa:22:71500103:token",
+              "whiwa:22:71500104:token",
+              "whiwa:22:71500105:token"
+            ],
+            "defaultOptionId": null
+          }
+        ]
+      }
+    },
+    "whiwa:22:135:40268:310000060": {
+      "id": "whiwa:22:135:40268:310000060",
+      "mode": "whiwa",
+      "seasonId": "22",
+      "areaId": 2,
+      "stageId": 135,
+      "stageOrder": 9,
+      "waveId": 1,
+      "recordId": 40268,
+      "monsterId": 310000060,
+      "nameId": "monster:310000060",
+      "element": "fusion",
+      "level": 90,
+      "resistances": {
+        "glacio": 20,
+        "fusion": 70,
+        "electro": 20,
+        "aero": 20,
+        "spectro": 20,
+        "havoc": 20
+      },
+      "resistance": {
+        "sourceKind": "composed",
+        "includesModeModifiers": true,
+        "intrinsicSource": "monster",
+        "modifiers": [
+          {
+            "kind": "modeBase",
+            "value": 10,
+            "sourceId": "whiwaTestedBase"
+          },
+          {
+            "kind": "attributeResistanceAdjustment",
+            "element": "fusion",
+            "value": 20,
+            "sourceId": 680003214
+          }
+        ]
+      },
+      "gameplay": {
+        "fixedIds": [],
+        "controlIds": [
+          "whiwa:22:135:tide-state"
+        ],
+        "choiceGroups": [
+          {
+            "id": "whiwa:22:token",
+            "optionIds": [
+              "whiwa:22:71500011:token",
+              "whiwa:22:71501001:token",
+              "whiwa:22:71501002:token",
+              "whiwa:22:71501003:token",
+              "whiwa:22:71501004:token",
+              "whiwa:22:71500102:token",
+              "whiwa:22:71500103:token",
+              "whiwa:22:71500104:token",
+              "whiwa:22:71500105:token"
+            ],
+            "defaultOptionId": null
+          }
+        ]
+      }
+    },
+    "whiwa:22:135:40268:320000280": {
+      "id": "whiwa:22:135:40268:320000280",
+      "mode": "whiwa",
+      "seasonId": "22",
+      "areaId": 2,
+      "stageId": 135,
+      "stageOrder": 9,
+      "waveId": 1,
+      "recordId": 40268,
+      "monsterId": 320000280,
+      "nameId": "monster:320000280",
+      "element": "fusion",
+      "level": 90,
+      "resistances": {
+        "glacio": 20,
+        "fusion": 70,
+        "electro": 20,
+        "aero": 20,
+        "spectro": 20,
+        "havoc": 20
+      },
+      "resistance": {
+        "sourceKind": "composed",
+        "includesModeModifiers": true,
+        "intrinsicSource": "monster",
+        "modifiers": [
+          {
+            "kind": "modeBase",
+            "value": 10,
+            "sourceId": "whiwaTestedBase"
+          },
+          {
+            "kind": "attributeResistanceAdjustment",
+            "element": "fusion",
+            "value": 20,
+            "sourceId": 680003214
+          }
+        ]
+      },
+      "gameplay": {
+        "fixedIds": [],
+        "controlIds": [
+          "whiwa:22:135:tide-state"
+        ],
+        "choiceGroups": [
+          {
+            "id": "whiwa:22:token",
+            "optionIds": [
+              "whiwa:22:71500011:token",
+              "whiwa:22:71501001:token",
+              "whiwa:22:71501002:token",
+              "whiwa:22:71501003:token",
+              "whiwa:22:71501004:token",
+              "whiwa:22:71500102:token",
+              "whiwa:22:71500103:token",
+              "whiwa:22:71500104:token",
+              "whiwa:22:71500105:token"
+            ],
+            "defaultOptionId": null
+          }
+        ]
+      }
+    },
+    "whiwa:22:135:40268:320000300": {
+      "id": "whiwa:22:135:40268:320000300",
+      "mode": "whiwa",
+      "seasonId": "22",
+      "areaId": 2,
+      "stageId": 135,
+      "stageOrder": 9,
+      "waveId": 1,
+      "recordId": 40268,
+      "monsterId": 320000300,
+      "nameId": "monster:320000300",
+      "element": null,
+      "level": 90,
+      "resistances": {
+        "glacio": 20,
+        "fusion": 40,
+        "electro": 20,
+        "aero": 20,
+        "spectro": 20,
+        "havoc": 20
+      },
+      "resistance": {
+        "sourceKind": "composed",
+        "includesModeModifiers": true,
+        "intrinsicSource": "monster",
+        "modifiers": [
+          {
+            "kind": "modeBase",
+            "value": 10,
+            "sourceId": "whiwaTestedBase"
+          },
+          {
+            "kind": "attributeResistanceAdjustment",
+            "element": "fusion",
+            "value": 20,
+            "sourceId": 680003214
+          }
+        ]
+      },
+      "gameplay": {
+        "fixedIds": [],
+        "controlIds": [
+          "whiwa:22:135:tide-state"
+        ],
+        "choiceGroups": [
+          {
+            "id": "whiwa:22:token",
+            "optionIds": [
+              "whiwa:22:71500011:token",
+              "whiwa:22:71501001:token",
+              "whiwa:22:71501002:token",
+              "whiwa:22:71501003:token",
+              "whiwa:22:71501004:token",
+              "whiwa:22:71500102:token",
+              "whiwa:22:71500103:token",
+              "whiwa:22:71500104:token",
+              "whiwa:22:71500105:token"
+            ],
+            "defaultOptionId": null
+          }
+        ]
+      }
+    },
+    "whiwa:22:135:40268:310000210": {
+      "id": "whiwa:22:135:40268:310000210",
+      "mode": "whiwa",
+      "seasonId": "22",
+      "areaId": 2,
+      "stageId": 135,
+      "stageOrder": 9,
+      "waveId": 1,
+      "recordId": 40268,
+      "monsterId": 310000210,
+      "nameId": "monster:310000210",
+      "element": "fusion",
+      "level": 90,
+      "resistances": {
+        "glacio": 20,
+        "fusion": 70,
+        "electro": 20,
+        "aero": 20,
+        "spectro": 20,
+        "havoc": 20
+      },
+      "resistance": {
+        "sourceKind": "composed",
+        "includesModeModifiers": true,
+        "intrinsicSource": "monster",
+        "modifiers": [
+          {
+            "kind": "modeBase",
+            "value": 10,
+            "sourceId": "whiwaTestedBase"
+          },
+          {
+            "kind": "attributeResistanceAdjustment",
+            "element": "fusion",
+            "value": 20,
+            "sourceId": 680003214
+          }
+        ]
+      },
+      "gameplay": {
+        "fixedIds": [],
+        "controlIds": [
+          "whiwa:22:135:tide-state"
+        ],
+        "choiceGroups": [
+          {
+            "id": "whiwa:22:token",
+            "optionIds": [
+              "whiwa:22:71500011:token",
+              "whiwa:22:71501001:token",
+              "whiwa:22:71501002:token",
+              "whiwa:22:71501003:token",
+              "whiwa:22:71501004:token",
+              "whiwa:22:71500102:token",
+              "whiwa:22:71500103:token",
+              "whiwa:22:71500104:token",
+              "whiwa:22:71500105:token"
+            ],
+            "defaultOptionId": null
+          }
+        ]
+      }
+    },
+    "whiwa:22:135:40268:320000080": {
+      "id": "whiwa:22:135:40268:320000080",
+      "mode": "whiwa",
+      "seasonId": "22",
+      "areaId": 2,
+      "stageId": 135,
+      "stageOrder": 9,
+      "waveId": 1,
+      "recordId": 40268,
+      "monsterId": 320000080,
+      "nameId": "monster:320000080",
+      "element": "fusion",
+      "level": 90,
+      "resistances": {
+        "glacio": 20,
+        "fusion": 70,
+        "electro": 20,
+        "aero": 20,
+        "spectro": 20,
+        "havoc": 20
+      },
+      "resistance": {
+        "sourceKind": "composed",
+        "includesModeModifiers": true,
+        "intrinsicSource": "monster",
+        "modifiers": [
+          {
+            "kind": "modeBase",
+            "value": 10,
+            "sourceId": "whiwaTestedBase"
+          },
+          {
+            "kind": "attributeResistanceAdjustment",
+            "element": "fusion",
+            "value": 20,
+            "sourceId": 680003214
+          }
+        ]
+      },
+      "gameplay": {
+        "fixedIds": [],
+        "controlIds": [
+          "whiwa:22:135:tide-state"
+        ],
+        "choiceGroups": [
+          {
+            "id": "whiwa:22:token",
+            "optionIds": [
+              "whiwa:22:71500011:token",
+              "whiwa:22:71501001:token",
+              "whiwa:22:71501002:token",
+              "whiwa:22:71501003:token",
+              "whiwa:22:71501004:token",
+              "whiwa:22:71500102:token",
+              "whiwa:22:71500103:token",
+              "whiwa:22:71500104:token",
+              "whiwa:22:71500105:token"
+            ],
+            "defaultOptionId": null
+          }
+        ]
+      }
+    },
+    "whiwa:22:135:40269:310000550": {
+      "id": "whiwa:22:135:40269:310000550",
+      "mode": "whiwa",
+      "seasonId": "22",
+      "areaId": 2,
+      "stageId": 135,
+      "stageOrder": 9,
+      "waveId": 2,
+      "recordId": 40269,
+      "monsterId": 310000550,
+      "nameId": "monster:310000550",
+      "element": "aero",
+      "level": 90,
+      "resistances": {
+        "glacio": 20,
+        "fusion": 40,
+        "electro": 20,
+        "aero": 50,
+        "spectro": 20,
+        "havoc": 20
+      },
+      "resistance": {
+        "sourceKind": "composed",
+        "includesModeModifiers": true,
+        "intrinsicSource": "monster",
+        "modifiers": [
+          {
+            "kind": "modeBase",
+            "value": 10,
+            "sourceId": "whiwaTestedBase"
+          },
+          {
+            "kind": "attributeResistanceAdjustment",
+            "element": "fusion",
+            "value": 20,
+            "sourceId": 680003214
+          }
+        ]
+      },
+      "gameplay": {
+        "fixedIds": [],
+        "controlIds": [
+          "whiwa:22:135:tide-state"
+        ],
+        "choiceGroups": [
+          {
+            "id": "whiwa:22:token",
+            "optionIds": [
+              "whiwa:22:71500011:token",
+              "whiwa:22:71501001:token",
+              "whiwa:22:71501002:token",
+              "whiwa:22:71501003:token",
+              "whiwa:22:71501004:token",
+              "whiwa:22:71500102:token",
+              "whiwa:22:71500103:token",
+              "whiwa:22:71500104:token",
+              "whiwa:22:71500105:token"
+            ],
+            "defaultOptionId": null
+          }
+        ]
+      }
+    },
+    "whiwa:22:135:40269:320000080": {
+      "id": "whiwa:22:135:40269:320000080",
+      "mode": "whiwa",
+      "seasonId": "22",
+      "areaId": 2,
+      "stageId": 135,
+      "stageOrder": 9,
+      "waveId": 2,
+      "recordId": 40269,
+      "monsterId": 320000080,
+      "nameId": "monster:320000080",
+      "element": "fusion",
+      "level": 90,
+      "resistances": {
+        "glacio": 20,
+        "fusion": 70,
+        "electro": 20,
+        "aero": 20,
+        "spectro": 20,
+        "havoc": 20
+      },
+      "resistance": {
+        "sourceKind": "composed",
+        "includesModeModifiers": true,
+        "intrinsicSource": "monster",
+        "modifiers": [
+          {
+            "kind": "modeBase",
+            "value": 10,
+            "sourceId": "whiwaTestedBase"
+          },
+          {
+            "kind": "attributeResistanceAdjustment",
+            "element": "fusion",
+            "value": 20,
+            "sourceId": 680003214
+          }
+        ]
+      },
+      "gameplay": {
+        "fixedIds": [],
+        "controlIds": [
+          "whiwa:22:135:tide-state"
+        ],
+        "choiceGroups": [
+          {
+            "id": "whiwa:22:token",
+            "optionIds": [
+              "whiwa:22:71500011:token",
+              "whiwa:22:71501001:token",
+              "whiwa:22:71501002:token",
+              "whiwa:22:71501003:token",
+              "whiwa:22:71501004:token",
+              "whiwa:22:71500102:token",
+              "whiwa:22:71500103:token",
+              "whiwa:22:71500104:token",
+              "whiwa:22:71500105:token"
+            ],
+            "defaultOptionId": null
+          }
+        ]
+      }
+    },
+    "whiwa:22:135:40269:310000130": {
+      "id": "whiwa:22:135:40269:310000130",
+      "mode": "whiwa",
+      "seasonId": "22",
+      "areaId": 2,
+      "stageId": 135,
+      "stageOrder": 9,
+      "waveId": 2,
+      "recordId": 40269,
+      "monsterId": 310000130,
+      "nameId": "monster:310000130",
+      "element": "aero",
+      "level": 90,
+      "resistances": {
+        "glacio": 20,
+        "fusion": 40,
+        "electro": 20,
+        "aero": 50,
+        "spectro": 20,
+        "havoc": 20
+      },
+      "resistance": {
+        "sourceKind": "composed",
+        "includesModeModifiers": true,
+        "intrinsicSource": "monster",
+        "modifiers": [
+          {
+            "kind": "modeBase",
+            "value": 10,
+            "sourceId": "whiwaTestedBase"
+          },
+          {
+            "kind": "attributeResistanceAdjustment",
+            "element": "fusion",
+            "value": 20,
+            "sourceId": 680003214
+          }
+        ]
+      },
+      "gameplay": {
+        "fixedIds": [],
+        "controlIds": [
+          "whiwa:22:135:tide-state"
+        ],
+        "choiceGroups": [
+          {
+            "id": "whiwa:22:token",
+            "optionIds": [
+              "whiwa:22:71500011:token",
+              "whiwa:22:71501001:token",
+              "whiwa:22:71501002:token",
+              "whiwa:22:71501003:token",
+              "whiwa:22:71501004:token",
+              "whiwa:22:71500102:token",
+              "whiwa:22:71500103:token",
+              "whiwa:22:71500104:token",
+              "whiwa:22:71500105:token"
+            ],
+            "defaultOptionId": null
+          }
+        ]
+      }
+    },
+    "whiwa:22:135:40269:320000110": {
+      "id": "whiwa:22:135:40269:320000110",
+      "mode": "whiwa",
+      "seasonId": "22",
+      "areaId": 2,
+      "stageId": 135,
+      "stageOrder": 9,
+      "waveId": 2,
+      "recordId": 40269,
+      "monsterId": 320000110,
+      "nameId": "monster:320000110",
+      "element": "aero",
+      "level": 90,
+      "resistances": {
+        "glacio": 20,
+        "fusion": 40,
+        "electro": 20,
+        "aero": 50,
+        "spectro": 20,
+        "havoc": 20
+      },
+      "resistance": {
+        "sourceKind": "composed",
+        "includesModeModifiers": true,
+        "intrinsicSource": "monster",
+        "modifiers": [
+          {
+            "kind": "modeBase",
+            "value": 10,
+            "sourceId": "whiwaTestedBase"
+          },
+          {
+            "kind": "attributeResistanceAdjustment",
+            "element": "fusion",
+            "value": 20,
+            "sourceId": 680003214
+          }
+        ]
+      },
+      "gameplay": {
+        "fixedIds": [],
+        "controlIds": [
+          "whiwa:22:135:tide-state"
+        ],
+        "choiceGroups": [
+          {
+            "id": "whiwa:22:token",
+            "optionIds": [
+              "whiwa:22:71500011:token",
+              "whiwa:22:71501001:token",
+              "whiwa:22:71501002:token",
+              "whiwa:22:71501003:token",
+              "whiwa:22:71501004:token",
+              "whiwa:22:71500102:token",
+              "whiwa:22:71500103:token",
+              "whiwa:22:71500104:token",
+              "whiwa:22:71500105:token"
+            ],
+            "defaultOptionId": null
+          }
+        ]
+      }
+    },
+    "whiwa:22:135:40269:320000300": {
+      "id": "whiwa:22:135:40269:320000300",
+      "mode": "whiwa",
+      "seasonId": "22",
+      "areaId": 2,
+      "stageId": 135,
+      "stageOrder": 9,
+      "waveId": 2,
+      "recordId": 40269,
+      "monsterId": 320000300,
+      "nameId": "monster:320000300",
+      "element": null,
+      "level": 90,
+      "resistances": {
+        "glacio": 20,
+        "fusion": 40,
+        "electro": 20,
+        "aero": 20,
+        "spectro": 20,
+        "havoc": 20
+      },
+      "resistance": {
+        "sourceKind": "composed",
+        "includesModeModifiers": true,
+        "intrinsicSource": "monster",
+        "modifiers": [
+          {
+            "kind": "modeBase",
+            "value": 10,
+            "sourceId": "whiwaTestedBase"
+          },
+          {
+            "kind": "attributeResistanceAdjustment",
+            "element": "fusion",
+            "value": 20,
+            "sourceId": 680003214
+          }
+        ]
+      },
+      "gameplay": {
+        "fixedIds": [],
+        "controlIds": [
+          "whiwa:22:135:tide-state"
+        ],
+        "choiceGroups": [
+          {
+            "id": "whiwa:22:token",
+            "optionIds": [
+              "whiwa:22:71500011:token",
+              "whiwa:22:71501001:token",
+              "whiwa:22:71501002:token",
+              "whiwa:22:71501003:token",
+              "whiwa:22:71501004:token",
+              "whiwa:22:71500102:token",
+              "whiwa:22:71500103:token",
+              "whiwa:22:71500104:token",
+              "whiwa:22:71500105:token"
+            ],
+            "defaultOptionId": null
+          }
+        ]
+      }
+    },
+    "whiwa:22:135:40269:310000100": {
+      "id": "whiwa:22:135:40269:310000100",
+      "mode": "whiwa",
+      "seasonId": "22",
+      "areaId": 2,
+      "stageId": 135,
+      "stageOrder": 9,
+      "waveId": 2,
+      "recordId": 40269,
+      "monsterId": 310000100,
+      "nameId": "monster:310000100",
+      "element": "aero",
+      "level": 90,
+      "resistances": {
+        "glacio": 20,
+        "fusion": 40,
+        "electro": 20,
+        "aero": 50,
+        "spectro": 20,
+        "havoc": 20
+      },
+      "resistance": {
+        "sourceKind": "composed",
+        "includesModeModifiers": true,
+        "intrinsicSource": "monster",
+        "modifiers": [
+          {
+            "kind": "modeBase",
+            "value": 10,
+            "sourceId": "whiwaTestedBase"
+          },
+          {
+            "kind": "attributeResistanceAdjustment",
+            "element": "fusion",
+            "value": 20,
+            "sourceId": 680003214
+          }
+        ]
+      },
+      "gameplay": {
+        "fixedIds": [],
+        "controlIds": [
+          "whiwa:22:135:tide-state"
+        ],
+        "choiceGroups": [
+          {
+            "id": "whiwa:22:token",
+            "optionIds": [
+              "whiwa:22:71500011:token",
+              "whiwa:22:71501001:token",
+              "whiwa:22:71501002:token",
+              "whiwa:22:71501003:token",
+              "whiwa:22:71501004:token",
+              "whiwa:22:71500102:token",
+              "whiwa:22:71500103:token",
+              "whiwa:22:71500104:token",
+              "whiwa:22:71500105:token"
+            ],
+            "defaultOptionId": null
+          }
+        ]
+      }
+    },
+    "whiwa:22:135:40269:310000060": {
+      "id": "whiwa:22:135:40269:310000060",
+      "mode": "whiwa",
+      "seasonId": "22",
+      "areaId": 2,
+      "stageId": 135,
+      "stageOrder": 9,
+      "waveId": 2,
+      "recordId": 40269,
+      "monsterId": 310000060,
+      "nameId": "monster:310000060",
+      "element": "fusion",
+      "level": 90,
+      "resistances": {
+        "glacio": 20,
+        "fusion": 70,
+        "electro": 20,
+        "aero": 20,
+        "spectro": 20,
+        "havoc": 20
+      },
+      "resistance": {
+        "sourceKind": "composed",
+        "includesModeModifiers": true,
+        "intrinsicSource": "monster",
+        "modifiers": [
+          {
+            "kind": "modeBase",
+            "value": 10,
+            "sourceId": "whiwaTestedBase"
+          },
+          {
+            "kind": "attributeResistanceAdjustment",
+            "element": "fusion",
+            "value": 20,
+            "sourceId": 680003214
+          }
+        ]
+      },
+      "gameplay": {
+        "fixedIds": [],
+        "controlIds": [
+          "whiwa:22:135:tide-state"
+        ],
+        "choiceGroups": [
+          {
+            "id": "whiwa:22:token",
+            "optionIds": [
+              "whiwa:22:71500011:token",
+              "whiwa:22:71501001:token",
+              "whiwa:22:71501002:token",
+              "whiwa:22:71501003:token",
+              "whiwa:22:71501004:token",
+              "whiwa:22:71500102:token",
+              "whiwa:22:71500103:token",
+              "whiwa:22:71500104:token",
+              "whiwa:22:71500105:token"
+            ],
+            "defaultOptionId": null
+          }
+        ]
+      }
+    },
+    "whiwa:22:135:40269:320000280": {
+      "id": "whiwa:22:135:40269:320000280",
+      "mode": "whiwa",
+      "seasonId": "22",
+      "areaId": 2,
+      "stageId": 135,
+      "stageOrder": 9,
+      "waveId": 2,
+      "recordId": 40269,
+      "monsterId": 320000280,
+      "nameId": "monster:320000280",
+      "element": "fusion",
+      "level": 90,
+      "resistances": {
+        "glacio": 20,
+        "fusion": 70,
+        "electro": 20,
+        "aero": 20,
+        "spectro": 20,
+        "havoc": 20
+      },
+      "resistance": {
+        "sourceKind": "composed",
+        "includesModeModifiers": true,
+        "intrinsicSource": "monster",
+        "modifiers": [
+          {
+            "kind": "modeBase",
+            "value": 10,
+            "sourceId": "whiwaTestedBase"
+          },
+          {
+            "kind": "attributeResistanceAdjustment",
+            "element": "fusion",
+            "value": 20,
+            "sourceId": 680003214
+          }
+        ]
+      },
+      "gameplay": {
+        "fixedIds": [],
+        "controlIds": [
+          "whiwa:22:135:tide-state"
+        ],
+        "choiceGroups": [
+          {
+            "id": "whiwa:22:token",
+            "optionIds": [
+              "whiwa:22:71500011:token",
+              "whiwa:22:71501001:token",
+              "whiwa:22:71501002:token",
+              "whiwa:22:71501003:token",
+              "whiwa:22:71501004:token",
+              "whiwa:22:71500102:token",
+              "whiwa:22:71500103:token",
+              "whiwa:22:71500104:token",
+              "whiwa:22:71500105:token"
+            ],
+            "defaultOptionId": null
+          }
+        ]
+      }
+    },
+    "whiwa:22:136:40270:310000040": {
+      "id": "whiwa:22:136:40270:310000040",
+      "mode": "whiwa",
+      "seasonId": "22",
+      "areaId": 2,
+      "stageId": 136,
+      "stageOrder": 10,
+      "waveId": 1,
+      "recordId": 40270,
+      "monsterId": 310000040,
+      "nameId": "monster:310000040",
+      "element": "glacio",
+      "level": 90,
+      "resistances": {
+        "glacio": 70,
+        "fusion": 20,
+        "electro": 20,
+        "aero": 20,
+        "spectro": 20,
+        "havoc": 20
+      },
+      "resistance": {
+        "sourceKind": "composed",
+        "includesModeModifiers": true,
+        "intrinsicSource": "monster",
+        "modifiers": [
+          {
+            "kind": "modeBase",
+            "value": 10,
+            "sourceId": "whiwaTestedBase"
+          },
+          {
+            "kind": "attributeResistanceAdjustment",
+            "element": "glacio",
+            "value": 20,
+            "sourceId": 680003213
+          }
+        ]
+      },
+      "gameplay": {
+        "fixedIds": [],
+        "controlIds": [
+          "whiwa:22:136:tide-state"
+        ],
+        "choiceGroups": [
+          {
+            "id": "whiwa:22:token",
+            "optionIds": [
+              "whiwa:22:71500011:token",
+              "whiwa:22:71501001:token",
+              "whiwa:22:71501002:token",
+              "whiwa:22:71501003:token",
+              "whiwa:22:71501004:token",
+              "whiwa:22:71500102:token",
+              "whiwa:22:71500103:token",
+              "whiwa:22:71500104:token",
+              "whiwa:22:71500105:token"
+            ],
+            "defaultOptionId": null
+          }
+        ]
+      }
+    },
+    "whiwa:22:136:40270:320000020": {
+      "id": "whiwa:22:136:40270:320000020",
+      "mode": "whiwa",
+      "seasonId": "22",
+      "areaId": 2,
+      "stageId": 136,
+      "stageOrder": 10,
+      "waveId": 1,
+      "recordId": 40270,
+      "monsterId": 320000020,
+      "nameId": "monster:320000020",
+      "element": "electro",
+      "level": 90,
+      "resistances": {
+        "glacio": 40,
+        "fusion": 20,
+        "electro": 50,
+        "aero": 20,
+        "spectro": 20,
+        "havoc": 20
+      },
+      "resistance": {
+        "sourceKind": "composed",
+        "includesModeModifiers": true,
+        "intrinsicSource": "monster",
+        "modifiers": [
+          {
+            "kind": "modeBase",
+            "value": 10,
+            "sourceId": "whiwaTestedBase"
+          },
+          {
+            "kind": "attributeResistanceAdjustment",
+            "element": "glacio",
+            "value": 20,
+            "sourceId": 680003213
+          }
+        ]
+      },
+      "gameplay": {
+        "fixedIds": [],
+        "controlIds": [
+          "whiwa:22:136:tide-state"
+        ],
+        "choiceGroups": [
+          {
+            "id": "whiwa:22:token",
+            "optionIds": [
+              "whiwa:22:71500011:token",
+              "whiwa:22:71501001:token",
+              "whiwa:22:71501002:token",
+              "whiwa:22:71501003:token",
+              "whiwa:22:71501004:token",
+              "whiwa:22:71500102:token",
+              "whiwa:22:71500103:token",
+              "whiwa:22:71500104:token",
+              "whiwa:22:71500105:token"
+            ],
+            "defaultOptionId": null
+          }
+        ]
+      }
+    },
+    "whiwa:22:136:40270:310000340": {
+      "id": "whiwa:22:136:40270:310000340",
+      "mode": "whiwa",
+      "seasonId": "22",
+      "areaId": 2,
+      "stageId": 136,
+      "stageOrder": 10,
+      "waveId": 1,
+      "recordId": 40270,
+      "monsterId": 310000340,
+      "nameId": "monster:310000340",
+      "element": "glacio",
+      "level": 90,
+      "resistances": {
+        "glacio": 70,
+        "fusion": 20,
+        "electro": 20,
+        "aero": 20,
+        "spectro": 20,
+        "havoc": 20
+      },
+      "resistance": {
+        "sourceKind": "composed",
+        "includesModeModifiers": true,
+        "intrinsicSource": "monster",
+        "modifiers": [
+          {
+            "kind": "modeBase",
+            "value": 10,
+            "sourceId": "whiwaTestedBase"
+          },
+          {
+            "kind": "attributeResistanceAdjustment",
+            "element": "glacio",
+            "value": 20,
+            "sourceId": 680003213
+          }
+        ]
+      },
+      "gameplay": {
+        "fixedIds": [],
+        "controlIds": [
+          "whiwa:22:136:tide-state"
+        ],
+        "choiceGroups": [
+          {
+            "id": "whiwa:22:token",
+            "optionIds": [
+              "whiwa:22:71500011:token",
+              "whiwa:22:71501001:token",
+              "whiwa:22:71501002:token",
+              "whiwa:22:71501003:token",
+              "whiwa:22:71501004:token",
+              "whiwa:22:71500102:token",
+              "whiwa:22:71500103:token",
+              "whiwa:22:71500104:token",
+              "whiwa:22:71500105:token"
+            ],
+            "defaultOptionId": null
+          }
+        ]
+      }
+    },
+    "whiwa:22:136:40270:320000190": {
+      "id": "whiwa:22:136:40270:320000190",
+      "mode": "whiwa",
+      "seasonId": "22",
+      "areaId": 2,
+      "stageId": 136,
+      "stageOrder": 10,
+      "waveId": 1,
+      "recordId": 40270,
+      "monsterId": 320000190,
+      "nameId": "monster:320000190",
+      "element": "glacio",
+      "level": 90,
+      "resistances": {
+        "glacio": 70,
+        "fusion": 20,
+        "electro": 20,
+        "aero": 20,
+        "spectro": 20,
+        "havoc": 20
+      },
+      "resistance": {
+        "sourceKind": "composed",
+        "includesModeModifiers": true,
+        "intrinsicSource": "monster",
+        "modifiers": [
+          {
+            "kind": "modeBase",
+            "value": 10,
+            "sourceId": "whiwaTestedBase"
+          },
+          {
+            "kind": "attributeResistanceAdjustment",
+            "element": "glacio",
+            "value": 20,
+            "sourceId": 680003213
+          }
+        ]
+      },
+      "gameplay": {
+        "fixedIds": [],
+        "controlIds": [
+          "whiwa:22:136:tide-state"
+        ],
+        "choiceGroups": [
+          {
+            "id": "whiwa:22:token",
+            "optionIds": [
+              "whiwa:22:71500011:token",
+              "whiwa:22:71501001:token",
+              "whiwa:22:71501002:token",
+              "whiwa:22:71501003:token",
+              "whiwa:22:71501004:token",
+              "whiwa:22:71500102:token",
+              "whiwa:22:71500103:token",
+              "whiwa:22:71500104:token",
+              "whiwa:22:71500105:token"
+            ],
+            "defaultOptionId": null
+          }
+        ]
+      }
+    },
+    "whiwa:22:136:40270:320000300": {
+      "id": "whiwa:22:136:40270:320000300",
+      "mode": "whiwa",
+      "seasonId": "22",
+      "areaId": 2,
+      "stageId": 136,
+      "stageOrder": 10,
+      "waveId": 1,
+      "recordId": 40270,
+      "monsterId": 320000300,
+      "nameId": "monster:320000300",
+      "element": null,
+      "level": 90,
+      "resistances": {
+        "glacio": 40,
+        "fusion": 20,
+        "electro": 20,
+        "aero": 20,
+        "spectro": 20,
+        "havoc": 20
+      },
+      "resistance": {
+        "sourceKind": "composed",
+        "includesModeModifiers": true,
+        "intrinsicSource": "monster",
+        "modifiers": [
+          {
+            "kind": "modeBase",
+            "value": 10,
+            "sourceId": "whiwaTestedBase"
+          },
+          {
+            "kind": "attributeResistanceAdjustment",
+            "element": "glacio",
+            "value": 20,
+            "sourceId": 680003213
+          }
+        ]
+      },
+      "gameplay": {
+        "fixedIds": [],
+        "controlIds": [
+          "whiwa:22:136:tide-state"
+        ],
+        "choiceGroups": [
+          {
+            "id": "whiwa:22:token",
+            "optionIds": [
+              "whiwa:22:71500011:token",
+              "whiwa:22:71501001:token",
+              "whiwa:22:71501002:token",
+              "whiwa:22:71501003:token",
+              "whiwa:22:71501004:token",
+              "whiwa:22:71500102:token",
+              "whiwa:22:71500103:token",
+              "whiwa:22:71500104:token",
+              "whiwa:22:71500105:token"
+            ],
+            "defaultOptionId": null
+          }
+        ]
+      }
+    },
+    "whiwa:22:136:40270:310000570": {
+      "id": "whiwa:22:136:40270:310000570",
+      "mode": "whiwa",
+      "seasonId": "22",
+      "areaId": 2,
+      "stageId": 136,
+      "stageOrder": 10,
+      "waveId": 1,
+      "recordId": 40270,
+      "monsterId": 310000570,
+      "nameId": "monster:310000570",
+      "element": "glacio",
+      "level": 90,
+      "resistances": {
+        "glacio": 70,
+        "fusion": 20,
+        "electro": 20,
+        "aero": 20,
+        "spectro": 20,
+        "havoc": 20
+      },
+      "resistance": {
+        "sourceKind": "composed",
+        "includesModeModifiers": true,
+        "intrinsicSource": "monster",
+        "modifiers": [
+          {
+            "kind": "modeBase",
+            "value": 10,
+            "sourceId": "whiwaTestedBase"
+          },
+          {
+            "kind": "attributeResistanceAdjustment",
+            "element": "glacio",
+            "value": 20,
+            "sourceId": 680003213
+          }
+        ]
+      },
+      "gameplay": {
+        "fixedIds": [],
+        "controlIds": [
+          "whiwa:22:136:tide-state"
+        ],
+        "choiceGroups": [
+          {
+            "id": "whiwa:22:token",
+            "optionIds": [
+              "whiwa:22:71500011:token",
+              "whiwa:22:71501001:token",
+              "whiwa:22:71501002:token",
+              "whiwa:22:71501003:token",
+              "whiwa:22:71501004:token",
+              "whiwa:22:71500102:token",
+              "whiwa:22:71500103:token",
+              "whiwa:22:71500104:token",
+              "whiwa:22:71500105:token"
+            ],
+            "defaultOptionId": null
+          }
+        ]
+      }
+    },
+    "whiwa:22:136:40270:310000500": {
+      "id": "whiwa:22:136:40270:310000500",
+      "mode": "whiwa",
+      "seasonId": "22",
+      "areaId": 2,
+      "stageId": 136,
+      "stageOrder": 10,
+      "waveId": 1,
+      "recordId": 40270,
+      "monsterId": 310000500,
+      "nameId": "monster:310000500",
+      "element": "glacio",
+      "level": 90,
+      "resistances": {
+        "glacio": 70,
+        "fusion": 20,
+        "electro": 20,
+        "aero": 20,
+        "spectro": 20,
+        "havoc": 20
+      },
+      "resistance": {
+        "sourceKind": "composed",
+        "includesModeModifiers": true,
+        "intrinsicSource": "monster",
+        "modifiers": [
+          {
+            "kind": "modeBase",
+            "value": 10,
+            "sourceId": "whiwaTestedBase"
+          },
+          {
+            "kind": "attributeResistanceAdjustment",
+            "element": "glacio",
+            "value": 20,
+            "sourceId": 680003213
+          }
+        ]
+      },
+      "gameplay": {
+        "fixedIds": [],
+        "controlIds": [
+          "whiwa:22:136:tide-state"
+        ],
+        "choiceGroups": [
+          {
+            "id": "whiwa:22:token",
+            "optionIds": [
+              "whiwa:22:71500011:token",
+              "whiwa:22:71501001:token",
+              "whiwa:22:71501002:token",
+              "whiwa:22:71501003:token",
+              "whiwa:22:71501004:token",
+              "whiwa:22:71500102:token",
+              "whiwa:22:71500103:token",
+              "whiwa:22:71500104:token",
+              "whiwa:22:71500105:token"
+            ],
+            "defaultOptionId": null
+          }
+        ]
+      }
+    },
+    "whiwa:22:136:40270:320000260": {
+      "id": "whiwa:22:136:40270:320000260",
+      "mode": "whiwa",
+      "seasonId": "22",
+      "areaId": 2,
+      "stageId": 136,
+      "stageOrder": 10,
+      "waveId": 1,
+      "recordId": 40270,
+      "monsterId": 320000260,
+      "nameId": "monster:320000260",
+      "element": "glacio",
+      "level": 90,
+      "resistances": {
+        "glacio": 70,
+        "fusion": 20,
+        "electro": 20,
+        "aero": 20,
+        "spectro": 20,
+        "havoc": 20
+      },
+      "resistance": {
+        "sourceKind": "composed",
+        "includesModeModifiers": true,
+        "intrinsicSource": "monster",
+        "modifiers": [
+          {
+            "kind": "modeBase",
+            "value": 10,
+            "sourceId": "whiwaTestedBase"
+          },
+          {
+            "kind": "attributeResistanceAdjustment",
+            "element": "glacio",
+            "value": 20,
+            "sourceId": 680003213
+          }
+        ]
+      },
+      "gameplay": {
+        "fixedIds": [],
+        "controlIds": [
+          "whiwa:22:136:tide-state"
+        ],
+        "choiceGroups": [
+          {
+            "id": "whiwa:22:token",
+            "optionIds": [
+              "whiwa:22:71500011:token",
+              "whiwa:22:71501001:token",
+              "whiwa:22:71501002:token",
+              "whiwa:22:71501003:token",
+              "whiwa:22:71501004:token",
+              "whiwa:22:71500102:token",
+              "whiwa:22:71500103:token",
+              "whiwa:22:71500104:token",
+              "whiwa:22:71500105:token"
+            ],
+            "defaultOptionId": null
+          }
+        ]
+      }
+    },
+    "whiwa:22:136:40271:310000030": {
+      "id": "whiwa:22:136:40271:310000030",
+      "mode": "whiwa",
+      "seasonId": "22",
+      "areaId": 2,
+      "stageId": 136,
+      "stageOrder": 10,
+      "waveId": 2,
+      "recordId": 40271,
+      "monsterId": 310000030,
+      "nameId": "monster:310000030",
+      "element": "electro",
+      "level": 90,
+      "resistances": {
+        "glacio": 40,
+        "fusion": 20,
+        "electro": 50,
+        "aero": 20,
+        "spectro": 20,
+        "havoc": 20
+      },
+      "resistance": {
+        "sourceKind": "composed",
+        "includesModeModifiers": true,
+        "intrinsicSource": "monster",
+        "modifiers": [
+          {
+            "kind": "modeBase",
+            "value": 10,
+            "sourceId": "whiwaTestedBase"
+          },
+          {
+            "kind": "attributeResistanceAdjustment",
+            "element": "glacio",
+            "value": 20,
+            "sourceId": 680003213
+          }
+        ]
+      },
+      "gameplay": {
+        "fixedIds": [],
+        "controlIds": [
+          "whiwa:22:136:tide-state"
+        ],
+        "choiceGroups": [
+          {
+            "id": "whiwa:22:token",
+            "optionIds": [
+              "whiwa:22:71500011:token",
+              "whiwa:22:71501001:token",
+              "whiwa:22:71501002:token",
+              "whiwa:22:71501003:token",
+              "whiwa:22:71501004:token",
+              "whiwa:22:71500102:token",
+              "whiwa:22:71500103:token",
+              "whiwa:22:71500104:token",
+              "whiwa:22:71500105:token"
+            ],
+            "defaultOptionId": null
+          }
+        ]
+      }
+    },
+    "whiwa:22:136:40271:320000190": {
+      "id": "whiwa:22:136:40271:320000190",
+      "mode": "whiwa",
+      "seasonId": "22",
+      "areaId": 2,
+      "stageId": 136,
+      "stageOrder": 10,
+      "waveId": 2,
+      "recordId": 40271,
+      "monsterId": 320000190,
+      "nameId": "monster:320000190",
+      "element": "glacio",
+      "level": 90,
+      "resistances": {
+        "glacio": 70,
+        "fusion": 20,
+        "electro": 20,
+        "aero": 20,
+        "spectro": 20,
+        "havoc": 20
+      },
+      "resistance": {
+        "sourceKind": "composed",
+        "includesModeModifiers": true,
+        "intrinsicSource": "monster",
+        "modifiers": [
+          {
+            "kind": "modeBase",
+            "value": 10,
+            "sourceId": "whiwaTestedBase"
+          },
+          {
+            "kind": "attributeResistanceAdjustment",
+            "element": "glacio",
+            "value": 20,
+            "sourceId": 680003213
+          }
+        ]
+      },
+      "gameplay": {
+        "fixedIds": [],
+        "controlIds": [
+          "whiwa:22:136:tide-state"
+        ],
+        "choiceGroups": [
+          {
+            "id": "whiwa:22:token",
+            "optionIds": [
+              "whiwa:22:71500011:token",
+              "whiwa:22:71501001:token",
+              "whiwa:22:71501002:token",
+              "whiwa:22:71501003:token",
+              "whiwa:22:71501004:token",
+              "whiwa:22:71500102:token",
+              "whiwa:22:71500103:token",
+              "whiwa:22:71500104:token",
+              "whiwa:22:71500105:token"
+            ],
+            "defaultOptionId": null
+          }
+        ]
+      }
+    },
+    "whiwa:22:136:40271:310000560": {
+      "id": "whiwa:22:136:40271:310000560",
+      "mode": "whiwa",
+      "seasonId": "22",
+      "areaId": 2,
+      "stageId": 136,
+      "stageOrder": 10,
+      "waveId": 2,
+      "recordId": 40271,
+      "monsterId": 310000560,
+      "nameId": "monster:310000560",
+      "element": "electro",
+      "level": 90,
+      "resistances": {
+        "glacio": 40,
+        "fusion": 20,
+        "electro": 50,
+        "aero": 20,
+        "spectro": 20,
+        "havoc": 20
+      },
+      "resistance": {
+        "sourceKind": "composed",
+        "includesModeModifiers": true,
+        "intrinsicSource": "monster",
+        "modifiers": [
+          {
+            "kind": "modeBase",
+            "value": 10,
+            "sourceId": "whiwaTestedBase"
+          },
+          {
+            "kind": "attributeResistanceAdjustment",
+            "element": "glacio",
+            "value": 20,
+            "sourceId": 680003213
+          }
+        ]
+      },
+      "gameplay": {
+        "fixedIds": [],
+        "controlIds": [
+          "whiwa:22:136:tide-state"
+        ],
+        "choiceGroups": [
+          {
+            "id": "whiwa:22:token",
+            "optionIds": [
+              "whiwa:22:71500011:token",
+              "whiwa:22:71501001:token",
+              "whiwa:22:71501002:token",
+              "whiwa:22:71501003:token",
+              "whiwa:22:71501004:token",
+              "whiwa:22:71500102:token",
+              "whiwa:22:71500103:token",
+              "whiwa:22:71500104:token",
+              "whiwa:22:71500105:token"
+            ],
+            "defaultOptionId": null
+          }
+        ]
+      }
+    },
+    "whiwa:22:136:40271:320000290": {
+      "id": "whiwa:22:136:40271:320000290",
+      "mode": "whiwa",
+      "seasonId": "22",
+      "areaId": 2,
+      "stageId": 136,
+      "stageOrder": 10,
+      "waveId": 2,
+      "recordId": 40271,
+      "monsterId": 320000290,
+      "nameId": "monster:320000290",
+      "element": "electro",
+      "level": 90,
+      "resistances": {
+        "glacio": 40,
+        "fusion": 20,
+        "electro": 50,
+        "aero": 20,
+        "spectro": 20,
+        "havoc": 20
+      },
+      "resistance": {
+        "sourceKind": "composed",
+        "includesModeModifiers": true,
+        "intrinsicSource": "monster",
+        "modifiers": [
+          {
+            "kind": "modeBase",
+            "value": 10,
+            "sourceId": "whiwaTestedBase"
+          },
+          {
+            "kind": "attributeResistanceAdjustment",
+            "element": "glacio",
+            "value": 20,
+            "sourceId": 680003213
+          }
+        ]
+      },
+      "gameplay": {
+        "fixedIds": [],
+        "controlIds": [
+          "whiwa:22:136:tide-state"
+        ],
+        "choiceGroups": [
+          {
+            "id": "whiwa:22:token",
+            "optionIds": [
+              "whiwa:22:71500011:token",
+              "whiwa:22:71501001:token",
+              "whiwa:22:71501002:token",
+              "whiwa:22:71501003:token",
+              "whiwa:22:71501004:token",
+              "whiwa:22:71500102:token",
+              "whiwa:22:71500103:token",
+              "whiwa:22:71500104:token",
+              "whiwa:22:71500105:token"
+            ],
+            "defaultOptionId": null
+          }
+        ]
+      }
+    },
+    "whiwa:22:136:40271:320000300": {
+      "id": "whiwa:22:136:40271:320000300",
+      "mode": "whiwa",
+      "seasonId": "22",
+      "areaId": 2,
+      "stageId": 136,
+      "stageOrder": 10,
+      "waveId": 2,
+      "recordId": 40271,
+      "monsterId": 320000300,
+      "nameId": "monster:320000300",
+      "element": null,
+      "level": 90,
+      "resistances": {
+        "glacio": 40,
+        "fusion": 20,
+        "electro": 20,
+        "aero": 20,
+        "spectro": 20,
+        "havoc": 20
+      },
+      "resistance": {
+        "sourceKind": "composed",
+        "includesModeModifiers": true,
+        "intrinsicSource": "monster",
+        "modifiers": [
+          {
+            "kind": "modeBase",
+            "value": 10,
+            "sourceId": "whiwaTestedBase"
+          },
+          {
+            "kind": "attributeResistanceAdjustment",
+            "element": "glacio",
+            "value": 20,
+            "sourceId": 680003213
+          }
+        ]
+      },
+      "gameplay": {
+        "fixedIds": [],
+        "controlIds": [
+          "whiwa:22:136:tide-state"
+        ],
+        "choiceGroups": [
+          {
+            "id": "whiwa:22:token",
+            "optionIds": [
+              "whiwa:22:71500011:token",
+              "whiwa:22:71501001:token",
+              "whiwa:22:71501002:token",
+              "whiwa:22:71501003:token",
+              "whiwa:22:71501004:token",
+              "whiwa:22:71500102:token",
+              "whiwa:22:71500103:token",
+              "whiwa:22:71500104:token",
+              "whiwa:22:71500105:token"
+            ],
+            "defaultOptionId": null
+          }
+        ]
+      }
+    },
+    "whiwa:22:136:40271:320000020": {
+      "id": "whiwa:22:136:40271:320000020",
+      "mode": "whiwa",
+      "seasonId": "22",
+      "areaId": 2,
+      "stageId": 136,
+      "stageOrder": 10,
+      "waveId": 2,
+      "recordId": 40271,
+      "monsterId": 320000020,
+      "nameId": "monster:320000020",
+      "element": "electro",
+      "level": 90,
+      "resistances": {
+        "glacio": 40,
+        "fusion": 20,
+        "electro": 50,
+        "aero": 20,
+        "spectro": 20,
+        "havoc": 20
+      },
+      "resistance": {
+        "sourceKind": "composed",
+        "includesModeModifiers": true,
+        "intrinsicSource": "monster",
+        "modifiers": [
+          {
+            "kind": "modeBase",
+            "value": 10,
+            "sourceId": "whiwaTestedBase"
+          },
+          {
+            "kind": "attributeResistanceAdjustment",
+            "element": "glacio",
+            "value": 20,
+            "sourceId": 680003213
+          }
+        ]
+      },
+      "gameplay": {
+        "fixedIds": [],
+        "controlIds": [
+          "whiwa:22:136:tide-state"
+        ],
+        "choiceGroups": [
+          {
+            "id": "whiwa:22:token",
+            "optionIds": [
+              "whiwa:22:71500011:token",
+              "whiwa:22:71501001:token",
+              "whiwa:22:71501002:token",
+              "whiwa:22:71501003:token",
+              "whiwa:22:71501004:token",
+              "whiwa:22:71500102:token",
+              "whiwa:22:71500103:token",
+              "whiwa:22:71500104:token",
+              "whiwa:22:71500105:token"
+            ],
+            "defaultOptionId": null
+          }
+        ]
+      }
+    },
+    "whiwa:22:136:40271:310000500": {
+      "id": "whiwa:22:136:40271:310000500",
+      "mode": "whiwa",
+      "seasonId": "22",
+      "areaId": 2,
+      "stageId": 136,
+      "stageOrder": 10,
+      "waveId": 2,
+      "recordId": 40271,
+      "monsterId": 310000500,
+      "nameId": "monster:310000500",
+      "element": "glacio",
+      "level": 90,
+      "resistances": {
+        "glacio": 70,
+        "fusion": 20,
+        "electro": 20,
+        "aero": 20,
+        "spectro": 20,
+        "havoc": 20
+      },
+      "resistance": {
+        "sourceKind": "composed",
+        "includesModeModifiers": true,
+        "intrinsicSource": "monster",
+        "modifiers": [
+          {
+            "kind": "modeBase",
+            "value": 10,
+            "sourceId": "whiwaTestedBase"
+          },
+          {
+            "kind": "attributeResistanceAdjustment",
+            "element": "glacio",
+            "value": 20,
+            "sourceId": 680003213
+          }
+        ]
+      },
+      "gameplay": {
+        "fixedIds": [],
+        "controlIds": [
+          "whiwa:22:136:tide-state"
+        ],
+        "choiceGroups": [
+          {
+            "id": "whiwa:22:token",
+            "optionIds": [
+              "whiwa:22:71500011:token",
+              "whiwa:22:71501001:token",
+              "whiwa:22:71501002:token",
+              "whiwa:22:71501003:token",
+              "whiwa:22:71501004:token",
+              "whiwa:22:71500102:token",
+              "whiwa:22:71500103:token",
+              "whiwa:22:71500104:token",
+              "whiwa:22:71500105:token"
+            ],
+            "defaultOptionId": null
+          }
+        ]
+      }
+    },
+    "whiwa:22:136:40271:320000260": {
+      "id": "whiwa:22:136:40271:320000260",
+      "mode": "whiwa",
+      "seasonId": "22",
+      "areaId": 2,
+      "stageId": 136,
+      "stageOrder": 10,
+      "waveId": 2,
+      "recordId": 40271,
+      "monsterId": 320000260,
+      "nameId": "monster:320000260",
+      "element": "glacio",
+      "level": 90,
+      "resistances": {
+        "glacio": 70,
+        "fusion": 20,
+        "electro": 20,
+        "aero": 20,
+        "spectro": 20,
+        "havoc": 20
+      },
+      "resistance": {
+        "sourceKind": "composed",
+        "includesModeModifiers": true,
+        "intrinsicSource": "monster",
+        "modifiers": [
+          {
+            "kind": "modeBase",
+            "value": 10,
+            "sourceId": "whiwaTestedBase"
+          },
+          {
+            "kind": "attributeResistanceAdjustment",
+            "element": "glacio",
+            "value": 20,
+            "sourceId": 680003213
+          }
+        ]
+      },
+      "gameplay": {
+        "fixedIds": [],
+        "controlIds": [
+          "whiwa:22:136:tide-state"
+        ],
+        "choiceGroups": [
+          {
+            "id": "whiwa:22:token",
+            "optionIds": [
+              "whiwa:22:71500011:token",
+              "whiwa:22:71501001:token",
+              "whiwa:22:71501002:token",
+              "whiwa:22:71501003:token",
+              "whiwa:22:71501004:token",
+              "whiwa:22:71500102:token",
+              "whiwa:22:71500103:token",
+              "whiwa:22:71500104:token",
+              "whiwa:22:71500105:token"
+            ],
+            "defaultOptionId": null
+          }
+        ]
+      }
+    },
+    "whiwa:22:137:40272:310000450": {
+      "id": "whiwa:22:137:40272:310000450",
+      "mode": "whiwa",
+      "seasonId": "22",
+      "areaId": 2,
+      "stageId": 137,
+      "stageOrder": 11,
+      "waveId": 1,
+      "recordId": 40272,
+      "monsterId": 310000450,
+      "nameId": "monster:310000450",
+      "element": "havoc",
+      "level": 90,
+      "resistances": {
+        "glacio": 20,
+        "fusion": 20,
+        "electro": 20,
+        "aero": 20,
+        "spectro": 20,
+        "havoc": 70
+      },
+      "resistance": {
+        "sourceKind": "composed",
+        "includesModeModifiers": true,
+        "intrinsicSource": "monster",
+        "modifiers": [
+          {
+            "kind": "modeBase",
+            "value": 10,
+            "sourceId": "whiwaTestedBase"
+          },
+          {
+            "kind": "attributeResistanceAdjustment",
+            "element": "havoc",
+            "value": 20,
+            "sourceId": 680003218
+          }
+        ]
+      },
+      "gameplay": {
+        "fixedIds": [],
+        "controlIds": [
+          "whiwa:22:137:tide-state"
+        ],
+        "choiceGroups": [
+          {
+            "id": "whiwa:22:token",
+            "optionIds": [
+              "whiwa:22:71500011:token",
+              "whiwa:22:71501001:token",
+              "whiwa:22:71501002:token",
+              "whiwa:22:71501003:token",
+              "whiwa:22:71501004:token",
+              "whiwa:22:71500102:token",
+              "whiwa:22:71500103:token",
+              "whiwa:22:71500104:token",
+              "whiwa:22:71500105:token"
+            ],
+            "defaultOptionId": null
+          }
+        ]
+      }
+    },
+    "whiwa:22:137:40272:320000060": {
+      "id": "whiwa:22:137:40272:320000060",
+      "mode": "whiwa",
+      "seasonId": "22",
+      "areaId": 2,
+      "stageId": 137,
+      "stageOrder": 11,
+      "waveId": 1,
+      "recordId": 40272,
+      "monsterId": 320000060,
+      "nameId": "monster:320000060",
+      "element": "spectro",
+      "level": 90,
+      "resistances": {
+        "glacio": 20,
+        "fusion": 20,
+        "electro": 20,
+        "aero": 20,
+        "spectro": 50,
+        "havoc": 40
+      },
+      "resistance": {
+        "sourceKind": "composed",
+        "includesModeModifiers": true,
+        "intrinsicSource": "monster",
+        "modifiers": [
+          {
+            "kind": "modeBase",
+            "value": 10,
+            "sourceId": "whiwaTestedBase"
+          },
+          {
+            "kind": "attributeResistanceAdjustment",
+            "element": "havoc",
+            "value": 20,
+            "sourceId": 680003218
+          }
+        ]
+      },
+      "gameplay": {
+        "fixedIds": [],
+        "controlIds": [
+          "whiwa:22:137:tide-state"
+        ],
+        "choiceGroups": [
+          {
+            "id": "whiwa:22:token",
+            "optionIds": [
+              "whiwa:22:71500011:token",
+              "whiwa:22:71501001:token",
+              "whiwa:22:71501002:token",
+              "whiwa:22:71501003:token",
+              "whiwa:22:71501004:token",
+              "whiwa:22:71500102:token",
+              "whiwa:22:71500103:token",
+              "whiwa:22:71500104:token",
+              "whiwa:22:71500105:token"
+            ],
+            "defaultOptionId": null
+          }
+        ]
+      }
+    },
+    "whiwa:22:137:40272:310000220": {
+      "id": "whiwa:22:137:40272:310000220",
+      "mode": "whiwa",
+      "seasonId": "22",
+      "areaId": 2,
+      "stageId": 137,
+      "stageOrder": 11,
+      "waveId": 1,
+      "recordId": 40272,
+      "monsterId": 310000220,
+      "nameId": "monster:310000220",
+      "element": "havoc",
+      "level": 90,
+      "resistances": {
+        "glacio": 20,
+        "fusion": 20,
+        "electro": 20,
+        "aero": 20,
+        "spectro": 20,
+        "havoc": 70
+      },
+      "resistance": {
+        "sourceKind": "composed",
+        "includesModeModifiers": true,
+        "intrinsicSource": "monster",
+        "modifiers": [
+          {
+            "kind": "modeBase",
+            "value": 10,
+            "sourceId": "whiwaTestedBase"
+          },
+          {
+            "kind": "attributeResistanceAdjustment",
+            "element": "havoc",
+            "value": 20,
+            "sourceId": 680003218
+          }
+        ]
+      },
+      "gameplay": {
+        "fixedIds": [],
+        "controlIds": [
+          "whiwa:22:137:tide-state"
+        ],
+        "choiceGroups": [
+          {
+            "id": "whiwa:22:token",
+            "optionIds": [
+              "whiwa:22:71500011:token",
+              "whiwa:22:71501001:token",
+              "whiwa:22:71501002:token",
+              "whiwa:22:71501003:token",
+              "whiwa:22:71501004:token",
+              "whiwa:22:71500102:token",
+              "whiwa:22:71500103:token",
+              "whiwa:22:71500104:token",
+              "whiwa:22:71500105:token"
+            ],
+            "defaultOptionId": null
+          }
+        ]
+      }
+    },
+    "whiwa:22:137:40272:320000090": {
+      "id": "whiwa:22:137:40272:320000090",
+      "mode": "whiwa",
+      "seasonId": "22",
+      "areaId": 2,
+      "stageId": 137,
+      "stageOrder": 11,
+      "waveId": 1,
+      "recordId": 40272,
+      "monsterId": 320000090,
+      "nameId": "monster:320000090",
+      "element": "havoc",
+      "level": 90,
+      "resistances": {
+        "glacio": 20,
+        "fusion": 20,
+        "electro": 20,
+        "aero": 20,
+        "spectro": 20,
+        "havoc": 70
+      },
+      "resistance": {
+        "sourceKind": "composed",
+        "includesModeModifiers": true,
+        "intrinsicSource": "monster",
+        "modifiers": [
+          {
+            "kind": "modeBase",
+            "value": 10,
+            "sourceId": "whiwaTestedBase"
+          },
+          {
+            "kind": "attributeResistanceAdjustment",
+            "element": "havoc",
+            "value": 20,
+            "sourceId": 680003218
+          }
+        ]
+      },
+      "gameplay": {
+        "fixedIds": [],
+        "controlIds": [
+          "whiwa:22:137:tide-state"
+        ],
+        "choiceGroups": [
+          {
+            "id": "whiwa:22:token",
+            "optionIds": [
+              "whiwa:22:71500011:token",
+              "whiwa:22:71501001:token",
+              "whiwa:22:71501002:token",
+              "whiwa:22:71501003:token",
+              "whiwa:22:71501004:token",
+              "whiwa:22:71500102:token",
+              "whiwa:22:71500103:token",
+              "whiwa:22:71500104:token",
+              "whiwa:22:71500105:token"
+            ],
+            "defaultOptionId": null
+          }
+        ]
+      }
+    },
+    "whiwa:22:137:40272:320000300": {
+      "id": "whiwa:22:137:40272:320000300",
+      "mode": "whiwa",
+      "seasonId": "22",
+      "areaId": 2,
+      "stageId": 137,
+      "stageOrder": 11,
+      "waveId": 1,
+      "recordId": 40272,
+      "monsterId": 320000300,
+      "nameId": "monster:320000300",
+      "element": null,
+      "level": 90,
+      "resistances": {
+        "glacio": 20,
+        "fusion": 20,
+        "electro": 20,
+        "aero": 20,
+        "spectro": 20,
+        "havoc": 40
+      },
+      "resistance": {
+        "sourceKind": "composed",
+        "includesModeModifiers": true,
+        "intrinsicSource": "monster",
+        "modifiers": [
+          {
+            "kind": "modeBase",
+            "value": 10,
+            "sourceId": "whiwaTestedBase"
+          },
+          {
+            "kind": "attributeResistanceAdjustment",
+            "element": "havoc",
+            "value": 20,
+            "sourceId": 680003218
+          }
+        ]
+      },
+      "gameplay": {
+        "fixedIds": [],
+        "controlIds": [
+          "whiwa:22:137:tide-state"
+        ],
+        "choiceGroups": [
+          {
+            "id": "whiwa:22:token",
+            "optionIds": [
+              "whiwa:22:71500011:token",
+              "whiwa:22:71501001:token",
+              "whiwa:22:71501002:token",
+              "whiwa:22:71501003:token",
+              "whiwa:22:71501004:token",
+              "whiwa:22:71500102:token",
+              "whiwa:22:71500103:token",
+              "whiwa:22:71500104:token",
+              "whiwa:22:71500105:token"
+            ],
+            "defaultOptionId": null
+          }
+        ]
+      }
+    },
+    "whiwa:22:137:40272:310000430": {
+      "id": "whiwa:22:137:40272:310000430",
+      "mode": "whiwa",
+      "seasonId": "22",
+      "areaId": 2,
+      "stageId": 137,
+      "stageOrder": 11,
+      "waveId": 1,
+      "recordId": 40272,
+      "monsterId": 310000430,
+      "nameId": "monster:310000430",
+      "element": "havoc",
+      "level": 90,
+      "resistances": {
+        "glacio": 20,
+        "fusion": 20,
+        "electro": 20,
+        "aero": 20,
+        "spectro": 20,
+        "havoc": 70
+      },
+      "resistance": {
+        "sourceKind": "composed",
+        "includesModeModifiers": true,
+        "intrinsicSource": "monster",
+        "modifiers": [
+          {
+            "kind": "modeBase",
+            "value": 10,
+            "sourceId": "whiwaTestedBase"
+          },
+          {
+            "kind": "attributeResistanceAdjustment",
+            "element": "havoc",
+            "value": 20,
+            "sourceId": 680003218
+          }
+        ]
+      },
+      "gameplay": {
+        "fixedIds": [],
+        "controlIds": [
+          "whiwa:22:137:tide-state"
+        ],
+        "choiceGroups": [
+          {
+            "id": "whiwa:22:token",
+            "optionIds": [
+              "whiwa:22:71500011:token",
+              "whiwa:22:71501001:token",
+              "whiwa:22:71501002:token",
+              "whiwa:22:71501003:token",
+              "whiwa:22:71501004:token",
+              "whiwa:22:71500102:token",
+              "whiwa:22:71500103:token",
+              "whiwa:22:71500104:token",
+              "whiwa:22:71500105:token"
+            ],
+            "defaultOptionId": null
+          }
+        ]
+      }
+    },
+    "whiwa:22:137:40272:320000070": {
+      "id": "whiwa:22:137:40272:320000070",
+      "mode": "whiwa",
+      "seasonId": "22",
+      "areaId": 2,
+      "stageId": 137,
+      "stageOrder": 11,
+      "waveId": 1,
+      "recordId": 40272,
+      "monsterId": 320000070,
+      "nameId": "monster:320000070",
+      "element": "havoc",
+      "level": 90,
+      "resistances": {
+        "glacio": 20,
+        "fusion": 20,
+        "electro": 20,
+        "aero": 20,
+        "spectro": 20,
+        "havoc": 70
+      },
+      "resistance": {
+        "sourceKind": "composed",
+        "includesModeModifiers": true,
+        "intrinsicSource": "monster",
+        "modifiers": [
+          {
+            "kind": "modeBase",
+            "value": 10,
+            "sourceId": "whiwaTestedBase"
+          },
+          {
+            "kind": "attributeResistanceAdjustment",
+            "element": "havoc",
+            "value": 20,
+            "sourceId": 680003218
+          }
+        ]
+      },
+      "gameplay": {
+        "fixedIds": [],
+        "controlIds": [
+          "whiwa:22:137:tide-state"
+        ],
+        "choiceGroups": [
+          {
+            "id": "whiwa:22:token",
+            "optionIds": [
+              "whiwa:22:71500011:token",
+              "whiwa:22:71501001:token",
+              "whiwa:22:71501002:token",
+              "whiwa:22:71501003:token",
+              "whiwa:22:71501004:token",
+              "whiwa:22:71500102:token",
+              "whiwa:22:71500103:token",
+              "whiwa:22:71500104:token",
+              "whiwa:22:71500105:token"
+            ],
+            "defaultOptionId": null
+          }
+        ]
+      }
+    },
+    "whiwa:22:137:40273:310000460": {
+      "id": "whiwa:22:137:40273:310000460",
+      "mode": "whiwa",
+      "seasonId": "22",
+      "areaId": 2,
+      "stageId": 137,
+      "stageOrder": 11,
+      "waveId": 2,
+      "recordId": 40273,
+      "monsterId": 310000460,
+      "nameId": "monster:310000460",
+      "element": "spectro",
+      "level": 90,
+      "resistances": {
+        "glacio": 20,
+        "fusion": 20,
+        "electro": 20,
+        "aero": 20,
+        "spectro": 50,
+        "havoc": 40
+      },
+      "resistance": {
+        "sourceKind": "composed",
+        "includesModeModifiers": true,
+        "intrinsicSource": "monster",
+        "modifiers": [
+          {
+            "kind": "modeBase",
+            "value": 10,
+            "sourceId": "whiwaTestedBase"
+          },
+          {
+            "kind": "attributeResistanceAdjustment",
+            "element": "havoc",
+            "value": 20,
+            "sourceId": 680003218
+          }
+        ]
+      },
+      "gameplay": {
+        "fixedIds": [],
+        "controlIds": [
+          "whiwa:22:137:tide-state"
+        ],
+        "choiceGroups": [
+          {
+            "id": "whiwa:22:token",
+            "optionIds": [
+              "whiwa:22:71500011:token",
+              "whiwa:22:71501001:token",
+              "whiwa:22:71501002:token",
+              "whiwa:22:71501003:token",
+              "whiwa:22:71501004:token",
+              "whiwa:22:71500102:token",
+              "whiwa:22:71500103:token",
+              "whiwa:22:71500104:token",
+              "whiwa:22:71500105:token"
+            ],
+            "defaultOptionId": null
+          }
+        ]
+      }
+    },
+    "whiwa:22:137:40273:320000070": {
+      "id": "whiwa:22:137:40273:320000070",
+      "mode": "whiwa",
+      "seasonId": "22",
+      "areaId": 2,
+      "stageId": 137,
+      "stageOrder": 11,
+      "waveId": 2,
+      "recordId": 40273,
+      "monsterId": 320000070,
+      "nameId": "monster:320000070",
+      "element": "havoc",
+      "level": 90,
+      "resistances": {
+        "glacio": 20,
+        "fusion": 20,
+        "electro": 20,
+        "aero": 20,
+        "spectro": 20,
+        "havoc": 70
+      },
+      "resistance": {
+        "sourceKind": "composed",
+        "includesModeModifiers": true,
+        "intrinsicSource": "monster",
+        "modifiers": [
+          {
+            "kind": "modeBase",
+            "value": 10,
+            "sourceId": "whiwaTestedBase"
+          },
+          {
+            "kind": "attributeResistanceAdjustment",
+            "element": "havoc",
+            "value": 20,
+            "sourceId": 680003218
+          }
+        ]
+      },
+      "gameplay": {
+        "fixedIds": [],
+        "controlIds": [
+          "whiwa:22:137:tide-state"
+        ],
+        "choiceGroups": [
+          {
+            "id": "whiwa:22:token",
+            "optionIds": [
+              "whiwa:22:71500011:token",
+              "whiwa:22:71501001:token",
+              "whiwa:22:71501002:token",
+              "whiwa:22:71501003:token",
+              "whiwa:22:71501004:token",
+              "whiwa:22:71500102:token",
+              "whiwa:22:71500103:token",
+              "whiwa:22:71500104:token",
+              "whiwa:22:71500105:token"
+            ],
+            "defaultOptionId": null
+          }
+        ]
+      }
+    },
+    "whiwa:22:137:40273:310000490": {
+      "id": "whiwa:22:137:40273:310000490",
+      "mode": "whiwa",
+      "seasonId": "22",
+      "areaId": 2,
+      "stageId": 137,
+      "stageOrder": 11,
+      "waveId": 2,
+      "recordId": 40273,
+      "monsterId": 310000490,
+      "nameId": "monster:310000490",
+      "element": "spectro",
+      "level": 90,
+      "resistances": {
+        "glacio": 20,
+        "fusion": 20,
+        "electro": 20,
+        "aero": 20,
+        "spectro": 50,
+        "havoc": 40
+      },
+      "resistance": {
+        "sourceKind": "composed",
+        "includesModeModifiers": true,
+        "intrinsicSource": "monster",
+        "modifiers": [
+          {
+            "kind": "modeBase",
+            "value": 10,
+            "sourceId": "whiwaTestedBase"
+          },
+          {
+            "kind": "attributeResistanceAdjustment",
+            "element": "havoc",
+            "value": 20,
+            "sourceId": 680003218
+          }
+        ]
+      },
+      "gameplay": {
+        "fixedIds": [],
+        "controlIds": [
+          "whiwa:22:137:tide-state"
+        ],
+        "choiceGroups": [
+          {
+            "id": "whiwa:22:token",
+            "optionIds": [
+              "whiwa:22:71500011:token",
+              "whiwa:22:71501001:token",
+              "whiwa:22:71501002:token",
+              "whiwa:22:71501003:token",
+              "whiwa:22:71501004:token",
+              "whiwa:22:71500102:token",
+              "whiwa:22:71500103:token",
+              "whiwa:22:71500104:token",
+              "whiwa:22:71500105:token"
+            ],
+            "defaultOptionId": null
+          }
+        ]
+      }
+    },
+    "whiwa:22:137:40273:320000310": {
+      "id": "whiwa:22:137:40273:320000310",
+      "mode": "whiwa",
+      "seasonId": "22",
+      "areaId": 2,
+      "stageId": 137,
+      "stageOrder": 11,
+      "waveId": 2,
+      "recordId": 40273,
+      "monsterId": 320000310,
+      "nameId": "monster:320000310",
+      "element": "spectro",
+      "level": 90,
+      "resistances": {
+        "glacio": 20,
+        "fusion": 20,
+        "electro": 20,
+        "aero": 20,
+        "spectro": 50,
+        "havoc": 40
+      },
+      "resistance": {
+        "sourceKind": "composed",
+        "includesModeModifiers": true,
+        "intrinsicSource": "monster",
+        "modifiers": [
+          {
+            "kind": "modeBase",
+            "value": 10,
+            "sourceId": "whiwaTestedBase"
+          },
+          {
+            "kind": "attributeResistanceAdjustment",
+            "element": "havoc",
+            "value": 20,
+            "sourceId": 680003218
+          }
+        ]
+      },
+      "gameplay": {
+        "fixedIds": [],
+        "controlIds": [
+          "whiwa:22:137:tide-state"
+        ],
+        "choiceGroups": [
+          {
+            "id": "whiwa:22:token",
+            "optionIds": [
+              "whiwa:22:71500011:token",
+              "whiwa:22:71501001:token",
+              "whiwa:22:71501002:token",
+              "whiwa:22:71501003:token",
+              "whiwa:22:71501004:token",
+              "whiwa:22:71500102:token",
+              "whiwa:22:71500103:token",
+              "whiwa:22:71500104:token",
+              "whiwa:22:71500105:token"
+            ],
+            "defaultOptionId": null
+          }
+        ]
+      }
+    },
+    "whiwa:22:137:40273:320000300": {
+      "id": "whiwa:22:137:40273:320000300",
+      "mode": "whiwa",
+      "seasonId": "22",
+      "areaId": 2,
+      "stageId": 137,
+      "stageOrder": 11,
+      "waveId": 2,
+      "recordId": 40273,
+      "monsterId": 320000300,
+      "nameId": "monster:320000300",
+      "element": null,
+      "level": 90,
+      "resistances": {
+        "glacio": 20,
+        "fusion": 20,
+        "electro": 20,
+        "aero": 20,
+        "spectro": 20,
+        "havoc": 40
+      },
+      "resistance": {
+        "sourceKind": "composed",
+        "includesModeModifiers": true,
+        "intrinsicSource": "monster",
+        "modifiers": [
+          {
+            "kind": "modeBase",
+            "value": 10,
+            "sourceId": "whiwaTestedBase"
+          },
+          {
+            "kind": "attributeResistanceAdjustment",
+            "element": "havoc",
+            "value": 20,
+            "sourceId": 680003218
+          }
+        ]
+      },
+      "gameplay": {
+        "fixedIds": [],
+        "controlIds": [
+          "whiwa:22:137:tide-state"
+        ],
+        "choiceGroups": [
+          {
+            "id": "whiwa:22:token",
+            "optionIds": [
+              "whiwa:22:71500011:token",
+              "whiwa:22:71501001:token",
+              "whiwa:22:71501002:token",
+              "whiwa:22:71501003:token",
+              "whiwa:22:71501004:token",
+              "whiwa:22:71500102:token",
+              "whiwa:22:71500103:token",
+              "whiwa:22:71500104:token",
+              "whiwa:22:71500105:token"
+            ],
+            "defaultOptionId": null
+          }
+        ]
+      }
+    },
+    "whiwa:22:137:40273:310000090": {
+      "id": "whiwa:22:137:40273:310000090",
+      "mode": "whiwa",
+      "seasonId": "22",
+      "areaId": 2,
+      "stageId": 137,
+      "stageOrder": 11,
+      "waveId": 2,
+      "recordId": 40273,
+      "monsterId": 310000090,
+      "nameId": "monster:310000090",
+      "element": "spectro",
+      "level": 90,
+      "resistances": {
+        "glacio": 20,
+        "fusion": 20,
+        "electro": 20,
+        "aero": 20,
+        "spectro": 50,
+        "havoc": 40
+      },
+      "resistance": {
+        "sourceKind": "composed",
+        "includesModeModifiers": true,
+        "intrinsicSource": "monster",
+        "modifiers": [
+          {
+            "kind": "modeBase",
+            "value": 10,
+            "sourceId": "whiwaTestedBase"
+          },
+          {
+            "kind": "attributeResistanceAdjustment",
+            "element": "havoc",
+            "value": 20,
+            "sourceId": 680003218
+          }
+        ]
+      },
+      "gameplay": {
+        "fixedIds": [],
+        "controlIds": [
+          "whiwa:22:137:tide-state"
+        ],
+        "choiceGroups": [
+          {
+            "id": "whiwa:22:token",
+            "optionIds": [
+              "whiwa:22:71500011:token",
+              "whiwa:22:71501001:token",
+              "whiwa:22:71501002:token",
+              "whiwa:22:71501003:token",
+              "whiwa:22:71501004:token",
+              "whiwa:22:71500102:token",
+              "whiwa:22:71500103:token",
+              "whiwa:22:71500104:token",
+              "whiwa:22:71500105:token"
+            ],
+            "defaultOptionId": null
+          }
+        ]
+      }
+    },
+    "whiwa:22:137:40273:320000060": {
+      "id": "whiwa:22:137:40273:320000060",
+      "mode": "whiwa",
+      "seasonId": "22",
+      "areaId": 2,
+      "stageId": 137,
+      "stageOrder": 11,
+      "waveId": 2,
+      "recordId": 40273,
+      "monsterId": 320000060,
+      "nameId": "monster:320000060",
+      "element": "spectro",
+      "level": 90,
+      "resistances": {
+        "glacio": 20,
+        "fusion": 20,
+        "electro": 20,
+        "aero": 20,
+        "spectro": 50,
+        "havoc": 40
+      },
+      "resistance": {
+        "sourceKind": "composed",
+        "includesModeModifiers": true,
+        "intrinsicSource": "monster",
+        "modifiers": [
+          {
+            "kind": "modeBase",
+            "value": 10,
+            "sourceId": "whiwaTestedBase"
+          },
+          {
+            "kind": "attributeResistanceAdjustment",
+            "element": "havoc",
+            "value": 20,
+            "sourceId": 680003218
+          }
+        ]
+      },
+      "gameplay": {
+        "fixedIds": [],
+        "controlIds": [
+          "whiwa:22:137:tide-state"
+        ],
+        "choiceGroups": [
+          {
+            "id": "whiwa:22:token",
+            "optionIds": [
+              "whiwa:22:71500011:token",
+              "whiwa:22:71501001:token",
+              "whiwa:22:71501002:token",
+              "whiwa:22:71501003:token",
+              "whiwa:22:71501004:token",
+              "whiwa:22:71500102:token",
+              "whiwa:22:71500103:token",
+              "whiwa:22:71500104:token",
+              "whiwa:22:71500105:token"
+            ],
+            "defaultOptionId": null
+          }
+        ]
+      }
+    },
+    "whiwa:22:137:40273:310000430": {
+      "id": "whiwa:22:137:40273:310000430",
+      "mode": "whiwa",
+      "seasonId": "22",
+      "areaId": 2,
+      "stageId": 137,
+      "stageOrder": 11,
+      "waveId": 2,
+      "recordId": 40273,
+      "monsterId": 310000430,
+      "nameId": "monster:310000430",
+      "element": "havoc",
+      "level": 90,
+      "resistances": {
+        "glacio": 20,
+        "fusion": 20,
+        "electro": 20,
+        "aero": 20,
+        "spectro": 20,
+        "havoc": 70
+      },
+      "resistance": {
+        "sourceKind": "composed",
+        "includesModeModifiers": true,
+        "intrinsicSource": "monster",
+        "modifiers": [
+          {
+            "kind": "modeBase",
+            "value": 10,
+            "sourceId": "whiwaTestedBase"
+          },
+          {
+            "kind": "attributeResistanceAdjustment",
+            "element": "havoc",
+            "value": 20,
+            "sourceId": 680003218
+          }
+        ]
+      },
+      "gameplay": {
+        "fixedIds": [],
+        "controlIds": [
+          "whiwa:22:137:tide-state"
+        ],
+        "choiceGroups": [
+          {
+            "id": "whiwa:22:token",
+            "optionIds": [
+              "whiwa:22:71500011:token",
+              "whiwa:22:71501001:token",
+              "whiwa:22:71501002:token",
+              "whiwa:22:71501003:token",
+              "whiwa:22:71501004:token",
+              "whiwa:22:71500102:token",
+              "whiwa:22:71500103:token",
+              "whiwa:22:71500104:token",
+              "whiwa:22:71500105:token"
+            ],
+            "defaultOptionId": null
+          }
+        ]
+      }
+    },
+    "whiwa:22:138:40274:310000460": {
+      "id": "whiwa:22:138:40274:310000460",
+      "mode": "whiwa",
+      "seasonId": "22",
+      "areaId": 3,
+      "stageId": 138,
+      "stageOrder": 12,
+      "waveId": 1,
+      "recordId": 40274,
+      "monsterId": 310000460,
+      "nameId": "monster:310000460",
+      "element": "spectro",
+      "level": 100,
+      "resistances": {
+        "glacio": 20,
+        "fusion": 20,
+        "electro": 20,
+        "aero": 20,
+        "spectro": 50,
+        "havoc": 20
+      },
+      "resistance": {
+        "sourceKind": "composed",
+        "includesModeModifiers": true,
+        "intrinsicSource": "monster",
+        "modifiers": [
+          {
+            "kind": "modeBase",
+            "value": 10,
+            "sourceId": "whiwaTestedBase"
+          }
+        ]
+      },
+      "gameplay": {
+        "fixedIds": [
+          "whiwa:22:138:endless-final"
+        ],
+        "controlIds": [
+          "whiwa:22:138:tide-state"
+        ],
+        "choiceGroups": [
+          {
+            "id": "whiwa:22:token",
+            "optionIds": [
+              "whiwa:22:71500011:token",
+              "whiwa:22:71501001:token",
+              "whiwa:22:71501002:token",
+              "whiwa:22:71501003:token",
+              "whiwa:22:71501004:token",
+              "whiwa:22:71500102:token",
+              "whiwa:22:71500103:token",
+              "whiwa:22:71500104:token",
+              "whiwa:22:71500105:token"
+            ],
+            "defaultOptionId": null
+          }
+        ]
+      }
+    },
+    "whiwa:22:138:40274:320000070": {
+      "id": "whiwa:22:138:40274:320000070",
+      "mode": "whiwa",
+      "seasonId": "22",
+      "areaId": 3,
+      "stageId": 138,
+      "stageOrder": 12,
+      "waveId": 1,
+      "recordId": 40274,
+      "monsterId": 320000070,
+      "nameId": "monster:320000070",
+      "element": "havoc",
+      "level": 100,
+      "resistances": {
+        "glacio": 20,
+        "fusion": 20,
+        "electro": 20,
+        "aero": 20,
+        "spectro": 20,
+        "havoc": 50
+      },
+      "resistance": {
+        "sourceKind": "composed",
+        "includesModeModifiers": true,
+        "intrinsicSource": "monster",
+        "modifiers": [
+          {
+            "kind": "modeBase",
+            "value": 10,
+            "sourceId": "whiwaTestedBase"
+          }
+        ]
+      },
+      "gameplay": {
+        "fixedIds": [
+          "whiwa:22:138:endless-final"
+        ],
+        "controlIds": [
+          "whiwa:22:138:tide-state"
+        ],
+        "choiceGroups": [
+          {
+            "id": "whiwa:22:token",
+            "optionIds": [
+              "whiwa:22:71500011:token",
+              "whiwa:22:71501001:token",
+              "whiwa:22:71501002:token",
+              "whiwa:22:71501003:token",
+              "whiwa:22:71501004:token",
+              "whiwa:22:71500102:token",
+              "whiwa:22:71500103:token",
+              "whiwa:22:71500104:token",
+              "whiwa:22:71500105:token"
+            ],
+            "defaultOptionId": null
+          }
+        ]
+      }
+    },
+    "whiwa:22:138:40274:310000440": {
+      "id": "whiwa:22:138:40274:310000440",
+      "mode": "whiwa",
+      "seasonId": "22",
+      "areaId": 3,
+      "stageId": 138,
+      "stageOrder": 12,
+      "waveId": 1,
+      "recordId": 40274,
+      "monsterId": 310000440,
+      "nameId": "monster:310000440",
+      "element": "spectro",
+      "level": 100,
+      "resistances": {
+        "glacio": 20,
+        "fusion": 20,
+        "electro": 20,
+        "aero": 20,
+        "spectro": 50,
+        "havoc": 20
+      },
+      "resistance": {
+        "sourceKind": "composed",
+        "includesModeModifiers": true,
+        "intrinsicSource": "monster",
+        "modifiers": [
+          {
+            "kind": "modeBase",
+            "value": 10,
+            "sourceId": "whiwaTestedBase"
+          }
+        ]
+      },
+      "gameplay": {
+        "fixedIds": [
+          "whiwa:22:138:endless-final"
+        ],
+        "controlIds": [
+          "whiwa:22:138:tide-state"
+        ],
+        "choiceGroups": [
+          {
+            "id": "whiwa:22:token",
+            "optionIds": [
+              "whiwa:22:71500011:token",
+              "whiwa:22:71501001:token",
+              "whiwa:22:71501002:token",
+              "whiwa:22:71501003:token",
+              "whiwa:22:71501004:token",
+              "whiwa:22:71500102:token",
+              "whiwa:22:71500103:token",
+              "whiwa:22:71500104:token",
+              "whiwa:22:71500105:token"
+            ],
+            "defaultOptionId": null
+          }
+        ]
+      }
+    },
+    "whiwa:22:138:40274:320000060": {
+      "id": "whiwa:22:138:40274:320000060",
+      "mode": "whiwa",
+      "seasonId": "22",
+      "areaId": 3,
+      "stageId": 138,
+      "stageOrder": 12,
+      "waveId": 1,
+      "recordId": 40274,
+      "monsterId": 320000060,
+      "nameId": "monster:320000060",
+      "element": "spectro",
+      "level": 100,
+      "resistances": {
+        "glacio": 20,
+        "fusion": 20,
+        "electro": 20,
+        "aero": 20,
+        "spectro": 50,
+        "havoc": 20
+      },
+      "resistance": {
+        "sourceKind": "composed",
+        "includesModeModifiers": true,
+        "intrinsicSource": "monster",
+        "modifiers": [
+          {
+            "kind": "modeBase",
+            "value": 10,
+            "sourceId": "whiwaTestedBase"
+          }
+        ]
+      },
+      "gameplay": {
+        "fixedIds": [
+          "whiwa:22:138:endless-final"
+        ],
+        "controlIds": [
+          "whiwa:22:138:tide-state"
+        ],
+        "choiceGroups": [
+          {
+            "id": "whiwa:22:token",
+            "optionIds": [
+              "whiwa:22:71500011:token",
+              "whiwa:22:71501001:token",
+              "whiwa:22:71501002:token",
+              "whiwa:22:71501003:token",
+              "whiwa:22:71501004:token",
+              "whiwa:22:71500102:token",
+              "whiwa:22:71500103:token",
+              "whiwa:22:71500104:token",
+              "whiwa:22:71500105:token"
+            ],
+            "defaultOptionId": null
+          }
+        ]
+      }
+    },
+    "whiwa:22:138:40275:310000450": {
+      "id": "whiwa:22:138:40275:310000450",
+      "mode": "whiwa",
+      "seasonId": "22",
+      "areaId": 3,
+      "stageId": 138,
+      "stageOrder": 12,
+      "waveId": 2,
+      "recordId": 40275,
+      "monsterId": 310000450,
+      "nameId": "monster:310000450",
+      "element": "havoc",
+      "level": 100,
+      "resistances": {
+        "glacio": 20,
+        "fusion": 20,
+        "electro": 20,
+        "aero": 20,
+        "spectro": 20,
+        "havoc": 50
+      },
+      "resistance": {
+        "sourceKind": "composed",
+        "includesModeModifiers": true,
+        "intrinsicSource": "monster",
+        "modifiers": [
+          {
+            "kind": "modeBase",
+            "value": 10,
+            "sourceId": "whiwaTestedBase"
+          }
+        ]
+      },
+      "gameplay": {
+        "fixedIds": [
+          "whiwa:22:138:endless-final"
+        ],
+        "controlIds": [
+          "whiwa:22:138:tide-state"
+        ],
+        "choiceGroups": [
+          {
+            "id": "whiwa:22:token",
+            "optionIds": [
+              "whiwa:22:71500011:token",
+              "whiwa:22:71501001:token",
+              "whiwa:22:71501002:token",
+              "whiwa:22:71501003:token",
+              "whiwa:22:71501004:token",
+              "whiwa:22:71500102:token",
+              "whiwa:22:71500103:token",
+              "whiwa:22:71500104:token",
+              "whiwa:22:71500105:token"
+            ],
+            "defaultOptionId": null
+          }
+        ]
+      }
+    },
+    "whiwa:22:138:40275:320000090": {
+      "id": "whiwa:22:138:40275:320000090",
+      "mode": "whiwa",
+      "seasonId": "22",
+      "areaId": 3,
+      "stageId": 138,
+      "stageOrder": 12,
+      "waveId": 2,
+      "recordId": 40275,
+      "monsterId": 320000090,
+      "nameId": "monster:320000090",
+      "element": "havoc",
+      "level": 100,
+      "resistances": {
+        "glacio": 20,
+        "fusion": 20,
+        "electro": 20,
+        "aero": 20,
+        "spectro": 20,
+        "havoc": 50
+      },
+      "resistance": {
+        "sourceKind": "composed",
+        "includesModeModifiers": true,
+        "intrinsicSource": "monster",
+        "modifiers": [
+          {
+            "kind": "modeBase",
+            "value": 10,
+            "sourceId": "whiwaTestedBase"
+          }
+        ]
+      },
+      "gameplay": {
+        "fixedIds": [
+          "whiwa:22:138:endless-final"
+        ],
+        "controlIds": [
+          "whiwa:22:138:tide-state"
+        ],
+        "choiceGroups": [
+          {
+            "id": "whiwa:22:token",
+            "optionIds": [
+              "whiwa:22:71500011:token",
+              "whiwa:22:71501001:token",
+              "whiwa:22:71501002:token",
+              "whiwa:22:71501003:token",
+              "whiwa:22:71501004:token",
+              "whiwa:22:71500102:token",
+              "whiwa:22:71500103:token",
+              "whiwa:22:71500104:token",
+              "whiwa:22:71500105:token"
+            ],
+            "defaultOptionId": null
+          }
+        ]
+      }
+    },
+    "whiwa:22:138:40275:310000440": {
+      "id": "whiwa:22:138:40275:310000440",
+      "mode": "whiwa",
+      "seasonId": "22",
+      "areaId": 3,
+      "stageId": 138,
+      "stageOrder": 12,
+      "waveId": 2,
+      "recordId": 40275,
+      "monsterId": 310000440,
+      "nameId": "monster:310000440",
+      "element": "spectro",
+      "level": 100,
+      "resistances": {
+        "glacio": 20,
+        "fusion": 20,
+        "electro": 20,
+        "aero": 20,
+        "spectro": 50,
+        "havoc": 20
+      },
+      "resistance": {
+        "sourceKind": "composed",
+        "includesModeModifiers": true,
+        "intrinsicSource": "monster",
+        "modifiers": [
+          {
+            "kind": "modeBase",
+            "value": 10,
+            "sourceId": "whiwaTestedBase"
+          }
+        ]
+      },
+      "gameplay": {
+        "fixedIds": [
+          "whiwa:22:138:endless-final"
+        ],
+        "controlIds": [
+          "whiwa:22:138:tide-state"
+        ],
+        "choiceGroups": [
+          {
+            "id": "whiwa:22:token",
+            "optionIds": [
+              "whiwa:22:71500011:token",
+              "whiwa:22:71501001:token",
+              "whiwa:22:71501002:token",
+              "whiwa:22:71501003:token",
+              "whiwa:22:71501004:token",
+              "whiwa:22:71500102:token",
+              "whiwa:22:71500103:token",
+              "whiwa:22:71500104:token",
+              "whiwa:22:71500105:token"
+            ],
+            "defaultOptionId": null
+          }
+        ]
+      }
+    },
+    "whiwa:22:138:40275:320000060": {
+      "id": "whiwa:22:138:40275:320000060",
+      "mode": "whiwa",
+      "seasonId": "22",
+      "areaId": 3,
+      "stageId": 138,
+      "stageOrder": 12,
+      "waveId": 2,
+      "recordId": 40275,
+      "monsterId": 320000060,
+      "nameId": "monster:320000060",
+      "element": "spectro",
+      "level": 100,
+      "resistances": {
+        "glacio": 20,
+        "fusion": 20,
+        "electro": 20,
+        "aero": 20,
+        "spectro": 50,
+        "havoc": 20
+      },
+      "resistance": {
+        "sourceKind": "composed",
+        "includesModeModifiers": true,
+        "intrinsicSource": "monster",
+        "modifiers": [
+          {
+            "kind": "modeBase",
+            "value": 10,
+            "sourceId": "whiwaTestedBase"
+          }
+        ]
+      },
+      "gameplay": {
+        "fixedIds": [
+          "whiwa:22:138:endless-final"
+        ],
+        "controlIds": [
+          "whiwa:22:138:tide-state"
+        ],
+        "choiceGroups": [
+          {
+            "id": "whiwa:22:token",
+            "optionIds": [
+              "whiwa:22:71500011:token",
+              "whiwa:22:71501001:token",
+              "whiwa:22:71501002:token",
+              "whiwa:22:71501003:token",
+              "whiwa:22:71501004:token",
+              "whiwa:22:71500102:token",
+              "whiwa:22:71500103:token",
+              "whiwa:22:71500104:token",
+              "whiwa:22:71500105:token"
+            ],
+            "defaultOptionId": null
+          }
+        ]
+      }
+    },
+    "dpmatrix:8:16:1:1:155": {
+      "id": "dpmatrix:8:16:1:1:155",
+      "mode": "dpmatrix",
+      "seasonId": "8",
+      "areaId": 16,
+      "stageId": 1,
+      "waveId": 1,
+      "recordId": 155,
+      "monsterId": 650000050,
+      "nameId": "matrix:650000050",
+      "element": "fusion",
+      "level": 100,
+      "resistances": {
+        "glacio": 20,
+        "fusion": 40,
+        "electro": 20,
+        "aero": 20,
+        "spectro": 20,
+        "havoc": 20
+      },
+      "resistance": {
+        "sourceKind": "composedFinal",
+        "includesModeModifiers": true,
+        "modifiers": [
+          {
+            "kind": "modeBase",
+            "value": 20,
+            "sourceId": "dpmatrixTestedBase"
+          },
+          {
+            "kind": "attributeResistanceAdjustment",
+            "element": "fusion",
+            "value": 20,
+            "sourceId": "dpmatrixTestedMatching"
+          }
+        ]
+      },
+      "gameplay": {
+        "fixedIds": [],
+        "controlIds": [],
+        "choiceGroups": [
+          {
+            "id": "dpmatrix:8:enhancement",
+            "optionIds": [
+              "dpmatrix:8:37:enhancement",
+              "dpmatrix:8:34:enhancement",
+              "dpmatrix:8:35:enhancement",
+              "dpmatrix:8:36:enhancement"
+            ],
+            "defaultOptionId": null
+          }
+        ]
+      }
+    },
+    "dpmatrix:8:16:1:2:156": {
+      "id": "dpmatrix:8:16:1:2:156",
+      "mode": "dpmatrix",
+      "seasonId": "8",
+      "areaId": 16,
+      "stageId": 1,
+      "waveId": 2,
+      "recordId": 156,
+      "monsterId": 602850001,
+      "nameId": "matrix:602850001",
+      "element": "glacio",
+      "level": 100,
+      "resistances": {
+        "glacio": 40,
+        "fusion": 20,
+        "electro": 20,
+        "aero": 20,
+        "spectro": 20,
+        "havoc": 20
+      },
+      "resistance": {
+        "sourceKind": "composedFinal",
+        "includesModeModifiers": true,
+        "modifiers": [
+          {
+            "kind": "modeBase",
+            "value": 20,
+            "sourceId": "dpmatrixTestedBase"
+          },
+          {
+            "kind": "attributeResistanceAdjustment",
+            "element": "glacio",
+            "value": 20,
+            "sourceId": "dpmatrixTestedMatching"
+          }
+        ]
+      },
+      "gameplay": {
+        "fixedIds": [],
+        "controlIds": [],
+        "choiceGroups": [
+          {
+            "id": "dpmatrix:8:enhancement",
+            "optionIds": [
+              "dpmatrix:8:37:enhancement",
+              "dpmatrix:8:34:enhancement",
+              "dpmatrix:8:35:enhancement",
+              "dpmatrix:8:36:enhancement"
+            ],
+            "defaultOptionId": null
+          }
+        ]
+      }
+    },
+    "dpmatrix:8:16:1:3:157": {
+      "id": "dpmatrix:8:16:1:3:157",
+      "mode": "dpmatrix",
+      "seasonId": "8",
+      "areaId": 16,
+      "stageId": 1,
+      "waveId": 3,
+      "recordId": 157,
+      "monsterId": 650000041,
+      "nameId": "matrix:650000041",
+      "element": "havoc",
+      "level": 100,
+      "resistances": {
+        "glacio": 20,
+        "fusion": 20,
+        "electro": 20,
+        "aero": 20,
+        "spectro": 20,
+        "havoc": 40
+      },
+      "resistance": {
+        "sourceKind": "composedFinal",
+        "includesModeModifiers": true,
+        "modifiers": [
+          {
+            "kind": "modeBase",
+            "value": 20,
+            "sourceId": "dpmatrixTestedBase"
+          },
+          {
+            "kind": "attributeResistanceAdjustment",
+            "element": "havoc",
+            "value": 20,
+            "sourceId": "dpmatrixTestedMatching"
+          }
+        ]
+      },
+      "gameplay": {
+        "fixedIds": [],
+        "controlIds": [],
+        "choiceGroups": [
+          {
+            "id": "dpmatrix:8:enhancement",
+            "optionIds": [
+              "dpmatrix:8:37:enhancement",
+              "dpmatrix:8:34:enhancement",
+              "dpmatrix:8:35:enhancement",
+              "dpmatrix:8:36:enhancement"
+            ],
+            "defaultOptionId": null
+          }
+        ]
+      }
+    },
+    "dpmatrix:8:16:1:4:158": {
+      "id": "dpmatrix:8:16:1:4:158",
+      "mode": "dpmatrix",
+      "seasonId": "8",
+      "areaId": 16,
+      "stageId": 1,
+      "waveId": 4,
+      "recordId": 158,
+      "monsterId": 665850005,
+      "nameId": "matrix:665850005",
+      "element": "aero",
+      "level": 100,
+      "resistances": {
+        "glacio": 20,
+        "fusion": 20,
+        "electro": 20,
+        "aero": 40,
+        "spectro": 20,
+        "havoc": 20
+      },
+      "resistance": {
+        "sourceKind": "composedFinal",
+        "includesModeModifiers": true,
+        "modifiers": [
+          {
+            "kind": "modeBase",
+            "value": 20,
+            "sourceId": "dpmatrixTestedBase"
+          },
+          {
+            "kind": "attributeResistanceAdjustment",
+            "element": "aero",
+            "value": 20,
+            "sourceId": "dpmatrixTestedMatching"
+          }
+        ]
+      },
+      "gameplay": {
+        "fixedIds": [],
+        "controlIds": [],
+        "choiceGroups": [
+          {
+            "id": "dpmatrix:8:enhancement",
+            "optionIds": [
+              "dpmatrix:8:37:enhancement",
+              "dpmatrix:8:34:enhancement",
+              "dpmatrix:8:35:enhancement",
+              "dpmatrix:8:36:enhancement"
+            ],
+            "defaultOptionId": null
+          }
+        ]
+      }
+    },
+    "dpmatrix:8:16:1:5:159": {
+      "id": "dpmatrix:8:16:1:5:159",
+      "mode": "dpmatrix",
+      "seasonId": "8",
+      "areaId": 16,
+      "stageId": 1,
+      "waveId": 5,
+      "recordId": 159,
+      "monsterId": 401800000,
+      "nameId": "matrix:401800000",
+      "element": "spectro",
+      "level": 100,
+      "resistances": {
+        "glacio": 20,
+        "fusion": 20,
+        "electro": 20,
+        "aero": 20,
+        "spectro": 40,
+        "havoc": 20
+      },
+      "resistance": {
+        "sourceKind": "composedFinal",
+        "includesModeModifiers": true,
+        "modifiers": [
+          {
+            "kind": "modeBase",
+            "value": 20,
+            "sourceId": "dpmatrixTestedBase"
+          },
+          {
+            "kind": "attributeResistanceAdjustment",
+            "element": "spectro",
+            "value": 20,
+            "sourceId": "dpmatrixTestedMatching"
+          }
+        ]
+      },
+      "gameplay": {
+        "fixedIds": [],
+        "controlIds": [],
+        "choiceGroups": [
+          {
+            "id": "dpmatrix:8:enhancement",
+            "optionIds": [
+              "dpmatrix:8:37:enhancement",
+              "dpmatrix:8:34:enhancement",
+              "dpmatrix:8:35:enhancement",
+              "dpmatrix:8:36:enhancement"
+            ],
+            "defaultOptionId": null
+          }
+        ]
+      }
+    },
+    "dpmatrix:8:16:2:6:160": {
+      "id": "dpmatrix:8:16:2:6:160",
+      "mode": "dpmatrix",
+      "seasonId": "8",
+      "areaId": 16,
+      "stageId": 2,
+      "waveId": 6,
+      "recordId": 160,
+      "monsterId": 650000050,
+      "nameId": "matrix:650000050",
+      "element": "fusion",
+      "level": 110,
+      "resistances": {
+        "glacio": 20,
+        "fusion": 40,
+        "electro": 20,
+        "aero": 20,
+        "spectro": 20,
+        "havoc": 20
+      },
+      "resistance": {
+        "sourceKind": "composedFinal",
+        "includesModeModifiers": true,
+        "modifiers": [
+          {
+            "kind": "modeBase",
+            "value": 20,
+            "sourceId": "dpmatrixTestedBase"
+          },
+          {
+            "kind": "attributeResistanceAdjustment",
+            "element": "fusion",
+            "value": 20,
+            "sourceId": "dpmatrixTestedMatching"
+          }
+        ]
+      },
+      "gameplay": {
+        "fixedIds": [],
+        "controlIds": [],
+        "choiceGroups": [
+          {
+            "id": "dpmatrix:8:enhancement",
+            "optionIds": [
+              "dpmatrix:8:37:enhancement",
+              "dpmatrix:8:34:enhancement",
+              "dpmatrix:8:35:enhancement",
+              "dpmatrix:8:36:enhancement"
+            ],
+            "defaultOptionId": null
+          }
+        ]
+      }
+    },
+    "dpmatrix:8:16:2:7:161": {
+      "id": "dpmatrix:8:16:2:7:161",
+      "mode": "dpmatrix",
+      "seasonId": "8",
+      "areaId": 16,
+      "stageId": 2,
+      "waveId": 7,
+      "recordId": 161,
+      "monsterId": 602850001,
+      "nameId": "matrix:602850001",
+      "element": "glacio",
+      "level": 110,
+      "resistances": {
+        "glacio": 40,
+        "fusion": 20,
+        "electro": 20,
+        "aero": 20,
+        "spectro": 20,
+        "havoc": 20
+      },
+      "resistance": {
+        "sourceKind": "composedFinal",
+        "includesModeModifiers": true,
+        "modifiers": [
+          {
+            "kind": "modeBase",
+            "value": 20,
+            "sourceId": "dpmatrixTestedBase"
+          },
+          {
+            "kind": "attributeResistanceAdjustment",
+            "element": "glacio",
+            "value": 20,
+            "sourceId": "dpmatrixTestedMatching"
+          }
+        ]
+      },
+      "gameplay": {
+        "fixedIds": [],
+        "controlIds": [],
+        "choiceGroups": [
+          {
+            "id": "dpmatrix:8:enhancement",
+            "optionIds": [
+              "dpmatrix:8:37:enhancement",
+              "dpmatrix:8:34:enhancement",
+              "dpmatrix:8:35:enhancement",
+              "dpmatrix:8:36:enhancement"
+            ],
+            "defaultOptionId": null
+          }
+        ]
+      }
+    },
+    "dpmatrix:8:16:2:8:162": {
+      "id": "dpmatrix:8:16:2:8:162",
+      "mode": "dpmatrix",
+      "seasonId": "8",
+      "areaId": 16,
+      "stageId": 2,
+      "waveId": 8,
+      "recordId": 162,
+      "monsterId": 650000041,
+      "nameId": "matrix:650000041",
+      "element": "havoc",
+      "level": 110,
+      "resistances": {
+        "glacio": 20,
+        "fusion": 20,
+        "electro": 20,
+        "aero": 20,
+        "spectro": 20,
+        "havoc": 40
+      },
+      "resistance": {
+        "sourceKind": "composedFinal",
+        "includesModeModifiers": true,
+        "modifiers": [
+          {
+            "kind": "modeBase",
+            "value": 20,
+            "sourceId": "dpmatrixTestedBase"
+          },
+          {
+            "kind": "attributeResistanceAdjustment",
+            "element": "havoc",
+            "value": 20,
+            "sourceId": "dpmatrixTestedMatching"
+          }
+        ]
+      },
+      "gameplay": {
+        "fixedIds": [],
+        "controlIds": [],
+        "choiceGroups": [
+          {
+            "id": "dpmatrix:8:enhancement",
+            "optionIds": [
+              "dpmatrix:8:37:enhancement",
+              "dpmatrix:8:34:enhancement",
+              "dpmatrix:8:35:enhancement",
+              "dpmatrix:8:36:enhancement"
+            ],
+            "defaultOptionId": null
+          }
+        ]
+      }
+    },
+    "dpmatrix:8:16:2:9:163": {
+      "id": "dpmatrix:8:16:2:9:163",
+      "mode": "dpmatrix",
+      "seasonId": "8",
+      "areaId": 16,
+      "stageId": 2,
+      "waveId": 9,
+      "recordId": 163,
+      "monsterId": 665850005,
+      "nameId": "matrix:665850005",
+      "element": "aero",
+      "level": 110,
+      "resistances": {
+        "glacio": 20,
+        "fusion": 20,
+        "electro": 20,
+        "aero": 40,
+        "spectro": 20,
+        "havoc": 20
+      },
+      "resistance": {
+        "sourceKind": "composedFinal",
+        "includesModeModifiers": true,
+        "modifiers": [
+          {
+            "kind": "modeBase",
+            "value": 20,
+            "sourceId": "dpmatrixTestedBase"
+          },
+          {
+            "kind": "attributeResistanceAdjustment",
+            "element": "aero",
+            "value": 20,
+            "sourceId": "dpmatrixTestedMatching"
+          }
+        ]
+      },
+      "gameplay": {
+        "fixedIds": [],
+        "controlIds": [],
+        "choiceGroups": [
+          {
+            "id": "dpmatrix:8:enhancement",
+            "optionIds": [
+              "dpmatrix:8:37:enhancement",
+              "dpmatrix:8:34:enhancement",
+              "dpmatrix:8:35:enhancement",
+              "dpmatrix:8:36:enhancement"
+            ],
+            "defaultOptionId": null
+          }
+        ]
+      }
+    },
+    "dpmatrix:8:16:2:10:164": {
+      "id": "dpmatrix:8:16:2:10:164",
+      "mode": "dpmatrix",
+      "seasonId": "8",
+      "areaId": 16,
+      "stageId": 2,
+      "waveId": 10,
+      "recordId": 164,
+      "monsterId": 401800000,
+      "nameId": "matrix:401800000",
+      "element": "spectro",
+      "level": 110,
+      "resistances": {
+        "glacio": 20,
+        "fusion": 20,
+        "electro": 20,
+        "aero": 20,
+        "spectro": 40,
+        "havoc": 20
+      },
+      "resistance": {
+        "sourceKind": "composedFinal",
+        "includesModeModifiers": true,
+        "modifiers": [
+          {
+            "kind": "modeBase",
+            "value": 20,
+            "sourceId": "dpmatrixTestedBase"
+          },
+          {
+            "kind": "attributeResistanceAdjustment",
+            "element": "spectro",
+            "value": 20,
+            "sourceId": "dpmatrixTestedMatching"
+          }
+        ]
+      },
+      "gameplay": {
+        "fixedIds": [],
+        "controlIds": [],
+        "choiceGroups": [
+          {
+            "id": "dpmatrix:8:enhancement",
+            "optionIds": [
+              "dpmatrix:8:37:enhancement",
+              "dpmatrix:8:34:enhancement",
+              "dpmatrix:8:35:enhancement",
+              "dpmatrix:8:36:enhancement"
+            ],
+            "defaultOptionId": null
+          }
+        ]
+      }
+    },
+    "dpmatrix:8:16:3:11:165": {
+      "id": "dpmatrix:8:16:3:11:165",
+      "mode": "dpmatrix",
+      "seasonId": "8",
+      "areaId": 16,
+      "stageId": 3,
+      "waveId": 11,
+      "recordId": 165,
+      "monsterId": 650000050,
+      "nameId": "matrix:650000050",
+      "element": "fusion",
+      "level": 120,
+      "resistances": {
+        "glacio": 20,
+        "fusion": 40,
+        "electro": 20,
+        "aero": 20,
+        "spectro": 20,
+        "havoc": 20
+      },
+      "resistance": {
+        "sourceKind": "composedFinal",
+        "includesModeModifiers": true,
+        "modifiers": [
+          {
+            "kind": "modeBase",
+            "value": 20,
+            "sourceId": "dpmatrixTestedBase"
+          },
+          {
+            "kind": "attributeResistanceAdjustment",
+            "element": "fusion",
+            "value": 20,
+            "sourceId": "dpmatrixTestedMatching"
+          }
+        ]
+      },
+      "gameplay": {
+        "fixedIds": [],
+        "controlIds": [],
+        "choiceGroups": [
+          {
+            "id": "dpmatrix:8:enhancement",
+            "optionIds": [
+              "dpmatrix:8:37:enhancement",
+              "dpmatrix:8:34:enhancement",
+              "dpmatrix:8:35:enhancement",
+              "dpmatrix:8:36:enhancement"
+            ],
+            "defaultOptionId": null
+          }
+        ]
+      }
+    },
+    "dpmatrix:8:16:3:12:166": {
+      "id": "dpmatrix:8:16:3:12:166",
+      "mode": "dpmatrix",
+      "seasonId": "8",
+      "areaId": 16,
+      "stageId": 3,
+      "waveId": 12,
+      "recordId": 166,
+      "monsterId": 602850001,
+      "nameId": "matrix:602850001",
+      "element": "glacio",
+      "level": 120,
+      "resistances": {
+        "glacio": 40,
+        "fusion": 20,
+        "electro": 20,
+        "aero": 20,
+        "spectro": 20,
+        "havoc": 20
+      },
+      "resistance": {
+        "sourceKind": "composedFinal",
+        "includesModeModifiers": true,
+        "modifiers": [
+          {
+            "kind": "modeBase",
+            "value": 20,
+            "sourceId": "dpmatrixTestedBase"
+          },
+          {
+            "kind": "attributeResistanceAdjustment",
+            "element": "glacio",
+            "value": 20,
+            "sourceId": "dpmatrixTestedMatching"
+          }
+        ]
+      },
+      "gameplay": {
+        "fixedIds": [],
+        "controlIds": [],
+        "choiceGroups": [
+          {
+            "id": "dpmatrix:8:enhancement",
+            "optionIds": [
+              "dpmatrix:8:37:enhancement",
+              "dpmatrix:8:34:enhancement",
+              "dpmatrix:8:35:enhancement",
+              "dpmatrix:8:36:enhancement"
+            ],
+            "defaultOptionId": null
+          }
+        ]
+      }
+    },
+    "dpmatrix:8:16:3:13:167": {
+      "id": "dpmatrix:8:16:3:13:167",
+      "mode": "dpmatrix",
+      "seasonId": "8",
+      "areaId": 16,
+      "stageId": 3,
+      "waveId": 13,
+      "recordId": 167,
+      "monsterId": 650000041,
+      "nameId": "matrix:650000041",
+      "element": "havoc",
+      "level": 120,
+      "resistances": {
+        "glacio": 20,
+        "fusion": 20,
+        "electro": 20,
+        "aero": 20,
+        "spectro": 20,
+        "havoc": 40
+      },
+      "resistance": {
+        "sourceKind": "composedFinal",
+        "includesModeModifiers": true,
+        "modifiers": [
+          {
+            "kind": "modeBase",
+            "value": 20,
+            "sourceId": "dpmatrixTestedBase"
+          },
+          {
+            "kind": "attributeResistanceAdjustment",
+            "element": "havoc",
+            "value": 20,
+            "sourceId": "dpmatrixTestedMatching"
+          }
+        ]
+      },
+      "gameplay": {
+        "fixedIds": [],
+        "controlIds": [],
+        "choiceGroups": [
+          {
+            "id": "dpmatrix:8:enhancement",
+            "optionIds": [
+              "dpmatrix:8:37:enhancement",
+              "dpmatrix:8:34:enhancement",
+              "dpmatrix:8:35:enhancement",
+              "dpmatrix:8:36:enhancement"
+            ],
+            "defaultOptionId": null
+          }
+        ]
+      }
+    },
+    "dpmatrix:8:16:3:14:168": {
+      "id": "dpmatrix:8:16:3:14:168",
+      "mode": "dpmatrix",
+      "seasonId": "8",
+      "areaId": 16,
+      "stageId": 3,
+      "waveId": 14,
+      "recordId": 168,
+      "monsterId": 665850005,
+      "nameId": "matrix:665850005",
+      "element": "aero",
+      "level": 120,
+      "resistances": {
+        "glacio": 20,
+        "fusion": 20,
+        "electro": 20,
+        "aero": 40,
+        "spectro": 20,
+        "havoc": 20
+      },
+      "resistance": {
+        "sourceKind": "composedFinal",
+        "includesModeModifiers": true,
+        "modifiers": [
+          {
+            "kind": "modeBase",
+            "value": 20,
+            "sourceId": "dpmatrixTestedBase"
+          },
+          {
+            "kind": "attributeResistanceAdjustment",
+            "element": "aero",
+            "value": 20,
+            "sourceId": "dpmatrixTestedMatching"
+          }
+        ]
+      },
+      "gameplay": {
+        "fixedIds": [],
+        "controlIds": [],
+        "choiceGroups": [
+          {
+            "id": "dpmatrix:8:enhancement",
+            "optionIds": [
+              "dpmatrix:8:37:enhancement",
+              "dpmatrix:8:34:enhancement",
+              "dpmatrix:8:35:enhancement",
+              "dpmatrix:8:36:enhancement"
+            ],
+            "defaultOptionId": null
+          }
+        ]
+      }
+    },
+    "dpmatrix:8:16:3:15:169": {
+      "id": "dpmatrix:8:16:3:15:169",
+      "mode": "dpmatrix",
+      "seasonId": "8",
+      "areaId": 16,
+      "stageId": 3,
+      "waveId": 15,
+      "recordId": 169,
+      "monsterId": 401800000,
+      "nameId": "matrix:401800000",
+      "element": "spectro",
+      "level": 120,
+      "resistances": {
+        "glacio": 20,
+        "fusion": 20,
+        "electro": 20,
+        "aero": 20,
+        "spectro": 40,
+        "havoc": 20
+      },
+      "resistance": {
+        "sourceKind": "composedFinal",
+        "includesModeModifiers": true,
+        "modifiers": [
+          {
+            "kind": "modeBase",
+            "value": 20,
+            "sourceId": "dpmatrixTestedBase"
+          },
+          {
+            "kind": "attributeResistanceAdjustment",
+            "element": "spectro",
+            "value": 20,
+            "sourceId": "dpmatrixTestedMatching"
+          }
+        ]
+      },
+      "gameplay": {
+        "fixedIds": [],
+        "controlIds": [],
+        "choiceGroups": [
+          {
+            "id": "dpmatrix:8:enhancement",
+            "optionIds": [
+              "dpmatrix:8:37:enhancement",
+              "dpmatrix:8:34:enhancement",
+              "dpmatrix:8:35:enhancement",
+              "dpmatrix:8:36:enhancement"
             ],
             "defaultOptionId": null
           }

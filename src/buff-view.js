@@ -59,7 +59,7 @@ window.WUWA_BUFF_VIEW = (() => {
       const v = tnum(buff.multAdd ? num(buff.multAdd) : buffValue(slot, buff, idx));
       const cap = scaleCapText(slot, buff);
       if (buff.zone === "effectCapBonus") return `+${v} ${L.stackUnit()}`;
-      if (buff.zone === "resShred" || buff.zone === "defShred" || buff.zone === "defIgnore") return `-${v}%${cap}`;
+      if (buff.zone === "resShred" || buff.zone === "resIgnore" || buff.zone === "defShred" || buff.zone === "defIgnore") return `-${v}%${cap}`;
       if (buff.zone === "attackFlat") return `+${v}${cap}`;
       if (buff.multAdd || !FORMULA_MULTIPLY_ZONES.has(buff.zone)) return `+${v}%${cap}`;
       return `×(1+${v}%)${cap}`;

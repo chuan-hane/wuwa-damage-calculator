@@ -4,6 +4,35 @@
 // validated by direct percentage-to-core matching. The official description
 // hash makes every wording or numeric change require a new review.
 const REVIEWED_CHAIN_NUMERIC_COVERAGE = {
+  "hsin:1": {
+    "hash": "e07d45047ea8",
+    "refs": [
+      "buff:k1_intro_mult",
+      "buff:k1_unison_intro_mult",
+      "buff:k1_electro_trigger_resource",
+      "buff:b_electro_trigger_base",
+      "buff:b_electro_trigger_resource",
+      "resource:heart_of_thunder"
+    ],
+    "reason": "The two Unison Intro bonuses are 15% plus 10% per existing Boon (up to four). Electro Flare uses a base 35% per Heart of Thunder plus this chain's 7%, reaching 42%; entering combat raises the manually configured resource to at least 50. Radiance Ward's 60% damage reduction is survival-only."
+  },
+  "hsin:3": {
+    "hash": "6a4d77264214",
+    "refs": [
+      "buff:k3_lib_mult",
+      "buff:k3_lib_cd",
+      "buff:k3_lib_unison_cd",
+      "buff:k3_electro_trigger",
+      "skill:lib",
+      "resource:unison_boon"
+    ],
+    "reason": "Pillars Across Heaven gains 70% multiplier and, in Unison mode, 20% Crit DMG plus 15% per existing Boon (up to four). Its Electro Flare hit uses a 1400% multiplier increment on the base 100%, giving the official 1500%, only in Electro Flare mode on a target with the effect."
+  },
+  "hsin:5": {
+    "hash": "67a88cb3addf",
+    "refs": [],
+    "reason": "Illumining Form's 20% incoming damage reduction and fatal-hit prevention restoring 100% Max HP are survival-only; neither increases one-hit damage."
+  },
   "aalto:1": { hash: "6f8b8a9bf8e4", refs: [], reason: "Cooldown-only utility; it does not change one-hit damage." },
   "aalto:2": { hash: "513938b56fc5", refs: ["buff:k2"], reason: "The 100% value is Mist Avatar HP; the damage-relevant 15% ATK buff is structured." },
   "baizhi:1": { hash: "3698e8044302", refs: [], reason: "Resonance Energy restoration is rotation-only." },
@@ -91,6 +120,18 @@ const REVIEWED_CHAIN_NUMERIC_COVERAGE = {
 // descriptions. These cover relative formulas, manual trigger conditions, and
 // derived actions that cannot be joined to an API skill by display name alone.
 const REVIEWED_SKILL_NUMERIC_COVERAGE = {
+  "hsin:1006105": {
+    "hash": "d87183145c77",
+    "refs": [
+      "resource:thunderglow",
+      "resource:unison_boon",
+      "state:heart_manifest",
+      "state:fleeting_thunder",
+      "event:applyElectroFlare",
+      "buff:b_unison_boon"
+    ],
+    "reason": "The shared Unison resource uses Hsin's non-stacking +1 cap and +1 response contribution. Before Heart Manifest, allies' Electro Flare applications build the manually entered Thunderglow one-for-one up to ten. During Heart Manifest the target's current effect input represents the passive application from zero to one; confirmed Fleeting Thunder at ten Thunderglow fills Electro Flare to its current cap, at most sixteen, through the conditional effect event."
+  },
   "encore:1000704": { hash: "3b3a08785273", refs: ["buff:b1"], reason: "The 10% bonus is structured; HP above 70% remains a conservative manual confirmation." },
   "lingyang:1001805": { hash: "51c32f64b3d3", refs: ["skill:forte_mountain_roamer_practice", "state:status_1"], reason: "The additional hit is a separate derived action at 150% of Mountain Roamer and is gated by Striding Lion." },
   "shorekeeper:1002503": { hash: "1420d1d91094", refs: ["buff:b_field_cr", "buff:b_field_cd"], reason: "The two Energy Regen conversions are represented as rates 0.05 and 0.1 per point, equivalent to 0.01 per 0.2 and 0.1 respectively." },

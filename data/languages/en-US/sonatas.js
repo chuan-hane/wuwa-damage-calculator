@@ -1536,3 +1536,130 @@ window.WUWA_LANGUAGES.extend("en-US", {
     }
   }
 });
+
+window.WUWA_LANGUAGES.extend("en-US", {
+  "data": {
+    "sonatas": {
+      "360236": {
+        "name": "Heart of Sworn Vigil",
+        "p2": {
+          "label": "Electro DMG Bonus",
+          "trigger": "Default",
+          "excerpt": "Electro DMG Bonus +10%",
+          "desc": "Electro DMG + 10%"
+        },
+        "p5": [
+          {
+            "label": "Crit. Rate",
+            "trigger": "After inflicting Electro Flare, gaining Unison, or triggering Unison Response",
+            "excerpt": "Crit. Rate +15%",
+            "desc": "Inflicting Electro Flare on the target, obtaining Unison, or triggering Unison Response increases the Resonator's Crit. Rate by 15% and grants them 22.5% Electro DMG for 30s."
+          },
+          {
+            "label": "Electro DMG Bonus",
+            "trigger": "After inflicting Electro Flare, gaining Unison, or triggering Unison Response",
+            "excerpt": "Electro DMG Bonus +22.5%",
+            "desc": "Inflicting Electro Flare on the target, obtaining Unison, or triggering Unison Response increases the Resonator's Crit. Rate by 15% and grants them 22.5% Electro DMG for 30s."
+          }
+        ],
+        "lead": {
+          "echo": "Reminiscence: Suhsin the Inevitable",
+          "buffs": [
+            {
+              "label": "Electro DMG Bonus",
+              "trigger": "Equipped in the main slot",
+              "excerpt": "Electro DMG Bonus +10%",
+              "desc": "Cast Echo Skill to deal 4 instances of 27.36% Electro DMG and 1 instance of 164.16% Electro DMG.\nWhen equipped by Hsin, the Echo Skill instead deals 5 instances of 8.20% Electro DMG and 1 instance of 232.56% Electro DMG to targets within a larger range.\nThe Resonator with this Echo equipped in their main slot gains 10.00% Electro DMG Bonus. Inflicting Electro Flare, gaining Unison, or triggering Unison Response grants the Resonator an extra 10.00% Electro DMG Bonus for 30s.\nCD: 20s"
+            },
+            {
+              "label": "Electro DMG Bonus",
+              "trigger": "After inflicting Electro Flare, gaining Unison, or triggering Unison Response",
+              "excerpt": "Electro DMG Bonus +10%",
+              "desc": "Cast Echo Skill to deal 4 instances of 27.36% Electro DMG and 1 instance of 164.16% Electro DMG.\nWhen equipped by Hsin, the Echo Skill instead deals 5 instances of 8.20% Electro DMG and 1 instance of 232.56% Electro DMG to targets within a larger range.\nThe Resonator with this Echo equipped in their main slot gains 10.00% Electro DMG Bonus. Inflicting Electro Flare, gaining Unison, or triggering Unison Response grants the Resonator an extra 10.00% Electro DMG Bonus for 30s.\nCD: 20s"
+            }
+          ]
+        }
+      },
+      "360237": {
+        "name": "Flash of Electric Reflection",
+        "p2": {
+          "label": "Electro DMG Bonus",
+          "trigger": "Default",
+          "excerpt": "Electro DMG Bonus +10%",
+          "desc": "Electro DMG + 10%"
+        },
+        "p5": [
+          {
+            "label": "Electro DMG Bonus",
+            "trigger": "After inflicting Electro Flare",
+            "excerpt": "Electro DMG Bonus +10%",
+            "desc": "When the Resonator inflicts Electro Flare on enemies, they gain the following effects: Gain 10% Electro DMG Bonus for 15s. While this effect is active, casting Outro Skill grants the incoming Resonator 25% Electro DMG Bonus for 15s."
+          },
+          {
+            "label": "Electro DMG Bonus",
+            "trigger": "After Outro during the 15s buff",
+            "excerpt": "Electro DMG Bonus +25%",
+            "desc": "When the Resonator inflicts Electro Flare on enemies, they gain the following effects: Gain 10% Electro DMG Bonus for 15s. While this effect is active, casting Outro Skill grants the incoming Resonator 25% Electro DMG Bonus for 15s."
+          }
+        ],
+        "lead": {
+          "echo": "Reminiscence: Suhsin the Inevitable",
+          "buffs": [
+            {
+              "label": "Electro DMG Bonus",
+              "trigger": "Equipped in the main slot",
+              "excerpt": "Electro DMG Bonus +10%",
+              "desc": "Cast Echo Skill to deal 4 instances of 27.36% Electro DMG and 1 instance of 164.16% Electro DMG.\nWhen equipped by Hsin, the Echo Skill instead deals 5 instances of 8.20% Electro DMG and 1 instance of 232.56% Electro DMG to targets within a larger range.\nThe Resonator with this Echo equipped in their main slot gains 10.00% Electro DMG Bonus. Inflicting Electro Flare, gaining Unison, or triggering Unison Response grants the Resonator an extra 10.00% Electro DMG Bonus for 30s.\nCD: 20s"
+            },
+            {
+              "label": "Electro DMG Bonus",
+              "trigger": "After inflicting Electro Flare, gaining Unison, or triggering Unison Response",
+              "excerpt": "Electro DMG Bonus +10%",
+              "desc": "Cast Echo Skill to deal 4 instances of 27.36% Electro DMG and 1 instance of 164.16% Electro DMG.\nWhen equipped by Hsin, the Echo Skill instead deals 5 instances of 8.20% Electro DMG and 1 instance of 232.56% Electro DMG to targets within a larger range.\nThe Resonator with this Echo equipped in their main slot gains 10.00% Electro DMG Bonus. Inflicting Electro Flare, gaining Unison, or triggering Unison Response grants the Resonator an extra 10.00% Electro DMG Bonus for 30s.\nCD: 20s"
+            }
+          ]
+        }
+      },
+      "360238": {
+        "name": "Flower of Tinged Yearning",
+        "p2": {
+          "label": "Healing Bonus",
+          "trigger": "Default",
+          "excerpt": "Healing Bonus +10%",
+          "desc": "Healing + 10%"
+        },
+        "p5": [
+          {
+            "label": "ATK",
+            "trigger": "After healing a teammate",
+            "excerpt": "ATK +10%",
+            "desc": "Healing a Resonator in the team increases the ATK of all Resonators in the team by 10% for 30s. Effects of the same name cannot be stacked. While the effect is active, if the Resonator gains Unison or triggers Unison Response, their ATK is further increased by 15%."
+          },
+          {
+            "label": "ATK",
+            "trigger": "After the recipient gains Unison or triggers Unison Response during the healing buff",
+            "excerpt": "ATK +15%",
+            "desc": "Healing a Resonator in the team increases the ATK of all Resonators in the team by 10% for 30s. Effects of the same name cannot be stacked. While the effect is active, if the Resonator gains Unison or triggers Unison Response, their ATK is further increased by 15%."
+          }
+        ],
+        "lead": {
+          "echo": "Thousand-Puppet Pavilion",
+          "buffs": [
+            {
+              "label": "Havoc DMG Bonus",
+              "trigger": "Equipped in the main slot",
+              "excerpt": "Havoc DMG Bonus +12%",
+              "desc": "Use Echo Skill to attack nearby enemies, dealing 109.44% Havoc DMG and summoning 4 Blades of Thousand Memories that last 15s.\n\nWhile Blades of Thousand Memories last, when the Resonator inflicts Havoc Bane, consume 1 Blade of Thousand Memories to deal 41.04% Havoc DMG once to the target. This effect can be triggered once every 1s.\n\nResonators with this Echo equipped in the main slot gain 12.00% Havoc DMG and 12.00% Heavy Attack DMG bonuses.\n\nCD: 20s"
+            },
+            {
+              "label": "Heavy Attack DMG Bonus",
+              "trigger": "Equipped in the main slot",
+              "excerpt": "Heavy Attack DMG Bonus +12%",
+              "desc": "Use Echo Skill to attack nearby enemies, dealing 109.44% Havoc DMG and summoning 4 Blades of Thousand Memories that last 15s.\n\nWhile Blades of Thousand Memories last, when the Resonator inflicts Havoc Bane, consume 1 Blade of Thousand Memories to deal 41.04% Havoc DMG once to the target. This effect can be triggered once every 1s.\n\nResonators with this Echo equipped in the main slot gain 12.00% Havoc DMG and 12.00% Heavy Attack DMG bonuses.\n\nCD: 20s"
+            }
+          ]
+        }
+      }
+    }
+  }
+});

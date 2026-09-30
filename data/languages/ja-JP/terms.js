@@ -1,6 +1,15 @@
 "use strict";
 
 window.WUWA_LANGUAGES.extend("ja-JP", {
+  text: {
+    "抗性无视": "耐性無視",
+    "需可响应同奏": "同奏に応答できるキャラが必要",
+    "需装备者登场": "装備者が出場中に有効",
+    "需指定队友": "指定のチームメンバーが必要"
+  }
+});
+
+window.WUWA_LANGUAGES.extend("ja-JP", {
   elements: {
     fusion: "焦熱",
     glacio: "凝縮",
@@ -137,7 +146,8 @@ window.WUWA_LANGUAGES.extend("ja-JP", {
     vulnerability: "被ダメージアップ",
     skillMultBonus: "ダメージ倍率アップ",
     finalDmg: "最終ダメージアップ",
-    resShred: "耐性ダウン",
+   resShred: "耐性ダウン",
+    resIgnore: "耐性無視",
     defShred: "防御力ダウン",
     defIgnore: "防御力無視",
     energyRegen: "共鳴効率",
@@ -159,7 +169,8 @@ window.WUWA_LANGUAGES.extend("ja-JP", {
     "最终伤害提升": "最終ダメージアップ",
     "减抗": "耐性ダウン",
     "减防": "防御力ダウン",
-    "防御无视": "防御力無視"
+    "防御无视": "防御力無視",
+    "抗性无视": "耐性無視"
   },
   providers: {
     "技能树": "スキルツリー",

@@ -78,7 +78,7 @@ global.document = { getElementById: () => board, onclick: null, documentElement:
 
 const app = fs.readFileSync(path.join(root, "src/app.js"), "utf8").replace(
   /\nrender\(\);\s*$/,
-  "\nglobalThis.__T = { state, pickCharacter, compute, slotBuffs, availableSkills, resourceKey, resourceControlsForSlot, resolvedSkill, buffStatus, setBuffToggle, buffStackCount, stateChoiceKey, stateControlsHTML, buffFormulaText, buffValue, scaleByInfo, render, syncOffsetFromStateChoice };",
+  "\nglobalThis.__T = { state, pickCharacter, compute, slotBuffs, availableSkills, resourceKey, resourceControlsForSlot, setCharacterResourceValue, resolvedSkill, buffStatus, setBuffToggle, buffStackCount, stateChoiceKey, stateControlsHTML, buffFormulaText, buffValue, scaleByInfo, render, syncOffsetFromStateChoice };",
 );
 eval(app);
 
@@ -114,6 +114,7 @@ const validEventKeys = new Set([
   "shield", "heal", "consumeConcerto",
   "applyAeroErosion", "applySpectroFrazzle", "applyGlacioChafe", "applyElectroFlare", "applyHavocBane", "applyFusionBurst", "applyPhotochromicFlux",
   "applyObservationMark", "enterReincarnation", "gainLesserYang",
+  "gainUnison", "unisonResponse",
 ]);
 const validCharIds = new Set(window.WUWA.order);
 const validBuffZones = new Set([...Object.keys(window.WUWA_RULES.ZONE_LABEL), "effectCapBonus"]);
@@ -515,9 +516,9 @@ function targetSelectionInterface() {
   const css = fs.readFileSync(path.join(root, "styles.css"), "utf8");
   const appSource = fs.readFileSync(path.join(root, "src/app.js"), "utf8");
   const targets = window.WUWA_TARGETS;
-  expectEqual(targets.sortedSeasons("toa").slice(0, 3).map((item) => item.id).join(","), "39,38,37", "ToA seasons should sort newest to oldest above the current season");
-  expectEqual(targets.sortedSeasons("whiwa").slice(0, 2).map((item) => item.id).join(","), "20,19", "Whiwa seasons should sort newest to oldest above the current season");
-  expectEqual(targets.sortedSeasons("dpmatrix").slice(0, 2).map((item) => item.id).join(","), "7,6", "Matrix seasons should sort newest to oldest");
+  expectEqual(targets.sortedSeasons("toa").slice(0, 3).map((item) => item.id).join(","), "40,39,38", "ToA seasons should sort newest to oldest above the current season");
+  expectEqual(targets.sortedSeasons("whiwa").slice(0, 2).map((item) => item.id).join(","), "22,21", "Whiwa seasons should sort newest to oldest above the current season");
+  expectEqual(targets.sortedSeasons("dpmatrix").slice(0, 2).map((item) => item.id).join(","), "8,7", "Matrix seasons should sort newest to oldest");
   const targetPickerHTML = (page) => {
     const start = page.indexOf('class="formula-target-pick ');
     const end = [page.indexOf('class="formula-target-level"', start), page.indexOf('class="formula-target-cost"', start)]
@@ -858,8 +859,8 @@ function targetSnapshotCoverage() {
 
   const toaSeasonIds = new Set(data.modes.toa.seasons.map((season) => Number(season.id)));
   assert(Array.from(toaSeasonIds).every((id) => id >= 32), "ToA seasons without complete level and resistance data should be omitted");
-  assert(toaSeasonIds.has(38) && toaSeasonIds.has(39), "current and calibration ToA seasons should be included");
-  expectEqual(data.modes.toa.currentSeasonId, "39", "ToA should default to the current season");
+  assert(toaSeasonIds.has(38) && toaSeasonIds.has(39) && toaSeasonIds.has(40), "current and calibration ToA seasons should be included");
+  expectEqual(data.modes.toa.currentSeasonId, "40", "ToA should default to the current season");
   assert((data.snapshot.exclusions.toaSeasons || []).some((item) => Number(item.seasonId) === 31), "snapshot should record excluded incomplete ToA seasons");
   assert((data.snapshot.exclusions.toaRecords || []).every((item) => item.reason === "unparsedResistanceModifier"), "snapshot should only omit ToA records whose resistance modifier is not structurally proven");
   const toaTargets = targets.filter((target) => target.mode === "toa");
@@ -868,18 +869,18 @@ function targetSnapshotCoverage() {
   assert(calibrationToaTargets.every((target) => target.level === (target.areaId === 2 ? 100 : 90)), "ToA calibration target levels should match the stage-final data");
   assert(calibrationToaTargets.every((target) => target.resistance.sourceKind === "stageFinal" && target.resistance.includesModeModifiers), "ToA calibration targets should carry stage-final resistance metadata");
   assert(calibrationToaTargets.every((target) => !target.resistance.modifiers.some((modifier) => modifier.kind === "modeBase")), "ToA calibration resistance should not be restacked");
-  const currentToaTargets = toaTargets.filter((target) => target.seasonId === "39");
+  const currentToaTargets = toaTargets.filter((target) => target.seasonId === "40");
   assert(currentToaTargets.length === 14, "current ToA season should retain all 14 reviewed targets");
-  assert(currentToaTargets.every((target) => target.level === (target.areaId === 2 ? 100 : 90)), "current ToA target levels should match the reviewed tower/floor mapping");
-  assert(currentToaTargets.every((target) => target.resistance.sourceKind === "composed" && target.resistance.includesModeModifiers), "current ToA targets should carry complete composed resistance metadata");
-  assert(currentToaTargets.every((target) => target.resistance.modifiers.filter((modifier) => modifier.kind === "modeBase").length === 1), "current ToA mode resistance should be applied exactly once");
+  assert(currentToaTargets.every((target) => target.level === (target.id === "toa:40:440:320000190" ? 75 : target.areaId === 2 ? 100 : 90)), "current ToA target levels should retain the stage-final per-monster values");
+  assert(currentToaTargets.every((target) => target.resistance.sourceKind === "stageFinal" && target.resistance.includesModeModifiers), "current ToA targets should carry complete stage-final resistance metadata");
+  assert(currentToaTargets.every((target) => !target.resistance.modifiers.some((modifier) => modifier.kind === "modeBase")), "current ToA final resistance should not be restacked");
   const whiwaTargets = targets.filter((target) => target.mode === "whiwa");
   assert(whiwaTargets.every((target) => [9, 10, 11, 12].includes(target.stageOrder)), "Whiwa floors 1-8 should be omitted");
   assert(whiwaTargets.every((target) => target.level === (target.stageOrder === 12 ? 100 : 90)), "Whiwa snapshot should use level 90 for orders 9-11 and level 100 for endless");
-  assert(data.modes.whiwa.seasons.some((season) => Number(season.id) === 20), "current Whiwa season should be included");
-  expectEqual(data.modes.whiwa.currentSeasonId, "20", "Whiwa should default to the current season");
+  assert(data.modes.whiwa.seasons.some((season) => Number(season.id) === 22), "current Whiwa season should be included");
+  expectEqual(data.modes.whiwa.currentSeasonId, "22", "Whiwa should default to the current season");
   const whiwaTokens = Object.values(data.gameplayBuffs).filter((buff) => buff.mode === "whiwa" && buff.control === "option");
-  for (const seasonId of ["19", "20"]) {
+  for (const seasonId of ["19", "20", "21", "22"]) {
     const seasonalTokens = whiwaTokens.filter((buff) => buff.id.startsWith(`whiwa:${seasonId}:`));
     expectEqual(seasonalTokens.filter((buff) => buff.qualityId === 4).length, 6, `Whiwa ${seasonId} purple Token count`);
     expectEqual(seasonalTokens.filter((buff) => buff.qualityId === 5).length, 3, `Whiwa ${seasonId} gold Token count`);
@@ -888,11 +889,11 @@ function targetSnapshotCoverage() {
   expectEqual(data.snapshot.synthesis.gameplayBuffs.whiwaSelectableTokenCounts.gold, 3, "Whiwa snapshot selectable gold Token metadata");
   expectEqual(data.snapshot.synthesis.toa.calibrationSeasonId, 38, "ToA composed resistance should remain calibrated against the latest complete stage-final season");
   assert(data.snapshot.synthesis.toa.calibratedTargetCount === 13, "ToA composed resistance calibration should cover all retained calibration targets");
-  assert(data.snapshot.synthesis.gameplayBuffs.reviewedSeasons.toa.join(",") === "37,38,39", "reviewed ToA season metadata");
-  assert(data.snapshot.synthesis.gameplayBuffs.reviewedSeasons.whiwa.join(",") === "19,20", "reviewed Whiwa season metadata");
-  assert(data.snapshot.synthesis.gameplayBuffs.reviewedSeasons.dpmatrix.join(",") === "6,7", "reviewed Matrix season metadata");
+  assert(data.snapshot.synthesis.gameplayBuffs.reviewedSeasons.toa.join(",") === "37,38,39,40", "reviewed ToA season metadata");
+  assert(data.snapshot.synthesis.gameplayBuffs.reviewedSeasons.whiwa.join(",") === "19,20,21,22", "reviewed Whiwa season metadata");
+  assert(data.snapshot.synthesis.gameplayBuffs.reviewedSeasons.dpmatrix.join(",") === "6,7,8", "reviewed Matrix season metadata");
 
-  const currentMatrix = targets.filter((target) => target.mode === "dpmatrix" && target.seasonId === data.modes.dpmatrix.currentSeasonId && target.areaId === 14);
+  const currentMatrix = targets.filter((target) => target.mode === "dpmatrix" && target.seasonId === data.modes.dpmatrix.currentSeasonId && target.areaId === 16);
   expectEqual(currentMatrix.length, 15, "current Matrix season should retain all 15 visible targets");
   expectEqual(Array.from(new Set(currentMatrix.map((target) => target.stageId))).sort().join(","), "1,2,3", "current Matrix season should expose three wave choices");
   expectEqual([1, 2, 3].map((round) => currentMatrix.filter((target) => target.stageId === round).length).join(","), "5,5,5", "current Matrix season target count per wave");
@@ -996,12 +997,13 @@ function targetResistanceDerivationRegressions() {
 
 function gameplayBuffRegressions() {
   const data = window.WUWA_TARGET_DATA;
-  const currentTarget = (mode, predicate = () => true) => Object.values(data.targets).find((target) =>
-    target.mode === mode && target.seasonId === data.modes[mode].currentSeasonId && predicate(target)
+  const reviewedSeasons = { toa: "39", whiwa: "20", dpmatrix: "7" };
+  const reviewedTarget = (mode, predicate = () => true) => Object.values(data.targets).find((target) =>
+    target.mode === mode && target.seasonId === reviewedSeasons[mode] && predicate(target)
   );
 
   resetTeam(["jinhsi"]);
-  const matrix = currentTarget("dpmatrix");
+  const matrix = reviewedTarget("dpmatrix");
   selectSnapshotTarget(matrix);
   __T.state.slots[0].skill = "na1";
   const matrixGroup = matrix.gameplay.choiceGroups[0];
@@ -1034,7 +1036,7 @@ function gameplayBuffRegressions() {
   expectEqual(__T.compute().totals.finalDmg - matrixBase, 20, "Matrix enhancement switching should not retain prior trigger effects");
 
   resetTeam(["jinhsi"]);
-  const whiwa = currentTarget("whiwa", (target) => target.stageOrder === 9);
+  const whiwa = reviewedTarget("whiwa", (target) => target.stageOrder === 9);
   selectSnapshotTarget(whiwa);
   const tokenGroup = whiwa.gameplay.choiceGroups[0];
   const tokenBase = __T.compute().totals.amplify;
@@ -1065,7 +1067,7 @@ function gameplayBuffRegressions() {
   expectEqual(window.WUWA_TARGETS.gameplayAggregate(__T.state.enemy, { ...skillContext, damageTypes: ["echoSkill"] }).finalDmg, 40, "Whiwa Fabricator should add its Echo Skill final DMG effect only to Echo Skills");
 
   resetTeam(["jinhsi"]);
-  const toaMiddle = currentTarget("toa", (target) => target.recordId === 429);
+  const toaMiddle = reviewedTarget("toa", (target) => target.recordId === 429);
   selectSnapshotTarget(toaMiddle);
   expectEqual(window.WUWA_TARGETS.gameplayAggregate(__T.state.enemy, skillContext).finalDmg, 15, "ToA fixed stage final DMG should apply automatically");
   expectEqual(window.WUWA_TARGETS.context(__T.state.enemy, "glacio").resistance, 35, "ToA conditional All-Attribute RES should default active exactly once");
@@ -1587,12 +1589,13 @@ function characterPickerSortsNewestFirst() {
     const id = match[1];
     if (window.WUWA.chars[id] && !picked.includes(id)) picked.push(id);
   }
-  assert(!Object.values(window.WUWA.chars).some((c) => c.betaVersion), "released v3.6 data should leave no beta characters mounted");
+  assert(!Object.values(window.WUWA.chars).some((c) => c.betaVersion), "released v3.7 data should leave no beta characters mounted");
   const latestStable = new Set(picked.slice(0, 2));
-  assert(["qingxiao", "jingran"].every((id) => latestStable.has(id)), `character picker should list the stable 3.6 characters first: ${picked.slice(0, 5).join(", ")}`);
-  const v35 = new Set(picked.slice(2, 5));
-  assert(["rover_electro", "yangyang_xuanling", "suisui"].every((id) => v35.has(id)), `stable 3.5 characters should follow the 3.6 characters: ${picked.slice(0, 7).join(", ")}`);
-  assert(Number(window.WUWA.chars[picked[5]]?.debut) <= 3.4, "older stable characters should follow the 3.5 characters");
+  assert(["hsin", "suoming"].every((id) => latestStable.has(id)), `character picker should list the stable 3.7 characters first: ${picked.slice(0, 5).join(", ")}`);
+  assert(["qingxiao", "jingran"].every((id) => picked.slice(2, 4).includes(id)), "stable 3.6 characters should follow 3.7");
+  const v35 = new Set(picked.slice(4, 7));
+  assert(["rover_electro", "yangyang_xuanling", "suisui"].every((id) => v35.has(id)), `stable 3.5 characters should follow the 3.6 characters: ${picked.slice(0, 9).join(", ")}`);
+  assert(Number(window.WUWA.chars[picked[7]]?.debut) <= 3.4, "older stable characters should follow the 3.5 characters");
 }
 
 function v35CharacterEntryRegressions() {
@@ -2213,7 +2216,8 @@ function skillHasStructuredResourceGate(sk) {
     sk.requiresResourceFull ||
     sk.requiresResourceAtLeast ||
     sk.requiresAllResourcesAtLeast ||
-    sk.requiresResourceSumAtLeast
+    sk.requiresResourceSumAtLeast ||
+    sk.requiresResourceBelow
   );
 }
 
@@ -2228,6 +2232,7 @@ function allCharacterResourceThresholdsAreStructured() {
     "brant.outro_blast",
     "qiuyuan.skill_lotuscloak",
     "yinlin.c6_judgement_strike",
+    "hsin.lib",
   ]);
   const thresholdText = /\d|满|充满|不少于|以上/;
   for (const c of Object.values(window.WUWA.chars)) {
@@ -2285,6 +2290,9 @@ function allPlainResourceGatesAreReviewed() {
     "yangyang_xuanling.wraith_of_sound",
     "jingran.skill_yin_followup",
     "jingran.skill_yang_followup",
+    "hsin.lib",
+    "suoming.unison_intro",
+    "suoming.unison_unfurled_intro",
   ]);
   const bad = [];
   for (const c of Object.values(window.WUWA.chars)) {
@@ -5927,6 +5935,745 @@ function fullCharacterAuditRegressions() {
   expectEqual(skill(W.chars.jinhsi, "loong_heavy").damageType, "basic", "Jinhsi Incarnation Heavy Attack should use Basic Attack damage");
 }
 
+function v37SuomingRegressions() {
+  const c = window.WUWA.chars.suoming;
+  assert(c?.debut === 3.7 && c.betaVersion == null, "Suoming should be official v3.7 data");
+  assert(c.element === "electro" && c.weaponType === 2 && c.quality === 5 && c.signatureWeaponId === "unspoken_rue", "Suoming should use the official element, Sword, rarity, and signature");
+  assert(c.base.hp === 10300 && c.base.attack === 462 && c.base.defense === 1112 && c.base.breakAmp === 0, "Suoming should use the official floored level-90 panel");
+  assert(c.base.tree.critRate === 8 && c.base.tree.attackPct === 12, "Suoming should total her official stat nodes");
+  assert(c.portrait === "assets/icons/characters/suoming.webp" && fs.existsSync(path.join(root, c.portrait)), "Suoming should use the downloaded official portrait");
+  assert(c.echoSet === 360236, "Suoming should default to Heart of Sworn Vigil");
+  assert(c.skills.length === 24 && c.chain.length === 6, "Suoming should expose all 24 official damage entries and six sequences");
+
+  const intros = ["intro", "unfurled_intro", "unison_intro", "unison_unfurled_intro"];
+  const engraved = ["forte_engraved", "forte_engraved_hold"];
+  assert(intros.every((id) => skill(c, id).category === "introSkill" && skill(c, id).damageType === "basic"), "All four Suoming intros should settle as Basic Attack damage");
+  assert(["forte_sealed", "forte_unforsaken", ...engraved].every((id) => skill(c, id).damageType === "basic"), "Suoming Forte damage should settle as Basic Attack damage");
+  expectEqual(skill(c, "lib").multiplier, 695.88, "Suoming Liberation level-10 multiplier");
+  expectEqual(skill(c, "lib_coordinated").multiplier, 59.65, "Suoming Blight Rain single-hit multiplier");
+  expectEqual(skill(c, "forte_engraved").multiplier, 1551.41, "Suoming Engraved Heart release multiplier");
+  expectEqual(skill(c, "forte_engraved_hold").multiplier, 387.92, "Suoming Engraved Heart held portion multiplier");
+  assert(skill(c, "lib_coordinated").triggeredDamage === true && skill(c, "lib_coordinated").damageTags.includes("coordinated"), "Blight Rain should be a separate summoned hit, never a new Liberation cast");
+  const gain = c.skillEvents.find((event) => event.event === "gainUnison");
+  const response = c.skillEvents.find((event) => event.event === "unisonResponse");
+  assert(gain?.skills?.length === 1 && gain.skills[0] === "lib", "Only Suoming's direct Liberation should grant Unison");
+  assert(response?.requiresResource === "unison_response" && response.defaultResourceActive === false && response.requiresUnison === true, "Unison response events should require explicit response confirmation and recipient eligibility");
+  assert(c.unison.boonGrants[0].afterAction === true && c.unison.boonGrants[0].stacks === 1 && c.unison.boonGrants[0].maxContribution === 1, "Response grants should be recorded after the action and must not count in the current Intro");
+  const c3Grant = c.unison.boonGrants.find((grant) => grant.seq === 3);
+  assert(c3Grant?.manual === true && c3Grant.cooldown === 25 && c3Grant.duration === 30 && c3Grant.maxContribution === 1, "Sequence 3 should preserve its manual 25-second grant cooldown and the one-contribution cap");
+
+  for (const [locale, name] of Object.entries({ "zh-CN": "锁暝", "en-US": "Suoming", ko: "쇄명", "ja-JP": "鎖暝" })) {
+    const pack = window.WUWA_LANGUAGES.localeData(locale, "chars", "suoming");
+    assert(pack?.name === name && pack.skills.length === 24 && pack.chain.length === 6 && pack.resources.length === 2, locale + " Suoming should localize every action, sequence, and numeric resource");
+  }
+
+  const phase = (slot, value) => { slot.toggles[__T.stateChoiceKey("mind_phase")] = value; };
+  const ids = (slot) => new Set(__T.availableSkills(slot).map((item) => item.id));
+  const stripEquipment = () => {
+    __T.state.slots.forEach((slot) => {
+      slot.weapon = null;
+      slot.echo.primary = null;
+      slot.echo.lead = null;
+      slot.echo.fields = {};
+    });
+    disableDefaultConfirmedBuffs();
+  };
+  const gainProbe = { id: "suoming_gain_probe", zone: "attackPercent", value: 1, scope: "self", defaultActive: false, triggerEvents: ["gainUnison"] };
+  const responseProbe = { id: "suoming_response_probe", zone: "attackPercent", value: 1, scope: "self", defaultActive: false, triggerEvents: ["unisonResponse"] };
+  const skillProbe = { id: "suoming_skill_probe", zone: "attackPercent", value: 1, scope: "self", defaultActive: false, triggerEvents: ["castResonanceSkill"] };
+
+  resetTeam(["suoming"]);
+  let slot = __T.state.slots[0];
+  stripEquipment();
+  assert(ids(slot).has("na1") && !ids(slot).has("unfurled_na1") && !ids(slot).has("forte_engraved") && !ids(slot).has("lib"), "Awakened Mind should expose only its phase-compatible actions");
+  const delusionControl = __T.resourceControlsForSlot(slot).find((control) => control.id === "delusion");
+  assert(delusionControl?.kind === "value" && delusionControl.max === 800 && delusionControl.value === 0, "Delusion should be an 800-point numeric resource with a zero initial value");
+  slot.resources.delusion = 799;
+  assert(ids(slot).has("skill") && !ids(slot).has("forte_sealed"), "Sealed Delusion should remain unavailable below 800 Delusion");
+  slot.resources.delusion = 800;
+  assert(!ids(slot).has("skill") && ids(slot).has("forte_sealed"), "Full Delusion should replace the ordinary skill with Sealed Delusion");
+  slot.skill = "skill";
+  expectEqual(__T.resolvedSkill(slot).id, "forte_sealed", "Awakened full-resource replacement");
+  assert(__T.buffStatus(slot, 0, skillProbe).applies, "Sealed Delusion should retain the Resonance Skill cast event while dealing Basic Attack damage");
+  slot.resources.delusion = 0;
+  expectEqual(__T.resolvedSkill(slot).id, "skill", "Below-full resource should restore the ordinary skill");
+
+  phase(slot, "deep_mind");
+  assert(ids(slot).has("unfurled_na1") && ids(slot).has("lib") && !ids(slot).has("na1") && !ids(slot).has("forte_engraved"), "Deep Mind should expose unfurled attacks and Liberation");
+  slot.resources.delusion = 800;
+  slot.skill = "skill";
+  expectEqual(__T.resolvedSkill(slot).id, "forte_unforsaken", "Deep full-resource replacement");
+  slot.resources.delusion = 0;
+  phase(slot, "calamity_mind");
+  assert(ids(slot).has("forte_engraved") && ids(slot).has("forte_engraved_hold") && !ids(slot).has("skill") && !ids(slot).has("lib") && !ids(slot).has("unfurled_na1"), "Calamity Mind should expose Engraved Heart without ordinary attacks or Liberation");
+
+  for (const [value, normal, unison] of [["awakened_mind", "intro", "unison_intro"], ["deep_mind", "unfurled_intro", "unison_unfurled_intro"]]) {
+    phase(slot, value);
+    slot.skill = normal;
+    delete slot.toggles[__T.resourceKey("unison_response")];
+    assert(ids(slot).has(normal) && !ids(slot).has(unison), "Unison Intro should start unconfirmed in " + value);
+    assert(__T.resourceControlsForSlot(slot).some((control) => control.id === "unison_response" && control.kind === "manual"), "Each Intro phase should retain the explicit Unison-response toggle");
+    assert(!__T.buffStatus(slot, 0, responseProbe).applies, "An ordinary Intro should not trigger Unison Response");
+    slot.toggles[__T.resourceKey("unison_response")] = true;
+    assert(!ids(slot).has(normal) && ids(slot).has(unison), "Confirmed response should replace only the matching normal Intro");
+    expectEqual(__T.resolvedSkill(slot).id, unison, "Phase-specific Unison replacement");
+    assert(__T.buffStatus(slot, 0, responseProbe).applies, "Confirmed Unison Intro should emit its response event");
+    expectEqual(__T.compute().rawTotals.damageBonus, 50, "All Suoming Intro variants should receive their casting-triggered Electro bonus");
+    expectEqual(__T.compute().rawTotals.finalDmg, 0, "The current response Intro must not inherit the boon granted after it");
+    expectEqual(slot.resources.unison_boon || 0, 0, "Response event evaluation must not automatically add shared stacks");
+  }
+  slot.toggles[__T.resourceKey("unison_response")] = false;
+  slot.skill = "unfurled_na1";
+  assert(!__T.buffStatus(slot, 0, buff(slot, "b_intro_electro")).applies, "Non-Intro actions should require confirmation of the previous Intro window");
+
+  slot.skill = "lib";
+  assert(__T.buffStatus(slot, 0, gainProbe).applies, "Direct Liberation should emit gainUnison");
+  slot.toggles[__T.stateChoiceKey("blight_rain")] = "blight_rain_active";
+  slot.skill = "lib_coordinated";
+  assert(__T.availableSkills(slot).some((item) => item.id === "lib_coordinated"), "Blight Rain damage should require its active field");
+  assert(!__T.buffStatus(slot, 0, gainProbe).applies, "Blight Rain summoned damage must not grant Unison");
+  const castProbe = { ...gainProbe, id: "suoming_cast_probe", triggerEvents: ["castResonanceLiberation"] };
+  assert(!__T.buffStatus(slot, 0, castProbe).applies, "Blight Rain must not masquerade as a new Liberation cast");
+
+  resetTeam(["suoming", "hsin"]);
+  slot = __T.state.slots[0];
+  const teammate = __T.state.slots[1];
+  teammate.seq = 6;
+  stripEquipment();
+  phase(slot, "deep_mind");
+  slot.skill = "unfurled_na1";
+  const seal = buff(slot, "b_seal_master_cd");
+  const sealMult = buff(slot, "b_seal_master_mult");
+  assert(__T.buffStatus(slot, 0, seal).precondition && !__T.buffStatus(slot, 0, seal).applies && !__T.buffStatus(slot, 0, sealMult).applies, "Seal Master should start unchecked; its display stack must not enable either bonus");
+  slot.resources.unison_boon = 3;
+  teammate.resources.unison_boon = 3;
+  expectEqual(__T.compute().rawTotals.finalDmg, 9, "Suoming's three existing Unison stacks should add 9% once");
+  __T.setBuffToggle(slot, 0, seal.id, true);
+  expectEqual(slot.resources.unison_boon, 0, "Confirming Seal Master should persistently clear Suoming's own boon stacks");
+  expectEqual(teammate.resources.unison_boon, 3, "Seal Master must preserve the teammate's own stacks");
+  expectEqual(__T.compute().rawTotals.critDamage, 100, "Seal Master's base Crit DMG");
+  expectEqual(__T.compute().rawTotals.skillMultBonus, 100, "Seal Master should double only the specified unfurled Basic Attacks");
+  expectEqual(__T.compute().rawTotals.finalDmg, 0, "Seal Master should disable Suoming's own Unison Boon");
+  slot.toggles[__T.resourceKey("unison_response")] = true;
+  slot.skill = "unfurled_intro";
+  assert(!ids(slot).has("unison_unfurled_intro") && ids(slot).has("unfurled_intro") && !__T.buffStatus(slot, 0, responseProbe).applies, "Seal Master must block a stale manual response toggle");
+  slot.skill = "unfurled_dodge";
+  assert(!__T.buffStatus(slot, 0, sealMult).applies, "Seal Master's multiplier must exclude the unfurled Dodge Counter");
+  slot.seq = 6;
+  slot.skill = "unfurled_na1";
+  expectEqual(__T.compute().rawTotals.critDamage, 340, "Sequence 6 should combine 40 passive, 100 base, and 200 extra Crit DMG");
+  slot.skill = "lib";
+  assert(!__T.buffStatus(slot, 0, seal).applies && !__T.buffStatus(slot, 0, buff(slot, "k6_seal_master_cd")).applies, "The Liberation that grants Unison should terminate Seal Master before its own damage");
+  expectEqual(__T.compute().rawTotals.skillMultBonus, 40, "Sequence 5 should increase only the direct Liberation multiplier");
+  slot.skill = "lib_coordinated";
+  slot.toggles[__T.stateChoiceKey("blight_rain")] = "blight_rain_active";
+  assert(!__T.buffStatus(slot, 0, buff(slot, "k5_lib_mult")).applies, "Sequence 5 should exclude the separate Blight Rain hit");
+
+  resetTeam(["suoming"]);
+  slot = __T.state.slots[0];
+  stripEquipment();
+  slot.seq = 1;
+  for (const [value, intro] of [["awakened_mind", "intro"], ["deep_mind", "unfurled_intro"]]) {
+    phase(slot, value);
+    slot.skill = intro;
+    expectEqual(__T.compute().rawTotals.skillMultBonus, 60, "Sequence 1 should boost the matching Intro by 60%");
+  }
+  slot.seq = 3;
+  slot.skill = "lib";
+  const c3 = buff(slot, "k3_basic_amp");
+  assert(!__T.buffStatus(slot, 0, c3).applies, "Sequence 3's Basic Attack amplification must not apply to the current Liberation damage");
+  slot.skill = "unfurled_na1";
+  assert(__T.buffStatus(slot, 0, c3).precondition && !__T.buffStatus(slot, 0, c3).applies, "Sequence 3 should require confirmation of its previous Liberation window");
+  __T.setBuffToggle(slot, 0, c3.id, true);
+  expectEqual(__T.compute().rawTotals.amplify, 30, "Sequence 3 confirmed Basic Attack amplification");
+  slot.seq = 4;
+  expectEqual(__T.compute().rawTotals.attackPercent, 20, "Sequence 4 self ATK increase");
+  slot.seq = 6;
+  phase(slot, "calamity_mind");
+  for (const id of engraved) {
+    slot.skill = id;
+    expectEqual(__T.compute().rawTotals.skillMultBonus, 50, "Sequence 6 should boost both Engraved Heart portions by 50%");
+  }
+
+  resetTeam(["hsin", "suoming"]);
+  const output = __T.state.slots[0];
+  const support = __T.state.slots[1];
+  output.seq = 6;
+  support.seq = 6;
+  stripEquipment();
+  output.skill = "skill";
+  output.resources.unison_boon = 3;
+  support.resources.unison_boon = 1;
+  const extraElectro = buff(support, "b_outro_electro_extra");
+  const extraCrit = buff(support, "k2_outro_cd_extra");
+  const skillAmp = buff(support, "b_outro_skill_amp");
+  assert(!__T.buffStatus(support, 1, extraElectro).applies && !__T.buffStatus(support, 1, skillAmp).applies, "Suoming's outgoing buffs should require confirmation of their trigger windows");
+  for (const id of ["b_outro_electro_bonus", "b_outro_electro_extra", "b_outro_electro_amp", "b_outro_skill_amp", "k2_outro_cd", "k2_outro_cd_extra"]) __T.setBuffToggle(support, 1, id, true);
+  expectEqual(__T.buffValue(support, extraElectro, 1, 0), 40, "Aligned Seals should cap at the recipient's two stacks, independent of the provider's one stack");
+  expectEqual(__T.buffValue(support, extraCrit, 1, 0), 18, "Sequence 2 should read the recipient's three stacks for 18% extra Crit DMG");
+  expectEqual(__T.compute().rawTotals.finalDmg, 13.5, "Three received stacks should combine 9% base and 4.5% Sequence 6 extra, without duplicate base buffs");
+  output.resources.unison_boon = 4;
+  expectEqual(__T.buffValue(support, extraCrit, 1, 0), 24, "Sequence 2 four-stack extra Crit DMG cap");
+  expectEqual(__T.compute().rawTotals.finalDmg, 18, "Sequence 6 should raise four-stack final damage from 12% to 18%");
+  output.resources.unison_boon = 0;
+  assert(!__T.buffStatus(support, 1, skillAmp).applies, "Outro Skill amplification must be gated by the recipient's boon, even when the provider has a stack");
+  output.resources.unison_boon = 1;
+  support.resources.unison_boon = 0;
+  assert(__T.buffStatus(support, 1, skillAmp).applies, "Outro Skill amplification should work with one recipient stack even when the provider has none");
+  expectEqual(__T.buffValue(support, extraElectro, 1, 0), 20, "Aligned Seals one-stack recipient bonus");
+  expectEqual(__T.buffValue(support, extraCrit, 1, 0), 6, "Sequence 2 one-stack recipient bonus");
+
+  resetTeam(["jinhsi", "suoming"]);
+  slot = __T.state.slots[1];
+  slot.seq = 6;
+  stripEquipment();
+  slot.resources.unison_boon = 1;
+  for (const id of ["b_outro_skill_amp", "k2_outro_cd_extra"]) {
+    const item = buff(slot, id);
+    __T.setBuffToggle(slot, 1, id, true);
+    assert(!__T.buffStatus(slot, 1, item).applies, "Unison-only benefits should not affect a recipient without Unison Response eligibility");
+  }
+  assert(!__T.buffStatus(slot, 1, buff(slot, "k6_unison_boon_extra")).applies, "Sequence 6 Unison enhancement should respect recipient eligibility");
+}
+
+function targetV37FixtureRegressions() {
+  const toaTargets = {};
+  const toaGameplay = {};
+  const toaIds = targetSync.buildToaSeason(targetFixtures.toaV37, 40, toaTargets, [], toaGameplay);
+  expectEqual(toaIds.length, 7, "3.7 ToA fixed samples should retain both multi-monster encounters");
+  const left = toaTargets["toa:40:438:320000220"];
+  expectEqual(left.level, 90, "3.7 ToA left tower sample level");
+  expectEqual(left.resistances.electro, 60, "3.7 ToA stage-final matching resistance");
+  expectEqual(left.resistances.aero, 10, "3.7 ToA explicit Aero reduction");
+  const middle = toaTargets["toa:40:441:320000330"];
+  expectEqual(middle.level, 100, "3.7 ToA middle tower sample level");
+  expectEqual(targetSync.ELEMENTS.map((element) => middle.resistances[element]).join(","), "35,20,20,35,75,35", "3.7 ToA unconditional resistance with Electro and Fusion exemptions");
+  expectEqual(middle.resistance.modifiers.map((modifier) => modifier.element).join(","), "glacio,aero,spectro,havoc", "3.7 ToA exemptions should omit Electro and Fusion modifiers");
+  assert(middle.resistance.includesModeModifiers && middle.resistance.sourceKind === "stageFinal" && !middle.resistance.modifiers.some((modifier) => modifier.kind === "modeBase"), "3.7 ToA stage-final stats must not receive a second mode-base stack");
+  const toaShield = toaGameplay["toa:40:441:92008197:shield-stacks"];
+  expectEqual(toaShield.max, 10, "3.7 ToA shield stack cap");
+  expectEqual(toaShield.defaultValue, 0, "3.7 ToA shield stacks require player confirmation");
+  assert(toaShield.effects.some((effect) => effect.value === 12 && effect.controlMultiplier && effect.element === "fusion"), "3.7 ToA shield stacks should grant 12% Fusion DMG Bonus per stack");
+
+  const whiwaTargets = {};
+  const whiwaGameplay = {};
+  const monsterDetails = new Map([[targetFixtures.monsterV37.Id, targetFixtures.monsterV37]]);
+  const whiwaIds = targetSync.buildWhiwaSeason(targetFixtures.whiwaV37, 22, whiwaTargets, monsterDetails, whiwaGameplay);
+  expectEqual(whiwaIds.length, 1, "3.7 Whiwa fixed sample target count");
+  const whiwa = whiwaTargets[whiwaIds[0]];
+  expectEqual(whiwa.id, "whiwa:22:135:40268:310000080", "3.7 Whiwa fixed sample stable ID");
+  expectEqual(whiwa.level, 90, "3.7 Whiwa floor 9 sample level");
+  expectEqual(targetSync.ELEMENTS.map((element) => whiwa.resistances[element]).join(","), "20,70,20,20,20,20", "3.7 Whiwa intrinsic plus one mode base and one stage modifier");
+  expectEqual(whiwa.resistance.modifiers.filter((modifier) => modifier.kind === "modeBase").length, 1, "3.7 Whiwa mode base should be applied once");
+  const tokenQualities = whiwa.gameplay.choiceGroups[0].optionIds.map((id) => whiwaGameplay[id].qualityId).sort();
+  expectEqual(tokenQualities.join(","), "4,4,4,4,4,4,5,5,5", "3.7 Whiwa all six purple and three gold Tokens should remain selectable");
+  const tokenShield = whiwaGameplay["whiwa:22:71500103:shield-stacks"];
+  assert(tokenShield.parentId === "whiwa:22:71500103:token" && tokenShield.control === "range" && tokenShield.max === 15 && tokenShield.defaultValue === 0, "3.7 Whiwa shield Token should use a conditional 0-15 stack control");
+  assert(tokenShield.effects.some((effect) => effect.zone === "damageBonus" && effect.value === 3 && effect.element === "fusion") && tokenShield.effects.some((effect) => effect.zone === "finalDmg" && effect.value === 2.5 && effect.damageTypes.includes("heavy")), "3.7 Whiwa shield Token should preserve independent Fusion Bonus and Heavy Attack final DMG");
+
+  const matrixTargets = {};
+  const matrixGameplay = {};
+  const matrixIds = targetSync.buildMatrixSeason(targetFixtures.dpmatrixV37, 8, matrixTargets, matrixGameplay);
+  expectEqual(matrixIds.length, 15, "3.7 Matrix should retain all 15 visible targets");
+  assert(matrixIds.every((id) => matrixTargets[id].areaId === 16), "3.7 Matrix should exclude the non-Singularity level");
+  expectEqual([1, 2, 3].map((round) => matrixIds.filter((id) => matrixTargets[id].stageId === round).length).join(","), "5,5,5", "3.7 Matrix should expose three rounds of five targets");
+  expectEqual([1, 2, 3].map((round) => [...new Set(matrixIds.filter((id) => matrixTargets[id].stageId === round).map((id) => matrixTargets[id].level))].join(",")).join(","), "100,110,120", "3.7 Matrix fixed levels per round");
+  const matrix = matrixTargets["dpmatrix:8:16:1:1:155"];
+  expectEqual(targetSync.ELEMENTS.map((element) => matrix.resistances[element]).join(","), "20,40,20,20,20,20", "3.7 Matrix final resistance sample");
+  expectEqual(Object.keys(matrixGameplay).length, 9, "3.7 Matrix should retain four enhancements and five independent conditional controls");
+  const matrixShield = matrixGameplay["dpmatrix:8:35:shield-stacks"];
+  assert(matrixShield.parentId === "dpmatrix:8:35:enhancement" && matrixShield.control === "range" && matrixShield.max === 5 && matrixShield.defaultValue === 0, "3.7 Matrix shield enhancement should use a conditional 0-5 stack control");
+  assert(matrixShield.effects.some((effect) => effect.zone === "finalDmg" && effect.value === 11 && effect.controlMultiplier), "3.7 Matrix shield enhancement should grant 11% final DMG per stack");
+}
+
+function targetV37SnapshotRegressions() {
+  const data = window.WUWA_TARGET_DATA;
+  const expected = { toa: ["40", 14, 14], whiwa: ["22", 54, 20], dpmatrix: ["8", 15, 9] };
+  for (const [mode, [seasonId, targetCount, buffCount]] of Object.entries(expected)) {
+    expectEqual(data.modes[mode].currentSeasonId, seasonId, `3.7 ${mode} should select the current season`);
+    expectEqual(data.snapshot.currentSeasons[mode], seasonId, `3.7 ${mode} snapshot current season`);
+    expectEqual(Object.values(data.targets).filter((target) => target.mode === mode && target.seasonId === seasonId).length, targetCount, `3.7 ${mode} current target count`);
+    expectEqual(Object.keys(data.gameplayBuffs).filter((id) => id.startsWith(mode + ":" + seasonId + ":")).length, buffCount, `3.7 ${mode} current gameplay count`);
+    const enemy = {};
+    window.WUWA_TARGETS.ensureSelection(enemy);
+    window.WUWA_TARGETS.selectMode(enemy, mode);
+    expectEqual(enemy.targetSeasonId, seasonId, `3.7 ${mode} mode switch should choose its current season`);
+  }
+  expectEqual(data.modes.openWorld.seasons[0].targetIds.length, 277, "3.7 Open World should retain 261 targets and add 16 targets with full six-attribute stats");
+  const newOpenWorldIds = [310001040, 320000700, 320000710, 340000330, 340000331, 340000332, 340000113, 340000123, 340000142, 340000172, 340000212, 340000213, 340000221, 340000222, 340000252, 340000261];
+  newOpenWorldIds.forEach((id) => {
+    const target = data.targets["openWorld:" + id];
+    assert(target?.level === 90 && targetSync.ELEMENTS.every((element) => Number.isFinite(target.resistances[element])), `3.7 Open World ${id} should include six finite resistance values`);
+  });
+  const expectedPaths = "1:4,2:1,2:2,2:3,2:4,3:4";
+  const toaTargets = window.WUWA_TARGETS.targetsFor("toa", "40");
+  expectEqual([...new Set(toaTargets.map((target) => target.areaId + ":" + target.stageId))].sort().join(","), expectedPaths, "3.7 ToA should retain exactly the six approved tower/floor choices");
+  toaTargets.forEach((target) => {
+    const enemy = {};
+    window.WUWA_TARGETS.ensureSelection(enemy);
+    window.WUWA_TARGETS.selectMode(enemy, "toa");
+    window.WUWA_TARGETS.selectTarget(enemy, target.id);
+    expectEqual(window.WUWA_TARGETS.context(enemy, "spectro").target.id, target.id, `3.7 ToA multi-monster target ${target.id} should remain independently selectable`);
+  });
+  const whiwaTargets = window.WUWA_TARGETS.targetsFor("whiwa", "22");
+  expectEqual([...new Set(whiwaTargets.map((target) => target.stageOrder))].sort((a, b) => a - b).join(","), "9,10,11,12", "3.7 Whiwa should omit floors 1-8");
+  assert(whiwaTargets.every((target) => target.level === (target.stageOrder === 12 ? 100 : 90)), "3.7 Whiwa should retain the confirmed high-floor and endless levels");
+  for (const [mode, seasonId] of [["toa", "39"], ["whiwa", "20"], ["whiwa", "21"], ["dpmatrix", "7"]]) {
+    const enemy = {};
+    window.WUWA_TARGETS.ensureSelection(enemy);
+    window.WUWA_TARGETS.selectMode(enemy, mode);
+    window.WUWA_TARGETS.selectSeason(enemy, seasonId);
+    assert(enemy.targetSeasonId === seasonId && window.WUWA_TARGETS.target(enemy.targetId)?.seasonId === seasonId, `3.7 update should retain historical ${mode} ${seasonId}`);
+  }
+  for (const lang of SUPPORTED_LANGS) {
+    for (const [mode, [seasonId]] of Object.entries(expected)) {
+      assert(window.WUWA_LANGUAGES.localeData(lang, "targetSeasons", mode + ":" + seasonId)?.name, `3.7 ${lang} ${mode} season label`);
+      const targets = Object.values(data.targets).filter((target) => target.mode === mode && target.seasonId === seasonId);
+      targets.forEach((target) => assert(window.WUWA_LANGUAGES.localeData(lang, "targetNames", target.nameId)?.name, `3.7 ${lang} target ${target.nameId}`));
+      Object.keys(data.gameplayBuffs).filter((id) => id.startsWith(mode + ":" + seasonId + ":")).forEach((id) => {
+        const text = window.WUWA_LANGUAGES.localeData(lang, "targetBuffs", id);
+        assert(text?.name && text?.desc, `3.7 ${lang} gameplay ${id} should have its own label and full description`);
+      });
+    }
+    newOpenWorldIds.forEach((id) => assert(window.WUWA_LANGUAGES.localeData(lang, "targetNames", "monster:" + id)?.name, `3.7 ${lang} Open World name ${id}`));
+  }
+}
+
+function gameplayV37Regressions() {
+  const targets = window.WUWA_TARGETS;
+  const data = window.WUWA_TARGET_DATA;
+  const basicContext = { resultMode: "skill", damageElement: "spectro", damageTypes: ["basic"] };
+  const echoContext = { ...basicContext, damageTypes: ["echoSkill"] };
+  const offsetContext = { ...basicContext, resultMode: "offset", damageTypes: ["tuneRuptureDmg"] };
+  resetTeam(["jinhsi"]);
+  const matrix = data.targets["dpmatrix:8:16:1:1:155"];
+  selectSnapshotTarget(matrix);
+  let enemy = __T.state.enemy;
+  const matrixGroup = matrix.gameplay.choiceGroups[0];
+  const enhancement = "dpmatrix:8:35:enhancement";
+  const shield = "dpmatrix:8:35:shield-stacks";
+  const unison = "dpmatrix:8:35:unison-response";
+  targets.setGameplayChoice(enemy, matrixGroup.id, enhancement);
+  expectEqual(targets.controlValue(enemy, data.gameplayBuffs[shield]), 0, "3.7 Matrix shield range child should default to zero");
+  expectEqual(targets.gameplayAggregate(enemy, basicContext).finalDmg, 0, "3.7 Matrix conditional effects should default inactive");
+  expectEqual(targets.gameplayAggregate(enemy, echoContext).finalDmg, 40, "3.7 Matrix fixed Echo Skill final DMG");
+  targets.setGameplayValue(enemy, shield, 1);
+  expectEqual(targets.gameplayAggregate(enemy, basicContext).finalDmg, 11, "3.7 Matrix shield range child should apply one stack");
+  targets.setGameplayValue(enemy, shield, 5);
+  expectEqual(targets.gameplayAggregate(enemy, basicContext).finalDmg, 55, "3.7 Matrix shield range child should apply five stacks");
+  targets.setGameplayValue(enemy, unison, true);
+  expectEqual(targets.gameplayAggregate(enemy, basicContext).finalDmg, 110, "3.7 Matrix Unison Response and shield stacks should require separate confirmations");
+  expectEqual(targets.gameplayAggregate(enemy, offsetContext).finalDmg, 0, "3.7 Matrix ordinary final DMG should not enter offset damage");
+  targets.setGameplayChoice(enemy, matrixGroup.id, "dpmatrix:8:37:enhancement");
+  expectEqual(targets.gameplayAggregate(enemy, basicContext).finalDmg, 40, "3.7 Matrix enhancement switch should apply only the newly selected General Enhancement");
+  targets.setGameplayChoice(enemy, matrixGroup.id, enhancement);
+  expectEqual(targets.controlValue(enemy, data.gameplayBuffs[shield]), 0, "3.7 Matrix enhancement reselection should not restore stale shield stacks");
+  expectEqual(targets.controlValue(enemy, data.gameplayBuffs[unison]), false, "3.7 Matrix enhancement reselection should not restore a stale Unison Response confirmation");
+
+  resetTeam(["jinhsi"]);
+  const whiwa = data.targets["whiwa:22:135:40268:310000080"];
+  selectSnapshotTarget(whiwa);
+  enemy = __T.state.enemy;
+  const tokenGroup = whiwa.gameplay.choiceGroups[0];
+  const lamp = "whiwa:22:71500103:token";
+  const lampShield = "whiwa:22:71500103:shield-stacks";
+  const heavyFusion = { ...basicContext, damageElement: "fusion", damageTypes: ["heavy"] };
+  targets.setGameplayChoice(enemy, tokenGroup.id, lamp);
+  expectEqual(targets.gameplayAggregate(enemy, heavyFusion).damageBonus, 0, "3.7 Whiwa shield Token should default to zero stacks");
+  targets.setGameplayValue(enemy, lampShield, 1);
+  expectEqual(targets.gameplayAggregate(enemy, heavyFusion).damageBonus, 3, "3.7 Whiwa shield Token one-stack Fusion DMG Bonus");
+  expectEqual(targets.gameplayAggregate(enemy, heavyFusion).finalDmg, 2.5, "3.7 Whiwa shield Token one-stack Heavy Attack final DMG");
+  targets.setGameplayValue(enemy, lampShield, 15);
+  expectEqual(targets.gameplayAggregate(enemy, heavyFusion).damageBonus, 45, "3.7 Whiwa shield Token fifteen-stack Fusion DMG Bonus");
+  expectEqual(targets.gameplayAggregate(enemy, heavyFusion).finalDmg, 37.5, "3.7 Whiwa shield Token fifteen-stack Heavy Attack final DMG");
+  expectEqual(targets.gameplayAggregate(enemy, basicContext).damageBonus, 0, "3.7 Whiwa shield Token Fusion Bonus should not apply to Spectro");
+  expectEqual(targets.gameplayAggregate(enemy, basicContext).finalDmg, 0, "3.7 Whiwa shield Token Heavy Attack effect should not apply to Basic Attacks");
+  targets.setGameplayChoice(enemy, tokenGroup.id, "whiwa:22:71500102:token");
+  expectEqual(targets.gameplayAggregate(enemy, heavyFusion).amplify, 25, "3.7 Whiwa purple Token selection should retain its amplification effect");
+  expectEqual(targets.gameplayAggregate(enemy, heavyFusion).finalDmg, 0, "3.7 Whiwa Token switch should discard the previous conditional contribution");
+  targets.setGameplayChoice(enemy, tokenGroup.id, lamp);
+  expectEqual(targets.controlValue(enemy, data.gameplayBuffs[lampShield]), 0, "3.7 Whiwa Token reselection should not restore stale shield stacks");
+
+  targets.setGameplayChoice(enemy, tokenGroup.id, "whiwa:22:71500104:token");
+  const electroContext = { ...basicContext, damageElement: "electro" };
+  expectEqual(targets.gameplayAggregate(enemy, electroContext).finalDmg, 30, "3.7 Whiwa Electro Token unconditional final DMG");
+  targets.setGameplayValue(enemy, "whiwa:22:71500104:intro-electro", true);
+  expectEqual(targets.gameplayAggregate(enemy, electroContext).finalDmg, 60, "3.7 Whiwa Electro Token confirmed Intro effect");
+  expectEqual(targets.gameplayAggregate(enemy, basicContext).finalDmg, 0, "3.7 Whiwa Electro Token should retain its element restriction");
+
+  resetTeam(["jinhsi"]);
+  selectSnapshotTarget(data.targets["toa:40:441:320000330"]);
+  enemy = __T.state.enemy;
+  expectEqual(targets.gameplayAggregate(enemy, basicContext).finalDmg, 20, "3.7 ToA fixed all-DMG effect");
+  expectEqual(targets.gameplayAggregate(enemy, electroContext).finalDmg, 70, "3.7 ToA Electro-specific fixed effect should add independently");
+  expectEqual(targets.gameplayAggregate(enemy, heavyFusion).damageBonus, 0, "3.7 ToA shield range should default to zero");
+  targets.setGameplayValue(enemy, "toa:40:441:92008197:shield-stacks", 1);
+  expectEqual(targets.gameplayAggregate(enemy, heavyFusion).damageBonus, 12, "3.7 ToA one shield stack Fusion DMG Bonus");
+  targets.setGameplayValue(enemy, "toa:40:441:92008197:shield-stacks", 10);
+  expectEqual(targets.gameplayAggregate(enemy, heavyFusion).damageBonus, 120, "3.7 ToA ten shield stacks Fusion DMG Bonus");
+  expectEqual(targets.gameplayAggregate(enemy, offsetContext).finalDmg, 0, "3.7 ToA ordinary final DMG should remain outside offset damage");
+}
+
+function hsinCharacterEntryRegressions() {
+  const c = window.WUWA.chars.hsin;
+  const near = (actual, expected, label) => assert(Math.abs(actual - expected) < 1e-9, `${label}: expected ${expected}, got ${actual}`);
+  const choose = (slot, id, value) => { slot.toggles[__T.stateChoiceKey(id)] = value; };
+  const setup = (chars = ["hsin"]) => {
+    resetTeam(chars);
+    return __T.state.slots[0];
+  };
+  const idsFor = (slot) => new Set(__T.availableSkills(slot).map((item) => item.id));
+
+  assert(c.debut === 3.7 && c.element === "electro" && c.weaponType === 5 && c.quality === 5, "Hsin should be the formal v3.7 Electro Rectifier Resonator");
+  assert(c.base.hp === 10300 && c.base.attack === 462 && c.base.defense === 1112 && c.base.tree.critRate === 8 && c.base.tree.attackPct === 12, "Hsin level-90 stats and attribute tree should match the formal API");
+  assert(c.signatureWeaponId === "blooming_jadehaven" && c.echoSet === 360236, "Hsin should use Blooming Jadehaven and Heart of Sworn Vigil");
+  expectEqual(c.skills.length, 38, "Hsin should expose all 37 official attribute actions and the direct Outro");
+  expectEqual(skill(c, "lib").damageType, "resonanceSkill", "Pillars Across Heaven should settle as Resonance Skill DMG");
+  assert(skill(c, "lib_coordinated").damageTags.includes("coordinated") && skill(c, "lib_coordinated").triggeredDamage === true, "Soaring Pillar should be a coordinated hit");
+  assert(skill(c, "lib_coordinated").requiresResourceAtLeast.id === "edict" && !skill(c, "lib_coordinated").impliedStates, "Soaring Pillar should depend on remaining Edict, including after Heart Manifest ends");
+  for (const id of ["intro_answering_unison", "intro_illumining_unison", "forte_heavy_answering", "forte_heavy_answering_enhanced", "forte_heavy_illumining", "forte_heavy_illumining_enhanced"]) {
+    expectEqual(skill(c, id).damageType, "resonanceSkill", `Hsin ${id} should settle as Resonance Skill DMG`);
+  }
+  expectEqual(skill(c, "answering_na2").multiplierByLevel[0], 76.18, "Answering Stage 2 should use the exact rounded level-1 segment sum");
+  expectEqual(skill(c, "intro_illumining_unison").multiplierByLevel[9], 786.13, "Illumining Manifold Unison should use the exact level-10 segment sum");
+  for (const [lang, name] of Object.entries({ "zh-CN": "心", "en-US": "Hsin", "ko": "여우의 별자리", "ja-JP": "心" })) {
+    const pack = window.WUWA_LANGUAGES.localeData(lang, "chars", "hsin");
+    assert(pack.name === name && pack.skills.length === 38 && pack.resources.length === 10 && pack.buffs.length === c.buffs.length && pack.combatStates.length === 6 && pack.chain.length === 6, `${lang} Hsin localization should cover every structured entry`);
+    assert(pack.skillEvents[0].requiresResourceLabel && !pack.skillEvents[0].requiresResourceLabel.includes("unison_response"), `${lang} Unison Response control should have localized text`);
+    pack.chain.forEach((node, i) => expectEqual(node.buffs.length, c.chain[i].buffs.length, `${lang} Hsin sequence ${i + 1} Buff text alignment`));
+  }
+
+  let slot = setup();
+  let ids = idsFor(slot);
+  assert(ids.has("answering_na1") && !ids.has("illumining_na1") && !ids.has("intro_answering_electro"), "Answering Form in Unison mode should filter out Illumining and Electro-mode attacks");
+  slot.skill = "forte_heavy_answering_enhanced";
+  slot.resources.answering_heart = 99;
+  slot.resources.resolution_of_wishes = 1;
+  expectEqual(__T.compute().sk.id, "heavy", "Below 100 Answering Heart, both enhanced variants should fall back to ordinary Heavy Attack");
+  slot.resources.answering_heart = 100;
+  slot.resources.resolution_of_wishes = 0;
+  expectEqual(__T.compute().sk.id, "forte_heavy_answering", "At 100 Heart without Resolution of Wishes, Realm Wanderer should be used");
+  slot.resources.resolution_of_wishes = 1;
+  expectEqual(__T.compute().sk.id, "forte_heavy_answering_enhanced", "Available Resolution of Wishes should upgrade the current Heavy Attack to Realm Protector");
+  slot.skillLevels.forteCircuit = 1;
+  expectEqual(__T.compute().panel.baseMult, 624.45, "Realm Protector should use its exact level-1 multiplier");
+  slot.skillLevels.forteCircuit = 10;
+  expectEqual(__T.compute().panel.baseMult, 1241.45, "Realm Protector should use its exact level-10 multiplier");
+
+  slot.skill = "intro_answering_unison";
+  slot.resources.source_intent = 0;
+  expectEqual(__T.compute().sk.id, "intro_answering", "Unison mode alone must not grant a Manifold Unison Intro");
+  assert(__T.resourceControlsForSlot(slot).some((control) => control.id === "unison_response"), "Ordinary Intro fallback should retain the response confirmation control");
+  slot.toggles[__T.resourceKey("unison_response")] = true;
+  expectEqual(__T.compute().sk.id, "intro_answering_unison", "A confirmed current response should unlock Manifold Unison without old Source Intent");
+  expectEqual(__T.compute().rawTotals.attackPercent, 50, "Manifold Unison should activate its current-cast 50% ATK");
+  expectEqual(__T.compute().rawTotals.finalDmg, 0, "This response must not automatically add the later Unison Boon to its own Intro");
+  slot.toggles[__T.resourceKey("unison_response")] = false;
+  slot.resources.source_intent = 1;
+  expectEqual(__T.compute().sk.id, "intro_answering_unison", "Held Source Intent should independently unlock Manifold Unison");
+  slot.seq = 1;
+  slot.resources.unison_boon = 99;
+  expectEqual(__T.compute().rawTotals.skillMultBonus, 35, "Solo Sequence 1 Hsin should clamp to two reachable Boons and gain 15 + 2 × 10 Intro multiplier");
+  expectEqual(__T.compute().rawTotals.finalDmg, 6, "Solo Hsin's two reachable Boons should grant 6% final DMG once");
+
+  slot = setup(["hsin", "suoming"]);
+  slot.seq = 1;
+  slot.skill = "intro_answering_unison";
+  slot.resources.source_intent = 1;
+  slot.resources.unison_boon = 3;
+  expectEqual(__T.compute().rawTotals.skillMultBonus, 45, "Hsin with Shion should use three existing Boons for 45% Intro multiplier");
+  expectEqual(__T.compute().rawTotals.finalDmg, 9, "Three existing Boons should grant Hsin 9% final DMG without duplicating Shion's own Boon Buff");
+  choose(slot, "combat_form", "illumining_form");
+  ids = idsFor(slot);
+  assert(ids.has("illumining_na1") && !ids.has("answering_na1") && !ids.has("pillars_na1"), "Illumining Form should retain ordinary attacks before Mechanism Dominion");
+  slot.skill = "forte_skill";
+  slot.resources.illumining_heart = 299;
+  expectEqual(__T.compute().sk.id, "illumining_skill", "Pillars Aligned should fall back below 300 Illumining Heart");
+  slot.resources.illumining_heart = 300;
+  expectEqual(__T.compute().sk.id, "forte_skill", "Pillars Aligned should unlock at 300 Illumining Heart");
+  expectEqual(__T.compute().panel.baseMult, 897.17, "Pillars Aligned level-10 multiplier");
+  choose(slot, "mechanism_dominion", "mechanism_dominion_active");
+  ids = idsFor(slot);
+  assert(ids.has("pillars_na1") && !ids.has("illumining_na1"), "Mechanism Dominion should replace ordinary Illumining Basics");
+  slot.skill = "forte_heavy_illumining_enhanced";
+  slot.resources.law_of_heaven = 1;
+  slot.resources.illumining_heart = 1;
+  expectEqual(__T.compute().sk.id, "illumining_heavy", "Remaining Illumining Heart must block both ending Heavy Attacks even if Law of Heaven is available");
+  slot.resources.illumining_heart = 0;
+  slot.resources.law_of_heaven = 0;
+  expectEqual(__T.compute().sk.id, "forte_heavy_illumining", "At zero Illumining Heart without Law of Heaven, Beholding All Horizons should be used");
+  slot.resources.law_of_heaven = 1;
+  expectEqual(__T.compute().sk.id, "forte_heavy_illumining_enhanced", "At zero Illumining Heart with Law of Heaven, Stilling All Horizons should be used");
+  slot.seq = 2;
+  expectEqual(__T.compute().rawTotals.skillMultBonus, 60, "Sequence 2 should increase the ending Heavy Attack multiplier by 60%");
+  slot.skill = "lib";
+  assert(__T.compute().resourceBlocked, "Zero Illumining Heart alone should not confirm the completed Heavy Attack and full Energy Liberation window");
+  slot.toggles[__T.resourceKey("pillars_across_heaven")] = true;
+  assert(!__T.compute().resourceBlocked, "Pillars Across Heaven should unlock only after its confirmed prerequisites");
+  slot.seq = 3;
+  expectEqual(__T.compute().panel.baseMult, 2012.67, "Pillars Across Heaven level-10 multiplier");
+  expectEqual(__T.compute().rawTotals.skillMultBonus, 70, "Sequence 3 Liberation multiplier increase");
+  expectEqual(__T.compute().rawTotals.critDamage, 65, "Sequence 3 Unison Liberation should gain 20 + 3 × 15 Crit DMG");
+  slot.seq = 6;
+  slot.resources.unison_boon = 4;
+  expectEqual(__T.compute().rawTotals.critDamage, 80, "Sequence 6 Hsin with Shion should allow all four Boons for 80 Crit DMG");
+  expectEqual(__T.compute().rawTotals.finalDmg, 12, "Four existing Boons should grant 12% final DMG");
+  expectEqual(__T.compute().rawTotals.vulnerability, 40, "Sequence 6 Pillars Across Heaven should receive 40% Resonance Skill vulnerability");
+
+  slot = setup();
+  slot.skill = "lib_coordinated";
+  slot.resources.edict = 0;
+  assert(__T.compute().resourceBlocked, "Soaring Pillar should require nonzero Edict");
+  slot.resources.edict = 1;
+  assert(!__T.compute().resourceBlocked, "Soaring Pillar should remain available with Edict while Heart Manifest is inactive");
+  slot.skillLevels.resonanceLiberation = 1;
+  expectEqual(__T.compute().panel.baseMult, 5.72, "Soaring Pillar should inherit the exact level-1 Liberation multiplier");
+  slot.skill = "outro";
+  slot.skillLevels.outroSkill = 1;
+  expectEqual(__T.compute().panel.baseMult, 100, "Hsin direct Outro should remain fixed at 100% across skill levels");
+
+  slot = setup();
+  choose(slot, "resonance_mode", "electro_flare");
+  slot.skill = "skill";
+  __T.state.effectCalc = { key: "electro", providerIdx: 0, stacks: 3, stackMode: "manual", electroRageStacks: 0, deepen: 0 };
+  slot.resources.heart_of_thunder = 0;
+  near(__T.compute().effect.rate, 0, "Zero Heart of Thunder should produce no directly triggered Electro Flare damage");
+  slot.resources.heart_of_thunder = 50;
+  let result = __T.compute();
+  near(result.effect.rate / result.effect.baseRate, 17.5, "Fifty Heart of Thunder should multiply current Electro Flare by 35% × 50");
+  slot.seq = 1;
+  result = __T.compute();
+  near(result.effect.rate / result.effect.baseRate, 21, "Sequence 1 should replace the per-stack coefficient with 42%, rather than add 42 percentage points");
+  slot.resources.heart_of_thunder = 100;
+  result = __T.compute();
+  near(result.effect.rate / result.effect.baseRate, 42, "One hundred Heart of Thunder at Sequence 1 should multiply current Electro Flare by 42");
+  choose(slot, "combat_form", "illumining_form");
+  slot.skill = "lib";
+  slot.toggles[__T.resourceKey("pillars_across_heaven")] = true;
+  slot.seq = 3;
+  result = __T.compute();
+  near(result.effect.rate / result.effect.baseRate, 15, "Sequence 3 Liberation should trigger exactly fifteen times the current Electro Flare multiplier");
+  expectEqual(result.rawTotals.critDamage, 0, "Electro Flare mode must exclude the Unison-mode Liberation Crit DMG");
+  slot.seq = 6;
+  slot.skill = "illumining_skill";
+  expectEqual(__T.compute().defense.buffDefIgnore, 20, "Sequence 6 should ignore 20% DEF for Hsin's Resonance Skill");
+  expectEqual(__T.compute().effect.buffDefIgnore, 0, "Resonance Skill-only DEF ignore must not leak into Electro Flare damage");
+  expectEqual(__T.compute().effect.fixedCritRate, null, "Sequence 6 fixed effect Crit should require the confirmed nearby combat target");
+  choose(slot, "nearby_targets", "targets_in_combat_range");
+  __T.setBuffToggle(slot, 0, "k6_electro_fixed_crit", true);
+  expectEqual(__T.compute().effect.fixedCritRate, 80, "Sequence 6 Electro Flare fixed Crit Rate");
+  expectEqual(__T.compute().effect.fixedCritDamage, 230, "Sequence 6 Electro Flare fixed Crit DMG");
+  slot.skill = "illumining_na1";
+  expectEqual(__T.compute().rawTotals.vulnerability, 0, "Sequence 6 Resonance Skill vulnerability must not affect ordinary Basics");
+  expectEqual(__T.compute().defense.buffDefIgnore, 0, "Sequence 6 Resonance Skill DEF ignore must not affect ordinary Basics");
+
+  slot = setup();
+  choose(slot, "resonance_mode", "electro_flare");
+  choose(slot, "combat_form", "illumining_form");
+  choose(slot, "mechanism_dominion", "mechanism_dominion_active");
+  slot.skill = "pillars_na1";
+  slot.resources.electro_flare_charges = 0;
+  __T.state.effectCalc = { key: "electro", providerIdx: 0, stacks: 3, stackMode: "auto", electroRageStacks: 0, deepen: 0 };
+  expectEqual(__T.compute().effect.actionStacks, null, "Pillars Basic must not infer a Flare application after all five available triggers are consumed");
+  slot.resources.electro_flare_charges = 1;
+  expectEqual(__T.compute().effect.actionStacks, 1, "Pillars Basic should infer one Flare application while a trigger remains");
+  slot.skill = "forte_skill";
+  slot.resources.illumining_heart = 300;
+  expectEqual(__T.compute().effect.actionStacks, 5, "Pillars Aligned should apply five Electro Flare stacks");
+  choose(slot, "heart_manifest", "heart_manifest_active");
+  choose(slot, "fleeting_thunder", "fleeting_thunder_active");
+  slot.resources.thunderglow = 9;
+  slot.skill = "pillars_na1";
+  expectEqual(__T.compute().effect.actionStacks, 1, "Below ten Thunderglow, Fleeting Thunder must not fill the target to its cap");
+  slot.resources.thunderglow = 10;
+  result = __T.compute();
+  expectEqual(result.effect.actionStacks, Math.min(16, result.effect.cap), "At ten Thunderglow with the full target state, Fleeting Thunder should fill to the current cap, at most sixteen");
+  slot.seq = 4;
+  assert(!__T.buffStatus(slot, 0, buff(slot, "k4_all_attribute_bonus")).applies, "Current Electro application must not activate Sequence 4's later team window");
+  __T.setBuffToggle(slot, 0, "k4_all_attribute_bonus", true);
+  assert(__T.buffStatus(slot, 0, buff(slot, "k4_all_attribute_bonus")).applies, "Sequence 4's already active thirty-second window should be confirmable");
+
+  slot = setup();
+  choose(slot, "resonance_mode", "electro_flare");
+  __T.setBuffToggle(slot, 0, "b_rover_electro_bonus", true);
+  assert(!__T.buffStatus(slot, 0, buff(slot, "b_rover_electro_bonus")).applies, "Rover Intro bonus should require Rover: Electro in the actual team");
+  slot = setup(["hsin", "rover_electro", "jinhsi"]);
+  choose(slot, "resonance_mode", "electro_flare");
+  __T.setBuffToggle(slot, 0, "b_rover_electro_bonus", true);
+  assert(__T.buffStatus(slot, 0, buff(slot, "b_rover_electro_bonus")).applies, "With Rover: Electro in the team, the confirmed Intro bonus should affect Hsin");
+  __T.state.outputIdx = 1;
+  assert(__T.buffStatus(slot, 0, buff(slot, "b_rover_electro_bonus")).applies, "The same bonus should affect Rover: Electro");
+  __T.state.outputIdx = 2;
+  assert(!__T.buffStatus(slot, 0, buff(slot, "b_rover_electro_bonus")).applies, "The Rover-linked bonus must exclude unrelated teammates");
+}
+
+function v37SharedUnisonAndEquipmentRegressions() {
+  const near = (actual, expected, label) => assert(Math.abs(actual - expected) < 1e-9, label + ": " + actual + " != " + expected);
+  const clearEquipment = () => {
+    __T.state.slots.forEach((slot) => {
+      slot.weapon = null;
+      slot.echo.primary = null;
+      slot.echo.lead = null;
+      slot.echo.fields = {};
+    });
+    disableDefaultConfirmedBuffs();
+  };
+  const boonControl = (slot) => __T.resourceControlsForSlot(slot).find((item) => item.id === "unison_boon");
+
+  resetTeam(["hsin", "suoming"]);
+  clearEquipment();
+  let [hsin, suoming] = __T.state.slots;
+  expectEqual(boonControl(hsin).max, 3, "Zero-chain Hsin and Suoming shared stack cap");
+  __T.setCharacterResourceValue(hsin, "unison_boon", 3);
+  expectEqual(suoming.resources.unison_boon, 3, "Editing the output's boon should synchronize the other eligible receiver");
+  expectEqual(__T.compute().rawTotals.finalDmg, 9, "Shared three-layer base benefit should be applied once");
+  __T.state.outputIdx = 1;
+  expectEqual(__T.compute().rawTotals.finalDmg, 9, "Switching output should retain the same three-layer benefit");
+  hsin.seq = 6;
+  expectEqual(boonControl(suoming).max, 4, "Hsin chain 6 should raise both receivers' stack cap");
+  __T.setCharacterResourceValue(suoming, "unison_boon", 99);
+  expectEqual(hsin.resources.unison_boon, 4, "Shared input should clamp to four");
+  __T.setBuffToggle(suoming, 1, "b_seal_master_cd", true);
+  expectEqual(suoming.resources.unison_boon, 0, "Seal Master should persistently clear its own boon");
+  __T.state.outputIdx = 0;
+  expectEqual(__T.compute().rawTotals.finalDmg, 12, "Clearing Suoming's own boon must preserve Hsin's four received layers");
+  __T.setBuffToggle(suoming, 1, "b_seal_master_cd", false);
+  expectEqual(suoming.resources.unison_boon, 0, "Leaving Seal Master must not resurrect the cleared layers");
+  __T.setCharacterResourceValue(hsin, "unison_boon", 2);
+  expectEqual(suoming.resources.unison_boon, 2, "A newly entered shared state can grant fresh layers after Seal Master");
+  hsin.toggles[__T.stateChoiceKey("resonance_mode")] = "electro_flare";
+  assert(!boonControl(hsin), "Electro Flare mode should hide inapplicable Unison input");
+  expectEqual(boonControl(suoming).max, 1, "Suoming alone should contribute only one reachable layer");
+  __T.setCharacterResourceValue(suoming, "unison_boon", 4);
+  expectEqual(hsin.resources.unison_boon, 0, "The shared input must not give boon to an ineligible mode");
+  expectEqual(suoming.resources.unison_boon, 1, "The one-contribution cap must clamp the remaining receiver");
+
+  resetTeam(["hsin", "hsin"]);
+  clearEquipment();
+  __T.state.slots[0].seq = 6;
+  expectEqual(boonControl(__T.state.slots[0]).max, 3, "Duplicate Hsin slots must not duplicate non-stacking contribution or cap bonuses");
+
+  resetTeam(["hsin"]);
+  clearEquipment();
+  hsin = __T.state.slots[0];
+  hsin.weapon = "blooming_jadehaven";
+  hsin.resources.source_intent = 1;
+  hsin.skill = "intro_answering_unison";
+  __T.state.enemy.targetResistanceOverrides.electro = 60;
+  expectEqual(__T.compute().rawTotals.resIgnore, 0, "Current Unison response must not automatically activate the later weapon window");
+  __T.setBuffToggle(hsin, 0, "w_e2", true);
+  near(__T.compute().resFactor, 0.5, "Rank-one skill-only 10% Electro RES ignore");
+  hsin.rank = 5;
+  near(__T.compute().resFactor, 0.64, "Rank-five skill-only 24% Electro RES ignore");
+  __T.state.enemy.resShred = 15;
+  near(__T.compute().resFactor, 0.79, "Skill-only resistance ignore should combine with target resistance reduction");
+  hsin.skill = "answering_na1";
+  expectEqual(__T.compute().rawTotals.resIgnore, 0, "Ordinary Basic damage must exclude skill-only resistance ignore");
+  near(__T.compute().resFactor, 0.55, "Ordinary Basic damage should retain only the existing reduction");
+  hsin.toggles[__T.stateChoiceKey("resonance_mode")] = "electro_flare";
+  hsin.skill = "skill";
+  __T.state.effectCalc = { key: "electro", providerIdx: 0, stacks: 3, stackMode: "manual", electroRageStacks: 0, deepen: 0 };
+  __T.setBuffToggle(hsin, 0, "w_e3", true);
+  near(__T.compute().effect.buffDeepen, 60, "Active wielder rank-five weapon Electro Flare amplification");
+  expectEqual(__T.compute().effect.buffResShred, 0, "Skill-only resistance ignore must not become a target debuff for Electro Flare");
+
+  resetTeam(["hsin", "suoming"]);
+  clearEquipment();
+  [hsin, suoming] = __T.state.slots;
+  hsin.weapon = "unspoken_rue";
+  suoming.weapon = "unspoken_rue";
+  suoming.rank = 5;
+  __T.setBuffToggle(hsin, 0, "w_e2", true);
+  __T.setBuffToggle(suoming, 1, "w_e2", true);
+  expectEqual(__T.compute().rawTotals.damageBonus, 48, "Binding Mind should keep the strongest provider and never stack");
+  __T.setBuffToggle(hsin, 0, "w_e3", true);
+  assert(hsin.toggles.w_e2 === false && hsin.toggles.w_e3 === true, "Yearning Mind should remove its wielder's team Binding Mind");
+  expectEqual(__T.compute().rawTotals.damageBonus, 88, "Another provider's Binding Mind can coexist with self Yearning Mind");
+
+  resetTeam(["hsin", "suoming"]);
+  clearEquipment();
+  [hsin, suoming] = __T.state.slots;
+  suoming.echo.primary = 360237;
+  __T.setBuffToggle(suoming, 1, "son_360237_electric_reflection_outro", true);
+  expectEqual(__T.compute().rawTotals.damageBonus, 0, "Flash of Electric Reflection Outro must require its earlier Flare window");
+  __T.setBuffToggle(suoming, 1, "son_360237_electric_reflection_window", true);
+  expectEqual(__T.compute().rawTotals.damageBonus, 25, "Confirmed Flare window should allow the outgoing 25% buff while its owner is off field");
+  suoming.echo.primary = 360238;
+  __T.setBuffToggle(suoming, 1, "son_360238_tinged_yearning_unison", true);
+  expectEqual(__T.compute().rawTotals.attackPercent, 0, "Flower's extra 15% must require the team healing buff");
+  __T.setBuffToggle(suoming, 1, "son_360238_tinged_yearning_heal", true);
+  expectEqual(__T.compute().rawTotals.attackPercent, 25, "Eligible recipient should receive the healing 10% and confirmed extra 15%");
+  hsin.toggles[__T.stateChoiceKey("resonance_mode")] = "electro_flare";
+  expectEqual(__T.compute().rawTotals.attackPercent, 10, "Ineligible recipient should receive only the base team healing buff");
+}
+
+function hsinOffFieldElectroFlareRegressions() {
+  resetTeam(["hsin", "rover_electro"]);
+  const hsin = __T.state.slots[0];
+  hsin.toggles[__T.stateChoiceKey("resonance_mode")] = "electro_flare";
+  __T.state.effectCalc = { key: "electro", providerIdx: 0, stacks: 3, stackMode: "manual", electroRageStacks: 0, deepen: 0 };
+
+  for (const id of ["skill", "illumining_skill", "forte_skill"]) {
+    hsin.skill = id;
+    hsin.toggles[__T.stateChoiceKey("combat_form")] = id === "skill" ? "answering_form" : "illumining_form";
+    hsin.resources.illumining_heart = 300;
+    for (const [seq, heart, ratio] of [[0, 0, 0], [0, 50, 17.5], [0, 100, 35], [1, 100, 42]]) {
+      hsin.seq = seq;
+      hsin.resources.heart_of_thunder = heart;
+      __T.state.outputIdx = 0;
+      const direct = __T.compute().effect;
+      assert(Math.abs(direct.rate / direct.baseRate - ratio) < 1e-9, id + " should retain its active Heart of Thunder trigger at sequence " + seq);
+      __T.state.outputIdx = 1;
+      const offField = __T.compute().effect;
+      expectEqual(offField.providerIdx, 0, "Switching output should preserve Hsin as the effect provider");
+      expectEqual(offField.rate, offField.baseRate, "Off-field " + id + " must preserve the ordinary Electro Flare rate at " + heart + " Heart of Thunder");
+    }
+  }
+
+  hsin.seq = 3;
+  hsin.skill = "lib";
+  hsin.toggles[__T.resourceKey("pillars_across_heaven")] = true;
+  __T.state.outputIdx = 0;
+  const direct = __T.compute().effect;
+  assert(Math.abs(direct.rate / direct.baseRate - 15) < 1e-9, "Active Sequence 3 Liberation should retain its fifteenfold Electro Flare trigger");
+  __T.state.outputIdx = 1;
+  const offField = __T.compute().effect;
+  expectEqual(offField.rate, offField.baseRate, "Off-field Liberation selection must not trigger the Sequence 3 Electro Flare multiplier");
+}
+
+function suomingUnisonStateTransitionRegressions() {
+  resetTeam(["suoming", "hsin"]);
+  const [suoming, hsin] = __T.state.slots;
+  const seal = buff(suoming, "b_seal_master_cd");
+  suoming.toggles[__T.stateChoiceKey("mind_phase")] = "deep_mind";
+  suoming.skill = "unfurled_na1";
+  __T.setBuffToggle(suoming, 0, seal.id, true);
+  suoming.skill = "lib";
+  __T.render();
+  assert(!__T.buffStatus(suoming, 0, seal).applies, "An available Liberation should clear Seal Master for its current damage");
+
+  for (const phase of ["awakened_mind", "calamity_mind"]) {
+    suoming.toggles[__T.stateChoiceKey("mind_phase")] = phase;
+    __T.render();
+    assert(__T.resolvedSkill(suoming).id !== "lib", phase + " should replace the incompatible Liberation selection");
+    __T.setCharacterResourceValue(hsin, "unison_boon", 3);
+    __T.render();
+    const result = __T.compute();
+    expectEqual(result.rawTotals.critDamage, 100, "Seal Master should remain active when Liberation is unavailable in " + phase);
+    expectEqual(result.rawTotals.finalDmg, 0, "The stale Liberation selection must not allow Unison Boon alongside Seal Master in " + phase);
+    expectEqual(suoming.resources.unison_boon, 0, "Shared input must not grant stacks to Suoming while Seal Master remains active");
+    expectEqual(hsin.resources.unison_boon, 3, "The ineligible receiver must not clear Hsin's own shared stacks");
+    assert(!__T.resourceControlsForSlot(suoming).some((control) => control.id === "unison_boon"), "Seal Master should hide Suoming's inapplicable boon control");
+  }
+
+  suoming.toggles[__T.stateChoiceKey("mind_phase")] = "deep_mind";
+  __T.setCharacterResourceValue(hsin, "unison_boon", 3);
+  const result = __T.compute();
+  expectEqual(result.sk.id, "lib", "Returning to Deep Mind should restore the selected Liberation");
+  expectEqual(result.rawTotals.critDamage, 0, "The valid Liberation should end Seal Master's Crit DMG bonus");
+  expectEqual(result.rawTotals.finalDmg, 9, "The valid Liberation should allow newly received Unison Boon");
+}
+
 const checks = [
   ["index loads every character file", indexLoadsAllCharacterFiles],
   ["index loads every beta file", indexLoadsAllBetaFiles],
@@ -6015,6 +6762,14 @@ const checks = [
   ["resonance chain action coverage regressions", resonanceChainActionCoverageRegressions],
   ["per-stack localization values", perStackLocalizationValuesMatch],
   ["icon assets use sonata sets", iconAssetsUseSonataSets],
+  ["3.7 target API fixtures", targetV37FixtureRegressions],
+  ["3.7 target snapshots", targetV37SnapshotRegressions],
+  ["3.7 gameplay", gameplayV37Regressions],
+  ["3.7 Suoming", v37SuomingRegressions],
+  ["3.7 Hsin", hsinCharacterEntryRegressions],
+  ["3.7 shared Unison and equipment", v37SharedUnisonAndEquipmentRegressions],
+  ["3.7 Hsin off-field Electro Flare", hsinOffFieldElectroFlareRegressions],
+  ["3.7 Suoming Unison state transitions", suomingUnisonStateTransitionRegressions],
 ];
 
 for (const [name, fn] of checks) {
