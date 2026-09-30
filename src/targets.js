@@ -228,6 +228,12 @@ window.WUWA_TARGETS = (() => {
     const selected = target(enemy.targetId);
     const group = gameplayData(selected).choiceGroups.find((item) => item.id === groupId);
     if (!group || (value && !group.optionIds.includes(value))) return;
+    const previous = choiceValue(enemy, group);
+    if (previous !== (value || "")) {
+      Object.values(DATA.gameplayBuffs || {}).filter((buff) => buff.parentId === previous).forEach((buff) => {
+        delete enemy.targetBuffValues[buff.id];
+      });
+    }
     enemy.targetBuffChoices[groupId] = value || "";
   }
 
@@ -261,7 +267,10 @@ window.WUWA_TARGETS = (() => {
 
   function buffActive(enemy, item, buff) {
     if (!buff) return false;
-    if (buff.parentId) return optionActive(enemy, item, buff.parentId) && controlValue(enemy, buff) === true;
+    if (buff.parentId) {
+      if (!optionActive(enemy, item, buff.parentId)) return false;
+      return buff.control === "range" ? controlValue(enemy, buff) !== 0 : controlValue(enemy, buff) === true;
+    }
     if (buff.control === "fixed") return gameplayData(item).fixedIds.includes(buff.id);
     if (buff.control === "option") return optionActive(enemy, item, buff.id);
     if (buff.control === "toggle") return gameplayData(item).controlIds.includes(buff.id) && controlValue(enemy, buff) === true;

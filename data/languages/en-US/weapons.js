@@ -116,7 +116,7 @@ window.WUWA_LANGUAGES.extend("en-US", {
         "effects": [
           {
             "label": "ATK",
-            "excerpt": "ATK +12%",
+      "excerpt": "ATK +12%/15%/18%/21%/24%",
             "conditionText": "When the Resonator's HP is above 80%/80%/80%/80%/80%, increases ATK by 12%/15%/18%/21%/24%. When the Resonator's HP is below 40%/50%/60%/70%/80%, gives 5%/6.25%/7.5%/8.75%/10% healing when dealing Basic Attack DMG or Heavy Attack DMG. This effect can be triggered 1/1/1/1/1 time(s) every 8/8/8/8/8s."
           }
         ]
@@ -1598,6 +1598,77 @@ window.WUWA_LANGUAGES.extend("en-US", {
             "label": "Heavy Attack DEF Ignore",
             "excerpt": "On Heavy Attack, each Cradle of Life stack consumed ignores 15% DEF",
             "conditionText": "Cradle of Life gains the same stacks as Nature's Order. Casting Heavy Attack consumes up to 2 stacks. Each stack consumed makes Heavy Attack DMG ignore 15%/17.5%/20%/22.5%/25% DEF, up to 30%/35%/40%/45%/50%, for 2s."
+          }
+        ]
+      }
+    }
+  }
+});
+
+window.WUWA_LANGUAGES.extend("en-US", {
+  "data": {
+    "weapons": {
+      "unspoken_rue": {
+        "name": "Unspoken Rue",
+        "typeName": "Sword",
+        "resonanceName": "Locked Thunder, Trapped Rain",
+        "description": "ATK is increased by 12%/15%/18%/21%/24%. Upon gaining Unison, the wielder gains 30%/37.5%/45%/52.5%/60% Electro DMG Bonus for 30/30/30/30/30s.\nUpon gaining Unison, the wielder removes Yearning Mind and grants all Resonators in the team the Binding Mind effect: gain 24%/30%/36%/42%/48% Electro DMG Bonus for 30/30/30/30/30s. Effects of the same name cannot stack.\nWhen the wielder consumes Concerto Energy, they remove Binding Mind from all Resonators in the team and gain the Yearning Mind effect: the wielder additionally gains 40%/50%/60%/70%/80% Electro DMG Bonus for 14/14/14/14/14s. Switching to another Resonator ends this effect early.",
+        "effects": [
+          {
+            "label": "ATK",
+            "trigger": "Default",
+            "excerpt": "ATK +12%",
+            "conditionText": "ATK is increased by 12%/15%/18%/21%/24%."
+          },
+          {
+            "label": "Electro DMG Bonus",
+            "trigger": "After gaining Unison",
+            "excerpt": "Electro DMG Bonus +30%/37.5%/45%/52.5%/60%",
+            "conditionText": "ATK is increased by 12%/15%/18%/21%/24%. Upon gaining Unison, the wielder gains 30%/37.5%/45%/52.5%/60% Electro DMG Bonus for 30/30/30/30/30s.\nUpon gaining Unison, the wielder removes Yearning Mind and grants all Resonators in the team the Binding Mind effect: gain 24%/30%/36%/42%/48% Electro DMG Bonus for 30/30/30/30/30s. Effects of the same name cannot stack.\nWhen the wielder consumes Concerto Energy, they remove Binding Mind from all Resonators in the team and gain the Yearning Mind effect: the wielder additionally gains 40%/50%/60%/70%/80% Electro DMG Bonus for 14/14/14/14/14s. Switching to another Resonator ends this effect early."
+          },
+          {
+            "label": "Binding Mind",
+            "trigger": "After gaining Unison",
+            "excerpt": "Binding Mind +24%/30%/36%/42%/48%",
+            "conditionText": "ATK is increased by 12%/15%/18%/21%/24%. Upon gaining Unison, the wielder gains 30%/37.5%/45%/52.5%/60% Electro DMG Bonus for 30/30/30/30/30s.\nUpon gaining Unison, the wielder removes Yearning Mind and grants all Resonators in the team the Binding Mind effect: gain 24%/30%/36%/42%/48% Electro DMG Bonus for 30/30/30/30/30s. Effects of the same name cannot stack.\nWhen the wielder consumes Concerto Energy, they remove Binding Mind from all Resonators in the team and gain the Yearning Mind effect: the wielder additionally gains 40%/50%/60%/70%/80% Electro DMG Bonus for 14/14/14/14/14s. Switching to another Resonator ends this effect early."
+          },
+          {
+            "label": "Yearning Mind",
+            "trigger": "After consuming Concerto Energy",
+            "excerpt": "Yearning Mind +40%/50%/60%/70%/80%",
+            "conditionText": "ATK is increased by 12%/15%/18%/21%/24%. Upon gaining Unison, the wielder gains 30%/37.5%/45%/52.5%/60% Electro DMG Bonus for 30/30/30/30/30s.\nUpon gaining Unison, the wielder removes Yearning Mind and grants all Resonators in the team the Binding Mind effect: gain 24%/30%/36%/42%/48% Electro DMG Bonus for 30/30/30/30/30s. Effects of the same name cannot stack.\nWhen the wielder consumes Concerto Energy, they remove Binding Mind from all Resonators in the team and gain the Yearning Mind effect: the wielder additionally gains 40%/50%/60%/70%/80% Electro DMG Bonus for 14/14/14/14/14s. Switching to another Resonator ends this effect early."
+          }
+        ]
+      },
+      "blooming_jadehaven": {
+        "name": "Blooming Jadehaven",
+        "typeName": "Rectifier",
+        "resonanceName": "Hundredfold Artifice",
+        "description": "Grants 12%/15%/18%/21%/24% All-Attribute DMG Bonus. After the wielder inflicts Electro Flare or triggers Unison Response, Resonance Skill DMG is Amplified by 36%/45%/54%/63%/72% and ignores 10%/13.5%/17%/20.5%/24% of the target's Electro RES. While the wielder is the active Resonator, Electro Flare DMG taken by targets within a certain range is Amplified by 30%/37.5%/45%/52.5%/60% for 30/30/30/30/30s, triggered 1/1/1/1/1 {Cus:Sap,S=time P=times SapTag=6} every 0.1/0.1/0.1/0.1/0.1s. Only the strongest effect of the same name applies.",
+        "effects": [
+          {
+            "label": "All-Attribute DMG Bonus",
+            "trigger": "Default",
+            "excerpt": "All-Attribute DMG Bonus +12%/15%/18%/21%/24%",
+            "conditionText": "Grants 12%/15%/18%/21%/24% All-Attribute DMG Bonus."
+          },
+          {
+            "label": "Resonance Skill DMG Amplification",
+            "trigger": "After inflicting Electro Flare or triggering Unison Response",
+            "excerpt": "Resonance Skill DMG Amplification +36%/45%/54%/63%/72%",
+            "conditionText": "Grants 12%/15%/18%/21%/24% All-Attribute DMG Bonus. After the wielder inflicts Electro Flare or triggers Unison Response, Resonance Skill DMG is Amplified by 36%/45%/54%/63%/72% and ignores 10%/13.5%/17%/20.5%/24% of the target's Electro RES. While the wielder is the active Resonator, Electro Flare DMG taken by targets within a certain range is Amplified by 30%/37.5%/45%/52.5%/60% for 30/30/30/30/30s, triggered 1/1/1/1/1 time every 0.1/0.1/0.1/0.1/0.1s. Only the strongest effect of the same name applies."
+          },
+          {
+            "label": "Resonance Skill Electro RES Ignore",
+            "trigger": "After inflicting Electro Flare or triggering Unison Response",
+            "excerpt": "Resonance Skill Electro RES Ignore +10%/13.5%/17%/20.5%/24%",
+            "conditionText": "Grants 12%/15%/18%/21%/24% All-Attribute DMG Bonus. After the wielder inflicts Electro Flare or triggers Unison Response, Resonance Skill DMG is Amplified by 36%/45%/54%/63%/72% and ignores 10%/13.5%/17%/20.5%/24% of the target's Electro RES. While the wielder is the active Resonator, Electro Flare DMG taken by targets within a certain range is Amplified by 30%/37.5%/45%/52.5%/60% for 30/30/30/30/30s, triggered 1/1/1/1/1 time every 0.1/0.1/0.1/0.1/0.1s. Only the strongest effect of the same name applies."
+          },
+          {
+            "label": "Electro Flare DMG Amplification",
+            "trigger": "After inflicting Electro Flare or triggering Unison Response",
+            "excerpt": "Electro Flare DMG Amplification +30%/37.5%/45%/52.5%/60%",
+            "conditionText": "Grants 12%/15%/18%/21%/24% All-Attribute DMG Bonus. After the wielder inflicts Electro Flare or triggers Unison Response, Resonance Skill DMG is Amplified by 36%/45%/54%/63%/72% and ignores 10%/13.5%/17%/20.5%/24% of the target's Electro RES. While the wielder is the active Resonator, Electro Flare DMG taken by targets within a certain range is Amplified by 30%/37.5%/45%/52.5%/60% for 30/30/30/30/30s, triggered 1/1/1/1/1 time every 0.1/0.1/0.1/0.1/0.1s. Only the strongest effect of the same name applies."
           }
         ]
       }

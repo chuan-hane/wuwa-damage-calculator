@@ -81,7 +81,7 @@ const state = {
 TARGETS.ensureSelection(state.enemy);
 
 const {
-  slotBuffs, availableSkills, selectedSkill, resourceKey, resourceControlsForSlot, resolvedSkill, skillLayersForSlot,
+  slotBuffs, availableSkills, selectedSkill, resourceKey, resourceControlsForSlot, setCharacterResourceValue, resolvedSkill, skillLayersForSlot,
   stateKey, stateChoiceKey, stateControlsHTML,
   buffStackCount, buffStatus, setBuffToggle, scaleByInfo, buffValue, compute,
 } = window.WUWA_SETTLEMENT.create({
@@ -662,8 +662,7 @@ const ACTIONS = {
   "char-resource": (el, idx) => {
     const update = () => {
       const slot = state.slots[idx];
-      slot.resources = slot.resources || {};
-      slot.resources[el.dataset.key] = clampNumberInput(el);
+      setCharacterResourceValue(slot, el.dataset.key, clampNumberInput(el));
       repaint();
     };
     el.oninput = update;

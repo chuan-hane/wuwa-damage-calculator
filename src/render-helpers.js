@@ -95,6 +95,7 @@ window.WUWA_RENDER_HELPERS = (() => {
   }
 
   function durationText(buff) {
+    if (buff.duration === 0) return buff.skills ? L.text("当前技能有效") : L.text("一直有效");
     const d = num(buff.duration);
     const max = num(buff.durationAtMaxStacks);
     if (d > 0 && max > 0) {

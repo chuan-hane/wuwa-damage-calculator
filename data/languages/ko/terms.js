@@ -1,6 +1,15 @@
 "use strict";
 
 window.WUWA_LANGUAGES.extend("ko", {
+  text: {
+    "抗性无视": "내성 무시",
+    "需可响应同奏": "동조 응답이 가능한 캐릭터 필요",
+    "需装备者登场": "장착 캐릭터가 출전해야 함",
+    "需指定队友": "지정 팀원 필요"
+  }
+});
+
+window.WUWA_LANGUAGES.extend("ko", {
   "elements": {
     "fusion": "용융",
     "glacio": "응결",
@@ -137,7 +146,8 @@ window.WUWA_LANGUAGES.extend("ko", {
     "vulnerability": "취약",
     "skillMultBonus": "피해 배율 증가",
     "finalDmg": "최종 피해 보너스",
-    "resShred": "내성 감소",
+   "resShred": "내성 감소",
+    resIgnore: "내성 무시",
     "defShred": "방어 감소",
     "defIgnore": "방어 무시",
     "energyRegen": "공명 효율",
@@ -159,7 +169,8 @@ window.WUWA_LANGUAGES.extend("ko", {
     "最终伤害提升": "최종 피해 보너스",
     "减抗": "내성 감소",
     "减防": "방어 감소",
-    "防御无视": "방어 무시"
+    "防御无视": "방어 무시",
+    "抗性无视": "내성 무시"
   },
   "providers": {
     "技能树": "스킬 트리",

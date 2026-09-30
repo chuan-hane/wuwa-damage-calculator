@@ -300,6 +300,10 @@ window.WUWA_STAGE_VIEW = (() => {
 
     function skillResourceLabel(slot, sk) {
       if (!sk) return "";
+      if (sk.requiresResourceBelow) {
+        const req = sk.requiresResourceBelow;
+        return sk.requiresResourceLabel || `${resourceNameForSkill(slot, req.id)} < ${tnum(req.value)}`;
+      }
       if (sk.requiresResource) return L.text(sk.requiresResourceLabel || sk.resourceLabel || resourceNameForSkill(slot, sk.requiresResource));
       if (sk.requiresResourceSumAtLeast) {
         const req = sk.requiresResourceSumAtLeast;
@@ -312,7 +316,7 @@ window.WUWA_STAGE_VIEW = (() => {
         const main = req.fractionOfCap != null
           ? L.atLeastCapText(L.text(label), tnum(num(req.fractionOfCap) * 100))
           : L.atLeastText(L.text(label), tnum(req.value));
-        const alternates = asList(req.alternateStates);
+        const alternates = [...asList(req.alternateStates), ...asList(req.alternateEvents).map((event) => asList(ch(slot.char)?.skillEvents).find((rule) => rule.event === event)?.requiresResourceLabel || event)];
         return alternates.length ? `${main}${L.orText()}${alternates.map((item) => L.text(item)).join("/")}` : main;
       }
       if (sk.requiresResourceFull) {
@@ -689,7 +693,7 @@ window.WUWA_STAGE_VIEW = (() => {
       const statDisplay = isHarmonyResponse ? r.harmonyBase : r.panel.stat === "hp" ? r.panel.displayHp : r.panel.stat === "defense" ? r.panel.displayDef : r.panel.displayAtk;
       const statLabel = isHarmonyResponse ? L.text("谐度基础值") : L.stat(r.panel.stat);
       const totalResShred = num(state.enemy.resShred) + num(r?.totals?.resShred);
-      const resSub = `${L.text("抗")}${tnum(target.resistance)}% + ${L.text("减抗")}${tnum(totalResShred)}%`;
+      const resSub = `${L.text("抗")}${tnum(target.resistance)}% + ${L.text("减抗")}${tnum(totalResShred)}%` + (r?.totals?.resIgnore ? ` + ${L.text("抗性无视")}${tnum(r.totals.resIgnore)}%` : "");
       const damageMode = activeDamageMode();
       const responseCanCrit = isHarmonyResponse && r.totals?.fixedCritRate != null;
       const critMul = isHarmonyResponse && !responseCanCrit ? 1 : damageMode === "expected" ? 1 + r.cr * (r.cd - 1) : damageMode === "crit" ? r.cd : 1;
@@ -766,6 +770,7 @@ window.WUWA_STAGE_VIEW = (() => {
         targetPercentSource("抗性", target.resistance, false),
         targetPercentSource("减抗", state.enemy.resShred, true),
         sourceParts(activeSources, "resShred"),
+        sourceParts(activeSources, "resIgnore"),
       ]);
       const finalSources = [
         targetPercentSource("最终伤害提升", state.enemy.finalDmg, true),

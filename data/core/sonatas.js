@@ -1983,5 +1983,182 @@ window.WUWA_SONATAS = [
         }
       ]
     }
+  },
+  {
+    "id": 360236,
+    "fetterGroupId": 36,
+    "element": "electro",
+    "icon": "assets/icons/sonatas/heart_of_sworn_vigil.webp",
+    "p2": {
+      "id": "sworn_vigil_electro",
+      "zone": "damageBonus",
+      "element": "electro",
+      "value": 10,
+      "scope": "self"
+    },
+    "p5": [
+      {
+        "id": "sworn_vigil_crit",
+        "zone": "critRate",
+        "value": 15,
+        "scope": "self",
+        "duration": 30,
+        "defaultActive": false
+      },
+      {
+        "id": "sworn_vigil_extra_electro",
+        "zone": "damageBonus",
+        "element": "electro",
+        "value": 22.5,
+        "scope": "self",
+        "duration": 30,
+        "defaultActive": false
+      }
+    ],
+    "lead": {
+      "id": "reminiscence_suhsin_the_inevitable",
+      "cost": 4,
+      "buffs": [
+        {
+          "id": "se_reminiscence_electro",
+          "zone": "damageBonus",
+          "element": "electro",
+          "value": 10,
+          "scope": "self",
+          "duration": 0
+        },
+        {
+          "id": "se_reminiscence_extra_electro",
+          "zone": "damageBonus",
+          "element": "electro",
+          "value": 10,
+          "scope": "self",
+          "duration": 30,
+          "defaultActive": false
+        }
+      ]
+    }
+  },
+  {
+    "id": 360237,
+    "fetterGroupId": 37,
+    "element": "electro",
+    "icon": "assets/icons/sonatas/flash_of_electric_reflection.webp",
+    "p2": {
+      "id": "electric_reflection_electro",
+      "zone": "damageBonus",
+      "element": "electro",
+      "value": 10,
+      "scope": "self"
+    },
+    "p5": [
+      {
+        "id": "electric_reflection_window",
+        "zone": "damageBonus",
+        "element": "electro",
+        "value": 10,
+        "scope": "self",
+        "duration": 15,
+        "defaultActive": false,
+        "maxStacks": 1,
+        "defaultStacks": 1
+      },
+      {
+        "id": "electric_reflection_outro",
+        "zone": "damageBonus",
+        "element": "electro",
+        "value": 25,
+        "scope": "team",
+        "duration": 15,
+        "defaultActive": false,
+        "triggerOutro": true,
+        "requiresBuffStacks": {
+          "id": "electric_reflection_window",
+          "stacks": 1,
+          "allowOffField": true
+        }
+      }
+    ],
+    "lead": {
+      "id": "reminiscence_suhsin_the_inevitable",
+      "cost": 4,
+      "buffs": [
+        {
+          "id": "se_reminiscence_electro",
+          "zone": "damageBonus",
+          "element": "electro",
+          "value": 10,
+          "scope": "self",
+          "duration": 0
+        },
+        {
+          "id": "se_reminiscence_extra_electro",
+          "zone": "damageBonus",
+          "element": "electro",
+          "value": 10,
+          "scope": "self",
+          "duration": 30,
+          "defaultActive": false
+        }
+      ]
+    }
+  },
+  {
+    "id": 360238,
+    "fetterGroupId": 38,
+    "icon": "assets/icons/sonatas/flower_of_tinged_yearning.webp",
+    "p2": {
+      "id": "tinged_yearning_healing",
+      "zone": "healingBonus",
+      "value": 10,
+      "scope": "self"
+    },
+    "p5": [
+      {
+        "id": "tinged_yearning_heal",
+        "zone": "attackPercent",
+        "value": 10,
+        "scope": "team",
+        "duration": 30,
+        "defaultActive": false,
+        "maxStacks": 1,
+        "defaultStacks": 1,
+        "nonStackingKey": "flower_of_tinged_yearning_heal"
+      },
+      {
+        "id": "tinged_yearning_unison",
+        "zone": "attackPercent",
+        "value": 15,
+        "scope": "team",
+        "duration": 30,
+        "defaultActive": false,
+        "requiresUnison": true,
+        "requiresBuffStacks": {
+          "id": "tinged_yearning_heal",
+          "stacks": 1
+        },
+        "nonStackingKey": "flower_of_tinged_yearning_unison"
+      }
+    ],
+    "lead": {
+      "id": "thousand_puppet_pavilion",
+      "cost": 4,
+      "buffs": [
+        {
+          "id": "se_thousand_puppet_havoc",
+          "zone": "damageBonus",
+          "element": "havoc",
+          "value": 12,
+          "scope": "self"
+        },
+        {
+          "id": "se_thousand_puppet_heavy",
+          "zone": "typeBonus",
+          "damageType": "heavy",
+          "value": 12,
+          "scope": "self"
+        }
+      ]
+    }
   }
 ];
