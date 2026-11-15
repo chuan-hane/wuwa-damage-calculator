@@ -1472,7 +1472,13 @@ function topbarSticksToViewportTop() {
   assert(/\.stage-github-link\s*\{[^}]*height:\s*42px;/s.test(css) && /\.stage-language\s*\{[^}]*height:\s*42px;/s.test(css), "topbar actions and fixed output slots should share the same height");
   assert(/\.topbar-output-slot\s*\{[^}]*overflow:\s*visible;/s.test(css) && css.includes(".topbar-output-set-icons .echo-set-chip::after {\n  width: max-content;\n  max-width: none;\n  white-space: nowrap;\n  overflow-wrap: normal;"), "fixed Sonata icons should show their complete hover names on one horizontal line");
   assert(appSrc.includes('window.addEventListener("scroll", queueDamageDockSync') && appSrc.includes('getElementById("damage-dock-sentinel")') && appSrc.includes("source.getBoundingClientRect().top > topbarBaseBottom") && !appSrc.includes('getElementById("damage-result-source")'), "damage dock should appear when the damage summary crosses the fixed topbar");
-  assert(appSrc.includes('"dock-output": (el, idx)') && appSrc.includes("state.outputIdx = idx; render();"), "fixed output slots should switch the calculated character");
+  resetTeam(["jinhsi", "zhezhi"]);
+  const nextSkill = __T.resolvedSkill(__T.state.slots[1]);
+  const button = {};
+  __T.ACTIONS["dock-output"](button, 1);
+  button.onclick();
+  expectEqual(__T.state.outputIdx, 1, "fixed output slots should switch the calculated character");
+  expectEqual(__T.compute().sk?.id, nextSkill.id, "damage should use the newly selected output slot's skill");
 }
 
 function betaVersionBadgesRender() {
@@ -3801,6 +3807,9 @@ function effectDamageModel() {
   __T.render();
   const havocFormulaHtml = String(board.innerHTML).slice(String(board.innerHTML).indexOf('id="result-formula"'), String(board.innerHTML).indexOf('id="settlement-stage"'));
   assert(havocFormulaHtml.includes('class="metric-strip formula-strip formula-strip--multiply"') && havocFormulaHtml.includes("<span>层数</span>") && havocFormulaHtml.includes("<span>每层 · 减防</span>") && havocFormulaHtml.includes("<b>3</b>") && havocFormulaHtml.includes("<b>2%</b>"), "havoc bane formula should visibly show stacks multiplied by defense shred per stack");
+  assert(!havocFormulaHtml.includes('data-key="defShred"'), "havoc bane's stack result should not expose an unused target defense input");
+  __T.state.resultMode = "skill";
+  __T.render();
   assert(!String(board.innerHTML).includes("手动减防%"), "defense shred field label should not imply the whole field is manual");
   assert(String(board.innerHTML).includes("减防%"), "defense shred field should keep a concise label");
   assert(!String(board.innerHTML).includes("自动+6%"), "defense shred field should not split automatic effect defense shred into a badge");
@@ -6815,7 +6824,11 @@ function projectReviewOffsetRegressions() {
   const lynae = __T.state.slots[0], mornye = __T.state.slots[1];
   lynae.toggles[__T.stateChoiceKey("mode_1")] = "mode_1_option_2";
   __T.state.outputIdx = 1;
-  __T.ACTIONS["offset-key"](select);
+  select.value = "state|0|target_2|target_2_option_2";
+  select.onchange();
+  stacks.value = "1";
+  stacks.oninput();
+  select.value = "state|1|target_2|target_2_option_2";
   select.onchange();
   stacks.value = "3";
   stacks.max = "3";
@@ -6828,14 +6841,24 @@ function projectReviewOffsetRegressions() {
   expectEqual(result.offset.stacks, 3, "Mornye's input must reach her response formula");
   assert(Math.abs(result.rawTotals.finalDmg - 3.6) < 0.000001, "Mornye's own response must apply exactly once");
   expectEqual(mornye.toggles.stk_target_2_option_2, 3, "Offset stack input must update the selected owner's state");
-  assert(!lynae.toggles.stk_target_2_option_2, "Editing Mornye must not change Lynae's saved stacks");
+  expectEqual(lynae.toggles.stk_target_2_option_2, 1, "Editing Mornye must retain Lynae's saved stacks");
 
-  lynae.toggles[__T.stateChoiceKey("target_2")] = "target_2_option_2";
+  stacks.value = "";
+  stacks.oninput();
+  const mountedControls = "<div>Existing controls</div>";
+  board.innerHTML = mountedControls;
+  stacks.onchange();
+  assert(board.innerHTML === mountedControls, "Changing offset stacks on blur must leave the next clicked control mounted");
+  expectEqual(stacks.value, "3", "Leaving an empty offset stack field must restore the last settled value");
+
   const remove = {};
   __T.ACTIONS["clear-slot"](remove, 1);
   remove.onclick({ stopPropagation() {} });
-  expectEqual(__T.compute().offset.providerIdx, 0, "Removing Mornye must reveal the remaining Lynae entry");
+  const fallback = __T.compute().offset;
+  expectEqual(fallback.providerIdx, 0, "Removing Mornye must reveal the remaining Lynae entry");
+  expectEqual(fallback.stacks, 1, "The fallback offset entry must show Lynae's saved stacks");
   stacks.value = "2";
+  stacks.max = String(fallback.stackCap);
   stacks.oninput();
   expectEqual(__T.compute().offset.stacks, 2, "Offset input must update the displayed fallback entry");
   expectEqual(lynae.toggles.stk_target_2_option_2, 2, "Fallback stack edits must persist on Lynae");

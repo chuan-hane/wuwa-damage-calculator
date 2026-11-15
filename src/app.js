@@ -541,7 +541,11 @@ function syncOffsetFromStateChoice(slotIdx, stateId, value) {
 
 // data-act → 绑定函数(el, idx)。替代长 if/else 链，分发 O(1)、逐项独立。
 const bindEffectInput = (el) => { el.oninput = () => updateEffectInput(el); el.onchange = () => render(); };
-const bindOffsetInput = (el) => { el.oninput = () => updateOffsetInput(el); el.onchange = () => render(); };
+const bindOffsetInput = (el) => {
+  el.oninput = () => updateOffsetInput(el);
+  // 层数已实时结算，失焦时只校正输入值，避免重建即将点击的控件。
+  el.onchange = () => { el.value = String(compute().offset.stacks ?? 0); };
+};
 function detailEchoAt(idx, echoIdx) {
   const slot = state.slots[idx];
   ensureEchoDetail(slot, slot.char ? ch(slot.char) : null);
