@@ -560,9 +560,8 @@ window.WUWA_SETTLEMENT = (() => {
       return !!sk && (sk.category === "introSkill" || sk.damageType === "introSkill");
     }
 
-    function actionEventsForSlot(slot) {
+    function actionEventsForSlot(slot, sk = resolvedSkill(slot)) {
       const c = ch(slot.char);
-      const sk = resolvedSkill(slot);
       const events = [];
       asList(c.skillEvents).forEach((eventDef) => pushEvent(events, skillEventNameForSlot(slot, sk, eventDef)));
       asList(sk?.triggerEvents).forEach((eventName) => pushEvent(events, eventName));
@@ -919,9 +918,9 @@ window.WUWA_SETTLEMENT = (() => {
       return asList(buff.triggerDamageTypes).some((type) => types.includes(type));
     }
 
-    function currentEventTriggersBuff(slot, idx, buff, outputIdx = state.outputIdx) {
+    function currentEventTriggersBuff(slot, idx, buff, outputIdx, ctxOverride) {
       if (idx !== outputIdx) return false;
-      const events = actionEventsForSlot(slot);
+      const events = actionEventsForSlot(slot, ctxOverride?.skill || undefined);
       return asList(buff.triggerEvents).some((eventName) => events.includes(eventKeyOf(eventName)));
     }
 
@@ -934,7 +933,7 @@ window.WUWA_SETTLEMENT = (() => {
       if (rule.skills) checks.push(skillRefsMatch(ctx.skill, rule.skills));
       if (rule.damageTypes) checks.push(asList(rule.damageTypes).some((type) => (ctx.damageTypes || []).includes(type)));
       if (rule.events) {
-        const events = actionEventsForSlot(slot);
+        const events = actionEventsForSlot(slot, ctx.skill || undefined);
         checks.push(asList(rule.events).some((eventName) => events.includes(eventKeyOf(eventName))));
       }
       return checks.length > 0 && checks.some(Boolean);
@@ -994,7 +993,7 @@ window.WUWA_SETTLEMENT = (() => {
       const triggered = !!rule
         || currentSkillTriggersBuff(slot, idx, buff, outputIdx, ctxOverride)
         || currentDamageTypeTriggersBuff(slot, idx, buff, outputIdx, ctxOverride)
-        || currentEventTriggersBuff(slot, idx, buff, outputIdx);
+        || currentEventTriggersBuff(slot, idx, buff, outputIdx, ctxOverride);
       return { triggered, stacks: rule?.stacks ?? triggerStacksByTeamElement(slot, buff) ?? triggerStacksBySeq(slot, buff) };
     }
 
@@ -1681,7 +1680,7 @@ window.WUWA_SETTLEMENT = (() => {
       return t;
     }
 
-    function outputBreakAmpInfo(outputIdx = state.outputIdx) {
+    function outputBreakAmpInfo(outputIdx = state.outputIdx, ctx = null) {
       const slot = state.slots[outputIdx];
       const c = ch(slot.char);
       if (!c) return { value: 0, sources: [] };
@@ -1695,8 +1694,8 @@ window.WUWA_SETTLEMENT = (() => {
       state.slots.forEach((providerSlot, providerIdx) => {
         slotBuffs(providerSlot).forEach((buff) => {
           if (buff.zone !== "breakAmp") return;
-          if (!buffStatus(providerSlot, providerIdx, buff, new Set(), outputIdx).applies) return;
-          const value = buffValue(providerSlot, buff, providerIdx, outputIdx);
+          if (!buffStatus(providerSlot, providerIdx, buff, new Set(), outputIdx, ctx).applies) return;
+          const value = buffValue(providerSlot, buff, providerIdx, outputIdx, ctx);
           total += value;
           sources.push(buffSourcePart(providerSlot, buff, value));
         });
@@ -1708,8 +1707,8 @@ window.WUWA_SETTLEMENT = (() => {
       return outputBreakAmpInfo(outputIdx).value;
     }
 
-    function harmonyResponseAggregate(outputIdx = state.outputIdx, ctxOverride = null) {
-      const breakAmp = outputBreakAmpInfo(outputIdx);
+    function harmonyResponseAggregate(outputIdx, ctx) {
+      const breakAmp = outputBreakAmpInfo(outputIdx, ctx);
       const t = {
         breakAmp: breakAmp.value,
         skillMultBonus: 0, amplify: 0, vulnerability: 0, finalDmg: 0,
@@ -1717,7 +1716,6 @@ window.WUWA_SETTLEMENT = (() => {
         fixedCritRate: null, fixedCritDamage: null,
         sources: { breakAmp: breakAmp.sources },
       };
-      const ctx = ctxOverride || dpsContext(outputIdx);
       state.slots.forEach((slot, idx) => {
         slotBuffs(slot).forEach((buff) => {
           if (!buffStatus(slot, idx, buff, new Set(), outputIdx, ctx).applies) return;
@@ -2005,7 +2003,7 @@ window.WUWA_SETTLEMENT = (() => {
       }
       const b = effectAggregate(key, def, providerIdx);
       const baseInfo = effectBaseInfo(def, stacks, effectAtk, rageStacks, b.extraRate, b.multiplierBonus);
-      const target = resolveTarget(def.element);
+      const target = resolveTarget(def.element, { resultMode: "effect", effectKey: key, damageTypes: [key] });
       const defReduction = Math.min(Math.max((state.enemy.defShred + b.defShred) / 100, 0), 0.95);
       const defIgnore = Math.min(Math.max((state.enemy.defIgnore + b.defIgnore) / 100, 0), 0.95);
       const res = target.resistance - state.enemy.resShred - b.resShred;
@@ -2176,15 +2174,32 @@ window.WUWA_SETTLEMENT = (() => {
       return providers[0]?.idx ?? state.outputIdx;
     }
 
-    function offsetDefenseFactors(extra = {}, damageElement = null) {
-      const target = resolveTarget(damageElement);
-      const defReduction = Math.min(Math.max((state.enemy.defShred + num(extra.defShred)) / 100, 0), 0.95);
-      const defIgnore = Math.min(Math.max((state.enemy.defIgnore + num(extra.defIgnore)) / 100, 0), 0.95);
+    function offsetTargetFactors(extra, context, usesResistance = true) {
+      const target = resolveTarget(context.damageElement, context);
+      const targetModifiers = {
+        defShred: num(extra.defShred),
+        defIgnore: num(extra.defIgnore),
+        finalDmg: num(extra.finalDmg),
+        vulnerability: num(extra.vulnerability),
+        dmgReduction: 0,
+      };
+      if (usesResistance) targetModifiers.resShred = num(extra.resShred);
+      const defReduction = Math.min(Math.max((state.enemy.defShred + targetModifiers.defShred) / 100, 0), 0.95);
+      const defIgnore = Math.min(Math.max((state.enemy.defIgnore + targetModifiers.defIgnore) / 100, 0), 0.95);
       const levelTerm = 800 + 8 * state.enemy.charLevel;
       const enemyDef = (8 * target.enemyLevel + 792) * (1 - defReduction);
       const defFactor = levelTerm / (levelTerm + enemyDef * (1 - defIgnore));
       const res = target.resistance - state.enemy.resShred - num(extra.resShred);
-      return { target, defFactor, res, resFactor: resistanceFactor(res), defReduction: defReduction * 100, defIgnore: defIgnore * 100 };
+      const { vulnerability: enemyVulnerability, dmgReduction: enemyDmgReduction } = state.enemy;
+      const buffDeepen = num(extra.amplify) + targetModifiers.vulnerability;
+      const deepen = enemyVulnerability - enemyDmgReduction + buffDeepen;
+      const deepenFactor = Math.max(0, 1 + deepen / 100);
+      const finalDmg = Math.max(0, 1 + (state.enemy.finalDmg + targetModifiers.finalDmg) / 100);
+      return {
+        target, targetModifiers, defFactor, res, resFactor: resistanceFactor(res),
+        defReduction: defReduction * 100, defIgnore: defIgnore * 100,
+        enemyVulnerability, enemyDmgReduction, buffDeepen, deepen, deepenFactor, finalDmg,
+      };
     }
 
     function computeOffsetTuneBreak(entry, entries) {
@@ -2196,20 +2211,49 @@ window.WUWA_SETTLEMENT = (() => {
       const breakAmpInfo = outputBreakAmpInfo(providerIdx);
       const breakAmp = breakAmpInfo.value;
       const breakAmpFactor = Math.max(0, 1 + breakAmp / 100);
-      const gameplay = resolveGameplay({ resultMode: "offset", damageElement: providerChar?.element, damageTypes: ["tuneBreak", "tuneBreakDmg"] }, providerIdx);
-      const factors = offsetDefenseFactors(gameplay, providerChar?.element);
-      const deepen = state.enemy.vulnerability - state.enemy.dmgReduction + num(gameplay.amplify) + num(gameplay.vulnerability);
-      const deepenFactor = Math.max(0, 1 + deepen / 100);
-      const finalDmg = Math.max(0, 1 + (state.enemy.finalDmg + num(gameplay.finalDmg)) / 100);
+      const context = { resultMode: "offset", damageElement: providerChar?.element, damageTypes: ["tuneBreak", "tuneBreakDmg"] };
+      const gameplay = resolveGameplay(context, providerIdx);
+      const factors = offsetTargetFactors(gameplay, context, false);
       const fixedFactor = 0.8;
-      const raw = harmonyBase * tuneBreakRate / 100 * breakAmpFactor * factors.defFactor * deepenFactor * finalDmg * fixedFactor;
+      const raw = harmonyBase * tuneBreakRate / 100 * breakAmpFactor * factors.defFactor * factors.deepenFactor * factors.finalDmg * fixedFactor;
       return {
         available: true, enabled: true, valid: true, kind: "tuneBreak", key: "tuneBreak", formulaKind: "tuneBreak",
         entries, providers, providerIdx, providerName: providerChar?.name || "", label: "谐度破坏伤害",
         harmonyBase, multiplier: tuneBreakRate, breakAmp, breakAmpFactor,
         sources: { breakAmp: breakAmpInfo.sources, ...(gameplay.sources || {}) },
-        enemyVulnerability: state.enemy.vulnerability, enemyDmgReduction: state.enemy.dmgReduction,
-        deepen, deepenFactor, finalDmg, fixedFactor, raw, damage: Math.floor(raw), ...factors,
+        fixedFactor, raw, damage: Math.floor(raw), ...factors,
+      };
+    }
+
+    function computeHarmonyResponse(providerIdx, sk) {
+      const providerSlot = state.slots[providerIdx];
+      const harmonyBase = Math.max(0, num(state.enemy.harmonyBase, 10027));
+      const skLevel = skillLevelForSkill(providerSlot, sk);
+      const layers = skillLayersForSlot(providerSlot, sk);
+      const stackMult = skillValueAtLevel(sk, "perStack", skLevel) * layers;
+      const baseMult = skillMultValue(skillValueAtLevel(sk, "multiplier", skLevel) + stackMult);
+      const ctx = dpsContext(providerIdx, sk);
+      const harmony = harmonyResponseAggregate(providerIdx, ctx);
+      const skillMultBonus = harmony.skillMultBonus || 0;
+      const multiplier = baseMult * (1 + skillMultBonus / 100);
+      const breakAmp = harmony.breakAmp;
+      const breakAmpFactor = Math.max(0, 1 + breakAmp / 100);
+      const damageElement = ctx.element;
+      const factors = offsetTargetFactors(harmony, { resultMode: "offset", damageElement, damageTypes: ctx.damageTypes });
+      const valid = !!sk && skillMatchesSelectedCombatStates(providerSlot, sk) && skillResourceReady(providerSlot, sk);
+      const damageScalar = harmonyBase * (1 + skillMultBonus / 100) / 100
+        * breakAmpFactor * factors.deepenFactor * factors.defFactor * factors.resFactor * factors.finalDmg;
+      const raw = valid ? damageScalar * baseMult : null;
+      const cr = harmony.fixedCritRate == null ? 0 : Math.min(Math.max(num(harmony.fixedCritRate) / 100, 0), 1);
+      const cd = harmony.fixedCritDamage == null ? 1 : Math.max(num(harmony.fixedCritDamage) / 100, 1);
+      const normal = raw == null ? null : Math.floor(raw);
+      const critHit = raw == null ? null : Math.floor(raw * cd);
+      const expected = raw == null ? null : Math.floor(raw * (cr * cd + (1 - cr)));
+      return {
+        valid, harmony, damageElement, skLevel, layers, harmonyBase, baseMult, multiplier,
+        skillMultBonus, breakAmp, breakAmpFactor, sources: harmony.sources,
+        damageScalar, raw, normal, critHit, expected,
+        fixedCritRate: harmony.fixedCritRate, fixedCritDamage: harmony.fixedCritDamage, cr, cd, ...factors,
       };
     }
 
@@ -2219,39 +2263,12 @@ window.WUWA_SETTLEMENT = (() => {
       const providerSlot = state.slots[providerIdx];
       const providerChar = ch(providerSlot?.char);
       const sk = asList(providerChar?.skills).find((skill) => skillIdMatches(skill, entry.skillId));
-      const harmonyBase = Math.max(0, num(state.enemy.harmonyBase, 10027));
-      const skLevel = skillLevelForSkill(providerSlot, sk);
-      const baseMult = skillValueAtLevel(sk, "multiplier", skLevel);
-      const ctx = dpsContext(providerIdx, sk);
-      const harmony = harmonyResponseAggregate(providerIdx, ctx);
-      const formulaKind = offsetResponseFormulaKind(sk, entry.damageType);
-      const skillMultBonus = harmony.skillMultBonus || 0;
-      const multiplier = baseMult * (1 + skillMultBonus / 100);
-      const deepen = state.enemy.vulnerability - state.enemy.dmgReduction + harmony.amplify + harmony.vulnerability;
-      const deepenFactor = Math.max(0, 1 + deepen / 100);
-      const finalDmg = Math.max(0, 1 + (state.enemy.finalDmg + harmony.finalDmg) / 100);
-      const breakAmp = harmony.breakAmp;
-      const breakAmpFactor = Math.max(0, 1 + breakAmp / 100);
-      const damageElement = sk?.damageElement || sk?.element || providerChar?.element;
-      const factors = offsetDefenseFactors(harmony, damageElement);
-      const stateReady = sk && stateRequirementReady(providerSlot, sk.requiresState) && allStateRequirementsReady(providerSlot, sk.requiresAllStates);
-      const raw = stateReady
-        ? harmonyBase * multiplier / 100 * breakAmpFactor * deepenFactor * factors.defFactor * factors.resFactor * finalDmg
-        : null;
-      const cr = harmony.fixedCritRate == null ? 0 : Math.min(Math.max(num(harmony.fixedCritRate) / 100, 0), 1);
-      const cd = harmony.fixedCritDamage == null ? 1 : Math.max(num(harmony.fixedCritDamage) / 100, 1);
-      const normal = raw == null ? null : Math.floor(raw);
-      const critHit = raw == null ? null : Math.floor(raw * cd);
-      const expected = raw == null ? null : Math.floor(raw * (cr * cd + (1 - cr)));
+      const response = computeHarmonyResponse(providerIdx, sk);
       return {
-        available: true, enabled: true, valid: !!stateReady, kind: "response", key: "response", formulaKind,
+        ...response, available: true, enabled: true, kind: "response", key: "response",
+        formulaKind: offsetResponseFormulaKind(sk, entry.damageType),
         entries, providers, providerIdx, providerName: providerChar?.name || "", label: sk?.name || entry.label,
-        skill: sk, damageType: sk?.damageType || entry.damageType, damageElement, skLevel, harmonyBase, baseMult, multiplier,
-        skillMultBonus, breakAmp, breakAmpFactor, buffDeepen: harmony.amplify + harmony.vulnerability,
-        sources: harmony.sources,
-        enemyVulnerability: state.enemy.vulnerability, enemyDmgReduction: state.enemy.dmgReduction,
-        deepen, deepenFactor, finalDmg, raw, normal, critHit, expected, damage: expected,
-        fixedCritRate: harmony.fixedCritRate, fixedCritDamage: harmony.fixedCritDamage, cr, cd, ...factors,
+        skill: sk, damageType: sk?.damageType || entry.damageType, damage: response.expected,
         requiredState: sk ? buffStateRequirementLabelForSlot(providerSlot, sk) : "",
       };
     }
@@ -2329,40 +2346,43 @@ window.WUWA_SETTLEMENT = (() => {
       const critDamage = c.base.critDamage + (tree.critDamage || 0) + b.critDamage + es.critDamage;
       const effect = computeEffect();
       const offset = computeOffset();
+      const isFixedDamage = Number.isFinite(Number(sk?.fixedDamage));
+      const response = sk && !isFixedDamage && isHarmonyResponseContext(damageContext)
+        ? computeHarmonyResponse(state.outputIdx, sk)
+        : null;
       const offsetFinalDmg = offset.kind === "state" && offset.formulaKind === "coherenceInterference" && offset.valid ? offset.finalDmgGain : 0;
       const coherenceBuffFinalDmg = offsetFinalDmg ? appliedCoherenceInterferenceFinalDmg(state.outputIdx) : 0;
 
       const stat = skillStatKey(sk && sk.stat);
       const statBase = stat === "hp" ? totalHp : stat === "defense" ? totalDef : totalAtk;
-      const harmonyBase = Math.max(0, num(state.enemy.harmonyBase, 10027));
+      const harmonyBase = response?.harmonyBase ?? Math.max(0, num(state.enemy.harmonyBase, 10027));
 
-      const layers = skillLayersForSlot(s1, sk);
+      const layers = response?.layers ?? skillLayersForSlot(s1, sk);
       const levelSkill = selectedSk || sk;
-      const skLevel = skillLevelForSkill(s1, levelSkill);
+      const skLevel = response?.skLevel ?? skillLevelForSkill(s1, levelSkill);
       const resourceReady = skillResourceReady(s1, selectedSk);
       const resourceBlocked = !!selectedSk && !resourceReady && !sk;
       const stackMult = skillValueAtLevel(sk, "perStack", skLevel) * layers;
-      const levelMult = sk ? skillMultValue(skillValueAtLevel(sk, "multiplier", skLevel) + stackMult) : 0;
+      const levelMult = response?.baseMult ?? (sk ? skillMultValue(skillValueAtLevel(sk, "multiplier", skLevel) + stackMult) : 0);
       let multAdd = 0;
       const multAddSources = [];
-      state.slots.forEach((slot, idx) => slotBuffs(slot).forEach((buff) => {
-        if (!buffStatus(slot, idx, buff).applies) return;
-        let value = 0;
-        if (buff.multAdd) value += num(buff.multAdd);
-        if (buff.multAddByResource) value += buffValue(slot, buff, idx);
-        if (buff.multAddByStat) value += buffValue(slot, buff, idx);
-        if (buff.multScaleAdd) value += skillMultValue(levelMult * num(buff.multScaleAdd) / 100, 1);
-        if (buff.multScaleAddByResource) value += skillMultValue(levelMult * buffValue(slot, buff, idx) / 100, 1);
-        if (!value) return;
-        multAdd += value;
-        multAddSources.push(buffSourcePart(slot, buff, value, { multAdd: value }));
-      }));
+      if (!response) {
+        state.slots.forEach((slot, idx) => slotBuffs(slot).forEach((buff) => {
+          if (!buffStatus(slot, idx, buff).applies) return;
+          let value = 0;
+          if (buff.multAdd) value += num(buff.multAdd);
+          if (buff.multAddByResource) value += buffValue(slot, buff, idx);
+          if (buff.multAddByStat) value += buffValue(slot, buff, idx);
+          if (buff.multScaleAdd) value += skillMultValue(levelMult * num(buff.multScaleAdd) / 100, 1);
+          if (buff.multScaleAddByResource) value += skillMultValue(levelMult * buffValue(slot, buff, idx) / 100, 1);
+          if (!value) return;
+          multAdd += value;
+          multAddSources.push(buffSourcePart(slot, buff, value, { multAdd: value }));
+        }));
+      }
       const baseMult = levelMult + multAdd;
-      const isHarmonyResponse = sk ? isHarmonyResponseContext({ damageType: sk.damageType, damageTypes: damageTypesForSkill(sk) }) : false;
-      const isFixedDamage = Number.isFinite(Number(sk?.fixedDamage));
-      const harmony = isHarmonyResponse ? harmonyResponseAggregate(state.outputIdx) : null;
       const normalTotals = offsetFinalDmg ? { ...b, finalDmg: b.finalDmg - coherenceBuffFinalDmg + offsetFinalDmg } : b;
-      const formulaTotals = isHarmonyResponse ? { ...b, ...harmony, damageBonus: 0, typeBonus: 0, critRate: 0, critDamage: 0 } : normalTotals;
+      const formulaTotals = response ? { ...b, ...response.harmony, damageBonus: 0, typeBonus: 0, critRate: 0, critDamage: 0, resIgnore: 0 } : normalTotals;
       const formulaSources = {
         ...(formulaTotals.sources || {}),
         multAdd: multAddSources,
@@ -2371,18 +2391,18 @@ window.WUWA_SETTLEMENT = (() => {
       const skillMult = (baseMult * (1 + skillMultBonus / 100)) / 100;
 
       const skType = sk ? sk.damageType : null;
-      const target = resolveTarget(damageElement, damageContext);
+      const target = response?.target ?? resolveTarget(damageElement, damageContext);
       const treeElemBonus = damageElement === c.element ? tree.elemBonus || 0 : 0;
       const typeBonus = b.typeBonus + (skType ? es.type[skType] || 0 : 0);
       const scaledTypeBonus = typeBonus * (1 + num(b.typeBonusScale) / 100);
       const echoBonus = treeElemBonus + (es.elem[damageElement] || 0);
-      const bonus = isHarmonyResponse ? 1 : 1 + (b.damageBonus + scaledTypeBonus + echoBonus) / 100;
-      const amplify = isHarmonyResponse ? Math.max(0, 1 + formulaTotals.amplify / 100) : 1 + b.amplify / 100;
-      const vuln = isHarmonyResponse
-        ? Math.max(0, 1 + formulaTotals.vulnerability / 100)
+      const bonus = response ? 1 : 1 + (b.damageBonus + scaledTypeBonus + echoBonus) / 100;
+      const amplify = response?.deepenFactor ?? (1 + b.amplify / 100);
+      const vuln = response
+        ? 1
         : Math.max(0, 1 - state.enemy.dmgReduction / 100 + (state.enemy.vulnerability + b.vulnerability) / 100);
 
-      const effectDefShred = effect.enabled && effect.kind === "defShred" ? effect.defShred : 0;
+      const effectDefShred = !response && effect.enabled && effect.kind === "defShred" ? effect.defShred : 0;
       const totalDefShred = state.enemy.defShred + formulaTotals.defShred + effectDefShred;
       const totalDefIgnore = state.enemy.defIgnore + formulaTotals.defIgnore;
       const defReduction = Math.min(Math.max(totalDefShred / 100, 0), 0.95);
@@ -2390,27 +2410,21 @@ window.WUWA_SETTLEMENT = (() => {
       const res = target.resistance - state.enemy.resShred - formulaTotals.resShred - num(formulaTotals.resIgnore);
       const levelTerm = 800 + 8 * state.enemy.charLevel;
       const enemyDef = (8 * target.enemyLevel + 792) * (1 - defReduction);
-      const defFactor = levelTerm / (levelTerm + enemyDef * (1 - defIgnore));
-      const resFactor = resistanceFactor(res);
+      const defFactor = response?.defFactor ?? levelTerm / (levelTerm + enemyDef * (1 - defIgnore));
+      const resFactor = response?.resFactor ?? resistanceFactor(res);
 
-      const fixedCritRate = isHarmonyResponse ? formulaTotals.fixedCritRate : null;
-      const fixedCritDamage = isHarmonyResponse ? formulaTotals.fixedCritDamage : null;
-      const cr = isFixedDamage ? 0 : fixedCritRate == null
-        ? (isHarmonyResponse ? 0 : Math.min(Math.max(critRate / 100, 0), 1))
-        : Math.min(Math.max(num(fixedCritRate) / 100, 0), 1);
-      const cd = isFixedDamage ? 1 : fixedCritDamage == null
-        ? (isHarmonyResponse ? 1 : Math.max(critDamage / 100, 1))
-        : Math.max(num(fixedCritDamage) / 100, 1);
-      const finalDmg = isHarmonyResponse ? Math.max(0, 1 + formulaTotals.finalDmg / 100) : 1 + (state.enemy.finalDmg + formulaTotals.finalDmg) / 100;
-      const breakAmp = isHarmonyResponse ? formulaTotals.breakAmp : 0;
-      const breakAmpFactor = isHarmonyResponse ? Math.max(0, 1 + breakAmp / 100) : 1;
-      const formulaBase = isHarmonyResponse ? harmonyBase : statBase;
-      const damageScalar = formulaBase * bonus * amplify * vuln * breakAmpFactor * defFactor * resFactor * finalDmg * (1 + skillMultBonus / 100) / 100;
+      const cr = isFixedDamage ? 0 : response?.cr ?? Math.min(Math.max(critRate / 100, 0), 1);
+      const cd = isFixedDamage ? 1 : response?.cd ?? Math.max(critDamage / 100, 1);
+      const finalDmg = response?.finalDmg ?? (1 + (state.enemy.finalDmg + formulaTotals.finalDmg) / 100);
+      const breakAmp = response?.breakAmp ?? 0;
+      const breakAmpFactor = response?.breakAmpFactor ?? 1;
+      const damageScalar = response?.damageScalar
+        ?? statBase * bonus * amplify * vuln * defFactor * resFactor * finalDmg * (1 + skillMultBonus / 100) / 100;
       const base = damageScalar * baseMult;
       const fixedDamage = isFixedDamage ? Math.max(0, num(sk.fixedDamage)) : null;
-      const normal = Math.floor(isFixedDamage ? fixedDamage : base);
-      const critHit = Math.floor(isFixedDamage ? fixedDamage : base * cd);
-      const expected = Math.floor(isFixedDamage ? fixedDamage : base * (cr * cd + (1 - cr)));
+      const normal = response ? response.normal : Math.floor(isFixedDamage ? fixedDamage : base);
+      const critHit = response ? response.critHit : Math.floor(isFixedDamage ? fixedDamage : base * cd);
+      const expected = response ? response.expected : Math.floor(isFixedDamage ? fixedDamage : base * (cr * cd + (1 - cr)));
 
       return {
         panel: { stat, totalAtk, totalHp, totalDef, displayAtk, displayHp, displayDef, critRate, critDamage, baseMult, skillMult },
@@ -2424,7 +2438,8 @@ window.WUWA_SETTLEMENT = (() => {
           buffDefIgnore: formulaTotals.defIgnore,
           totalDefIgnore,
         },
-        damageModel: isFixedDamage ? "fixed" : isHarmonyResponse ? "harmonyResponse" : "normal", damageElement, target, breakAmp, breakAmpFactor, harmonyBase, fixedDamage,
+        damageModel: isFixedDamage ? "fixed" : response ? "harmonyResponse" : "normal", damageElement, target, breakAmp, breakAmpFactor, harmonyBase, fixedDamage,
+        harmonyResponse: response,
         normal, expected, critHit, sk, selectedSk, layers, skLevel, multAdd, resourceReady, resourceBlocked, damageScalar, effect, offset,
       };
     }

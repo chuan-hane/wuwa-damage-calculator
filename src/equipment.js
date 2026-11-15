@@ -98,9 +98,8 @@ window.WUWA_EQUIPMENT = (() => {
 
   function leadChoicesForEcho(e) {
     if (!e) return [];
-    const ids = e.detailMode ? [e.detail?.echoes?.[0]?.set] : [e.primary];
+    const ids = e.detailMode ? [e.detail?.echoes?.[0]?.set] : echoSetIds(e);
     const detailCost = e.detailMode ? num(e.detail?.echoes?.[0]?.cost) : 0;
-    if (!e.detailMode && e.combo === "split32") ids.push(e.secondary);
     const uniqueIds = ids.filter((id, i, arr) => id && arr.indexOf(id) === i);
     return uniqueIds
       .map((id) => son(id))
@@ -126,7 +125,8 @@ window.WUWA_EQUIPMENT = (() => {
     if (e.detailMode && selection.lead === undefined) selection.lead = e.lead;
     const choices = leadChoicesForEcho(e);
     const current = choices.find((choice) => choice.key === selection.lead || choice.set.id === selection.lead);
-    const preferred = preferredElement && choices.find((choice) => (choice.lead.buffs || []).some((b) => b.element === preferredElement));
+    const defaultChoices = !e.detailMode && e.combo === "split122" ? choices.filter((choice) => choice.set.id === e.primary) : choices;
+    const preferred = preferredElement && defaultChoices.find((choice) => (choice.lead.buffs || []).some((b) => b.element === preferredElement));
     selection.lead = (current || preferred || choices[0])?.key ?? null;
     return e;
   }
@@ -162,6 +162,8 @@ window.WUWA_EQUIPMENT = (() => {
     const sets = defaultDetailSets(e);
     const costs = [4, 3, 3, 1, 1];
     const selectedLead = leadChoicesForEcho({ ...e, detailMode: false }).find((choice) => choice.key === e.lead);
+    const leadSetIndex = sets.indexOf(selectedLead?.set.id);
+    if (leadSetIndex > 0) [sets[0], sets[leadSetIndex]] = [sets[leadSetIndex], sets[0]];
     const leadCostIndex = costs.indexOf(selectedLead?.cost);
     if (leadCostIndex > 0) [costs[0], costs[leadCostIndex]] = [costs[leadCostIndex], costs[0]];
     e.detail = e.detail || {};

@@ -196,14 +196,22 @@ window.WUWA_TARGETS = (() => {
     return "";
   }
 
-  function targetOptionName(item) {
+  function targetOptionName(item, includeDetails = false) {
     if (item?.mode === "openWorld") return openWorldAttributeName(item);
-    return item?.element ? L.element(item.element) : L.t("targets.attributeNone");
+    const attribute = item?.element ? L.element(item.element) : L.t("targets.attributeNone");
+    if (includeDetails !== true) return attribute;
+    const name = localeEntry("targetNames", item.nameId)?.name;
+    const level = L.t("common.levelShort", { value: item.level });
+    return [attribute, name, level].filter(Boolean).join(" · ");
   }
 
   function targetOptionKey(item) {
     if (item?.mode === "openWorld") return openWorldAttribute(item)?.key || "";
-    return item?.element || "none";
+    const { fixedIds, controlIds, choiceGroups } = gameplayData(item);
+    return JSON.stringify([
+      item.element, item.level, elements().map((element) => item.resistances[element]),
+      fixedIds, controlIds, choiceGroups,
+    ]);
   }
 
   function targetOptionOrder(item) {
@@ -262,6 +270,13 @@ window.WUWA_TARGETS = (() => {
     }
     const values = enemy.targetBuffValues;
     values[buffId] = buff.confirmForRecipient ? { ...values[buffId], [recipient]: confirmed } : confirmed;
+  }
+
+  function clearGameplayOnSwitchOut(enemy, recipient) {
+    const values = enemy.targetBuffValues || {};
+    Object.entries(values).forEach(([id, confirmations]) => {
+      if (gameplayBuff(id)?.clearsOnSwitchOut && confirmations) delete confirmations[recipient];
+    });
   }
 
   function optionActive(enemy, item, buffId) {
@@ -492,6 +507,7 @@ window.WUWA_TARGETS = (() => {
     gameplayControls,
     setGameplayChoice,
     setGameplayValue,
+    clearGameplayOnSwitchOut,
     controlValue,
     gameplayAggregate,
     syncedDate,

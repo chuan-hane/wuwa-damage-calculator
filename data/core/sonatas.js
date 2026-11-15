@@ -346,6 +346,7 @@ window.WUWA_SONATAS = [
       },
       {
         "id": "capitaneus",
+        "cost": 3,
         "buffs": [
           {
             "id": "se_capitaneus_spectro",

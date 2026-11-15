@@ -563,8 +563,14 @@ input:disabled {
 }
 
 .combo-opt:hover,
+.combo-opt:focus-visible,
 .combo-opt.sel {
   background: var(--accent-soft);
+}
+
+.combo-opt:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: -2px;
 }
 
 .combo-opt.sel {

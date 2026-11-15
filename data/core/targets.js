@@ -6946,7 +6946,8 @@ window.WUWA_TARGET_DATA = {
         "buffId": 35,
         "clause": 1
       },
-      "parentId": "dpmatrix:8:35:enhancement"
+      "parentId": "dpmatrix:8:35:enhancement",
+      "confirmForRecipient": true
     },
     "dpmatrix:8:35:shield-stacks": {
       "id": "dpmatrix:8:35:shield-stacks",
@@ -6973,7 +6974,9 @@ window.WUWA_TARGET_DATA = {
       "min": 0,
       "max": 5,
       "step": 1,
-      "defaultValue": 0
+      "defaultValue": 0,
+      "confirmForRecipient": true,
+      "clearsOnSwitchOut": true
     },
     "dpmatrix:8:36:enhancement": {
       "id": "dpmatrix:8:36:enhancement",

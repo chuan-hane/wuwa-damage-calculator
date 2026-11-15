@@ -566,9 +566,10 @@ function targetSelectionInterface() {
   ["toa", "dpmatrix"].forEach((mode) => targets.seasons(mode).forEach((season) => {
     targets.targetPaths(mode, season.id).forEach((targetPath) => {
       targets.groupedTargets(mode, season.id, targetPath.id).forEach((group) => {
-        const labels = group.items.map(targets.targetOptionName);
-        assert(labels.every((label) => attributeLabels.has(label)), `${mode} target choices should contain attribute names only`);
-        expectEqual(new Set(labels).size, labels.length, `${mode} target attributes should be deduplicated within each wave`);
+        const labels = group.items.map((item) => targets.targetOptionName(item));
+        assert(labels.every((label) => attributeLabels.has(label)), `${mode} target choices should retain their attribute names`);
+        const profiles = group.items.map((item) => JSON.stringify([item.element, item.level, item.resistances, item.gameplay]));
+        expectEqual(new Set(profiles).size, profiles.length, `${mode} target choices should deduplicate equal settlement profiles`);
       });
     });
   }));
@@ -4205,7 +4206,7 @@ function cyberpunkCharacterRegressions() {
   slot.echo.fields["elem:electro"] = 100;
   __T.state.enemy.finalDmg = 100;
   r = __T.compute();
-  expectEqual(r.normal, breakAmpHack, "Hack-break damage should ignore attack, crit damage, element bonus, and manual final damage");
+  assert(Math.abs(r.normal - breakAmpHack * 2) <= 1, "Hack-break damage should apply manual final damage while ignoring attack, crit damage, and element bonus");
   __T.state.resultMode = "offset";
   __T.render();
   assert(String(board.innerHTML).includes("偏移体系"), "Offset-system calculator should render for hack-break characters");
@@ -4277,18 +4278,18 @@ function lynaeCharacterRegressions() {
   slot.echo.fields.attackPct = 200;
   slot.echo.fields.critDamage = 300;
   slot.echo.fields["elem:spectro"] = 100;
-  __T.state.enemy.finalDmg = 100;
   r = __T.compute();
-  expectEqual(r.normal, baseResponse, "Lynae Tune Rupture Response - Spectral Analysis should ignore attack, crit damage, element bonus, and manual final damage");
+  expectEqual(r.normal, baseResponse, "Lynae Tune Rupture Response - Spectral Analysis should ignore attack, crit damage, and element bonus");
   slot.toggles.b_visual_break = true;
   r = __T.compute();
   expectEqual(r.breakAmp, 50, "Lynae Basic Attack - Visual Impact buff should add to base Tune Break Boost after confirmation");
   assert(r.normal > baseResponse * 1.36, "Lynae Tune Break Boost buff should increase Tune Rupture Response - Spectral Analysis by the extra 40 points");
   __T.state.offsetCalc = { key: "response", providerIdx: 0, skillId: "tune_rupture_response_spectral", stacks: 3, deepen: 0 };
+  __T.state.enemy.finalDmg = 100;
   r = __T.compute();
   expectEqual(r.offset.kind, "response", "Lynae Tune Rupture response should render in the offset-system calculator");
   expectEqual(r.offset.formulaKind, "tuneRupture", "Lynae Tune Rupture response should use the Tune Rupture offset formula kind");
-  assert(r.offset.damage > baseResponse * 1.36, "Offset-system Tune Rupture response should include Tune Break Boost");
+  expectEqual(r.offset.damage, r.expected, "Offset and skill Tune Rupture response should use the same final damage and Tune Break Boost");
   __T.state.resultMode = "offset";
   __T.render();
   assert(String(board.innerHTML).includes("震谐倍率"), "Tune Rupture offset formula should label the response multiplier as Tune Rupture");
@@ -6300,22 +6301,23 @@ function gameplayV37Regressions() {
   const enhancement = "dpmatrix:8:35:enhancement";
   const shield = "dpmatrix:8:35:shield-stacks";
   const unison = "dpmatrix:8:35:unison-response";
+  const recipient = "0:jinhsi";
   targets.setGameplayChoice(enemy, matrixGroup.id, enhancement);
-  expectEqual(targets.controlValue(enemy, data.gameplayBuffs[shield]), 0, "3.7 Matrix shield range child should default to zero");
-  expectEqual(targets.gameplayAggregate(enemy, basicContext).finalDmg, 0, "3.7 Matrix conditional effects should default inactive");
-  expectEqual(targets.gameplayAggregate(enemy, echoContext).finalDmg, 40, "3.7 Matrix fixed Echo Skill final DMG");
-  targets.setGameplayValue(enemy, shield, 1);
-  expectEqual(targets.gameplayAggregate(enemy, basicContext).finalDmg, 11, "3.7 Matrix shield range child should apply one stack");
-  targets.setGameplayValue(enemy, shield, 5);
-  expectEqual(targets.gameplayAggregate(enemy, basicContext).finalDmg, 55, "3.7 Matrix shield range child should apply five stacks");
-  targets.setGameplayValue(enemy, unison, true);
-  expectEqual(targets.gameplayAggregate(enemy, basicContext).finalDmg, 110, "3.7 Matrix Unison Response and shield stacks should require separate confirmations");
-  expectEqual(targets.gameplayAggregate(enemy, offsetContext).finalDmg, 0, "3.7 Matrix ordinary final DMG should not enter offset damage");
+  expectEqual(targets.controlValue(enemy, data.gameplayBuffs[shield], recipient), 0, "3.7 Matrix shield range child should default to zero");
+  expectEqual(targets.gameplayAggregate(enemy, basicContext, recipient).finalDmg, 0, "3.7 Matrix conditional effects should default inactive");
+  expectEqual(targets.gameplayAggregate(enemy, echoContext, recipient).finalDmg, 40, "3.7 Matrix fixed Echo Skill final DMG");
+  targets.setGameplayValue(enemy, shield, 1, recipient);
+  expectEqual(targets.gameplayAggregate(enemy, basicContext, recipient).finalDmg, 11, "3.7 Matrix shield range child should apply one stack");
+  targets.setGameplayValue(enemy, shield, 5, recipient);
+  expectEqual(targets.gameplayAggregate(enemy, basicContext, recipient).finalDmg, 55, "3.7 Matrix shield range child should apply five stacks");
+  targets.setGameplayValue(enemy, unison, true, recipient);
+  expectEqual(targets.gameplayAggregate(enemy, basicContext, recipient).finalDmg, 110, "3.7 Matrix Unison Response and shield stacks should require separate confirmations");
+  expectEqual(targets.gameplayAggregate(enemy, offsetContext, recipient).finalDmg, 0, "3.7 Matrix ordinary final DMG should not enter offset damage");
   targets.setGameplayChoice(enemy, matrixGroup.id, "dpmatrix:8:37:enhancement");
   expectEqual(targets.gameplayAggregate(enemy, basicContext).finalDmg, 40, "3.7 Matrix enhancement switch should apply only the newly selected General Enhancement");
   targets.setGameplayChoice(enemy, matrixGroup.id, enhancement);
-  expectEqual(targets.controlValue(enemy, data.gameplayBuffs[shield]), 0, "3.7 Matrix enhancement reselection should not restore stale shield stacks");
-  expectEqual(targets.controlValue(enemy, data.gameplayBuffs[unison]), false, "3.7 Matrix enhancement reselection should not restore a stale Unison Response confirmation");
+  expectEqual(targets.controlValue(enemy, data.gameplayBuffs[shield], recipient), 0, "3.7 Matrix enhancement reselection should not restore stale shield stacks");
+  expectEqual(targets.controlValue(enemy, data.gameplayBuffs[unison], recipient), false, "3.7 Matrix enhancement reselection should not restore a stale Unison Response confirmation");
 
   resetTeam(["jinhsi"]);
   const whiwa = data.targets["whiwa:22:135:40268:310000080"];

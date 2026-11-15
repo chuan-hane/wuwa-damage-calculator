@@ -330,8 +330,8 @@ const MATRIX_BUFF_SCHEMAS_BY_SEASON = {
       ] },
     ] },
     35: { effects: [{ zone: "finalDmg", value: 40, damageTypes: ["echoSkill"], modes: ["skill"] }], children: [
-      { suffix: "unison-response", control: "toggle", clause: 1, effects: [{ zone: "finalDmg", value: 55, modes: ["skill"] }] },
-      { suffix: "shield-stacks", control: "range", clause: 2, min: 0, max: 5, step: 1, defaultValue: 0, effects: [{ zone: "finalDmg", value: 11, controlMultiplier: true, modes: ["skill"] }] },
+      { suffix: "unison-response", control: "toggle", clause: 1, confirmForRecipient: true, effects: [{ zone: "finalDmg", value: 55, modes: ["skill"] }] },
+      { suffix: "shield-stacks", control: "range", clause: 2, min: 0, max: 5, step: 1, defaultValue: 0, confirmForRecipient: true, clearsOnSwitchOut: true, effects: [{ zone: "finalDmg", value: 11, controlMultiplier: true, modes: ["skill"] }] },
     ] },
     36: { effects: [], children: [
       { suffix: "tune-shifting", control: "toggle", clause: 0, effects: [{ zone: "finalDmg", value: 25, modes: ["skill"] }] },
@@ -426,7 +426,7 @@ function definitionFromSchema({ mode, seasonId, sourceId, suffix, schema, locale
     localeRef,
   };
   if (parentId) definition.parentId = parentId;
-  for (const key of ["min", "max", "step", "defaultValue", "qualityId", "confirmForRecipient"]) {
+  for (const key of ["min", "max", "step", "defaultValue", "qualityId", "confirmForRecipient", "clearsOnSwitchOut"]) {
     if (schema[key] != null) definition[key] = schema[key];
   }
   return definition;

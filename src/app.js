@@ -25,13 +25,20 @@ const initialSlot = (charId, weapon, skill) => ({ ...characterSlotState(charId),
 
 function pickCharacter(idx, charId) {
   const s = state.slots[idx];
-  if (!charId) { Object.assign(s, characterSlotState(null)); return; }
+  if (!charId) { clearCharacter(idx); return; }
   const existingIdx = state.slots.findIndex((slot) => slot.char === charId);
   if (existingIdx >= 0) {
-    state.outputIdx = existingIdx;
+    setOutput(existingIdx);
     return;
   }
+  if (s.char) TARGETS.clearGameplayOnSwitchOut(state.enemy, buffRecipientKey(idx));
   Object.assign(s, characterSlotState(charId));
+}
+
+function setOutput(idx) {
+  if (idx === state.outputIdx) return;
+  TARGETS.clearGameplayOnSwitchOut(state.enemy, buffRecipientKey(state.outputIdx));
+  state.outputIdx = idx;
 }
 
 function clearCharacter(idx) {
@@ -39,8 +46,9 @@ function clearCharacter(idx) {
   if (!s.char) return;
   const nextOutput = state.slots.findIndex((slot, i) => i !== idx && slot.char);
   if (nextOutput < 0) return;
+  if (state.outputIdx === idx) setOutput(nextOutput);
+  else TARGETS.clearGameplayOnSwitchOut(state.enemy, buffRecipientKey(idx));
   Object.assign(s, characterSlotState(null));
-  if (state.outputIdx === idx) state.outputIdx = nextOutput;
 }
 
 // —— 状态 ——
@@ -98,7 +106,7 @@ const {
 const {
   stageLayoutHTML, typeTagHTML,
   resultMainDisplayHTML, resultMainHTML, resultFormulaBodyHTML, resultFormulaHTML, damageDockHTML,
-  targetSummaryHTML, settlementStageHTML, buffStageHTML,
+  targetSummaryHTML, targetAutoValues, settlementStageHTML, buffStageHTML,
 } = window.WUWA_STAGE_VIEW.create({
   state, W, ch, wp, WEAPONS, SONATAS, leadChoicesForEcho, echoLeadKey, syncEchoLead,
   ECHO_COSTS, echoMainOptions, echoSubOptions, echoSubValues, echoFixedMain, ensureEchoDetail, echoDetailSummary, statLabel, echoStats,
@@ -183,16 +191,6 @@ function refreshResultDisplay(r) {
   bind(damageDock);
   syncDamageDock();
   return true;
-}
-
-function targetAutoValues(r) {
-  return {
-    finalDmg: num(r?.totals?.finalDmg),
-    resShred: num(r?.totals?.resShred),
-    defShred: num(r?.defense?.buffDefShred) + num(r?.defense?.effectDefShred),
-    defIgnore: num(r?.defense?.buffDefIgnore),
-    vulnerability: num(r?.totals?.vulnerability),
-  };
 }
 
 function refreshTargetInputs(r) {
@@ -564,11 +562,63 @@ function bindDetailEchoSet(el, idx) {
   };
 }
 
-function closeTargetChoices() {
-  board.querySelectorAll(".target-choice.open").forEach((choice) => {
-    hideTargetChoicePreview(choice);
-    choice.classList.remove("open");
+function setComboOpen(combo, open) {
+  combo.classList.toggle("open", open);
+  combo.querySelector(".combo-btn").setAttribute("aria-expanded", String(open));
+  if (!open) hideTargetChoicePreview(combo);
+}
+
+function closeCombos() {
+  board.querySelectorAll(".combo.open").forEach((combo) => setComboOpen(combo, false));
+}
+
+function bindComboToggle(el) {
+  const combo = el.closest(".combo");
+  el.onclick = (event) => {
+    event.stopPropagation();
+    const wasOpen = combo.classList.contains("open");
+    closeCombos();
+    if (wasOpen) return;
+    setComboOpen(combo, true);
+    const search = combo.querySelector(".combo-search");
+    search.value = "";
+    filterCombo(search);
+    search.focus();
+  };
+  combo.addEventListener("focusout", (event) => {
+    if (event.relatedTarget && !combo.contains(event.relatedTarget)) setComboOpen(combo, false);
   });
+}
+
+function handleComboKey(event) {
+  if (event.isComposing || event.keyCode === 229) return;
+  const popup = event.currentTarget;
+  const combo = popup.closest(".combo");
+  const option = event.target.closest(".combo-opt");
+  const key = event.key;
+  if (key === "Escape") {
+    event.preventDefault();
+    setComboOpen(combo, false);
+    combo.querySelector(".combo-btn").focus();
+    return;
+  }
+  if (!["ArrowDown", "ArrowUp", "Enter"].includes(key) && !(option && ["Home", "End", " "].includes(key))) return;
+  const options = Array.from(popup.querySelectorAll(".combo-opt")).filter((item) => item.style.display !== "none");
+  const index = options.indexOf(option);
+  event.preventDefault();
+  if (!options.length) return;
+  if (key === "Enter" || key === " ") {
+    const listId = popup.querySelector(".combo-list").id;
+    (option || options[0]).click();
+    document.getElementById(listId)?.closest(".combo")?.querySelector(".combo-btn")?.focus({ preventScroll: true });
+    return;
+  }
+  switch (key) {
+    case "Home": options[0].focus(); break;
+    case "End": options[options.length - 1].focus(); break;
+    case "ArrowDown": options[(index + 1) % options.length].focus(); break;
+    case "ArrowUp": options[index <= 0 ? options.length - 1 : index - 1].focus(); break;
+  }
 }
 
 function hideTargetChoicePreview(choice) {
@@ -591,8 +641,8 @@ function showTargetChoicePreview(option) {
 
 const ACTIONS = {
   language: (el) => { el.onchange = () => { state.lang = el.value || "zh-CN"; render(); }; },
-  output: (el, idx) => { el.onclick = (ev) => { if (ev.target.closest("button, select, input, .combo, .echo-set-chip")) return; state.outputIdx = idx; render(); }; },
-  "dock-output": (el, idx) => { el.onclick = () => { if (state.outputIdx === idx) return; state.outputIdx = idx; render(); }; },
+  output: (el, idx) => { el.onclick = (ev) => { if (ev.target.closest("button, select, input, .combo, .echo-set-chip")) return; setOutput(idx); render(); }; },
+  "dock-output": (el, idx) => { el.onclick = () => { if (state.outputIdx === idx) return; setOutput(idx); render(); }; },
   "clear-slot": (el, idx) => { el.onclick = (ev) => { ev.stopPropagation(); clearCharacter(idx); render(); }; },
   "result-mode": (el) => { el.onclick = () => { state.resultMode = el.dataset.mode || "skill"; render(); }; },
   "dmg-mode": (el) => { el.onclick = () => { state.damageMode = el.dataset.mode; render(); }; },
@@ -652,7 +702,7 @@ const ACTIONS = {
     el.onchange = () => render();
   },
   "target-reset": (el) => { el.onclick = () => { TARGETS.clearOverrides(state.enemy); render(); }; },
-  "combo-toggle": (el) => { el.onclick = (ev) => { ev.stopPropagation(); const combo = el.closest(".combo"); const wasOpen = combo.classList.contains("open"); closeTargetChoices(); board.querySelectorAll(".combo.open").forEach((c) => c.classList.remove("open")); if (!wasOpen) { combo.classList.add("open"); const s = combo.querySelector(".combo-search"); if (s) { s.value = ""; filterCombo(s); s.focus(); } } }; },
+  "combo-toggle": bindComboToggle,
   "combo-search": (el) => { el.onclick = (ev) => ev.stopPropagation(); el.oninput = () => filterCombo(el); },
   "combo-pick": (el) => { el.onclick = (ev) => { ev.stopPropagation(); const si = +el.dataset.slot; if (el.dataset.kind === "char") pickCharacter(si, el.dataset.value); else state.slots[si].weapon = el.dataset.value; render(); }; },
   "rank-set": (el, idx) => { el.onchange = () => { state.slots[idx].rank = +el.value; render(); }; },
@@ -747,12 +797,11 @@ function bind(root = board) {
     const idx = el.dataset.slot != null ? +el.dataset.slot : null;
     ACTIONS[el.dataset.act]?.(el, idx);
   });
-  // 弹层内空白点击不关闭；点列以外关闭所有打开的下拉
-  root.querySelectorAll(".combo-pop").forEach((p) => (p.onclick = (ev) => ev.stopPropagation()));
-  document.onclick = () => {
-    board.querySelectorAll(".combo.open").forEach((c) => c.classList.remove("open"));
-    closeTargetChoices();
-  };
+  root.querySelectorAll(".combo-pop").forEach((popup) => {
+    popup.onclick = (event) => event.stopPropagation();
+    popup.onkeydown = handleComboKey;
+  });
+  document.onclick = closeCombos;
 }
 
 // 下拉内搜索过滤（不重渲染，避免丢焦点）
