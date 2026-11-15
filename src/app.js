@@ -51,8 +51,8 @@ const state = {
   damageMode: "crit", // 顶部伤害显示：crit / expected / normal
   showDesc: false, // buff 第二行默认显示短摘；由 Buff 区「原文」开关切到完整文本
   showTargetExtras: false, // 目标参数行额外乘区默认折叠，只在有生效来源或用户展开时显示
-  effectCalc: { key: "none", providerIdx: null, stacks: 10, stackMode: "auto", electroRageStacks: 0, deepen: 0 }, // 大伤害数字下方：独立效应伤害结算
-  offsetCalc: { key: "tuneBreak", providerIdx: null, skillId: null, stateId: null, stateValue: null, stacks: 3, deepen: 0 }, // 偏移/谐度破坏体系独立结算
+  effectCalc: { key: "none", providerIdx: null, stacks: 10, applications: 1, stackMode: "auto", electroRageStacks: 0, deepen: 0 }, // 大伤害数字下方：独立效应伤害结算
+  offsetCalc: { key: "tuneBreak", providerIdx: null, skillId: null, stateId: null, stateValue: null, stacks: 0, deepen: 0 }, // 偏移/谐度破坏体系独立结算
   slots: [
     initialSlot("jinhsi", "ages_of_harvest", "forte_illuminous_epiphany_stella"),
     initialSlot("zhezhi", "rime_draped_sprouts", "forte_creations_zenith"),
@@ -83,7 +83,7 @@ TARGETS.ensureSelection(state.enemy);
 const {
   slotBuffs, availableSkills, selectedSkill, resourceKey, resourceControlsForSlot, resolvedSkill, skillLayersForSlot,
   stateKey, stateChoiceKey, stateControlsHTML,
-  buffStackCount, buffStatus, setBuffToggle, scaleByInfo, buffValue, compute,
+  buffStackCount, buffStatus, setBuffToggle, scaleByInfo, buffValue, teamEffectDefinition, compute,
 } = window.WUWA_SETTLEMENT.create({
   state, ch, wp, echoStats, weaponBuffs, sonataBuffs, esc,
   targetContext: (damageElement) => TARGETS.context(state.enemy, damageElement),
@@ -103,7 +103,7 @@ const {
   state, W, ch, wp, WEAPONS, SONATAS, leadChoicesForEcho, syncEchoLead,
   ECHO_COSTS, echoMainOptions, echoSubOptions, echoSubValues, echoFixedMain, ensureEchoDetail, echoDetailSummary, statLabel, echoStats,
   availableSkills, selectedSkill, resourceControlsForSlot, resolvedSkill, skillLayersForSlot, stateControlsHTML,
-  panelEntryTableHTML, autoResolutionHTML, settlementBuffRowsHTML,
+  panelEntryTableHTML, autoResolutionHTML, settlementBuffRowsHTML, teamEffectDefinition,
 });
 
 // —— 渲染 ——
@@ -380,23 +380,7 @@ function activateOffsetState(slot, stateName) {
 }
 
 function selectedOffsetProviderIdx() {
-  const calc = state.offsetCalc || {};
-  if (calc.key === "tuneBreak") return state.outputIdx;
-  if (calc.key === "response") {
-    const found = state.slots.findIndex((slot) =>
-      list(ch(slot.char)?.skills).some((skill) => skillIdMatches(skill, calc.skillId))
-    );
-    return found >= 0 ? found : state.outputIdx;
-  }
-  if (calc.key === "state") {
-    const found = state.slots.findIndex((slot) =>
-      list(ch(slot.char)?.combatStates).some((def) =>
-        def.id === calc.stateId && list(def.options).some((opt) => opt.value === calc.stateValue)
-      )
-    );
-    return found >= 0 ? found : state.outputIdx;
-  }
-  return state.outputIdx;
+  return compute().offset?.providerIdx ?? state.outputIdx;
 }
 
 function syncOffsetSelectionPrecondition() {
@@ -442,6 +426,7 @@ function firstEffectProviderIdx(key) {
 
 function updateEffectInput(el) {
   const key = el.dataset.act;
+  if (key === "effect-applications") state.effectCalc.applications = Math.max(0, Math.round(num(el.value)));
   if (key === "effect-stacks") {
     state.effectCalc.stacks = clampNumberInput(el, state.effectCalc.stacks || 0);
     state.effectCalc.stackMode = "manual";
@@ -454,15 +439,20 @@ function updateEffectInput(el) {
 function updateOffsetKey(value) {
   const parts = String(value || "none").split("|");
   const key = parts[0] || "none";
+  const namespaced = parts.length >= (key === "state" ? 4 : 3);
+  const start = namespaced ? 2 : 1;
   state.offsetCalc.key = key;
+  if (namespaced) state.offsetCalc.providerIdx = Number(parts[1]);
   if (key === "response") {
-    state.offsetCalc.skillId = parts[1] || null;
+    state.offsetCalc.skillId = parts[start] || null;
     state.offsetCalc.stateId = null;
     state.offsetCalc.stateValue = null;
   } else if (key === "state") {
     state.offsetCalc.skillId = null;
-    state.offsetCalc.stateId = parts[1] || null;
-    state.offsetCalc.stateValue = parts.slice(2).join("|") || null;
+    state.offsetCalc.stateId = parts[start] || null;
+    state.offsetCalc.stateValue = parts.slice(start + 1).join("|") || null;
+    const slot = state.slots[state.offsetCalc.providerIdx];
+    state.offsetCalc.stacks = num(slot?.toggles?.["stk_" + state.offsetCalc.stateValue]);
   } else {
     state.offsetCalc.skillId = null;
     state.offsetCalc.stateId = null;
@@ -472,13 +462,13 @@ function updateOffsetKey(value) {
 }
 
 function updateOffsetInput(el) {
-  const act = el.dataset.act;
-  state.offsetCalc = state.offsetCalc || {};
-  if (act === "offset-stacks") {
-    state.offsetCalc.stacks = clampNumberInput(el, state.offsetCalc.stacks || 0);
-    const slot = state.slots[state.offsetCalc.providerIdx];
-    if (slot && state.offsetCalc.stateValue) slot.toggles["stk_" + state.offsetCalc.stateValue] = state.offsetCalc.stacks;
-  }
+  const offset = compute().offset;
+  if (offset?.kind !== "state") return;
+  const { providerIdx, stateValue, stacks } = offset;
+  const nextStacks = clampNumberInput(el, stacks);
+  state.offsetCalc.providerIdx = providerIdx;
+  state.offsetCalc.stacks = nextStacks;
+  state.slots[providerIdx].toggles["stk_" + stateValue] = nextStacks;
   repaint();
 }
 
@@ -498,6 +488,7 @@ function responseSkillForTargetState(slot, value) {
 
 function currentOffsetBelongsToTargetState(slot, def) {
   const calc = state.offsetCalc || {};
+  if (calc.providerIdx != null && calc.providerIdx !== state.slots.indexOf(slot)) return false;
   if (calc.key === "state") return calc.stateId === def.id;
   if (calc.key !== "response") return false;
   const c = ch(slot?.char);
@@ -510,7 +501,7 @@ function syncOffsetFromStateChoice(slotIdx, stateId, value) {
   state.offsetCalc = state.offsetCalc || {};
   const slot = state.slots[slotIdx];
   const def = combatStateDefForApp(slot, stateId);
-  if (state.offsetCalc.key === "state" && state.offsetCalc.stateId === def?.id && !value) {
+  if (state.offsetCalc.key === "state" && state.offsetCalc.providerIdx === slotIdx && state.offsetCalc.stateId === def?.id && !value) {
     updateOffsetKey("tuneBreak");
     return;
   }
@@ -519,6 +510,8 @@ function syncOffsetFromStateChoice(slotIdx, stateId, value) {
   const stateText = [def?.id, normalizedValue, stateId, value, def?.label, L.combatStateLabel(def), opt?.label, L.combatOptionLabel(opt), opt?.valueLabel, opt?.formulaKind].join(" ");
   if (def?.kind !== "target" || !normalizedValue || !OFFSET_STATE_RE.test(stateText)) return;
   if (opt?.formulaKind === "coherenceInterference" || isCoherenceInterferenceTarget(stateText)) {
+    const sameTarget = state.offsetCalc.providerIdx === slotIdx && state.offsetCalc.stateId === def.id && state.offsetCalc.stateValue === normalizedValue;
+    if (!sameTarget) state.offsetCalc.stacks = num(slot.toggles["stk_" + normalizedValue]);
     state.offsetCalc.key = "state";
     state.offsetCalc.providerIdx = slotIdx;
     state.offsetCalc.skillId = null;
@@ -606,6 +599,7 @@ const ACTIONS = {
   }; },
   "effect-provider": (el) => { el.onchange = () => { state.effectCalc.providerIdx = el.value === "" ? null : +el.value; render(); }; },
   "effect-stacks": bindEffectInput,
+  "effect-applications": bindEffectInput,
   "effect-rage-stacks": bindEffectInput,
   "effect-deepen": bindEffectInput,
   "offset-key": (el) => { el.onchange = () => { updateOffsetKey(el.value); render(); }; },

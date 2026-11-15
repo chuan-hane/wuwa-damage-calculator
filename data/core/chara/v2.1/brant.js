@@ -338,7 +338,8 @@ WUWA.register({
         "statBonus": -150,
         "rate": 12,
         "min": 0,
-        "cap": 1560
+        "cap": 1560,
+        "includeActiveBuffs": true
       }
     },
     {
@@ -351,7 +352,8 @@ WUWA.register({
         "statBonus": -150,
         "rate": 8,
         "min": 0,
-        "cap": 1040
+        "cap": 1040,
+        "includeActiveBuffs": true
       }
     },
     {

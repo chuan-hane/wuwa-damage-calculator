@@ -73,12 +73,12 @@ require(path.join(root, "src/buff-view.js"));
 require(path.join(root, "src/panel-view.js"));
 require(path.join(root, "src/stage-view.js"));
 
-const board = { innerHTML: "", querySelectorAll: () => [] };
+const board = { innerHTML: "", querySelectorAll: () => [], setAttribute: () => {} };
 global.document = { getElementById: () => board, onclick: null, documentElement: { lang: "" }, title: "" };
 
 const app = fs.readFileSync(path.join(root, "src/app.js"), "utf8").replace(
   /\nrender\(\);\s*$/,
-  "\nglobalThis.__T = { state, pickCharacter, compute, slotBuffs, availableSkills, resourceKey, resourceControlsForSlot, resolvedSkill, buffStatus, setBuffToggle, buffStackCount, stateChoiceKey, stateControlsHTML, buffFormulaText, buffValue, scaleByInfo, render, syncOffsetFromStateChoice };",
+  "\nglobalThis.__T = { state, pickCharacter, compute, slotBuffs, availableSkills, resourceKey, resourceControlsForSlot, resolvedSkill, buffStatus, setBuffToggle, buffStackCount, stateChoiceKey, stateControlsHTML, buffFormulaText, buffValue, scaleByInfo, render, syncOffsetFromStateChoice, ACTIONS };",
 );
 eval(app);
 
@@ -4044,7 +4044,7 @@ function modalEffectAndOffsetControlRegressions() {
   assert(!effectOptions().includes("fusion"), "Denia Tune Strain mode should not expose Fusion effect damage");
   assert(!String(board.innerHTML).includes(`data-key="${deniaTargetState.id}"`), "Denia offset/interference target control should move out of the left state area");
   let offsetValues = new Set((__T.compute().offset.entries || []).map((entry) => entry.optionValue));
-  assert(offsetValues.has(`state|${deniaTargetState.id}|${deniaInterference}`), "Denia Tune Strain Interference should stay available in the offset-system calculator");
+  assert(offsetValues.has(`state|0|${deniaTargetState.id}|${deniaInterference}`), "Denia Tune Strain Interference should stay available in the offset-system calculator");
   slot.toggles[__T.stateChoiceKey("共鸣模态")] = "共鸣模态·聚爆";
   assert(effectOptions().includes("fusion"), "Denia Fusion mode should expose Fusion effect damage");
   slot.toggles[__T.stateChoiceKey("形态")] = "布景之形";
@@ -4063,7 +4063,7 @@ function modalEffectAndOffsetControlRegressions() {
   assert(!String(board.innerHTML).includes(`data-key="${aemeathTargetState.id}"`), "Aemeath offset/interference target control should move out of the left state area");
   assert(String(board.innerHTML).includes(`data-key="${aemeathTrailState.id}"`), "Aemeath Tune Rupture trail control should remain visible");
   offsetValues = new Set((__T.compute().offset.entries || []).map((entry) => entry.optionValue));
-  assert(offsetValues.has("response|tune_starburst"), "Aemeath Tune Rupture response should stay available in the offset-system calculator");
+  assert(offsetValues.has("response|0|tune_starburst"), "Aemeath Tune Rupture response should stay available in the offset-system calculator");
   slot.toggles[__T.stateChoiceKey("共鸣模态")] = "共鸣模态·聚爆";
   assert(effectOptions().includes("fusion"), "Aemeath Fusion mode should expose Fusion effect damage");
   assert(String(board.innerHTML).includes(`data-key="${aemeathFusionTrailState.id}"`), "Aemeath Fusion trail control should remain visible");
@@ -4188,9 +4188,12 @@ function cyberpunkCharacterRegressions() {
   slot.echo.fields.attackPct = 200;
   slot.echo.fields.critDamage = 300;
   slot.echo.fields["elem:electro"] = 100;
+  r = __T.compute();
+  expectEqual(r.normal, breakAmpHack, "Hack-break damage should ignore attack, crit damage, and element bonus");
   __T.state.enemy.finalDmg = 100;
   r = __T.compute();
-  expectEqual(r.normal, breakAmpHack, "Hack-break damage should ignore attack, crit damage, element bonus, and manual final damage");
+  assert(r.normal >= breakAmpHack * 2 && r.normal <= breakAmpHack * 2 + 1, "An explicit 100% final-damage input should double the response before final rounding");
+  expectEqual(r.normal, r.offset.normal, "Manual response modifiers must agree in both calculation views");
   __T.state.resultMode = "offset";
   __T.render();
   assert(String(board.innerHTML).includes("偏移体系"), "Offset-system calculator should render for hack-break characters");
@@ -4229,7 +4232,7 @@ function lynaeCharacterRegressions() {
   slot.toggles[__T.stateChoiceKey("共鸣模态")] = "共鸣模态·震谐";
   let r = __T.compute();
   let offsetValues = new Set((r.offset.entries || []).map((entry) => entry.optionValue));
-  assert(offsetValues.has("response|tune_rupture_response_spectral"), "Lynae Tune Rupture mode should expose the Tune Rupture response damage entry");
+  assert(offsetValues.has("response|0|tune_rupture_response_spectral"), "Lynae Tune Rupture mode should expose the Tune Rupture response damage entry");
   assert(![...offsetValues].some((value) => String(value).includes("目标震谐状态")), "Lynae Tune Rupture mode should not expose raw Tune Rupture target states in the offset calculator");
   assert(![...offsetValues].some((value) => String(value).includes("目标集谐状态")), "Lynae Tune Rupture mode should hide Tune Strain target states");
   assert(![...offsetValues].some((value) => String(value).includes("共鸣模态")), "Lynae resonance mode should not appear as an offset-system target state");
@@ -4262,9 +4265,12 @@ function lynaeCharacterRegressions() {
   slot.echo.fields.attackPct = 200;
   slot.echo.fields.critDamage = 300;
   slot.echo.fields["elem:spectro"] = 100;
+  r = __T.compute();
+  expectEqual(r.normal, baseResponse, "Lynae's response should ignore attack, crit damage, and element bonus");
   __T.state.enemy.finalDmg = 100;
   r = __T.compute();
-  expectEqual(r.normal, baseResponse, "Lynae Tune Rupture Response - Spectral Analysis should ignore attack, crit damage, element bonus, and manual final damage");
+  assert(r.normal >= baseResponse * 2 && r.normal <= baseResponse * 2 + 1, "Lynae's response should apply an explicit final-damage input before final rounding");
+  expectEqual(r.normal, r.offset.normal, "Lynae's response should match its offset entry with manual modifiers");
   slot.toggles.b_visual_break = true;
   r = __T.compute();
   expectEqual(r.breakAmp, 50, "Lynae Basic Attack - Visual Impact buff should add to base Tune Break Boost after confirmation");
@@ -4301,8 +4307,8 @@ function lynaeCharacterRegressions() {
   const lynaeStrainState = stateDefFor(window.WUWA.chars.lynae, "目标集谐状态");
   const lynaeStrainInterfered = stateOptionValueFor(window.WUWA.chars.lynae, "目标集谐·干涉");
   const lynaeStrainOffset = stateOptionValueFor(window.WUWA.chars.lynae, "目标集谐·偏移");
-  assert(offsetValues.has(`state|${lynaeStrainState.id}|${lynaeStrainInterfered}`), "Lynae Tune Strain mode should expose Tune Strain Interfered as the offset gain entry");
-  assert(!offsetValues.has(`state|${lynaeStrainState.id}|${lynaeStrainOffset}`), "Lynae Tune Strain mode should not expose raw Tune Strain Offset in the offset calculator");
+  assert(offsetValues.has(`state|0|${lynaeStrainState.id}|${lynaeStrainInterfered}`), "Lynae Tune Strain mode should expose Tune Strain Interfered as the offset gain entry");
+  assert(!offsetValues.has(`state|0|${lynaeStrainState.id}|${lynaeStrainOffset}`), "Lynae Tune Strain mode should not expose raw Tune Strain Offset in the offset calculator");
   assert(![...offsetValues].some((value) => String(value).includes("目标震谐状态")), "Lynae Tune Strain mode should hide Tune Rupture target states");
   assert(![...offsetValues].some((value) => String(value).includes("共鸣模态")), "Lynae resonance mode entries should stay out of the offset-system dropdown");
   skillIds = new Set(__T.availableSkills(slot).map((s) => s.id));
@@ -4319,7 +4325,7 @@ function lynaeCharacterRegressions() {
   expectEqual(r.offset.formulaKind, "coherenceInterference", "Tune Strain Interfered should use the coherence-interference formula kind");
   assert(r.offset.valid && r.offset.status === "已确认", "Confirmed Tune Strain Interfered state should be reflected in the offset-system calculator");
   expectEqual(r.offset.finalDmgGain, 12, "Lynae alone should cap Interfered at two stacks before scaling by Tune Break Boost");
-  expectEqual(r.offsetFinalDmg, 12, "Tune Strain Interfered final damage gain should feed the main damage formula");
+  expectEqual(r.rawTotals.finalDmg, 12, "Tune Strain Interfered should enter the main formula through its owner's Buff");
   assert(r.expected > noInterferenceDamage, "Increasing Tune Strain Interfered stacks should increase the main selected damage");
   slot.toggles[`stk_${strainBuff.stackGroup}`] = 3;
   slot.toggles.b_tune_strain_response = true;
@@ -5645,7 +5651,7 @@ function resonanceChainActionCoverageRegressions() {
     ["lingyang", "outro_frosty_marks", 587.94],
     ["xiangliyao", "outro_chain_rule", 237.63],
     ["carlotta", "outro_closing_remark", 794.2],
-    ["phoebe", "outro_attentive_heart", 783.41],
+    ["phoebe", "outro_attentive_heart", 528.41],
     ["phoebe", "outro_attentive_confession", 528.41],
     ["galbrena", "outro_ashen_pursuit", 795],
     ["qiuyuan", "outro_strike_before_ready", 100, "echoSkill"],
@@ -5707,7 +5713,7 @@ function resonanceChainActionCoverageRegressions() {
   slot.skill = "outro_attentive_heart";
   slot.toggles[__T.stateChoiceKey("mode_1")] = "mode_1_option_1";
   slot.seq = 1;
-  expectEqual(__T.compute().panel.baseMult, 783.41, "Phoebe Absolution Outro should include its 255% multiplier increase");
+  assert(Math.abs(__T.compute().panel.skillMult * 100 - 1875.8555) < 0.000001, "Phoebe Absolution Outro should multiply its base by 3.55");
   slot.seq = 2;
   __T.state.effectCalc = { key: "lightNoise", providerIdx: 0, stacks: 1, stackMode: "manual", deepen: 0 };
   expectEqual(__T.compute().totals.amplify, 120, "Phoebe chain 2 Absolution Outro amplification");
@@ -5736,7 +5742,7 @@ function resonanceChainActionCoverageRegressions() {
   hiyuki.toggles.stk_stack_group_1 = 2;
   __T.setBuffToggle(hiyuki, 0, "b_snow_rust_cd", true);
   __T.state.effectCalc = { key: "frost", providerIdx: 1, stacks: 1, stackMode: "manual", deepen: 0 };
-  expectEqual(__T.compute().effect.extraRate, 488, "Hiyuki chain 6 should boost team-applied Glacio Chafe while Hiyuki is active");
+  expectEqual(__T.compute().effect.extraRate, 590, "Hiyuki chain 6 should preserve the 102% base plus 488% increase for team triggers");
   __T.state.outputIdx = 1;
   expectEqual(__T.compute().effect.extraRate, 0, "Hiyuki chain 6 team trigger should require Hiyuki to be active");
 }
@@ -5927,7 +5933,225 @@ function fullCharacterAuditRegressions() {
   expectEqual(skill(W.chars.jinhsi, "loong_heavy").damageType, "basic", "Jinhsi Incarnation Heavy Attack should use Basic Attack damage");
 }
 
+function projectReviewOffsetRegressions() {
+  resetTeam(["jinhsi", "mornye"]);
+  const before = __T.compute().expected;
+  const select = { value: "state|1|target_2|target_2_option_2", dataset: {} };
+  __T.ACTIONS["offset-key"](select);
+  select.onchange();
+  const stacks = { value: "2", min: "0", max: "2", step: "1", dataset: { act: "offset-stacks" } };
+  __T.ACTIONS["offset-stacks"](stacks);
+  stacks.oninput();
+  let result = __T.compute();
+  expectEqual(result.offset.providerIdx, 1, "Selecting Mornye's offset entry must retain Mornye as provider");
+  expectEqual(result.offset.finalDmgGain, 2.4, "Mornye's two-stack response should still be calculated");
+  expectEqual(result.expected, before, "Mornye's personal Tune Strain response must not amplify Jinhsi");
+
+  resetTeam(["lynae", "mornye"]);
+  const lynae = __T.state.slots[0], mornye = __T.state.slots[1];
+  lynae.toggles[__T.stateChoiceKey("mode_1")] = "mode_1_option_2";
+  __T.state.outputIdx = 1;
+  __T.ACTIONS["offset-key"](select);
+  select.onchange();
+  stacks.value = "3";
+  stacks.max = "3";
+  stacks.oninput();
+  result = __T.compute();
+  const entries = result.offset.entries.filter((e) => e.kind === "state" && e.stateId === "target_2");
+  expectEqual(entries.length, 2, "Lynae and Mornye must have separate Tune Strain choices");
+  expectEqual(new Set(entries.map((e) => e.optionValue)).size, 2, "Offset choice identities must include their provider");
+  expectEqual(result.offset.providerIdx, 1, "Shared state ids must not switch Mornye's response to Lynae");
+  expectEqual(result.offset.stacks, 3, "Mornye's input must reach her response formula");
+  assert(Math.abs(result.rawTotals.finalDmg - 3.6) < 0.000001, "Mornye's own response must apply exactly once");
+  expectEqual(mornye.toggles.stk_target_2_option_2, 3, "Offset stack input must update the selected owner's state");
+  assert(!lynae.toggles.stk_target_2_option_2, "Editing Mornye must not change Lynae's saved stacks");
+
+  lynae.toggles[__T.stateChoiceKey("target_2")] = "target_2_option_2";
+  const remove = {};
+  __T.ACTIONS["clear-slot"](remove, 1);
+  remove.onclick({ stopPropagation() {} });
+  expectEqual(__T.compute().offset.providerIdx, 0, "Removing Mornye must reveal the remaining Lynae entry");
+  stacks.value = "2";
+  stacks.oninput();
+  expectEqual(__T.compute().offset.stacks, 2, "Offset input must update the displayed fallback entry");
+  expectEqual(lynae.toggles.stk_target_2_option_2, 2, "Fallback stack edits must persist on Lynae");
+  assert(mornye.toggles.stk_target_2_option_2 == null, "Fallback stack edits must leave the emptied slot untouched");
+
+  const responses = Object.values(window.WUWA.chars).flatMap((c) => c.skills
+    .filter((s) => ["hackDmg", "tuneRupture"].includes(s.damageType))
+    .map((s) => [c.id, s.id]));
+  responses.forEach(([id, skillId]) => {
+    resetTeam([id]);
+    const slot = __T.state.slots[0], action = skill(window.WUWA.chars[id], skillId);
+    [].concat(action.requiresState || [], action.requiresAllStates || []).forEach((value) => {
+      const def = stateDefFor(window.WUWA.chars[id], value);
+      slot.toggles[__T.stateChoiceKey(def.id)] = value;
+    });
+    slot.skill = skillId;
+    __T.state.offsetCalc = { key: "response", providerIdx: 0, skillId };
+    [[0, 0, 0], [50, 0, 0], [0, 30, 0], [0, 0, 20], [37, 19, 12]].forEach(([vulnerability, dmgReduction, finalDmg]) => {
+      Object.assign(__T.state.enemy, { vulnerability, dmgReduction, finalDmg });
+      const r = __T.compute();
+      expectEqual(r.sk.id, skillId, `${id} response regression must select the intended skill`);
+      expectEqual(r.normal, r.offset.normal, `${id}.${skillId} skill and offset non-crit results must match`);
+      expectEqual(r.critHit, r.offset.critHit, `${id}.${skillId} skill and offset crit results must match`);
+      expectEqual(r.expected, r.offset.expected, `${id}.${skillId} skill and offset expected results must match`);
+    });
+  });
+}
+
+function projectReviewEffectRegressions() {
+  const near = (a, b, message) => assert(Math.abs(a - b) < 0.000001, `${message}: ${a} != ${b}`);
+  resetTeam(["zani", "phoebe"]);
+  const zani = __T.state.slots[0], phoebe = __T.state.slots[1];
+  zani.skill = "forte_nightfall";
+  zani.toggles[__T.stateChoiceKey("form_1")] = "form_1_option_1";
+  zani.resources.blaze = 40;
+  phoebe.toggles[__T.stateChoiceKey("mode_1")] = "mode_1_option_2";
+  const base = __T.compute();
+  __T.setBuffToggle(phoebe, 1, "b_outro_lightnoise", true);
+  let result = __T.compute();
+  near(result.rawTotals.amplify - base.rawTotals.amplify, 100, "Phoebe's confirmed Frazzle amplification must apply to Zani's tagged Heavy Attack");
+  assert(result.expected > base.expected * 1.99, "Zani's direct attack must benefit from the 100% Frazzle amplification");
+  zani.toggles[__T.stateChoiceKey("state_1")] = "state_1_option_1";
+  near(__T.compute().rawTotals.amplify, 120, "Zani's own Sunburst amplification must not be counted twice");
+
+  resetTeam(["phoebe"]);
+  const ph = __T.state.slots[0];
+  ph.skill = "outro_attentive_heart";
+  ph.toggles[__T.stateChoiceKey("mode_1")] = "mode_1_option_1";
+  near(__T.compute().panel.skillMult * 100, 1875.8555, "Phoebe's Absolution Outro multiplier is 528.41 times 3.55");
+  ph.skill = "outro_attentive_confession";
+  ph.toggles[__T.stateChoiceKey("mode_1")] = "mode_1_option_2";
+  near(__T.compute().panel.skillMult * 100, 528.41, "Phoebe's Confession Outro must not receive the Absolution multiplier");
+
+  resetTeam(["hiyuki", "suisui"]);
+  const hiyuki = __T.state.slots[0];
+  hiyuki.toggles.stk_stack_group_1 = 2;
+  __T.setBuffToggle(hiyuki, 0, "b_snow_rust_cd", true);
+  __T.state.effectCalc = { key: "frost", providerIdx: 0, stacks: 1, applications: 1, stackMode: "manual", deepen: 0 };
+  [0, 3, 6].forEach((seq) => {
+    hiyuki.seq = seq;
+    const e = __T.compute().effect;
+    expectEqual(e.def.variant, "glacio_bite", "Hiyuki must convert the party's Glacio Chafe to Glacio Bite");
+    near(e.baseRate, 203.77, "Glacio Bite must calculate at its 10-stack cap");
+    near(e.extraRate, seq === 0 ? 102 : 590, "Hiyuki's extra rate must include each unlocked component once");
+    if (seq === 6) expectEqual(e.components[1].sources.effectExtraRate.length, 1, "Hiyuki Sequence 6 must replace the earlier extra-rate entries");
+  });
+  hiyuki.seq = 6;
+  __T.state.effectCalc.providerIdx = 1;
+  hiyuki.echo.fields.atkFlat = 0;
+  const before = __T.compute().effect;
+  hiyuki.echo.fields.atkFlat = 1000;
+  const after = __T.compute().effect;
+  __T.state.resultMode = "effect";
+  __T.render();
+  const rendered = String(board.innerHTML);
+  const displayStart = rendered.indexOf('id="result-main-display"');
+  const controlsStart = rendered.indexOf('id="result-inline-controls"');
+  assert(displayStart >= 0 && controlsStart > displayStart, "The effect result should retain its normal numeric result area");
+  assert(!rendered.slice(displayStart, controlsStart).includes('class="effect-component"'), "Component formulas must not replace the headline damage number");
+  expectEqual((rendered.match(/class="effect-component"/g) || []).length, 2, "Both damage owners should receive a separate formula in the formula area");
+  assert(/<option value="frost"[^>]*>霜冻效应/.test(rendered), "The converted effect must be named Glacio Bite in its selector");
+  near(after.components[0].raw, before.components[0].raw, "Changing Hiyuki ATK must not change Suisui's base application damage");
+  near(after.components[1].attack - before.components[1].attack, 1000, "Hiyuki's extra damage must read Hiyuki's own ATK");
+  assert(after.damage > before.damage, "Hiyuki's ATK must affect her Sequence 6 extra damage triggered by Suisui");
+  __T.state.effectCalc.applications = 3;
+  near(__T.compute().effect.raw, after.raw * 3, "Three applications must trigger three full Glacio Bite damage packets");
+  __T.state.effectCalc.applications = 0;
+  expectEqual(__T.compute().effect.damage, 0, "Zero applications must not trigger extra Glacio Bite damage");
+  __T.state.effectCalc.applications = 1;
+  __T.state.outputIdx = 1;
+  expectEqual(__T.compute().effect.extraRate, 0, "Off-field Hiyuki must not trigger Fine Snow's on-field additional damage");
+
+  resetTeam(["suisui"]);
+  __T.state.effectCalc = { key: "frost", providerIdx: 0, stacks: 1, stackMode: "manual", deepen: 0 };
+  result = __T.compute();
+  assert(!result.effect.def.variant, "Removing Hiyuki must restore ordinary Glacio Chafe");
+  near(result.effect.baseRate, 24.5, "Ordinary one-stack Glacio Chafe must retain its own rate");
+}
+
+function projectReviewStatRegressions() {
+  const near = (a, b, message) => assert(Math.abs(a - b) < 0.000001, `${message}: ${a} != ${b}`);
+  resetTeam(["sigrika"]);
+  const sigrika = __T.state.slots[0];
+  sigrika.skill = "liberation";
+  sigrika.weapon = "abyss_surges";
+  sigrika.echo.fields.energyRegen = 20;
+  const sigrikaBonus = buff(sigrika, "b_er_echo");
+  assert(__T.buffStatus(sigrika, 0, sigrikaBonus).applies, "Sigrika's Energy Regen gate must include the weapon passive");
+  near(__T.buffValue(sigrika, sigrikaBonus, 0), 15.6, "Sigrika must scale from the same 132.8% used by the gate");
+
+  [["roccia", 20, "b_lib_atk", 116.52], ["qiuyuan", 10, "b_liberation_cd", 19.304]].forEach(([id, crit, buffId, expected]) => {
+    resetTeam([id, "shorekeeper"]);
+    const slot = __T.state.slots[0], support = __T.state.slots[1];
+    slot.skill = "lib";
+    slot.echo.fields.critRate = crit;
+    support.toggles[__T.stateChoiceKey("field_1")] = "field_1_option_3";
+    support.echo.fields.energyRegen = 60;
+    near(__T.buffValue(slot, buff(slot, buffId), 0), expected, `${id} must include Shorekeeper's active converted Crit Rate`);
+  });
+  resetTeam(["mornye"]);
+  const slot = __T.state.slots[0];
+  slot.toggles[__T.stateChoiceKey("field_1")] = "field_1_option_1";
+  const halo = buff(slot, "son_33_halo_of_starry_radiance_atk");
+  __T.setBuffToggle(slot, 0, halo.id, true);
+  near(__T.scaleByInfo(slot, halo).source, 150, "Mornye's set must read her active Syntony Field buildup bonus");
+  near(__T.buffValue(slot, halo, 0), 25, "Mornye's set must cap at 25% ATK with 150% buildup efficiency");
+}
+
+function projectReviewWeaponRegressions() {
+  const weaponBuffs = window.WUWA_EQUIPMENT.weaponBuffs;
+  ["lustrous_razor", "emerald_of_genesis", "static_mist", "abyss_surges", "cosmic_ripples"].forEach((id) => {
+    [1, 5].forEach((rank) => {
+      const b = weaponBuffs(id, rank).find((b) => b.zone === "energyRegen");
+      expectEqual(b?.value, rank === 1 ? 12.8 : 25.6, `${id} must provide its permanent rank-scaled Energy Regen`);
+      expectEqual(b.scope, "self", `${id} Energy Regen must remain personal`);
+    });
+  });
+  resetTeam(["brant"]);
+  let slot = __T.state.slots[0];
+  slot.skill = "na1";
+  const base = __T.compute().rawTotals.typeBonus;
+  __T.setBuffToggle(slot, 0, "w_e1", true);
+  __T.setBuffToggle(slot, 0, "w_e2", true);
+  expectEqual(__T.compute().rawTotals.typeBonus - base, 48, "Unflickering Valor must grant both independent R1 Basic Attack bonuses");
+
+  resetTeam(["jiyan", "rover_aero"]);
+  slot = __T.state.slots[1];
+  const pledge = buff(slot, "w_e1");
+  assert(!__T.buffStatus(slot, 1, pledge).applies, "Bloodpact's Pledge must wait for the support's trigger confirmation");
+  __T.setBuffToggle(slot, 1, pledge.id, true);
+  assert(__T.buffStatus(slot, 1, pledge).applies, "Confirmed Aero Rover should provide Bloodpact's Pledge's Aero amplification");
+  expectEqual(pledge.value, 10, "Bloodpact's Pledge R1 Aero amplification");
+  __T.pickCharacter(1, "changli");
+  slot = __T.state.slots[1];
+  slot.weapon = "bloodpacts_pledge";
+  __T.setBuffToggle(slot, 1, "w_e1", true);
+  assert(!__T.buffStatus(slot, 1, buff(slot, "w_e1")).applies, "Another Sword wielder must not activate Aero Rover's weapon-specific team effect");
+
+  resetTeam(["lingyang"]);
+  slot = __T.state.slots[0];
+  slot.weapon = "gauntlets_21d";
+  slot.skill = "dodge";
+  assert(__T.buffStatus(slot, 0, buff(slot, "w_e1")).applies, "Gauntlets#21D must recognize the current Dodge Counter");
+  slot.skill = "na1";
+  assert(!__T.buffStatus(slot, 0, buff(slot, "w_e1")).applies, "Gauntlets#21D's Counter bonus must not affect an ordinary Basic Attack");
+
+  resetTeam(["yinlin"]);
+  slot = __T.state.slots[0];
+  const offField = buff(slot, "w_e2");
+  assert(__T.buffStatus(slot, 0, offField).precondition && !__T.buffStatus(slot, 0, offField).applies, "Stringmaster's off-field ATK must require explicit confirmation");
+  __T.setBuffToggle(slot, 0, offField.id, true);
+  expectEqual(__T.buffValue(slot, offField, 0), 12, "Stringmaster's additional off-field ATK must remain separate from the two hit stacks");
+  resetTeam();
+}
+
 const checks = [
+  ["review fixes: offset ownership and formula parity", projectReviewOffsetRegressions],
+  ["review fixes: effect conversion and multiplier semantics", projectReviewEffectRegressions],
+  ["review fixes: active-stat conversion dependencies", projectReviewStatRegressions],
+  ["review fixes: missing weapon effects", projectReviewWeaponRegressions],
   ["index loads every character file", indexLoadsAllCharacterFiles],
   ["index loads every beta file", indexLoadsAllBetaFiles],
   ["language packs are split", languagePacksAreSplit],

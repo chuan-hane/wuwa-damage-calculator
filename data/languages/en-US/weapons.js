@@ -157,6 +157,12 @@ window.WUWA_LANGUAGES.extend("en-US", {
             "label": "ATK",
             "excerpt": "ATK +8%",
             "conditionText": "When the Resonator dashes or dodges, increases ATK by 8%/10%/12%/14%/16%. Increases Dodge Counter DMG by 50%/62.5%/75%/87.5%/100%, lasting for 8/8/8/8/8s. When Dodge Counter is performed, heals 5%/6.25%/7.5%/8.75%/10% of the Resonator's Max HP. This effect can be triggered 1/1/1/1/1 time(s) every 6/6/6/6/6s."
+          },
+          {
+            "label": "Dodge Counter DMG Bonus",
+            "trigger": "After dodging or dashing",
+            "excerpt": "Dodging or dashing grants 50%/62.5%/75%/87.5%/100% Dodge Counter DMG Bonus",
+            "conditionText": "Increases Dodge Counter DMG by 50%/62.5%/75%/87.5%/100%, lasting for 8/8/8/8/8s."
           }
         ]
       },
@@ -328,6 +334,12 @@ window.WUWA_LANGUAGES.extend("en-US", {
             "label": "Resonance Liberation DMG Bonus",
             "excerpt": "Resonance Liberation DMG Bonus +21% per stack",
             "conditionText": "Increases Energy Regen by 12.8%/16%/19.2%/22.4%/25.6%. When Resonance Skill is cast, Resonance Liberation DMG Bonus is increased by 7%/8.75%/10.5%/12.25%/14%, stacking up to 3/3/3/3/3 times. This effect lasts for 12/12/12/12/12s."
+          },
+          {
+            "label": "Energy Regen",
+            "trigger": "Always active",
+            "excerpt": "Energy Regen increases by 12.8%/16%/19.2%/22.4%/25.6%",
+            "conditionText": "Increases Energy Regen by 12.8%/16%/19.2%/22.4%/25.6%."
           }
         ]
       },
@@ -341,6 +353,12 @@ window.WUWA_LANGUAGES.extend("en-US", {
             "label": "ATK",
             "excerpt": "ATK +12% per stack",
             "conditionText": "Increases Energy Regen by 12.8%/16%/19.2%/22.4%/25.6%. When Resonance Skill is cast, increases ATK by 6%/7.5%/9%/10.5%/12%, stacking up to 2/2/2/2/2 time(s). This effect lasts for 10/10/10/10/10s."
+          },
+          {
+            "label": "Energy Regen",
+            "trigger": "Always active",
+            "excerpt": "Energy Regen increases by 12.8%/16%/19.2%/22.4%/25.6%",
+            "conditionText": "Increases Energy Regen by 12.8%/16%/19.2%/22.4%/25.6%."
           }
         ]
       },
@@ -354,6 +372,12 @@ window.WUWA_LANGUAGES.extend("en-US", {
             "label": "ATK",
             "excerpt": "ATK +10%",
             "conditionText": "Increases Energy Regen by 12.8%/16%/19.2%/22.4%/25.6%. Incoming Resonator's ATK is increased by 10%/12.5%/15%/17.5%/20% for 14/14/14/14/14s, stackable for up to 1/1/1/1/1 times after the wielder casts Outro Skill."
+          },
+          {
+            "label": "Energy Regen",
+            "trigger": "Always active",
+            "excerpt": "Energy Regen increases by 12.8%/16%/19.2%/22.4%/25.6%",
+            "conditionText": "Increases Energy Regen by 12.8%/16%/19.2%/22.4%/25.6%."
           }
         ]
       },
@@ -372,6 +396,12 @@ window.WUWA_LANGUAGES.extend("en-US", {
             "label": "Resonance Skill DMG Bonus",
             "excerpt": "Resonance Skill DMG Bonus +10%",
             "conditionText": "Increases Energy Regen by 12.8%/16%/19.2%/22.4%/25.6%. When hitting a target with Resonance Skill, increases Basic Attack DMG Bonus by 10%/12.5%/15%/17.5%/20%, lasting for 8/8/8/8/8s. When hitting a target with Basic Attacks, increases Resonance Skill DMG Bonus by 10%/12.5%/15%/17.5%/20%, lasting for 8/8/8/8/8s."
+          },
+          {
+            "label": "Energy Regen",
+            "trigger": "Always active",
+            "excerpt": "Energy Regen increases by 12.8%/16%/19.2%/22.4%/25.6%",
+            "conditionText": "Increases Energy Regen by 12.8%/16%/19.2%/22.4%/25.6%."
           }
         ]
       },
@@ -385,6 +415,12 @@ window.WUWA_LANGUAGES.extend("en-US", {
             "label": "Basic Attack DMG Bonus",
             "excerpt": "Basic Attack DMG Bonus +16% per stack",
             "conditionText": "Increases Energy Regen by 12.8%/16%/19.2%/22.4%/25.6%. When dealing Basic Attack DMG, increases Basic Attack DMG Bonus by 3.2%/4%/4.8%/5.6%/6.4%, stacking up to 5/5/5/5/5 time(s). This effect lasts for 8/8/8/8/8s and can be triggered 1/1/1/1/1 time(s) every 0.5/0.5/0.5/0.5/0.5s."
+          },
+          {
+            "label": "Energy Regen",
+            "trigger": "Always active",
+            "excerpt": "Energy Regen increases by 12.8%/16%/19.2%/22.4%/25.6%",
+            "conditionText": "Increases Energy Regen by 12.8%/16%/19.2%/22.4%/25.6%."
           }
         ]
       },
@@ -421,6 +457,12 @@ window.WUWA_LANGUAGES.extend("en-US", {
             "label": "ATK",
             "excerpt": "ATK +24% per stack",
             "conditionText": "Grants 12%/15%/18%/21%/24% Attribute DMG Bonus. When dealing Resonance Skill DMG, increases ATK by 12%/15%/18%/21%/24%, stacking up to 2/2/2/2/2 times. This effect lasts for 5/5/5/5/5s. When the wielder is not on the field, increases their ATK by an additional 12%/15%/18%/21%/24%."
+          },
+          {
+            "label": "ATK",
+            "trigger": "While the wielder is off-field",
+            "excerpt": "While off-field, the wielder gains an additional 12%/15%/18%/21%/24% ATK",
+            "conditionText": "When the wielder is not on the field, increases their ATK by an additional 12%/15%/18%/21%/24%."
           }
         ]
       },
@@ -759,6 +801,12 @@ window.WUWA_LANGUAGES.extend("en-US", {
             "label": "Basic Attack DMG Bonus",
             "excerpt": "Basic Attack DMG Bonus +24%",
             "conditionText": "Increase Crit. Rate by 8%/10%/12%/14%/16%. Casting Resonance Liberation gives 24%/30%/36%/42%/48% Basic Attack DMG Bonus for 10/10/10/10/10s. Dealing Basic Attack DMG gives 24%/30%/36%/42%/48% Basic Attack DMG Bonus for 4/4/4/4/4s."
+          },
+          {
+            "label": "Basic Attack DMG Bonus",
+            "trigger": "After casting Resonance Liberation",
+            "excerpt": "Casting Resonance Liberation grants 24%/30%/36%/42%/48% Basic Attack DMG Bonus",
+            "conditionText": "Casting Resonance Liberation gives 24%/30%/36%/42%/48% Basic Attack DMG Bonus for 10/10/10/10/10s."
           }
         ]
       },
@@ -836,6 +884,12 @@ window.WUWA_LANGUAGES.extend("en-US", {
             "label": "Resonance Skill DMG Bonus",
             "excerpt": "Resonance Skill DMG Bonus +10%",
             "conditionText": "Providing Healing increases Resonance Skill DMG by 10%/14%/18%/22%/26% for 6/6/6/6/6s. When Rover: Aero casts Resonance Skill Unbound Flow, Aero DMG dealt by nearby Resonators on the field is Amplified by 10%/14%/18%/22%/26% for 30/30/30/30/30s."
+          },
+          {
+            "label": "Aero DMG Amplification",
+            "trigger": "When Rover: Aero casts Unbound Flow",
+            "excerpt": "Rover: Aero casting Unbound Flow grants nearby on-field Resonators 10%/14%/18%/22%/26% Aero DMG Amplification",
+            "conditionText": "When Rover: Aero casts Resonance Skill Unbound Flow, Aero DMG dealt by nearby Resonators on the field is Amplified by 10%/14%/18%/22%/26% for 30/30/30/30/30s."
           }
         ]
       },

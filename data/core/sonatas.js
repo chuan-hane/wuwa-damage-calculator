@@ -1223,7 +1223,8 @@ window.WUWA_SONATAS = [
       "scaleBy": {
         "stat": "discordEff",
         "rate": 0.2,
-        "cap": 25
+        "cap": 25,
+        "includeActiveBuffs": true
       }
     },
     "lead": {
@@ -1823,7 +1824,8 @@ window.WUWA_SONATAS = [
         "scaleBy": {
           "stat": "energyRegen",
           "rate": 0.1,
-          "cap": 25
+          "cap": 25,
+          "includeActiveBuffs": true
         }
       }
     ],

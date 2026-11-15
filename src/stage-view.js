@@ -5,7 +5,7 @@ window.WUWA_STAGE_VIEW = (() => {
     state, W, ch, wp, WEAPONS, SONATAS, leadChoicesForEcho, syncEchoLead,
     ECHO_COSTS, echoMainOptions, echoSubOptions, echoSubValues, echoFixedMain, ensureEchoDetail, echoDetailSummary, statLabel, echoStats,
     availableSkills, selectedSkill, resourceControlsForSlot, resolvedSkill, skillLayersForSlot, stateControlsHTML,
-    panelEntryTableHTML, autoResolutionHTML, settlementBuffRowsHTML,
+    panelEntryTableHTML, autoResolutionHTML, settlementBuffRowsHTML, teamEffectDefinition,
   }) {
     const { skillMultValue, skillValueAtLevel, EFFECT_DEFS, EFFECT_ORDER, HARMONY_BASE_OPTIONS, effectKeyOf, num } = window.WUWA_RULES;
     const L = window.WUWA_LANGUAGES;
@@ -770,7 +770,6 @@ window.WUWA_STAGE_VIEW = (() => {
       const finalSources = [
         targetPercentSource("最终伤害提升", state.enemy.finalDmg, true),
         sourceParts(activeSources, "finalDmg"),
-        r.offsetFinalDmg ? staticFormulaSource(L.text("集谐干涉"), "最终伤害提升", r.offsetFinalDmg) : null,
       ];
       const finalCard = isHarmonyResponse
         ? { k: L.text("最终伤害提升"), v: `<b>${r.finalDmg === 1 ? esc(L.text("不参与")) : esc(tnum(r.finalDmg))}</b>`, sub: L.text("明确指定才参与"), tip: formulaSourceTip(finalSources) }
@@ -961,6 +960,9 @@ window.WUWA_STAGE_VIEW = (() => {
     function effectFormulaHTML(r, availableKeys = teamEffectKeys()) {
       const e = visibleEffectResult(r, availableKeys);
       if (!e.enabled) return L.t("common.unselected");
+      if (e.components?.length) return e.components.map((part) =>
+        `<div class="effect-component"><div class="hint">${esc(part.providerName)} · ${esc(L.effect(part.def))}${part.additional ? ` · ${esc(L.text("额外"))}` : ""}</div>${effectFormulaHTML({ ...r, effect: { ...e, ...part, components: null } }, availableKeys)}</div>`
+      ).join("");
       if (e.kind === "defShred") {
         const perStack = num(e.def.valuePerStack);
         return formulaStripHTML([
@@ -979,7 +981,8 @@ window.WUWA_STAGE_VIEW = (() => {
       if (!e.valid) return `${esc(L.effect(e.def))}${L.text("当前只录入")}${knownEffectStacksText(e.def)}${L.text("层倍率。")}`;
       const baseValue = e.kind === "attack" ? tnum(e.attack) : tnum(e.base);
       const multValue = e.kind === "attack" ? `${tnum(e.rate)}%` : L.text("层数基础");
-      const rateParts = e.kind === "attack" ? [`${esc(L.effectShort(e.def))} ${L.stackText(e.stacks)} ${tnum(e.baseRate)}%`] : [];
+      const rateBasis = e.additional ? L.text("额外") : L.stackText(e.stacks);
+      const rateParts = e.kind === "attack" ? [`${esc(L.effectShort(e.def))} ${rateBasis} ${tnum(e.baseRate)}%`] : [];
       if (e.kind === "attack" && e.rageCap != null) rateParts.push(`${L.text("爆发")} ${L.stackText(e.rageStacks)} ${tnum(e.rageRate)}%`);
       if (e.kind === "attack" && e.multiplierBonus) {
         const baseRates = rateParts.join(" + ");
@@ -1032,6 +1035,7 @@ window.WUWA_STAGE_VIEW = (() => {
         { k: "防御系数", v: fx(e.defFactor), sub: `${L.text("我")}${tnum(e.charLevel)} / ${L.text("敌")}${tnum(e.enemyLevel)}`, tip: defTip },
         { k: "抗性系数", v: fx(e.resFactor), sub: `${L.text("抗性")} ${tnum(e.res)}%`, tip: resTip },
       ];
+      if (e.def.damageAtCap) cards.push({ k: "附加次数", v: tnum(e.applications), sub: L.text(e.actionStacks != null ? "当前技能决定" : "手动") });
       if (e.fixedCritRate != null) {
         cards.push({
           k: activeDamageMode() === "crit" ? "暴击伤害" : activeDamageMode() === "normal" ? "非暴伤害" : "期望修正",
@@ -1046,6 +1050,7 @@ window.WUWA_STAGE_VIEW = (() => {
     function effectStackControlHTML(e) {
       if (!e.enabled) return `<input type="number" disabled value="" />`;
       const def = e.def || {};
+      if (def.damageAtCap) return `<input type="number" min="0" step="1" data-act="effect-applications" value="${e.applications}" ${e.actionStacks != null ? "disabled" : ""} />`;
       if (def.allowedStacks) {
         const options = def.allowedStacks.filter((n) => n <= e.cap);
         return `<select data-act="effect-stacks">${options.map((n) => `<option value="${n}" ${n === e.stacks ? "selected" : ""}>${L.stackText(n)}</option>`).join("")}</select>`;
@@ -1077,7 +1082,7 @@ window.WUWA_STAGE_VIEW = (() => {
       const deepen = calc.deepen ?? 0;
       const capText = e.enabled ? effectCapTextHTML(r, availableKeys) : "";
       const options = availableKeys.map((key) => {
-        const def = EFFECT_DEFS[key];
+        const def = teamEffectDefinition(key);
         const label = key === selectedKey && capText ? `${L.effect(def)} · ${capText}` : L.effect(def);
         return `<option value="${key}" ${key === selectedKey ? "selected" : ""}>${esc(label)}</option>`;
       }).join("");
@@ -1085,7 +1090,7 @@ window.WUWA_STAGE_VIEW = (() => {
       return `<div class="result-inline-controls result-inline-controls--effect${rageClass}" id="result-inline-controls">
       <label class="result-inline-field result-inline-field--wide"><span>${esc(L.text("效应"))}</span><select data-act="effect-key" title="${esc(capText)}">${options}</select></label>
       ${effectProviderControlHTML(e)}
-      <label class="result-inline-field"><span>${esc(L.text("层数"))}</span>${effectStackControlHTML(e)}</label>
+      <label class="result-inline-field"><span>${esc(L.text(e.def?.damageAtCap ? "附加次数" : "层数"))}</span>${effectStackControlHTML(e)}</label>
       ${effectRageStackControlHTML(e)}
       <label class="result-inline-field"><span>${esc(L.text("手动加深%"))}</span><input type="number" step="0.1" data-act="effect-deepen" value="${esc(deepen)}" ${disabled} /></label>
     </div>`;
@@ -1094,8 +1099,8 @@ window.WUWA_STAGE_VIEW = (() => {
     function offsetSelectedValue(o) {
       if (!o || !o.enabled) return "tuneBreak";
       if (o.kind === "tuneBreak") return "tuneBreak";
-      if (o.kind === "response") return `response|${o.skill?.id || ""}`;
-      if (o.kind === "state") return `state|${o.stateId || ""}|${o.stateValue || ""}`;
+      if (o.kind === "response") return `response|${o.providerIdx}|${o.skill?.id || ""}`;
+      if (o.kind === "state") return `state|${o.providerIdx}|${o.stateId || ""}|${o.stateValue || ""}`;
       return "none";
     }
 
@@ -1197,16 +1202,18 @@ window.WUWA_STAGE_VIEW = (() => {
       ]);
     }
 
-    function offsetDeepenCard(o) {
-      const buff = tnum(o.buffDeepen || 0);
+    function offsetDamageModifierCards(o) {
+      const vulnerability = sourceParts(o.sources, "vulnerability");
+      const buff = tnum(vulnerability.reduce((total, part) => total + num(part.value), 0));
       const sub = `${L.text("易伤")}${tnum(o.enemyVulnerability)}% · ${L.text("减伤")}${tnum(o.enemyDmgReduction)}%${buff !== "0" ? ` · Buff ${buff}%` : ""}`;
       const tip = formulaSourceTip([
         targetPercentSource("受到伤害减少", o.enemyDmgReduction, false),
         targetPercentSource("易伤", o.enemyVulnerability, true),
-        sourceParts(o.sources, "amplify"),
-        sourceParts(o.sources, "vulnerability"),
+        vulnerability,
       ]);
-      return { k: "易伤", v: esc(tnum(o.deepenFactor)), sub, tip };
+      const cards = [{ k: "易伤", v: esc(tnum(o.vulnerabilityFactor)), sub, tip }];
+      if (o.amplifyFactor !== 1) cards.unshift({ k: "加深区", v: esc(tnum(o.amplifyFactor)), sub: `+${tnum((o.amplifyFactor - 1) * 100)}%`, tip: formulaSourceTip(sourceParts(o.sources, "amplify")) });
+      return cards;
     }
 
     function offsetResponseLabels(o) {
@@ -1257,7 +1264,7 @@ window.WUWA_STAGE_VIEW = (() => {
           { k: "等级倍率", v: esc(`${tnum(o.multiplier)}%`), sub: "固定等级参数", tip: formulaSourceTip([staticFormulaSource("固定等级参数", "等级倍率", o.multiplier, "%", false, true)]) },
           { k: "谐度增幅", v: esc(fx(o.breakAmpFactor)), sub: L.pointText(esc(tnum(o.breakAmp))), tip: offsetBreakAmpTip(o) },
           { k: "防御系数", v: esc(fx(o.defFactor)), sub: offsetDefenseSub(o), tip: offsetDefenseTip(o) },
-          offsetDeepenCard(o),
+          ...offsetDamageModifierCards(o),
           { k: "最终伤害提升", v: esc(tnum(o.finalDmg)), sub: `+${tnum((num(o.finalDmg) - 1) * 100)}%`, tip: offsetFinalTip(o) },
           { k: "固定系数", v: esc(tnum(o.fixedFactor)), sub: "固定系数0.8", tip: formulaSourceTip([staticFormulaSource("固定", "固定系数", o.fixedFactor, "", false, true)]) },
         ]);
@@ -1268,7 +1275,7 @@ window.WUWA_STAGE_VIEW = (() => {
         { k: "谐度基础值", v: esc(fmt(o.harmonyBase)), sub: esc(offsetCostLabel(o.harmonyBase)), tip: offsetHarmonyBaseTip(o) },
         { k: labels.multiplier, v: esc(`${tnum(o.multiplier)}%`), sub: `${esc(o.label || L.text("响应技能"))} ${esc(L.t("common.levelShort", { value: o.skLevel || 10 }))}`, tip: offsetResponseMultiplierTip(o) },
         { k: "谐度增幅", v: esc(fx(o.breakAmpFactor)), sub: L.pointText(esc(tnum(o.breakAmp))), tip: offsetBreakAmpTip(o) },
-        offsetDeepenCard(o),
+        ...offsetDamageModifierCards(o),
         { k: "防御系数", v: esc(fx(o.defFactor)), sub: offsetDefenseSub(o), tip: offsetDefenseTip(o) },
         { k: "抗性系数", v: esc(fx(o.resFactor)), sub: `${L.text("抗性")}${tnum(o.res)}%`, tip: offsetResTip(o) },
         { k: "最终伤害提升", v: esc(tnum(o.finalDmg)), sub: `+${tnum((num(o.finalDmg) - 1) * 100)}%`, tip: offsetFinalTip(o) },
@@ -1290,7 +1297,8 @@ window.WUWA_STAGE_VIEW = (() => {
       const selected = offsetSelectedValue(o);
       const options = (o.entries || []).map((entry) => {
         const detail = entry.kind === "response" ? ` (${L.damageType(entry.damageType || "响应")})` : "";
-        return `<option value="${esc(entry.optionValue)}" ${entry.optionValue === selected ? "selected" : ""}>${esc(L.text(entry.label))}${detail}</option>`;
+        const label = entry.providerName ? `${entry.providerName} · ${L.text(entry.label)}` : L.text(entry.label);
+        return `<option value="${esc(entry.optionValue)}" ${entry.optionValue === selected ? "selected" : ""}>${esc(label)}${detail}</option>`;
       }).join("");
       const hasCost = o.enabled && o.kind !== "state";
       const hasDetail = o.enabled && o.kind !== "tuneBreak";

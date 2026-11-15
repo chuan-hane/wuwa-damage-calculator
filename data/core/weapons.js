@@ -309,6 +309,25 @@ window.WUWA_DATA.weapons = [
           14,
           16
         ]
+      },
+      {
+        "id": "e1",
+        "zone": "typeBonus",
+        "damageType": "dodgeCounter",
+        "value": 50,
+        "rankValues": [
+          50,
+          62.5,
+          75,
+          87.5,
+          100
+        ],
+        "scope": "self",
+        "defaultActive": false,
+        "triggerDamageTypes": [
+          "dodgeCounter"
+        ],
+        "duration": 8
       }
     ]
   },
@@ -711,6 +730,20 @@ window.WUWA_DATA.weapons = [
         "triggerEvents": [
           "castResonanceSkill"
         ]
+      },
+      {
+        "id": "e1",
+        "zone": "energyRegen",
+        "value": 12.8,
+        "rankValues": [
+          12.8,
+          16,
+          19.2,
+          22.4,
+          25.6
+        ],
+        "scope": "self",
+        "defaultActive": true
       }
     ]
   },
@@ -741,6 +774,14 @@ window.WUWA_DATA.weapons = [
         "triggerEvents": [
           "castResonanceSkill"
         ]
+      },
+      {
+        "id": "e1",
+        "zone": "energyRegen",
+        "value": 12.8,
+        "rankValues": [12.8, 16, 19.2, 22.4, 25.6],
+        "scope": "self",
+        "defaultActive": true
       }
     ]
   },
@@ -767,6 +808,20 @@ window.WUWA_DATA.weapons = [
           17.5,
           20
         ]
+      },
+      {
+        "id": "e1",
+        "zone": "energyRegen",
+        "value": 12.8,
+        "rankValues": [
+          12.8,
+          16,
+          19.2,
+          22.4,
+          25.6
+        ],
+        "scope": "self",
+        "defaultActive": true
       }
     ]
   },
@@ -808,6 +863,20 @@ window.WUWA_DATA.weapons = [
           17.5,
           20
         ]
+      },
+      {
+        "id": "e2",
+        "zone": "energyRegen",
+        "value": 12.8,
+        "rankValues": [
+          12.8,
+          16,
+          19.2,
+          22.4,
+          25.6
+        ],
+        "scope": "self",
+        "defaultActive": true
       }
     ]
   },
@@ -836,6 +905,20 @@ window.WUWA_DATA.weapons = [
         "defaultActive": false,
         "damageType": "basic",
         "scope": "self"
+      },
+      {
+        "id": "e1",
+        "zone": "energyRegen",
+        "value": 12.8,
+        "rankValues": [
+          12.8,
+          16,
+          19.2,
+          22.4,
+          25.6
+        ],
+        "scope": "self",
+        "defaultActive": true
       }
     ]
   },
@@ -923,6 +1006,20 @@ window.WUWA_DATA.weapons = [
         ],
         "defaultActive": false,
         "scope": "self"
+      },
+      {
+        "id": "e2",
+        "zone": "attackPercent",
+        "value": 12,
+        "rankValues": [
+          12,
+          15,
+          18,
+          21,
+          24
+        ],
+        "scope": "self",
+        "defaultActive": false
       }
     ]
   },
@@ -1718,6 +1815,17 @@ window.WUWA_DATA.weapons = [
           42,
           48
         ]
+      },
+      {
+        "id": "e2",
+        "zone": "typeBonus",
+        "damageType": "basic",
+        "value": 24,
+        "rankValues": [24, 30, 36, 42, 48],
+        "scope": "self",
+        "defaultActive": false,
+        "triggerEvents": ["castResonanceLiberation"],
+        "duration": 10
       }
     ]
   },
@@ -1907,6 +2015,27 @@ window.WUWA_DATA.weapons = [
           22,
           26
         ]
+      },
+      {
+        "id": "e1",
+        "zone": "amplify",
+        "element": "aero",
+        "value": 10,
+        "rankValues": [
+          10,
+          14,
+          18,
+          22,
+          26
+        ],
+        "scope": "team",
+        "requiresSourceChar": "rover_aero",
+        "defaultActive": false,
+        "triggerSkills": [
+          "forte_misty_1",
+          "forte_misty_2"
+        ],
+        "duration": 30
       }
     ]
   },

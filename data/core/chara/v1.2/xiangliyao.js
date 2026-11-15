@@ -124,7 +124,10 @@ WUWA.register({
       "damageType": "basic",
       "multiplier": 238.58,
       "formula": "238.58%",
-      "multiplierByLevel": [120,129.84,139.68,153.46,163.3,174.62,190.36,206.1,221.85,238.58]
+      "multiplierByLevel": [120,129.84,139.68,153.46,163.3,174.62,190.36,206.1,221.85,238.58],
+      "damageTags": [
+        "dodgeCounter"
+      ]
     },
     {
       "id": "skill_deduction",

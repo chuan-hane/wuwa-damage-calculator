@@ -1,6 +1,7 @@
 "use strict";
 
 window.WUWA_LANGUAGES.extend("ko", {
+  "text": { "附加次数": "부여 횟수" },
   "elements": {
     "fusion": "용융",
     "glacio": "응결",
@@ -176,6 +177,7 @@ window.WUWA_LANGUAGES.extend("ko", {
     "首位单体效果": "메인 에코 효과"
   },
   "effects": {
+    "glacio_bite": "냉해 효과",
     "none": "계산 안 함",
     "不计算": "계산 안 함",
     "electro": "전기 플레어",
@@ -198,6 +200,7 @@ window.WUWA_LANGUAGES.extend("ko", {
     "虚湮效应": "인멸 재앙"
   },
   "effectShort": {
+    "glacio_bite": "냉해",
     "none": "계산 안 함",
     "electro": "전기",
     "电磁": "전기",

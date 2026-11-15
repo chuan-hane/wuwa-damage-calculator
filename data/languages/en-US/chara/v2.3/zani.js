@@ -138,13 +138,6 @@ window.WUWA_LANGUAGES.extend("en-US", {
           },
           {
             "source": "Resonance Skill: Sunburst",
-            "label": "Spectro Frazzle DMG Increase",
-            "trigger": "In Sunburst State",
-            "excerpt": "Spectro Frazzle DMG Increase +20%",
-            "desc": "Casting Targeted Action or Forcible Riposte sends Zani into Sunburst mode and inflicts a stack of Heliacal Ember upon the target on hit."
-          },
-          {
-            "source": "Resonance Skill: Sunburst",
             "label": "DMG Increase",
             "trigger": "In Sunburst State",
             "excerpt": "DMG Increase +20%",

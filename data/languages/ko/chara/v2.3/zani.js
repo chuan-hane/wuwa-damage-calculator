@@ -138,13 +138,6 @@ window.WUWA_LANGUAGES.extend("ko", {
           },
           {
             "source": "공명 스킬 · 가시 베기",
-            "label": "광학 효과 피해 증가",
-            "trigger": "가시 베기 상태 상태",
-            "excerpt": "광학 효과 피해 증가 +20%",
-            "desc": "광학 효과 피해 증가 +20%"
-          },
-          {
-            "source": "공명 스킬 · 가시 베기",
             "label": "피해 증가",
             "trigger": "가시 베기 상태 상태",
             "excerpt": "피해 증가 +20%",

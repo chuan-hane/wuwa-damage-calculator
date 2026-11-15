@@ -1,6 +1,7 @@
 "use strict";
 
 window.WUWA_LANGUAGES.extend("ja-JP", {
+  text: { "附加次数": "付与回数" },
   elements: {
     fusion: "焦熱",
     glacio: "凝縮",
@@ -176,6 +177,7 @@ window.WUWA_LANGUAGES.extend("ja-JP", {
     "首位单体效果": "メイン音骸効果"
   },
   effects: {
+    glacio_bite: "厳霜効果",
     none: "計算しない",
     "不计算": "計算しない",
     electro: "電磁効果",
@@ -198,6 +200,7 @@ window.WUWA_LANGUAGES.extend("ja-JP", {
     "虚湮效应": "虚滅効果"
   },
   effectShort: {
+    glacio_bite: "厳霜",
     none: "計算しない",
     electro: "電磁",
     "电磁": "電磁",

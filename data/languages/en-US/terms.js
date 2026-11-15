@@ -1,6 +1,7 @@
 "use strict";
 
 window.WUWA_LANGUAGES.extend("en-US", {
+  text: { "附加次数": "Applications" },
   elements: {
     fusion: "Fusion",
     glacio: "Glacio",
@@ -176,6 +177,7 @@ window.WUWA_LANGUAGES.extend("en-US", {
     "首位单体效果": "Lead Echo Effect"
   },
   effects: {
+    glacio_bite: "Glacio Bite",
     none: "None",
     "不计算": "None",
     electro: "Electro Flare",
@@ -198,6 +200,7 @@ window.WUWA_LANGUAGES.extend("en-US", {
     "虚湮效应": "Havoc Bane"
   },
   effectShort: {
+    glacio_bite: "Glacio Bite",
     none: "None",
     "电磁": "Electro Flare",
     "霜渐": "Glacio Chafe",

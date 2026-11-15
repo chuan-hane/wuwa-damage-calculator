@@ -480,11 +480,12 @@ WUWA.register({
       "zone": "amplify",
       "effect": "frost",
       "value": 30,
-      "scope": "self",
+      "scope": "team",
       "requiresBuffStacks": {
         "id": "b_snow_rust_cd",
         "stacks": 1
-      }
+      },
+      "requiresActiveChar": "hiyuki"
     },
     {
       "id": "b_snow_rust_frost_extra",
@@ -495,18 +496,22 @@ WUWA.register({
       "requiresBuffStacks": {
         "id": "b_snow_rust_cd",
         "stacks": 2
-      }
+      },
+      "effectSource": "self",
+      "requiresActiveChar": "hiyuki",
+      "maxSeq": 5
     },
     {
       "id": "b_snow_rust_frost_amp_3",
       "zone": "amplify",
       "effect": "frost",
       "value": 30,
-      "scope": "self",
+      "scope": "team",
       "requiresBuffStacks": {
         "id": "b_snow_rust_cd",
         "stacks": 3
-      }
+      },
+      "requiresActiveChar": "hiyuki"
     },
     {
       "id": "b_outro_glacio",
@@ -584,7 +589,9 @@ WUWA.register({
           "requiresBuffStacks": {
             "id": "b_snow_rust_cd",
             "stacks": 2
-          }
+          },
+          "effectSource": "self",
+          "requiresActiveChar": "hiyuki"
         }
       ]
     },
@@ -663,16 +670,23 @@ WUWA.register({
           "id": "k6_snow_rust_frost_extra",
           "zone": "effectExtraRate",
           "effect": "frost",
-          "value": 488,
+          "value": 590,
           "scope": "team",
           "requiresActiveChar": "hiyuki",
           "requiresBuffStacks": {
             "id": "b_snow_rust_cd",
             "stacks": 2
-          }
+          },
+          "effectSource": "self"
         }
       ]
     }
   ],
-  "modes": null
+  "modes": null,
+  "effectConversions": {
+    "frost": {
+      "id": "glacio_bite",
+      "damageAtCap": true
+    }
+  }
 });
