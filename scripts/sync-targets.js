@@ -42,11 +42,12 @@ const WHIWA_REWARD_TOKEN_IDS_BY_SEASON = {
   20: [71500094, 71500095, 71500096, 71500097],
   21: [71500098, 71500099, 71500100, 71500101],
   22: [71500102, 71500103, 71500104, 71500105],
+  23: [71500106, 71500107, 71500108, 71500109],
 };
 const REVIEWED_SEASONS = {
-  toa: new Set([37, 38, 39, 40]),
-  whiwa: new Set([19, 20, 21, 22]),
-  dpmatrix: new Set([6, 7, 8]),
+  toa: new Set([37, 38, 39, 40, 42]),
+  whiwa: new Set([19, 20, 21, 22, 23]),
+  dpmatrix: new Set([6, 7, 8, 9]),
 };
 const TOA_COMPOSED_SEASONS = new Set([39]);
 const MODE_RULES = {
@@ -82,6 +83,7 @@ const CONDITIONAL_RESISTANCE_SCHEMAS = {
 
 const UNCONDITIONAL_RESISTANCE_SCHEMAS = {
   92008196: { value: 15, elements: ["glacio", "aero", "spectro", "havoc"] },
+  92008203: { value: 15, elements: ["glacio", "fusion", "aero", "spectro", "havoc"] },
 };
 
 const TOA_GAMEPLAY_SCHEMAS = {
@@ -157,8 +159,27 @@ const TOA_GAMEPLAY_SCHEMAS = {
     ] },
     { suffix: "shield-stacks", control: "range", clause: -2, min: 0, max: 10, step: 1, defaultValue: 0, effects: [{ zone: "damageBonus", value: 12, controlMultiplier: true, element: "fusion", modes: ["skill"] }] },
   ],
+  92008202: [
+    { suffix: "crit-dmg", control: "fixed", clause: 0, effects: [{ zone: "critDamage", value: 25, modes: ["skill"] }] },
+    { suffix: "glacio", control: "fixed", clause: 1, effects: [{ zone: "damageBonus", value: 30, element: "glacio", modes: ["skill"] }] },
+  ],
+  92008203: [
+    { suffix: "echo-resistance-exemption", control: "fixed", clause: -1, effects: [{
+      zone: "resistance",
+      value: -UNCONDITIONAL_RESISTANCE_SCHEMAS[92008203].value,
+      elements: UNCONDITIONAL_RESISTANCE_SCHEMAS[92008203].elements,
+      damageTypes: ["echoSkill"],
+      modes: ["skill"],
+    }] },
+  ],
+  92008204: [
+    { suffix: "intro", control: "toggle", clause: 0, effects: [{ zone: "finalDmg", value: 15, modes: ["skill"] }] },
+    { suffix: "electro-flare", control: "toggle", clause: 1, confirmForRecipient: true, effects: [{ zone: "finalDmg", value: 55, modes: ["skill"] }] },
+    { suffix: "unison-response", control: "toggle", clause: 2, confirmForRecipient: true, effects: [{ zone: "finalDmg", value: 50, element: "electro", modes: ["skill"] }] },
+    { suffix: "echo-skill", control: "fixed", clause: 3, effects: [{ zone: "finalDmg", value: 50, damageTypes: ["echoSkill"], modes: ["skill"] }] },
+  ],
   92008036: [
-    { suffix: "intro-basic", control: "toggle", clause: 0, effects: [
+    { suffix: "intro-basic", control: "toggle", clause: 0, confirmForRecipient: true, effects: [
       { zone: "critDamage", value: 20, modes: ["skill"] },
       { zone: "typeBonus", value: 40, damageTypes: ["basic"], modes: ["skill"] },
     ] },
@@ -244,6 +265,24 @@ const WHIWA_TOKEN_SCHEMAS = {
       { zone: "damageBonus", value: 30, element: "aero", modes: ["skill"] },
     ] },
   ] },
+  71500106: { qualityId: 4, effects: [{ zone: "amplify", value: 25, modes: ["skill"] }] },
+  71500107: { qualityId: 5, effects: [], children: [
+    { suffix: "shield-stacks", control: "range", clause: 0, min: 0, max: 15, step: 1, defaultValue: 0, confirmForRecipient: true, effects: [
+      { zone: "damageBonus", value: 3, controlMultiplier: true, element: "fusion", modes: ["skill"] },
+      { zone: "finalDmg", value: 2.5, controlMultiplier: true, damageTypes: ["heavy"], modes: ["skill"] },
+    ] },
+  ] },
+  71500108: { qualityId: 5, effects: [], children: [
+    { suffix: "electro-flare", control: "toggle", clause: 0, confirmForRecipient: true, effects: [{ zone: "finalDmg", value: 65, modes: ["skill"] }] },
+    { suffix: "unison-response", control: "toggle", clause: 1, confirmForRecipient: true, effects: [{ zone: "finalDmg", value: 60, element: "electro", modes: ["skill"] }] },
+  ] },
+  71500109: { qualityId: 5, effects: [], children: [
+    { suffix: "tune-strain", control: "toggle", clause: 0, confirmForRecipient: true, effects: [{ zone: "finalDmg", value: 40, modes: ["skill"] }] },
+    { suffix: "tune-break", control: "toggle", clause: 1, effects: [
+      { zone: "damageBonus", value: 30, modes: ["skill"] },
+      { zone: "damageBonus", value: 30, element: "aero", modes: ["skill"] },
+    ] },
+  ] },
 };
 
 const MATRIX_BUFF_SCHEMAS_BY_SEASON = {
@@ -301,6 +340,23 @@ const MATRIX_BUFF_SCHEMAS_BY_SEASON = {
     37: { effects: [
       { zone: "finalDmg", value: 20, modes: ["skill"] },
       { zone: "finalDmg", value: 20, damageTypes: ["basic"], modes: ["skill"] },
+    ] },
+  },
+  9: {
+    39: { effects: [{ zone: "finalDmg", value: 80, effect: "frost", modes: ["effect"] }], children: [
+      { suffix: "negative-status", control: "toggle", clause: 0, effects: [{ zone: "finalDmg", value: 25, modes: ["skill"] }] },
+    ] },
+    40: { effects: [{ zone: "finalDmg", value: 65, damageTypes: ["echoSkill"], modes: ["skill"] }], children: [
+      { suffix: "shield", control: "toggle", clause: 0, confirmForRecipient: true, effects: [{ zone: "finalDmg", value: 25, modes: ["skill"] }] },
+      { suffix: "unison-response", control: "toggle", clause: -1, confirmForRecipient: true, effects: [{ zone: "finalDmg", value: 55, modes: ["skill"] }] },
+    ] },
+    41: { effects: [], children: [
+      { suffix: "tune-shifting", control: "toggle", clause: 0, effects: [{ zone: "finalDmg", value: 25, modes: ["skill"] }] },
+      { suffix: "tune-rupture", control: "toggle", clause: 1, confirmForRecipient: true, effects: [{ zone: "finalDmg", value: 30, modes: ["skill"] }] },
+    ] },
+    42: { effects: [
+      { zone: "finalDmg", value: 20, modes: ["skill"] },
+      { zone: "finalDmg", value: 20, damageTypes: ["resonanceLiberation"], modes: ["skill"] },
     ] },
   },
 };
@@ -370,7 +426,7 @@ function definitionFromSchema({ mode, seasonId, sourceId, suffix, schema, locale
     localeRef,
   };
   if (parentId) definition.parentId = parentId;
-  for (const key of ["min", "max", "step", "defaultValue", "qualityId"]) {
+  for (const key of ["min", "max", "step", "defaultValue", "qualityId", "confirmForRecipient"]) {
     if (schema[key] != null) definition[key] = schema[key];
   }
   return definition;
@@ -1074,7 +1130,14 @@ function currentSeasonEntry(entries, mode) {
 function includedSeasons(entries, mode, current) {
   const currentId = seasonValue(current, mode);
   if (mode === "dpmatrix") return entries.filter((entry) => seasonValue(entry, mode) <= currentId);
-  if (mode === "whiwa" || mode === "toa") {
+  if (mode === "toa") {
+    const firstReviewed = Math.min(...REVIEWED_SEASONS.toa);
+    return entries.filter((entry) => {
+      const id = seasonValue(entry, mode);
+      return REVIEWED_SEASONS.toa.has(id) || (id > 0 && id < firstReviewed && id <= currentId);
+    });
+  }
+  if (mode === "whiwa") {
     return entries.filter((entry) => {
       const id = seasonValue(entry, mode);
       return id > 0 && (id <= currentId || REVIEWED_SEASONS[mode].has(id));
@@ -1482,7 +1545,7 @@ function validateWhiwaGameplaySeason(seasonId, whiwaPayload) {
 }
 
 function validateReviewedGameplaySchemas(currentEntries, details) {
-  const expectedCurrent = { toa: "40", whiwa: "22", dpmatrix: "8" };
+  const expectedCurrent = { toa: "42", whiwa: "23", dpmatrix: "9" };
   Object.entries(expectedCurrent).forEach(([mode, seasonId]) => {
     assert(String(seasonValue(currentEntries[mode], mode)) === seasonId, mode + " current season has no reviewed gameplay Buff schema");
   });
@@ -1539,7 +1602,31 @@ function validateKnownSamples(targets, gameplayBuffs) {
   assert(matrixTargets.length === 15 && matrixRounds.size === 3, "matrix current season must expose 15 targets across three rounds");
   matrixRounds.forEach((round) => assert(matrixTargets.filter((target) => target.stageId === round).length === 5, "matrix current round must expose five targets"));
   assert(gameplayCounts["dpmatrix:6"] === 7 && gameplayCounts["dpmatrix:7"] === 7 && gameplayCounts["dpmatrix:8"] === 9, "matrix reviewed gameplay structure count failed");
-  assert(Object.keys(gameplayBuffs).length > 0, "current gameplay Buff snapshot is empty");
+
+  const toa42 = targets["toa:42:465:320000150"];
+  assert(toa42?.level === 100 && toa42.resistance.sourceKind === "stageFinal" && toa42.resistance.includesModeModifiers, "toa 42 final-stat sample failed");
+  assert(ELEMENTS.map((element) => toa42.resistances[element]).join(",") === "35,35,20,35,75,35", "toa 42 resistance exemption sample failed");
+  assert(!toa42.resistance.modifiers.some((modifier) => modifier.kind === "modeBase"), "toa 42 final resistance must not be restacked");
+  const echoExemptions = gameplayBuffs["toa:42:465:92008203:echo-resistance-exemption"]?.effects || [];
+  assert(echoExemptions.length === 1, "toa 42 Echo Skill requires one stage resistance adjustment");
+  const [echoExemption] = echoExemptions;
+  assert(echoExemption?.elements?.join(",") === "glacio,fusion,aero,spectro,havoc", "toa 42 Echo Skill exemption elements changed");
+  assert(echoExemption.zone === "resistance" && echoExemption.value === -15 && echoExemption.damageTypes.join(",") === "echoSkill"
+    && echoExemption.modes.join(",") === "skill", "toa 42 Echo Skill resistance exemption failed");
+  assert(Object.values(targets).filter((target) => target.mode === "toa" && target.seasonId === "42").length === 14, "toa 42 reviewed target count changed");
+
+  const whiwa23 = targets["whiwa:23:141:40280:310000080"];
+  assert(whiwa23?.level === 90 && ELEMENTS.map((element) => whiwa23.resistances[element]).join(",") === "20,70,20,20,20,20", "whiwa 23 intrinsic-plus-mode sample failed");
+  assert(whiwa23.gameplay.choiceGroups[0]?.optionIds.length === 9, "whiwa 23 complete Token sample failed");
+  assert(Object.values(targets).filter((target) => target.mode === "whiwa" && target.seasonId === "23").length === 54, "whiwa 23 reviewed target count changed");
+
+  const matrix9 = Object.values(targets).filter((target) => target.mode === "dpmatrix" && target.seasonId === "9");
+  assert(matrix9.length === 15 && matrix9.every((target) => target.areaId === 18), "dpmatrix 9 should retain only the 15 Singularity Expansion targets");
+  assert([1, 2, 3].every((round) => matrix9.filter((target) => target.stageId === round && target.level === 90 + round * 10).length === 5), "dpmatrix 9 reviewed round targets changed");
+  const matrixSample = targets["dpmatrix:9:18:1:1:175"];
+  assert(matrixSample && ELEMENTS.map((element) => matrixSample.resistances[element]).join(",") === "20,20,20,40,20,20", "dpmatrix 9 resistance sample failed");
+  assert(matrixSample.gameplay.choiceGroups[0]?.optionIds.length === 4, "dpmatrix 9 enhancement count changed");
+  assert(gameplayCounts["toa:42"] === 19 && gameplayCounts["whiwa:23"] === 21 && gameplayCounts["dpmatrix:9"] === 9, "3.8 reviewed gameplay structure count failed");
 }
 
 async function synchronize() {

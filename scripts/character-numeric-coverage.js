@@ -4,6 +4,10 @@
 // validated by direct percentage-to-core matching. The official description
 // hash makes every wording or numeric change require a new review.
 const REVIEWED_CHAIN_NUMERIC_COVERAGE = {
+  "lily:1": { hash: "42e927727bdf", refs: ["buff:b_dream_aroma_atk"], reason: "Each allied Intro Skill grants two Dream Aroma stacks at Sequence 1. The calculator uses the stacks held at the selected hit. Interruption immunity affects survival." },
+  "lily:3": { hash: "6be8a5e14549", refs: ["resource:dream_perfume", "resource:dreambell_chime", "skill:intro_eternal"], reason: "The extra 170 Dream Perfume and the faster Dreambell Chime gain change how soon actions unlock. The calculator uses the current resource values. The extra Concerto and Resonance Energy affect rotation." },
+  "lily:4": { hash: "129ed1b6d8b3", refs: ["state:slumberland"], reason: "The 30% increase applies to Slumberland healing." },
+  "lily:5": { hash: "cd2e36d0d43a", refs: ["state:slumberland"], reason: "The 50% increase applies to Slumberland's pull range." },
   "hsin:1": {
     "hash": "e07d45047ea8",
     "refs": [
@@ -120,6 +124,8 @@ const REVIEWED_CHAIN_NUMERIC_COVERAGE = {
 // descriptions. These cover relative formulas, manual trigger conditions, and
 // derived actions that cannot be joined to an API skill by display name alone.
 const REVIEWED_SKILL_NUMERIC_COVERAGE = {
+  "lily:1006303": { hash: "a12c883ae789", refs: ["buff:b_dream_aroma_atk"], reason: "Each Dream Aroma stack converts Energy Regen above 190% at 0.1% ATK per point, capped at 7%. The four-stack data stores the 0.4 rate and 28% cap before prorating by stacks." },
+  "lily:1006307": { hash: "b96c01dab53f", refs: ["buff:b_silvered_dream_atk", "buff:b_silvered_dream_cr", "buff:b_silvered_dream_cd"], reason: "The Unison Boon ATK conversion uses a 0.1 rate and a 7% cap per stack. Echo Skill Crit. Rate and Crit. DMG convert at 0.1% and 0.2% per 0.7 points of Energy Regen above 190%, capped at 10% and 20%." },
   "hsin:1006105": {
     "hash": "d87183145c77",
     "refs": [

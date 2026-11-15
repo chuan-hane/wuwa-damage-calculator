@@ -121,10 +121,12 @@ window.WUWA_RULES = (() => {
     return EFFECT_DEFS[raw] ? raw : (EFFECT_ALIASES[raw] || "none");
   }
 
+  const buffToggleKey = (buff) => buff.confirmGroup || buff.id;
+
   return {
     ZONES, ZONE_LABEL, STAT_DEF, CORE_SUBS, SEC_ZONE, ELEMENTS, TYPES,
     SKILL_LEVEL_RATIO, skillLevelRatio, skillMultValue, skillValueAtLevel, num, zeros, FORMULA_MULTIPLY_ZONES,
     TYPE_FIELD_BY_DAMAGE, TYPE_BY_KEY, TYPE_ADD_ORDER, ELEM_ADD_ORDER,
-    EFFECT_DEFS, EFFECT_ORDER, HARMONY_BASE_OPTIONS, effectKeyOf,
+    EFFECT_DEFS, EFFECT_ORDER, HARMONY_BASE_OPTIONS, effectKeyOf, buffToggleKey,
   };
 })();

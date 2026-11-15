@@ -132,6 +132,15 @@ window.WUWA_LANGUAGES.extend("en-US", { data: {
     },
     "dpmatrix:8": {
       "name": "S2 Phase 3"
+    },
+    "toa:42": {
+      "name": "Season 42"
+    },
+    "whiwa:23": {
+      "name": "Season 23"
+    },
+    "dpmatrix:9": {
+      "name": "S2 Phase 4"
     }
   },
   "targetAreas": {
@@ -382,6 +391,24 @@ window.WUWA_LANGUAGES.extend("en-US", { data: {
       "name": "Respawning Waters: Torrents"
     },
     "dpmatrix:8:16": {
+      "name": "Singularity Expansion"
+    },
+    "toa:42:1": {
+      "name": "Resonant Tower"
+    },
+    "toa:42:2": {
+      "name": "Hazard Tower"
+    },
+    "toa:42:3": {
+      "name": "Echoing Tower"
+    },
+    "whiwa:23:2": {
+      "name": "Respawning Waters: Chasm"
+    },
+    "whiwa:23:3": {
+      "name": "Respawning Waters: Torrents"
+    },
+    "dpmatrix:9:18": {
       "name": "Singularity Expansion"
     }
   },
@@ -648,6 +675,18 @@ window.WUWA_LANGUAGES.extend("en-US", { data: {
       "name": "Seabane"
     },
     "whiwa:22:138": {
+      "name": "Infinite Torrents"
+    },
+    "whiwa:23:141": {
+      "name": "Riptide"
+    },
+    "whiwa:23:142": {
+      "name": "Tempest"
+    },
+    "whiwa:23:143": {
+      "name": "Seabane"
+    },
+    "whiwa:23:144": {
       "name": "Infinite Torrents"
     }
   },
@@ -1638,6 +1677,9 @@ window.WUWA_LANGUAGES.extend("en-US", { data: {
     },
     "monster:340000261": {
       "name": "Desolate Apparition"
+    },
+    "matrix:665700003": {
+      "name": "Denia"
     }
   },
   "targetBuffs": {
@@ -2376,6 +2418,202 @@ window.WUWA_LANGUAGES.extend("en-US", { data: {
     "dpmatrix:8:36:hack-shifting": {
       "name": "Inflicting Hack - Shifting increases the total DMG dealt by the Resonator by 30% for 30s",
       "desc": "Inflicting Tunability - Shifting increases the total DMG dealt by all Resonators in the team by 25% for 30s. Inflicting Hack - Shifting increases the total DMG dealt by the Resonator by 30% for 30s."
+    },
+    "toa:42:462:92008036:intro-basic": {
+      "name": "When Resonators cast Intro Skill, their Crit",
+      "desc": "When Resonators cast Intro Skill, their Crit. DMG is increased by 20%, and they gain 40% Basic Attack DMG for 18s. Retriggering the effect resets its duration."
+    },
+    "toa:42:463:92008202:crit-dmg": {
+      "name": "Crit",
+      "desc": "Crit. DMG is increased by 25%. Resonators gain 30% Glacio DMG Bonus."
+    },
+    "toa:42:463:92008202:glacio": {
+      "name": "DMG is increased by 25%",
+      "desc": "Crit. DMG is increased by 25%. Resonators gain 30% Glacio DMG Bonus."
+    },
+    "toa:42:464:92008202:crit-dmg": {
+      "name": "Crit",
+      "desc": "Crit. DMG is increased by 25%. Resonators gain 30% Glacio DMG Bonus."
+    },
+    "toa:42:464:92008202:glacio": {
+      "name": "DMG is increased by 25%",
+      "desc": "Crit. DMG is increased by 25%. Resonators gain 30% Glacio DMG Bonus."
+    },
+    "toa:42:465:92008205:time-ramp": {
+      "name": "60s after the battle starts, after a Resonator's attacks hit an enemy, that enemy takes 5% more total DMG",
+      "desc": "60s after the battle starts, after a Resonator's attacks hit an enemy, that enemy takes 5% more total DMG. This value increases by 5% every 5s, up to a maximum of 60%."
+    },
+    "toa:42:465:92008203:echo-resistance-exemption": {
+      "name": "This effect does not affect the Electro DMG and Echo Skill DMG they take",
+      "desc": "Enemies' All-Attribute RES is increased by 15%. This effect does not affect the Electro DMG and Echo Skill DMG they take."
+    },
+    "toa:42:465:92008204:intro": {
+      "name": "Casting Intro Skill increases the total DMG dealt by all Resonators in the team by 15% for 20s",
+      "desc": "Casting Intro Skill increases the total DMG dealt by all Resonators in the team by 15% for 20s. When a Resonator inflicts Electro Flare, they deal 55% more total DMG for 20s. When a Resonator triggers Unison Response, they deal 50% more total Electro DMG for 20s. Resonators deal 50% more total Echo Skill DMG."
+    },
+    "toa:42:465:92008204:electro-flare": {
+      "name": "When a Resonator inflicts Electro Flare, they deal 55% more total DMG for 20s",
+      "desc": "Casting Intro Skill increases the total DMG dealt by all Resonators in the team by 15% for 20s. When a Resonator inflicts Electro Flare, they deal 55% more total DMG for 20s. When a Resonator triggers Unison Response, they deal 50% more total Electro DMG for 20s. Resonators deal 50% more total Echo Skill DMG."
+    },
+    "toa:42:465:92008204:unison-response": {
+      "name": "When a Resonator triggers Unison Response, they deal 50% more total Electro DMG for 20s",
+      "desc": "Casting Intro Skill increases the total DMG dealt by all Resonators in the team by 15% for 20s. When a Resonator inflicts Electro Flare, they deal 55% more total DMG for 20s. When a Resonator triggers Unison Response, they deal 50% more total Electro DMG for 20s. Resonators deal 50% more total Echo Skill DMG."
+    },
+    "toa:42:465:92008204:echo-skill": {
+      "name": "Resonators deal 50% more total Echo Skill DMG",
+      "desc": "Casting Intro Skill increases the total DMG dealt by all Resonators in the team by 15% for 20s. When a Resonator inflicts Electro Flare, they deal 55% more total DMG for 20s. When a Resonator triggers Unison Response, they deal 50% more total Electro DMG for 20s. Resonators deal 50% more total Echo Skill DMG."
+    },
+    "toa:42:466:92008205:time-ramp": {
+      "name": "60s after the battle starts, after a Resonator's attacks hit an enemy, that enemy takes 5% more total DMG",
+      "desc": "60s after the battle starts, after a Resonator's attacks hit an enemy, that enemy takes 5% more total DMG. This value increases by 5% every 5s, up to a maximum of 60%."
+    },
+    "toa:42:466:92008203:echo-resistance-exemption": {
+      "name": "This effect does not affect the Electro DMG and Echo Skill DMG they take",
+      "desc": "Enemies' All-Attribute RES is increased by 15%. This effect does not affect the Electro DMG and Echo Skill DMG they take."
+    },
+    "toa:42:466:92008204:intro": {
+      "name": "Casting Intro Skill increases the total DMG dealt by all Resonators in the team by 15% for 20s",
+      "desc": "Casting Intro Skill increases the total DMG dealt by all Resonators in the team by 15% for 20s. When a Resonator inflicts Electro Flare, they deal 55% more total DMG for 20s. When a Resonator triggers Unison Response, they deal 50% more total Electro DMG for 20s. Resonators deal 50% more total Echo Skill DMG."
+    },
+    "toa:42:466:92008204:electro-flare": {
+      "name": "When a Resonator inflicts Electro Flare, they deal 55% more total DMG for 20s",
+      "desc": "Casting Intro Skill increases the total DMG dealt by all Resonators in the team by 15% for 20s. When a Resonator inflicts Electro Flare, they deal 55% more total DMG for 20s. When a Resonator triggers Unison Response, they deal 50% more total Electro DMG for 20s. Resonators deal 50% more total Echo Skill DMG."
+    },
+    "toa:42:466:92008204:unison-response": {
+      "name": "When a Resonator triggers Unison Response, they deal 50% more total Electro DMG for 20s",
+      "desc": "Casting Intro Skill increases the total DMG dealt by all Resonators in the team by 15% for 20s. When a Resonator inflicts Electro Flare, they deal 55% more total DMG for 20s. When a Resonator triggers Unison Response, they deal 50% more total Electro DMG for 20s. Resonators deal 50% more total Echo Skill DMG."
+    },
+    "toa:42:466:92008204:echo-skill": {
+      "name": "Resonators deal 50% more total Echo Skill DMG",
+      "desc": "Casting Intro Skill increases the total DMG dealt by all Resonators in the team by 15% for 20s. When a Resonator inflicts Electro Flare, they deal 55% more total DMG for 20s. When a Resonator triggers Unison Response, they deal 50% more total Electro DMG for 20s. Resonators deal 50% more total Echo Skill DMG."
+    },
+    "toa:42:470:92008110:def-ignore": {
+      "name": "Resonators ignore 25% of the enemy's DEF when dealing damage",
+      "desc": "Resonators ignore 25% of the enemy's DEF when dealing damage. When enemies are affected by Negative Statuses, their DMG taken is Amplified by 20%."
+    },
+    "toa:42:470:92008110:negative-status": {
+      "name": "When enemies are affected by Negative Statuses, their DMG taken is Amplified by 20%",
+      "desc": "Resonators ignore 25% of the enemy's DEF when dealing damage. When enemies are affected by Negative Statuses, their DMG taken is Amplified by 20%."
+    },
+    "whiwa:23:71500011:token": {
+      "name": "Assistance: Rare Pact",
+      "desc": "Summons an Echo to support you in combat. It does not take damage from the Resonators. This Token has unlimited uses in Whimpering Wastes."
+    },
+    "whiwa:23:71501001:token": {
+      "name": "Inscriber - Lone Light in the Long Night",
+      "desc": "Enemies take 15% more total DMG and 50% more Tune Rupture DMG. This Token can be used up to 2 times in Whimpering Wastes."
+    },
+    "whiwa:23:71501002:token": {
+      "name": "Hopebearer - Lone Light in the Long Night",
+      "desc": "Enemies take 15% more total DMG. Resonators deal 15% more total DMG to enemies in Tune Strain - Interfered or Tune Strain - Shifting. This Token can be used up to 2 times in Whimpering Wastes."
+    },
+    "whiwa:23:71501002:concentrated-harmony": {
+      "name": "Resonators deal 15% more total DMG to enemies in Tune Strain - Interfered or Tune Strain - Shifting",
+      "desc": "Enemies take 15% more total DMG. Resonators deal 15% more total DMG to enemies in Tune Strain - Interfered or Tune Strain - Shifting. This Token can be used up to 2 times in Whimpering Wastes."
+    },
+    "whiwa:23:71501003:token": {
+      "name": "Fabricator - Lone Light in the Long Night",
+      "desc": "Enemies take 15% more total DMG. Echo Skill deals 25% more total DMG. This Token can be used up to 2 times in Whimpering Wastes."
+    },
+    "whiwa:23:71501004:token": {
+      "name": "Solacer - Lone Light in the Long Night",
+      "desc": "Enemies take 15% more total DMG. Inflicting Negative Status on the enemies increases total DMG by 15% for 30s. This Token can be used up to 2 times in Whimpering Wastes."
+    },
+    "whiwa:23:71501004:negative-status": {
+      "name": "Inflicting Negative Status on the enemies increases total DMG by 15% for 30s",
+      "desc": "Enemies take 15% more total DMG. Inflicting Negative Status on the enemies increases total DMG by 15% for 30s. This Token can be used up to 2 times in Whimpering Wastes."
+    },
+    "whiwa:23:71500106:token": {
+      "name": "Reveler Captain's Seal",
+      "desc": "Amplifies all Attribute DMG by 25%. This Token can be used up to 2 times in Whimpering Wastes."
+    },
+    "whiwa:23:71500107:token": {
+      "name": "Lamp That Illuminates the Illusion",
+      "desc": "Gaining Shield grants the Resonator 3% Fusion DMG Bonus and increases their total Heavy Attack DMG by 2.5% for 3s, stacking up to 15 times. Retriggering this effect refreshes the duration. This Token can be used up to 2 times in Whimpering Wastes."
+    },
+    "whiwa:23:71500107:shield-stacks": {
+      "name": "Gaining Shield grants the Resonator 3% Fusion DMG Bonus and increases their total Heavy Attack DMG by 2.5% for 3s, stacking up to 15 times",
+      "desc": "Gaining Shield grants the Resonator 3% Fusion DMG Bonus and increases their total Heavy Attack DMG by 2.5% for 3s, stacking up to 15 times. Retriggering this effect refreshes the duration. This Token can be used up to 2 times in Whimpering Wastes."
+    },
+    "whiwa:23:71500108:token": {
+      "name": "The Craft of Endless Inspiration",
+      "desc": "When a Resonator inflicts Electro Flare, they deal 65% more total DMG for 20s. When a Resonator triggers Unison Response, they deal 60% more total Electro DMG for 20s. This Token can be used up to 2 times in Whimpering Wastes."
+    },
+    "whiwa:23:71500108:electro-flare": {
+      "name": "When a Resonator inflicts Electro Flare, they deal 65% more total DMG for 20s",
+      "desc": "When a Resonator inflicts Electro Flare, they deal 65% more total DMG for 20s. When a Resonator triggers Unison Response, they deal 60% more total Electro DMG for 20s. This Token can be used up to 2 times in Whimpering Wastes."
+    },
+    "whiwa:23:71500108:unison-response": {
+      "name": "When a Resonator triggers Unison Response, they deal 60% more total Electro DMG for 20s",
+      "desc": "When a Resonator inflicts Electro Flare, they deal 65% more total DMG for 20s. When a Resonator triggers Unison Response, they deal 60% more total Electro DMG for 20s. This Token can be used up to 2 times in Whimpering Wastes."
+    },
+    "whiwa:23:71500109:token": {
+      "name": "The Scale of Heart and Soul",
+      "desc": "Inflicting Tune Strain - Shifting increases the Resonator's total DMG dealt by 40% for 30s. Dealing Tune Break DMG grants 30% All-Attribute DMG Bonus plus an additional 30% Aero DMG Bonus to all Resonators in the team for 30s. This Token can be used up to 2 times in Whimpering Wastes."
+    },
+    "whiwa:23:71500109:tune-strain": {
+      "name": "Inflicting Tune Strain - Shifting increases the Resonator's total DMG dealt by 40% for 30s",
+      "desc": "Inflicting Tune Strain - Shifting increases the Resonator's total DMG dealt by 40% for 30s. Dealing Tune Break DMG grants 30% All-Attribute DMG Bonus plus an additional 30% Aero DMG Bonus to all Resonators in the team for 30s. This Token can be used up to 2 times in Whimpering Wastes."
+    },
+    "whiwa:23:71500109:tune-break": {
+      "name": "Dealing Tune Break DMG grants 30% All-Attribute DMG Bonus plus an additional 30% Aero DMG Bonus to all Resonators in the team for 30s",
+      "desc": "Inflicting Tune Strain - Shifting increases the Resonator's total DMG dealt by 40% for 30s. Dealing Tune Break DMG grants 30% All-Attribute DMG Bonus plus an additional 30% Aero DMG Bonus to all Resonators in the team for 30s. This Token can be used up to 2 times in Whimpering Wastes."
+    },
+    "whiwa:23:141:tide-state": {
+      "name": "During this state, attacks that hit enemies cause them to take 60% more Total DMG for 5s",
+      "desc": "Dealing damage or defeating enemies restores Ember. The Burning Waves state starts when Ember is full, which lasts for 30s. During this state, attacks that hit enemies cause them to take 60% more Total DMG for 5s. When hit by a Resonator's skill, enemies in the Mistune state take an instance of Tune Break DMG and then exit the Mistune state."
+    },
+    "whiwa:23:142:tide-state": {
+      "name": "During this state, attacks that hit enemies cause them to take 60% more Total DMG for 5s",
+      "desc": "Dealing damage or defeating enemies restores Ember. The Burning Waves state starts when Ember is full, which lasts for 30s. During this state, attacks that hit enemies cause them to take 60% more Total DMG for 5s. When hit by a Resonator's skill, enemies in the Mistune state take an instance of Tune Break DMG and then exit the Mistune state."
+    },
+    "whiwa:23:143:tide-state": {
+      "name": "During this state, attacks that hit enemies cause them to take 60% more Total DMG for 5s",
+      "desc": "Dealing damage or defeating enemies restores Ember. The Burning Waves state starts when Ember is full, which lasts for 30s. During this state, attacks that hit enemies cause them to take 60% more Total DMG for 5s. When hit by a Resonator's skill, enemies in the Mistune state take an instance of Tune Break DMG and then exit the Mistune state."
+    },
+    "whiwa:23:144:tide-state": {
+      "name": "During this state, attacks that hit enemies cause them to take 60% more Total DMG for 5s",
+      "desc": "Total DMG taken by enemies is increased by 30%. Dealing damage or defeating enemies restores Ember. The Burning Waves state starts when Ember is full, which lasts for 30s. During this state, attacks that hit enemies cause them to take 60% more Total DMG for 5s. All Tokens have unlimited uses while inside the Infinite Torrents. When hit by a Resonator's skill, enemies in the Mistune state take an instance of Tune Break DMG and then exit the Mistune state."
+    },
+    "whiwa:23:144:endless-final": {
+      "name": "Total DMG taken by enemies is increased by 30%",
+      "desc": "Total DMG taken by enemies is increased by 30%. Dealing damage or defeating enemies restores Ember. The Burning Waves state starts when Ember is full, which lasts for 30s. During this state, attacks that hit enemies cause them to take 60% more Total DMG for 5s. All Tokens have unlimited uses while inside the Infinite Torrents. When hit by a Resonator's skill, enemies in the Mistune state take an instance of Tune Break DMG and then exit the Mistune state."
+    },
+    "dpmatrix:9:42:enhancement": {
+      "name": "General Enhancement",
+      "desc": "Enemies take 20% more total DMG. Enemies take 20% more total Resonance Liberation DMG."
+    },
+    "dpmatrix:9:39:enhancement": {
+      "name": "Enhancement: Negative Status",
+      "desc": "When inflicted with Negative Statuses, the target's total DMG taken is increased by 25% for 30s. Enemies take 80% more total Glacio Chafe DMG."
+    },
+    "dpmatrix:9:39:negative-status": {
+      "name": "When inflicted with Negative Statuses, the target's total DMG taken is increased by 25% for 30s",
+      "desc": "When inflicted with Negative Statuses, the target's total DMG taken is increased by 25% for 30s. Enemies take 80% more total Glacio Chafe DMG."
+    },
+    "dpmatrix:9:40:enhancement": {
+      "name": "Basic DMG Enhancement",
+      "desc": "Resonators deal 25% more total DMG for 2s upon gaining a Shield. Total Echo Skill DMG is increased by 65%. When a Resonator triggers Unison Response, they deal 55% more total DMG for 30s."
+    },
+    "dpmatrix:9:40:shield": {
+      "name": "Resonators deal 25% more total DMG for 2s upon gaining a Shield",
+      "desc": "Resonators deal 25% more total DMG for 2s upon gaining a Shield. Total Echo Skill DMG is increased by 65%. When a Resonator triggers Unison Response, they deal 55% more total DMG for 30s."
+    },
+    "dpmatrix:9:40:unison-response": {
+      "name": "When a Resonator triggers Unison Response, they deal 55% more total DMG for 30s",
+      "desc": "Resonators deal 25% more total DMG for 2s upon gaining a Shield. Total Echo Skill DMG is increased by 65%. When a Resonator triggers Unison Response, they deal 55% more total DMG for 30s."
+    },
+    "dpmatrix:9:41:enhancement": {
+      "name": "Enhancement: Tune Break",
+      "desc": "Inflicting Tunability - Shifting increases the total DMG dealt by all Resonators in the team by 25% for 30s. Dealing Tune Rupture DMG increases the total DMG dealt by the Resonator by 30% for 30s."
+    },
+    "dpmatrix:9:41:tune-shifting": {
+      "name": "Inflicting Tunability - Shifting increases the total DMG dealt by all Resonators in the team by 25% for 30s",
+      "desc": "Inflicting Tunability - Shifting increases the total DMG dealt by all Resonators in the team by 25% for 30s. Dealing Tune Rupture DMG increases the total DMG dealt by the Resonator by 30% for 30s."
+    },
+    "dpmatrix:9:41:tune-rupture": {
+      "name": "Dealing Tune Rupture DMG increases the total DMG dealt by the Resonator by 30% for 30s",
+      "desc": "Inflicting Tunability - Shifting increases the total DMG dealt by all Resonators in the team by 25% for 30s. Dealing Tune Rupture DMG increases the total DMG dealt by the Resonator by 30% for 30s."
     }
   }
 } });

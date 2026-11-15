@@ -952,7 +952,8 @@ input:disabled {
   font-size: 14px;
 }
 
-.b-stack input {
+.b-stack input,
+.b-stack select {
   width: 46px;
   min-height: 16px;
   margin: 0 4px;
@@ -1747,6 +1748,15 @@ input:disabled {
   min-height: 34px;
   display: flex;
   align-items: center;
+}
+
+.team-echo-row--set-picker {
+  grid-template-columns: minmax(0, 1fr);
+  gap: 0;
+}
+
+.team-echo-row--set-picker .team-gear-set-row {
+  gap: 8px;
 }
 
 .team-gear-summary {

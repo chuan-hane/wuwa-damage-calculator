@@ -516,9 +516,9 @@ function targetSelectionInterface() {
   const css = fs.readFileSync(path.join(root, "styles.css"), "utf8");
   const appSource = fs.readFileSync(path.join(root, "src/app.js"), "utf8");
   const targets = window.WUWA_TARGETS;
-  expectEqual(targets.sortedSeasons("toa").slice(0, 3).map((item) => item.id).join(","), "40,39,38", "ToA seasons should sort newest to oldest above the current season");
-  expectEqual(targets.sortedSeasons("whiwa").slice(0, 2).map((item) => item.id).join(","), "22,21", "Whiwa seasons should sort newest to oldest above the current season");
-  expectEqual(targets.sortedSeasons("dpmatrix").slice(0, 2).map((item) => item.id).join(","), "8,7", "Matrix seasons should sort newest to oldest");
+  expectEqual(targets.sortedSeasons("toa").slice(0, 3).map((item) => item.id).join(","), "42,40,39", "ToA seasons should sort newest to oldest");
+  expectEqual(targets.sortedSeasons("whiwa").slice(0, 2).map((item) => item.id).join(","), "23,22", "Whiwa seasons should sort newest to oldest");
+  expectEqual(targets.sortedSeasons("dpmatrix").slice(0, 2).map((item) => item.id).join(","), "9,8", "Matrix seasons should sort newest to oldest");
   const targetPickerHTML = (page) => {
     const start = page.indexOf('class="formula-target-pick ');
     const end = [page.indexOf('class="formula-target-level"', start), page.indexOf('class="formula-target-cost"', start)]
@@ -859,8 +859,8 @@ function targetSnapshotCoverage() {
 
   const toaSeasonIds = new Set(data.modes.toa.seasons.map((season) => Number(season.id)));
   assert(Array.from(toaSeasonIds).every((id) => id >= 32), "ToA seasons without complete level and resistance data should be omitted");
-  assert(toaSeasonIds.has(38) && toaSeasonIds.has(39) && toaSeasonIds.has(40), "current and calibration ToA seasons should be included");
-  expectEqual(data.modes.toa.currentSeasonId, "40", "ToA should default to the current season");
+  assert(toaSeasonIds.has(38) && toaSeasonIds.has(39) && toaSeasonIds.has(40) && toaSeasonIds.has(42), "current, historical, and calibration ToA seasons should be included");
+  expectEqual(data.modes.toa.currentSeasonId, "42", "ToA should default to the current season");
   assert((data.snapshot.exclusions.toaSeasons || []).some((item) => Number(item.seasonId) === 31), "snapshot should record excluded incomplete ToA seasons");
   assert((data.snapshot.exclusions.toaRecords || []).every((item) => item.reason === "unparsedResistanceModifier"), "snapshot should only omit ToA records whose resistance modifier is not structurally proven");
   const toaTargets = targets.filter((target) => target.mode === "toa");
@@ -869,18 +869,18 @@ function targetSnapshotCoverage() {
   assert(calibrationToaTargets.every((target) => target.level === (target.areaId === 2 ? 100 : 90)), "ToA calibration target levels should match the stage-final data");
   assert(calibrationToaTargets.every((target) => target.resistance.sourceKind === "stageFinal" && target.resistance.includesModeModifiers), "ToA calibration targets should carry stage-final resistance metadata");
   assert(calibrationToaTargets.every((target) => !target.resistance.modifiers.some((modifier) => modifier.kind === "modeBase")), "ToA calibration resistance should not be restacked");
-  const currentToaTargets = toaTargets.filter((target) => target.seasonId === "40");
+  const currentToaTargets = toaTargets.filter((target) => target.seasonId === "42");
   assert(currentToaTargets.length === 14, "current ToA season should retain all 14 reviewed targets");
-  assert(currentToaTargets.every((target) => target.level === (target.id === "toa:40:440:320000190" ? 75 : target.areaId === 2 ? 100 : 90)), "current ToA target levels should retain the stage-final per-monster values");
+  assert(currentToaTargets.every((target) => target.level === (target.areaId === 2 ? 100 : 90)), "current ToA target levels should retain the stage-final per-monster values");
   assert(currentToaTargets.every((target) => target.resistance.sourceKind === "stageFinal" && target.resistance.includesModeModifiers), "current ToA targets should carry complete stage-final resistance metadata");
   assert(currentToaTargets.every((target) => !target.resistance.modifiers.some((modifier) => modifier.kind === "modeBase")), "current ToA final resistance should not be restacked");
   const whiwaTargets = targets.filter((target) => target.mode === "whiwa");
   assert(whiwaTargets.every((target) => [9, 10, 11, 12].includes(target.stageOrder)), "Whiwa floors 1-8 should be omitted");
   assert(whiwaTargets.every((target) => target.level === (target.stageOrder === 12 ? 100 : 90)), "Whiwa snapshot should use level 90 for orders 9-11 and level 100 for endless");
-  assert(data.modes.whiwa.seasons.some((season) => Number(season.id) === 22), "current Whiwa season should be included");
-  expectEqual(data.modes.whiwa.currentSeasonId, "22", "Whiwa should default to the current season");
+  assert(data.modes.whiwa.seasons.some((season) => Number(season.id) === 23), "current Whiwa season should be included");
+  expectEqual(data.modes.whiwa.currentSeasonId, "23", "Whiwa should default to the current season");
   const whiwaTokens = Object.values(data.gameplayBuffs).filter((buff) => buff.mode === "whiwa" && buff.control === "option");
-  for (const seasonId of ["19", "20", "21", "22"]) {
+  for (const seasonId of ["19", "20", "21", "22", "23"]) {
     const seasonalTokens = whiwaTokens.filter((buff) => buff.id.startsWith(`whiwa:${seasonId}:`));
     expectEqual(seasonalTokens.filter((buff) => buff.qualityId === 4).length, 6, `Whiwa ${seasonId} purple Token count`);
     expectEqual(seasonalTokens.filter((buff) => buff.qualityId === 5).length, 3, `Whiwa ${seasonId} gold Token count`);
@@ -889,11 +889,11 @@ function targetSnapshotCoverage() {
   expectEqual(data.snapshot.synthesis.gameplayBuffs.whiwaSelectableTokenCounts.gold, 3, "Whiwa snapshot selectable gold Token metadata");
   expectEqual(data.snapshot.synthesis.toa.calibrationSeasonId, 38, "ToA composed resistance should remain calibrated against the latest complete stage-final season");
   assert(data.snapshot.synthesis.toa.calibratedTargetCount === 13, "ToA composed resistance calibration should cover all retained calibration targets");
-  assert(data.snapshot.synthesis.gameplayBuffs.reviewedSeasons.toa.join(",") === "37,38,39,40", "reviewed ToA season metadata");
-  assert(data.snapshot.synthesis.gameplayBuffs.reviewedSeasons.whiwa.join(",") === "19,20,21,22", "reviewed Whiwa season metadata");
-  assert(data.snapshot.synthesis.gameplayBuffs.reviewedSeasons.dpmatrix.join(",") === "6,7,8", "reviewed Matrix season metadata");
+  assert(data.snapshot.synthesis.gameplayBuffs.reviewedSeasons.toa.join(",") === "37,38,39,40,42", "reviewed ToA season metadata");
+  assert(data.snapshot.synthesis.gameplayBuffs.reviewedSeasons.whiwa.join(",") === "19,20,21,22,23", "reviewed Whiwa season metadata");
+  assert(data.snapshot.synthesis.gameplayBuffs.reviewedSeasons.dpmatrix.join(",") === "6,7,8,9", "reviewed Matrix season metadata");
 
-  const currentMatrix = targets.filter((target) => target.mode === "dpmatrix" && target.seasonId === data.modes.dpmatrix.currentSeasonId && target.areaId === 16);
+  const currentMatrix = targets.filter((target) => target.mode === "dpmatrix" && target.seasonId === data.modes.dpmatrix.currentSeasonId && target.areaId === 18);
   expectEqual(currentMatrix.length, 15, "current Matrix season should retain all 15 visible targets");
   expectEqual(Array.from(new Set(currentMatrix.map((target) => target.stageId))).sort().join(","), "1,2,3", "current Matrix season should expose three wave choices");
   expectEqual([1, 2, 3].map((round) => currentMatrix.filter((target) => target.stageId === round).length).join(","), "5,5,5", "current Matrix season target count per wave");
@@ -1589,13 +1589,13 @@ function characterPickerSortsNewestFirst() {
     const id = match[1];
     if (window.WUWA.chars[id] && !picked.includes(id)) picked.push(id);
   }
-  assert(!Object.values(window.WUWA.chars).some((c) => c.betaVersion), "released v3.7 data should leave no beta characters mounted");
-  const latestStable = new Set(picked.slice(0, 2));
-  assert(["hsin", "suoming"].every((id) => latestStable.has(id)), `character picker should list the stable 3.7 characters first: ${picked.slice(0, 5).join(", ")}`);
-  assert(["qingxiao", "jingran"].every((id) => picked.slice(2, 4).includes(id)), "stable 3.6 characters should follow 3.7");
-  const v35 = new Set(picked.slice(4, 7));
+  assert(!Object.values(window.WUWA.chars).some((c) => c.betaVersion), "released v3.8 data should leave no beta characters mounted");
+  expectEqual(picked[0], "lily", "character picker should list Lily first");
+  assert(["hsin", "suoming"].every((id) => picked.slice(1, 3).includes(id)), "stable 3.7 characters should follow Lily");
+  assert(["qingxiao", "jingran"].every((id) => picked.slice(3, 5).includes(id)), "stable 3.6 characters should follow 3.7");
+  const v35 = new Set(picked.slice(5, 8));
   assert(["rover_electro", "yangyang_xuanling", "suisui"].every((id) => v35.has(id)), `stable 3.5 characters should follow the 3.6 characters: ${picked.slice(0, 9).join(", ")}`);
-  assert(Number(window.WUWA.chars[picked[7]]?.debut) <= 3.4, "older stable characters should follow the 3.5 characters");
+  assert(Number(window.WUWA.chars[picked[8]]?.debut) <= 3.4, "older stable characters should follow the 3.5 characters");
 }
 
 function v35CharacterEntryRegressions() {
@@ -1967,9 +1967,15 @@ function characterSchemasAreLinked() {
     yangyang_xuanling: 3.5,
     suisui: 3.5,
   };
-  for (const c of Object.values(window.WUWA.chars)) {
+  const characters = Object.values(window.WUWA.chars);
+  const resourceKeysFor = (character) => (character.resources || []).flatMap((r) => [r.id, r.label].filter(Boolean));
+  const teamResourceKeys = new Set(characters.flatMap(resourceKeysFor));
+  for (const c of characters) {
     const skillIds = new Set((c.skills || []).map((s) => s.id));
-    const resourceKeys = new Set((c.resources || []).flatMap((r) => [r.id, r.label].filter(Boolean)));
+    const resourceKeys = new Set(resourceKeysFor(c));
+    const hasBuffResource = (key, target) => (
+      target === "team" || target === "output" ? teamResourceKeys : resourceKeys
+    ).has(key);
     for (const [stat, value] of Object.entries(c.fixedStats || {})) {
       if (!validFixedStats.has(stat)) bad.push(`${c.id}: fixedStats ${stat} unsupported`);
       if (!Number.isFinite(Number(value))) bad.push(`${c.id}: fixedStats ${stat} invalid`);
@@ -2108,7 +2114,7 @@ function characterSchemasAreLinked() {
       }
       if (b.requiresResourceAtLeast) {
         const req = b.requiresResourceAtLeast;
-        if (!resourceKeys.has(req.id || req.label)) bad.push(`${c.id}.${b.id}: requiresResourceAtLeast ${(req.id || req.label)} missing`);
+        if (!hasBuffResource(req.id || req.label, req.target)) bad.push(`${c.id}.${b.id}: requiresResourceAtLeast ${(req.id || req.label)} missing`);
         if (req.value == null && req.fractionOfCap == null) bad.push(`${c.id}.${b.id}: requiresResourceAtLeast missing value`);
         (req.alternateStates || []).forEach((stateName) => {
           if (!stateDefFor(c, stateName)) bad.push(`${c.id}.${b.id}: requiresResourceAtLeast alternateState ${stateName} missing`);
@@ -2119,7 +2125,7 @@ function characterSchemasAreLinked() {
         if (!resourceKeys.has(req.id || req.label)) bad.push(`${c.id}.${b.id}: requiresResourceBelow ${(req.id || req.label)} missing`);
         if (req.value == null && req.fractionOfCap == null) bad.push(`${c.id}.${b.id}: requiresResourceBelow missing value`);
       }
-      if (b.stackResource && !resourceKeys.has(b.stackResource)) bad.push(`${c.id}.${b.id}: stackResource ${b.stackResource} missing`);
+      if (b.stackResource && !hasBuffResource(b.stackResource, b.stackResourceTarget)) bad.push(`${c.id}.${b.id}: stackResource ${b.stackResource} missing`);
       if (b.multAddByResource && !resourceKeys.has(b.multAddByResource.id || b.multAddByResource.resource)) bad.push(`${c.id}.${b.id}: multAddByResource ${(b.multAddByResource.id || b.multAddByResource.resource)} missing`);
       if (b.multScaleAddByResource && !resourceKeys.has(b.multScaleAddByResource.id)) bad.push(`${c.id}.${b.id}: multScaleAddByResource missing`);
       if (b.stackState && !stateDefFor(c, b.stackState)) bad.push(`${c.id}.${b.id}: stackState missing`);
@@ -2293,6 +2299,7 @@ function allPlainResourceGatesAreReviewed() {
     "hsin.lib",
     "suoming.unison_intro",
     "suoming.unison_unfurled_intro",
+    "lily.intro_eternal",
   ]);
   const bad = [];
   for (const c of Object.values(window.WUWA.chars)) {
@@ -2938,7 +2945,7 @@ function detailedEchoModeRegressions() {
   window.WUWA_EQUIPMENT.ensureEchoDetail(slot, c);
   expectEqual(detail.echoes[0].cost, 3, "lead echo cost should stay independently selectable");
   expectEqual(detail.echoes[0].main, "elem:spectro", "lead echo should normalize its main stat for the selected cost");
-  expectEqual(slot.echo.lead, null, "a lead effect with a different recorded cost should not apply");
+  expectEqual(detail.lead, null, "a lead effect with a different recorded cost should not apply in detailed mode");
   expectEqual(detail.echoes[3].main, "attackPct", "non-lead echo main stat should be normalized to valid options for its cost");
   expectEqual(detail.echoes[1].subs[1].key, "", "detailed echo mode should clear duplicate substat keys on the same echo");
   expectEqual(detail.echoes[2].subs[0].key, "", "detailed echo mode should clear legacy Tune Break Boost substats");
@@ -6186,18 +6193,58 @@ function targetV37FixtureRegressions() {
   assert(matrixShield.effects.some((effect) => effect.zone === "finalDmg" && effect.value === 11 && effect.controlMultiplier), "3.7 Matrix shield enhancement should grant 11% final DMG per stack");
 }
 
-function targetV37SnapshotRegressions() {
+function targetV38FixtureRegressions() {
+  const toaTargets = {};
+  const toaGameplay = {};
+  targetSync.buildToaSeason(targetFixtures.toaV38, 42, toaTargets, [], toaGameplay);
+  const toa = toaTargets["toa:42:465:320000150"];
+  expectEqual(toa.level, 100, "3.8 ToA middle tower level");
+  expectEqual(targetSync.ELEMENTS.map((element) => toa.resistances[element]).join(","), "35,35,20,35,75,35", "3.8 ToA stage-final resistance with the Electro exemption");
+  assert(toa.resistance.includesModeModifiers && !toa.resistance.modifiers.some((profile) => profile.kind === "modeBase"), "3.8 ToA final resistance must be applied once");
+  const echoExemption = toaGameplay["toa:42:465:92008203:echo-resistance-exemption"];
+  expectEqual(echoExemption.effects.length, 1, "3.8 ToA Echo Skill should use one stage resistance adjustment");
+  const [echoAdjustment] = echoExemption.effects;
+  assert(echoAdjustment.zone === "resistance" && echoAdjustment.value === -15
+    && echoAdjustment.elements.join(",") === "glacio,fusion,aero,spectro,havoc"
+    && echoAdjustment.damageTypes.join(",") === "echoSkill" && echoAdjustment.modes.join(",") === "skill",
+    "3.8 ToA Echo Skill exemption must only remove the corresponding 15% increases");
+
+  const whiwaTargets = {};
+  const whiwaGameplay = {};
+  const monsterDetails = new Map([[targetFixtures.monsterV37.Id, targetFixtures.monsterV37]]);
+  targetSync.buildWhiwaSeason(targetFixtures.whiwaV38, 23, whiwaTargets, monsterDetails, whiwaGameplay);
+  const whiwa = whiwaTargets["whiwa:23:141:40280:310000080"];
+  expectEqual(whiwa.level, 90, "3.8 Whiwa floor 9 level");
+  expectEqual(targetSync.ELEMENTS.map((element) => whiwa.resistances[element]).join(","), "20,70,20,20,20,20", "3.8 Whiwa composed resistance");
+  expectEqual(whiwa.resistance.modifiers.filter((modifier) => modifier.kind === "modeBase").length, 1, "3.8 Whiwa mode base should apply once");
+  const whiwaShield = whiwaGameplay["whiwa:23:71500107:shield-stacks"];
+  assert(whiwaShield.max === 15 && whiwaShield.defaultValue === 0 && whiwaShield.effects.some((effect) => effect.zone === "finalDmg" && effect.value === 2.5 && effect.controlMultiplier), "3.8 Whiwa shielding grants 2.5% Heavy Attack final DMG per confirmed stack");
+
+  const matrixTargets = {};
+  const matrixGameplay = {};
+  const matrixIds = targetSync.buildMatrixSeason(targetFixtures.dpmatrixV38, 9, matrixTargets, matrixGameplay);
+  assert(matrixIds.length === 15 && matrixIds.every((id) => matrixTargets[id].areaId === 18), "3.8 Matrix should keep the 15 Singularity Expansion targets");
+  const matrix = matrixTargets["dpmatrix:9:18:1:1:175"];
+  expectEqual(matrix.level, 100, "3.8 Matrix first wave level");
+  expectEqual(targetSync.ELEMENTS.map((element) => matrix.resistances[element]).join(","), "20,20,20,40,20,20", "3.8 Matrix first wave resistance");
+  const matrixBonuses = [matrixGameplay["dpmatrix:9:40:shield"], matrixGameplay["dpmatrix:9:40:unison-response"]];
+  assert(matrixBonuses.every((buff) => buff?.control === "toggle" && buff.confirmForRecipient
+    && window.WUWA_TARGETS.controlValue({}, buff, "0:jinhsi") === false),
+    "3.8 Matrix Shield and Unison Response effects should start unconfirmed for each recipient");
+}
+
+function targetV38SnapshotRegressions() {
   const data = window.WUWA_TARGET_DATA;
-  const expected = { toa: ["40", 14, 14], whiwa: ["22", 54, 20], dpmatrix: ["8", 15, 9] };
+  const expected = { toa: ["42", 14, 19], whiwa: ["23", 54, 21], dpmatrix: ["9", 15, 9] };
   for (const [mode, [seasonId, targetCount, buffCount]] of Object.entries(expected)) {
-    expectEqual(data.modes[mode].currentSeasonId, seasonId, `3.7 ${mode} should select the current season`);
-    expectEqual(data.snapshot.currentSeasons[mode], seasonId, `3.7 ${mode} snapshot current season`);
-    expectEqual(Object.values(data.targets).filter((target) => target.mode === mode && target.seasonId === seasonId).length, targetCount, `3.7 ${mode} current target count`);
-    expectEqual(Object.keys(data.gameplayBuffs).filter((id) => id.startsWith(mode + ":" + seasonId + ":")).length, buffCount, `3.7 ${mode} current gameplay count`);
+    expectEqual(data.modes[mode].currentSeasonId, seasonId, `3.8 ${mode} should select the current season`);
+    expectEqual(data.snapshot.currentSeasons[mode], seasonId, `3.8 ${mode} snapshot current season`);
+    expectEqual(Object.values(data.targets).filter((target) => target.mode === mode && target.seasonId === seasonId).length, targetCount, `3.8 ${mode} current target count`);
+    expectEqual(Object.keys(data.gameplayBuffs).filter((id) => id.startsWith(mode + ":" + seasonId + ":")).length, buffCount, `3.8 ${mode} current gameplay count`);
     const enemy = {};
     window.WUWA_TARGETS.ensureSelection(enemy);
     window.WUWA_TARGETS.selectMode(enemy, mode);
-    expectEqual(enemy.targetSeasonId, seasonId, `3.7 ${mode} mode switch should choose its current season`);
+    expectEqual(enemy.targetSeasonId, seasonId, `3.8 ${mode} mode switch should choose its current season`);
   }
   expectEqual(data.modes.openWorld.seasons[0].targetIds.length, 277, "3.7 Open World should retain 261 targets and add 16 targets with full six-attribute stats");
   const newOpenWorldIds = [310001040, 320000700, 320000710, 340000330, 340000331, 340000332, 340000113, 340000123, 340000142, 340000172, 340000212, 340000213, 340000221, 340000222, 340000252, 340000261];
@@ -6206,33 +6253,33 @@ function targetV37SnapshotRegressions() {
     assert(target?.level === 90 && targetSync.ELEMENTS.every((element) => Number.isFinite(target.resistances[element])), `3.7 Open World ${id} should include six finite resistance values`);
   });
   const expectedPaths = "1:4,2:1,2:2,2:3,2:4,3:4";
-  const toaTargets = window.WUWA_TARGETS.targetsFor("toa", "40");
-  expectEqual([...new Set(toaTargets.map((target) => target.areaId + ":" + target.stageId))].sort().join(","), expectedPaths, "3.7 ToA should retain exactly the six approved tower/floor choices");
+  const toaTargets = window.WUWA_TARGETS.targetsFor("toa", "42");
+  expectEqual([...new Set(toaTargets.map((target) => target.areaId + ":" + target.stageId))].sort().join(","), expectedPaths, "3.8 ToA should retain exactly the six approved tower/floor choices");
   toaTargets.forEach((target) => {
     const enemy = {};
     window.WUWA_TARGETS.ensureSelection(enemy);
     window.WUWA_TARGETS.selectMode(enemy, "toa");
     window.WUWA_TARGETS.selectTarget(enemy, target.id);
-    expectEqual(window.WUWA_TARGETS.context(enemy, "spectro").target.id, target.id, `3.7 ToA multi-monster target ${target.id} should remain independently selectable`);
+    expectEqual(window.WUWA_TARGETS.context(enemy, "spectro").target.id, target.id, `3.8 ToA multi-monster target ${target.id} should remain independently selectable`);
   });
-  const whiwaTargets = window.WUWA_TARGETS.targetsFor("whiwa", "22");
-  expectEqual([...new Set(whiwaTargets.map((target) => target.stageOrder))].sort((a, b) => a - b).join(","), "9,10,11,12", "3.7 Whiwa should omit floors 1-8");
-  assert(whiwaTargets.every((target) => target.level === (target.stageOrder === 12 ? 100 : 90)), "3.7 Whiwa should retain the confirmed high-floor and endless levels");
-  for (const [mode, seasonId] of [["toa", "39"], ["whiwa", "20"], ["whiwa", "21"], ["dpmatrix", "7"]]) {
+  const whiwaTargets = window.WUWA_TARGETS.targetsFor("whiwa", "23");
+  expectEqual([...new Set(whiwaTargets.map((target) => target.stageOrder))].sort((a, b) => a - b).join(","), "9,10,11,12", "3.8 Whiwa should omit floors 1-8");
+  assert(whiwaTargets.every((target) => target.level === (target.stageOrder === 12 ? 100 : 90)), "3.8 Whiwa should retain the confirmed high-floor and endless levels");
+  for (const [mode, seasonId] of [["toa", "40"], ["whiwa", "22"], ["dpmatrix", "8"]]) {
     const enemy = {};
     window.WUWA_TARGETS.ensureSelection(enemy);
     window.WUWA_TARGETS.selectMode(enemy, mode);
     window.WUWA_TARGETS.selectSeason(enemy, seasonId);
-    assert(enemy.targetSeasonId === seasonId && window.WUWA_TARGETS.target(enemy.targetId)?.seasonId === seasonId, `3.7 update should retain historical ${mode} ${seasonId}`);
+    assert(enemy.targetSeasonId === seasonId && window.WUWA_TARGETS.target(enemy.targetId)?.seasonId === seasonId, `3.8 update should retain historical ${mode} ${seasonId}`);
   }
   for (const lang of SUPPORTED_LANGS) {
     for (const [mode, [seasonId]] of Object.entries(expected)) {
-      assert(window.WUWA_LANGUAGES.localeData(lang, "targetSeasons", mode + ":" + seasonId)?.name, `3.7 ${lang} ${mode} season label`);
+      assert(window.WUWA_LANGUAGES.localeData(lang, "targetSeasons", mode + ":" + seasonId)?.name, `3.8 ${lang} ${mode} season label`);
       const targets = Object.values(data.targets).filter((target) => target.mode === mode && target.seasonId === seasonId);
-      targets.forEach((target) => assert(window.WUWA_LANGUAGES.localeData(lang, "targetNames", target.nameId)?.name, `3.7 ${lang} target ${target.nameId}`));
+      targets.forEach((target) => assert(window.WUWA_LANGUAGES.localeData(lang, "targetNames", target.nameId)?.name, `3.8 ${lang} target ${target.nameId}`));
       Object.keys(data.gameplayBuffs).filter((id) => id.startsWith(mode + ":" + seasonId + ":")).forEach((id) => {
         const text = window.WUWA_LANGUAGES.localeData(lang, "targetBuffs", id);
-        assert(text?.name && text?.desc, `3.7 ${lang} gameplay ${id} should have its own label and full description`);
+        assert(text?.name && text?.desc, `3.8 ${lang} gameplay ${id} should have its own label and full description`);
       });
     }
     newOpenWorldIds.forEach((id) => assert(window.WUWA_LANGUAGES.localeData(lang, "targetNames", "monster:" + id)?.name, `3.7 ${lang} Open World name ${id}`));
@@ -6607,6 +6654,77 @@ function v37SharedUnisonAndEquipmentRegressions() {
   expectEqual(__T.compute().rawTotals.attackPercent, 10, "Ineligible recipient should receive only the base team healing buff");
 }
 
+function v38LilyRegressions() {
+  const c = window.WUWA.chars.lily;
+  assert(c.debut === 3.8 && c.signatureWeaponId === "lullaby" && c.element === "spectro" && c.weaponType === 3, "Lily should be the formal 3.8 Spectro Pistols Resonator");
+  assert(c.base.hp === 16712 && c.base.attack === 287 && c.base.defense === 1099, "Lily should use the official floored level-90 panel");
+  assert(c.base.tree.hpPct === 12 && c.base.tree.healingBonus === 12 && c.chain.length === 6, "Lily attribute nodes and sequences should be complete");
+  assert(c.skills.length === 15 && c.skills.every((action) => action.multiplierByLevel.length === 10), "Lily should expose all 15 official damage entries at every skill level");
+  for (const lang of SUPPORTED_LANGS) {
+    const pack = window.WUWA_LANGUAGES.localeData(lang, "chars", "lily");
+    assert(pack.skills.length === c.skills.length && pack.chain.length === c.chain.length && pack.buffs.length === c.buffs.length, lang + " Lily text entries should align with core");
+  }
+
+  resetTeam(["lily", "qiuyuan", "suoming"]);
+  const [lily, qiuyuan] = __T.state.slots;
+  assert(lily.echo.primary === 360238 && lily.echo.lead === "360238:formrender", "Lily should use Flower of Tinged Yearning with Formrender");
+  lily.echo.detailMode = true;
+  __T.compute();
+  assert(lily.echo.detail.echoes[0].cost === 3 && lily.echo.detail.lead === "360238:formrender", "Starting detailed mode should keep the selected 3-Cost Echo");
+  lily.echo.detailMode = false;
+  const available = (id) => __T.availableSkills(lily).some((action) => action.id === id);
+  assert(available("intro") && !available("intro_eternal"), "Lily should start with First Bloom");
+  lily.toggles[__T.resourceKey("eternal_bloom_ready")] = true;
+  assert(!available("intro") && available("intro_eternal"), "Confirming the Liberation window should replace First Bloom with Eternity in Bloom");
+  lily.skill = "forte_finale";
+  lily.resources.dreambell_chime = 299;
+  assert(__T.compute().resourceBlocked, "Fairytale's Finale should require 300 Chime while holding");
+  lily.resources.dreambell_chime = 300;
+  assert(!__T.compute().resourceBlocked && __T.compute().sk.stat === "hp", "A full Chime allows the HP-based finisher");
+  lily.resources.dreambell_chime = 0;
+  lily.toggles[__T.stateChoiceKey("combat_phase")] = "woven_heavy_completed";
+  assert(!__T.compute().resourceBlocked, "The completed Woven Heavy Attack should grant its finisher regardless of Chime");
+  lily.toggles[__T.stateChoiceKey("heavy_attack_variant")] = "woven_phantasm";
+  assert(!available("forte_finale") && available("forte_end"), "Switching Woven Heavy Attack variants should switch finishers");
+
+  const aroma = buff(lily, "b_dream_aroma_atk");
+  lily.seq = 2;
+  lily.echo.fields.energyRegen = 22.96;
+  lily.toggles.stk_dream_aroma = 4;
+  assert(!__T.buffStatus(lily, 0, aroma).applies, "Dream Aroma should expire on Lily's entry");
+  __T.state.outputIdx = 1;
+  __T.setBuffToggle(lily, 0, aroma.id, true);
+  assert(Math.abs(__T.buffValue(lily, aroma, 0) - 8) < 1e-8, "Dream Aroma should count off-field Lily's 10% Formrender Energy Regen");
+  expectEqual(__T.buffValue(lily, buff(lily, "k2_dream_aroma_cd"), 0), 24, "Sequence 2 Dream Aroma should share all four stacks");
+
+  qiuyuan.skill = "skill";
+  const echo = buff(lily, "w_lullaby_echo_skill");
+  assert(!__T.buffStatus(lily, 0, echo).applies, "Lullaby Echo Skill DMG should require Heavy Attack healing confirmation");
+  __T.setBuffToggle(lily, 0, echo.id, true);
+  assert(__T.buffStatus(lily, 0, echo).applies && echo.value === 24, "Rank-one Lullaby grants the confirmed recipient 24% Echo Skill DMG Bonus");
+  __T.state.outputIdx = 2;
+  assert(!__T.buffStatus(lily, 0, echo).applies, "Lullaby Echo Skill DMG should not carry confirmation to another character");
+  const atk = buff(lily, "w_lullaby_soothed_soul");
+  __T.setBuffToggle(lily, 0, atk.id, true);
+  assert(__T.buffStatus(lily, 0, atk).applies && atk.value === 16, "Confirmed Soothed Soul grants a Rank-one 16% ATK increase to a Unison responder");
+  lily.rank = 5;
+  expectEqual(buff(lily, atk.id).value, 32, "Lullaby Rank-five Soothed Soul ATK");
+  expectEqual(buff(lily, echo.id).value, 48, "Lullaby Rank-five Echo Skill DMG Bonus");
+  __T.state.outputIdx = 1;
+  assert(__T.buffStatus(lily, 0, echo).applies && !__T.buffStatus(lily, 0, atk).applies, "Confirmations should stay scoped to their recipient, with ATK limited to Unison responders");
+
+  resetTeam(["suoming", "hsin", "lily"]);
+  const [suoming, hsin, support] = __T.state.slots;
+  hsin.toggles[__T.stateChoiceKey("resonance_mode")] = "unison";
+  __T.setCharacterResourceValue(hsin, "unison_boon", 3);
+  __T.setBuffToggle(suoming, 0, "b_seal_master_cd", true);
+  support.echo.fields.energyRegen = 72.96;
+  const silvered = buff(support, "b_silvered_dream_atk");
+  __T.setBuffToggle(support, 2, silvered.id, true);
+  assert(suoming.resources.unison_boon === 0 && __T.buffStatus(support, 2, silvered).applies, "Silvered Dream should count team Boons after Seal Master clears Suoming's own Boons");
+  assert(Math.abs(__T.buffValue(support, silvered, 2) - 21) < 1e-8, "Three remaining team Boons at 260% Energy Regen grant 21% ATK");
+}
+
 function hsinOffFieldElectroFlareRegressions() {
   resetTeam(["hsin", "rover_electro"]);
   const hsin = __T.state.slots[0];
@@ -6763,11 +6881,13 @@ const checks = [
   ["per-stack localization values", perStackLocalizationValuesMatch],
   ["icon assets use sonata sets", iconAssetsUseSonataSets],
   ["3.7 target API fixtures", targetV37FixtureRegressions],
-  ["3.7 target snapshots", targetV37SnapshotRegressions],
+  ["3.8 target API fixtures", targetV38FixtureRegressions],
+  ["3.8 target snapshots", targetV38SnapshotRegressions],
   ["3.7 gameplay", gameplayV37Regressions],
   ["3.7 Suoming", v37SuomingRegressions],
   ["3.7 Hsin", hsinCharacterEntryRegressions],
   ["3.7 shared Unison and equipment", v37SharedUnisonAndEquipmentRegressions],
+  ["3.8 Lily and Lullaby", v38LilyRegressions],
   ["3.7 Hsin off-field Electro Flare", hsinOffFieldElectroFlareRegressions],
   ["3.7 Suoming Unison state transitions", suomingUnisonStateTransitionRegressions],
 ];

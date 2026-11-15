@@ -2,10 +2,10 @@
 
 window.WUWA_STAGE_VIEW = (() => {
   function create({
-    state, W, ch, wp, WEAPONS, SONATAS, leadChoicesForEcho, syncEchoLead,
+    state, W, ch, wp, WEAPONS, SONATAS, leadChoicesForEcho, echoLeadKey, syncEchoLead,
     ECHO_COSTS, echoMainOptions, echoSubOptions, echoSubValues, echoFixedMain, ensureEchoDetail, echoDetailSummary, statLabel, echoStats,
     availableSkills, selectedSkill, resourceControlsForSlot, resolvedSkill, skillLayersForSlot, stateControlsHTML,
-    panelEntryTableHTML, autoResolutionHTML, settlementBuffRowsHTML,
+    panelEntryTableHTML, autoResolutionHTML, settlementBuffRowsHTML, buffRecipientKey,
   }) {
     const { skillMultValue, skillValueAtLevel, EFFECT_DEFS, EFFECT_ORDER, HARMONY_BASE_OPTIONS, effectKeyOf, num } = window.WUWA_RULES;
     const L = window.WUWA_LANGUAGES;
@@ -396,7 +396,12 @@ window.WUWA_STAGE_VIEW = (() => {
 
     function echoCardPickerHTML(slot, idx) {
       const e = slot.echo;
-      return `<div class="team-echo-row"><div class="team-gear-set-row">${teamEchoSetIconHTML(slot)}</div><div class="team-gear-lead-row">${teamLeadEchoPickerHTML(e, idx)}</div></div>`;
+      const c = ch(slot.char);
+      const showSetPicker = !e.detailMode && c.alternateEchoSets?.length;
+      const setPicker = showSetPicker
+        ? `<select class="team-gear-select" data-act="echo-set" data-slot="${idx}" aria-label="${esc(L.text("声骸套装"))}">${sonataOptions(e.primary, (set) => set.id === c.echoSet || c.alternateEchoSets.includes(set.id))}</select>`
+        : "";
+      return `<div class="team-echo-row${showSetPicker ? " team-echo-row--set-picker" : ""}"><div class="team-gear-set-row">${teamEchoSetIconHTML(slot)}${setPicker}</div><div class="team-gear-lead-row">${teamLeadEchoPickerHTML(e, idx)}</div></div>`;
     }
 
     function echoDetailToggleHTML(e, idx) {
@@ -429,12 +434,12 @@ window.WUWA_STAGE_VIEW = (() => {
       syncEchoLead(e);
       const choices = leadChoicesForEcho(e);
       if (!choices.length) return `<div class="team-gear-summary team-gear-summary--muted">${esc(L.t("common.unselectedLead"))}</div>`;
-      const current = choices.find((choice) => choice.key === e.lead);
+      const current = choices.find((choice) => choice.key === echoLeadKey(e));
       if (e.detailMode) {
         return `<div class="team-gear-summary"><span class="team-gear-label">${esc(leadEchoDisplayName(current))}</span></div>`;
       }
       return `<span class="team-gear-select-wrap"><select class="team-gear-select" data-act="elead" data-slot="${idx}" aria-label="${esc(L.text("首位声骸"))}">
-      ${choices.map((choice) => `<option value="${choice.key}" ${choice.key === e.lead ? "selected" : ""}>${esc(leadEchoDisplayName(choice))}</option>`).join("")}
+      ${choices.map((choice) => `<option value="${choice.key}" ${choice === current ? "selected" : ""}>${esc(leadEchoDisplayName(choice))}</option>`).join("")}
     </select></span>`;
     }
 
@@ -453,7 +458,7 @@ window.WUWA_STAGE_VIEW = (() => {
         : `<span class="team-avatar team-avatar-fallback">${esc(c.name.slice(0, 1))}</span>`;
       const avatar = `<span class="team-avatar-wrap">${avatarCore}<span class="team-avatar-level">${esc(L.t("common.levelShort", { value: 90 }))}</span></span>`;
       const charTrigger = `${avatar}<span class="team-char-copy"><span class="team-char-name-line"><b>${esc(L.charName(c))}</b></span><span class="team-char-meta">${esc(L.element(c.element))}</span></span><span class="combo-caret">▾</span>`;
-      const currentLead = leadChoicesForEcho(e).find((choice) => choice.key === e.lead);
+      const currentLead = leadChoicesForEcho(e).find((choice) => choice.key === echoLeadKey(e));
       const cardBeta = betaBadgeHTML(c, wp(slot.weapon), ...teamEchoSetIds(slot).map(sonataById), currentLead?.lead);
       return `<div class="team-card${idx === state.outputIdx ? " on" : ""}" data-act="output" data-slot="${idx}">
       ${cardBeta ? `<div class="team-card-beta">${cardBeta}</div>` : ""}
@@ -494,7 +499,7 @@ window.WUWA_STAGE_VIEW = (() => {
     function detailLeadOptions(slot) {
       const choices = leadChoicesForEcho(slot.echo);
       if (!choices.length) return `<option value="">${esc(L.t("common.unselectedLead"))}</option>`;
-      return choices.map((choice) => `<option value="${esc(choice.key)}" ${choice.key === slot.echo.lead ? "selected" : ""}>${esc(leadEchoDisplayName(choice))}</option>`).join("");
+      return choices.map((choice) => `<option value="${esc(choice.key)}" ${choice.key === echoLeadKey(slot.echo) ? "selected" : ""}>${esc(leadEchoDisplayName(choice))}</option>`).join("");
     }
 
     function detailSubRows(slot, idx, echoIdx, item, c) {
@@ -1427,7 +1432,7 @@ window.WUWA_STAGE_VIEW = (() => {
       }
       const e = slot.echo;
       syncEchoLead(e, c.element);
-      const lead = leadChoicesForEcho(e).find((choice) => choice.key === e.lead);
+      const lead = leadChoicesForEcho(e).find((choice) => choice.key === echoLeadKey(e));
       const leadName = leadEchoDisplayName(lead);
       const charName = L.charName(c);
       const build = `${num(slot.seq)}+${num(slot.rank) || 1}`;
@@ -1548,25 +1553,25 @@ window.WUWA_STAGE_VIEW = (() => {
     }
 
     function activeTargetInfo(r) {
-      const fallback = { context: r.target, element: r.damageElement };
+      const fallback = { context: r.target, element: r.damageElement, recipientIdx: state.outputIdx };
       const mode = activeResultMode(r);
       if (mode === "skill") return fallback;
       if (mode === "effect") {
         const effect = visibleEffectResult(r, teamEffectKeys());
         if (!effect?.target) return fallback;
-        return { context: effect.target, element: effect.def?.element || r.damageElement };
+        return { context: effect.target, element: effect.target.damageElement || r.damageElement, recipientIdx: effect.providerIdx };
       }
       const offset = r.offset || {};
       if (!offset.target) return fallback;
-      return { context: offset.target, element: offset.damageElement || r.damageElement };
+      return { context: offset.target, element: offset.target.damageElement || r.damageElement, recipientIdx: offset.providerIdx };
     }
 
     function targetSummaryHTML(r, active = activeTargetInfo(r)) {
       const context = active.context || TARGETS.context(state.enemy, active.element);
       const damageElement = active.element || r.damageElement || ch(state.slots[state.outputIdx].char)?.element;
-      const outputChar = ch(state.slots[state.outputIdx].char);
+      const recipient = ch(state.slots[active.recipientIdx].char);
       const summary = L.t("targets.summary", {
-        character: L.charName(outputChar),
+        character: L.charName(recipient),
         element: L.element(damageElement),
         target: context.name,
         level: L.t("common.levelShort", { value: tnum(context.enemyLevel) }),
@@ -1575,9 +1580,10 @@ window.WUWA_STAGE_VIEW = (() => {
       return `<div class="target-summary" id="target-summary">${elementIconHTML(damageElement, "target-summary-icon")}<span>${esc(summary)}</span></div>`;
     }
 
-    function targetGameplayControlsHTML() {
+    function targetGameplayControlsHTML(recipientIdx) {
       const gameplay = TARGETS.gameplayControls(state.enemy);
       if (!gameplay.groups.length && !gameplay.fixed.length && !gameplay.controls.length) return "";
+      const recipient = buffRecipientKey(recipientIdx);
       const groupLabel = state.enemy.targetMode === "whiwa"
         ? L.t("targets.token")
         : state.enemy.targetMode === "dpmatrix"
@@ -1619,15 +1625,16 @@ window.WUWA_STAGE_VIEW = (() => {
       const controls = gameplay.controls.map((buff) => {
         const name = TARGETS.gameplayBuffName(buff);
         const desc = TARGETS.gameplayBuffDescription(buff);
+        const value = TARGETS.controlValue(state.enemy, buff, recipient);
+        const data = `data-buff="${esc(buff.id)}" data-recipient="${esc(recipient)}"`;
         if (buff.control === "range") {
-          const value = TARGETS.controlValue(state.enemy, buff);
           const options = [];
           for (let current = Number(buff.min); current <= Number(buff.max); current += Number(buff.step)) {
             options.push(`<option value="${esc(current)}" ${current === value ? "selected" : ""}>${esc(L.t("targets.buffValue", { value: tnum(current) }))}</option>`);
           }
-          return `<label class="target-buff-range" title="${esc(desc)}"><span>${esc(name)}</span><select data-act="target-buff-range" data-buff="${esc(buff.id)}">${options.join("")}</select></label>`;
+          return `<label class="target-buff-range" title="${esc(desc)}"><span>${esc(name)}</span><select data-act="target-buff-range" ${data}>${options.join("")}</select></label>`;
         }
-        return `<label class="target-buff-toggle" title="${esc(desc)}"><input type="checkbox" data-act="target-buff-toggle" data-buff="${esc(buff.id)}" ${TARGETS.controlValue(state.enemy, buff) ? "checked" : ""} /> <span>${esc(name)}</span></label>`;
+        return `<label class="target-buff-toggle" title="${esc(desc)}"><input type="checkbox" data-act="target-buff-toggle" ${data} ${value ? "checked" : ""} /> <span>${esc(name)}</span></label>`;
       }).join("");
       return `<div class="target-buff-controls">${groups}${fixed}${controls}</div>`;
     }
@@ -1655,7 +1662,7 @@ window.WUWA_STAGE_VIEW = (() => {
       const targetGroups = TARGETS.groupedTargets(enemy.targetMode, enemy.targetSeasonId, selectedPathId, enemy.targetId);
       const selectedTarget = TARGETS.target(enemy.targetId);
       const updatedAt = L.t("targets.updatedAt", { date: TARGETS.syncedDate() });
-      const gameplayControls = targetGameplayControlsHTML();
+      const gameplayControls = targetGameplayControlsHTML(active.recipientIdx);
       const toggle = `<button type="button" class="formula-target-toggle${state.showTargetExtras ? " on" : ""}" data-act="target-extra-toggle">${esc(state.showTargetExtras ? L.t("common.collapse") : L.t("common.more"))}</button>`;
       const targetLabel = L.t("targets.attribute");
       const targetPick = targetPickerComboHTML(targetGroups, selectedTarget, targetLabel);

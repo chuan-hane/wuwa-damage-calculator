@@ -4025,5 +4025,47 @@ window.WUWA_DATA.weapons = [
         "nonStackingKey": "blooming_jadehaven_electro_flare"
       }
     ]
+  },
+  {
+    "id": "lullaby",
+    "type": 3,
+    "quality": 5,
+    "icon": "",
+    "attack90": "412",
+    "secondaryStat": "energyRegen",
+    "secondary90": "77.04%",
+    "effects": [
+      {
+        "id": "e0",
+        "zone": "hpPercent",
+        "value": 12,
+        "rankValues": [12, 15, 18, 21, 24],
+        "scope": "self"
+      },
+      {
+        "id": "lullaby_soothed_soul",
+        "zone": "attackPercent",
+        "value": 16,
+        "rankValues": [16, 20, 24, 28, 32],
+        "scope": "team",
+        "defaultActive": false,
+        "requiresUnisonResponder": true,
+        "confirmForRecipient": true,
+        "duration": 30,
+        "nonStackingKey": "lullaby_soothed_soul"
+      },
+      {
+        "id": "lullaby_echo_skill",
+        "zone": "typeBonus",
+        "damageType": "echoSkill",
+        "value": 24,
+        "rankValues": [24, 30, 36, 42, 48],
+        "scope": "team",
+        "defaultActive": false,
+        "confirmForRecipient": true,
+        "duration": 30,
+        "nonStackingKey": "lullaby_echo_skill"
+      }
+    ]
   }
 ];

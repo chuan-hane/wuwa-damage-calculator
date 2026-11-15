@@ -2037,7 +2037,21 @@ window.WUWA_SONATAS = [
           "defaultActive": false
         }
       ]
-    }
+    },
+    "leads": [
+      {
+        "id": "formrender",
+        "cost": 3,
+        "buffs": [
+          {
+            "id": "se_formrender_energy_regen",
+            "zone": "energyRegen",
+            "value": 10,
+            "scope": "self"
+          }
+        ]
+      }
+    ]
   },
   {
     "id": 360237,
@@ -2132,7 +2146,8 @@ window.WUWA_SONATAS = [
         "scope": "team",
         "duration": 30,
         "defaultActive": false,
-        "requiresUnison": true,
+        "requiresUnisonResponder": true,
+        "confirmForRecipient": true,
         "requiresBuffStacks": {
           "id": "tinged_yearning_heal",
           "stacks": 1
@@ -2159,6 +2174,20 @@ window.WUWA_SONATAS = [
           "scope": "self"
         }
       ]
-    }
+    },
+    "leads": [
+      {
+        "id": "formrender",
+        "cost": 3,
+        "buffs": [
+          {
+            "id": "se_formrender_energy_regen",
+            "zone": "energyRegen",
+            "value": 10,
+            "scope": "self"
+          }
+        ]
+      }
+    ]
   }
 ];

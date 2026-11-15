@@ -1600,6 +1600,31 @@ window.WUWA_LANGUAGES.extend("en-US", {
             "conditionText": "Cradle of Life gains the same stacks as Nature's Order. Casting Heavy Attack consumes up to 2 stacks. Each stack consumed makes Heavy Attack DMG ignore 15%/17.5%/20%/22.5%/25% DEF, up to 30%/35%/40%/45%/50%, for 2s."
           }
         ]
+      },
+      "lullaby": {
+        "name": "Lullaby",
+        "typeName": "Pistols",
+        "resonanceName": "Dreamland Solace",
+        "description": "Increases Max HP by 12%/15%/18%/21%/24%. Casting Resonance Liberation restores 8/10/12/14/16 points of Concerto Energy, triggered once every 20/20/20/20/20s. All Resonators in the team gain Soothed Soul for 30/30/30/30/30s when the wielder provides healing with Heavy Attack. When Soothed Soul is active, if a Resonator in the team gains Unison or triggers Unison Response, that Resonator gains 16%/20%/24%/28%/32% ATK increase for 30/30/30/30/30s. This effect is removed when Soothed Soul ends. When the wielder provides healing with Heavy Attack, the active Resonator also gains 24%/30%/36%/42%/48% Echo Skill DMG Bonus for 30/30/30/30/30s. Effects of the same name do not stack.",
+        "effects": [
+          {
+            "label": "Max HP",
+            "excerpt": "Max HP +12%/15%/18%/21%/24%",
+            "conditionText": "Increases Max HP by 12%/15%/18%/21%/24%."
+          },
+          {
+            "label": "ATK",
+            "trigger": "The selected Resonator gained Unison or triggered Unison Response during Soothed Soul after Heavy Attack healing",
+            "excerpt": "Gain or respond to Unison during Soothed Soul to gain 16%/20%/24%/28%/32% ATK",
+            "conditionText": "All Resonators in the team gain Soothed Soul for 30/30/30/30/30s when the wielder provides healing with Heavy Attack. When Soothed Soul is active, if a Resonator in the team gains Unison or triggers Unison Response, that Resonator gains 16%/20%/24%/28%/32% ATK increase for 30/30/30/30/30s. This effect is removed when Soothed Soul ends."
+          },
+          {
+            "label": "Echo Skill DMG Bonus",
+            "trigger": "The selected Resonator was active when Heavy Attack healing occurred",
+            "excerpt": "Heavy Attack healing grants the active Resonator 24%/30%/36%/42%/48% Echo Skill DMG Bonus",
+            "conditionText": "When the wielder provides healing with Heavy Attack, the active Resonator also gains 24%/30%/36%/42%/48% Echo Skill DMG Bonus for 30/30/30/30/30s. Effects of the same name do not stack."
+          }
+        ]
       }
     }
   }

@@ -116,12 +116,18 @@ window.WUWA_EQUIPMENT = (() => {
       });
   }
 
+  function echoLeadKey(e) {
+    return e.detailMode ? e.detail?.lead : e.lead;
+  }
+
   function syncEchoLead(e, preferredElement = null) {
+    if (!e || (e.detailMode && !e.detail?.echoes?.length)) return e;
+    const selection = e.detailMode ? e.detail : e;
+    if (e.detailMode && selection.lead === undefined) selection.lead = e.lead;
     const choices = leadChoicesForEcho(e);
-    if (!choices.length) { e.lead = null; return e; }
+    const current = choices.find((choice) => choice.key === selection.lead || choice.set.id === selection.lead);
     const preferred = preferredElement && choices.find((choice) => (choice.lead.buffs || []).some((b) => b.element === preferredElement));
-    if (!choices.some((choice) => choice.key === e.lead || choice.set.id === e.lead)) e.lead = (preferred || choices[0]).key;
-    else if (typeof e.lead !== "string") e.lead = choices.find((choice) => choice.set.id === e.lead).key;
+    selection.lead = (current || preferred || choices[0])?.key ?? null;
     return e;
   }
 
@@ -155,6 +161,9 @@ window.WUWA_EQUIPMENT = (() => {
     if (!e) return null;
     const sets = defaultDetailSets(e);
     const costs = [4, 3, 3, 1, 1];
+    const selectedLead = leadChoicesForEcho({ ...e, detailMode: false }).find((choice) => choice.key === e.lead);
+    const leadCostIndex = costs.indexOf(selectedLead?.cost);
+    if (leadCostIndex > 0) [costs[0], costs[leadCostIndex]] = [costs[leadCostIndex], costs[0]];
     e.detail = e.detail || {};
     e.detail.echoes = Array.from({ length: 5 }, (_, i) => normalizeDetailedEcho((e.detail.echoes || [])[i], sets[i], costs[i], c));
     syncEchoLead(e);
@@ -244,7 +253,7 @@ window.WUWA_EQUIPMENT = (() => {
       if (!ZONE_LABEL[e.zone]) return;
       const ranks = rankValuesForEffect(e);
       const triggerEvents = asList(e.triggerEvents);
-      out.push({ exclusiveGroup: e.exclusiveGroup, nonStackingKey: e.nonStackingKey, requiresSourceActive: e.requiresSourceActive, id: "w_" + e.id, source: `${w.name} ${L.t("common.rank", { value: r })}`, label: e.label, zone: e.zone, value: ranks[Math.min(r - 1, ranks.length - 1)], damageType: e.damageType || null, element: e.element || null, effect: e.effect || null, scope: e.scope || "self", duration: e.duration ?? null, durationAtMaxStacks: e.durationAtMaxStacks || null, maxStacks: e.maxStacks || null, defaultStacks: e.defaultStacks ?? null, defaultActive: e.defaultActive, trigger: e.trigger || null, triggerEvents, triggerSkills: e.triggerSkills || null, triggerDamageTypes: e.triggerDamageTypes || null, triggerStacks: e.triggerStacks ?? null, triggerOutro: e.triggerOutro || null, requiresBuffStacks: weaponStackRequirement(e.requiresBuffStacks), requiresEffectStacks: e.requiresEffectStacks || null, requiresAnyEffectStacks: e.requiresAnyEffectStacks || null, excerpt: e.excerpt ? descForRank(e.excerpt, r) : null, desc: descForRank(e.conditionText || w.description, r) });
+      out.push({ exclusiveGroup: e.exclusiveGroup, nonStackingKey: e.nonStackingKey, requiresSourceActive: e.requiresSourceActive, requiresUnisonResponder: e.requiresUnisonResponder, confirmForRecipient: e.confirmForRecipient, id: "w_" + e.id, source: `${w.name} ${L.t("common.rank", { value: r })}`, label: e.label, zone: e.zone, value: ranks[Math.min(r - 1, ranks.length - 1)], damageType: e.damageType || null, element: e.element || null, effect: e.effect || null, scope: e.scope || "self", duration: e.duration ?? null, durationAtMaxStacks: e.durationAtMaxStacks || null, maxStacks: e.maxStacks || null, defaultStacks: e.defaultStacks ?? null, defaultActive: e.defaultActive, trigger: e.trigger || null, triggerEvents, triggerSkills: e.triggerSkills || null, triggerDamageTypes: e.triggerDamageTypes || null, triggerStacks: e.triggerStacks ?? null, triggerOutro: e.triggerOutro || null, requiresBuffStacks: weaponStackRequirement(e.requiresBuffStacks), requiresEffectStacks: e.requiresEffectStacks || null, requiresAnyEffectStacks: e.requiresAnyEffectStacks || null, excerpt: e.excerpt ? descForRank(e.excerpt, r) : null, desc: descForRank(e.conditionText || w.description, r) });
     });
     return out;
   }
@@ -274,7 +283,7 @@ window.WUWA_EQUIPMENT = (() => {
     } else if (e.combo === "split32") { pushPiece(son(e.primary), "p3"); pushPiece(son(e.secondary), "p2"); }
     else if (e.combo === "split122") { pushPiece(son(e.primary), "p1"); pushPiece(son(e.secondary), "p2"); pushPiece(son(e.tertiary), "p2"); }
     else { pushPiece(son(e.primary), "p2"); pushPiece(son(e.primary), "p5"); }
-    const choice = leadChoicesForEcho(e).find((item) => item.key === e.lead);
+    const choice = leadChoicesForEcho(e).find((item) => item.key === echoLeadKey(e));
     if (choice) choice.lead.buffs.forEach((b) => out.push({ ...b, id: `son_${choice.key}_${b.id}`, source: choice.lead.echo, pieceTag: "首位单体效果", scope: b.scope || "self", requiresBuffStacks: sonataStackRequirement(`son_${choice.key}`, b.requiresBuffStacks) }));
     return out;
   }
@@ -306,7 +315,7 @@ window.WUWA_EQUIPMENT = (() => {
   }
 
   return {
-    WEAPONS, SONATAS, son, wp, defaultEchoForChar, leadChoicesForEcho, syncEchoLead,
+    WEAPONS, SONATAS, son, wp, defaultEchoForChar, leadChoicesForEcho, echoLeadKey, syncEchoLead,
     weaponBuffs, sonataBuffs, echoStats,
     ECHO_COSTS, echoMainOptions, echoSubOptions, echoSubValues, echoFixedMain,
     ensureEchoDetail, echoDetailFields, echoFieldValues, echoDetailSummary, statLabel,

@@ -237,45 +237,44 @@ window.WUWA_TARGETS = (() => {
     enemy.targetBuffChoices[groupId] = value || "";
   }
 
-  function controlValue(enemy, buff) {
+  function controlValue(enemy, buff, recipient) {
     ensureGameplayState(enemy);
     const stored = enemy.targetBuffValues[buff.id];
-    if (buff.control === "toggle") return stored === true;
+    const confirmed = buff.confirmForRecipient ? stored?.[recipient] : stored;
+    if (buff.control === "toggle") return confirmed === true;
     if (buff.control !== "range") return null;
-    const value = Number(stored ?? buff.defaultValue ?? buff.min ?? 0);
+    const value = Number(confirmed ?? buff.defaultValue ?? buff.min ?? 0);
     return Math.min(Math.max(value, Number(buff.min)), Number(buff.max));
   }
 
-  function setGameplayValue(enemy, buffId, value) {
+  function setGameplayValue(enemy, buffId, value, recipient) {
     ensureGameplayState(enemy);
     const buff = gameplayBuff(buffId);
     if (!buff || !["toggle", "range"].includes(buff.control)) return;
-    if (buff.control === "toggle") {
-      enemy.targetBuffValues[buff.id] = value === true;
-      return;
+    if (buff.confirmForRecipient && !recipient) return;
+    let confirmed = value === true;
+    if (buff.control === "range") {
+      const number = Number(value);
+      if (!Number.isFinite(number)) return;
+      const step = Number(buff.step) || 1;
+      const stepped = Math.round(number / step) * step;
+      confirmed = Math.min(Math.max(stepped, Number(buff.min)), Number(buff.max));
     }
-    const number = Number(value);
-    if (!Number.isFinite(number)) return;
-    const step = Number(buff.step) || 1;
-    const stepped = Math.round(number / step) * step;
-    enemy.targetBuffValues[buff.id] = Math.min(Math.max(stepped, Number(buff.min)), Number(buff.max));
+    const values = enemy.targetBuffValues;
+    values[buffId] = buff.confirmForRecipient ? { ...values[buffId], [recipient]: confirmed } : confirmed;
   }
 
   function optionActive(enemy, item, buffId) {
     return gameplayData(item).choiceGroups.some((group) => group.optionIds.includes(buffId) && choiceValue(enemy, group) === buffId);
   }
 
-  function buffActive(enemy, item, buff) {
-    if (!buff) return false;
-    if (buff.parentId) {
-      if (!optionActive(enemy, item, buff.parentId)) return false;
-      return buff.control === "range" ? controlValue(enemy, buff) !== 0 : controlValue(enemy, buff) === true;
-    }
+  function buffActive(enemy, item, buff, recipient) {
     if (buff.control === "fixed") return gameplayData(item).fixedIds.includes(buff.id);
     if (buff.control === "option") return optionActive(enemy, item, buff.id);
-    if (buff.control === "toggle") return gameplayData(item).controlIds.includes(buff.id) && controlValue(enemy, buff) === true;
-    if (buff.control === "range") return gameplayData(item).controlIds.includes(buff.id) && controlValue(enemy, buff) !== 0;
-    return false;
+    const available = buff.parentId
+      ? optionActive(enemy, item, buff.parentId)
+      : gameplayData(item).controlIds.includes(buff.id);
+    return available && !!controlValue(enemy, buff, recipient);
   }
 
   function effectMatches(effect, context) {
@@ -287,9 +286,9 @@ window.WUWA_TARGETS = (() => {
     return effect.damageTypes.some((type) => current.has(type));
   }
 
-  function effectValue(effect, buff, enemy) {
-    if (effect.controlValue) return Number(controlValue(enemy, buff)) || 0;
-    if (effect.controlMultiplier) return (Number(controlValue(enemy, buff)) || 0) * Number(effect.value);
+  function effectValue(effect, buff, enemy, recipient) {
+    if (effect.controlValue) return Number(controlValue(enemy, buff, recipient)) || 0;
+    if (effect.controlMultiplier) return (Number(controlValue(enemy, buff, recipient)) || 0) * Number(effect.value);
     return Number(effect.value) || 0;
   }
 
@@ -301,23 +300,23 @@ window.WUWA_TARGETS = (() => {
     return [...new Set([...direct, ...children])].map(gameplayBuff).filter(Boolean);
   }
 
-  function activeGameplayEffects(enemy, context = {}) {
+  function activeGameplayEffects(enemy, context, recipient) {
     const item = target(enemy.targetId);
     if (!item) return [];
     return allGameplayBuffs(item).flatMap((buff) => {
-      if (!buffActive(enemy, item, buff)) return [];
-      return (buff.effects || []).filter((effect) => effect.zone === "resistance" || effectMatches(effect, context)).map((effect) => ({
+      if (!buffActive(enemy, item, buff, recipient)) return [];
+      return (buff.effects || []).filter((effect) => effectMatches(effect, context)).map((effect) => ({
         ...effect,
         buff,
-        value: effectValue(effect, buff, enemy),
+        value: effectValue(effect, buff, enemy, recipient),
       }));
     });
   }
 
-  function gameplayAggregate(enemy, context = {}) {
+  function gameplayAggregate(enemy, context = {}, recipient) {
     const totals = Object.fromEntries(GAMEPLAY_ZONES.map((zone) => [zone, 0]));
     totals.sources = {};
-    activeGameplayEffects(enemy, context).forEach((effect) => {
+    activeGameplayEffects(enemy, context, recipient).forEach((effect) => {
       if (!(effect.zone in totals)) return;
       totals[effect.zone] += effect.value;
       if (!totals.sources[effect.zone]) totals.sources[effect.zone] = [];
@@ -331,10 +330,6 @@ window.WUWA_TARGETS = (() => {
       });
     });
     return totals;
-  }
-
-  function resistanceAdjustments(enemy) {
-    return activeGameplayEffects(enemy).filter((effect) => effect.zone === "resistance");
   }
 
   function gameplayControls(enemy) {
@@ -370,11 +365,12 @@ window.WUWA_TARGETS = (() => {
     };
   }
 
-  function context(enemy, damageElement) {
+  function context(enemy, damageElement, damageContext = {}) {
     const selected = ensureSelection(enemy);
     if (!selected) return fallbackContext(enemy, damageElement);
     const automaticResistances = { ...selected.resistances };
-    const gameplayResistance = resistanceAdjustments(enemy);
+    const gameplayResistance = activeGameplayEffects(enemy, { ...damageContext, damageElement })
+      .filter((effect) => effect.zone === "resistance");
     gameplayResistance.forEach((effect) => {
       const targetElements = effect.elements === "all" ? elements() : effect.elements || [];
       targetElements.forEach((element) => { automaticResistances[element] = Number(automaticResistances[element]) + effect.value; });

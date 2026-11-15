@@ -1215,5 +1215,443 @@
         ]
       }
     ]
+  },
+  "toaV38": {
+    "463": {
+      "id": 463,
+      "season": 42,
+      "areaNum": 2,
+      "areaName": "深境之塔",
+      "floor": 1,
+      "buffs": [
+        {
+          "id": 92007154,
+          "name": "",
+          "desc": "敌方<span style=\"color:#ebb0ff;\">导电抗性</span>和<span style=\"color:#a2fbfc;\">冷凝抗性</span>降低10%，<span style=\"color:#fbcaad;\">热熔抗性</span>和<span style=\"color:#fcc4db;\">湮灭抗性</span>提升10%。"
+        },
+        {
+          "id": 92008202,
+          "name": "",
+          "desc": "暴击伤害提升25%。角色冷凝伤害加成提升30%。"
+        }
+      ],
+      "monsters": [
+        {
+          "id": 340000010,
+          "name": "无冠者",
+          "elements": [
+            {
+              "id": 6
+            }
+          ],
+          "whiteGreenProps": [
+            {
+              "key": "Lv",
+              "value": 100,
+              "isPercent": false
+            },
+            {
+              "key": "DamageResistanceElement1",
+              "value": 20,
+              "isPercent": true
+            },
+            {
+              "key": "DamageResistanceElement2",
+              "value": 20,
+              "isPercent": true
+            },
+            {
+              "key": "DamageResistanceElement3",
+              "value": 20,
+              "isPercent": true
+            },
+            {
+              "key": "DamageResistanceElement4",
+              "value": 60,
+              "isPercent": true
+            },
+            {
+              "key": "DamageResistanceElement5",
+              "value": 20,
+              "isPercent": true
+            },
+            {
+              "key": "DamageResistanceElement6",
+              "value": 20,
+              "isPercent": true
+            }
+          ]
+        }
+      ]
+    },
+    "465": {
+      "id": 465,
+      "season": 42,
+      "areaNum": 2,
+      "areaName": "深境之塔",
+      "floor": 3,
+      "buffs": [
+        {
+          "id": 92008205,
+          "name": "",
+          "desc": "战斗开始60秒后，角色攻击命中敌人时会使敌人受到伤害最终提升5%，每经过5秒该效果值提升5%，最高提升至60%。"
+        },
+        {
+          "id": 92008203,
+          "name": "",
+          "desc": "敌方全属性抗性提升15%。敌方受到的导电伤害和声骸技能伤害不受该效果影响。"
+        },
+        {
+          "id": 92008204,
+          "name": "",
+          "desc": "角色施放变奏技能时，全队造成伤害最终提升15%，持续20秒。角色附加电磁效应时，自身造成伤害最终提升55%，持续20秒。角色响应同奏时，自身造成导电伤害最终提升50%，持续20秒。角色造成的声骸技能最终伤害提升50%。"
+        }
+      ],
+      "monsters": [
+        {
+          "id": 320000150,
+          "name": "流放者工匠",
+          "elements": [
+            {
+              "id": 5
+            }
+          ],
+          "whiteGreenProps": [
+            {
+              "key": "Lv",
+              "value": 100,
+              "isPercent": false
+            },
+            {
+              "key": "DamageResistanceElement1",
+              "value": 20,
+              "isPercent": true
+            },
+            {
+              "key": "DamageResistanceElement2",
+              "value": 20,
+              "isPercent": true
+            },
+            {
+              "key": "DamageResistanceElement3",
+              "value": 20,
+              "isPercent": true
+            },
+            {
+              "key": "DamageResistanceElement4",
+              "value": 20,
+              "isPercent": true
+            },
+            {
+              "key": "DamageResistanceElement5",
+              "value": 60,
+              "isPercent": true
+            },
+            {
+              "key": "DamageResistanceElement6",
+              "value": 20,
+              "isPercent": true
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "whiwaV38": {
+    "season": 23,
+    "buffItems": [
+      {
+        "itemId": 71500106,
+        "item": {
+          "qualityId": 4
+        }
+      },
+      {
+        "itemId": 71500107,
+        "item": {
+          "qualityId": 5
+        }
+      },
+      {
+        "itemId": 71500108,
+        "item": {
+          "qualityId": 5
+        }
+      },
+      {
+        "itemId": 71500109,
+        "item": {
+          "qualityId": 5
+        }
+      }
+    ],
+    "stageGroups": [
+      {
+        "id": 2,
+        "levels": [
+          {
+            "id": 141,
+            "orderIndex": 9,
+            "stages": [
+              {
+                "instId": 40280,
+                "monsters": [
+                  {
+                    "id": 310000080,
+                    "name": "咔嚓嚓",
+                    "element": {
+                      "id": 2
+                    }
+                  }
+                ],
+                "buffs": [
+                  {
+                    "id": 680003214,
+                    "name": "热熔抗性",
+                    "desc": "热熔抗性增加20%"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "dpmatrixV38": {
+    "Season": 9,
+    "Levels": [
+      {
+        "Id": 17,
+        "Name": "稳态协议",
+        "MaxLoopCount": 0,
+        "NewTowerBuffCount": 1,
+        "Waves": [
+          {
+            "Id": 171,
+            "Round": 1,
+            "Wave": 1,
+            "IsShowInView": true,
+            "MonsterId": 607750002,
+            "MonsterLevel": 90,
+            "ElementId": 4
+          },
+          {
+            "Id": 172,
+            "Round": 1,
+            "Wave": 2,
+            "IsShowInView": true,
+            "MonsterId": 665700003,
+            "MonsterLevel": 90,
+            "ElementId": 2
+          },
+          {
+            "Id": 173,
+            "Round": 1,
+            "Wave": 3,
+            "IsShowInView": true,
+            "MonsterId": 650000041,
+            "MonsterLevel": 90,
+            "ElementId": 6
+          },
+          {
+            "Id": 174,
+            "Round": 1,
+            "Wave": 4,
+            "IsShowInView": true,
+            "MonsterId": 676750008,
+            "MonsterLevel": 90,
+            "ElementId": 5
+          }
+        ],
+        "NewTowerBuffs": [
+          {
+            "Id": 42,
+            "Name": "通用强化",
+            "Desc": "敌人受到伤害最终提升20%，受到共鸣解放伤害最终提升20%。"
+          },
+          {
+            "Id": 39,
+            "Name": "异常效应强化",
+            "Desc": "角色附加异常效应时，使目标受到伤害最终提升25%，持续30秒；<br>敌人受到霜渐效应伤害最终提升80%。"
+          },
+          {
+            "Id": 40,
+            "Name": "基础伤害强化",
+            "Desc": "角色获得护盾时，伤害最终提升25%，持续2秒；<br>声骸技能伤害最终提升65%；<br>角色响应同奏时，造成伤害最终提升55%，持续30秒。"
+          },
+          {
+            "Id": 41,
+            "Name": "谐度破坏强化",
+            "Desc": "角色附加谐度·偏移状态时，全队伤害最终提升25%，持续30秒。<br>角色造成震谐伤害后，造成伤害最终提升30%，持续30秒。"
+          }
+        ]
+      },
+      {
+        "Id": 18,
+        "Name": "奇点扩张",
+        "MaxLoopCount": 99,
+        "NewTowerBuffCount": 1,
+        "Waves": [
+          {
+            "Id": 175,
+            "Round": 1,
+            "Wave": 1,
+            "IsShowInView": true,
+            "MonsterId": 607750002,
+            "MonsterLevel": 100,
+            "ElementId": 4
+          },
+          {
+            "Id": 176,
+            "Round": 1,
+            "Wave": 2,
+            "IsShowInView": true,
+            "MonsterId": 665700003,
+            "MonsterLevel": 100,
+            "ElementId": 2
+          },
+          {
+            "Id": 177,
+            "Round": 1,
+            "Wave": 3,
+            "IsShowInView": true,
+            "MonsterId": 650000041,
+            "MonsterLevel": 100,
+            "ElementId": 6
+          },
+          {
+            "Id": 178,
+            "Round": 1,
+            "Wave": 4,
+            "IsShowInView": true,
+            "MonsterId": 676750008,
+            "MonsterLevel": 100,
+            "ElementId": 5
+          },
+          {
+            "Id": 179,
+            "Round": 1,
+            "Wave": 5,
+            "IsShowInView": true,
+            "MonsterId": 401800000,
+            "MonsterLevel": 100,
+            "ElementId": 5
+          },
+          {
+            "Id": 180,
+            "Round": 2,
+            "Wave": 6,
+            "IsShowInView": true,
+            "MonsterId": 607750002,
+            "MonsterLevel": 110,
+            "ElementId": 4
+          },
+          {
+            "Id": 181,
+            "Round": 2,
+            "Wave": 7,
+            "IsShowInView": true,
+            "MonsterId": 665700003,
+            "MonsterLevel": 110,
+            "ElementId": 2
+          },
+          {
+            "Id": 182,
+            "Round": 2,
+            "Wave": 8,
+            "IsShowInView": true,
+            "MonsterId": 650000041,
+            "MonsterLevel": 110,
+            "ElementId": 6
+          },
+          {
+            "Id": 183,
+            "Round": 2,
+            "Wave": 9,
+            "IsShowInView": true,
+            "MonsterId": 676750008,
+            "MonsterLevel": 110,
+            "ElementId": 5
+          },
+          {
+            "Id": 184,
+            "Round": 2,
+            "Wave": 10,
+            "IsShowInView": true,
+            "MonsterId": 401800000,
+            "MonsterLevel": 110,
+            "ElementId": 5
+          },
+          {
+            "Id": 185,
+            "Round": 3,
+            "Wave": 11,
+            "IsShowInView": true,
+            "MonsterId": 607750002,
+            "MonsterLevel": 120,
+            "ElementId": 4
+          },
+          {
+            "Id": 186,
+            "Round": 3,
+            "Wave": 12,
+            "IsShowInView": true,
+            "MonsterId": 665700003,
+            "MonsterLevel": 120,
+            "ElementId": 2
+          },
+          {
+            "Id": 187,
+            "Round": 3,
+            "Wave": 13,
+            "IsShowInView": true,
+            "MonsterId": 650000041,
+            "MonsterLevel": 120,
+            "ElementId": 6
+          },
+          {
+            "Id": 188,
+            "Round": 3,
+            "Wave": 14,
+            "IsShowInView": true,
+            "MonsterId": 676750008,
+            "MonsterLevel": 120,
+            "ElementId": 5
+          },
+          {
+            "Id": 189,
+            "Round": 3,
+            "Wave": 15,
+            "IsShowInView": true,
+            "MonsterId": 401800000,
+            "MonsterLevel": 120,
+            "ElementId": 5
+          }
+        ],
+        "NewTowerBuffs": [
+          {
+            "Id": 42,
+            "Name": "通用强化",
+            "Desc": "敌人受到伤害最终提升20%，受到共鸣解放伤害最终提升20%。"
+          },
+          {
+            "Id": 39,
+            "Name": "异常效应强化",
+            "Desc": "角色附加异常效应时，使目标受到伤害最终提升25%，持续30秒；<br>敌人受到霜渐效应伤害最终提升80%。"
+          },
+          {
+            "Id": 40,
+            "Name": "基础伤害强化",
+            "Desc": "角色获得护盾时，伤害最终提升25%，持续2秒；<br>声骸技能伤害最终提升65%；<br>角色响应同奏时，造成伤害最终提升55%，持续30秒。"
+          },
+          {
+            "Id": 41,
+            "Name": "谐度破坏强化",
+            "Desc": "角色附加谐度·偏移状态时，全队伤害最终提升25%，持续30秒。<br>角色造成震谐伤害后，造成伤害最终提升30%，持续30秒。"
+          }
+        ]
+      }
+    ]
   }
 }

@@ -1578,7 +1578,20 @@ window.WUWA_LANGUAGES.extend("en-US", {
               "desc": "Cast Echo Skill to deal 4 instances of 27.36% Electro DMG and 1 instance of 164.16% Electro DMG.\nWhen equipped by Hsin, the Echo Skill instead deals 5 instances of 8.20% Electro DMG and 1 instance of 232.56% Electro DMG to targets within a larger range.\nThe Resonator with this Echo equipped in their main slot gains 10.00% Electro DMG Bonus. Inflicting Electro Flare, gaining Unison, or triggering Unison Response grants the Resonator an extra 10.00% Electro DMG Bonus for 30s.\nCD: 20s"
             }
           ]
-        }
+        },
+        "leads": [
+          {
+            "echo": "Formrender",
+            "buffs": [
+              {
+                "label": "Energy Regen",
+                "trigger": "Formrender is equipped in the main slot",
+                "excerpt": "Equipping Formrender in the main slot grants 10% Energy Regen",
+                "desc": "Use Echo Skill to summon a Formrender, dealing 273.60% Fusion DMG.\nThe Resonator with this Echo equipped in the main slot gains 10.00% Energy Regen.\nCD: 20s"
+              }
+            ]
+          }
+        ]
       },
       "360237": {
         "name": "Flash of Electric Reflection",
@@ -1658,7 +1671,20 @@ window.WUWA_LANGUAGES.extend("en-US", {
               "desc": "Use Echo Skill to attack nearby enemies, dealing 109.44% Havoc DMG and summoning 4 Blades of Thousand Memories that last 15s.\n\nWhile Blades of Thousand Memories last, when the Resonator inflicts Havoc Bane, consume 1 Blade of Thousand Memories to deal 41.04% Havoc DMG once to the target. This effect can be triggered once every 1s.\n\nResonators with this Echo equipped in the main slot gain 12.00% Havoc DMG and 12.00% Heavy Attack DMG bonuses.\n\nCD: 20s"
             }
           ]
-        }
+        },
+        "leads": [
+          {
+            "echo": "Formrender",
+            "buffs": [
+              {
+                "label": "Energy Regen",
+                "trigger": "Formrender is equipped in the main slot",
+                "excerpt": "Equipping Formrender in the main slot grants 10% Energy Regen",
+                "desc": "Use Echo Skill to summon a Formrender, dealing 273.60% Fusion DMG.\nThe Resonator with this Echo equipped in the main slot gains 10.00% Energy Regen.\nCD: 20s"
+              }
+            ]
+          }
+        ]
       }
     }
   }

@@ -5,7 +5,7 @@ const L = window.WUWA_LANGUAGES;
 const TARGETS = window.WUWA_TARGETS;
 const ch = (id) => W.chars[id];
 const {
-  WEAPONS, SONATAS, wp, defaultEchoForChar, leadChoicesForEcho, syncEchoLead,
+  WEAPONS, SONATAS, wp, defaultEchoForChar, leadChoicesForEcho, echoLeadKey, syncEchoLead,
   weaponBuffs, sonataBuffs, echoStats: equipmentEchoStats,
   ECHO_COSTS, echoMainOptions, echoSubOptions, echoSubValues, echoFixedMain,
   ensureEchoDetail, echoFieldValues, echoDetailSummary, statLabel,
@@ -83,15 +83,15 @@ TARGETS.ensureSelection(state.enemy);
 const {
   slotBuffs, availableSkills, selectedSkill, resourceKey, resourceControlsForSlot, setCharacterResourceValue, resolvedSkill, skillLayersForSlot,
   stateKey, stateChoiceKey, stateControlsHTML,
-  buffStackCount, buffStatus, setBuffToggle, scaleByInfo, buffValue, compute,
+  buffRecipientKey, buffStackCount, buffStackStep, buffStatus, setBuffToggle, scaleByInfo, buffValue, compute,
 } = window.WUWA_SETTLEMENT.create({
   state, ch, wp, echoStats, weaponBuffs, sonataBuffs, esc,
-  targetContext: (damageElement) => TARGETS.context(state.enemy, damageElement),
-  targetGameplay: (context) => TARGETS.gameplayAggregate(state.enemy, context),
+  targetContext: (damageElement, context) => TARGETS.context(state.enemy, damageElement, context),
+  targetGameplay: (context, recipient) => TARGETS.gameplayAggregate(state.enemy, context, recipient),
 });
 const {
   buffFormulaText, autoResolutionHTML, settlementBuffRowsHTML, stackFeedsBuffRequirement, resetBuffStage,
-} = window.WUWA_BUFF_VIEW.create({ state, ch, slotBuffs, buffStatus, buffValue, buffStackCount, scaleByInfo });
+} = window.WUWA_BUFF_VIEW.create({ state, ch, slotBuffs, buffStatus, buffValue, buffStackCount, buffStackStep, scaleByInfo });
 const {
   panelEntryTableHTML, refreshPanelEntryTotals,
 } = window.WUWA_PANEL_VIEW.create({ state, ch, wp, echoStats, echoFieldValues, slotBuffs, buffStatus, buffValue, setHTML });
@@ -100,10 +100,10 @@ const {
   resultMainDisplayHTML, resultMainHTML, resultFormulaBodyHTML, resultFormulaHTML, damageDockHTML,
   targetSummaryHTML, settlementStageHTML, buffStageHTML,
 } = window.WUWA_STAGE_VIEW.create({
-  state, W, ch, wp, WEAPONS, SONATAS, leadChoicesForEcho, syncEchoLead,
+  state, W, ch, wp, WEAPONS, SONATAS, leadChoicesForEcho, echoLeadKey, syncEchoLead,
   ECHO_COSTS, echoMainOptions, echoSubOptions, echoSubValues, echoFixedMain, ensureEchoDetail, echoDetailSummary, statLabel, echoStats,
   availableSkills, selectedSkill, resourceControlsForSlot, resolvedSkill, skillLayersForSlot, stateControlsHTML,
-  panelEntryTableHTML, autoResolutionHTML, settlementBuffRowsHTML,
+  panelEntryTableHTML, autoResolutionHTML, settlementBuffRowsHTML, buffRecipientKey,
 });
 
 // —— 渲染 ——
@@ -180,6 +180,7 @@ function refreshResultDisplay(r) {
   if (!resultMainDisplay || !resultFormulaBody || !damageDock || !targetSummary) return false;
   bind(resultMainDisplay);
   bind(resultFormulaBody);
+  bind(damageDock);
   syncDamageDock();
   return true;
 }
@@ -640,8 +641,8 @@ const ACTIONS = {
       el.onblur = () => hideTargetChoicePreview(el.closest(".target-choice"));
     }
   },
-  "target-buff-toggle": (el) => { el.onchange = () => { TARGETS.setGameplayValue(state.enemy, el.dataset.buff, el.checked); render(); }; },
-  "target-buff-range": (el) => { el.onchange = () => { TARGETS.setGameplayValue(state.enemy, el.dataset.buff, el.value); render(); }; },
+  "target-buff-toggle": (el) => { el.onchange = () => { TARGETS.setGameplayValue(state.enemy, el.dataset.buff, el.checked, el.dataset.recipient); render(); }; },
+  "target-buff-range": (el) => { el.onchange = () => { TARGETS.setGameplayValue(state.enemy, el.dataset.buff, el.value, el.dataset.recipient); render(); }; },
   "target-level": (el) => {
     el.oninput = () => updateTargetLevel(el);
     el.onchange = () => render();
@@ -683,7 +684,7 @@ const ACTIONS = {
   toggle: (el, idx) => { el.onchange = () => { setBuffToggle(state.slots[idx], idx, el.dataset.buff, el.checked); refreshAfterBuffToggle(); }; },
   "buff-reset": (el) => { el.onclick = () => { resetBuffStage(); render(); }; },
   stack: (el, idx) => {
-    el.oninput = () => {
+    const update = () => {
       const stackKey = el.dataset.stackKey || ("stk_" + el.dataset.buff);
       state.slots[idx].toggles[stackKey] = num(el.value);
       board.querySelectorAll('[data-act="stack"]').forEach((input) => {
@@ -692,7 +693,12 @@ const ACTIONS = {
       });
       repaint();
     };
-    el.onchange = () => { if (stackFeedsBuffRequirement(state.slots[idx], el.dataset.buff)) render(); };
+    const isSelect = el.tagName === "SELECT";
+    if (!isSelect) el.oninput = update;
+    el.onchange = () => {
+      if (isSelect) update();
+      if (stackFeedsBuffRequirement(state.slots[idx], el.dataset.buff)) render();
+    };
   },
   enemy: (el) => {
     el.addEventListener("input", () => updateEnemyInput(el));
@@ -701,6 +707,19 @@ const ACTIONS = {
   "echo-clear": (el, idx) => { el.onclick = () => { state.slots[idx].echo.fields = {}; render(); }; },
   "panel-add": (el, idx) => { el.onchange = () => { if (el.value) { const s = state.slots[idx]; (s.extraPanelRows = s.extraPanelRows || []).push(el.value); render(); } }; },
   "panel-rm": (el, idx) => { el.onclick = () => { const s = state.slots[idx]; s.extraPanelRows = (s.extraPanelRows || []).filter((x) => x !== el.dataset.key); render(); }; },
+  "echo-set": (el, idx) => {
+    el.onchange = () => {
+      const slot = state.slots[idx];
+      const c = ch(slot.char);
+      const setId = Number(el.value);
+      if (slot.echo.detailMode || !c?.alternateEchoSets?.length) return;
+      if (setId !== c.echoSet && !c.alternateEchoSets.includes(setId)) return;
+      slot.echo.primary = setId;
+      slot.echo.lead = setId === c.echoSet ? c.echoLead : null;
+      syncEchoLead(slot.echo, c.element);
+      render();
+    };
+  },
   elead: (el, idx) => { el.onchange = () => { state.slots[idx].echo.lead = el.value || null; render(); }; },
   "echo-detail": (el, idx) => { el.onchange = () => { const slot = state.slots[idx]; slot.echo.detailMode = el.checked; if (el.checked) ensureEchoDetail(slot, slot.char ? ch(slot.char) : null); render(); }; },
   "detail-echo-set": bindDetailEchoSet,
@@ -716,7 +735,7 @@ const ACTIONS = {
   "detail-echo-main": (el, idx) => { el.onchange = () => updateDetailEcho(idx, +el.dataset.echoIndex, (item) => { item.main = el.value; }); },
   "detail-sub-key": (el, idx) => { el.onchange = () => updateDetailEcho(idx, +el.dataset.echoIndex, (item) => { const subIdx = +el.dataset.subIndex; const sub = item.subs[subIdx]; const duplicate = el.value && item.subs.some((other, otherIdx) => otherIdx !== subIdx && other.key === el.value); sub.key = duplicate ? "" : el.value; sub.value = echoSubValues(sub.key)[0] || 0; }); },
   "detail-sub-value": (el, idx) => { el.onchange = () => updateDetailEcho(idx, +el.dataset.echoIndex, (item) => { item.subs[+el.dataset.subIndex].value = num(el.value); }); },
-  "detail-lead": (el, idx) => { el.onchange = () => updateDetailEcho(idx, 0, (_item, slot) => { slot.echo.lead = el.value || null; }); },
+  "detail-lead": (el, idx) => { el.onchange = () => updateDetailEcho(idx, 0, (_item, slot) => { slot.echo.detail.lead = el.value || null; }); },
   efield: (el, idx) => { el.oninput = () => { state.slots[idx].echo.fields[el.dataset.key] = num(el.value); repaint(); }; },
 };
 

@@ -3,18 +3,20 @@
 window.WUWA_SETTLEMENT = (() => {
   function create({ state, ch, wp, echoStats, weaponBuffs, sonataBuffs, esc, targetContext, targetGameplay }) {
     const {
-      SEC_ZONE, skillMultValue, skillValueAtLevel, num, zeros, EFFECT_DEFS, EFFECT_ORDER, effectKeyOf,
+      SEC_ZONE, skillMultValue, skillValueAtLevel, num, zeros, EFFECT_DEFS, EFFECT_ORDER, effectKeyOf, buffToggleKey,
     } = window.WUWA_RULES;
     const L = window.WUWA_LANGUAGES;
-    const resolveTarget = (damageElement) => targetContext
-      ? targetContext(damageElement)
+    const resolveTarget = (damageElement, damageContext) => targetContext
+      ? targetContext(damageElement, damageContext)
       : {
           enemyLevel: state.enemy.enemyLevel,
           resistance: state.enemy.res,
           resistances: Object.fromEntries(window.WUWA_RULES.ELEMENTS.map((element) => [element, state.enemy.res])),
           damageElement,
         };
-    const resolveGameplay = (context) => targetGameplay ? targetGameplay(context) : { sources: {} };
+    const resolveGameplay = (context, outputIdx = state.outputIdx) => targetGameplay
+      ? targetGameplay(context, buffRecipientKey(outputIdx))
+      : { sources: {} };
 
     const pushUniq = (arr, v) => { if (v && !arr.includes(v)) arr.push(v); };
     const asList = (v) => Array.isArray(v) ? v : (v ? [v] : []);
@@ -351,9 +353,19 @@ window.WUWA_SETTLEMENT = (() => {
       return characterResourceValue(slot, resource.id) < resourceRequirementValue(slot, resource, req);
     }
 
+    function buffResourceHolder(slot, target, outputIdx, id) {
+      const output = state.slots[outputIdx];
+      if (target === "output") return output;
+      if (target !== "team") return slot;
+      // Another team member can still hold the shared stacks after the output loses them.
+      return state.slots.reduce((holder, member) => {
+        return num(characterResourceValue(member, id)) > num(characterResourceValue(holder, id)) ? member : holder;
+      }, output);
+    }
+
     function buffResourceGateReason(slot, buff, outputIdx) {
       const req = buff.requiresResourceAtLeast;
-      const receiver = req?.target === "output" ? state.slots[outputIdx] : slot;
+      const receiver = buffResourceHolder(slot, req?.target, outputIdx, req?.id || req?.label);
       if (req && !resourceRequirementReady(receiver, req)) {
         const resource = characterResourceDef(receiver, req.id || req.label);
         const label = resource?.label || req.label || req.id;
@@ -944,8 +956,15 @@ window.WUWA_SETTLEMENT = (() => {
       return Object.prototype.hasOwnProperty.call(slot.toggles || {}, key);
     }
 
-    function explicitBuffToggle(slot, buff) {
-      return hasOwnToggle(slot, buff.id) ? slot.toggles[buff.id] : null;
+    function buffRecipientKey(outputIdx) {
+      return `${outputIdx}:${state.slots[outputIdx].char}`;
+    }
+
+    function explicitBuffToggle(slot, buff, outputIdx) {
+      const key = buffToggleKey(buff);
+      if (!hasOwnToggle(slot, key)) return null;
+      const value = slot.toggles[key];
+      return buff.confirmForRecipient ? value?.[buffRecipientKey(outputIdx)] ?? null : value;
     }
 
     function exclusiveBuffGroup(slot, buff) {
@@ -953,14 +972,14 @@ window.WUWA_SETTLEMENT = (() => {
       return slotBuffs(slot).filter((other) => other.exclusiveGroup === buff.exclusiveGroup && buffSeqUnlocked(slot, other));
     }
 
-    function buffToggleOn(slot, buff, defaultOn = true) {
-      const own = explicitBuffToggle(slot, buff);
+    function buffToggleOn(slot, buff, defaultOn = true, outputIdx = state.outputIdx) {
+      const own = explicitBuffToggle(slot, buff, outputIdx);
       if (own != null) return own === true;
       if (!buff.exclusiveGroup) return defaultOn;
       const group = exclusiveBuffGroup(slot, buff);
-      const selected = group.find((other) => explicitBuffToggle(slot, other) === true);
+      const selected = group.find((other) => explicitBuffToggle(slot, other, outputIdx) === true);
       if (selected) return selected.id === buff.id;
-      if (group.some((other) => explicitBuffToggle(slot, other) != null)) return false;
+      if (group.some((other) => explicitBuffToggle(slot, other, outputIdx) != null)) return false;
       return defaultOn && group[0]?.id === buff.id;
     }
 
@@ -1094,6 +1113,21 @@ window.WUWA_SETTLEMENT = (() => {
       return Math.max(0, Math.round(num(cap)));
     }
 
+    function linkedStackBuffs(slot, buff) {
+      return buff.stackGroup
+        ? slotBuffs(slot).filter((other) => other.stackGroup === buff.stackGroup && buffSeqUnlocked(slot, other))
+        : [buff];
+    }
+
+    function buffStackStep(slot, buff, linked = linkedStackBuffs(slot, buff)) {
+      const rules = linked.find((other) => other.stackStepBySeq)?.stackStepBySeq || [];
+      let step = 1;
+      for (const rule of rules) {
+        if (num(slot.seq) >= rule.seq) step = rule.step;
+      }
+      return step;
+    }
+
     function buffHasDrivenStackSource(buff) {
       return !!buff.stackResource
         || buff.triggerStacks != null
@@ -1105,20 +1139,20 @@ window.WUWA_SETTLEMENT = (() => {
     function drivenBuffStackFallback(slot, buff, idx, outputIdx, ctxOverride = null) {
       if (!buffHasDrivenStackSource(buff)) return null;
       if (buff.stackResource) {
-        const receiver = buff.stackResourceTarget === "output" ? state.slots[outputIdx] : slot;
+        const receiver = buffResourceHolder(slot, buff.stackResourceTarget, outputIdx, buff.stackResource);
         const value = characterResourceValue(receiver, buff.stackResource);
         if (value != null) return Math.floor(value / Math.max(1, num(buff.stackResourceStep, 1)));
       }
       const info = directTriggerInfo(slot, idx, buff, outputIdx, ctxOverride);
       if (info.triggered && info.stacks != null) return num(info.stacks);
-      if (buff.provider === "共鸣链" && buffToggleOn(slot, buff)) return null;
-      if (buff.defaultActive === false && explicitBuffToggle(slot, buff) === true) return null;
+      if (buff.provider === "共鸣链" && buffToggleOn(slot, buff, true, outputIdx)) return null;
+      if (buff.defaultActive === false && explicitBuffToggle(slot, buff, outputIdx) === true) return null;
       return num(buff.defaultStacks);
     }
 
-    function manualBuffStackFallback(slot, buff) {
+    function manualBuffStackFallback(slot, buff, outputIdx) {
       if (buff.defaultStacks != null) return num(buff.defaultStacks);
-      if (buff.maxStacks && buffToggleOn(slot, buff)) return buffStackCap(slot, buff) || buff.maxStacks;
+      if (buff.maxStacks && buffToggleOn(slot, buff, true, outputIdx)) return buffStackCap(slot, buff) || buff.maxStacks;
       return num(buff.maxStacks);
     }
 
@@ -1155,25 +1189,25 @@ window.WUWA_SETTLEMENT = (() => {
 
     function buffStackCount(slot, buff, idx = state.slots.indexOf(slot), outputIdx = state.outputIdx, ctxOverride = null) {
       if (buff.stackResource) {
-        const receiver = buff.stackResourceTarget === "output" ? state.slots[outputIdx] : slot;
+        const receiver = buffResourceHolder(slot, buff.stackResourceTarget, outputIdx, buff.stackResource);
         const value = characterResourceValue(receiver, buff.stackResource);
         const stacks = Math.floor(num(value) / Math.max(1, num(buff.stackResourceStep, 1)));
         return Math.min(Math.max(0, stacks), buffStackCap(slot, buff));
       }
       if (buff.stackState) return stateStackInfo(slot, buff.stackState).effectiveStacks;
       const key = buffStackStorageKey(buff);
-      const linked = buff.stackGroup
-        ? slotBuffs(slot).filter((other) => other.stackGroup === buff.stackGroup && buffSeqUnlocked(slot, other))
-        : [buff];
+      const linked = linkedStackBuffs(slot, buff);
       const driven = linked
         .map((other) => drivenBuffStackFallback(slot, other, idx, outputIdx, ctxOverride))
         .filter((value) => value != null);
       const fallback = driven.length
         ? Math.max(...driven)
-        : Math.max(...linked.map((other) => manualBuffStackFallback(slot, other)));
+        : Math.max(...linked.map((other) => manualBuffStackFallback(slot, other, outputIdx)));
       const value = num(slot.toggles[key] ?? fallback);
       const cap = buffStackCap(slot, buff);
-      return cap ? Math.min(Math.max(0, value), cap) : Math.max(0, value);
+      const bounded = cap ? Math.min(Math.max(0, value), cap) : Math.max(0, value);
+      const step = buffStackStep(slot, buff, linked);
+      return step > 1 ? Math.floor(bounded / step) * step : bounded;
     }
 
     function buffStackContribution(slot, buff, idx = state.slots.indexOf(slot), outputIdx = state.outputIdx, ctxOverride = null) {
@@ -1224,13 +1258,21 @@ window.WUWA_SETTLEMENT = (() => {
       return (!ref || !ready || stacks < req.stacks) ? `需${req.label || req.id}${req.stacks}层` : null;
     }
 
+    function sourceActiveGateReason(idx, buff) {
+      if (buff.requiresSourceActive === true && idx !== state.outputIdx) return "需装备者登场";
+      if (buff.requiresSourceActive === false && idx === state.outputIdx) return "需提供者离场";
+      return null;
+    }
+
     function buffGateReason(slot, idx, buff, seen, outputIdx, ctx, isDps) {
       const harmonyGate = harmonyResponseBuffGateReason(buff, ctx);
       if (buff.effect && buff.defaultActive !== false && !isSupportOutroBuff(slot, idx, buff, outputIdx) && !supportStateNeedsConfirmation(slot, idx, buff, outputIdx)) return "仅效应伤害";
       if (buff.seq && slot.seq < buff.seq) return `需 ${buff.seq} 链`;
       if (buff.maxSeq != null && slot.seq > buff.maxSeq) return `已被高链效果替换`;
       if (buff.requiresUnison && !unisonReceiverReady(state.slots[outputIdx])) return "需可响应同奏";
-      if (buff.requiresSourceActive && idx !== state.outputIdx) return "需装备者登场";
+      if (buff.requiresUnisonResponder && !unisonResponder(state.slots[outputIdx])) return "需可响应同奏";
+      const sourceGate = sourceActiveGateReason(idx, buff);
+      if (sourceGate) return sourceGate;
       if (buff.requiresTeamChar && !state.slots.some((member) => asList(buff.requiresTeamChar).includes(member.char))) return "需指定队友";
       if (buff.zone === "effectCapBonus") {
         const effect = EFFECT_DEFS[effectKeyOf(state.effectCalc?.key)];
@@ -1243,8 +1285,8 @@ window.WUWA_SETTLEMENT = (() => {
       if (!sourceCharRequirementReady(slot, buff)) return `需${sourceCharRequirementLabel(buff)}`;
       if (!activeCharRequirementReady(buff)) return `需${activeCharRequirementLabel(buff)}为登场角色`;
       if (buff.maxStacks && (buff.stackStart != null || buff.stackEnd != null || buff.stackRange) && buffTriggerSatisfied(slot, idx, buff, outputIdx, ctx) && buffStackContribution(slot, buff, idx, outputIdx, ctx) <= 0) return buffStackRangeLabel(buff);
-      if (buff.requiresEffectStacks && !effectStackRequirementReadyForBuff(buff) && buffToggleOn(slot, buff)) return `需${effectStackRequirementLabel(buff.requiresEffectStacks)}`;
-      if (buff.requiresAnyEffectStacks && !anyEffectStackRequirementReadyForBuff(buff) && buffToggleOn(slot, buff)) return `需${anyEffectStackRequirementLabel(buff.requiresAnyEffectStacks)}`;
+      if (buff.requiresEffectStacks && !effectStackRequirementReadyForBuff(buff) && buffToggleOn(slot, buff, true, outputIdx)) return `需${effectStackRequirementLabel(buff.requiresEffectStacks)}`;
+      if (buff.requiresAnyEffectStacks && !anyEffectStackRequirementReadyForBuff(buff) && buffToggleOn(slot, buff, true, outputIdx)) return `需${anyEffectStackRequirementLabel(buff.requiresAnyEffectStacks)}`;
       if (buffClearedByCurrentSkill(slot, buff, ctx)) return "被当前技能清除";
       if (!isDps && buff.scope !== "team") return "仅自身输出时生效";
       if (isDps && buff.triggerOutro === true && !affectsOwnOutroAction(buff, ctx)) return "延奏不给自己";
@@ -1260,12 +1302,13 @@ window.WUWA_SETTLEMENT = (() => {
       const isDps = idx === outputIdx;
       const gated = buffGateReason(slot, idx, buff, seen, outputIdx, ctx, isDps);
       const precondition = buffNeedsPrecondition(slot, idx, buff, outputIdx, ctx);
-      const toggleOn = precondition ? buffToggleOn(slot, buff, false) : true;
+      const toggleOn = precondition ? buffToggleOn(slot, buff, false, outputIdx) : true;
       return { gated, precondition, toggleOn, applies: !gated && toggleOn };
     }
 
     function setBuffToggle(slot, idx, buffId, checked) {
       const buff = slotBuffs(slot).find((b) => b.id === buffId);
+      const key = buff ? buffToggleKey(buff) : buffId;
       if (checked && buff && supportStateNeedsConfirmation(slot, idx, buff)) {
         activateBuffStateRequirements(slot, buff);
         syncEffectStackRequirement(buff);
@@ -1281,7 +1324,11 @@ window.WUWA_SETTLEMENT = (() => {
         slot.toggles[resourceKey(buff.requiresResource)] = checked;
       }
       if (checked && buff) syncEffectStackRequirement(buff);
-      slot.toggles[buffId] = checked;
+      if (buff?.confirmForRecipient) {
+        slot.toggles[key] = { ...slot.toggles[key], [buffRecipientKey(state.outputIdx)]: checked };
+      } else {
+        slot.toggles[key] = checked;
+      }
       if (checked && ch(slot.char)?.unison?.boonClearedByBuff === buffId) {
         slot.resources = slot.resources || {};
         slot.resources.unison_boon = 0;
@@ -1345,8 +1392,8 @@ window.WUWA_SETTLEMENT = (() => {
       const idx = state.slots.indexOf(slot);
       return slotBuffs(slot).reduce((total, buff) => {
         if (buff.provider !== "声骸" || buff.zone !== zone || buff.scaleBy || buff.multAddByStat || buff.requiresSourceStat) return total;
-        if (!buffStatus(slot, idx, buff).applies) return total;
-        return total + buffValue(slot, buff, idx);
+        if (!buffStatus(slot, idx, buff, new Set(), idx).applies) return total;
+        return total + buffValue(slot, buff, idx, idx);
       }, 0);
     }
 
@@ -1695,7 +1742,7 @@ window.WUWA_SETTLEMENT = (() => {
         resultMode: "offset",
         damageElement: ctx.element,
         damageTypes: ctx.damageTypes,
-      }));
+      }, outputIdx));
       return t;
     }
 
@@ -1841,10 +1888,11 @@ window.WUWA_SETTLEMENT = (() => {
     function effectBuffStatus(slot, idx, buff, effectKey, def, seen = new Set(), outputIdx = state.outputIdx) {
       const ctx = dpsContext(outputIdx);
       const isDps = idx === outputIdx;
+      const sourceGate = sourceActiveGateReason(idx, buff);
       let gated = null;
       if (buff.effect && !effectRequirementMatches(buff.effect, effectKey)) gated = `仅${buff.effect}伤害`;
       else if (buff.seq && slot.seq < buff.seq) gated = `需 ${buff.seq} 链`;
-      else if (buff.requiresSourceActive && idx !== state.outputIdx) gated = "需装备者登场";
+      else if (sourceGate) gated = sourceGate;
       else if (!buffStateRequirementsReady(slot, buff) && !supportStateNeedsConfirmation(slot, idx, buff, outputIdx)) gated = `需处于${buffStateRequirementLabel(buff)}`;
       else if (!sourceStatRequirementReady(slot, buff)) gated = `需${sourceStatRequirementLabel(buff.requiresSourceStat)}`;
       else if (!sourceCharRequirementReady(slot, buff)) gated = `需${sourceCharRequirementLabel(buff)}`;
@@ -1863,7 +1911,7 @@ window.WUWA_SETTLEMENT = (() => {
         if (!ref || !refReady || stacks < req.stacks) gated = `需${req.label || req.id}${req.stacks}层`;
       }
       const precondition = buffNeedsPrecondition(slot, idx, buff, outputIdx);
-      const toggleOn = precondition ? buffToggleOn(slot, buff, false) : true;
+      const toggleOn = precondition ? buffToggleOn(slot, buff, false, outputIdx) : true;
       return { gated, precondition, toggleOn, applies: !gated && toggleOn };
     }
 
@@ -1919,7 +1967,7 @@ window.WUWA_SETTLEMENT = (() => {
           }
         });
       });
-      const gameplay = resolveGameplay({ resultMode: "effect", effectKey, damageElement: def.element, damageTypes: [effectKey] });
+      const gameplay = resolveGameplay({ resultMode: "effect", effectKey, damageElement: def.element, damageTypes: [effectKey] }, outputIdx);
       t.deepen += num(gameplay.amplify) + num(gameplay.vulnerability);
       t.buffDeepen += num(gameplay.amplify) + num(gameplay.vulnerability);
       t.finalDmg += num(gameplay.finalDmg);
@@ -2148,7 +2196,7 @@ window.WUWA_SETTLEMENT = (() => {
       const breakAmpInfo = outputBreakAmpInfo(providerIdx);
       const breakAmp = breakAmpInfo.value;
       const breakAmpFactor = Math.max(0, 1 + breakAmp / 100);
-      const gameplay = resolveGameplay({ resultMode: "offset", damageElement: providerChar?.element, damageTypes: ["tuneBreak", "tuneBreakDmg"] });
+      const gameplay = resolveGameplay({ resultMode: "offset", damageElement: providerChar?.element, damageTypes: ["tuneBreak", "tuneBreakDmg"] }, providerIdx);
       const factors = offsetDefenseFactors(gameplay, providerChar?.element);
       const deepen = state.enemy.vulnerability - state.enemy.dmgReduction + num(gameplay.amplify) + num(gameplay.vulnerability);
       const deepenFactor = Math.max(0, 1 + deepen / 100);
@@ -2257,11 +2305,12 @@ window.WUWA_SETTLEMENT = (() => {
       const selectedSk = selectedSkill(s1);
       const sk = resolvedSkill(s1);
       const damageElement = sk?.damageElement || sk?.element || c.element;
-      const b = mergeAggregate(aggregate(), resolveGameplay({
+      const damageContext = {
         resultMode: "skill",
         damageElement,
         damageTypes: damageTypesForSkill(sk),
-      }));
+      };
+      const b = mergeAggregate(aggregate(), resolveGameplay(damageContext));
       const es = echoStats(s1);
       const tree = c.base.tree || {};
 
@@ -2322,7 +2371,7 @@ window.WUWA_SETTLEMENT = (() => {
       const skillMult = (baseMult * (1 + skillMultBonus / 100)) / 100;
 
       const skType = sk ? sk.damageType : null;
-      const target = resolveTarget(damageElement);
+      const target = resolveTarget(damageElement, damageContext);
       const treeElemBonus = damageElement === c.element ? tree.elemBonus || 0 : 0;
       const typeBonus = b.typeBonus + (skType ? es.type[skType] || 0 : 0);
       const scaledTypeBonus = typeBonus * (1 + num(b.typeBonusScale) / 100);
@@ -2402,7 +2451,7 @@ window.WUWA_SETTLEMENT = (() => {
     return {
       slotBuffs, availableSkills, selectedSkill, resourceKey, resourceControlsForSlot, setCharacterResourceValue, resolvedSkill, skillLayersForSlot,
       stateKey, stateChoiceKey, stateControlsHTML,
-      buffStackCount, buffStatus, setBuffToggle, scaleByInfo, buffValue, compute,
+      buffRecipientKey, buffStackCount, buffStackStep, buffStatus, setBuffToggle, scaleByInfo, buffValue, compute,
     };
   }
 

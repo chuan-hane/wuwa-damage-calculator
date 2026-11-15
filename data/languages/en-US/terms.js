@@ -5,6 +5,7 @@ window.WUWA_LANGUAGES.extend("en-US", {
     "抗性无视": "RES Ignore",
     "需可响应同奏": "Requires Unison Response eligibility",
     "需装备者登场": "Requires the wielder on the field",
+    "需提供者离场": "Requires the provider off the field",
     "需指定队友": "Requires the specified teammate"
   }
 });
