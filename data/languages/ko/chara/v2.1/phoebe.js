@@ -162,6 +162,13 @@ window.WUWA_LANGUAGES.extend("ko", {
             "trigger": "고해 상태 상태",
             "excerpt": "피해 증가 +100%",
             "desc": "피해 증가 +100%"
+          },
+          {
+            "source": "반주 스킬 · 경청하는 마음",
+            "label": "피해 배율 상승",
+            "trigger": "면죄 상태에서 반주 스킬 발동 시",
+            "excerpt": "면죄 상태에서 경청하는 마음 피해 배율 255% 상승",
+            "desc": "면죄 상태: 피해 배율이 255% 상승된다."
           }
         ],
         "chain": [

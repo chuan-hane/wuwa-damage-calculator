@@ -6,7 +6,8 @@ window.WUWA_LANGUAGES.extend("en-US", {
     "需可响应同奏": "Requires Unison Response eligibility",
     "需装备者登场": "Requires the wielder on the field",
     "需提供者离场": "Requires the provider off the field",
-    "需指定队友": "Requires the specified teammate"
+    "需指定队友": "Requires the specified teammate",
+    "附加次数": "Applications"
   }
 });
 
@@ -188,6 +189,7 @@ window.WUWA_LANGUAGES.extend("en-US", {
     "首位单体效果": "Lead Echo Effect"
   },
   effects: {
+    glacio_bite: "Glacio Bite",
     none: "None",
     "不计算": "None",
     electro: "Electro Flare",
@@ -210,6 +212,7 @@ window.WUWA_LANGUAGES.extend("en-US", {
     "虚湮效应": "Havoc Bane"
   },
   effectShort: {
+    glacio_bite: "Glacio Bite",
     none: "None",
     "电磁": "Electro Flare",
     "霜渐": "Glacio Chafe",

@@ -6,7 +6,8 @@ window.WUWA_LANGUAGES.extend("ko", {
     "需可响应同奏": "동조 응답이 가능한 캐릭터 필요",
     "需装备者登场": "장착 캐릭터가 출전해야 함",
     "需提供者离场": "효과를 부여한 캐릭터가 퇴장해야 함",
-    "需指定队友": "지정 팀원 필요"
+    "需指定队友": "지정 팀원 필요",
+    "附加次数": "부여 횟수"
   }
 });
 
@@ -188,6 +189,7 @@ window.WUWA_LANGUAGES.extend("ko", {
     "首位单体效果": "메인 에코 효과"
   },
   "effects": {
+    "glacio_bite": "냉해 효과",
     "none": "계산 안 함",
     "不计算": "계산 안 함",
     "electro": "전기 플레어",
@@ -210,6 +212,7 @@ window.WUWA_LANGUAGES.extend("ko", {
     "虚湮效应": "인멸 재앙"
   },
   "effectShort": {
+    "glacio_bite": "냉해",
     "none": "계산 안 함",
     "electro": "전기",
     "电磁": "전기",

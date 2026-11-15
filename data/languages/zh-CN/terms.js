@@ -1,6 +1,7 @@
 "use strict";
 
 window.WUWA_LANGUAGES.extend("zh-CN", {
+  text: { "附加次数": "附加次数" },
   elements: {
     fusion: "热熔",
     glacio: "冷凝",
@@ -69,6 +70,7 @@ window.WUWA_LANGUAGES.extend("zh-CN", {
   providers: {},
   pieceTags: {},
   effects: {
+    glacio_bite: "霜冻效应",
     none: "不计算",
     "不计算": "不计算",
     electro: "电磁效应",
@@ -91,6 +93,7 @@ window.WUWA_LANGUAGES.extend("zh-CN", {
     "虚湮效应": "虚湮效应"
   },
   effectShort: {
+    glacio_bite: "霜冻",
     none: "不计算",
     electro: "电磁",
     "电磁": "电磁",

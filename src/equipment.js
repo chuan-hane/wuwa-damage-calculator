@@ -255,7 +255,32 @@ window.WUWA_EQUIPMENT = (() => {
       if (!ZONE_LABEL[e.zone]) return;
       const ranks = rankValuesForEffect(e);
       const triggerEvents = asList(e.triggerEvents);
-      out.push({ exclusiveGroup: e.exclusiveGroup, nonStackingKey: e.nonStackingKey, requiresSourceActive: e.requiresSourceActive, requiresUnisonResponder: e.requiresUnisonResponder, confirmForRecipient: e.confirmForRecipient, id: "w_" + e.id, source: `${w.name} ${L.t("common.rank", { value: r })}`, label: e.label, zone: e.zone, value: ranks[Math.min(r - 1, ranks.length - 1)], damageType: e.damageType || null, element: e.element || null, effect: e.effect || null, scope: e.scope || "self", duration: e.duration ?? null, durationAtMaxStacks: e.durationAtMaxStacks || null, maxStacks: e.maxStacks || null, defaultStacks: e.defaultStacks ?? null, defaultActive: e.defaultActive, trigger: e.trigger || null, triggerEvents, triggerSkills: e.triggerSkills || null, triggerDamageTypes: e.triggerDamageTypes || null, triggerStacks: e.triggerStacks ?? null, triggerOutro: e.triggerOutro || null, requiresBuffStacks: weaponStackRequirement(e.requiresBuffStacks), requiresEffectStacks: e.requiresEffectStacks || null, requiresAnyEffectStacks: e.requiresAnyEffectStacks || null, excerpt: e.excerpt ? descForRank(e.excerpt, r) : null, desc: descForRank(e.conditionText || w.description, r) });
+      const { conditionText, ...structure } = e;
+      out.push({
+        ...structure,
+        id: "w_" + e.id,
+        source: `${w.name} ${L.t("common.rank", { value: r })}`,
+        value: ranks[Math.min(r - 1, ranks.length - 1)],
+        damageType: e.damageType || null,
+        element: e.element || null,
+        effect: e.effect || null,
+        scope: e.scope || "self",
+        duration: e.duration ?? null,
+        durationAtMaxStacks: e.durationAtMaxStacks || null,
+        maxStacks: e.maxStacks || null,
+        defaultStacks: e.defaultStacks ?? null,
+        trigger: e.trigger || null,
+        triggerEvents,
+        triggerSkills: e.triggerSkills || null,
+        triggerDamageTypes: e.triggerDamageTypes || null,
+        triggerStacks: e.triggerStacks ?? null,
+        triggerOutro: e.triggerOutro || null,
+        requiresBuffStacks: weaponStackRequirement(e.requiresBuffStacks),
+        requiresEffectStacks: e.requiresEffectStacks || null,
+        requiresAnyEffectStacks: e.requiresAnyEffectStacks || null,
+        excerpt: e.excerpt ? descForRank(e.excerpt, r) : null,
+        desc: descForRank(conditionText || w.description, r),
+      });
     });
     return out;
   }

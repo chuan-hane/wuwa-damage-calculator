@@ -149,30 +149,30 @@ window.WUWA_LANGUAGES.extend("en-US", {
           {
             "source": "Inherent Skill: Fine Snow",
             "label": "Crit. DMG",
-            "trigger": "In Iai Stance",
-            "excerpt": "Crit. DMG +40% per stack",
-            "desc": "Inherent Skill Fine Snow gains the following effect:"
+            "trigger": "At 1 Snow Rust stack, Crit. DMG increases by 40%",
+            "excerpt": "At 1 Snow Rust stack, Crit. DMG increases by 40%",
+            "desc": "When a Resonator in the team applies Glacio Chafe or Havoc Bane, Hiyuki gains 1 stack of Snow Rust. Snow Rust stacks up to 3 times. Each Resonator can trigger this effect only once in this way.\n1 stack of Snow Rust: When Hiyuki is the active Resonator in the team, Glacio Bite DMG is Amplified by 30% against targets within a certain range. Hiyuki's Crit. DMG is increased by 40%."
           },
           {
             "source": "Inherent Skill: Fine Snow",
             "label": "DMG Increase",
-            "trigger": "In Iai Stance",
-            "excerpt": "DMG Increase +30%",
-            "desc": "Inherent Skill Fine Snow gains the following effect:"
+            "trigger": "On-field Hiyuki with 1 Snow Rust stack",
+            "excerpt": "At 1 Snow Rust stack, on-field Hiyuki Amplifies Glacio Bite DMG taken by 30%",
+            "desc": "1 stack of Snow Rust: When Hiyuki is the active Resonator in the team, Glacio Bite DMG is Amplified by 30% against targets within a certain range. Hiyuki's Crit. DMG is increased by 40%."
           },
           {
             "source": "Inherent Skill: Fine Snow",
-            "label": "Glacio Chafe Extra Multiplier",
-            "trigger": "In Iai Stance",
-            "excerpt": "Glacio Chafe Extra Multiplier +102%",
-            "desc": "Inherent Skill Fine Snow gains the following effect:"
+            "label": "Glacio Bite Extra Multiplier",
+            "trigger": "On-field Hiyuki with 2 Snow Rust stacks",
+            "excerpt": "At 2 Snow Rust stacks, on-field Hiyuki adds 102% Glacio Bite DMG when she applies Glacio Chafe",
+            "desc": "2 stacks of Snow Rust: When Hiyuki is the active Resonator in the team, each time she applies Glacio Chafe, she additionally deals an instance of Glacio Bite DMG with a fixed DMG Multiplier of 102%."
           },
           {
             "source": "Inherent Skill: Fine Snow",
             "label": "DMG Increase",
-            "trigger": "In Iai Stance",
-            "excerpt": "DMG Increase +30%",
-            "desc": "Inherent Skill Fine Snow gains the following effect:"
+            "trigger": "On-field Hiyuki with 3 Snow Rust stacks",
+            "excerpt": "At 3 Snow Rust stacks, on-field Hiyuki Amplifies Glacio Bite DMG taken by an additional 30%",
+            "desc": "3 stacks of Snow Rust: When Hiyuki is the active Resonator in the team, Glacio Bite DMG is additionally Amplified by 30% against targets within a certain range."
           },
           {
             "source": "Outro Skill: Snowlight Blessing",
@@ -263,9 +263,10 @@ window.WUWA_LANGUAGES.extend("en-US", {
                 "excerpt": "Final DMG Bonus +25%"
               },
               {
-                "label": "Glacio Chafe Extra Rate",
-                "trigger": "Hiyuki active; team applies Glacio Chafe",
-                "excerpt": "At 2 Snow Rust, team-applied Glacio Chafe gains 488% extra rate"
+                "label": "Glacio Bite Extra Multiplier",
+                "trigger": "On-field Hiyuki with 2 Snow Rust stacks",
+                "excerpt": "With 2 Snow Rust stacks, on-field Hiyuki also deals additional Glacio Bite DMG when teammates apply Glacio Chafe",
+                "desc": "At 2 stacks of Snow Rust, the effect \"While Hiyuki is the active Resonator in the team, each time she applies Glacio Chafe, she additionally deals an instance of Glacio Bite DMG with a fixed DMG Multiplier\" changes to \"While Hiyuki is the active Resonator in the team, each time a Resonator in the team applies Glacio Chafe, she additionally deals an instance of Glacio Bite DMG with a fixed DMG Multiplier.\"\nAt 2 stacks of Snow Rust, Hiyuki's Crit. DMG is increased by 40%.\nAt 3 stacks of Snow Rust, the total Glacio Bite DMG taken by targets within a certain range of the active Resonator in the team is increased by 25%."
               }
             ]
           }

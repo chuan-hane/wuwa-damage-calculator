@@ -22,6 +22,8 @@ window.WUWA_SETTLEMENT = (() => {
     const asList = (v) => Array.isArray(v) ? v : (v ? [v] : []);
     const EFFECT_DEEPEN_ZONES = new Set(["amplify", "vulnerability"]);
     const EFFECT_DEFENSE_ZONES = new Set(["resShred", "defShred", "defIgnore"]);
+    const EFFECT_SKILL_ZONES = new Set(["amplify", "vulnerability", "finalDmg", "skillMultBonus", ...EFFECT_DEFENSE_ZONES]);
+    const statConversionPath = new Set();
     const HARMONY_RESPONSE_DAMAGE_TYPES = new Set(["tuneBreak", "tuneBreakDmg", "offTune", "offTuneDmg", "hackDmg", "tuneRupture", "tuneRuptureDmg"]);
     const HARMONY_RESPONSE_IGNORED_ZONES = new Set(["attackPercent", "attackFlat", "hpPercent", "defensePercent", "critRate", "critDamage", "damageBonus", "typeBonus"]);
     const HARMONY_RESPONSE_EXPLICIT_ZONES = new Set(["skillMultBonus", "amplify", "vulnerability", "finalDmg"]);
@@ -875,6 +877,11 @@ window.WUWA_SETTLEMENT = (() => {
       return requirements.some((type) => types.includes(type));
     }
 
+    function effectBuffMatchesSkill(buff, ctx) {
+      if (!buff.effect || !EFFECT_SKILL_ZONES.has(buff.zone)) return false;
+      return (ctx.damageTypes || []).some((type) => effectKeyOf(type) !== "none" && effectRequirementMatches(buff.effect, effectKeyOf(type)));
+    }
+
     function isHarmonyResponseContext(ctx) {
       const types = ctx.damageTypes || (ctx.damageType ? [ctx.damageType] : []);
       return types.some((type) => HARMONY_RESPONSE_DAMAGE_TYPES.has(type));
@@ -1176,7 +1183,7 @@ window.WUWA_SETTLEMENT = (() => {
       const idx = state.slots.indexOf(slot);
       const selected = calc.key === "state" && calc.stateId === def?.id && calc.stateValue === stateValue
         && (calc.providerIdx == null || calc.providerIdx === idx);
-      const value = selected ? calc.stacks : slot.toggles["stk_" + stateValue];
+      const value = (selected ? calc.stacks : null) ?? slot.toggles["stk_" + stateValue];
       const stacks = Math.min(Math.max(0, Math.round(num(value))), cap);
       let bonusStacks = 0;
       asList(opt?.bonusStacksBySeq).forEach((rule) => {
@@ -1265,7 +1272,7 @@ window.WUWA_SETTLEMENT = (() => {
 
     function buffGateReason(slot, idx, buff, seen, outputIdx, ctx, isDps) {
       const harmonyGate = harmonyResponseBuffGateReason(buff, ctx);
-      if (buff.effect && buff.defaultActive !== false && !isSupportOutroBuff(slot, idx, buff, outputIdx) && !supportStateNeedsConfirmation(slot, idx, buff, outputIdx)) return "仅效应伤害";
+      if (buff.effect && !effectBuffMatchesSkill(buff, ctx) && buff.defaultActive !== false && !isSupportOutroBuff(slot, idx, buff, outputIdx) && !supportStateNeedsConfirmation(slot, idx, buff, outputIdx)) return "仅效应伤害";
       if (buff.seq && slot.seq < buff.seq) return `需 ${buff.seq} 链`;
       if (buff.maxSeq != null && slot.seq > buff.maxSeq) return `已被高链效果替换`;
       if (buff.requiresUnison && !unisonReceiverReady(state.slots[outputIdx])) return "需可响应同奏";
@@ -1280,7 +1287,7 @@ window.WUWA_SETTLEMENT = (() => {
       if (!buffStateRequirementsReady(slot, buff) && !supportStateNeedsConfirmation(slot, idx, buff, outputIdx)) return `需处于${buffStateRequirementLabelForSlot(slot, buff)}`;
       const resourceGate = buffResourceGateReason(slot, buff, outputIdx);
       if (resourceGate) return resourceGate;
-      if (!sourceStatRequirementReady(slot, buff)) return `需${sourceStatRequirementLabel(buff.requiresSourceStat)}`;
+      if (!sourceStatRequirementReady(slot, buff, outputIdx)) return `需${sourceStatRequirementLabel(buff.requiresSourceStat)}`;
       if (!sourceCharRequirementReady(slot, buff)) return `需${sourceCharRequirementLabel(buff)}`;
       if (!activeCharRequirementReady(buff)) return `需${activeCharRequirementLabel(buff)}为登场角色`;
       if (buff.maxStacks && (buff.stackStart != null || buff.stackEnd != null || buff.stackRange) && buffTriggerSatisfied(slot, idx, buff, outputIdx, ctx) && buffStackContribution(slot, buff, idx, outputIdx, ctx) <= 0) return buffStackRangeLabel(buff);
@@ -1423,34 +1430,36 @@ window.WUWA_SETTLEMENT = (() => {
       return 0;
     }
 
-    function activeBuffZoneValue(slot, zone, currentBuff) {
+    function activeBuffZoneValue(slot, zone) {
       const outputIdx = state.slots.indexOf(slot);
       return state.slots.reduce((sum, providerSlot, providerIdx) => {
         return sum + slotBuffs(providerSlot).reduce((total, buff) => {
-          if (buff === currentBuff || buff.id === "w_sec" || buff.zone !== zone || buff.scaleBy || buff.multAddByStat || buff.provider === "声骸") return total;
+          if (buff.id === "w_sec" || buff.zone !== zone || statConversionPath.has(`${providerIdx}:${buff.id}`)) return total;
+          if (providerSlot === slot && buff.provider === "声骸" && !buff.scaleBy && !buff.multAddByStat && !buff.requiresSourceStat) return total;
           if (!buffStatus(providerSlot, providerIdx, buff, new Set(), outputIdx).applies) return total;
-          return total + buffValue(providerSlot, buff, providerIdx);
+          if (!strongestBuffApplies(providerSlot, providerIdx, buff, outputIdx)) return total;
+          return total + buffValue(providerSlot, buff, providerIdx, outputIdx);
         }, 0);
       }, 0);
     }
 
-    function activeSourceStatBuffValue(slot, key, currentBuff) {
+    function activeSourceStatBuffValue(slot, key) {
       const zone = SOURCE_STAT_ZONE[key];
       if (!zone) return 0;
-      return activeBuffZoneValue(slot, zone, currentBuff);
+      return activeBuffZoneValue(slot, zone);
     }
 
-    function activeCompositeStatBuffValue(slot, key, currentBuff) {
+    function activeCompositeStatBuffValue(slot, key) {
       const c = ch(slot.char);
       if (!c) return 0;
       if (fixedCharacterStat(c, key) != null) return 0;
-      if (key === "hp") return c.base.hp * activeSourceStatBuffValue(slot, "hpPercent", currentBuff) / 100;
-      if (key === "defense") return c.base.defense * activeSourceStatBuffValue(slot, "defensePercent", currentBuff) / 100;
-      if (key !== "attack") return activeSourceStatBuffValue(slot, key, currentBuff);
+      if (key === "hp") return c.base.hp * activeSourceStatBuffValue(slot, "hpPercent") / 100;
+      if (key === "defense") return c.base.defense * activeSourceStatBuffValue(slot, "defensePercent") / 100;
+      if (key !== "attack") return activeSourceStatBuffValue(slot, key);
       const w = wp(slot.weapon);
       const baseAtk = c.base.attack + (w ? num(w.attack90) : 0);
-      return baseAtk * activeSourceStatBuffValue(slot, "attackPercent", currentBuff) / 100
-        + activeBuffZoneValue(slot, "attackFlat", currentBuff);
+      return baseAtk * activeSourceStatBuffValue(slot, "attackPercent") / 100
+        + activeBuffZoneValue(slot, "attackFlat");
     }
 
     function scaleLevelValue(slot, scale, key, fallback) {
@@ -1462,10 +1471,14 @@ window.WUWA_SETTLEMENT = (() => {
       return num(values[index]);
     }
 
-    function sourceStatRequirementReady(slot, buff) {
+    function sourceStatRequirementReady(slot, buff, outputIdx) {
       const req = buff.requiresSourceStat;
       if (!req) return true;
-      const value = sourceStatValue(slot, req.stat);
+      const key = sourceStatKey(req.stat);
+      const scale = buff.scaleBy || buff.multAddByStat;
+      const usesSameSource = scale?.includeActiveBuffs && sourceStatKey(scale.stat) === key
+        && scaleBySourceSlot(slot, scale, outputIdx) === slot;
+      const value = usesSameSource ? scaleByInfo(slot, buff, outputIdx).base : sourceStatValue(slot, key);
       if (req.min != null && value < num(req.min)) return false;
       if (req.max != null && value > num(req.max)) return false;
       return true;
@@ -1599,9 +1612,19 @@ window.WUWA_SETTLEMENT = (() => {
     function scaleByInfo(slot, buff, outputIdx = state.outputIdx) {
       const scale = buff.scaleBy || buff.multAddByStat;
       if (!scale) return null;
+      const pathKey = `${state.slots.indexOf(slot)}:${buff.id}`;
+      statConversionPath.add(pathKey);
+      try {
+        return scaleBySourceInfo(slot, scale, outputIdx);
+      } finally {
+        statConversionPath.delete(pathKey);
+      }
+    }
+
+    function scaleBySourceInfo(slot, scale, outputIdx) {
       const sourceSlot = scaleBySourceSlot(slot, scale, outputIdx);
       const key = sourceStatKey(scale.stat);
-      const base = sourceStatValue(sourceSlot, key) + (scale.includeActiveBuffs ? activeCompositeStatBuffValue(sourceSlot, key, buff) : 0);
+      const base = sourceStatValue(sourceSlot, key) + (scale.includeActiveBuffs ? activeCompositeStatBuffValue(sourceSlot, key) : 0);
       const source = base + num(scale.statBonus);
       const threshold = num(scale.threshold);
       const step = num(scale.step);
@@ -1667,7 +1690,7 @@ window.WUWA_SETTLEMENT = (() => {
       const ctx = dpsContext(outputIdx);
       state.slots.forEach((slot, idx) => {
         slotBuffs(slot).forEach((buff) => {
-          if (buff.effect) return;
+          if (buff.effect && !effectBuffMatchesSkill(buff, ctx)) return;
           const type = buff.type || buff.damageType;
           if (buff.zone === "typeBonus" && !damageRequirementMatches(ctx, type)) return;
           if (!buffStatus(slot, idx, buff, new Set(), outputIdx).applies || t[buff.zone] === undefined) return;
@@ -1742,32 +1765,6 @@ window.WUWA_SETTLEMENT = (() => {
         damageTypes: ctx.damageTypes,
       }, outputIdx));
       return t;
-    }
-
-    function isCoherenceInterferenceFinalDmgBuff(slot, buff) {
-      if (!buff || buff.zone !== "finalDmg" || buff.scaleBy?.stat !== "breakAmp") return false;
-      if (buff.offsetFormulaKind === "coherenceInterference" || buff.formulaKind === "coherenceInterference") return true;
-      const requirements = [...asList(buff.requiresState), ...asList(buff.requiresAllStates)];
-      if (requirements.some((stateName) => {
-        const def = combatStateDefFor(slot, stateName);
-        return combatStateOptionForValue(def, stateName)?.formulaKind === "coherenceInterference";
-      })) return true;
-      const text = [
-        buff.id, buff.label, buff.source, buff.trigger, buff.stackGroup, buff.desc, buff.excerpt,
-        ...asList(buff.requiresState), ...asList(buff.requiresAllStates),
-      ].join(" ");
-      return /集谐.*干涉/.test(text);
-    }
-
-    function appliedCoherenceInterferenceFinalDmg(outputIdx = state.outputIdx) {
-      let total = 0;
-      state.slots.forEach((slot, idx) => {
-        slotBuffs(slot).forEach((buff) => {
-          if (!isCoherenceInterferenceFinalDmgBuff(slot, buff)) return;
-          if (buffStatus(slot, idx, buff, new Set(), outputIdx).applies) total += buffValue(slot, buff, idx, outputIdx);
-        });
-      });
-      return total;
     }
 
     function resistanceFactor(resPct) {
@@ -1890,9 +1887,10 @@ window.WUWA_SETTLEMENT = (() => {
       let gated = null;
       if (buff.effect && !effectRequirementMatches(buff.effect, effectKey)) gated = `仅${buff.effect}伤害`;
       else if (buff.seq && slot.seq < buff.seq) gated = `需 ${buff.seq} 链`;
+      else if (buff.maxSeq != null && slot.seq > buff.maxSeq) gated = "已被高链效果替换";
       else if (sourceGate) gated = sourceGate;
       else if (!buffStateRequirementsReady(slot, buff) && !supportStateNeedsConfirmation(slot, idx, buff, outputIdx)) gated = `需处于${buffStateRequirementLabel(buff)}`;
-      else if (!sourceStatRequirementReady(slot, buff)) gated = `需${sourceStatRequirementLabel(buff.requiresSourceStat)}`;
+      else if (!sourceStatRequirementReady(slot, buff, outputIdx)) gated = `需${sourceStatRequirementLabel(buff.requiresSourceStat)}`;
       else if (!sourceCharRequirementReady(slot, buff)) gated = `需${sourceCharRequirementLabel(buff)}`;
       else if (!activeCharRequirementReady(buff)) gated = `需${activeCharRequirementLabel(buff)}为登场角色`;
       else if (!isDps && buff.scope !== "team") gated = "仅自身输出时生效";
@@ -1917,7 +1915,7 @@ window.WUWA_SETTLEMENT = (() => {
       const effectContext = { element: def.element, damageType: effectKey, damageTypes: [effectKey], skill: null };
       const t = {
         deepen: num(state.effectCalc?.deepen), manualDeepen: num(state.effectCalc?.deepen), buffDeepen: 0,
-        finalDmg: 0, buffFinalDmg: 0, extraRate: 0, multiplierBonus: 0,
+        finalDmg: 0, buffFinalDmg: 0, extraRate: 0, extraParts: [], multiplierBonus: 0,
         resShred: 0, defShred: 0, defIgnore: 0,
         fixedCritRate: null, fixedCritDamage: null,
         sources: {},
@@ -1944,6 +1942,10 @@ window.WUWA_SETTLEMENT = (() => {
             return;
           }
           if (effectSpecific && buff.zone === "effectExtraRate") {
+            if (buff.effectSource === "self") {
+              t.extraParts.push({ providerIdx: idx, rate: v, source: buffSourcePart(slot, buff, v) });
+              return;
+            }
             t.extraRate += v;
             addBuffSource(t.sources, buff.zone, slot, buff, v);
             return;
@@ -1977,32 +1979,20 @@ window.WUWA_SETTLEMENT = (() => {
       return t;
     }
 
-    function computeEffect() {
-      const calc = state.effectCalc || {};
-      const key = effectKeyOf(calc.key);
-      const def = EFFECT_DEFS[key] || EFFECT_DEFS.none;
-      if (!def || def.kind === "none") return { enabled: false, key: "none", def: EFFECT_DEFS.none };
-      if (!teamProvidesEffect(key)) return { enabled: false, key: "none", def: EFFECT_DEFS.none };
-      const providerIdx = effectProviderIndex(key);
-      const providerSlot = state.slots[providerIdx];
-      const providerChar = ch(providerSlot && providerSlot.char);
+    function teamEffectDefinition(key) {
+      const base = EFFECT_DEFS[key] || EFFECT_DEFS.none;
+      const conversion = state.slots.map((slot) => ch(slot.char)?.effectConversions?.[key]).find(Boolean);
+      return conversion ? { ...base, variant: conversion.id, damageAtCap: conversion.damageAtCap } : base;
+    }
+
+    function effectDamageComponent(key, def, providerIdx, b, stacks, applications, rageStacks = 0, fixedRate = null) {
+      const providerChar = ch(state.slots[providerIdx]?.char);
       const attackInfo = attackInfoForSlot(providerIdx);
       const effectAtk = attackInfo.value;
-      const capInfo = effectCap(def, providerIdx);
-      const cap = capInfo.value;
-      const actionStacks = providerIdx === state.outputIdx && calc.stackMode !== "manual"
-        ? currentActionEffectStacks(key, providerIdx, cap)
-        : null;
-      const stacks = clampStacks(actionStacks ?? calc.stacks, def, cap);
-      const rageStacks = def.rageRates ? clampStacks(calc.electroRageStacks, def, cap, 0) : 0;
-      if (def.kind === "defShred") {
-        return {
-          enabled: true, key, def, kind: def.kind, providerIdx, providerName: providerChar ? providerChar.name : "",
-          stacks, actionStacks, cap, capBase: capInfo.base, capBonus: capInfo.bonus, defShred: stacks * num(def.valuePerStack), note: def.note,
-        };
-      }
-      const b = effectAggregate(key, def, providerIdx);
-      const baseInfo = effectBaseInfo(def, stacks, effectAtk, rageStacks, b.extraRate, b.multiplierBonus);
+      const fixedMultiplier = fixedRate == null ? null : fixedRate * (1 + b.multiplierBonus / 100);
+      const baseInfo = fixedRate == null
+        ? effectBaseInfo(def, stacks, effectAtk, rageStacks, b.extraRate, b.multiplierBonus)
+        : { valid: true, base: effectAtk * fixedMultiplier / 100, rate: fixedMultiplier, baseRate: fixedRate, extraRate: 0, attack: effectAtk };
       const target = resolveTarget(def.element, { resultMode: "effect", effectKey: key, damageTypes: [key] });
       const defReduction = Math.min(Math.max((state.enemy.defShred + b.defShred) / 100, 0), 0.95);
       const defIgnore = Math.min(Math.max((state.enemy.defIgnore + b.defIgnore) / 100, 0), 0.95);
@@ -2013,7 +2003,7 @@ window.WUWA_SETTLEMENT = (() => {
       const resFactor = resistanceFactor(res);
       const deepenFactor = Math.max(0, 1 + b.deepen / 100);
       const finalDmgFactor = Math.max(0, 1 + b.finalDmg / 100);
-      const raw = baseInfo.valid ? baseInfo.base * deepenFactor * defFactor * resFactor * finalDmgFactor : null;
+      const raw = baseInfo.valid ? baseInfo.base * applications * deepenFactor * defFactor * resFactor * finalDmgFactor : null;
       const cr = b.fixedCritRate == null ? 0 : Math.min(Math.max(num(b.fixedCritRate) / 100, 0), 1);
       const cd = b.fixedCritDamage == null ? 1 : Math.max(num(b.fixedCritDamage) / 100, 1);
       const normal = raw == null ? null : Math.floor(raw);
@@ -2021,8 +2011,7 @@ window.WUWA_SETTLEMENT = (() => {
       const expected = raw == null ? null : Math.floor(raw * (cr * cd + (1 - cr)));
       return {
         enabled: true, key, def, kind: def.kind, providerIdx, providerName: providerChar ? providerChar.name : "",
-        stacks, actionStacks, cap, capBase: capInfo.base, capBonus: capInfo.bonus,
-        rageStacks, rageCap: def.rageRates ? cap : null,
+        stacks, applications, additional: fixedRate != null, rageStacks,
         base: baseInfo.base ?? null, rate: baseInfo.rate, baseRate: baseInfo.baseRate,
         rageRate: baseInfo.rageRate, extraRate: baseInfo.extraRate || 0, multiplierBonus: b.multiplierBonus, attack: baseInfo.attack,
         valid: baseInfo.valid, deepen: b.deepen, manualDeepen: b.manualDeepen, buffDeepen: b.buffDeepen,
@@ -2038,11 +2027,56 @@ window.WUWA_SETTLEMENT = (() => {
       };
     }
 
+    function computeEffect() {
+      const calc = state.effectCalc || {};
+      const key = effectKeyOf(calc.key);
+      const def = teamEffectDefinition(key);
+      if (def.kind === "none" || !teamProvidesEffect(key)) return { enabled: false, key: "none", def: EFFECT_DEFS.none };
+      const providerIdx = effectProviderIndex(key);
+      const capInfo = effectCap(def, providerIdx);
+      const cap = capInfo.value;
+      const actionStacks = providerIdx === state.outputIdx && (def.damageAtCap || calc.stackMode !== "manual")
+        ? currentActionEffectStacks(key, providerIdx, cap) : null;
+      const applications = def.damageAtCap ? Math.max(0, Math.round(num(actionStacks ?? calc.applications, 1))) : 1;
+      const stacks = def.damageAtCap ? (applications ? cap : 0) : clampStacks(actionStacks ?? calc.stacks, def, cap);
+      const meta = { stacks, actionStacks, applications, cap, capBase: capInfo.base, capBonus: capInfo.bonus, rageCap: def.rageRates ? cap : null };
+      if (def.kind === "defShred") return {
+        enabled: true, key, def, kind: def.kind, providerIdx, providerName: ch(state.slots[providerIdx]?.char)?.name || "",
+        ...meta, defShred: stacks * num(def.valuePerStack), note: def.note,
+      };
+      const rageStacks = def.rageRates ? clampStacks(calc.electroRageStacks, def, cap, 0) : 0;
+      const b = effectAggregate(key, def, providerIdx);
+      const main = effectDamageComponent(key, def, providerIdx, b, stacks, applications, rageStacks);
+      const extras = new Map();
+      b.extraParts.forEach((part) => {
+        const group = extras.get(part.providerIdx) || { rate: 0, sources: [] };
+        group.rate += part.rate;
+        group.sources.push(part.source);
+        extras.set(part.providerIdx, group);
+      });
+      const components = [main, ...Array.from(extras, ([ownerIdx, group]) => {
+        const buffs = effectAggregate(key, def, ownerIdx);
+        buffs.sources.effectExtraRate = group.sources;
+        return effectDamageComponent(key, def, ownerIdx, buffs, stacks, applications, 0, group.rate);
+      })];
+      const valid = components.every((part) => part.valid);
+      const raw = valid ? components.reduce((sum, part) => sum + part.raw, 0) : null;
+      const critRaw = valid ? components.reduce((sum, part) => sum + part.raw * part.cd, 0) : null;
+      const expectedRaw = valid ? components.reduce((sum, part) => sum + part.raw * (part.cr * part.cd + 1 - part.cr), 0) : null;
+      return {
+        ...main, ...meta, valid, raw,
+        normal: raw == null ? null : Math.floor(raw), critHit: critRaw == null ? null : Math.floor(critRaw),
+        expected: expectedRaw == null ? null : Math.floor(expectedRaw), damage: expectedRaw == null ? null : Math.floor(expectedRaw),
+        extraRate: b.extraRate + b.extraParts.reduce((sum, part) => sum + part.rate, 0),
+        components: components.length > 1 ? components : null,
+      };
+    }
+
     function offsetOptionValue(entry) {
       if (!entry || entry.kind === "none") return "none";
       if (entry.kind === "tuneBreak") return "tuneBreak";
-      if (entry.kind === "response") return `response|${entry.skillId}`;
-      if (entry.kind === "state") return `state|${entry.stateId}|${entry.stateValue}`;
+      if (entry.kind === "response") return `response|${entry.providerIdx}|${entry.skillId}`;
+      if (entry.kind === "state") return `state|${entry.providerIdx}|${entry.stateId}|${entry.stateValue}`;
       return "none";
     }
 
@@ -2155,12 +2189,11 @@ window.WUWA_SETTLEMENT = (() => {
     function selectedOffsetEntry(entries) {
       const calc = state.offsetCalc || {};
       if (calc.key === "tuneBreak") return entries.find((entry) => entry.kind === "tuneBreak") || null;
-      if (calc.key === "response") return entries.find((entry) => entry.kind === "response" && entry.skillId === calc.skillId) || null;
-      if (calc.key === "state") {
-        return entries.find((entry) =>
-          entry.kind === "state" && entry.stateId === calc.stateId && entry.stateValue === calc.stateValue
-        ) || null;
-      }
+      const matches = entries.filter((entry) => calc.key === "response"
+        ? entry.kind === "response" && entry.skillId === calc.skillId
+        : calc.key === "state" && entry.kind === "state" && entry.stateId === calc.stateId && entry.stateValue === calc.stateValue);
+      if (matches.length) return matches.find((entry) => entry.providerIdx === calc.providerIdx)
+        || matches.find((entry) => entry.providerIdx === state.outputIdx) || matches[0];
       return entries.find((entry) => entry.kind === "tuneBreak") || null;
     }
 
@@ -2350,8 +2383,6 @@ window.WUWA_SETTLEMENT = (() => {
       const response = sk && !isFixedDamage && isHarmonyResponseContext(damageContext)
         ? computeHarmonyResponse(state.outputIdx, sk)
         : null;
-      const offsetFinalDmg = offset.kind === "state" && offset.formulaKind === "coherenceInterference" && offset.valid ? offset.finalDmgGain : 0;
-      const coherenceBuffFinalDmg = offsetFinalDmg ? appliedCoherenceInterferenceFinalDmg(state.outputIdx) : 0;
 
       const stat = skillStatKey(sk && sk.stat);
       const statBase = stat === "hp" ? totalHp : stat === "defense" ? totalDef : totalAtk;
@@ -2381,8 +2412,7 @@ window.WUWA_SETTLEMENT = (() => {
         }));
       }
       const baseMult = levelMult + multAdd;
-      const normalTotals = offsetFinalDmg ? { ...b, finalDmg: b.finalDmg - coherenceBuffFinalDmg + offsetFinalDmg } : b;
-      const formulaTotals = response ? { ...b, ...response.harmony, damageBonus: 0, typeBonus: 0, critRate: 0, critDamage: 0, resIgnore: 0 } : normalTotals;
+      const formulaTotals = response ? { ...b, ...response.harmony, damageBonus: 0, typeBonus: 0, critRate: 0, critDamage: 0, resIgnore: 0 } : b;
       const formulaSources = {
         ...(formulaTotals.sources || {}),
         multAdd: multAddSources,
@@ -2428,7 +2458,7 @@ window.WUWA_SETTLEMENT = (() => {
 
       return {
         panel: { stat, totalAtk, totalHp, totalDef, displayAtk, displayHp, displayDef, critRate, critDamage, baseMult, skillMult },
-        totals: formulaTotals, rawTotals: b, sources: formulaSources, offsetFinalDmg, coherenceBuffFinalDmg, es, defFactor, resFactor, bonus, typeBonus, scaledTypeBonus, amplify, vuln, finalDmg, cr, cd,
+        totals: formulaTotals, rawTotals: b, sources: formulaSources, es, defFactor, resFactor, bonus, typeBonus, scaledTypeBonus, amplify, vuln, finalDmg, cr, cd,
         defense: {
           manualDefShred: state.enemy.defShred,
           buffDefShred: formulaTotals.defShred,
@@ -2466,7 +2496,7 @@ window.WUWA_SETTLEMENT = (() => {
     return {
       slotBuffs, availableSkills, selectedSkill, resourceKey, resourceControlsForSlot, setCharacterResourceValue, resolvedSkill, skillLayersForSlot,
       stateKey, stateChoiceKey, stateControlsHTML,
-      buffRecipientKey, buffStackCount, buffStackStep, buffStatus, setBuffToggle, scaleByInfo, buffValue, compute,
+      buffRecipientKey, buffStackCount, buffStackStep, buffStatus, setBuffToggle, scaleByInfo, buffValue, teamEffectDefinition, compute,
     };
   }
 

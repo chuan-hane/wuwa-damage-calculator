@@ -162,6 +162,13 @@ window.WUWA_LANGUAGES.extend("en-US", {
             "trigger": "In Confession State",
             "excerpt": "DMG Increase +100%",
             "desc": "DMG Increase +100%"
+          },
+          {
+            "source": "Outro Skill: Attentive Heart",
+            "label": "DMG Multiplier Increase",
+            "trigger": "Casting Attentive Heart in Absolution",
+            "excerpt": "Absolution increases Attentive Heart DMG Multiplier by 255%",
+            "desc": "Absolution Enhancement: Increase DMG Multiplier by 255%."
           }
         ],
         "chain": [

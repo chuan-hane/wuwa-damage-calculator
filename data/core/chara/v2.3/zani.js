@@ -119,7 +119,10 @@ WUWA.register({
       "multiplier": 222.69,
       "formula": "74.23% × 3",
       "multiplierByLevel": [112.02,121.2,130.38,143.25,152.43,162.99,177.69,192.36,207.06,222.69],
-      "segmentsByLevel": [[[37.34,3]],[[40.4,3]],[[43.46,3]],[[47.75,3]],[[50.81,3]],[[54.33,3]],[[59.23,3]],[[64.12,3]],[[69.02,3]],[[74.23,3]]]
+      "segmentsByLevel": [[[37.34,3]],[[40.4,3]],[[43.46,3]],[[47.75,3]],[[50.81,3]],[[54.33,3]],[[59.23,3]],[[64.12,3]],[[69.02,3]],[[74.23,3]]],
+      "damageTags": [
+        "dodgeCounter"
+      ]
     },
     {
       "id": "skill_standard",
@@ -364,15 +367,6 @@ WUWA.register({
       "triggerEvents": [
         "introEntry"
       ],
-      "duration": 14
-    },
-    {
-      "id": "b_sunburst_tag_amp",
-      "zone": "amplify",
-      "damageType": "lightNoise",
-      "value": 20,
-      "scope": "self",
-      "requiresState": "state_1_option_1",
       "duration": 14
     },
     {

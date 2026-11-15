@@ -294,8 +294,8 @@ WUWA.register({
       "id": "outro_attentive_heart",
       "category": "outroSkill",
       "damageType": "outroSkill",
-      "multiplier": 783.41,
-      "formula": "528.41% + 255%",
+      "multiplier": 528.41,
+      "formula": "528.41%",
       "requiresState": "mode_1_option_1",
       "fixedLevel": true
     },
@@ -436,6 +436,21 @@ WUWA.register({
       "defaultActive": false,
       "triggerOutro": true,
       "duration": 30
+    },
+    {
+      "id": "b_outro_absolution_mult",
+      "zone": "skillMultBonus",
+      "value": 255,
+      "scope": "self",
+      "skills": [
+        "outro_attentive_heart"
+      ],
+      "requiresState": "mode_1_option_1",
+      "triggerOutro": true,
+      "triggerSkills": [
+        "outro_attentive_heart"
+      ],
+      "defaultActive": false
     }
   ],
   "chain": [

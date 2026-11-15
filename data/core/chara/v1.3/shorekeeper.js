@@ -226,8 +226,8 @@ WUWA.register({
       "scaleBy": {
         "stat": "energyRegen",
         "rate": 0.05,
-        "statBonus": 10,
-        "cap": 12.5
+        "cap": 12.5,
+        "includeActiveBuffs": true
       }
     },
     {
@@ -238,8 +238,8 @@ WUWA.register({
       "scaleBy": {
         "stat": "energyRegen",
         "rate": 0.1,
-        "statBonus": 10,
-        "cap": 25
+        "cap": 25,
+        "includeActiveBuffs": true
       }
     },
     {

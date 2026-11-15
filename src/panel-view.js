@@ -10,15 +10,19 @@ window.WUWA_PANEL_VIEW = (() => {
     const BREAK_AMP_RE = /谐度破坏增幅|谐度破坏|偏谐|失谐|震谐|集谐|骇破|偏移|干涉|Tune|Hack|Mistuned/i;
     const PANEL_BUFF_ROUTE = { attackPercent: "atkPct", hpPercent: "hpPct", defensePercent: "defPct", critRate: "crit", critDamage: "critDmg", energyRegen: "er", healingBonus: "heal", breakAmp: "breakAmp", discordEff: "discordEff" };
 
-    function pushPanelBuff(D, buff, tag, v) {
+    function pushPanelBuff(D, buff, tag, v, currentSkill) {
       const bucket = PANEL_BUFF_ROUTE[buff.zone];
       if (bucket) { D[bucket].push([tag, v]); return; }
       if (buff.zone === "attackFlat") { D.atkAdd.push([tag, v]); return; }
       if (buff.zone === "damageBonus") { (buff.element ? [buff.element] : ELEMENTS).forEach((e) => D.elem[e]?.push([tag, v])); return; }
-      if (buff.zone === "typeBonus") { const type = buff.type || buff.damageType; (type && D.type[type] ? [type] : TYPES).forEach((t) => D.type[t].push([tag, v])); }
+      if (buff.zone !== "typeBonus") return;
+      const requirements = [].concat(buff.type || buff.damageType || []);
+      const types = requirements.length ? requirements.filter((type) => D.type[type]) : TYPES;
+      if (!types.length && D.type[currentSkill?.damageType]) types.push(currentSkill.damageType);
+      types.forEach((type) => D.type[type].push([tag, v]));
     }
 
-    function panelDetail() {
+    function panelDetail(currentSkill) {
       const s1 = state.slots[state.outputIdx], c = ch(s1.char), w = wp(s1.weapon), tree = c.base.tree || {};
       const D = { atkFlat: [], atkPct: [], atkAdd: [], hpPct: [], defPct: [], crit: [], critDmg: [], er: [], heal: [], breakAmp: [], discordEff: [], elem: {}, type: {}, hpAdd: 0, defAdd: 0 };
       ELEMENTS.forEach((e) => (D.elem[e] = []));
@@ -48,7 +52,7 @@ window.WUWA_PANEL_VIEW = (() => {
           if (!(isDps ? !String(buff.source).startsWith("延奏") : buff.scope === "team")) return;
           const v = buffValue(slot, buff, idx);
           const tag = (isDps ? "" : ch(slot.char).name + "·") + buff.source;
-          pushPanelBuff(D, buff, tag, v);
+          pushPanelBuff(D, buff, tag, v, currentSkill);
         });
       });
       const es = echoStats(s1);
@@ -171,7 +175,7 @@ window.WUWA_PANEL_VIEW = (() => {
     }
 
     function panelEntryRows(r, slot) {
-      const c = ch(slot.char), b = c.base, w = wp(slot.weapon), D = panelDetail();
+      const c = ch(slot.char), b = c.base, w = wp(slot.weapon), D = panelDetail(r.sk);
       const add = (v) => (v ? ` + 声骸固定 ${tnum(v)}` : "");
       const addParts = (arr) => (arr.length ? ` + ${parts(arr)}` : "");
       const hasFixedBreakAmp = charBreakAmpRelevant(c);

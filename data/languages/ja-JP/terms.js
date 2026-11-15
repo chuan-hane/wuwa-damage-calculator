@@ -6,7 +6,8 @@ window.WUWA_LANGUAGES.extend("ja-JP", {
     "需可响应同奏": "同奏に応答できるキャラが必要",
     "需装备者登场": "装備者が出場中に有効",
     "需提供者离场": "効果の発動者が退場中に有効",
-    "需指定队友": "指定のチームメンバーが必要"
+    "需指定队友": "指定のチームメンバーが必要",
+    "附加次数": "付与回数"
   }
 });
 
@@ -188,6 +189,7 @@ window.WUWA_LANGUAGES.extend("ja-JP", {
     "首位单体效果": "メイン音骸効果"
   },
   effects: {
+    glacio_bite: "厳霜効果",
     none: "計算しない",
     "不计算": "計算しない",
     electro: "電磁効果",
@@ -210,6 +212,7 @@ window.WUWA_LANGUAGES.extend("ja-JP", {
     "虚湮效应": "虚滅効果"
   },
   effectShort: {
+    glacio_bite: "厳霜",
     none: "計算しない",
     electro: "電磁",
     "电磁": "電磁",
